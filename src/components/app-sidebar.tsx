@@ -3,15 +3,23 @@
 
 import * as React from "react"
 import {
-  Utensils,
-  CheckCircle,
+  UtensilsCrossed,
+  ShieldCheck,
   Clock,
   Compass,
   Map,
   MessageSquare,
   CalendarDays,
   Home,
-  Menu,
+  Store,
+  Users,
+  Briefcase,
+  Heart,
+  Gift,
+  List,
+  Newspaper,
+  BookOpen,
+  Medal,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -28,16 +36,31 @@ import {
   SidebarMenuItem,
   SidebarFooter,
 } from "@/components/ui/sidebar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-const items = [
+const mainItems = [
   { title: "Home", url: "/", icon: Home },
-  { title: "Restaurants", url: "/restaurants", icon: Utensils },
-  { title: "Product Verifier", url: "/verifier", icon: CheckCircle },
+  { title: "Dining Guide", url: "/restaurants", icon: UtensilsCrossed },
+  { title: "Halal Verifier", url: "/verifier", icon: ShieldCheck },
+  { title: "Marketplace", url: "/market", icon: Store },
+  { title: "Directory", url: "/directory", icon: List },
+]
+
+const exploreItems = [
+  { title: "Map & Travel", url: "/travel", icon: Map },
   { title: "Prayer Times", url: "/prayer-times", icon: Clock },
-  { title: "Qibla Finder", url: "/qibla", icon: Compass },
-  { title: "Travel Guide", url: "/travel", icon: Map },
   { title: "Community", url: "/community", icon: MessageSquare },
   { title: "Events", url: "/events", icon: CalendarDays },
+  { title: "News Feed", url: "/feed", icon: Newspaper },
+]
+
+const lifestyleItems = [
+  { title: "Family Hub", url: "/family", icon: Users },
+  { title: "Professionals", url: "/pro", icon: Briefcase },
+  { title: "Charity", url: "/charity", icon: Heart },
+  { title: "Rewards", url: "/rewards", icon: Gift },
+  { title: "My Journey", url: "/journey", icon: Medal },
+  { title: "Blog", url: "/blog", icon: BookOpen },
 ]
 
 export function AppSidebar() {
@@ -46,21 +69,70 @@ export function AppSidebar() {
   return (
     <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2 px-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Compass className="h-5 w-5" />
+        <div className="flex items-center gap-3 px-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-primary/20">
+            <Compass className="h-6 w-6" />
           </div>
-          <span className="text-xl font-bold tracking-tight group-data-[collapsible=icon]:hidden font-headline text-primary">
-            HalalSphere
-          </span>
+          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+            <span className="text-xl font-black tracking-tight font-headline text-primary leading-none">
+                HalalSphere
+            </span>
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
+                Universal Hub
+            </span>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+          <SidebarGroupLabel>Main Services</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {mainItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.url}
+                    tooltip={item.title}
+                  >
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Explore</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {exploreItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.url}
+                    tooltip={item.title}
+                  >
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Lifestyle</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {lifestyleItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
@@ -79,11 +151,14 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-4">
-         <div className="flex items-center gap-2 group-data-[collapsible=icon]:hidden">
-            <div className="h-8 w-8 rounded-full bg-accent flex items-center justify-center text-xs font-bold">JD</div>
+         <div className="flex items-center gap-3 group-data-[collapsible=icon]:hidden bg-muted/50 p-3 rounded-2xl">
+            <Avatar className="h-9 w-9 border-2 border-primary/20">
+                <AvatarImage src="https://picsum.photos/seed/user/50/50" />
+                <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
             <div className="flex flex-col">
-                <span className="text-sm font-medium">John Doe</span>
-                <span className="text-xs text-muted-foreground">Premium User</span>
+                <span className="text-sm font-bold">John Doe</span>
+                <span className="text-[10px] text-primary font-black uppercase">Premium Member</span>
             </div>
          </div>
       </SidebarFooter>

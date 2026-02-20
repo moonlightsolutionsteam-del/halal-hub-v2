@@ -1,276 +1,213 @@
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
-  Utensils, ShoppingBag, Tent, Shirt, Clock, CheckCircle, Compass, 
-  Coins, CalendarDays, Users, GraduationCap, Map, HeartPulse, 
-  BookOpen, Building2, Briefcase, HandHeart, Baby, Newspaper, 
-  Megaphone, Radio, Tv, Gamepad2, Play, Star, MapPin, 
-  ArrowRight, Info, Search
+  UtensilsCrossed, Map, List, Store, User, Briefcase, 
+  ShieldCheck, Users, Moon, MessageSquare, Newspaper, 
+  Settings, BookOpen, Heart, HandHelping, Medal, 
+  Gift, Calendar, Search, MapPin, Play
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const SERVICES = [
-  { name: "Food Dining", icon: Utensils, color: "bg-emerald-100 text-emerald-600" },
-  { name: "Halal Market", icon: ShoppingBag, color: "bg-blue-100 text-blue-600" },
-  { name: "Hajj", icon: Tent, color: "bg-amber-100 text-amber-600" },
-  { name: "Clothing", icon: Shirt, color: "bg-purple-100 text-purple-600" },
-  { name: "Prayer Times", icon: Clock, color: "bg-rose-100 text-rose-600" },
-  { name: "Halal Status", icon: CheckCircle, color: "bg-green-100 text-green-600" },
-  { name: "Qibla", icon: Compass, color: "bg-indigo-100 text-indigo-600" },
-  { name: "Zakat", icon: Coins, color: "bg-yellow-100 text-yellow-600" },
-  { name: "Events", icon: CalendarDays, color: "bg-sky-100 text-sky-600" },
-  { name: "Community", icon: Users, color: "bg-orange-100 text-orange-600" },
-  { name: "Education", icon: GraduationCap, color: "bg-teal-100 text-teal-600" },
-  { name: "Travel", icon: Map, color: "bg-cyan-100 text-cyan-600" },
-  { name: "Health", icon: HeartPulse, color: "bg-red-100 text-red-600" },
-  { name: "Bookstore", icon: BookOpen, color: "bg-lime-100 text-lime-600" },
-  { name: "Real Estate", icon: Building2, color: "bg-slate-100 text-slate-600" },
-  { name: "Jobs", icon: Briefcase, color: "bg-zinc-100 text-zinc-600" },
-  { name: "Charity", icon: HandHeart, color: "bg-pink-100 text-pink-600" },
-  { name: "Kids", icon: Baby, color: "bg-fuchsia-100 text-fuchsia-600" },
-  { name: "News", icon: Newspaper, color: "bg-gray-100 text-gray-600" },
-  { name: "Marketing", icon: Megaphone, color: "bg-violet-100 text-violet-600" },
-  { name: "Radio", icon: Radio, color: "bg-emerald-100 text-emerald-600" },
-  { name: "Streaming", icon: Tv, color: "bg-blue-100 text-blue-600" },
-  { name: "Games", icon: Gamepad2, color: "bg-rose-100 text-rose-600" },
-  { name: "Other", icon: Info, color: "bg-gray-100 text-gray-600" },
+const BeefIcon = (props: any) => (
+  <svg
+    {...props}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12.5 2a2.5 2.5 0 0 0-2.5 2.5V6a3 3 0 0 0 3 3h1a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3h-1a3 3 0 0 1-3-3v-1.5" />
+    <path d="M15 22a7 7 0 0 0 7-7c0-2.5-2-4.5-4.5-4.5h-1a2.5 2.5 0 0 0-2.5 2.5V15a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3v-1" />
+    <circle cx="15" cy="15" r="1" />
+  </svg>
+);
+
+const FEATURES = [
+  { name: "Food & Dining", icon: UtensilsCrossed },
+  { name: "Meat & Butchers", icon: BeefIcon },
+  { name: "Map", icon: Map },
+  { name: "Directory", icon: List },
+  { name: "Marketplace", icon: Store },
+  { name: "Creators", icon: User },
+  { name: "Professionals", icon: Briefcase },
+  { name: "Halal Check", icon: ShieldCheck },
+  { name: "Family", icon: Users },
+  { name: "Prayer", icon: Moon },
+  { name: "Chat", icon: MessageSquare },
+  { name: "Feed", icon: Newspaper },
+  { name: "Manage", icon: Briefcase },
+  { name: "Blog", icon: BookOpen },
+  { name: "Charity", icon: Heart },
+  { name: "Volunteer", icon: HandHelping },
+  { name: "My Journey", icon: Medal },
+  { name: "Rewards", icon: Gift },
+  { name: "Community", icon: Users },
+  { name: "Events", icon: Calendar },
 ];
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDFDFD]">
+    <div className="flex flex-col min-h-screen bg-[#F8F9FA]">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
-            <Compass className="h-5 w-5" />
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+            <CompassIcon className="h-6 w-6" />
           </div>
-          <span className="text-xl font-bold text-primary font-headline">HalalHub</span>
+          <span className="text-2xl font-bold text-primary font-headline tracking-tight">HalalSphere</span>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon"><Search className="h-5 w-5" /></Button>
-          <Avatar className="h-8 w-8">
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex relative w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <input 
+              type="text" 
+              placeholder="Search features..." 
+              className="w-full bg-muted/50 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+            />
+          </div>
+          <Button variant="ghost" size="icon" className="rounded-full"><Search className="h-5 w-5 md:hidden" /></Button>
+          <Avatar className="h-10 w-10 border-2 border-primary/10">
             <AvatarImage src="https://picsum.photos/seed/user/100/100" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
         </div>
       </header>
 
-      <div className="container mx-auto p-4 space-y-8 max-w-2xl">
-        {/* Greeting */}
-        <div className="text-center py-4">
-          <h1 className="text-2xl font-bold text-slate-800">Assalamu'alaikum, User</h1>
-          <p className="text-muted-foreground text-sm">Welcome back</p>
-          <p className="text-[10px] text-muted-foreground uppercase mt-1 tracking-widest font-bold">Tuesday, Oct 24, 2023</p>
-        </div>
-
+      <div className="container mx-auto p-6 space-y-12 max-w-5xl">
         {/* Prayer Time Hero */}
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary/80 text-white p-8 shadow-xl shadow-primary/20">
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="flex items-center gap-2 mb-2">
-               <Badge variant="outline" className="border-white/40 text-white bg-white/10 px-3 py-1 text-xs">Asr</Badge>
-               <span className="text-xs text-white/80">Next Prayer</span>
+        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary to-primary/80 text-white p-10 shadow-2xl shadow-primary/30">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="space-y-4 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-3">
+                 <Badge variant="outline" className="border-white/40 text-white bg-white/10 px-4 py-1 text-xs font-bold uppercase tracking-wider">Asr</Badge>
+                 <span className="text-sm text-white/80 font-medium">Next Prayer In 01:22:45</span>
+              </div>
+              <div className="text-7xl font-black tracking-tighter">4:28<span className="text-3xl font-light ml-2 opacity-80">PM</span></div>
+              <div className="flex items-center justify-center md:justify-start gap-2 text-base text-white/90">
+                <MapPin className="h-4 w-4" /> New York, NY, USA
+              </div>
             </div>
-            <div className="text-6xl font-black mb-1">4:28<span className="text-2xl font-normal ml-1">PM</span></div>
-            <div className="flex items-center gap-2 text-sm text-white/90">
-              <MapPin className="h-3 w-3" /> New York, NY, USA
+            <div className="hidden lg:block">
+              <div className="w-48 h-48 rounded-full border-8 border-white/10 flex items-center justify-center">
+                <Moon className="w-24 h-24 text-white/20 fill-white/10" />
+              </div>
             </div>
           </div>
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-primary-foreground/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-xl" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary-foreground/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl" />
         </section>
 
-        {/* Services Grid */}
-        <section className="space-y-4">
-          <h2 className="text-lg font-bold">Discover Services</h2>
-          <div className="grid grid-cols-4 gap-y-6 gap-x-2">
-            {SERVICES.map((service) => (
-              <Link key={service.name} href="#" className="flex flex-col items-center gap-2 group">
-                <div className={`w-12 h-12 rounded-2xl ${service.color} flex items-center justify-center transition-transform group-hover:scale-110`}>
-                  <service.icon className="h-6 w-6" />
-                </div>
-                <span className="text-[10px] font-medium text-center text-slate-600 line-clamp-1">{service.name}</span>
+        {/* Discover Features Grid */}
+        <section className="space-y-8">
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Discover Features</h2>
+            <Button variant="link" className="text-primary font-bold">View All</Button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {FEATURES.map((feature) => (
+              <Link key={feature.name} href="#" className="group">
+                <Card className="border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-[2.5rem] aspect-square flex flex-col items-center justify-center p-4 bg-white hover:-translate-y-2">
+                  <div className="w-20 h-20 rounded-full bg-[#F1F3F5] shadow-inner flex items-center justify-center mb-4 transition-colors group-hover:bg-primary/10">
+                    <feature.icon className="h-10 w-10 text-primary transition-transform group-hover:scale-110" />
+                  </div>
+                  <span className="text-sm font-bold text-slate-700 text-center leading-tight group-hover:text-primary transition-colors">
+                    {feature.name}
+                  </span>
+                </Card>
               </Link>
             ))}
           </div>
         </section>
 
-        {/* Quick Info Cards */}
-        <section className="grid grid-cols-1 gap-3">
-          <Card className="bg-white border-none shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-            <CardContent className="p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
-                  <Clock className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold">Prayer Times</h3>
-                  <p className="text-[10px] text-muted-foreground">Next: Maghrib at 5:58 PM</p>
-                </div>
-              </div>
-              <span className="text-xs font-bold text-orange-600">03:12:45</span>
-            </CardContent>
-          </Card>
-          <Card className="bg-white border-none shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-            <CardContent className="p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                  <Coins className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold">Zakat Information</h3>
-                  <p className="text-[10px] text-muted-foreground">Calculate your zakat dues</p>
-                </div>
-              </div>
-              <span className="text-xs font-bold text-emerald-600">Go to Zakat</span>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Gallery Section */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold">Islamic Gallery</h2>
-            <Link href="#" className="text-xs text-primary font-bold">See All</Link>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-             <div className="aspect-square relative rounded-2xl overflow-hidden group">
-                <Image src="https://picsum.photos/seed/gall1/400/400" alt="Gallery" fill className="object-cover group-hover:scale-110 transition-transform duration-500" data-ai-hint="islamic food" />
-             </div>
-             <div className="aspect-square relative rounded-2xl overflow-hidden group">
-                <Image src="https://picsum.photos/seed/art1/400/400" alt="Gallery" fill className="object-cover group-hover:scale-110 transition-transform duration-500" data-ai-hint="islamic calligraphy" />
-             </div>
-             <div className="aspect-square relative rounded-2xl overflow-hidden group">
-                <Image src="https://picsum.photos/seed/gall3/400/400" alt="Gallery" fill className="object-cover group-hover:scale-110 transition-transform duration-500" data-ai-hint="middle eastern market" />
-             </div>
-             <div className="aspect-square relative rounded-2xl overflow-hidden group">
-                <Image src="https://picsum.photos/seed/gall4/400/400" alt="Gallery" fill className="object-cover group-hover:scale-110 transition-transform duration-500" data-ai-hint="modern restaurant" />
-             </div>
-          </div>
-        </section>
-
         {/* Trending Reels */}
-        <section className="space-y-4">
+        <section className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold">Trending Reels</h2>
-            <Link href="#" className="text-xs text-primary font-bold">See All</Link>
+            <h2 className="text-2xl font-bold text-slate-900">Trending Community Reels</h2>
+            <Button variant="ghost" className="text-sm font-bold">Explore</Button>
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="relative w-40 flex-shrink-0 aspect-[9/16] rounded-3xl overflow-hidden group">
+          <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar snap-x">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="relative w-56 flex-shrink-0 aspect-[9/16] rounded-[2rem] overflow-hidden group snap-start shadow-lg">
                 <Image 
                   src={`https://picsum.photos/seed/reel${i}/400/700`} 
                   alt="Reel" 
                   fill 
-                  className="object-cover"
-                  data-ai-hint="vertical video"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  data-ai-hint="halal lifestyle video"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4">
-                   <div className="flex items-center gap-2 mb-2">
-                     <Avatar className="h-5 w-5 border border-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                   <div className="flex items-center gap-3 mb-2">
+                     <Avatar className="h-8 w-8 border-2 border-white/50 shadow-md">
                         <AvatarImage src={`https://picsum.photos/seed/av${i}/50/50`} />
                         <AvatarFallback>U</AvatarFallback>
                      </Avatar>
-                     <span className="text-[10px] text-white font-bold">@creator{i}</span>
+                     <div className="flex flex-col">
+                        <span className="text-xs text-white font-bold">@creator_{i}</span>
+                        <span className="text-[10px] text-white/70">1.2k views</span>
+                     </div>
                    </div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Play className="h-10 w-10 text-white fill-white" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 backdrop-blur-[2px]">
+                  <Play className="h-14 w-14 text-white fill-white drop-shadow-lg" />
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Featured Creators */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold">Featured Creators</h2>
-            <Link href="#" className="text-xs text-primary font-bold">See All</Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {[1, 2].map((i) => (
-               <Card key={i} className="border-none shadow-sm text-center">
-                 <CardContent className="p-6 space-y-3">
-                   <Avatar className="h-16 w-16 mx-auto border-4 border-primary/20">
-                     <AvatarImage src={`https://picsum.photos/seed/creator${i}/100/100`} />
-                     <AvatarFallback>CR</AvatarFallback>
-                   </Avatar>
-                   <div className="space-y-1">
-                     <h3 className="text-sm font-bold">Amina Jafari</h3>
-                     <p className="text-[10px] text-muted-foreground">Lifestyle & Food</p>
-                   </div>
-                   <Button size="sm" variant="outline" className="h-8 rounded-full text-xs">Follow</Button>
-                 </CardContent>
-               </Card>
-            ))}
-          </div>
+        {/* Quick Info */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <Card className="rounded-3xl border-none shadow-sm p-6 flex items-center gap-6 bg-white hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                <Calendar className="h-8 w-8" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-lg font-bold">Upcoming Events</h3>
+                <p className="text-sm text-muted-foreground">Global Halal Expo starts in 2 days</p>
+                <Button variant="link" className="p-0 h-auto text-orange-600 font-bold text-xs">View Calendar</Button>
+              </div>
+           </Card>
+           <Card className="rounded-3xl border-none shadow-sm p-6 flex items-center gap-6 bg-white hover:shadow-md transition-shadow">
+              <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                <MessageSquare className="h-8 w-8" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-lg font-bold">Community Chat</h3>
+                <p className="text-sm text-muted-foreground">34 new messages in Professionals group</p>
+                <Button variant="link" className="p-0 h-auto text-blue-600 font-bold text-xs">Join Discussion</Button>
+              </div>
+           </Card>
         </section>
 
-        {/* Platform Stats */}
-        <section className="bg-primary/5 rounded-3xl p-6 space-y-6">
-           <div className="flex items-center gap-2">
-              <div className="w-1 h-6 bg-primary rounded-full" />
-              <h2 className="font-bold text-primary">Platform Highlights</h2>
-           </div>
-           <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Building2 className="h-5 w-5 text-amber-500" />
-                  <span className="text-sm font-bold">1,247</span>
-                  <span className="text-xs text-muted-foreground">Total Mosques</span>
-                </div>
-                <Badge variant="secondary" className="bg-amber-50 text-amber-600 text-[10px]">Verified</Badge>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Users className="h-5 w-5 text-blue-500" />
-                  <span className="text-sm font-bold">15,892</span>
-                  <span className="text-xs text-muted-foreground">Community Members</span>
-                </div>
-                <Badge variant="secondary" className="bg-blue-50 text-blue-600 text-[10px]">Live</Badge>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
-                <div className="flex items-center gap-3">
-                  <HandHeart className="h-5 w-5 text-rose-500" />
-                  <span className="text-sm font-bold">$3,554</span>
-                  <span className="text-xs text-muted-foreground">Charity Raised</span>
-                </div>
-                <Badge variant="secondary" className="bg-rose-50 text-rose-600 text-[10px]">Today</Badge>
-              </div>
-           </div>
-        </section>
-
-        <div className="h-20" /> {/* Spacer for bottom nav */}
+        <div className="h-24" /> 
       </div>
 
-      {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t px-6 py-3 flex items-center justify-between z-50">
+      {/* Bottom Nav (Mobile Only) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t px-8 py-4 flex items-center justify-between z-50">
         <Link href="/" className="flex flex-col items-center gap-1 text-primary">
-          <HomeIcon className="h-5 w-5" />
+          <HomeIcon className="h-6 w-6" />
           <span className="text-[10px] font-bold">Home</span>
         </Link>
         <Link href="/restaurants" className="flex flex-col items-center gap-1 text-muted-foreground">
-          <Utensils className="h-5 w-5" />
-          <span className="text-[10px]">Food</span>
+          <UtensilsCrossed className="h-6 w-6" />
+          <span className="text-[10px]">Dining</span>
         </Link>
-        <Link href="/prayer-times" className="flex flex-col items-center gap-1 text-muted-foreground">
-          <Clock className="h-5 w-5" />
-          <span className="text-[10px]">Prayer</span>
-        </Link>
+        <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white -translate-y-6 shadow-xl shadow-primary/40 border-4 border-white">
+          <CompassIcon className="h-7 w-7" />
+        </div>
         <Link href="/community" className="flex flex-col items-center gap-1 text-muted-foreground">
-          <Users className="h-5 w-5" />
+          <Users className="h-6 w-6" />
           <span className="text-[10px]">Social</span>
         </Link>
         <Link href="#" className="flex flex-col items-center gap-1 text-muted-foreground">
-          <Avatar className="h-5 w-5">
-            <AvatarImage src="https://picsum.photos/seed/user/50/50" />
-          </Avatar>
-          <span className="text-[10px]">Profile</span>
+          <User className="h-6 w-6" />
+          <span className="text-[10px]">Me</span>
         </Link>
       </nav>
     </div>
@@ -295,4 +232,24 @@ function HomeIcon(props: any) {
       <polyline points="9 22 9 12 15 12 15 22" />
     </svg>
   );
+}
+
+function CompassIcon(props: any) {
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+      </svg>
+    )
 }
