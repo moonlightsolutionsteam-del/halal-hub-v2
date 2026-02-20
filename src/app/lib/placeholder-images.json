@@ -1,0 +1,35 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "restaurant-1",
+      "description": "A cozy halal steakhouse",
+      "imageUrl": "https://picsum.photos/seed/halal1/800/600",
+      "imageHint": "halal steakhouse"
+    },
+    {
+      "id": "restaurant-2",
+      "description": "Modern Turkish restaurant",
+      "imageUrl": "https://picsum.photos/seed/halal2/800/600",
+      "imageHint": "turkish food"
+    },
+    {
+      "id": "mosque-1",
+      "description": "Beautiful modern mosque architecture",
+      "imageUrl": "https://picsum.photos/seed/mosque1/800/600",
+      "imageHint": "modern mosque"
+    },
+    {
+      "id": "travel-1",
+      "description": "Scenic halal-friendly resort",
+      "imageUrl": "https://picsum.photos/seed/travel1/800/600",
+      "imageHint": "halal resort"
+    },
+    {
+      "id": "product-1",
+      "description": "Generic food package ingredients",
+      "imageUrl": "https://picsum.photos/seed/food1/800/600",
+      "imageHint": "food ingredients"
+    }
+  ]
+}
