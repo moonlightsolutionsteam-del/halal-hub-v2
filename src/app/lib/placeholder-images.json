@@ -30,6 +30,30 @@
       "description": "Generic food package ingredients",
       "imageUrl": "https://picsum.photos/seed/food1/800/600",
       "imageHint": "food ingredients"
+    },
+    {
+      "id": "art-1",
+      "description": "Islamic calligraphy art",
+      "imageUrl": "https://picsum.photos/seed/art1/600/800",
+      "imageHint": "islamic calligraphy"
+    },
+    {
+      "id": "reels-1",
+      "description": "Halal cooking video thumbnail",
+      "imageUrl": "https://picsum.photos/seed/reel1/400/700",
+      "imageHint": "cooking video"
+    },
+    {
+      "id": "reels-2",
+      "description": "Modest fashion influencer",
+      "imageUrl": "https://picsum.photos/seed/reel2/400/700",
+      "imageHint": "modest fashion"
+    },
+    {
+      "id": "event-1",
+      "description": "Community outdoor picnic",
+      "imageUrl": "https://picsum.photos/seed/eventpic1/800/400",
+      "imageHint": "outdoor picnic"
     }
   ]
 }
