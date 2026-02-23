@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Plane, Camera, Compass, Bed, Utensils } from "lucide-react";
 import Image from "next/image";
 
-const MosqueIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const MosqueIcon = (props: any) => (
   <svg
     {...props}
     viewBox="0 0 24 24"
