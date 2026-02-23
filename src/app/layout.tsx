@@ -12,6 +12,7 @@ import { GrocerySidebar } from "@/components/grocery-sidebar";
 import { EventsSidebar } from "@/components/events-sidebar";
 import { CateringSidebar } from "@/components/catering-sidebar";
 import { HotelSidebar } from "@/components/hotel-sidebar";
+import { TravelSidebar } from "@/components/travel-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -31,6 +32,7 @@ export default function RootLayout({
   const isEventsPath = pathname?.startsWith('/vendor/events');
   const isCateringPath = pathname?.startsWith('/vendor/catering');
   const isHotelPath = pathname?.startsWith('/vendor/hotel');
+  const isTravelPath = pathname?.startsWith('/vendor/travel');
 
   const getSidebar = () => {
     if (isAdminPath) return <AdminSidebar />;
@@ -39,6 +41,7 @@ export default function RootLayout({
     if (isEventsPath) return <EventsSidebar />;
     if (isCateringPath) return <CateringSidebar />;
     if (isHotelPath) return <HotelSidebar />;
+    if (isTravelPath) return <TravelSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };

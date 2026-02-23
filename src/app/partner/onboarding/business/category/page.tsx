@@ -39,7 +39,7 @@ const CATEGORIES = [
   { id: 'catering', title: 'Catering Services', desc: 'Wedding, corporate, and event specialists.', icon: CookingPot, directUrl: '/vendor/catering/dashboard' },
   { id: 'events', title: 'Event Services & Venues', desc: 'Party services and halal-friendly event spaces.', icon: Sparkles, directUrl: '/vendor/events/dashboard' },
   { id: 'hotels', title: 'Hotels & Homestays', desc: 'Halal-friendly accommodations.', icon: Bed, directUrl: '/vendor/hotel/dashboard' },
-  { id: 'travel', title: 'Travel & Tourism', desc: 'Hajj/Umrah and halal-friendly travel agencies.', icon: Plane },
+  { id: 'travel', title: 'Travel & Tourism', desc: 'Hajj/Umrah and halal-friendly travel agencies.', icon: Plane, directUrl: '/vendor/travel/dashboard' },
   { id: 'fashion', title: 'Fashion & Modest Wear', desc: 'Hijabs, abayas, and designer brands.', icon: Shirt },
   { id: 'cosmetics', title: 'Cosmetics & Personal Care', desc: 'Halal-certified beauty and skin products.', icon: Sparkles },
   { id: 'finance', title: 'Finance & Banking', desc: 'Shariah-compliant banking and investment.', icon: CircleDollarSign },
