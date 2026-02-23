@@ -44,14 +44,14 @@ const PARTNER_TYPES = [
     highlight: "For Digital Content Creators & Islamic Representatives",
     description: "For influencers, speakers, educators, scholars, counselors, and digital creators who want to grow their online presence, manage collaborations, publish content, and professionally represent their work on Halal Hub.",
     icon: PenTool,
-    url: "/community"
+    url: "/vendor/creative/dashboard"
   },
   {
     title: "Events & Conferences",
     highlight: "For Event Organizers",
     description: "Manage your conferences, expos, and large-scale community events from a dedicated dashboard.",
     icon: Calendar,
-    url: "/events"
+    url: "/vendor/events/dashboard"
   },
   {
     title: "Certification Body",
