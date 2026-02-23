@@ -48,7 +48,7 @@ export function UserSidebar() {
   ];
 
   const partnerItems = [
-    { title: "Manage Your Business", icon: Briefcase, url: "/vendor/dashboard" },
+    { title: "Manage Your Business", icon: Briefcase, url: "/partner/portal" },
     { title: "Creator Studio", icon: User, url: "/community" },
   ];
 
