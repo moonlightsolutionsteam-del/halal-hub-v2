@@ -1,11 +1,12 @@
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
   UtensilsCrossed, Map, List, Store, User, Briefcase, 
   ShieldCheck, Users, Moon, MessageSquare, Newspaper, 
   Settings, BookOpen, Heart, HandHelping, Medal, 
-  Gift, Calendar, Search, MapPin, Play
+  Gift, Calendar, Search, MapPin, Play, Grid, ArrowRight,
+  TrendingUp, Star, Compass
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -28,32 +29,20 @@ const BeefIcon = (props: any) => (
   </svg>
 );
 
-const FEATURES = [
-  { name: "Food & Dining", icon: UtensilsCrossed },
-  { name: "Meat & Butchers", icon: BeefIcon },
-  { name: "Map", icon: Map },
-  { name: "Directory", icon: List },
-  { name: "Marketplace", icon: Store },
-  { name: "Creators", icon: User },
-  { name: "Professionals", icon: Briefcase },
-  { name: "Halal Check", icon: ShieldCheck },
-  { name: "Family", icon: Users },
-  { name: "Prayer", icon: Moon },
-  { name: "Chat", icon: MessageSquare },
-  { name: "Feed", icon: Newspaper },
-  { name: "Manage", icon: Briefcase },
-  { name: "Blog", icon: BookOpen },
-  { name: "Charity", icon: Heart },
-  { name: "Volunteer", icon: HandHelping },
-  { name: "My Journey", icon: Medal },
-  { name: "Rewards", icon: Gift },
-  { name: "Community", icon: Users },
-  { name: "Events", icon: Calendar },
+const QUICK_FEATURES = [
+  { name: "Food & Dining", icon: UtensilsCrossed, url: "/restaurants" },
+  { name: "Meat & Butchers", icon: BeefIcon, url: "/categories" },
+  { name: "Map View", icon: Map, url: "/travel" },
+  { name: "Halal Check", icon: ShieldCheck, url: "/verifier" },
+  { name: "Community", icon: Users, url: "/community" },
+  { name: "Events", icon: Calendar, url: "/events" },
+  { name: "Prayer Guide", icon: Moon, url: "/prayer-times" },
+  { name: "All Categories", icon: Grid, url: "/categories" },
 ];
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F8F9FA]">
+    <div className="flex flex-col min-h-screen bg-[#F8F9FA] pb-24 md:pb-0">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -67,11 +56,10 @@ export default function Home() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input 
               type="text" 
-              placeholder="Search features..." 
+              placeholder="Search products, places..." 
               className="w-full bg-muted/50 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
             />
           </div>
-          <Button variant="ghost" size="icon" className="rounded-full"><Search className="h-5 w-5 md:hidden" /></Button>
           <Avatar className="h-10 w-10 border-2 border-primary/10">
             <AvatarImage src="https://picsum.photos/seed/user/100/100" />
             <AvatarFallback>JD</AvatarFallback>
@@ -88,8 +76,8 @@ export default function Home() {
                  <Badge variant="outline" className="border-white/40 text-white bg-white/10 px-4 py-1 text-xs font-bold uppercase tracking-wider">Asr</Badge>
                  <span className="text-sm text-white/80 font-medium">Next Prayer In 01:22:45</span>
               </div>
-              <div className="text-7xl font-black tracking-tighter">4:28<span className="text-3xl font-light ml-2 opacity-80">PM</span></div>
-              <div className="flex items-center justify-center md:justify-start gap-2 text-base text-white/90">
+              <div className="text-7xl font-black tracking-tighter leading-none">4:28<span className="text-3xl font-light ml-2 opacity-80 uppercase">pm</span></div>
+              <div className="flex items-center justify-center md:justify-start gap-2 text-base text-white/90 font-medium">
                 <MapPin className="h-4 w-4" /> New York, NY, USA
               </div>
             </div>
@@ -103,20 +91,22 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary-foreground/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl" />
         </section>
 
-        {/* Discover Features Grid */}
-        <section className="space-y-8">
-          <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Discover Features</h2>
-            <Button variant="link" className="text-primary font-bold">View All</Button>
+        {/* Quick Access Categories */}
+        <section className="space-y-6">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Discovery Hub</h2>
+            <Link href="/categories" className="text-sm font-bold text-primary flex items-center gap-1 hover:underline">
+              All Vertical <ArrowRight className="h-3 w-3" />
+            </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {FEATURES.map((feature) => (
-              <Link key={feature.name} href="#" className="group">
-                <Card className="border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-[2.5rem] aspect-square flex flex-col items-center justify-center p-4 bg-white hover:-translate-y-2">
-                  <div className="w-20 h-20 rounded-full bg-[#F1F3F5] shadow-inner flex items-center justify-center mb-4 transition-colors group-hover:bg-primary/10">
-                    <feature.icon className="h-10 w-10 text-primary transition-transform group-hover:scale-110" />
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
+            {QUICK_FEATURES.map((feature) => (
+              <Link key={feature.name} href={feature.url} className="group">
+                <Card className="border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-[2rem] flex flex-col items-center justify-center p-6 bg-white hover:-translate-y-1">
+                  <div className="w-14 h-14 rounded-2xl bg-[#F1F3F5] shadow-inner flex items-center justify-center mb-3 transition-colors group-hover:bg-primary/10">
+                    <feature.icon className="h-7 w-7 text-primary transition-transform group-hover:scale-110" />
                   </div>
-                  <span className="text-sm font-bold text-slate-700 text-center leading-tight group-hover:text-primary transition-colors">
+                  <span className="text-xs font-black text-slate-700 text-center leading-tight group-hover:text-primary transition-colors">
                     {feature.name}
                   </span>
                 </Card>
@@ -125,112 +115,92 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trending Reels */}
+        {/* Featured Listings */}
         <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-slate-900">Trending Community Reels</h2>
-            <Button variant="ghost" className="text-sm font-bold">Explore</Button>
+          <div className="flex items-center justify-between px-2">
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Featured Listings</h2>
+            <Badge variant="secondary" className="bg-accent/10 text-accent-foreground font-black px-4 py-1">Community Top-Rated</Badge>
           </div>
-          <div className="flex gap-6 overflow-x-auto pb-6 no-scrollbar snap-x">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="relative w-56 flex-shrink-0 aspect-[9/16] rounded-[2rem] overflow-hidden group snap-start shadow-lg">
-                <Image 
-                  src={`https://picsum.photos/seed/reel${i}/400/700`} 
-                  alt="Reel" 
-                  fill 
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  data-ai-hint="halal lifestyle video"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
-                   <div className="flex items-center gap-3 mb-2">
-                     <Avatar className="h-8 w-8 border-2 border-white/50 shadow-md">
-                        <AvatarImage src={`https://picsum.photos/seed/av${i}/50/50`} />
-                        <AvatarFallback>U</AvatarFallback>
-                     </Avatar>
-                     <div className="flex flex-col">
-                        <span className="text-xs text-white font-bold">@creator_{i}</span>
-                        <span className="text-[10px] text-white/70">1.2k views</span>
-                     </div>
-                   </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="group overflow-hidden rounded-[2.5rem] border-none shadow-sm hover:shadow-xl transition-all duration-500 bg-white">
+                <div className="relative aspect-video">
+                  <Image 
+                    src={`https://picsum.photos/seed/feat${i}/600/400`} 
+                    alt="Place" 
+                    fill 
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    data-ai-hint="halal business"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <Badge className="bg-white/90 backdrop-blur text-primary border-none font-black shadow-lg">Verified</Badge>
+                  </div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 backdrop-blur-[2px]">
-                  <Play className="h-14 w-14 text-white fill-white drop-shadow-lg" />
-                </div>
-              </div>
+                <CardHeader className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-xl font-black group-hover:text-primary transition-colors">Elite Steakhouse {i}</CardTitle>
+                      <CardDescription className="flex items-center gap-1 font-medium mt-1">
+                        <MapPin className="h-3 w-3 text-muted-foreground" /> Downtown, NY
+                      </CardDescription>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm font-bold text-accent">
+                      <Star className="h-4 w-4 fill-current" /> 4.9
+                    </div>
+                  </div>
+                </CardHeader>
+              </Card>
             ))}
           </div>
         </section>
 
-        {/* Quick Info */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <Card className="rounded-3xl border-none shadow-sm p-6 flex items-center gap-6 bg-white hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
-                <Calendar className="h-8 w-8" />
-              </div>
-              <div className="space-y-1">
-                <h3 className="text-lg font-bold">Upcoming Events</h3>
-                <p className="text-sm text-muted-foreground">Global Halal Expo starts in 2 days</p>
-                <Button variant="link" className="p-0 h-auto text-orange-600 font-bold text-xs">View Calendar</Button>
-              </div>
-           </Card>
-           <Card className="rounded-3xl border-none shadow-sm p-6 flex items-center gap-6 bg-white hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
-                <MessageSquare className="h-8 w-8" />
-              </div>
-              <div className="space-y-1">
-                <h3 className="text-lg font-bold">Community Chat</h3>
-                <p className="text-sm text-muted-foreground">34 new messages in Professionals group</p>
-                <Button variant="link" className="p-0 h-auto text-blue-600 font-bold text-xs">Join Discussion</Button>
-              </div>
-           </Card>
+        {/* Rewards CTA */}
+        <section className="bg-accent rounded-[3rem] p-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl shadow-accent/30 border-4 border-white/20">
+          <div className="relative z-10 space-y-4 max-w-md text-center md:text-left">
+            <h2 className="text-4xl font-black text-slate-900 leading-tight">Join Our Rewards Community</h2>
+            <p className="text-slate-800/80 font-bold">Earn HalalSphere coins for every review, verification, and community contribution.</p>
+            <Button size="lg" className="rounded-full px-8 bg-slate-900 text-white hover:bg-slate-800 shadow-xl border-none">
+              Start Earning Now
+            </Button>
+          </div>
+          <div className="relative z-10 flex -space-x-4">
+            {[1, 2, 3, 4].map(i => (
+              <Avatar key={i} className="h-16 w-14 border-4 border-white shadow-lg ring-4 ring-accent">
+                <AvatarImage src={`https://picsum.photos/seed/usr${i}/100/100`} />
+                <AvatarFallback>U</AvatarFallback>
+              </Avatar>
+            ))}
+            <div className="h-16 w-16 bg-white rounded-full border-4 border-white shadow-lg flex items-center justify-center font-black text-accent text-sm ring-4 ring-accent">
+              +12k
+            </div>
+          </div>
+          <TrendingUp className="absolute -bottom-10 -right-10 h-64 w-64 text-white/10 rotate-12" />
         </section>
-
-        <div className="h-24" /> 
       </div>
 
       {/* Bottom Nav (Mobile Only) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t px-8 py-4 flex items-center justify-between z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t px-8 py-4 flex items-center justify-between z-50 rounded-t-[2.5rem] shadow-2xl">
         <Link href="/" className="flex flex-col items-center gap-1 text-primary">
-          <HomeIcon className="h-6 w-6" />
-          <span className="text-[10px] font-bold">Home</span>
+          <Home className="h-6 w-6" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">Home</span>
         </Link>
-        <Link href="/restaurants" className="flex flex-col items-center gap-1 text-muted-foreground">
-          <UtensilsCrossed className="h-6 w-6" />
-          <span className="text-[10px]">Dining</span>
+        <Link href="/categories" className="flex flex-col items-center gap-1 text-muted-foreground">
+          <Grid className="h-6 w-6" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">Browse</span>
         </Link>
-        <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white -translate-y-6 shadow-xl shadow-primary/40 border-4 border-white">
+        <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white -translate-y-6 shadow-2xl shadow-primary/40 border-4 border-white">
           <CompassIcon className="h-7 w-7" />
         </div>
         <Link href="/community" className="flex flex-col items-center gap-1 text-muted-foreground">
-          <Users className="h-6 w-6" />
-          <span className="text-[10px]">Social</span>
+          <MessageSquare className="h-6 w-6" />
+          <span className="text-[10px] font-bold uppercase tracking-widest">Social</span>
         </Link>
-        <Link href="#" className="flex flex-col items-center gap-1 text-muted-foreground">
+        <Link href="/account/dashboard" className="flex flex-col items-center gap-1 text-muted-foreground">
           <User className="h-6 w-6" />
-          <span className="text-[10px]">Me</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest">Me</span>
         </Link>
       </nav>
     </div>
-  );
-}
-
-function HomeIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
-    </svg>
   );
 }
 

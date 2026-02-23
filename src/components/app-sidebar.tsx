@@ -20,6 +20,17 @@ import {
   Newspaper,
   BookOpen,
   Medal,
+  LayoutDashboard,
+  Building2,
+  CheckSquare,
+  Package,
+  Tags,
+  BarChart3,
+  Shield,
+  FileText,
+  Settings,
+  Search,
+  Grid
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -40,29 +51,28 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-const mainItems = [
-  { title: "Home", url: "/", icon: Home },
+const userItems = [
+  { title: "Home Hub", url: "/", icon: Home },
+  { title: "Categories", url: "/categories", icon: Grid },
   { title: "Dining Guide", url: "/restaurants", icon: UtensilsCrossed },
-  { title: "Halal Verifier", url: "/verifier", icon: ShieldCheck },
-  { title: "Marketplace", url: "/market", icon: Store },
-  { title: "Directory", url: "/directory", icon: List },
+  { title: "Map View", url: "/travel", icon: Map },
+  { title: "My Dashboard", url: "/account/dashboard", icon: LayoutDashboard },
 ]
 
-const exploreItems = [
-  { title: "Map & Travel", url: "/travel", icon: Map },
-  { title: "Prayer Times", url: "/prayer-times", icon: Clock },
-  { title: "Community", url: "/community", icon: MessageSquare },
-  { title: "Events", url: "/events", icon: CalendarDays },
-  { title: "News Feed", url: "/feed", icon: Newspaper },
+const vendorItems = [
+  { title: "Vendor Dashboard", url: "/vendor/dashboard", icon: LayoutDashboard },
+  { title: "Business Profile", url: "/vendor/profile", icon: Building2 },
+  { title: "Verification", url: "/vendor/verification", icon: CheckSquare },
+  { title: "Products/Services", url: "/vendor/products", icon: Package },
+  { title: "Analytics", url: "/vendor/analytics", icon: BarChart3 },
 ]
 
-const lifestyleItems = [
-  { title: "Family Hub", url: "/family", icon: Users },
-  { title: "Professionals", url: "/pro", icon: Briefcase },
-  { title: "Charity", url: "/charity", icon: Heart },
-  { title: "Rewards", url: "/rewards", icon: Gift },
-  { title: "My Journey", url: "/journey", icon: Medal },
-  { title: "Blog", url: "/blog", icon: BookOpen },
+const adminItems = [
+  { title: "Platform Overview", url: "/admin/dashboard", icon: Shield },
+  { title: "User Management", url: "/admin/users", icon: Users },
+  { title: "Entity Management", url: "/admin/entities", icon: Building2 },
+  { title: "Finance & Payouts", url: "/admin/finance", icon: FileText },
+  { title: "System Settings", url: "/admin/settings", icon: Settings },
 ]
 
 export function AppSidebar() {
@@ -90,10 +100,10 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Services</SidebarGroupLabel>
+          <SidebarGroupLabel>User Experience</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {mainItems.map((item) => (
+              {userItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
@@ -112,10 +122,10 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Explore</SidebarGroupLabel>
+          <SidebarGroupLabel>Vendor Panel</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {exploreItems.map((item) => (
+              {vendorItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
@@ -134,10 +144,10 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Lifestyle</SidebarGroupLabel>
+          <SidebarGroupLabel>Admin Center</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {lifestyleItems.map((item) => (
+              {adminItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
@@ -163,7 +173,7 @@ export function AppSidebar() {
             </Avatar>
             <div className="flex flex-col">
                 <span className="text-sm font-bold">John Doe</span>
-                <span className="text-[10px] text-primary font-black uppercase">Premium Member</span>
+                <span className="text-[10px] text-primary font-black uppercase">Super Admin</span>
             </div>
          </div>
       </SidebarFooter>
