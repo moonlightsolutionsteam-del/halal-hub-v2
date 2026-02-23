@@ -13,7 +13,8 @@ import {
   Stethoscope, 
   GraduationCap, 
   BookOpen,
-  ChevronRight
+  ChevronRight,
+  PenTool
 } from "lucide-react";
 import Link from "next/link";
 
@@ -47,6 +48,7 @@ const CATEGORIES = [
   { id: 'healthcare', title: 'Healthcare & Wellness', desc: 'Clinics, pharmacies, hijama centers, and more.', icon: Stethoscope, directUrl: '/vendor/healthcare/dashboard' },
   { id: 'education', title: 'Education & Training', desc: 'Madrasas, schools, and Islamic training centres.', icon: GraduationCap, directUrl: '/vendor/education/dashboard' },
   { id: 'media', title: 'Bookstores & Islamic Media', desc: 'Literature and digital media.', icon: BookOpen, directUrl: '/vendor/media/dashboard' },
+  { id: 'creative', title: 'Islamic Creative Studio', desc: 'Podcasts, video production, and digital creators.', icon: PenTool, directUrl: '/vendor/creative/dashboard' },
 ];
 
 export default function BusinessCategoryPage() {

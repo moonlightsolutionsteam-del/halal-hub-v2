@@ -20,6 +20,7 @@ import { FinanceSidebar } from "@/components/finance-sidebar";
 import { HealthcareSidebar } from "@/components/healthcare-sidebar";
 import { EducationSidebar } from "@/components/education-sidebar";
 import { MediaSidebar } from "@/components/media-sidebar";
+import { CreativeSidebar } from "@/components/creative-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -46,6 +47,7 @@ export default function RootLayout({
   const isHealthcarePath = pathname?.startsWith('/vendor/healthcare');
   const isEducationPath = pathname?.startsWith('/vendor/education');
   const isMediaPath = pathname?.startsWith('/vendor/media');
+  const isCreativePath = pathname?.startsWith('/vendor/creative');
 
   const getSidebar = () => {
     if (isAdminPath) return <AdminSidebar />;
@@ -61,6 +63,7 @@ export default function RootLayout({
     if (isHealthcarePath) return <HealthcareSidebar />;
     if (isEducationPath) return <EducationSidebar />;
     if (isMediaPath) return <MediaSidebar />;
+    if (isCreativePath) return <CreativeSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };
