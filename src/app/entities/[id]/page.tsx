@@ -15,10 +15,11 @@ import {
   Beef, Truck, FileText, Download,
   ShoppingCart, Apple, Milk, CreditCard,
   CookingPot, ClipboardList, Camera, Paintbrush,
-  Music, Bed, Waves, Wifi, Tv, Bath, Moon
+  Music, Bed, Waves, Wifi, Tv, Bath, Moon,
+  Compass, Briefcase
 } from "lucide-react";
 import Image from "next/image";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useState } from "react";
@@ -33,6 +34,7 @@ export default function EntityProfilePage() {
   const isCatering = String(id).startsWith("c");
   const isEvents = String(id).startsWith("e");
   const isHotel = String(id).startsWith("h");
+  const isTravel = String(id).startsWith("t");
 
   const restaurantData = {
     name: "The Bosphorus Kitchen",
@@ -146,13 +148,69 @@ export default function EntityProfilePage() {
     ]
   };
 
-  const entityData = isHotel ? hotelData : (isEvents ? eventsData : (isCatering ? cateringData : (isGrocery ? groceryData : (isButcher ? butcherData : restaurantData))));
-  const accentColor = isHotel ? 'bg-sky-600' : (isEvents ? 'bg-purple-600' : (isCatering ? 'bg-blue-600' : (isGrocery ? 'bg-emerald-600' : (isButcher ? 'bg-red-600' : 'bg-primary'))));
-  const accentLight = isHotel ? 'bg-sky-50 text-sky-600' : (isEvents ? 'bg-purple-50 text-purple-600' : (isCatering ? 'bg-blue-50 text-blue-600' : (isGrocery ? 'bg-emerald-50 text-emerald-600' : (isButcher ? 'bg-red-50 text-red-600' : 'bg-primary/5 text-primary'))));
-  const backLink = isHotel ? "/categories/hotels" : (isEvents ? "/categories/events" : (isCatering ? "/categories/catering" : (isGrocery ? "/categories/grocery" : (isButcher ? "/categories/meat" : "/categories/food"))));
-  const backLabel = isHotel ? "Hotels & Homestays" : (isEvents ? "Event Services" : (isCatering ? "Catering Guide" : (isGrocery ? "Grocery Guide" : (isButcher ? "Meat & Butchers" : "Dining Guide"))));
+  const travelData = {
+    name: "Saffron Travels",
+    category: "Travel & Tourism",
+    type: "Full-Service Halal Agency",
+    location: "75 Midtown Plaza, Manhattan, NY 10019",
+    rating: 4.9,
+    reviews: 350,
+    verified: true,
+    verifiedBy: "Global Halal Travel Council",
+    joined: "Oct 2018",
+    description: "Saffron Travels is your premier partner for exploring the world without compromising your values. We specialize in fully-vetted halal itineraries across Europe, Asia, and the Middle East. From boutique halal-certified resorts to guided heritage tours with dedicated prayer times, we ensure every aspect of your journey is ethically sourced and religiously compliant.",
+    contact: { phone: "+1 (212) 555-0900", website: "https://saffron-travels.com", hours: "Mon - Fri: 09:00 AM - 06:00 PM" },
+    items: [
+      { name: "Andalusian Heritage Tour", desc: "10-day guided tour of Islamic Spain with halal dining and prayer stops.", price: "From $2,450", popular: true },
+      { name: "Luxury Umrah Package", desc: "Premium flights, 5-star Makkah hotels, and private transfers.", price: "From $4,200", popular: true },
+      { name: "Malaysian Rainforest Escape", desc: "Eco-resort stay with private family pool and certified kitchen.", price: "From $1,800", popular: false },
+    ]
+  };
 
-  const getReviewText = (review: any) => {
+  const entityData = isTravel ? travelData : (isHotel ? hotelData : (isEvents ? eventsData : (isCatering ? cateringData : (isGrocery ? groceryData : (isButcher ? butcherData : restaurantData)))));
+  
+  const getAccentColor = () => {
+    if (isTravel) return 'bg-amber-600';
+    if (isHotel) return 'bg-sky-600';
+    if (isEvents) return 'bg-purple-600';
+    if (isCatering) return 'bg-blue-600';
+    if (isGrocery) return 'bg-emerald-600';
+    if (isButcher) return 'bg-red-600';
+    return 'bg-primary';
+  };
+
+  const getAccentLight = () => {
+    if (isTravel) return 'bg-amber-50 text-amber-600';
+    if (isHotel) return 'bg-sky-50 text-sky-600';
+    if (isEvents) return 'bg-purple-50 text-purple-600';
+    if (isCatering) return 'bg-blue-50 text-blue-600';
+    if (isGrocery) return 'bg-emerald-50 text-emerald-600';
+    if (isButcher) return 'bg-red-50 text-red-600';
+    return 'bg-primary/5 text-primary';
+  };
+
+  const getBackLink = () => {
+    if (isTravel) return "/categories/travel";
+    if (isHotel) return "/categories/hotels";
+    if (isEvents) return "/categories/events";
+    if (isCatering) return "/categories/catering";
+    if (isGrocery) return "/categories/grocery";
+    if (isButcher) return "/categories/meat";
+    return "/categories/food";
+  };
+
+  const getBackLabel = () => {
+    if (isTravel) return "Travel & Tourism";
+    if (isHotel) return "Hotels & Homestays";
+    if (isEvents) return "Event Services";
+    if (isCatering) return "Catering Guide";
+    if (isGrocery) return "Grocery Guide";
+    if (isButcher) return "Meat & Butchers";
+    return "Dining Guide";
+  };
+
+  const getReviewText = () => {
+    if (isTravel) return "Our family trip to Spain was perfectly organized. Saffron Travels ensured every meal was halal and we never missed a prayer. The guide was incredibly respectful and knowledgeable.";
     if (isHotel) return "The most comfortable and respectful stay I've ever had. Knowing everything was halal certified meant we didn't have to check every label or worry about the breakfast.";
     if (isEvents) return "The ballroom was stunning and the segregation was managed very professionally without making the halls feel cramped.";
     if (isCatering) return "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night.";
@@ -161,6 +219,7 @@ export default function EntityProfilePage() {
   };
 
   const getComplianceTitle = () => {
+    if (isTravel) return "Trusted Pilgrim Partner";
     if (isHotel) return "Halal Hospitality Standard";
     if (isEvents) return "Shariah-Compliant Hosting";
     if (isCatering) return "Off-site Halal Management";
@@ -169,6 +228,7 @@ export default function EntityProfilePage() {
   };
 
   const getComplianceText = () => {
+    if (isTravel) return "We partner only with halal-certified hotels and tour operators. Every itinerary is pre-vetted for dietary compliance, prayer facility accessibility, and modest environment standards. Our Hajj/Umrah services are supervised by religious scholars.";
     if (isHotel) return "Our property is strictly alcohol-free and pork-free. We provide a full-service halal breakfast and in-room amenities like prayer mats and Qibla direction indicators. Our staff is trained in modesty protocols and halal food handling.";
     if (isEvents) return "We provide strict segregation protocols for weddings and events. Our premises include permanent Wudu stations and prayer halls. We enforce a zero-alcohol policy and vetting for all outside decor and media partners.";
     if (isCatering) return "We maintain a dedicated halal-only logistics chain. From our central kitchen to your venue, we ensure zero cross-contamination. Our staff is trained in halal handling and Shariah-compliant presentation.";
@@ -186,15 +246,15 @@ export default function EntityProfilePage() {
       {/* Navigation Bar */}
       <div className="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b">
         <div className="container mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
-          <Link href={backLink} className="flex items-center gap-2 text-sm font-black text-slate-600 hover:text-primary transition-all group">
+          <Link href={getBackLink()} className="flex items-center gap-2 text-sm font-black text-slate-600 hover:text-primary transition-all group">
             <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> 
-            Back to {backLabel}
+            Back to {getBackLabel()}
           </Link>
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50"><Share2 className="h-5 w-5" /></Button>
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-rose-50 text-rose-500"><Heart className="h-5 w-5" /></Button>
-            <Button className={`${accentColor} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex text-white`}>
-              {isHotel ? "Book a Room" : (isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now"))))}
+            <Button className={`${getAccentColor()} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex text-white`}>
+              {isTravel ? "Request Itinerary" : (isHotel ? "Book a Room" : (isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now")))))}
             </Button>
           </div>
         </div>
@@ -214,7 +274,7 @@ export default function EntityProfilePage() {
           <div className="container mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-end gap-10">
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
-                <Badge className={`${accentColor} text-white border-none font-black px-5 py-1.5 rounded-full text-xs shadow-2xl uppercase tracking-[0.2em]`}>{entityData.category}</Badge>
+                <Badge className={`${getAccentColor()} text-white border-none font-black px-5 py-1.5 rounded-full text-xs shadow-2xl uppercase tracking-[0.2em]`}>{entityData.category}</Badge>
                 <Badge variant="outline" className="bg-white/10 backdrop-blur-md text-emerald-400 border-emerald-500/30 font-black px-5 py-1.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2">
                   <div className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse" /> Fully Verified
                 </Badge>
@@ -227,7 +287,7 @@ export default function EntityProfilePage() {
                   <span className="text-xs uppercase font-black opacity-60 tracking-widest">({entityData.reviews} Reviews)</span>
                 </div>
                 <div className="flex items-center gap-3 drop-shadow-lg">
-                  <div className={`h-10 w-10 ${accentColor} rounded-2xl flex items-center justify-center shadow-lg`}>
+                  <div className={`h-10 w-10 ${getAccentColor()} rounded-2xl flex items-center justify-center shadow-lg`}>
                     <MapPin className="h-5 w-5 text-white" />
                   </div>
                   <span className="text-xl">{entityData.location.split(',')[1]?.trim() || entityData.location}</span>
@@ -240,18 +300,28 @@ export default function EntityProfilePage() {
               <div className="space-y-6">
                 <div className="space-y-1">
                   <h3 className="text-xl font-black text-slate-900">
-                    {isHotel ? "Check Rates" : (isEvents ? "Plan Your Event" : (isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation"))))}
+                    {isTravel ? "Plan Your Trip" : (isHotel ? "Check Rates" : (isEvents ? "Plan Your Event" : (isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation")))))}
                   </h3>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Powered by Halal Hub</p>
                 </div>
                 
-                {isHotel ? (
+                {isTravel ? (
+                  <div className="space-y-4">
+                    <div className="p-4 bg-slate-50 rounded-2xl space-y-2">
+                      <div className="flex justify-between items-center text-[10px] font-black uppercase text-slate-400">
+                        <span>Min. Group Size</span>
+                        <span className="text-amber-600">2 People</span>
+                      </div>
+                    </div>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Enquire Now</Button>
+                  </div>
+                ) : isHotel ? (
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-3">
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2 text-xs">Arrival</Button>
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2 text-xs">Departure</Button>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Search Rooms</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Search Rooms</Button>
                   </div>
                 ) : isEvents ? (
                   <div className="space-y-4">
@@ -259,7 +329,7 @@ export default function EntityProfilePage() {
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">Select Date</Button>
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">Guests</Button>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Check Availability</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Check Availability</Button>
                   </div>
                 ) : isCatering ? (
                   <div className="space-y-4">
@@ -269,7 +339,7 @@ export default function EntityProfilePage() {
                         <span className="text-blue-600">25 People</span>
                       </div>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Request Proposal</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Request Proposal</Button>
                   </div>
                 ) : isGrocery ? (
                   <div className="space-y-4">
@@ -283,7 +353,7 @@ export default function EntityProfilePage() {
                         <p className="text-[10px] font-black uppercase">Pickup</p>
                       </div>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Browse Aisles</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Browse Aisles</Button>
                   </div>
                 ) : isButcher ? (
                   <div className="space-y-4">
@@ -294,7 +364,7 @@ export default function EntityProfilePage() {
                       </div>
                       <Badge className="bg-emerald-50 text-emerald-600 border-none text-[10px]">Available</Badge>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Build Your Box</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Build Your Box</Button>
                   </div>
                 ) : (
                   <>
@@ -318,20 +388,20 @@ export default function EntityProfilePage() {
           <div className="lg:col-span-8 space-y-16">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-3 rounded-[2.5rem] bg-white border shadow-sm h-20 p-2">
-                <TabsTrigger value="overview" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${accentColor}`}>Overview</TabsTrigger>
-                <TabsTrigger value="items" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${accentColor}`}>
-                  {isHotel ? "Rooms & Dining" : (isEvents ? "Venue Rentals" : (isCatering ? "Event Packages" : (isGrocery ? "Weekly Specials" : (isButcher ? "Price List" : "Digital Menu"))))}
+                <TabsTrigger value="overview" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Overview</TabsTrigger>
+                <TabsTrigger value="items" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>
+                  {isTravel ? "Packages & Itineraries" : (isHotel ? "Rooms & Dining" : (isEvents ? "Venue Rentals" : (isCatering ? "Event Packages" : (isGrocery ? "Weekly Specials" : (isButcher ? "Price List" : "Digital Menu")))))}
                 </TabsTrigger>
-                <TabsTrigger value="reviews" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${accentColor}`}>Reviews</TabsTrigger>
+                <TabsTrigger value="reviews" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Reviews</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="mt-12 space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {/* About Section */}
                 <div className="space-y-8">
                   <div className="flex items-center gap-3">
-                    <div className={`h-1 w-8 rounded-full ${accentColor}`} />
+                    <div className={`h-1 w-8 rounded-full ${getAccentColor()}`} />
                     <h2 className="text-4xl font-black tracking-tight text-slate-900">
-                      {isHotel ? "The Royal Stay" : (isEvents ? "The Grand Experience" : (isCatering ? "Our Culinary Philosophy" : (isGrocery ? "The Hypermarket" : (isButcher ? "Our Butchery" : "About the Kitchen"))))}
+                      {isTravel ? "The Saffron Journey" : (isHotel ? "The Royal Stay" : (isEvents ? "The Grand Experience" : (isCatering ? "Our Culinary Philosophy" : (isGrocery ? "The Hypermarket" : (isButcher ? "Our Butchery" : "About the Kitchen")))))}
                     </h2>
                   </div>
                   <p className="text-xl text-slate-600 leading-relaxed font-medium">
@@ -339,7 +409,7 @@ export default function EntityProfilePage() {
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div className="flex items-center gap-6 p-8 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all">
-                      <div className={`h-16 w-16 ${accentLight} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
+                      <div className={`h-16 w-16 ${getAccentLight()} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
                         <ShieldCheck className="h-8 w-8" />
                       </div>
                       <div>
@@ -348,7 +418,7 @@ export default function EntityProfilePage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-6 p-8 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all">
-                      <div className={`h-16 w-16 ${accentLight} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
+                      <div className={`h-16 w-16 ${getAccentLight()} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
                         <Calendar className="h-8 w-8" />
                       </div>
                       <div>
@@ -384,20 +454,20 @@ export default function EntityProfilePage() {
                   </Card>
                 </div>
 
-                {isHotel && (
+                {isTravel && (
                   <div className="space-y-8">
                     <div className="flex items-center gap-3">
-                      <div className={`h-1 ${accentColor} w-8 rounded-full`} />
-                      <h3 className="text-3xl font-black tracking-tight text-slate-900">Guest Amenities</h3>
+                      <div className={`h-1 ${getAccentColor()} w-8 rounded-full`} />
+                      <h3 className="text-3xl font-black tracking-tight text-slate-900">Travel Benefits</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {[
-                        { title: "Prayer Hall", desc: "Dedicated quiet space", icon: Moon },
-                        { title: "Halal Dining", desc: "100% certified kitchen", icon: Utensils },
-                        { title: "Privacy Pool", desc: "Reserved family hours", icon: Waves },
+                        { title: "Prayer Stops", desc: "Built-in prayer breaks", icon: Moon },
+                        { title: "Halal Board", icon: Utensils, desc: "100% certified meals" },
+                        { title: "Vetted Sites", icon: Compass, desc: "Family-friendly venues" },
                       ].map((benefit, i) => (
-                        <div key={i} className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3 group hover:border-sky-200 transition-all">
-                          <div className={`h-10 w-10 rounded-xl ${accentLight} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        <div key={i} className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3 group hover:border-amber-200 transition-all">
+                          <div className={`h-10 w-10 rounded-xl ${getAccentLight()} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                             <benefit.icon className="h-5 w-5" />
                           </div>
                           <p className="font-black text-slate-900">{benefit.title}</p>
@@ -412,10 +482,10 @@ export default function EntityProfilePage() {
               <TabsContent value="items" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-3xl font-black tracking-tight text-slate-900">
-                    {isHotel ? "Featured Suites & Packages" : (isEvents ? "Venue Options & Rentals" : (isCatering ? "Signature Event Packages" : (isGrocery ? "This Week's Specials" : (isButcher ? "Premium Cuts" : "Popular Dishes"))))}
+                    {isTravel ? "Featured Packages" : (isHotel ? "Featured Suites & Packages" : (isEvents ? "Venue Options & Rentals" : (isCatering ? "Signature Event Packages" : (isGrocery ? "This Week's Specials" : (isButcher ? "Premium Cuts" : "Popular Dishes")))))}
                   </h3>
                   <Button variant="outline" className="rounded-full font-black text-xs border-2 uppercase tracking-tighter h-10 px-6">
-                    <Download className="h-3.5 w-3.5 mr-2" /> {isHotel ? "Room Catalog" : (isEvents ? "View Floor Plans" : (isCatering ? "Full Catalog" : (isGrocery ? "Weekly Circular" : "Price List")))}
+                    <Download className="h-3.5 w-3.5 mr-2" /> {isTravel ? "Tour Brochure" : (isHotel ? "Room Catalog" : (isEvents ? "View Floor Plans" : (isCatering ? "Full Catalog" : (isGrocery ? "Weekly Circular" : "Price List"))))}
                   </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -431,7 +501,7 @@ export default function EntityProfilePage() {
                         </div>
                         <p className="text-sm font-medium text-slate-500 line-clamp-2 italic">{item.desc}</p>
                         {item.popular && (
-                          <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest ${accentLight} border-current px-3 py-1 rounded-full`}>Top Choice</Badge>
+                          <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest ${getAccentLight()} border-current px-3 py-1 rounded-full`}>Top Choice</Badge>
                         )}
                       </div>
                     </Card>
@@ -453,7 +523,7 @@ export default function EntityProfilePage() {
                       <div key={star} className="flex items-center gap-6">
                         <span className="text-sm font-black text-slate-500 w-4">{star}</span>
                         <div className="h-3 bg-slate-100 rounded-full flex-1 overflow-hidden shadow-inner">
-                          <div className={`h-full ${accentColor} rounded-full transition-all duration-1000`} style={{ width: star === 5 ? '90%' : star === 4 ? '8%' : '2%' }} />
+                          <div className={`h-full ${getAccentColor()} rounded-full transition-all duration-1000`} style={{ width: star === 5 ? '90%' : star === 4 ? '8%' : '2%' }} />
                         </div>
                         <span className="text-xs font-black text-slate-400 w-12 text-right">{star === 5 ? '90%' : star === 4 ? '8%' : '2%'}</span>
                       </div>
@@ -473,8 +543,8 @@ export default function EntityProfilePage() {
                           <div className="space-y-1">
                             <p className="text-xl font-black text-slate-900">{review.author}</p>
                             <div className="flex items-center gap-3">
-                              <Badge className={`${accentLight} text-[10px] font-black border-none uppercase px-3 py-1 rounded-full`}>Verified Client</Badge>
-                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Stay date: {review.date}</span>
+                              <Badge className={`${getAccentLight()} text-[10px] font-black border-none uppercase px-3 py-1 rounded-full`}>Verified Client</Badge>
+                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Date: {review.date}</span>
                             </div>
                           </div>
                         </div>
@@ -483,7 +553,7 @@ export default function EntityProfilePage() {
                         </div>
                       </div>
                       <p className="text-slate-600 font-medium leading-relaxed italic text-xl">
-                        "{getReviewText(review)}"
+                        "{getReviewText()}"
                       </p>
                     </Card>
                   ))}
@@ -498,13 +568,13 @@ export default function EntityProfilePage() {
               <div className="h-64 bg-muted relative group overflow-hidden">
                 <Image src={`https://placehold.co/800x600/png?text=Service+Area+Map`} alt="Map" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
                 <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> View Radius</Button>
+                  <Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> View HQ</Button>
                 </div>
               </div>
               <CardContent className="p-10 space-y-10">
                 <div className="space-y-8">
                   <div className="flex items-start gap-6">
-                    <div className={`h-12 w-12 rounded-2xl ${accentLight} flex items-center justify-center shrink-0 shadow-inner`}>
+                    <div className={`h-12 w-12 rounded-2xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-inner`}>
                       <MapPin className="h-6 w-6" />
                     </div>
                     <div>
@@ -513,7 +583,7 @@ export default function EntityProfilePage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-6">
-                    <div className={`h-12 w-12 rounded-2xl ${accentLight} flex items-center justify-center shrink-0 shadow-inner`}>
+                    <div className={`h-12 w-12 rounded-2xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-inner`}>
                       <Clock className="h-6 w-6" />
                     </div>
                     <div>
@@ -522,7 +592,7 @@ export default function EntityProfilePage() {
                     </div>
                   </div>
                   <div className="flex items-start gap-6">
-                    <div className={`h-12 w-12 rounded-2xl ${accentLight} flex items-center justify-center shrink-0 shadow-inner`}>
+                    <div className={`h-12 w-12 rounded-2xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-inner`}>
                       <Phone className="h-6 w-6" />
                     </div>
                     <div>
@@ -534,8 +604,8 @@ export default function EntityProfilePage() {
                 
                 <div className="pt-8 border-t border-slate-50 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <Button className={`${accentColor} hover:opacity-90 text-white rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-xl`}>
-                      {isHotel ? "Check Rates" : (isEvents ? "Plan Event" : (isCatering ? "Request Quote" : "Start Order"))}
+                    <Button className={`${getAccentColor()} hover:opacity-90 text-white rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-xl`}>
+                      {isTravel ? "Get Quote" : (isHotel ? "Check Rates" : (isEvents ? "Plan Event" : (isCatering ? "Request Quote" : "Start Order")))}
                     </Button>
                     <Button variant="outline" className="rounded-2xl font-black text-xs uppercase tracking-widest h-14 border-2"><Globe className="h-4 w-4 mr-2" /> Website</Button>
                   </div>
@@ -549,13 +619,13 @@ export default function EntityProfilePage() {
                 <ShieldAlert className="h-32 w-32 text-white" />
               </div>
               <div className="relative z-10 space-y-6">
-                <div className={`h-20 w-20 bg-white/10 backdrop-blur-xl rounded-[2rem] flex items-center justify-center ${accentLight} mx-auto shadow-2xl border border-white/10`}>
+                <div className={`h-20 w-20 bg-white/10 backdrop-blur-xl rounded-[2rem] flex items-center justify-center ${getAccentLight()} mx-auto shadow-2xl border border-white/10`}>
                   <Info className="h-10 w-10 text-white" />
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-3xl font-black text-white tracking-tight">Need a Partner?</h4>
+                  <h4 className="text-3xl font-black text-white tracking-tight">Need a Guide?</h4>
                   <p className="text-sm text-slate-400 font-medium leading-relaxed px-2">
-                    Our platform concierge can help you manage multiple vendor verifications for large scale halal journeys.
+                    Our platform travel concierge can help you manage complex family itineraries across multiple halal destinations.
                   </p>
                 </div>
                 <Button className="w-full rounded-2xl font-black bg-white text-slate-900 hover:bg-slate-100 h-16 shadow-2xl text-base tracking-tight transition-transform active:scale-95">Contact Concierge</Button>
