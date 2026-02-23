@@ -30,10 +30,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // In Next.js 15, allowedDevOrigins is handled at the root or via middleware in some environments
-  // Moving it to root to resolve the "Unrecognized key at experimental" validation error
-  allowedDevOrigins: ['6000-firebase-studio-1771602950413.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev'],
-  
+  experimental: {
+    allowedDevOrigins: ['6000-firebase-studio-1771602950413.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev'],
+  },
   async redirects() {
     return [
       {

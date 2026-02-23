@@ -18,7 +18,7 @@ export default function AdminDashboard() {
             <ShieldCheck className="h-6 w-6 text-primary" />
             <h1 className="text-3xl font-black font-headline">Platform Governance</h1>
           </div>
-          <p className="text-muted-foreground font-medium">Monitoring HalalSphere global operations.</p>
+          <p className="text-muted-foreground font-medium">Monitoring Halal Hub global operations.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="rounded-full px-6 font-bold border-2"><Settings className="mr-2 h-4 w-4" /> System Settings</Button>

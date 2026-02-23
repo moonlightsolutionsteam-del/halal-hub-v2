@@ -6,7 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'HalalSphere - Your Global Halal Hub',
+  title: 'Halal Hub - Your Global Halal Hub',
   description: 'Find halal restaurants, verify products, and manage your spiritual life.',
 };
 

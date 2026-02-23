@@ -88,7 +88,7 @@ export function AppSidebar() {
             </div>
             <div className="flex flex-col group-data-[collapsible=icon]:hidden">
               <span className="text-xl font-black tracking-tight font-headline text-primary leading-none">
-                  HalalSphere
+                  Halal Hub
               </span>
               <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
                   Universal Hub

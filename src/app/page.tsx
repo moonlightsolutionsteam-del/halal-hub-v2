@@ -48,7 +48,7 @@ export default function Home() {
           <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
             <CompassIcon className="h-6 w-6" />
           </div>
-          <span className="text-2xl font-bold text-primary font-headline tracking-tight">HalalSphere</span>
+          <span className="text-2xl font-bold text-primary font-headline tracking-tight">Halal Hub</span>
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex relative w-64">
@@ -162,7 +162,7 @@ export default function Home() {
         <section className="bg-accent rounded-[3rem] p-10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl shadow-accent/30 border-4 border-white/20">
           <div className="relative z-10 space-y-4 max-w-md text-center md:text-left">
             <h2 className="text-4xl font-black text-slate-900 leading-tight">Join Our Rewards Community</h2>
-            <p className="text-slate-800/80 font-bold">Earn HalalSphere coins for every review, verification, and community contribution.</p>
+            <p className="text-slate-800/80 font-bold">Earn Halal Hub coins for every review, verification, and community contribution.</p>
             <Button size="lg" className="rounded-full px-8 bg-slate-900 text-white hover:bg-slate-800 shadow-xl border-none">
               Start Earning Now
             </Button>

@@ -85,7 +85,7 @@ export default function EventsPage() {
       <section className="bg-primary/5 rounded-3xl p-8 text-center space-y-6 mt-8">
         <div className="max-w-xl mx-auto space-y-4">
             <h2 className="text-2xl font-bold font-headline">Hosting an Event?</h2>
-            <p className="text-muted-foreground">Get your event listed on HalalSphere and reach thousands of interested community members.</p>
+            <p className="text-muted-foreground">Get your event listed on Halal Hub and reach thousands of interested community members.</p>
             <div className="flex flex-wrap justify-center gap-4">
                 <Button className="bg-primary">Post Your Event</Button>
                 <Button variant="outline">Learn More</Button>

@@ -23,7 +23,7 @@ export default function VendorProfilePage() {
             <Building2 className="h-3 w-3" /> Business Management
           </div>
           <h1 className="text-3xl font-black font-headline">Business Profile</h1>
-          <p className="text-muted-foreground font-medium">Control how your business appears to the HalalSphere community.</p>
+          <p className="text-muted-foreground font-medium">Control how your business appears to the Halal Hub community.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">Preview Public Page</Button>
