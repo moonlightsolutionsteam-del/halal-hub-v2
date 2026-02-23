@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useParams } from "next/navigation";
@@ -14,7 +15,7 @@ import {
   Beef, Truck, FileText, Download,
   ShoppingCart, Apple, Milk, CreditCard,
   CookingPot, ClipboardList, Camera, Paintbrush,
-  Music, Bed, Waves, Wifi, Tv, Bath
+  Music, Bed, Waves, Wifi, Tv, Bath, Moon
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -155,8 +156,8 @@ export default function EntityProfilePage() {
     if (isHotel) return "The most comfortable and respectful stay I've ever had. Knowing everything was halal certified meant we didn't have to check every label or worry about the breakfast.";
     if (isEvents) return "The ballroom was stunning and the segregation was managed very professionally without making the halls feel cramped.";
     if (isCatering) return "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night.";
-    if (isGrocery) return "The best selection of halal global imports in the city. Their fresh produce is always top quality.";
-    return "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax.";
+    if (isGrocery) return "The best selection of halal global imports in the city. Their fresh produce is always top quality and the loyalty points add up really quickly!";
+    return "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax and enjoy.";
   };
 
   const getComplianceTitle = () => {
@@ -192,7 +193,7 @@ export default function EntityProfilePage() {
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50"><Share2 className="h-5 w-5" /></Button>
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-rose-50 text-rose-500"><Heart className="h-5 w-5" /></Button>
-            <Button className={`${accentColor} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex`}>
+            <Button className={`${accentColor} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex text-white`}>
               {isHotel ? "Book a Room" : (isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now"))))}
             </Button>
           </div>
@@ -250,7 +251,7 @@ export default function EntityProfilePage() {
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2 text-xs">Arrival</Button>
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2 text-xs">Departure</Button>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl`}>Search Rooms</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Search Rooms</Button>
                   </div>
                 ) : isEvents ? (
                   <div className="space-y-4">
@@ -258,7 +259,7 @@ export default function EntityProfilePage() {
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">Select Date</Button>
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">Guests</Button>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl`}>Check Availability</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Check Availability</Button>
                   </div>
                 ) : isCatering ? (
                   <div className="space-y-4">
@@ -268,7 +269,7 @@ export default function EntityProfilePage() {
                         <span className="text-blue-600">25 People</span>
                       </div>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl`}>Request Proposal</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Request Proposal</Button>
                   </div>
                 ) : isGrocery ? (
                   <div className="space-y-4">
@@ -282,7 +283,7 @@ export default function EntityProfilePage() {
                         <p className="text-[10px] font-black uppercase">Pickup</p>
                       </div>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl`}>Browse Aisles</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Browse Aisles</Button>
                   </div>
                 ) : isButcher ? (
                   <div className="space-y-4">
@@ -293,7 +294,7 @@ export default function EntityProfilePage() {
                       </div>
                       <Badge className="bg-emerald-50 text-emerald-600 border-none text-[10px]">Available</Badge>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl`}>Build Your Box</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Build Your Box</Button>
                   </div>
                 ) : (
                   <>
@@ -301,7 +302,7 @@ export default function EntityProfilePage() {
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">Today</Button>
                       <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">7:30 PM</Button>
                     </div>
-                    <Button className="w-full h-16 rounded-[1.5rem] bg-primary hover:bg-primary/90 font-black text-lg shadow-xl shadow-primary/20">Find a Table</Button>
+                    <Button className="w-full h-16 rounded-[1.5rem] bg-primary hover:bg-primary/90 font-black text-lg shadow-xl shadow-primary/20 text-white">Find a Table</Button>
                   </>
                 )}
                 <p className="text-[10px] text-center font-bold text-slate-400 uppercase tracking-tighter">Verified Halal Ecosystem Partner</p>
@@ -375,7 +376,7 @@ export default function EntityProfilePage() {
                           {getComplianceText()}
                         </p>
                         <div className="pt-4 flex flex-wrap gap-4">
-                          <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-black text-xs uppercase px-8 h-12">View Certificates</Button>
+                          <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-black text-xs uppercase px-8 h-12 text-white">View Certificates</Button>
                           <Button variant="outline" className="border-emerald-200 bg-white text-emerald-700 rounded-2xl font-black text-xs uppercase px-8 h-12 shadow-sm">Audit Report</Button>
                         </div>
                       </div>
