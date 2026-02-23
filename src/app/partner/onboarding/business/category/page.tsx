@@ -1,4 +1,3 @@
-
 "use client"
 
 import { 
@@ -35,7 +34,7 @@ const MeatIcon = (props: any) => (
 
 const CATEGORIES = [
   { id: 'food', title: 'Food & Dining', desc: 'Restaurants, Cafes, Cloud Kitchens.', icon: UtensilsCrossed, directUrl: '/vendor/dashboard' },
-  { id: 'meat', title: 'Meat Shops & Butchers', desc: 'Fresh, frozen, and wholesale suppliers.', icon: MeatIcon },
+  { id: 'meat', title: 'Meat Shops & Butchers', desc: 'Fresh, frozen, and wholesale suppliers.', icon: MeatIcon, directUrl: '/vendor/butcher/dashboard' },
   { id: 'grocery', title: 'Grocery & Supermarkets', desc: 'Mini-markets to hypermarkets.', icon: ShoppingCart },
   { id: 'catering', title: 'Catering Services', desc: 'Wedding, corporate, and event specialists.', icon: CookingPot },
   { id: 'events', title: 'Event Services & Venues', desc: 'Party services and halal-friendly event spaces.', icon: Sparkles },
