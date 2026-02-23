@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useParams } from "next/navigation";
@@ -17,7 +18,8 @@ import {
   Music, Bed, Waves, Wifi, Tv, Bath, Moon,
   Compass, Briefcase, Shirt, Ruler, Beaker,
   Droplets, FlaskConical, TrendingUp, Scale,
-  Lock
+  Lock, Stethoscope, Microscope, Activity,
+  Pill, HeartPulse
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,7 +31,7 @@ export default function EntityProfilePage() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("overview");
 
-  const isButcher = id === "1"; 
+  const isButcher = id === "1" || id === "meat-1"; 
   const isGrocery = String(id).startsWith("g");
   const isCatering = String(id).startsWith("c");
   const isEvents = String(id).startsWith("e");
@@ -38,6 +40,7 @@ export default function EntityProfilePage() {
   const isFashion = String(id).startsWith("f");
   const isCosmetics = String(id).startsWith("co");
   const isFinance = String(id).startsWith("fin");
+  const isHealthcare = String(id).startsWith("hW");
 
   const getAccentColor = () => {
     if (isCosmetics) return 'bg-rose-600';
@@ -49,6 +52,7 @@ export default function EntityProfilePage() {
     if (isGrocery) return 'bg-emerald-600';
     if (isButcher) return 'bg-red-600';
     if (isFinance) return 'bg-indigo-600';
+    if (isHealthcare) return 'bg-teal-600';
     return 'bg-primary';
   };
 
@@ -62,6 +66,7 @@ export default function EntityProfilePage() {
     if (isGrocery) return 'bg-emerald-50 text-emerald-600';
     if (isButcher) return 'bg-red-50 text-red-600';
     if (isFinance) return 'bg-indigo-50 text-indigo-600';
+    if (isHealthcare) return 'bg-teal-50 text-teal-600';
     return 'bg-primary/5 text-primary';
   };
 
@@ -75,6 +80,7 @@ export default function EntityProfilePage() {
     if (isGrocery) return "/categories/grocery";
     if (isButcher) return "/categories/meat";
     if (isFinance) return "/categories/finance";
+    if (isHealthcare) return "/categories/healthcare";
     return "/categories/food";
   };
 
@@ -88,6 +94,7 @@ export default function EntityProfilePage() {
     if (isGrocery) return "Grocery Guide";
     if (isButcher) return "Meat & Butchers";
     if (isFinance) return "Finance & Banking";
+    if (isHealthcare) return "Healthcare & Wellness";
     return "Dining Guide";
   };
 
@@ -100,7 +107,9 @@ export default function EntityProfilePage() {
     if (isCatering) return "Off-site Halal Management";
     if (isGrocery) return "Departmental Halal Assurance";
     if (isFinance) return "Shariah Audit & AAOIFI Standard";
-    return "100% Traceable Sourcing";
+    if (isHealthcare) return "Ethical Medical Practice";
+    if (isButcher) return "100% Traceable Sourcing";
+    return "Food Safety & Halal Quality";
   };
 
   const getComplianceText = () => {
@@ -112,7 +121,9 @@ export default function EntityProfilePage() {
     if (isCatering) return "We maintain a dedicated halal-only logistics chain. From our central kitchen to your venue, we ensure zero cross-contamination and Shariah-compliant presentation.";
     if (isGrocery) return "We conduct monthly audits on our bakery, meat counter, and hot food departments. All animal-derived enzymes and additives in our pantry section are pre-vetted.";
     if (isFinance) return "Our financial products are governed by an independent Shariah Supervisory Board. We strictly adhere to AAOIFI standards, ensuring zero-Riba (interest), zero-Gharar (uncertainty), and no investment in non-permissible industries.";
-    return "Every product is meticulously verified for ethical sourcing and processing. Our supply chain is 100% free from non-permissible additives and uses traditional methods.";
+    if (isHealthcare) return "Our medical services combine modern clinical excellence with Shariah-compliant patient care. We ensure privacy protocols (Awrah), provide gender-segregated waiting areas, and offer Sunnah-based wellness treatments like Hijama performed by certified experts.";
+    if (isButcher) return "Every product is meticulously verified for ethical sourcing and processing. Our supply chain is 100% free from non-permissible additives and uses traditional methods.";
+    return "This establishment is fully certified by HMC Global. All ingredients are tracked and audited to ensure they meet the highest standards of halal integrity and hygiene.";
   };
 
   const getCategorySpecificReview = () => {
@@ -122,8 +133,10 @@ export default function EntityProfilePage() {
     if (isHotel) return "The most comfortable and respectful stay I've ever had. Knowing everything was halal certified meant we didn't have to check every label.";
     if (isEvents) return "The ballroom was stunning and the segregation was managed very professionally without making the halls feel cramped.";
     if (isCatering) return "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night.";
-    if (isGrocery) return "The best selection of halal global imports in the city. Their fresh produce is always top quality.";
+    if (isGrocery) return "The best selection of halal global imports in the city. Their fresh produce is always top quality and the loyalty points add up quickly!";
     if (isFinance) return "Transitioning my business accounts to Amanah was seamless. Their Shariah-compliant Mudarabah funds have shown consistent, ethical growth.";
+    if (isHealthcare) return "A wonderful experience. The doctors were highly skilled and deeply respectful of our family values. Having female staff available for my wife was a huge relief.";
+    if (isButcher) return "Best quality meat in the city. The transparency about where they source their organic beef is what keeps me coming back.";
     return "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax and enjoy.";
   };
 
@@ -155,7 +168,7 @@ export default function EntityProfilePage() {
     rating: 4.9,
     reviews: 850,
     verifiedBy: "Shariah Supervisory Board",
-    description: "Amanah Islamic Bank is a leader in Shariah-compliant retail and investment banking. We provide ethical financial solutions that empower individuals and businesses while strictly adhering to Islamic principles of finance, ensuring your wealth grows with integrity and transparency.",
+    description: "Amanah Islamic Bank is a leader in Shariah-compliant retail and investment banking. We provide ethical financial solutions that empower individuals and businesses while strictly adhering to Islamic principles of finance.",
     items: [
       { name: "Real Estate Sukuk", desc: "Asset-backed investment with quarterly profit distribution.", price: "From $10k", popular: true },
       { name: "SME Mudarabah Fund", desc: "Profit-sharing investment in local halal businesses.", price: "From $5k", popular: true },
@@ -163,9 +176,26 @@ export default function EntityProfilePage() {
     ]
   };
 
+  const healthcareData = {
+    ...baseData,
+    name: "Safe Care Medical Hub",
+    category: "Healthcare & Wellness",
+    type: "Multi-Specialty Clinic",
+    location: "Upper West Side, Manhattan, NY 10024",
+    rating: 4.9,
+    reviews: 450,
+    verifiedBy: "Medical Ethics Board",
+    description: "Safe Care Medical Hub provides high-quality clinical services with a focus on patient dignity and Shariah-compliant care. We offer general medicine, pediatrics, and specialized Sunnah-based wellness treatments.",
+    items: [
+      { name: "Family GP Consult", desc: "Comprehensive health check for adults and children.", price: "$120", popular: true },
+      { name: "Hijama Therapy Session", desc: "Traditional wet cupping performed by certified practitioners.", price: "$85", popular: true },
+      { name: "Nutrition Coaching", desc: "Sunnah-based diet plans for weight management and chronic health.", price: "$60", popular: false },
+    ]
+  };
+
   const getEntityData = () => {
     if (isFinance) return financeData;
-    // ... logic for other specific entities can be added here
+    if (isHealthcare) return healthcareData;
     return baseData;
   };
 
@@ -184,7 +214,7 @@ export default function EntityProfilePage() {
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50"><Share2 className="h-5 w-5" /></Button>
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-rose-50 text-rose-500"><Heart className="h-5 w-5" /></Button>
             <Button className={`${getAccentColor()} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex text-white`}>
-              {isFinance ? "Get Consultant" : (isCosmetics ? "Shop Now" : (isFashion ? "Shop Online" : (isTravel ? "Request Itinerary" : (isHotel ? "Book a Room" : (isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now"))))))))}
+              {isFinance ? "Get Consultant" : (isHealthcare ? "Book Appointment" : (isCosmetics ? "Shop Now" : (isFashion ? "Shop Online" : (isTravel ? "Request Itinerary" : (isHotel ? "Book a Room" : (isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now")))))))))}
             </Button>
           </div>
         </div>
@@ -230,21 +260,25 @@ export default function EntityProfilePage() {
               <div className="space-y-6">
                 <div className="space-y-1">
                   <h3 className="text-xl font-black text-slate-900">
-                    {isFinance ? "Open Shariah Account" : (isCosmetics ? "Shop Beauty" : (isFashion ? "Shop Latest Items" : (isTravel ? "Plan Your Trip" : (isHotel ? "Check Rates" : (isEvents ? "Plan Your Event" : (isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation"))))))))}
+                    {isFinance ? "Open Shariah Account" : (isHealthcare ? "Schedule a Visit" : (isCosmetics ? "Shop Beauty" : (isFashion ? "Shop Latest Items" : (isTravel ? "Plan Your Trip" : (isHotel ? "Check Rates" : (isEvents ? "Plan Your Event" : (isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation")))))))))}
                   </h3>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Powered by Halal Hub</p>
                 </div>
                 
-                {isFinance ? (
+                {isFinance || isHealthcare ? (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-indigo-600" />
-                        <span className="text-sm font-bold">Yield: 8.4% - 12%</span>
+                        {isFinance ? <TrendingUp className="h-4 w-4 text-indigo-600" /> : <Clock className="h-4 w-4 text-teal-600" />}
+                        <span className="text-sm font-bold">{isFinance ? "Yield: 8.4% - 12%" : "Wait Time: < 15m"}</span>
                       </div>
-                      <Badge className="bg-indigo-50 text-indigo-600 border-none text-[10px]">99.8% Comp.</Badge>
+                      <Badge className={`${isFinance ? "bg-indigo-50 text-indigo-600" : "bg-teal-50 text-teal-600"} border-none text-[10px]`}>
+                        {isFinance ? "99.8% Comp." : "Verified Hub"}
+                      </Badge>
                     </div>
-                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Apply Online</Button>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>
+                      {isFinance ? "Apply Online" : "Book Online"}
+                    </Button>
                   </div>
                 ) : (
                   <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>
@@ -266,7 +300,7 @@ export default function EntityProfilePage() {
               <TabsList className="grid w-full grid-cols-3 rounded-[2.5rem] bg-white border shadow-sm h-20 p-2">
                 <TabsTrigger value="overview" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Overview</TabsTrigger>
                 <TabsTrigger value="items" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>
-                  {isFinance ? "Financial Products" : (isCosmetics ? "Product Catalog" : "Specialties")}
+                  {isFinance ? "Products" : (isHealthcare ? "Medical Services" : (isCosmetics ? "Catalog" : "Specialties"))}
                 </TabsTrigger>
                 <TabsTrigger value="reviews" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Reviews</TabsTrigger>
               </TabsList>
@@ -277,7 +311,7 @@ export default function EntityProfilePage() {
                   <div className="flex items-center gap-3">
                     <div className={`h-1 w-8 rounded-full ${getAccentColor()}`} />
                     <h2 className="text-4xl font-black tracking-tight text-slate-900">
-                      {isFinance ? "The Amanah Story" : "About Us"}
+                      {isFinance ? "The Amanah Story" : (isHealthcare ? "Our Care Philosophy" : "About Us")}
                     </h2>
                   </div>
                   <p className="text-xl text-slate-600 leading-relaxed font-medium">
@@ -305,7 +339,7 @@ export default function EntityProfilePage() {
                   </div>
                 </div>
 
-                {/* Sourcing & Compliance */}
+                {/* Compliance & Ethics */}
                 <div className="space-y-8">
                   <div className="flex items-center gap-3">
                     <div className="h-1 bg-emerald-500 w-8 rounded-full" />
@@ -334,26 +368,26 @@ export default function EntityProfilePage() {
               <TabsContent value="items" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-3xl font-black tracking-tight text-slate-900">
-                    {isFinance ? "Investment & Banking Products" : "Catalog"}
+                    {isFinance ? "Banking Products" : (isHealthcare ? "Medical Catalog" : "Specialties")}
                   </h3>
                   <Button variant="outline" className="rounded-full font-black text-xs border-2 uppercase tracking-tighter h-10 px-6">
-                    <Download className="h-3.5 w-3.5 mr-2" /> {isFinance ? "Product Prospectus" : "Catalog"}
+                    <Download className="h-3.5 w-3.5 mr-2" /> Download List
                   </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {entityData.items.map((item, i) => (
                     <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-white border-2 border-transparent hover:border-primary/10`}>
                       <div className={`relative h-24 w-24 rounded-3xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-700`}>
-                        {isFinance ? <TrendingUp className="h-10 w-10" /> : <Box className="h-10 w-10" />}
+                        {isFinance ? <TrendingUp className="h-10 w-10" /> : (isHealthcare ? <HeartPulse className="h-10 w-10" /> : <Box className="h-10 w-10" />)}
                       </div>
                       <div className="space-y-2.5 flex-1">
                         <div className="flex justify-between items-start gap-2">
                           <h4 className={`text-xl font-black text-slate-900 leading-tight group-hover:text-primary transition-colors`}>{item.name}</h4>
-                          <span className={`text-indigo-600 font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
+                          <span className={`${isHealthcare ? 'text-teal-600' : 'text-indigo-600'} font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
                         </div>
                         <p className="text-sm font-medium text-slate-500 line-clamp-2 italic">{item.desc}</p>
                         {item.popular && (
-                          <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest ${getAccentLight()} border-current px-3 py-1 rounded-full`}>Top Choice</Badge>
+                          <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest ${getAccentLight()} border-current px-3 py-1 rounded-full`}>Top Rated</Badge>
                         )}
                       </div>
                     </Card>
@@ -388,14 +422,14 @@ export default function EntityProfilePage() {
                     <div className="flex justify-between items-start mb-8">
                       <div className="flex items-center gap-6">
                         <Avatar className="h-16 w-16 border-4 border-slate-50 shadow-md">
-                          <AvatarImage src={`https://picsum.photos/seed/user-fin/150/150`} />
+                          <AvatarImage src={`https://picsum.photos/seed/patient/150/150`} />
                           <AvatarFallback>U</AvatarFallback>
                         </Avatar>
                         <div className="space-y-1">
-                          <p className="text-xl font-black text-slate-900">Dr. Omar Khalil</p>
+                          <p className="text-xl font-black text-slate-900">Dr. Sarah Khalil</p>
                           <div className="flex items-center gap-3">
-                            <Badge className={`${getAccentLight()} text-[10px] font-black border-none uppercase px-3 py-1 rounded-full`}>Verified Client</Badge>
-                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Date: 2 weeks ago</span>
+                            <Badge className={`${getAccentLight()} text-[10px] font-black border-none uppercase px-3 py-1 rounded-full`}>Verified Patient</Badge>
+                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Date: 3 weeks ago</span>
                           </div>
                         </div>
                       </div>
@@ -416,9 +450,9 @@ export default function EntityProfilePage() {
           <div className="lg:col-span-4 space-y-10">
             <Card className="rounded-[3rem] border-none shadow-2xl overflow-hidden bg-white sticky top-28 border border-slate-100">
               <div className="h-64 bg-muted relative group overflow-hidden">
-                <Image src={`https://placehold.co/800x600/png?text=HQ+Financial+District`} alt="Map" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+                <Image src={`https://placehold.co/800x600/png?text=Clinic+Location`} alt="Map" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
                 <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> View Branch</Button>
+                  <Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> View Map</Button>
                 </div>
               </div>
               <CardContent className="p-10 space-y-10">
@@ -437,7 +471,7 @@ export default function EntityProfilePage() {
                       <Clock className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Hours</p>
+                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Clinic Hours</p>
                       <p className="text-base font-bold text-slate-900 leading-snug">{entityData.contact.hours}</p>
                     </div>
                   </div>
@@ -455,11 +489,11 @@ export default function EntityProfilePage() {
                 <div className="pt-8 border-t border-slate-50 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <Button className={`${getAccentColor()} hover:opacity-90 text-white rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-xl`}>
-                      {isFinance ? "Apply Now" : "Shop Now"}
+                      {isHealthcare ? "Book Visit" : "Get Started"}
                     </Button>
-                    <Button variant="outline" className="rounded-2xl font-black text-xs uppercase tracking-widest h-14 border-2"><Globe className="h-4 w-4 mr-2" /> Website</Button>
+                    <Button variant="outline" className="rounded-2xl font-black text-xs uppercase tracking-widest h-14 border-2"><Globe className="h-4 w-4 mr-2" /> Portal</Button>
                   </div>
-                  <Button variant="secondary" className="w-full bg-slate-900 text-white hover:bg-slate-800 rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-lg transition-all">Download Report</Button>
+                  <Button variant="secondary" className="w-full bg-slate-900 text-white hover:bg-slate-800 rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-lg transition-all">Emergency Guide</Button>
                 </div>
               </CardContent>
             </Card>
@@ -470,16 +504,16 @@ export default function EntityProfilePage() {
               </div>
               <div className="relative z-10 space-y-6">
                 <div className={`h-20 w-20 bg-white/10 backdrop-blur-xl rounded-[2rem] flex items-center justify-center ${getAccentLight()} mx-auto shadow-2xl border border-white/10`}>
-                  <Info className="h-10 w-10 text-white" />
+                  <HeartPulse className="h-10 w-10 text-white" />
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-3xl font-black text-white tracking-tight">{isFinance ? "Free Consulting" : "Need Help?"}</h4>
+                  <h4 className="text-3xl font-black text-white tracking-tight">Wellness Aid</h4>
                   <p className="text-sm text-slate-400 font-medium leading-relaxed px-2">
-                    {isFinance ? "Speak with our Shariah board certified advisors for personalized ethical wealth management strategies." : "Our platform concierge can help you manage your halal lifestyle choices."}
+                    Need help finding a female practitioner or Sunnah-based therapist? Our wellness concierge is here to help.
                   </p>
                 </div>
                 <Button className="w-full rounded-2xl font-black bg-white text-slate-900 hover:bg-slate-100 h-16 shadow-2xl text-base tracking-tight transition-transform active:scale-95">
-                  {isFinance ? "Book Advisor" : "Contact Concierge"}
+                  Chat with Hub Health
                 </Button>
               </div>
             </Card>
