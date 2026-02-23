@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from 'react';
@@ -10,6 +11,7 @@ import { VendorSidebar } from "@/components/vendor-sidebar";
 import { ButcherSidebar } from "@/components/butcher-sidebar";
 import { GrocerySidebar } from "@/components/grocery-sidebar";
 import { EventsSidebar } from "@/components/events-sidebar";
+import { CateringSidebar } from "@/components/catering-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -27,12 +29,14 @@ export default function RootLayout({
   const isButcherPath = pathname?.startsWith('/vendor/butcher');
   const isGroceryPath = pathname?.startsWith('/vendor/grocery');
   const isEventsPath = pathname?.startsWith('/vendor/events');
+  const isCateringPath = pathname?.startsWith('/vendor/catering');
 
   const getSidebar = () => {
     if (isAdminPath) return <AdminSidebar />;
     if (isButcherPath) return <ButcherSidebar />;
     if (isGroceryPath) return <GrocerySidebar />;
     if (isEventsPath) return <EventsSidebar />;
+    if (isCateringPath) return <CateringSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };

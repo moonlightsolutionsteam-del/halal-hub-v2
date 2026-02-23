@@ -1,3 +1,4 @@
+
 "use client"
 
 import { 
@@ -36,7 +37,7 @@ const CATEGORIES = [
   { id: 'food', title: 'Food & Dining', desc: 'Restaurants, Cafes, Cloud Kitchens.', icon: UtensilsCrossed, directUrl: '/vendor/dashboard' },
   { id: 'meat', title: 'Meat Shops & Butchers', desc: 'Fresh, frozen, and wholesale suppliers.', icon: MeatIcon, directUrl: '/vendor/butcher/dashboard' },
   { id: 'grocery', title: 'Grocery & Supermarkets', desc: 'Mini-markets to hypermarkets.', icon: ShoppingCart, directUrl: '/vendor/grocery/dashboard' },
-  { id: 'catering', title: 'Catering Services', desc: 'Wedding, corporate, and event specialists.', icon: CookingPot },
+  { id: 'catering', title: 'Catering Services', desc: 'Wedding, corporate, and event specialists.', icon: CookingPot, directUrl: '/vendor/catering/dashboard' },
   { id: 'events', title: 'Event Services & Venues', desc: 'Party services and halal-friendly event spaces.', icon: Sparkles, directUrl: '/vendor/events/dashboard' },
   { id: 'hotels', title: 'Hotels & Homestays', desc: 'Halal-friendly accommodations.', icon: Bed },
   { id: 'travel', title: 'Travel & Tourism', desc: 'Hajj/Umrah and halal-friendly travel agencies.', icon: Plane },
