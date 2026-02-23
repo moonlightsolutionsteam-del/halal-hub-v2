@@ -43,7 +43,7 @@ const CATEGORIES = [
   { id: 'fashion', title: 'Fashion & Modest Wear', desc: 'Hijabs, abayas, and designer brands.', icon: Shirt, directUrl: '/vendor/fashion/dashboard' },
   { id: 'cosmetics', title: 'Cosmetics & Personal Care', desc: 'Halal-certified beauty and skin products.', icon: Sparkles, directUrl: '/vendor/cosmetics/dashboard' },
   { id: 'finance', title: 'Finance & Banking', desc: 'Shariah-compliant banking and investment.', icon: CircleDollarSign, directUrl: '/vendor/finance/dashboard' },
-  { id: 'healthcare', title: 'Healthcare & Wellness', desc: 'Clinics, pharmacies, hijama centers, and more.', icon: Stethoscope },
+  { id: 'healthcare', title: 'Healthcare & Wellness', desc: 'Clinics, pharmacies, hijama centers, and more.', icon: Stethoscope, directUrl: '/vendor/healthcare/dashboard' },
   { id: 'education', title: 'Education & Training', desc: 'Madrasas, schools, and Islamic training centres.', icon: GraduationCap },
   { id: 'media', title: 'Bookstores & Islamic Media', desc: 'Literature and digital media.', icon: BookOpen },
 ];

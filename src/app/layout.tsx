@@ -16,6 +16,7 @@ import { TravelSidebar } from "@/components/travel-sidebar";
 import { FashionSidebar } from "@/components/fashion-sidebar";
 import { CosmeticsSidebar } from "@/components/cosmetics-sidebar";
 import { FinanceSidebar } from "@/components/finance-sidebar";
+import { HealthcareSidebar } from "@/components/healthcare-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -39,6 +40,7 @@ export default function RootLayout({
   const isFashionPath = pathname?.startsWith('/vendor/fashion');
   const isCosmeticsPath = pathname?.startsWith('/vendor/cosmetics');
   const isFinancePath = pathname?.startsWith('/vendor/finance');
+  const isHealthcarePath = pathname?.startsWith('/vendor/healthcare');
 
   const getSidebar = () => {
     if (isAdminPath) return <AdminSidebar />;
@@ -51,6 +53,7 @@ export default function RootLayout({
     if (isFashionPath) return <FashionSidebar />;
     if (isCosmeticsPath) return <CosmeticsSidebar />;
     if (isFinancePath) return <FinanceSidebar />;
+    if (isHealthcarePath) return <HealthcareSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };
