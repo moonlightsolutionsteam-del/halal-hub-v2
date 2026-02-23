@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -60,10 +59,15 @@ export default function Home() {
               className="w-full bg-muted/50 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
             />
           </div>
-          <Avatar className="h-10 w-10 border-2 border-primary/10">
-            <AvatarImage src="https://picsum.photos/seed/user/100/100" />
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
+          <Button variant="ghost" size="icon" className="rounded-full md:hidden">
+            <Search className="h-5 w-5" />
+          </Button>
+          <Link href="/account/dashboard">
+            <Avatar className="h-10 w-10 border-2 border-primary/10">
+              <AvatarImage src="https://picsum.photos/seed/user/100/100" />
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+          </Link>
         </div>
       </header>
 
@@ -96,13 +100,13 @@ export default function Home() {
           <div className="flex items-center justify-between px-2">
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">Discovery Hub</h2>
             <Link href="/categories" className="text-sm font-bold text-primary flex items-center gap-1 hover:underline">
-              All Vertical <ArrowRight className="h-3 w-3" />
+              All Verticals <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
             {QUICK_FEATURES.map((feature) => (
               <Link key={feature.name} href={feature.url} className="group">
-                <Card className="border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-[2rem] flex flex-col items-center justify-center p-6 bg-white hover:-translate-y-1">
+                <Card className="border-none shadow-sm hover:shadow-xl transition-all duration-300 rounded-[2.5rem] flex flex-col items-center justify-center p-6 bg-white hover:-translate-y-1">
                   <div className="w-14 h-14 rounded-2xl bg-[#F1F3F5] shadow-inner flex items-center justify-center mb-3 transition-colors group-hover:bg-primary/10">
                     <feature.icon className="h-7 w-7 text-primary transition-transform group-hover:scale-110" />
                   </div>
@@ -141,7 +145,7 @@ export default function Home() {
                     <div>
                       <CardTitle className="text-xl font-black group-hover:text-primary transition-colors">Elite Steakhouse {i}</CardTitle>
                       <CardDescription className="flex items-center gap-1 font-medium mt-1">
-                        <MapPin className="h-3 w-3 text-muted-foreground" /> Downtown, NY
+                        <MapPin className="h-3.5 w-3.5 text-muted-foreground" /> Downtown, NY
                       </CardDescription>
                     </div>
                     <div className="flex items-center gap-1 text-sm font-bold text-accent">
@@ -181,7 +185,7 @@ export default function Home() {
       {/* Bottom Nav (Mobile Only) */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t px-8 py-4 flex items-center justify-between z-50 rounded-t-[2.5rem] shadow-2xl">
         <Link href="/" className="flex flex-col items-center gap-1 text-primary">
-          <Home className="h-6 w-6" />
+          <HomeIcon className="h-6 w-6" />
           <span className="text-[10px] font-bold uppercase tracking-widest">Home</span>
         </Link>
         <Link href="/categories" className="flex flex-col items-center gap-1 text-muted-foreground">
@@ -222,4 +226,24 @@ function CompassIcon(props: any) {
         <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
       </svg>
     )
+}
+
+function HomeIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </svg>
+  )
 }
