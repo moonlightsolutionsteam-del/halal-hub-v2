@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useParams } from "next/navigation";
@@ -420,14 +419,14 @@ export default function EntityProfilePage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {entityData.items.map((item, i) => (
-                    <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-white border-2 border-transparent hover:border-${isHotel ? 'sky' : (isEvents ? 'purple' : 'blue')}-100`}>
+                    <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-white border-2 border-transparent hover:border-primary/10`}>
                       <div className="relative h-32 w-32 rounded-[2rem] overflow-hidden shrink-0 shadow-xl group-hover:scale-105 transition-transform duration-700">
                         <Image src={`https://picsum.photos/seed/${id}-item-${i}/300/300`} alt={item.name} fill className="object-cover" />
                       </div>
                       <div className="space-y-2.5 flex-1">
                         <div className="flex justify-between items-start gap-2">
-                          <h4 className={`text-xl font-black text-slate-900 leading-tight group-hover:${isHotel ? 'text-sky-600' : (isEvents ? 'text-purple-600' : (isCatering ? 'text-blue-600' : (isGrocery ? 'text-emerald-600' : (isButcher ? 'text-red-600' : 'text-primary'))))} transition-colors`}>{item.name}</h4>
-                          <span className={`${isHotel ? 'text-sky-600' : (isEvents ? 'text-purple-600' : (isCatering ? 'text-blue-600' : (isGrocery ? 'text-emerald-600' : (isButcher ? 'text-red-600' : 'text-primary'))))} font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
+                          <h4 className={`text-xl font-black text-slate-900 leading-tight group-hover:text-primary transition-colors`}>{item.name}</h4>
+                          <span className={`text-primary font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
                         </div>
                         <p className="text-sm font-medium text-slate-500 line-clamp-2 italic">{item.desc}</p>
                         {item.popular && (
@@ -463,7 +462,7 @@ export default function EntityProfilePage() {
 
                 <div className="space-y-8">
                   {mockReviews.map(review => (
-                    <Card key={review.id} className={`rounded-[3rem] border-none shadow-sm p-10 bg-white border border-slate-100 group hover:shadow-xl transition-all hover:border-${isHotel ? 'sky' : (isEvents ? 'purple' : 'blue')}-100`}>
+                    <Card key={review.id} className={`rounded-[3rem] border-none shadow-sm p-10 bg-white border border-slate-100 group hover:shadow-xl transition-all hover:border-primary/10`}>
                       <div className="flex justify-between items-start mb-8">
                         <div className="flex items-center gap-6">
                           <Avatar className="h-16 w-16 border-4 border-slate-50 shadow-md">

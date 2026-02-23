@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -9,7 +8,8 @@ import {
   Search, MapPin, Star, Filter, ArrowLeft, 
   Sparkles, Calendar, Users, Info,
   ChevronRight, Camera, Music, Paintbrush,
-  Zap, Map as MapIcon, ClipboardList, Building2
+  Zap, Map as MapIcon, ClipboardList, Building2,
+  CheckCircle2
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
