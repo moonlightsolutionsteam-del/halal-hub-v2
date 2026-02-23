@@ -1,51 +1,68 @@
 
-import type {Metadata} from 'next';
+"use client"
+
+import * as React from 'react';
+import { usePathname } from 'next/navigation';
 import './globals.css';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { UserSidebar } from "@/components/user-sidebar";
+import { AdminSidebar } from "@/components/admin-sidebar";
 import { Toaster } from "@/components/ui/toaster";
-import { MessageSquare, Home, Search, Compass, Globe, User } from "lucide-react";
+import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: 'Halal Hub - Your Global Halal Platform',
-  description: 'The complete ecosystem for halal dining, product verification, and spiritual community.',
-};
+import { Input } from "@/components/ui/input";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isAdminPath = pathname?.startsWith('/admin');
+
   return (
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700;900&display=swap" rel="stylesheet" />
       </head>
       <body className="antialiased selection:bg-primary/20 overflow-x-hidden">
         <SidebarProvider defaultOpen={false}>
           <div className="flex min-h-screen w-full bg-[#FBFBFB]">
-            <AppSidebar />
+            {isAdminPath ? <AdminSidebar /> : <UserSidebar />}
+            
             <div className="flex flex-1 flex-col overflow-hidden relative">
-              {/* High-Fidelity Header */}
-              <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md px-4 sm:px-6 py-4 flex items-center justify-between border-b">
+              {/* Global High-Fidelity Header */}
+              <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md px-4 sm:px-6 py-4 flex items-center justify-between border-b shadow-sm">
                 <div className="flex items-center gap-4">
                   <SidebarTrigger className="text-slate-600 hover:text-primary transition-colors h-10 w-10" />
                   <Link href="/" className="flex items-center gap-2 group">
                     <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-xl shadow-primary/20 transition-transform group-hover:scale-105">
                       <MessageSquare className="h-5 w-5 fill-current" />
                     </div>
-                    <span className="text-xl font-black text-primary font-headline tracking-tight whitespace-nowrap">Halal Hub</span>
+                    <span className="text-xl font-black text-primary font-headline tracking-tight whitespace-nowrap hidden sm:block">Halal Hub</span>
                   </Link>
                 </div>
+
+                {!isAdminPath && (
+                  <div className="hidden md:flex items-center relative w-96 max-w-lg mx-4">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input 
+                      placeholder="Search for food, products, mosques..." 
+                      className="pl-9 h-11 rounded-2xl bg-muted/30 border-none font-medium text-sm focus:ring-primary/20"
+                    />
+                  </div>
+                )}
                 
                 <div className="flex items-center gap-4">
-                  <span className="text-xs font-bold text-slate-500 hidden md:block">New York, USA</span>
+                  <div className="hidden lg:flex flex-col items-end">
+                    <span className="text-[10px] font-black uppercase text-slate-400 leading-none mb-1">Your Location</span>
+                    <span className="text-xs font-bold text-slate-700">New York, USA</span>
+                  </div>
                   <Link href="/account/dashboard">
-                    <Avatar className="h-9 w-9 border-2 border-white shadow-md hover:shadow-lg transition-all">
+                    <Avatar className="h-10 w-10 border-2 border-white shadow-md hover:shadow-lg transition-all ring-2 ring-primary/10">
                       <AvatarImage src="https://picsum.photos/seed/user/100/100" />
                       <AvatarFallback>JD</AvatarFallback>
                     </Avatar>
@@ -59,16 +76,28 @@ export default function RootLayout({
                 </div>
               </main>
 
-              {/* Mobile Floating Bottom Nav */}
-              <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]">
-                <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-full h-16 shadow-2xl flex items-center justify-around px-2">
-                  <Link href="/" className="p-3 text-primary bg-primary/10 rounded-full"><Home className="h-6 w-6" /></Link>
-                  <Link href="/search" className="p-3 text-slate-400 hover:text-primary transition-colors"><Search className="h-6 w-6" /></Link>
-                  <Link href="/travel" className="p-3 text-slate-400 hover:text-primary transition-colors"><Compass className="h-6 w-6" /></Link>
-                  <Link href="/community" className="p-3 text-slate-400 hover:text-primary transition-colors"><Globe className="h-6 w-6" /></Link>
-                  <Link href="/account/dashboard" className="p-3 text-slate-400 hover:text-primary transition-colors"><User className="h-6 w-6" /></Link>
-                </div>
-              </nav>
+              {/* Mobile Floating Bottom Nav - Only for Consumer view */}
+              {!isAdminPath && (
+                <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]">
+                  <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-full h-16 shadow-2xl flex items-center justify-around px-2 ring-1 ring-black/5">
+                    <Link href="/" className={`p-3 rounded-full transition-all ${pathname === '/' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                      <Home className="h-6 w-6" />
+                    </Link>
+                    <Link href="/verifier" className={`p-3 rounded-full transition-all ${pathname === '/verifier' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                      <ShieldCheck className="h-6 w-6" />
+                    </Link>
+                    <Link href="/restaurants" className={`p-3 rounded-full transition-all ${pathname === '/restaurants' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                      <Compass className="h-6 w-6" />
+                    </Link>
+                    <Link href="/community" className={`p-3 rounded-full transition-all ${pathname === '/community' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                      <Globe className="h-6 w-6" />
+                    </Link>
+                    <Link href="/account/dashboard" className={`p-3 rounded-full transition-all ${pathname?.startsWith('/account') ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                      <User className="h-6 w-6" />
+                    </Link>
+                  </div>
+                </nav>
+              )}
             </div>
           </div>
         </SidebarProvider>
