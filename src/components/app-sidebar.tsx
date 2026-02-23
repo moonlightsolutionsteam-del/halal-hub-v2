@@ -1,36 +1,31 @@
-
 "use client"
 
 import * as React from "react"
 import {
   UtensilsCrossed,
   ShieldCheck,
-  Clock,
   Compass,
   Map,
   MessageSquare,
-  CalendarDays,
   Home,
-  Store,
   Users,
   Briefcase,
   Heart,
-  Gift,
-  List,
-  Newspaper,
-  BookOpen,
-  Medal,
   LayoutDashboard,
   Building2,
   CheckSquare,
   Package,
-  Tags,
   BarChart3,
   Shield,
   FileText,
   Settings,
-  Search,
-  Grid
+  Grid,
+  Moon,
+  Calendar,
+  Newspaper,
+  BookOpen,
+  Medal,
+  Gift
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -51,28 +46,28 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-const userItems = [
+const mainServices = [
   { title: "Home Hub", url: "/", icon: Home },
-  { title: "Categories", url: "/categories", icon: Grid },
   { title: "Dining Guide", url: "/restaurants", icon: UtensilsCrossed },
-  { title: "Map View", url: "/travel", icon: Map },
-  { title: "My Dashboard", url: "/account/dashboard", icon: LayoutDashboard },
+  { title: "Halal Verifier", url: "/verifier", icon: ShieldCheck },
+  { title: "Marketplace", url: "/categories", icon: Gift },
+  { title: "Directory", url: "/categories", icon: Grid },
 ]
 
-const vendorItems = [
-  { title: "Vendor Dashboard", url: "/vendor/dashboard", icon: LayoutDashboard },
-  { title: "Business Profile", url: "/vendor/profile", icon: Building2 },
-  { title: "Verification", url: "/vendor/verification", icon: CheckSquare },
-  { title: "Products/Services", url: "/vendor/products", icon: Package },
-  { title: "Analytics", url: "/vendor/analytics", icon: BarChart3 },
+const exploreItems = [
+  { title: "Map & Travel", url: "/travel", icon: Map },
+  { title: "Prayer Times", url: "/prayer-times", icon: Moon },
+  { title: "Community", url: "/community", icon: Users },
+  { title: "Events", url: "/events", icon: Calendar },
+  { title: "News Feed", url: "/community", icon: Newspaper },
 ]
 
-const adminItems = [
-  { title: "Platform Overview", url: "/admin/dashboard", icon: Shield },
-  { title: "User Management", url: "/admin/users", icon: Users },
-  { title: "Entity Management", url: "/admin/entities", icon: Building2 },
-  { title: "Finance & Payouts", url: "/admin/finance", icon: FileText },
-  { title: "System Settings", url: "/admin/settings", icon: Settings },
+const lifestyleItems = [
+  { title: "Family Hub", url: "/categories", icon: Heart },
+  { title: "Professionals", url: "/categories", icon: Briefcase },
+  { title: "Charity", url: "/categories", icon: BookOpen },
+  { title: "Rewards", url: "/account/dashboard", icon: Medal },
+  { title: "My Journey", url: "/account/dashboard", icon: LayoutDashboard },
 ]
 
 export function AppSidebar() {
@@ -100,10 +95,10 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>User Experience</SidebarGroupLabel>
+          <SidebarGroupLabel>Main Services</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {userItems.map((item) => (
+              {mainServices.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
@@ -111,7 +106,7 @@ export function AppSidebar() {
                     tooltip={item.title}
                   >
                     <Link href={item.url}>
-                      <item.icon />
+                      <item.icon className={pathname === item.url ? "text-primary" : ""} />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -122,10 +117,10 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Vendor Panel</SidebarGroupLabel>
+          <SidebarGroupLabel>Explore</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {vendorItems.map((item) => (
+              {exploreItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
@@ -133,7 +128,7 @@ export function AppSidebar() {
                     tooltip={item.title}
                   >
                     <Link href={item.url}>
-                      <item.icon />
+                      <item.icon className={pathname === item.url ? "text-primary" : ""} />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -144,10 +139,10 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Admin Center</SidebarGroupLabel>
+          <SidebarGroupLabel>Lifestyle</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminItems.map((item) => (
+              {lifestyleItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
@@ -155,7 +150,7 @@ export function AppSidebar() {
                     tooltip={item.title}
                   >
                     <Link href={item.url}>
-                      <item.icon />
+                      <item.icon className={pathname === item.url ? "text-primary" : ""} />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -166,14 +161,14 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-4">
-         <div className="flex items-center gap-3 group-data-[collapsible=icon]:hidden bg-muted/50 p-3 rounded-2xl">
+         <div className="flex items-center gap-3 group-data-[collapsible=icon]:hidden bg-muted/50 p-3 rounded-2xl hover:bg-muted transition-colors cursor-pointer">
             <Avatar className="h-9 w-9 border-2 border-primary/20">
                 <AvatarImage src="https://picsum.photos/seed/user/50/50" />
                 <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-                <span className="text-sm font-bold">John Doe</span>
-                <span className="text-[10px] text-primary font-black uppercase">Super Admin</span>
+                <span className="text-sm font-bold text-slate-900 leading-none">John Doe</span>
+                <span className="text-[10px] text-primary font-black uppercase mt-1">Premium Member</span>
             </div>
          </div>
       </SidebarFooter>
