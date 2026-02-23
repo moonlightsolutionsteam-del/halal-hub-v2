@@ -110,6 +110,37 @@ export default function EntityProfilePage() {
   const backLink = isCatering ? "/categories/catering" : (isGrocery ? "/categories/grocery" : (isButcher ? "/categories/meat" : "/categories/food"));
   const backLabel = isCatering ? "Catering Guide" : (isGrocery ? "Grocery Guide" : (isButcher ? "Meat & Butchers" : "Dining Guide"));
 
+  const mockReviews = [
+    {
+      id: 1,
+      author: "Fatima Al-Fassi",
+      date: "1 month ago",
+      rating: 5,
+      content: {
+        catering: "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night, and every single dish was authentic and perfectly seasoned. High confidence in their halal status.",
+        grocery: "The best selection of halal global imports in the city. Their fresh produce is always top quality and the loyalty points add up really quickly!",
+        default: "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax and enjoy."
+      }
+    },
+    {
+      id: 2,
+      author: "Zaid Rahman",
+      date: "2 months ago",
+      rating: 5,
+      content: {
+        catering: "Impressed by the professionalism and attention to detail. The food was warm, fresh, and strictly compliant.",
+        grocery: "Love the organized aisles and clear halal labeling. It makes shopping so much less stressful.",
+        default: "Excellent service and food. A neighborhood gem that we trust completely."
+      }
+    }
+  ];
+
+  const getReviewText = (review: typeof mockReviews[0]) => {
+    if (isCatering) return review.content.catering;
+    if (isGrocery) return review.content.grocery;
+    return review.content.default;
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[#FBFBFB] pb-24 selection:bg-primary/10">
       {/* Navigation Bar */}
@@ -385,32 +416,28 @@ export default function EntityProfilePage() {
                 </div>
 
                 <div className="space-y-8">
-                  {[1, 2].map(i => (
-                    <Card key={i} className={`rounded-[3rem] border-none shadow-sm p-10 bg-white border border-slate-100 group hover:shadow-xl transition-all hover:border-blue-100`}>
+                  {mockReviews.map(review => (
+                    <Card key={review.id} className={`rounded-[3rem] border-none shadow-sm p-10 bg-white border border-slate-100 group hover:shadow-xl transition-all hover:border-blue-100`}>
                       <div className="flex justify-between items-start mb-8">
                         <div className="flex items-center gap-6">
                           <Avatar className="h-16 w-16 border-4 border-slate-50 shadow-md">
-                            <AvatarImage src={`https://picsum.photos/seed/client-${i}/150/150`} />
+                            <AvatarImage src={`https://picsum.photos/seed/client-${review.id}/150/150`} />
                             <AvatarFallback>U</AvatarFallback>
                           </Avatar>
                           <div className="space-y-1">
-                            <p className="text-xl font-black text-slate-900">{i === 1 ? "Fatima Al-Fassi" : "Zaid Rahman"}</p>
+                            <p className="text-xl font-black text-slate-900">{review.author}</p>
                             <div className="flex items-center gap-3">
                               <Badge className="bg-blue-50 text-blue-600 text-[10px] font-black border-none uppercase px-3 py-1 rounded-full">Verified Client</Badge>
-                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Event date: {i} month ago</span>
+                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Event date: {review.date}</span>
                             </div>
                           </div>
                         </div>
                         <div className="flex gap-1 bg-slate-50 p-2 rounded-2xl">
-                          {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
+                          {[...Array(review.rating)].map((_, s) => <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
                         </div>
                       </div>
                       <p className="text-slate-600 font-medium leading-relaxed italic text-xl">
-                        {isCatering 
-                          ? "\"Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night, and every single dish was authentic and perfectly seasoned. High confidence in their halal status.\""
-                          : (isGrocery 
-                            ? "\"The best selection of halal global imports in the city. Their fresh produce is always top quality and the loyalty points add up really quickly!\""
-                            : "\"Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax and enjoy.\""))}
+                        "{getReviewText(review)}"
                       </p>
                     </Card>
                   ))}
