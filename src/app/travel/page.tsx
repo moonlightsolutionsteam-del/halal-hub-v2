@@ -2,8 +2,25 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Plane, Camera, Compass, Bed, Utensils, Mosque } from "lucide-react";
+import { MapPin, Plane, Camera, Compass, Bed, Utensils } from "lucide-react";
 import Image from "next/image";
+
+const MosqueIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    {...props}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M20 20H4V10l8-5 8 5v10Z" />
+    <path d="M12 5V2" />
+    <path d="M12 10v10" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
 
 const DESTINATIONS = [
   {
@@ -38,7 +55,7 @@ export default function TravelPage() {
           data-ai-hint="scenic landscape travel"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-          <Badge variant="accent" className="mb-4">Explore Without Limits</Badge>
+          <Badge variant="secondary" className="mb-4 bg-accent text-accent-foreground">Explore Without Limits</Badge>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-headline">The World is Yours</h1>
           <p className="text-white/90 max-w-xl">Curated halal-friendly destinations, mosques, and eateries for your next adventure.</p>
         </div>
@@ -70,7 +87,7 @@ export default function TravelPage() {
                             <span>120+ Eateries</span>
                         </div>
                         <div className="flex items-center gap-1 text-xs font-bold">
-                            <Mosque className="h-3 w-3 text-accent" />
+                            <MosqueIcon className="h-3 w-3 text-accent" />
                             <span>45+ Mosques</span>
                         </div>
                         <div className="flex items-center gap-1 text-xs font-bold">
@@ -117,8 +134,7 @@ export default function TravelPage() {
                 <CardContent>
                     <Button variant="outline" className="w-full border-accent text-accent-foreground hover:bg-accent hover:text-accent-foreground">Learn More</Button>
                 </CardContent>
-            </Card>
-        </aside>
+            </aside>
       </div>
     </div>
   );
