@@ -41,7 +41,20 @@ import {
   List,
   BarChart3,
   Headset,
-  Bell
+  Bell,
+  Target,
+  UserPlus,
+  CalendarDays,
+  Contact,
+  Briefcase,
+  FileText,
+  Phone,
+  Share2,
+  Wallet,
+  Receipt,
+  ShieldCheck,
+  Search,
+  History
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -79,18 +92,38 @@ const MeatIcon = (props: any) => (
 export function AdminSidebar() {
   const pathname = usePathname()
 
-  const platformItems = [
-    { title: "Users", icon: Users, url: "/admin/users" },
-    { title: "Creators", icon: PenTool, url: "#" },
-    { title: "Organizations", icon: Building, url: "#" },
-    { title: "Mosques", icon: Church, url: "#" },
-    { title: "Verification", icon: CheckSquare, url: "/admin/verification" },
-    { title: "Content Feed", icon: Rss, url: "#" },
-    { title: "Reward Engine", icon: Gift, url: "#" },
-    { title: "Check-ins", icon: MapPin, url: "#" },
-    { title: "Reviews & Media", icon: ImageIcon, url: "#" },
-    { title: "Family Tree", icon: Network, url: "#" },
-    { title: "Community", icon: Globe, url: "/community" },
+  const platformGroups = [
+    {
+      title: "Directory",
+      icon: Users,
+      items: [
+        { title: "Users", icon: Users, url: "/admin/users" },
+        { title: "Creators", icon: PenTool, url: "#" },
+        { title: "Organizations", icon: Building, url: "#" },
+        { title: "Mosques", icon: Church, url: "#" },
+      ]
+    },
+    {
+      title: "Trust & Safety",
+      icon: ShieldCheck,
+      items: [
+        { title: "Verification", icon: CheckSquare, url: "/admin/verification" },
+        { title: "Audit Logs", icon: History, url: "#" },
+        { title: "Reports", icon: Bell, url: "#" },
+      ]
+    },
+    {
+      title: "Engagement",
+      icon: Globe,
+      items: [
+        { title: "Content Feed", icon: Rss, url: "#" },
+        { title: "Reward Engine", icon: Gift, url: "#" },
+        { title: "Check-ins", icon: MapPin, url: "#" },
+        { title: "Reviews & Media", icon: ImageIcon, url: "#" },
+        { title: "Family Tree", icon: Network, url: "#" },
+        { title: "Community", icon: Globe, url: "/community" },
+      ]
+    }
   ];
 
   const businessSubItems = [
@@ -119,21 +152,57 @@ export function AdminSidebar() {
     { title: "Event Categories", icon: List, url: "#" },
     { title: "Analytics", icon: BarChart3, url: "#" },
     { title: "Support & Moderation", icon: Headset, url: "#" },
-    { title: "Notifications", icon: Bell, url: "#" },
   ];
 
-  const internalERP = [
-    { title: "HR", icon: Users2, url: "#" },
-    { title: "CRM", icon: Globe, url: "#" },
-    { title: "Marketing", icon: Rss, url: "#" },
-    { title: "Accounting", icon: Database, url: "#" },
-    { title: "Operations", icon: Settings, url: "#" },
-    { title: "Engineering", icon: Database, url: "#" },
-  ];
-
-  const systems = [
-    { title: "Data & Systems", icon: Database, url: "#" },
-    { title: "Settings", icon: Settings, url: "/account/settings" },
+  const erpGroups = [
+    {
+      title: "HR",
+      icon: Users2,
+      items: [
+        { title: "Dashboard", icon: LayoutGrid, url: "#" },
+        { title: "Team Directory", icon: Users, url: "#" },
+        { title: "Attendance", icon: CheckSquare, url: "#" },
+        { title: "Leaves", icon: CalendarDays, url: "#" },
+        { title: "Recruitment", icon: UserPlus, url: "#" },
+        { title: "Performance", icon: BarChart3, url: "#" },
+      ]
+    },
+    {
+      title: "CRM",
+      icon: Target,
+      items: [
+        { title: "Deals / Pipeline", icon: Target, url: "#" },
+        { title: "Leads", icon: UserPlus, url: "#" },
+        { title: "Contacts", icon: Contact, url: "#" },
+        { title: "Accounts", icon: Briefcase, url: "#" },
+        { title: "Tasks", icon: FileText, url: "#" },
+        { title: "Meetings", icon: Calendar, url: "#" },
+        { title: "Calls", icon: Phone, url: "#" },
+        { title: "Campaigns", icon: Megaphone, url: "#" },
+        { title: "Reports", icon: BarChart3, url: "#" },
+      ]
+    },
+    {
+      title: "Marketing",
+      icon: Megaphone,
+      items: [
+        { title: "Dashboard", icon: LayoutGrid, url: "#" },
+        { title: "Blog", icon: Rss, url: "#" },
+        { title: "Campaigns", icon: Megaphone, url: "#" },
+        { title: "Social Media", icon: Share2, url: "#" },
+        { title: "Analytics", icon: BarChart3, url: "#" },
+      ]
+    },
+    {
+      title: "Accounting",
+      icon: Wallet,
+      items: [
+        { title: "Dashboard", icon: LayoutGrid, url: "#" },
+        { title: "Invoices", icon: FileText, url: "#" },
+        { title: "Expenses", icon: Receipt, url: "#" },
+        { title: "Reports", icon: BarChart3, url: "#" },
+      ]
+    }
   ];
 
   return (
@@ -161,16 +230,33 @@ export function AdminSidebar() {
 
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Platform</SidebarGroupLabel>
-          <SidebarMenu className="px-1">
-            {platformItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild isActive={pathname === item.url} className="h-9 font-bold text-slate-600 rounded-lg hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900">
-                  <Link href={item.url}>
-                    <item.icon className="h-4 w-4 mr-3 opacity-70" />
-                    <span className="text-[13px]">{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+          <SidebarMenu className="px-1 space-y-1">
+            {platformGroups.map((group) => (
+              <Collapsible key={group.title} className="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                      <group.icon className="h-4 w-4 mr-3 opacity-70" />
+                      <span>{group.title}</span>
+                      <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenu className="ml-4 mt-1 border-l border-slate-100">
+                      {group.items.map((sub) => (
+                        <SidebarMenuItem key={sub.title}>
+                          <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-primary hover:bg-emerald-50/50">
+                            <Link href={sub.url}>
+                              <sub.icon className="h-4 w-4 mr-3 opacity-60" />
+                              <span className="text-[13px]">{sub.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </SidebarMenu>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
             ))}
           </SidebarMenu>
         </SidebarGroup>
@@ -178,8 +264,7 @@ export function AdminSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Business Verticals</SidebarGroupLabel>
           <SidebarMenu className="px-1 space-y-1">
-            {/* Businesses Collapsible */}
-            <Collapsible defaultOpen className="group/collapsible-biz">
+            <Collapsible className="group/collapsible-biz">
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton className="h-10 font-bold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-emerald-100">
@@ -205,8 +290,7 @@ export function AdminSidebar() {
               </SidebarMenuItem>
             </Collapsible>
 
-            {/* Events Collapsible */}
-            <Collapsible defaultOpen className="group/collapsible-evt">
+            <Collapsible className="group/collapsible-evt">
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton className="h-10 font-bold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-emerald-100">
@@ -236,14 +320,33 @@ export function AdminSidebar() {
 
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Internal ERP</SidebarGroupLabel>
-          <SidebarMenu className="px-1">
-            {internalERP.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton className="h-9 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
-                  <item.icon className="h-4 w-4 mr-3 opacity-70" />
-                  <span className="text-[13px]">{item.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+          <SidebarMenu className="px-1 space-y-1">
+            {erpGroups.map((group) => (
+              <Collapsible key={group.title} className="group/collapsible-erp">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton className="h-10 font-bold text-emerald-600 bg-emerald-50/50 rounded-lg hover:bg-emerald-100/50">
+                      <group.icon className="h-4 w-4 mr-3 opacity-80" />
+                      <span>{group.title}</span>
+                      <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible-erp:rotate-180" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenu className="ml-4 mt-1 border-l border-emerald-100">
+                      {group.items.map((sub) => (
+                        <SidebarMenuItem key={sub.title}>
+                          <SidebarMenuButton asChild className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/50">
+                            <Link href={sub.url}>
+                              <sub.icon className="h-4 w-4 mr-3 opacity-70" />
+                              <span className="text-[13px]">{sub.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </SidebarMenu>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
             ))}
           </SidebarMenu>
         </SidebarGroup>
@@ -251,14 +354,20 @@ export function AdminSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Systems</SidebarGroupLabel>
           <SidebarMenu className="px-1">
-            {systems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton className="h-9 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
-                  <item.icon className="h-4 w-4 mr-3 opacity-70" />
-                  <span className="text-[13px]">{item.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            <SidebarMenuItem>
+              <SidebarMenuButton className="h-9 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                <Database className="h-4 w-4 mr-3 opacity-70" />
+                <span className="text-[13px]">Data & Systems</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild className="h-9 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                <Link href="/account/settings">
+                  <Settings className="h-4 w-4 mr-3 opacity-70" />
+                  <span className="text-[13px]">Settings</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
