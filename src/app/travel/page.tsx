@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -134,7 +133,8 @@ export default function TravelPage() {
                 <CardContent>
                     <Button variant="outline" className="w-full border-accent text-accent-foreground hover:bg-accent hover:text-accent-foreground">Learn More</Button>
                 </CardContent>
-            </aside>
+            </Card>
+        </aside>
       </div>
     </div>
   );
