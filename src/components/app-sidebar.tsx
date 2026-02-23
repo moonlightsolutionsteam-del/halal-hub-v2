@@ -42,9 +42,9 @@ export function AppSidebar() {
   const { setOpenMobile } = useSidebar()
 
   return (
-    <Sidebar variant="sidebar" className="border-r bg-white">
+    <Sidebar variant="sidebar" className="border-r bg-sidebar">
       {/* Header with Logo and Close Button */}
-      <SidebarHeader className="p-6 flex flex-row items-center justify-between border-b bg-white">
+      <SidebarHeader className="p-6 flex flex-row items-center justify-between border-b bg-sidebar">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 shrink-0">
             <Compass className="h-6 w-6" />
@@ -59,7 +59,7 @@ export function AppSidebar() {
         </button>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 py-6 space-y-4">
+      <SidebarContent className="px-4 py-6 space-y-4 bg-sidebar">
         {/* Profile & Admin Section */}
         <SidebarGroup>
           <SidebarMenu className="gap-2">
@@ -166,7 +166,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* Footer with Version and User Initial */}
-      <SidebarFooter className="p-6 border-t bg-muted/5 flex flex-row items-center justify-between gap-4">
+      <SidebarFooter className="p-6 border-t bg-sidebar/50 flex flex-row items-center justify-between gap-4">
         <div className="h-10 w-10 bg-slate-800 rounded-full flex items-center justify-center text-white shrink-0 shadow-lg">
           <span className="font-bold text-lg">N</span>
         </div>
