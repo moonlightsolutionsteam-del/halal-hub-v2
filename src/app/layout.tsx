@@ -9,6 +9,7 @@ import { AdminSidebar } from "@/components/admin-sidebar";
 import { VendorSidebar } from "@/components/vendor-sidebar";
 import { ButcherSidebar } from "@/components/butcher-sidebar";
 import { GrocerySidebar } from "@/components/grocery-sidebar";
+import { EventsSidebar } from "@/components/events-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -25,11 +26,13 @@ export default function RootLayout({
   const isVendorPath = pathname?.startsWith('/vendor');
   const isButcherPath = pathname?.startsWith('/vendor/butcher');
   const isGroceryPath = pathname?.startsWith('/vendor/grocery');
+  const isEventsPath = pathname?.startsWith('/vendor/events');
 
   const getSidebar = () => {
     if (isAdminPath) return <AdminSidebar />;
     if (isButcherPath) return <ButcherSidebar />;
     if (isGroceryPath) return <GrocerySidebar />;
+    if (isEventsPath) return <EventsSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };
