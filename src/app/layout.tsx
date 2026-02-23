@@ -7,6 +7,7 @@ import './globals.css';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { UserSidebar } from "@/components/user-sidebar";
 import { AdminSidebar } from "@/components/admin-sidebar";
+import { VendorSidebar } from "@/components/vendor-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,6 +21,13 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isAdminPath = pathname?.startsWith('/admin');
+  const isVendorPath = pathname?.startsWith('/vendor');
+
+  const getSidebar = () => {
+    if (isAdminPath) return <AdminSidebar />;
+    if (isVendorPath) return <VendorSidebar />;
+    return <UserSidebar />;
+  };
 
   return (
     <html lang="en">
@@ -31,7 +39,7 @@ export default function RootLayout({
       <body className="antialiased selection:bg-primary/20 overflow-x-hidden">
         <SidebarProvider defaultOpen={false}>
           <div className="flex min-h-screen w-full bg-[#FBFBFB]">
-            {isAdminPath ? <AdminSidebar /> : <UserSidebar />}
+            {getSidebar()}
             
             <div className="flex flex-1 flex-col overflow-hidden relative">
               {/* Global High-Fidelity Header */}
@@ -46,7 +54,7 @@ export default function RootLayout({
                   </Link>
                 </div>
 
-                {!isAdminPath && (
+                {!isAdminPath && !isVendorPath && (
                   <div className="hidden md:flex items-center relative w-96 max-w-lg mx-4">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input 
@@ -77,7 +85,7 @@ export default function RootLayout({
               </main>
 
               {/* Mobile Floating Bottom Nav - Only for Consumer view */}
-              {!isAdminPath && (
+              {!isAdminPath && !isVendorPath && (
                 <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]">
                   <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-full h-16 shadow-2xl flex items-center justify-around px-2 ring-1 ring-black/5">
                     <Link href="/" className={`p-3 rounded-full transition-all ${pathname === '/' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
