@@ -16,7 +16,8 @@ import {
   Newspaper,
   BookOpen,
   Medal,
-  Gift
+  Gift,
+  Search
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -30,6 +31,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarHeader,
 } from "@/components/ui/sidebar"
 
 const sidebarItems = [
@@ -55,6 +57,14 @@ export function AppSidebar() {
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r bg-white/50 backdrop-blur-sm">
+      <SidebarHeader className="md:hidden p-4 border-b">
+        <div className="flex items-center gap-3 px-2">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+            <ShieldCheck className="h-5 w-5" />
+          </div>
+          <span className="font-black text-primary font-headline tracking-tight">Halal Hub</span>
+        </div>
+      </SidebarHeader>
       <SidebarContent className="py-4">
         <SidebarGroup>
           <SidebarGroupContent>
@@ -65,11 +75,11 @@ export function AppSidebar() {
                     asChild
                     isActive={pathname === item.url}
                     tooltip={item.title}
-                    className="h-10 w-10 flex items-center justify-center rounded-xl transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                    className="h-10 w-full md:w-10 flex items-center md:justify-center rounded-xl transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[active=true]:bg-primary/10 data-[active=true]:text-primary gap-3 px-4 md:px-0"
                   >
                     <Link href={item.url}>
-                      <item.icon className="h-5 w-5" />
-                      <span className="sr-only">{item.title}</span>
+                      <item.icon className="h-5 w-5 shrink-0" />
+                      <span className="md:hidden font-bold text-sm">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

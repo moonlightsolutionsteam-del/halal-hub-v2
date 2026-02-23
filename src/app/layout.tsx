@@ -1,9 +1,9 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
-import { Search, Compass } from "lucide-react";
+import { Search, Compass, Home, UtensilsCrossed, ShieldCheck, Users, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
@@ -28,17 +28,18 @@ export default function RootLayout({
         <SidebarProvider defaultOpen={false}>
           <div className="flex min-h-screen w-full bg-[#F8F9FA]">
             <AppSidebar />
-            <div className="flex flex-1 flex-col overflow-hidden">
+            <div className="flex flex-1 flex-col overflow-hidden relative">
               {/* Global Header */}
-              <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b px-6 py-3 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                    <Compass className="h-5 w-5" />
+              <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b px-4 md:px-6 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <SidebarTrigger className="md:hidden text-primary" />
+                  <div className="w-8 h-8 md:w-9 md:h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 shrink-0">
+                    <Compass className="h-4 w-4 md:h-5 md:w-5" />
                   </div>
-                  <span className="text-xl font-black text-primary font-headline tracking-tight">Halal Hub</span>
+                  <span className="text-lg md:text-xl font-black text-primary font-headline tracking-tight whitespace-nowrap">Halal Hub</span>
                 </div>
-                <div className="flex items-center gap-4 flex-1 justify-center max-w-2xl px-8">
-                  <div className="relative w-full">
+                <div className="flex items-center gap-4 flex-1 justify-center max-w-2xl px-4 md:px-8">
+                  <div className="relative w-full hidden sm:block">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <input 
                       type="text" 
@@ -49,18 +50,40 @@ export default function RootLayout({
                 </div>
                 <div className="flex items-center gap-3">
                   <Link href="/account/dashboard">
-                    <Avatar className="h-9 w-9 border-2 border-primary/10 hover:border-primary/30 transition-colors">
+                    <Avatar className="h-8 w-8 md:h-9 md:h-9 border-2 border-primary/10 hover:border-primary/30 transition-colors">
                       <AvatarImage src="https://picsum.photos/seed/user/100/100" />
                       <AvatarFallback>JD</AvatarFallback>
                     </Avatar>
                   </Link>
                 </div>
               </header>
-              <main className="flex-1 overflow-y-auto relative p-6">
+
+              <main className="flex-1 overflow-y-auto relative p-4 md:p-6">
                 <div className="min-h-full pb-24 md:pb-8 max-w-7xl mx-auto">
                   {children}
                 </div>
               </main>
+
+              {/* Mobile Bottom Navigation */}
+              <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-xl border border-primary/10 shadow-2xl rounded-full px-6 py-3 flex items-center gap-8 z-50 transition-all active:scale-95">
+                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Home className="h-6 w-6" />
+                </Link>
+                <Link href="/restaurants" className="text-muted-foreground hover:text-primary transition-colors">
+                  <UtensilsCrossed className="h-6 w-6" />
+                </Link>
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white shadow-lg shadow-primary/30 -translate-y-1 scale-110">
+                  <Link href="/verifier">
+                    <ShieldCheck className="h-6 w-6" />
+                  </Link>
+                </div>
+                <Link href="/community" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Users className="h-6 w-6" />
+                </Link>
+                <Link href="/account/dashboard" className="text-muted-foreground hover:text-primary transition-colors">
+                  <User className="h-6 w-6" />
+                </Link>
+              </nav>
             </div>
           </div>
         </SidebarProvider>
