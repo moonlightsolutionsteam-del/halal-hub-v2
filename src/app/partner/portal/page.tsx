@@ -16,7 +16,7 @@ const PARTNER_TYPES = [
     highlight: "Create & Manage Your Business Profile",
     description: "List your restaurant, meat shop, retail store, or service-based business on Halal Hub. Upload menus, photos, offers, and connect with halal-conscious customers.",
     icon: Store,
-    url: "/vendor/dashboard"
+    url: "/partner/onboarding/business/category"
   },
   {
     title: "Professionals",
