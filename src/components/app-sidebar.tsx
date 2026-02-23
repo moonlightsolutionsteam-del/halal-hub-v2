@@ -1,22 +1,31 @@
+
 "use client"
 
 import * as React from "react"
 import {
-  User,
-  Shield,
-  Briefcase,
+  LayoutDashboard,
+  Users,
+  PenTool,
+  Building,
+  Church,
+  CheckSquare,
+  Rss,
+  Gift,
   MapPin,
-  List,
-  FileText,
-  Mail,
-  Star,
-  Share2,
+  Image as ImageIcon,
+  Network,
+  Globe,
+  Store,
+  Calendar,
+  Users2,
+  Database,
   Settings,
-  LifeBuoy,
-  Sun,
   LogOut,
-  Compass,
-  X
+  ChevronDown,
+  ChevronRight,
+  MessageSquare,
+  Home,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -32,145 +41,148 @@ import {
   SidebarMenuItem,
   SidebarHeader,
   SidebarFooter,
-  useSidebar,
 } from "@/components/ui/sidebar"
-import { Switch } from "@/components/ui/switch"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
 export function AppSidebar() {
   const pathname = usePathname()
-  const { setOpenMobile } = useSidebar()
+
+  const platformItems = [
+    { title: "Users", icon: Users, url: "/admin/users" },
+    { title: "Creators", icon: PenTool, url: "#" },
+    { title: "Organizations", icon: Building, url: "#" },
+    { title: "Mosques", icon: Church, url: "#" },
+    { title: "Verification", icon: CheckSquare, url: "/admin/verification" },
+    { title: "Content Feed", icon: Rss, url: "#" },
+    { title: "Reward Engine", icon: Gift, url: "#" },
+    { title: "Check-ins", icon: MapPin, url: "#" },
+    { title: "Reviews & Media", icon: ImageIcon, url: "#" },
+    { title: "Family Tree", icon: Network, url: "#" },
+    { title: "Community", icon: Globe, url: "/community" },
+  ];
+
+  const businessVerticals = [
+    { title: "Businesses", icon: Store, url: "/restaurants" },
+    { title: "Events", icon: Calendar, url: "/events" },
+  ];
+
+  const internalERP = [
+    { title: "HR", icon: Users2, url: "#" },
+    { title: "CRM", icon: MessageSquare, url: "#" },
+    { title: "Marketing", icon: Rss, url: "#" },
+    { title: "Accounting", icon: Database, url: "#" },
+    { title: "Operations", icon: Settings, url: "#" },
+    { title: "Engineering", icon: Database, url: "#" },
+  ];
+
+  const systems = [
+    { title: "Data & Systems", icon: Database, url: "#" },
+    { title: "Settings", icon: Settings, url: "/account/settings" },
+  ];
 
   return (
-    <Sidebar variant="sidebar" className="border-r bg-sidebar">
-      {/* Header with Logo and Close Button */}
-      <SidebarHeader className="p-6 flex flex-row items-center justify-between border-b bg-sidebar">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 shrink-0">
-            <Compass className="h-6 w-6" />
+    <Sidebar variant="sidebar" className="border-r bg-white">
+      <SidebarHeader className="p-6 border-b">
+        <Link href="/" className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+            <Home className="h-5 w-5" />
           </div>
-          <span className="font-black text-2xl text-primary font-headline tracking-tight whitespace-nowrap">Halal Hub</span>
-        </div>
-        <button 
-          onClick={() => setOpenMobile(false)} 
-          className="md:hidden p-2 text-muted-foreground hover:bg-muted rounded-full transition-colors"
-        >
-          <X className="h-6 w-6" />
-        </button>
+          <span className="font-black text-xl text-primary font-headline tracking-tight">Halal Hub</span>
+        </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 py-6 space-y-4 bg-sidebar">
-        {/* Profile & Admin Section */}
+      <SidebarContent className="px-3 py-4 bg-white">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === "/admin/dashboard"} className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-emerald-50 data-[active=true]:text-primary">
+              <Link href="/admin/dashboard">
+                <LayoutDashboard className="h-4 w-4 mr-3" />
+                <span>Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
         <SidebarGroup>
-          <SidebarMenu className="gap-2">
+          <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Platform</SidebarGroupLabel>
+          <Collapsible defaultOpen className="group/collapsible">
             <SidebarMenuItem>
-              <SidebarMenuButton asChild className="h-14 text-lg font-bold hover:bg-muted/50 rounded-xl px-4">
-                <Link href="/account/settings">
-                  <User className="h-6 w-6 mr-3 text-slate-700" />
-                  <span>User profile</span>
-                </Link>
-              </SidebarMenuButton>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                  <Globe className="h-4 w-4 mr-3" />
+                  <span>Platform</span>
+                  <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenu className="ml-4 mt-1 border-l border-slate-100">
+                  {platformItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild className="h-9 font-medium text-slate-500 rounded-lg hover:text-primary hover:bg-emerald-50/50">
+                        <Link href={item.url}>
+                          <item.icon className="h-4 w-4 mr-3 opacity-60" />
+                          <span className="text-[13px]">{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </CollapsibleContent>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className="h-14 text-lg font-bold hover:bg-muted/50 rounded-xl px-4">
-                <Link href="/admin/dashboard">
-                  <Shield className="h-6 w-6 mr-3 text-red-500" />
-                  <span>Super Admin</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          </Collapsible>
         </SidebarGroup>
 
-        {/* Partners Section */}
         <SidebarGroup>
-          <SidebarGroupLabel className="px-4 text-[11px] font-black uppercase tracking-[0.15em] text-muted-foreground/60 mb-2">For Partners</SidebarGroupLabel>
-          <SidebarMenu className="gap-2">
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className="h-14 text-lg font-bold hover:bg-muted/50 rounded-xl px-4">
-                <Link href="/vendor/dashboard">
-                  <Briefcase className="h-6 w-6 mr-3 text-slate-700" />
-                  <span>Manage Your Business</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className="h-14 text-lg font-bold hover:bg-muted/50 rounded-xl px-4">
-                <Link href="/community">
-                  <User className="h-6 w-6 mr-3 text-slate-700" />
-                  <span>Creator Studio</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
-        <div className="h-px bg-muted mx-4 my-2" />
-
-        {/* Developer Role Switch */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="px-4 text-[11px] font-black uppercase tracking-[0.15em] text-muted-foreground/60 mb-4">Switch Role (Dev)</SidebarGroupLabel>
-          <div className="px-4 flex flex-col gap-6">
-            <button className="text-left font-black text-[17px] text-slate-800 hover:text-primary transition-colors">Consumer</button>
-            <button className="text-left font-black text-[17px] text-slate-800 hover:text-primary transition-colors">Creator</button>
-            <button className="text-left font-black text-[17px] text-slate-800 hover:text-primary transition-colors">Business Owner</button>
-          </div>
-        </SidebarGroup>
-
-        <div className="h-px bg-muted mx-4 my-2" />
-
-        {/* General Section */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="px-4 text-[11px] font-black uppercase tracking-[0.15em] text-muted-foreground/60 mb-2">General</SidebarGroupLabel>
-          <SidebarMenu className="gap-1">
-            {[
-              { title: "Suggest a Place", icon: MapPin, url: "#" },
-              { title: "My Suggestions", icon: List, url: "#" },
-              { title: "Terms & Privacy", icon: FileText, url: "#" },
-              { title: "Contact Us", icon: Mail, url: "#" },
-              { title: "Rate Us", icon: Star, url: "#" },
-              { title: "Share App", icon: Share2, url: "#" },
-              { title: "Settings", icon: Settings, url: "/account/settings" },
-              { title: "Help", icon: LifeBuoy, url: "#" },
-            ].map((item) => (
+          <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Business Verticals</SidebarGroupLabel>
+          <SidebarMenu>
+            {businessVerticals.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild className="h-12 text-lg font-bold hover:bg-muted/50 rounded-xl px-4">
-                  <Link href={item.url}>
-                    <item.icon className="h-6 w-6 mr-3 text-slate-700" />
-                    <span>{item.title}</span>
-                  </Link>
+                <SidebarMenuButton className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                  <item.icon className="h-4 w-4 mr-3" />
+                  <span>{item.title}</span>
+                  <ChevronRight className="ml-auto h-3 w-3 opacity-40" />
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
-            
-            {/* Dark Mode Switch */}
-            <SidebarMenuItem>
-              <div className="flex items-center justify-between h-12 px-4">
-                <div className="flex items-center gap-3 font-bold text-lg text-slate-800">
-                  <Sun className="h-6 w-6 text-slate-700" />
-                  <span>Dark Mode</span>
-                </div>
-                <Switch />
-              </div>
-            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
 
-            {/* Logout */}
-            <SidebarMenuItem className="mt-4">
-              <SidebarMenuButton className="h-14 text-lg font-bold text-slate-800 hover:bg-muted/50 rounded-xl px-4">
-                <LogOut className="h-6 w-6 mr-3 text-slate-700" />
-                <span>Logout</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Internal ERP</SidebarGroupLabel>
+          <SidebarMenu>
+            {internalERP.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                  <item.icon className="h-4 w-4 mr-3" />
+                  <span>{item.title}</span>
+                  <ChevronRight className="ml-auto h-3 w-3 opacity-40" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Systems</SidebarGroupLabel>
+          <SidebarMenu>
+            {systems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                  <item.icon className="h-4 w-4 mr-3" />
+                  <span>{item.title}</span>
+                  <ChevronRight className="ml-auto h-3 w-3 opacity-40" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
 
-      {/* Footer with Version and User Initial */}
-      <SidebarFooter className="p-6 border-t bg-sidebar/50 flex flex-row items-center justify-between gap-4">
-        <div className="h-10 w-10 bg-slate-800 rounded-full flex items-center justify-center text-white shrink-0 shadow-lg">
-          <span className="font-bold text-lg">N</span>
+      <SidebarFooter className="p-6 border-t bg-slate-50/50">
+        <div className="flex items-center gap-3 text-red-500 cursor-pointer hover:opacity-80 transition-opacity">
+          <div className="h-8 w-8 bg-slate-800 rounded-full flex items-center justify-center text-white font-black text-xs">N</div>
+          <span className="text-sm font-bold">Logout</span>
         </div>
-        <span className="text-muted-foreground text-xs font-bold uppercase tracking-widest opacity-60">Version 1.0.0</span>
       </SidebarFooter>
     </Sidebar>
   )
