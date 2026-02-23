@@ -14,6 +14,7 @@ import { CateringSidebar } from "@/components/catering-sidebar";
 import { HotelSidebar } from "@/components/hotel-sidebar";
 import { TravelSidebar } from "@/components/travel-sidebar";
 import { FashionSidebar } from "@/components/fashion-sidebar";
+import { CosmeticsSidebar } from "@/components/cosmetics-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -35,6 +36,7 @@ export default function RootLayout({
   const isHotelPath = pathname?.startsWith('/vendor/hotel');
   const isTravelPath = pathname?.startsWith('/vendor/travel');
   const isFashionPath = pathname?.startsWith('/vendor/fashion');
+  const isCosmeticsPath = pathname?.startsWith('/vendor/cosmetics');
 
   const getSidebar = () => {
     if (isAdminPath) return <AdminSidebar />;
@@ -45,6 +47,7 @@ export default function RootLayout({
     if (isHotelPath) return <HotelSidebar />;
     if (isTravelPath) return <TravelSidebar />;
     if (isFashionPath) return <FashionSidebar />;
+    if (isCosmeticsPath) return <CosmeticsSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };
