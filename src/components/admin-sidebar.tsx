@@ -54,7 +54,32 @@ import {
   Receipt,
   ShieldCheck,
   Search,
-  History
+  History,
+  TrendingUp,
+  CreditCard,
+  Book,
+  HandCoins,
+  Percent,
+  ArrowUpRight,
+  ClipboardList,
+  Truck,
+  RefreshCw,
+  LifeBuoy,
+  Library,
+  Box,
+  Zap,
+  Code2,
+  Bug,
+  Rocket,
+  Server,
+  HardDrive,
+  AlertTriangle,
+  Cpu,
+  Shield,
+  Sliders,
+  FolderOpen,
+  Award,
+  MessageSquare
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -197,10 +222,72 @@ export function AdminSidebar() {
       title: "Accounting",
       icon: Wallet,
       items: [
-        { title: "Dashboard", icon: LayoutGrid, url: "#" },
+        { title: "Revenue Dashboard", icon: TrendingUp, url: "#" },
+        { title: "Vendor Billing", icon: CreditCard, url: "#" },
+        { title: "Credits Ledger", icon: Book, url: "#" },
         { title: "Invoices", icon: FileText, url: "#" },
+        { title: "Receivables & Dues", icon: HandCoins, url: "#" },
         { title: "Expenses", icon: Receipt, url: "#" },
+        { title: "Payouts", icon: ArrowUpRight, url: "#" },
+        { title: "Taxes & GST", icon: Percent, url: "#" },
         { title: "Reports", icon: BarChart3, url: "#" },
+        { title: "Audit Logs", icon: History, url: "#" },
+        { title: "Settings", icon: Settings, url: "#" },
+      ]
+    },
+    {
+      title: "Operations",
+      icon: Wrench,
+      items: [
+        { title: "Ops Dashboard", icon: LayoutGrid, url: "#" },
+        { title: "Task & Project Management", icon: ClipboardList, url: "#" },
+        { title: "Lead & Onboarding Ops", icon: UserPlus, url: "#" },
+        { title: "Field Team Mgt", icon: Truck, url: "#" },
+        { title: "Vendor Lifecycle", icon: RefreshCw, url: "#" },
+        { title: "Support & Escalations", icon: LifeBuoy, url: "#" },
+        { title: "SOP & Knowledge Base", icon: Library, url: "#" },
+        { title: "Asset Management", icon: Box, url: "#" },
+        { title: "Process Automation", icon: Zap, url: "#" },
+        { title: "Ops Settings", icon: Settings, url: "#" },
+      ]
+    },
+    {
+      title: "Engineering",
+      icon: Cpu,
+      items: [
+        { title: "Dashboard", icon: LayoutGrid, url: "#" },
+        { title: "Product Development", icon: Code2, url: "#" },
+        { title: "Tech Tasks", icon: CheckSquare, url: "#" },
+        { title: "Bugs", icon: Bug, url: "#" },
+        { title: "Releases", icon: Rocket, url: "#" },
+        { title: "Infrastructure", icon: Server, url: "#" },
+        { title: "Tech Vendors", icon: HardDrive, url: "#" },
+        { title: "Technical Risks", icon: AlertTriangle, url: "#" },
+        { title: "Systems", icon: Settings, url: "#" },
+      ]
+    }
+  ];
+
+  const systemGroups = [
+    {
+      title: "Data & Systems",
+      icon: Database,
+      items: [
+        { title: "Analytics", icon: BarChart3, url: "#" },
+        { title: "Notification Engine", icon: Bell, url: "#" },
+        { title: "Audit Logs", icon: History, url: "#" },
+      ]
+    },
+    {
+      title: "Settings",
+      icon: Settings,
+      items: [
+        { title: "Roles, Permissions & Security", icon: Shield, url: "#" },
+        { title: "Global Settings", icon: Sliders, url: "#" },
+        { title: "File Manager", icon: FolderOpen, url: "#" },
+        { title: "Pages", icon: FileText, url: "#" },
+        { title: "Certifications", icon: Award, url: "#" },
+        { title: "Enquiries", icon: MessageSquare, url: "#" },
       ]
     }
   ];
@@ -353,21 +440,34 @@ export function AdminSidebar() {
 
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Systems</SidebarGroupLabel>
-          <SidebarMenu className="px-1">
-            <SidebarMenuItem>
-              <SidebarMenuButton className="h-9 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
-                <Database className="h-4 w-4 mr-3 opacity-70" />
-                <span className="text-[13px]">Data & Systems</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className="h-9 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
-                <Link href="/account/settings">
-                  <Settings className="h-4 w-4 mr-3 opacity-70" />
-                  <span className="text-[13px]">Settings</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+          <SidebarMenu className="px-1 space-y-1">
+            {systemGroups.map((group) => (
+              <Collapsible key={group.title} className="group/collapsible-system">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
+                      <group.icon className="h-4 w-4 mr-3 opacity-70" />
+                      <span>{group.title}</span>
+                      <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible-system:rotate-180" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenu className="ml-4 mt-1 border-l border-slate-100">
+                      {group.items.map((sub) => (
+                        <SidebarMenuItem key={sub.title}>
+                          <SidebarMenuButton asChild className="h-9 font-bold text-slate-500 rounded-lg hover:text-primary hover:bg-emerald-50/50">
+                            <Link href={sub.url}>
+                              <sub.icon className="h-4 w-4 mr-3 opacity-60" />
+                              <span className="text-[13px]">{sub.title}</span>
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      ))}
+                    </SidebarMenu>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            ))}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
