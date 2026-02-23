@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useParams } from "next/navigation";
@@ -15,7 +16,8 @@ import {
   ShoppingCart, Apple, Milk, CreditCard,
   CookingPot, ClipboardList, Camera, Paintbrush,
   Music, Bed, Waves, Wifi, Tv, Bath, Moon,
-  Compass, Briefcase, Shirt, Ruler
+  Compass, Briefcase, Shirt, Ruler, Beaker,
+  Droplets, FlaskConical
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -35,6 +37,7 @@ export default function EntityProfilePage() {
   const isHotel = String(id).startsWith("h");
   const isTravel = String(id).startsWith("t");
   const isFashion = String(id).startsWith("f");
+  const isCosmetics = String(id).startsWith("co");
 
   const restaurantData = {
     name: "The Bosphorus Kitchen",
@@ -186,9 +189,29 @@ export default function EntityProfilePage() {
     ]
   };
 
-  const entityData = isFashion ? fashionData : (isTravel ? travelData : (isHotel ? hotelData : (isEvents ? eventsData : (isCatering ? cateringData : (isGrocery ? groceryData : (isButcher ? butcherData : restaurantData))))));
+  const cosmeticsData = {
+    name: "Pure Glow Cosmetics",
+    category: "Cosmetics & Beauty",
+    type: "Premium Halal Beauty",
+    location: "Level 12, Beauty Tower, Dubai, UAE",
+    rating: 4.9,
+    reviews: 150,
+    verified: true,
+    verifiedBy: "International Halal Lab",
+    joined: "Aug 2022",
+    description: "Pure Glow Cosmetics represents the pinnacle of ethical beauty. Our laboratory-tested formulations are 100% free from non-permissible alcohols and animal-derived additives. We focus on skin-first ingredients, ensuring that every serum, foundation, and mist is not only halal but also cruelty-free and highly effective for sensitive skin types.",
+    contact: { phone: "+971 4 555 0123", website: "https://pureglowbeauty.com", hours: "Sun - Thu: 09:00 AM - 06:00 PM" },
+    items: [
+      { name: "Hyaluronic Glow Serum", desc: "Intense hydration with botanical extracts. Alcohol-free.", price: "$45.00", popular: true },
+      { name: "Mineral Veil Foundation", desc: "Lightweight, wudu-friendly breathable formula.", price: "$32.00", popular: true },
+      { name: "Night Repair Elixir", desc: "Organic argan and rosehip blend for overnight recovery.", price: "$58.00", popular: false },
+    ]
+  };
+
+  const entityData = isCosmetics ? cosmeticsData : (isFashion ? fashionData : (isTravel ? travelData : (isHotel ? hotelData : (isEvents ? eventsData : (isCatering ? cateringData : (isGrocery ? groceryData : (isButcher ? butcherData : restaurantData)))))));
   
   const getAccentColor = () => {
+    if (isCosmetics) return 'bg-rose-600';
     if (isFashion) return 'bg-pink-600';
     if (isTravel) return 'bg-amber-600';
     if (isHotel) return 'bg-sky-600';
@@ -200,6 +223,7 @@ export default function EntityProfilePage() {
   };
 
   const getAccentLight = () => {
+    if (isCosmetics) return 'bg-rose-50 text-rose-600';
     if (isFashion) return 'bg-pink-50 text-pink-600';
     if (isTravel) return 'bg-amber-50 text-amber-600';
     if (isHotel) return 'bg-sky-50 text-sky-600';
@@ -211,6 +235,7 @@ export default function EntityProfilePage() {
   };
 
   const getBackLink = () => {
+    if (isCosmetics) return "/categories/cosmetics";
     if (isFashion) return "/categories/fashion";
     if (isTravel) return "/categories/travel";
     if (isHotel) return "/categories/hotels";
@@ -222,6 +247,7 @@ export default function EntityProfilePage() {
   };
 
   const getBackLabel = () => {
+    if (isCosmetics) return "Cosmetics & Beauty";
     if (isFashion) return "Fashion & Design";
     if (isTravel) return "Travel & Tourism";
     if (isHotel) return "Hotels & Homestays";
@@ -232,17 +258,8 @@ export default function EntityProfilePage() {
     return "Dining Guide";
   };
 
-  const getReviewText = () => {
-    if (isFashion) return "The quality of the silk is unmatched. I finally found an abaya that fits perfectly and respects all my modesty requirements. The shipping was incredibly fast!";
-    if (isTravel) return "Our family trip to Spain was perfectly organized. Saffron Travels ensured every meal was halal and we never missed a prayer. The guide was incredibly respectful and knowledgeable.";
-    if (isHotel) return "The most comfortable and respectful stay I've ever had. Knowing everything was halal certified meant we didn't have to check every label or worry about the breakfast.";
-    if (isEvents) return "The ballroom was stunning and the segregation was managed very professionally without making the halls feel cramped.";
-    if (isCatering) return "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night.";
-    if (isGrocery) return "The best selection of halal global imports in the city. Their fresh produce is always top quality and the loyalty points add up really quickly!";
-    return "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax and enjoy.";
-  };
-
   const getComplianceTitle = () => {
+    if (isCosmetics) return "Lab-Verified Purity Standard";
     if (isFashion) return "Ethical Modesty Standard";
     if (isTravel) return "Trusted Pilgrim Partner";
     if (isHotel) return "Halal Hospitality Standard";
@@ -253,6 +270,7 @@ export default function EntityProfilePage() {
   };
 
   const getComplianceText = () => {
+    if (isCosmetics) return "Our formulations are strictly audited by independent labs to ensure 100% halal compliance. We guarantee zero animal-derived ingredients (unless specified halal), zero non-permissible alcohols, and ethical sourcing of all active compounds. Every batch is tested for wudu-friendliness where applicable.";
     if (isFashion) return "We ensure all garments meet strict modesty criteria, including fabric opacity and silhouette standards. Our entire supply chain is audited for ethical labor practices and we use sustainable, non-animal derived dyes and materials.";
     if (isTravel) return "We partner only with halal-certified hotels and tour operators. Every itinerary is pre-vetted for dietary compliance, prayer facility accessibility, and modest environment standards. Our Hajj/Umrah services are supervised by religious scholars.";
     if (isHotel) return "Our property is strictly alcohol-free and pork-free. We provide a full-service halal breakfast and in-room amenities like prayer mats and Qibla direction indicators. Our staff is trained in modesty protocols and halal food handling.";
@@ -260,6 +278,17 @@ export default function EntityProfilePage() {
     if (isCatering) return "We maintain a dedicated halal-only logistics chain. From our central kitchen to your venue, we ensure zero cross-contamination. Our staff is trained in halal handling and Shariah-compliant presentation.";
     if (isGrocery) return "We conduct monthly audits on our bakery, meat counter, and hot food departments. All animal-derived enzymes and additives in our pantry section are pre-vetted by our compliance team.";
     return "Every product is meticulously verified for ethical sourcing and processing. Our supply chain is 100% free from non-permissible additives and uses traditional methods.";
+  };
+
+  const getCategorySpecificReview = () => {
+    if (isCosmetics) return "Finally, a skincare brand that I can trust implicitly! The serum is amazing and knowing it's lab-verified for wudu-friendliness makes my daily routine so much easier.";
+    if (isFashion) return "The quality of the silk is unmatched. I finally found an abaya that fits perfectly and respects all my modesty requirements. The shipping was incredibly fast!";
+    if (isTravel) return "Our family trip to Spain was perfectly organized. Saffron Travels ensured every meal was halal and we never missed a prayer. The guide was incredibly respectful and knowledgeable.";
+    if (isHotel) return "The most comfortable and respectful stay I've ever had. Knowing everything was halal certified meant we didn't have to check every label or worry about the breakfast.";
+    if (isEvents) return "The ballroom was stunning and the segregation was managed very professionally without making the halls feel cramped.";
+    if (isCatering) return "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night.";
+    if (isGrocery) return "The best selection of halal global imports in the city. Their fresh produce is always top quality and the loyalty points add up really quickly!";
+    return "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax and enjoy.";
   };
 
   const mockReviews = [
@@ -280,7 +309,7 @@ export default function EntityProfilePage() {
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50"><Share2 className="h-5 w-5" /></Button>
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-rose-50 text-rose-500"><Heart className="h-5 w-5" /></Button>
             <Button className={`${getAccentColor()} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex text-white`}>
-              {isFashion ? "Shop Online" : (isTravel ? "Request Itinerary" : (isHotel ? "Book a Room" : (isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now"))))))}
+              {isCosmetics ? "Shop Now" : (isFashion ? "Shop Online" : (isTravel ? "Request Itinerary" : (isHotel ? "Book a Room" : (isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now")))))))}
             </Button>
           </div>
         </div>
@@ -326,12 +355,23 @@ export default function EntityProfilePage() {
               <div className="space-y-6">
                 <div className="space-y-1">
                   <h3 className="text-xl font-black text-slate-900">
-                    {isFashion ? "Shop Latest Items" : (isTravel ? "Plan Your Trip" : (isHotel ? "Check Rates" : (isEvents ? "Plan Your Event" : (isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation"))))))}
+                    {isCosmetics ? "Shop Beauty" : (isFashion ? "Shop Latest Items" : (isTravel ? "Plan Your Trip" : (isHotel ? "Check Rates" : (isEvents ? "Plan Your Event" : (isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation")))))))}
                   </h3>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Powered by Halal Hub</p>
                 </div>
                 
-                {isFashion ? (
+                {isCosmetics ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                      <div className="flex items-center gap-2">
+                        <Droplets className="h-4 w-4 text-rose-600" />
+                        <span className="text-sm font-bold">Pure Formula</span>
+                      </div>
+                      <Badge className="bg-rose-50 text-rose-600 border-none text-[10px]">100% Halal</Badge>
+                    </div>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>Shop Collection</Button>
+                  </div>
+                ) : isFashion ? (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
                       <div className="flex items-center gap-2">
@@ -427,7 +467,7 @@ export default function EntityProfilePage() {
               <TabsList className="grid w-full grid-cols-3 rounded-[2.5rem] bg-white border shadow-sm h-20 p-2">
                 <TabsTrigger value="overview" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Overview</TabsTrigger>
                 <TabsTrigger value="items" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>
-                  {isFashion ? "Latest Collection" : (isTravel ? "Packages & Itineraries" : (isHotel ? "Rooms & Dining" : (isEvents ? "Venue Rentals" : (isCatering ? "Event Packages" : (isGrocery ? "Weekly Specials" : (isButcher ? "Price List" : "Digital Menu"))))))}
+                  {isCosmetics ? "Product Catalog" : (isFashion ? "Latest Collection" : (isTravel ? "Packages & Itineraries" : (isHotel ? "Rooms & Dining" : (isEvents ? "Venue Rentals" : (isCatering ? "Event Packages" : (isGrocery ? "Weekly Specials" : (isButcher ? "Price List" : "Digital Menu")))))))}
                 </TabsTrigger>
                 <TabsTrigger value="reviews" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Reviews</TabsTrigger>
               </TabsList>
@@ -438,7 +478,7 @@ export default function EntityProfilePage() {
                   <div className="flex items-center gap-3">
                     <div className={`h-1 w-8 rounded-full ${getAccentColor()}`} />
                     <h2 className="text-4xl font-black tracking-tight text-slate-900">
-                      {isFashion ? "Brand Story" : (isTravel ? "The Saffron Journey" : (isHotel ? "The Royal Stay" : (isEvents ? "The Grand Experience" : (isCatering ? "Our Culinary Philosophy" : (isGrocery ? "The Hypermarket" : (isButcher ? "Our Butchery" : "About the Kitchen"))))))}
+                      {isCosmetics ? "The Lab Story" : (isFashion ? "Brand Story" : (isTravel ? "The Saffron Journey" : (isHotel ? "The Royal Stay" : (isEvents ? "The Grand Experience" : (isCatering ? "Our Culinary Philosophy" : (isGrocery ? "The Hypermarket" : (isButcher ? "Our Butchery" : "About the Kitchen")))))))}
                     </h2>
                   </div>
                   <p className="text-xl text-slate-600 leading-relaxed font-medium">
@@ -491,19 +531,19 @@ export default function EntityProfilePage() {
                   </Card>
                 </div>
 
-                {isFashion && (
+                {isCosmetics && (
                   <div className="space-y-8">
                     <div className="flex items-center gap-3">
                       <div className={`h-1 ${getAccentColor()} w-8 rounded-full`} />
-                      <h3 className="text-3xl font-black tracking-tight text-slate-900">Brand Benefits</h3>
+                      <h3 className="text-3xl font-black tracking-tight text-slate-900">Formulation Benefits</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {[
-                        { title: "Modesty Guide", desc: "Digital sizing tool", icon: Ruler },
-                        { title: "Ethical Sourcing", icon: ShieldCheck, desc: "Fair trade production" },
-                        { title: "Global Reach", icon: Globe, desc: "Ships to 120+ countries" },
+                        { title: "Breathable Tech", desc: "Wudu-friendly makeup", icon: Droplets },
+                        { title: "Lab Audited", icon: ShieldCheck, desc: "Ethical raw materials" },
+                        { title: "Cruelty Free", icon: Heart, desc: "No animal testing" },
                       ].map((benefit, i) => (
-                        <div key={i} className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3 group hover:border-pink-200 transition-all">
+                        <div key={i} className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3 group hover:border-rose-200 transition-all">
                           <div className={`h-10 w-10 rounded-xl ${getAccentLight()} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                             <benefit.icon className="h-5 w-5" />
                           </div>
@@ -519,10 +559,10 @@ export default function EntityProfilePage() {
               <TabsContent value="items" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-3xl font-black tracking-tight text-slate-900">
-                    {isFashion ? "Current Collection" : (isTravel ? "Featured Packages" : (isHotel ? "Featured Suites & Packages" : (isEvents ? "Venue Options & Rentals" : (isCatering ? "Signature Event Packages" : (isGrocery ? "This Week's Specials" : (isButcher ? "Premium Cuts" : "Popular Dishes"))))))}
+                    {isCosmetics ? "Best Sellers" : (isFashion ? "Current Collection" : (isTravel ? "Featured Packages" : (isHotel ? "Featured Suites & Packages" : (isEvents ? "Venue Options & Rentals" : (isCatering ? "Signature Event Packages" : (isGrocery ? "This Week's Specials" : (isButcher ? "Premium Cuts" : "Popular Dishes")))))))}
                   </h3>
                   <Button variant="outline" className="rounded-full font-black text-xs border-2 uppercase tracking-tighter h-10 px-6">
-                    <Download className="h-3.5 w-3.5 mr-2" /> {isFashion ? "Style Guide" : (isTravel ? "Tour Brochure" : (isHotel ? "Room Catalog" : (isEvents ? "View Floor Plans" : (isCatering ? "Full Catalog" : (isGrocery ? "Weekly Circular" : "Price List")))))}
+                    <Download className="h-3.5 w-3.5 mr-2" /> {isCosmetics ? "Ingredient Sheet" : (isFashion ? "Style Guide" : (isTravel ? "Tour Brochure" : (isHotel ? "Room Catalog" : (isEvents ? "View Floor Plans" : (isCatering ? "Full Catalog" : (isGrocery ? "Weekly Circular" : "Price List"))))))}
                   </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -534,7 +574,7 @@ export default function EntityProfilePage() {
                       <div className="space-y-2.5 flex-1">
                         <div className="flex justify-between items-start gap-2">
                           <h4 className={`text-xl font-black text-slate-900 leading-tight group-hover:text-primary transition-colors`}>{item.name}</h4>
-                          <span className={`${isFashion ? 'text-pink-600' : 'text-primary'} font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
+                          <span className={`${isCosmetics ? 'text-rose-600' : (isFashion ? 'text-pink-600' : 'text-primary')} font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
                         </div>
                         <p className="text-sm font-medium text-slate-500 line-clamp-2 italic">{item.desc}</p>
                         {item.popular && (
@@ -590,7 +630,7 @@ export default function EntityProfilePage() {
                         </div>
                       </div>
                       <p className="text-slate-600 font-medium leading-relaxed italic text-xl">
-                        "{getReviewText()}"
+                        "{getCategorySpecificReview()}"
                       </p>
                     </Card>
                   ))}
@@ -603,9 +643,9 @@ export default function EntityProfilePage() {
           <div className="lg:col-span-4 space-y-10">
             <Card className="rounded-[3rem] border-none shadow-2xl overflow-hidden bg-white sticky top-28 border border-slate-100">
               <div className="h-64 bg-muted relative group overflow-hidden">
-                <Image src={`https://placehold.co/800x600/png?text=${isFashion ? 'Showroom+Map' : 'Service+Area+Map'}`} alt="Map" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+                <Image src={`https://placehold.co/800x600/png?text=${isCosmetics ? 'Showroom+Lab' : (isFashion ? 'Showroom+Map' : 'Service+Area+Map')}`} alt="Map" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
                 <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> {isFashion ? 'Get Directions' : 'View HQ'}</Button>
+                  <Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> {isCosmetics ? 'View Store' : (isFashion ? 'Get Directions' : 'View HQ')}</Button>
                 </div>
               </div>
               <CardContent className="p-10 space-y-10">
@@ -615,7 +655,7 @@ export default function EntityProfilePage() {
                       <MapPin className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">{isFashion ? 'Showroom' : 'HQ Location'}</p>
+                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">{isCosmetics ? 'Flagship Store' : (isFashion ? 'Showroom' : 'HQ Location')}</p>
                       <p className="text-base font-bold text-slate-900 leading-snug">{entityData.location}</p>
                     </div>
                   </div>
@@ -624,7 +664,7 @@ export default function EntityProfilePage() {
                       <Clock className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Store Hours</p>
+                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Hours</p>
                       <p className="text-base font-bold text-slate-900 leading-snug">{entityData.contact.hours}</p>
                     </div>
                   </div>
@@ -633,7 +673,7 @@ export default function EntityProfilePage() {
                       <Phone className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Direct Line</p>
+                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Contact</p>
                       <p className="text-base font-bold text-slate-900 leading-snug">{entityData.contact.phone}</p>
                     </div>
                   </div>
@@ -642,7 +682,7 @@ export default function EntityProfilePage() {
                 <div className="pt-8 border-t border-slate-50 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <Button className={`${getAccentColor()} hover:opacity-90 text-white rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-xl`}>
-                      {isFashion ? "Shop Online" : (isTravel ? "Get Quote" : (isHotel ? "Check Rates" : (isEvents ? "Plan Event" : (isCatering ? "Request Quote" : "Start Order"))))}
+                      {isCosmetics ? "Shop Now" : (isFashion ? "Shop Online" : (isTravel ? "Get Quote" : (isHotel ? "Check Rates" : (isEvents ? "Plan Event" : (isCatering ? "Request Quote" : "Start Order")))))}
                     </Button>
                     <Button variant="outline" className="rounded-2xl font-black text-xs uppercase tracking-widest h-14 border-2"><Globe className="h-4 w-4 mr-2" /> Website</Button>
                   </div>
@@ -660,13 +700,13 @@ export default function EntityProfilePage() {
                   <Info className="h-10 w-10 text-white" />
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-3xl font-black text-white tracking-tight">{isFashion ? "Custom Tailoring" : "Need a Guide?"}</h4>
+                  <h4 className="text-3xl font-black text-white tracking-tight">{isCosmetics ? "Skin Consult" : (isFashion ? "Custom Tailoring" : "Need a Guide?")}</h4>
                   <p className="text-sm text-slate-400 font-medium leading-relaxed px-2">
-                    {isFashion ? "Our master tailors can create bespoke modest garments based on your exact measurements." : "Our platform concierge can help you manage complex family itineraries across multiple halal destinations."}
+                    {isCosmetics ? "Connect with our dermatologists for a personalized halal-certified skincare routine." : (isFashion ? "Our master tailors can create bespoke modest garments based on your exact measurements." : "Our platform concierge can help you manage complex family itineraries across multiple halal destinations.")}
                   </p>
                 </div>
                 <Button className="w-full rounded-2xl font-black bg-white text-slate-900 hover:bg-slate-100 h-16 shadow-2xl text-base tracking-tight transition-transform active:scale-95">
-                  {isFashion ? "Request Tailoring" : "Contact Concierge"}
+                  {isCosmetics ? "Book Consultation" : (isFashion ? "Request Tailoring" : "Contact Concierge")}
                 </Button>
               </div>
             </Card>
