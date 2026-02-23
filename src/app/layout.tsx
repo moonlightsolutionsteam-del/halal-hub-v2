@@ -29,8 +29,8 @@ export default function RootLayout({
           <div className="flex min-h-screen w-full bg-[#F8F9FA]">
             <AppSidebar />
             <div className="flex flex-1 flex-col overflow-hidden relative">
-              {/* Global Header */}
-              <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b px-4 md:px-6 py-3 flex items-center justify-between">
+              {/* Global Header - Lower z-index to stay below Sidebar Drawer Overlay */}
+              <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b px-4 md:px-6 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2 md:gap-3">
                   <SidebarTrigger className="md:hidden text-primary" />
                   <div className="w-8 h-8 md:w-9 md:h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 shrink-0">
@@ -59,13 +59,13 @@ export default function RootLayout({
               </header>
 
               <main className="flex-1 overflow-y-auto relative p-4 md:p-6">
-                <div className="min-h-full pb-24 md:pb-8 max-w-7xl mx-auto">
+                <div className="min-h-full pb-28 md:pb-8 max-w-7xl mx-auto">
                   {children}
                 </div>
               </main>
 
-              {/* Mobile Bottom Navigation */}
-              <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-xl border border-primary/10 shadow-2xl rounded-full px-6 py-3 flex items-center gap-8 z-50 transition-all active:scale-95">
+              {/* Mobile Bottom Navigation - z-40 to stay behind Sidebar Drawer but above content */}
+              <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-xl border border-primary/10 shadow-2xl rounded-full px-6 py-3 flex items-center gap-8 z-40 transition-all active:scale-95">
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
                   <Home className="h-6 w-6" />
                 </Link>

@@ -17,7 +17,7 @@ import {
   BookOpen,
   Medal,
   Gift,
-  Search
+  Compass
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -57,29 +57,29 @@ export function AppSidebar() {
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r bg-white/50 backdrop-blur-sm">
-      <SidebarHeader className="md:hidden p-4 border-b">
-        <div className="flex items-center gap-3 px-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
-            <ShieldCheck className="h-5 w-5" />
+      <SidebarHeader className="md:hidden p-6 border-b bg-primary/5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+            <Compass className="h-6 w-6" />
           </div>
-          <span className="font-black text-primary font-headline tracking-tight">Halal Hub</span>
+          <span className="font-black text-xl text-primary font-headline tracking-tight">Halal Hub</span>
         </div>
       </SidebarHeader>
-      <SidebarContent className="py-4">
+      <SidebarContent className="py-4 px-2">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="gap-2">
+            <SidebarMenu className="gap-1">
               {sidebarItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
                     isActive={pathname === item.url}
                     tooltip={item.title}
-                    className="h-10 w-full md:w-10 flex items-center md:justify-center rounded-xl transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[active=true]:bg-primary/10 data-[active=true]:text-primary gap-3 px-4 md:px-0"
+                    className="h-11 w-full md:w-10 flex items-center md:justify-center rounded-xl transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[active=true]:bg-primary data-[active=true]:text-white data-[active=true]:shadow-lg data-[active=true]:shadow-primary/20 gap-3 px-4 md:px-0"
                   >
                     <Link href={item.url}>
                       <item.icon className="h-5 w-5 shrink-0" />
-                      <span className="md:hidden font-bold text-sm">{item.title}</span>
+                      <span className="md:hidden font-bold text-sm tracking-tight">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
