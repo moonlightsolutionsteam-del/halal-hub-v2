@@ -34,7 +34,7 @@ const MeatIcon = (props: any) => (
 );
 
 const CATEGORIES = [
-  { id: 'food', title: 'Food & Dining', desc: 'Restaurants, Cafes, Cloud Kitchens.', icon: UtensilsCrossed },
+  { id: 'food', title: 'Food & Dining', desc: 'Restaurants, Cafes, Cloud Kitchens.', icon: UtensilsCrossed, directUrl: '/vendor/dashboard' },
   { id: 'meat', title: 'Meat Shops & Butchers', desc: 'Fresh, frozen, and wholesale suppliers.', icon: MeatIcon },
   { id: 'grocery', title: 'Grocery & Supermarkets', desc: 'Mini-markets to hypermarkets.', icon: ShoppingCart },
   { id: 'catering', title: 'Catering Services', desc: 'Wedding, corporate, and event specialists.', icon: CookingPot },
@@ -62,7 +62,7 @@ export default function BusinessCategoryPage() {
           {CATEGORIES.map((category) => (
             <Link 
               key={category.id} 
-              href={`/partner/onboarding/business/details?category=${category.id}`}
+              href={category.directUrl || `/partner/onboarding/business/details?category=${category.id}`}
               className="flex items-center justify-between p-6 rounded-3xl hover:bg-slate-50 transition-colors group border border-transparent hover:border-slate-100"
             >
               <div className="flex items-center gap-6">
