@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useParams } from "next/navigation";
@@ -13,7 +14,8 @@ import {
   Coffee, Users, Zap, ShieldAlert,
   Beef, Truck, FileText, Download,
   ShoppingCart, Apple, Milk, CreditCard,
-  CookingPot, ClipboardList
+  CookingPot, ClipboardList, Camera, Paintbrush,
+  Music
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,6 +31,7 @@ export default function EntityProfilePage() {
   const isButcher = id === "1"; 
   const isGrocery = String(id).startsWith("g");
   const isCatering = String(id).startsWith("c");
+  const isEvents = String(id).startsWith("e");
 
   const restaurantData = {
     name: "The Bosphorus Kitchen",
@@ -104,11 +107,30 @@ export default function EntityProfilePage() {
     ]
   };
 
-  const entityData = isCatering ? cateringData : (isGrocery ? groceryData : (isButcher ? butcherData : restaurantData));
-  const accentColor = isCatering ? 'bg-blue-600' : (isGrocery ? 'bg-emerald-600' : (isButcher ? 'bg-red-600' : 'bg-primary'));
-  const accentLight = isCatering ? 'bg-blue-50 text-blue-600' : (isGrocery ? 'bg-emerald-50 text-emerald-600' : (isButcher ? 'bg-red-50 text-red-600' : 'bg-primary/5 text-primary'));
-  const backLink = isCatering ? "/categories/catering" : (isGrocery ? "/categories/grocery" : (isButcher ? "/categories/meat" : "/categories/food"));
-  const backLabel = isCatering ? "Catering Guide" : (isGrocery ? "Grocery Guide" : (isButcher ? "Meat & Butchers" : "Dining Guide"));
+  const eventsData = {
+    name: "The Grand Halal Ballroom",
+    category: "Event Services",
+    type: "Premium Venue & Hosting",
+    location: "500 Grand Ave, Manhattan, NY 10001",
+    rating: 4.9,
+    reviews: 156,
+    verified: true,
+    verifiedBy: "Muslim Business Bureau",
+    joined: "Feb 2022",
+    description: "The Grand Halal Ballroom is New York's premier Shariah-compliant event space. We offer gender-segregated layouts, private bridal suites with Wudu facilities, and a dedicated prayer hall. Our venue is strictly alcohol-free and provides internal halal catering or vetted external partner support for all your celebration needs.",
+    contact: { phone: "+1 (212) 555-8888", website: "https://grand-halal-ballroom.com", hours: "Mon - Sun: 10:00 AM - 10:00 PM (Tours by Appt)" },
+    items: [
+      { name: "Full Ballroom Rental", desc: "Includes stage, A/V, and segregated seating for up to 500 guests.", price: "From $5,000", popular: true },
+      { name: "Nikah Ceremony Package", desc: "Small hall rental with traditional decor and prayer mats.", price: "From $1,500", popular: true },
+      { name: "Digital Event Setup", desc: "Professional live streaming for overseas family members.", price: "$450", popular: false },
+    ]
+  };
+
+  const entityData = isEvents ? eventsData : (isCatering ? cateringData : (isGrocery ? groceryData : (isButcher ? butcherData : restaurantData)));
+  const accentColor = isEvents ? 'bg-purple-600' : (isCatering ? 'bg-blue-600' : (isGrocery ? 'bg-emerald-600' : (isButcher ? 'bg-red-600' : 'bg-primary')));
+  const accentLight = isEvents ? 'bg-purple-50 text-purple-600' : (isCatering ? 'bg-blue-50 text-blue-600' : (isGrocery ? 'bg-emerald-50 text-emerald-600' : (isButcher ? 'bg-red-50 text-red-600' : 'bg-primary/5 text-primary')));
+  const backLink = isEvents ? "/categories/events" : (isCatering ? "/categories/catering" : (isGrocery ? "/categories/grocery" : (isButcher ? "/categories/meat" : "/categories/food")));
+  const backLabel = isEvents ? "Event Services" : (isCatering ? "Catering Guide" : (isGrocery ? "Grocery Guide" : (isButcher ? "Meat & Butchers" : "Dining Guide")));
 
   const mockReviews = [
     {
@@ -117,9 +139,10 @@ export default function EntityProfilePage() {
       date: "1 month ago",
       rating: 5,
       content: {
-        catering: "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night, and every single dish was authentic and perfectly seasoned. High confidence in their halal status.",
-        grocery: "The best selection of halal global imports in the city. Their fresh produce is always top quality and the loyalty points add up really quickly!",
-        default: "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax and enjoy."
+        events: "The ballroom was stunning and the segregation was managed very professionally without making the halls feel cramped. High confidence in their strict adherence to Islamic values.",
+        catering: "Absolutely impeccable service for our Nikah. The live kebab station was the talk of the night, and every single dish was authentic and perfectly seasoned.",
+        grocery: "The best selection of halal global imports in the city. Their fresh produce is always top quality.",
+        default: "Absolutely incredible experience. Having full confidence in the halal status allowed our family to truly relax."
       }
     },
     {
@@ -128,14 +151,16 @@ export default function EntityProfilePage() {
       date: "2 months ago",
       rating: 5,
       content: {
-        catering: "Impressed by the professionalism and attention to detail. The food was warm, fresh, and strictly compliant.",
-        grocery: "Love the organized aisles and clear halal labeling. It makes shopping so much less stressful.",
+        events: "Booked for our charity gala. The staff was incredibly helpful and respectful. The built-in prayer room was a huge plus for all attendees.",
+        catering: "Impressed by the professionalism and attention to detail. The food was warm and fresh.",
+        grocery: "Love the organized aisles and clear halal labeling.",
         default: "Excellent service and food. A neighborhood gem that we trust completely."
       }
     }
   ];
 
   const getReviewText = (review: typeof mockReviews[0]) => {
+    if (isEvents) return review.content.events;
     if (isCatering) return review.content.catering;
     if (isGrocery) return review.content.grocery;
     return review.content.default;
@@ -154,7 +179,7 @@ export default function EntityProfilePage() {
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50"><Share2 className="h-5 w-5" /></Button>
             <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-rose-50 text-rose-500"><Heart className="h-5 w-5" /></Button>
             <Button className={`${accentColor} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex`}>
-              {isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now"))}
+              {isEvents ? "Check Availability" : (isCatering ? "Request Quote" : (isGrocery ? "Shop Online" : (isButcher ? "Pre-Order" : "Reserve Now")))}
             </Button>
           </div>
         </div>
@@ -176,7 +201,7 @@ export default function EntityProfilePage() {
               <div className="flex flex-wrap items-center gap-3">
                 <Badge className={`${accentColor} text-white border-none font-black px-5 py-1.5 rounded-full text-xs shadow-2xl uppercase tracking-[0.2em]`}>{entityData.category}</Badge>
                 <Badge variant="outline" className="bg-white/10 backdrop-blur-md text-emerald-400 border-emerald-500/30 font-black px-5 py-1.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2">
-                  <div className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse" /> Verified Status
+                  <div className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse" /> Fully Verified
                 </Badge>
               </div>
               <h1 className="text-6xl md:text-7xl font-black text-white font-headline tracking-tighter drop-shadow-2xl">{entityData.name}</h1>
@@ -200,21 +225,25 @@ export default function EntityProfilePage() {
               <div className="space-y-6">
                 <div className="space-y-1">
                   <h3 className="text-xl font-black text-slate-900">
-                    {isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation"))}
+                    {isEvents ? "Plan Your Event" : (isCatering ? "Get Custom Quote" : (isGrocery ? "Quick Delivery" : (isButcher ? "Order for Pickup" : "Make a Reservation")))}
                   </h3>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Powered by Halal Hub</p>
                 </div>
                 
-                {isCatering ? (
+                {isEvents ? (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">Select Date</Button>
+                      <Button variant="outline" className="rounded-2xl h-12 font-bold border-2">Guests</Button>
+                    </div>
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl`}>Check Availability</Button>
+                  </div>
+                ) : isCatering ? (
                   <div className="space-y-4">
                     <div className="p-4 bg-slate-50 rounded-2xl space-y-2">
                       <div className="flex justify-between items-center text-[10px] font-black uppercase text-slate-400">
                         <span>Min. Guest Count</span>
                         <span className="text-blue-600">25 People</span>
-                      </div>
-                      <div className="flex justify-between items-center text-[10px] font-black uppercase text-slate-400">
-                        <span>Avg. Response</span>
-                        <span className="text-blue-600">&lt; 4 Hours</span>
                       </div>
                     </div>
                     <Button className={`w-full h-16 rounded-[1.5rem] ${accentColor} hover:opacity-90 font-black text-lg shadow-xl`}>Request Proposal</Button>
@@ -253,7 +282,7 @@ export default function EntityProfilePage() {
                     <Button className="w-full h-16 rounded-[1.5rem] bg-primary hover:bg-primary/90 font-black text-lg shadow-xl shadow-primary/20">Find a Table</Button>
                   </>
                 )}
-                <p className="text-[10px] text-center font-bold text-slate-400 uppercase tracking-tighter">Verified Halal supply chain certified</p>
+                <p className="text-[10px] text-center font-bold text-slate-400 uppercase tracking-tighter">Verified Halal Ecosystem Partner</p>
               </div>
             </Card>
           </div>
@@ -268,7 +297,7 @@ export default function EntityProfilePage() {
               <TabsList className="grid w-full grid-cols-3 rounded-[2.5rem] bg-white border shadow-sm h-20 p-2">
                 <TabsTrigger value="overview" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${accentColor}`}>Overview</TabsTrigger>
                 <TabsTrigger value="items" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${accentColor}`}>
-                  {isCatering ? "Event Packages" : (isGrocery ? "Weekly Specials" : (isButcher ? "Price List" : "Digital Menu"))}
+                  {isEvents ? "Venue Rentals" : (isCatering ? "Event Packages" : (isGrocery ? "Weekly Specials" : (isButcher ? "Price List" : "Digital Menu")))}
                 </TabsTrigger>
                 <TabsTrigger value="reviews" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${accentColor}`}>Reviews</TabsTrigger>
               </TabsList>
@@ -279,7 +308,7 @@ export default function EntityProfilePage() {
                   <div className="flex items-center gap-3">
                     <div className={`h-1 w-8 rounded-full ${accentColor}`} />
                     <h2 className="text-4xl font-black tracking-tight text-slate-900">
-                      {isCatering ? "Our Culinary Philosophy" : (isGrocery ? "The Hypermarket" : (isButcher ? "Our Butchery" : "About the Kitchen"))}
+                      {isEvents ? "The Grand Experience" : (isCatering ? "Our Culinary Philosophy" : (isGrocery ? "The Hypermarket" : (isButcher ? "Our Butchery" : "About the Kitchen")))}
                     </h2>
                   </div>
                   <p className="text-xl text-slate-600 leading-relaxed font-medium">
@@ -320,14 +349,16 @@ export default function EntityProfilePage() {
                       </div>
                       <div className="space-y-4">
                         <h4 className="text-2xl font-black text-emerald-900">
-                          {isCatering ? "Off-site Halal Management" : (isGrocery ? "Departmental Halal Assurance" : "100% Traceable Sourcing")}
+                          {isEvents ? "Shariah-Compliant Hosting" : (isCatering ? "Off-site Halal Management" : (isGrocery ? "Departmental Halal Assurance" : "100% Traceable Sourcing"))}
                         </h4>
                         <p className="text-emerald-800/80 font-medium text-lg leading-relaxed">
-                          {isCatering 
-                            ? "We maintain a dedicated halal-only logistics chain. From our central kitchen to your venue, we ensure zero cross-contamination. Our staff is trained in halal handling and Shariah-compliant presentation for all event types."
-                            : (isGrocery 
-                              ? "We conduct monthly audits on our bakery, meat counter, and hot food departments. All animal-derived enzymes and additives in our pantry section are pre-vetted by our compliance team."
-                              : "Every product is meticulously verified for ethical sourcing and processing. Our supply chain is 100% free from non-permissible additives and uses traditional methods.")}
+                          {isEvents 
+                            ? "We provide strict segregation protocols for weddings and events. Our premises include permanent Wudu stations and prayer halls. We enforce a zero-alcohol policy and vetting for all outside decor and media partners to ensure Islamic values are upheld."
+                            : (isCatering 
+                              ? "We maintain a dedicated halal-only logistics chain. From our central kitchen to your venue, we ensure zero cross-contamination. Our staff is trained in halal handling and Shariah-compliant presentation for all event types."
+                              : (isGrocery 
+                                ? "We conduct monthly audits on our bakery, meat counter, and hot food departments. All animal-derived enzymes and additives in our pantry section are pre-vetted by our compliance team."
+                                : "Every product is meticulously verified for ethical sourcing and processing. Our supply chain is 100% free from non-permissible additives and uses traditional methods.")))}
                         </p>
                         <div className="pt-4 flex flex-wrap gap-4">
                           <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-black text-xs uppercase px-8 h-12">View Certificates</Button>
@@ -338,19 +369,19 @@ export default function EntityProfilePage() {
                   </Card>
                 </div>
 
-                {isCatering && (
+                {isEvents && (
                   <div className="space-y-8">
                     <div className="flex items-center gap-3">
                       <div className={`h-1 ${accentColor} w-8 rounded-full`} />
-                      <h3 className="text-3xl font-black tracking-tight text-slate-900">Event Services</h3>
+                      <h3 className="text-3xl font-black tracking-tight text-slate-900">Venue Capabilities</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {[
-                        { title: "Live Counters", desc: "Tandoor & Kebab grill", icon: Utensils },
-                        { title: "VIP Staffing", desc: "Uniformed service teams", icon: Users },
-                        { title: "Global Menus", desc: "Desi, Arabic, Western", icon: Globe },
+                        { title: "Segregation", desc: "Permanent partition systems", icon: Users },
+                        { title: "Prayer Hall", desc: "Built-in mosque facility", icon: Zap },
+                        { title: "Privacy", desc: "Restricted access bridal suite", icon: ShieldAlert },
                       ].map((benefit, i) => (
-                        <div key={i} className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3 group hover:border-blue-200 transition-all">
+                        <div key={i} className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3 group hover:border-purple-200 transition-all">
                           <div className={`h-10 w-10 rounded-xl ${accentLight} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                             <benefit.icon className="h-5 w-5" />
                           </div>
@@ -366,26 +397,26 @@ export default function EntityProfilePage() {
               <TabsContent value="items" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-3xl font-black tracking-tight text-slate-900">
-                    {isCatering ? "Signature Event Packages" : (isGrocery ? "This Week's Specials" : (isButcher ? "Premium Cuts" : "Popular Dishes"))}
+                    {isEvents ? "Venue Options & Rentals" : (isCatering ? "Signature Event Packages" : (isGrocery ? "This Week's Specials" : (isButcher ? "Premium Cuts" : "Popular Dishes")))}
                   </h3>
                   <Button variant="outline" className="rounded-full font-black text-xs border-2 uppercase tracking-tighter h-10 px-6">
-                    <Download className="h-3.5 w-3.5 mr-2" /> {isCatering ? "Full Catalog" : (isGrocery ? "Weekly Circular" : "Price List")}
+                    <Download className="h-3.5 w-3.5 mr-2" /> {isEvents ? "View Floor Plans" : (isCatering ? "Full Catalog" : (isGrocery ? "Weekly Circular" : "Price List"))}
                   </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {entityData.items.map((item, i) => (
-                    <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-white border-2 border-transparent hover:border-blue-100`}>
+                    <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-white border-2 border-transparent hover:border-${isEvents ? 'purple' : 'blue'}-100`}>
                       <div className="relative h-32 w-32 rounded-[2rem] overflow-hidden shrink-0 shadow-xl group-hover:scale-105 transition-transform duration-700">
                         <Image src={`https://picsum.photos/seed/${id}-item-${i}/300/300`} alt={item.name} fill className="object-cover" />
                       </div>
                       <div className="space-y-2.5 flex-1">
                         <div className="flex justify-between items-start gap-2">
-                          <h4 className={`text-xl font-black text-slate-900 leading-tight group-hover:${isCatering ? 'text-blue-600' : (isGrocery ? 'text-emerald-600' : (isButcher ? 'text-red-600' : 'text-primary'))} transition-colors`}>{item.name}</h4>
-                          <span className={`${isCatering ? 'text-blue-600' : (isGrocery ? 'text-emerald-600' : (isButcher ? 'text-red-600' : 'text-primary'))} font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
+                          <h4 className={`text-xl font-black text-slate-900 leading-tight group-hover:${isEvents ? 'text-purple-600' : (isCatering ? 'text-blue-600' : (isGrocery ? 'text-emerald-600' : (isButcher ? 'text-red-600' : 'text-primary')))} transition-colors`}>{item.name}</h4>
+                          <span className={`${isEvents ? 'text-purple-600' : (isCatering ? 'text-blue-600' : (isGrocery ? 'text-emerald-600' : (isButcher ? 'text-red-600' : 'text-primary')))} font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
                         </div>
                         <p className="text-sm font-medium text-slate-500 line-clamp-2 italic">{item.desc}</p>
                         {item.popular && (
-                          <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest ${accentLight} border-blue-100/50 px-3 py-1 rounded-full`}>Top Choice</Badge>
+                          <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest ${accentLight} border-${isEvents ? 'purple' : 'blue'}-100/50 px-3 py-1 rounded-full`}>Top Choice</Badge>
                         )}
                       </div>
                     </Card>
@@ -417,7 +448,7 @@ export default function EntityProfilePage() {
 
                 <div className="space-y-8">
                   {mockReviews.map(review => (
-                    <Card key={review.id} className={`rounded-[3rem] border-none shadow-sm p-10 bg-white border border-slate-100 group hover:shadow-xl transition-all hover:border-blue-100`}>
+                    <Card key={review.id} className={`rounded-[3rem] border-none shadow-sm p-10 bg-white border border-slate-100 group hover:shadow-xl transition-all hover:border-${isEvents ? 'purple' : 'blue'}-100`}>
                       <div className="flex justify-between items-start mb-8">
                         <div className="flex items-center gap-6">
                           <Avatar className="h-16 w-16 border-4 border-slate-50 shadow-md">
@@ -427,7 +458,7 @@ export default function EntityProfilePage() {
                           <div className="space-y-1">
                             <p className="text-xl font-black text-slate-900">{review.author}</p>
                             <div className="flex items-center gap-3">
-                              <Badge className="bg-blue-50 text-blue-600 text-[10px] font-black border-none uppercase px-3 py-1 rounded-full">Verified Client</Badge>
+                              <Badge className={`${accentLight} text-[10px] font-black border-none uppercase px-3 py-1 rounded-full`}>Verified Client</Badge>
                               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Event date: {review.date}</span>
                             </div>
                           </div>
@@ -489,7 +520,7 @@ export default function EntityProfilePage() {
                 <div className="pt-8 border-t border-slate-50 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <Button className={`${accentColor} hover:opacity-90 text-white rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-xl`}>
-                      {isCatering ? "Request Quote" : "Start Order"}
+                      {isEvents ? "Plan Event" : (isCatering ? "Request Quote" : "Start Order")}
                     </Button>
                     <Button variant="outline" className="rounded-2xl font-black text-xs uppercase tracking-widest h-14 border-2"><Globe className="h-4 w-4 mr-2" /> Website</Button>
                   </div>
@@ -507,7 +538,7 @@ export default function EntityProfilePage() {
                   <Info className="h-10 w-10 text-white" />
                 </div>
                 <div className="space-y-3">
-                  <h4 className="text-3xl font-black text-white tracking-tight">Large Event?</h4>
+                  <h4 className="text-3xl font-black text-white tracking-tight">Need a Partner?</h4>
                   <p className="text-sm text-slate-400 font-medium leading-relaxed px-2">
                     Our platform concierge can help you manage multiple vendor verifications for large scale halal events.
                   </p>
