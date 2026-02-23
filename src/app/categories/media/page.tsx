@@ -9,7 +9,8 @@ import {
   Search, MapPin, Star, Filter, ArrowLeft, 
   BookOpen, Library, Download, Info,
   ChevronRight, Laptop, Newspaper, 
-  CheckCircle2, Globe, Headphones, Mic
+  CheckCircle2, Globe, Headphones, Mic,
+  Zap
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
