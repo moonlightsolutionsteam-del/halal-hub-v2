@@ -2,7 +2,7 @@
 "use client"
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,64 +20,105 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   MapPin, Clock, Phone, Camera, 
   Upload, Save, ShieldCheck, Sparkles,
-  Users, Info, Building2, Eye
+  Users, Info, Building2, Eye,
+  Trash2, Plus, Image as ImageIcon,
+  CheckCircle2, Smartphone, Globe
 } from "lucide-react";
 
-const EVENT_TYPES = ["Weddings", "Conferences", "Nikah Ceremonies", "Expos", "Religious Seminars", "Private Parties", "Workshops"];
-const PRIVACY_FEATURES = ["Gender Segregated Halls", "Private Entrance", "No Alcohol Policy", "Female Staff Only", "Prayer Room On-site", "Wudu Stations"];
-const AMENITIES = ["Audio/Visual System", "Stage Setup", "Catering Kitchen", "Parking Available", "Air Conditioning", "Wi-Fi", "Decoration Service"];
+const EVENT_TYPES = [
+  "Weddings / Nikah", "Conferences", "Religious Seminars", "Expos & Exhibitions", 
+  "Private Parties", "Aqiqah / Naming", "Workshops", "Charity Galas", "Corporate Events"
+];
+
+const PRIVACY_FEATURES = [
+  "Gender Segregated Halls", "Private Entrance", "No Alcohol Policy", 
+  "Female Staff Only Option", "Prayer Room On-site", "Permanent Wudu Stations",
+  "Privacy Screens Available", "No Pork Policy"
+];
+
+const AMENITIES = [
+  "Audio/Visual System", "Built-in Stage", "Commercial Catering Kitchen", 
+  "Ample Parking", "Central Air Conditioning", "High-speed Wi-Fi", 
+  "Internal Decoration Service", "VIP Holding Room", "Bridal Suite"
+];
+
+const COMPLIANCE_DOCS = [
+  { id: "fire", label: "Fire Safety Certificate" },
+  { id: "halal", label: "Halal Hospitality Charter" },
+  { id: "trade", label: "Municipal Trade License" },
+  { id: "health", label: "Health & Hygiene Permit" },
+  { id: "insurance", label: "Liability Insurance" },
+  { id: "id", label: "Owner Identity Proof" },
+];
 
 export default function EventsProfilePage() {
   const [activeTab, setActiveTab] = useState("details");
 
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
+      {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
           <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Event Venue Profile</h1>
           <p className="text-muted-foreground font-medium">Manage your venue details, event packages, and privacy protocols.</p>
         </div>
-        <Button className="bg-purple-600 hover:bg-purple-700 rounded-2xl px-8 font-black shadow-lg shadow-purple-200 h-12 text-white">
-          <Save className="mr-2 h-4 w-4" /> Save Changes
-        </Button>
+        <div className="flex gap-3">
+          <Button className="bg-purple-600 hover:bg-purple-700 rounded-2xl px-8 font-black shadow-lg shadow-purple-200 h-12 text-white">
+            <Save className="mr-2 h-4 w-4" /> Save Changes
+          </Button>
+        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="bg-white border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
-          <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-purple-600 data-[state=active]:text-white">Venue Details</TabsTrigger>
-          <TabsTrigger value="privacy" className="rounded-xl px-8 font-bold text-sm h-full">Privacy & Trust</TabsTrigger>
-          <TabsTrigger value="packages" className="rounded-xl px-8 font-bold text-sm h-full">Packages</TabsTrigger>
-          <TabsTrigger value="gallery" className="rounded-xl px-8 font-bold text-sm h-full">Gallery</TabsTrigger>
+          <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-purple-600 data-[state=active]:text-white transition-all">Basic Info</TabsTrigger>
+          <TabsTrigger value="privacy" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Privacy & Shariah</TabsTrigger>
+          <TabsTrigger value="amenities" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Amenities & Capacity</TabsTrigger>
+          <TabsTrigger value="documents" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Accreditation</TabsTrigger>
+          <TabsTrigger value="branding" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Branding & Gallery</TabsTrigger>
         </TabsList>
 
+        {/* Tab 1: Basic Info */}
         <TabsContent value="details" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2">
-                <Info className="h-5 w-5 text-purple-600" /> Basic Information
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Info className="h-5 w-5 text-purple-600" /> Core Information
               </h2>
+              <p className="text-sm text-muted-foreground font-medium">Update your venue's name, description, and primary business settings.</p>
             </div>
+            
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Venue Name</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Venue / Business Name</Label>
                   <Input placeholder="e.g., The Grand Halal Ballroom" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Primary Contact</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Venue Type</Label>
+                  <Select>
+                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl border-none shadow-xl">
+                      <SelectItem value="banquet">Banquet Hall</SelectItem>
+                      <SelectItem value="hotel_hall">Hotel Ballroom</SelectItem>
+                      <SelectItem value="outdoor">Outdoor / Garden Space</SelectItem>
+                      <SelectItem value="community">Community Center</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Contact Number</Label>
                   <Input placeholder="+91 11 2345 6789" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Website (Optional)</Label>
+                  <Input placeholder="https://..." className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Venue Description</Label>
-                  <Textarea placeholder="Describe your venue space, history, and unique features..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none" />
-                </div>
-                <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Max Capacity</Label>
-                  <Input type="number" placeholder="e.g., 500" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
-                </div>
-                <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Starting Price</Label>
-                  <Input placeholder="e.g., ₹25,000" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Textarea placeholder="Describe your venue space, its history, and unique features..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-purple-600/20" />
                 </div>
               </div>
             </Card>
@@ -85,69 +126,232 @@ export default function EventsProfilePage() {
 
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-purple-600" /> Event Specialization
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <MapPin className="h-5 w-5 text-purple-600" /> Location
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 space-y-8">
-              <div className="space-y-4">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Types of Events Hosted</Label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {EVENT_TYPES.map((t) => (
-                    <div key={t} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl">
-                      <Checkbox id={`t-${t}`} />
-                      <label htmlFor={`t-${t}`} className="text-xs font-bold text-slate-700">{t}</label>
-                    </div>
-                  ))}
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="md:col-span-2 space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Full Address</Label>
+                  <Input placeholder="Plot number, street, landmark..." className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
                 </div>
-              </div>
-              <div className="space-y-4">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Amenities Provided</Label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {AMENITIES.map((a) => (
-                    <div key={a} className="flex items-center space-x-3 bg-purple-50/50 p-3 rounded-xl border border-purple-100">
-                      <Checkbox id={`a-${a}`} />
-                      <label htmlFor={`a-${a}`} className="text-xs font-bold text-purple-900">{a}</label>
-                    </div>
-                  ))}
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">City</Label>
+                  <Input placeholder="e.g., Delhi" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Pincode</Label>
+                  <Input placeholder="e.g., 110001" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
                 </div>
               </div>
             </Card>
           </section>
         </TabsContent>
 
-        <TabsContent value="privacy" className="animate-in fade-in duration-500 space-y-10">
+        {/* Tab 2: Privacy & Shariah */}
+        <TabsContent value="privacy" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-purple-600" /> Privacy & Shariah Compliance
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <ShieldCheck className="h-5 w-5 text-purple-600" /> Shariah Compliance & Privacy
               </h2>
+              <p className="text-sm text-muted-foreground font-medium">Toggle features that help build trust with the community.</p>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {PRIVACY_FEATURES.map((f) => (
-                  <div key={f} className="flex items-center space-x-3 p-4 bg-slate-50 rounded-2xl">
-                    <Checkbox id={`f-${f}`} />
-                    <label htmlFor={`f-${f}`} className="text-sm font-bold text-slate-700">{f}</label>
+            
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {PRIVACY_FEATURES.map((feature) => (
+                  <div key={feature} className="flex items-center space-x-3 bg-purple-50/50 p-4 rounded-2xl border border-purple-100/50 hover:bg-purple-50 transition-colors cursor-pointer group">
+                    <Checkbox id={feature} className="rounded-md border-purple-300" />
+                    <label htmlFor={feature} className="text-xs font-bold text-purple-900 leading-tight cursor-pointer">{feature}</label>
                   </div>
                 ))}
               </div>
             </Card>
           </section>
 
-          <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-10 space-y-8">
-            <h3 className="text-2xl font-black font-headline">Compliance Declaration</h3>
-            <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-3xl">
-              I declare that this venue adheres to the privacy and halal standards selected above. I understand that misrepresentation of facilities (e.g., gender segregation) may result in immediate delisting.
-            </p>
-            <div className="flex items-center space-x-4 bg-white/5 p-4 rounded-2xl">
-              <Checkbox id="conf-events" className="border-white/30" />
-              <label htmlFor="conf-events" className="text-sm font-bold text-white/80">I accept responsibility for venue compliance.</label>
+          <section className="space-y-6">
+            <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-10">
+                <CheckCircle2 className="h-32 w-32" />
+              </div>
+              <div className="relative z-10 space-y-4">
+                <h3 className="text-2xl font-black font-headline">Venue Trust Declaration</h3>
+                <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-3xl">
+                  By checking these features, you confirm that your venue strictly adheres to the stated privacy and Shariah guidelines. Misrepresenting facilities (e.g., claiming gender segregation when not provided) may result in immediate profile suspension.
+                </p>
+              </div>
+              <div className="flex items-center space-x-4 bg-white/5 p-4 rounded-2xl border border-white/10 relative z-10">
+                <Checkbox id="final-decl" className="border-white/30" />
+                <label htmlFor="final-decl" className="text-sm font-bold text-white/80 cursor-pointer">I declare that all compliance details are accurate.</label>
+              </div>
+            </Card>
+          </section>
+        </TabsContent>
+
+        {/* Tab 3: Amenities & Capacity */}
+        <TabsContent value="amenities" className="space-y-10 animate-in fade-in duration-500">
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Users className="h-5 w-5 text-purple-600" /> Capacity & Pricing
+              </h2>
             </div>
-            <Button className="w-full h-16 rounded-[1.5rem] bg-purple-600 hover:bg-purple-700 text-white font-black text-xl shadow-2xl">
-              Submit Venue Profile
-            </Button>
-          </Card>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Max Guest Capacity</Label>
+                  <Input type="number" placeholder="e.g., 500" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Starting Price per Event (₹)</Label>
+                  <Input placeholder="e.g., 25,000" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Min. Advance Notice (Days)</Label>
+                  <Input type="number" placeholder="e.g., 30" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Booking Advance Required (%)</Label>
+                  <Input type="number" placeholder="e.g., 50" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+              </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Sparkles className="h-5 w-5 text-purple-600" /> General Amenities
+              </h2>
+            </div>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {AMENITIES.map((item) => (
+                  <div key={item} className="flex items-center space-x-3 p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
+                    <Checkbox id={`a-${item}`} />
+                    <label htmlFor={`a-${item}`} className="text-xs font-bold text-slate-700 cursor-pointer">{item}</label>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Calendar className="h-5 w-5 text-purple-600" /> Event Specialization
+              </h2>
+            </div>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {EVENT_TYPES.map((type) => (
+                  <div key={type} className="flex items-center space-x-3 p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
+                    <Checkbox id={`et-${type}`} />
+                    <label htmlFor={`et-${type}`} className="text-xs font-bold text-slate-700 cursor-pointer">{type}</label>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+        </TabsContent>
+
+        {/* Tab 4: Accreditation */}
+        <TabsContent value="documents" className="space-y-10 animate-in fade-in duration-500">
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <ShieldCheck className="h-5 w-5 text-purple-600" /> Compliance Documents
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Upload mandatory permits to verify your venue status.</p>
+            </div>
+            
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {COMPLIANCE_DOCS.map((doc) => (
+                  <div key={doc.id} className="space-y-3">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">{doc.label}</Label>
+                    <div className="p-6 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-3 bg-slate-50/50 hover:bg-white transition-colors cursor-pointer group">
+                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-purple-600 transition-colors shadow-sm">
+                        <Upload className="h-5 w-5" />
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[10px] font-black uppercase text-purple-600 group-hover:underline">Upload file</p>
+                        <p className="text-[9px] text-slate-400 mt-1">No file chosen</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+        </TabsContent>
+
+        {/* Tab 5: Branding & Gallery */}
+        <TabsContent value="branding" className="space-y-10 animate-in fade-in duration-500">
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Smartphone className="h-5 w-5 text-purple-600" /> Visual Branding
+              </h2>
+            </div>
+            
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="space-y-4">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Venue Logo</Label>
+                  <div className="flex items-center gap-8">
+                    <div className="h-32 w-32 rounded-3xl bg-slate-100 border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-400 overflow-hidden relative group">
+                      <Camera className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Upload className="h-6 w-6 text-white" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-9 border-2 uppercase tracking-tighter">Choose Logo</Button>
+                      <p className="text-[10px] font-bold text-slate-400 leading-tight">PNG, JPG (1:1)<br />Max 2MB</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Main Banner / Cover</Label>
+                  <div className="aspect-video w-full rounded-[2rem] bg-slate-100 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 text-slate-400 relative group overflow-hidden shadow-inner">
+                    <ImageIcon className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Select Banner</span>
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button variant="secondary" className="rounded-full font-black text-xs h-10 px-6 uppercase tracking-widest">Upload</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Plus className="h-5 w-5 text-purple-600" /> Venue Showcase Gallery
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Add photos of your halls, décor, and specialized facilities.</p>
+            </div>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-100 shadow-sm">
+                    <img src={`https://picsum.photos/seed/venue-img-${i}/400/400`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <Button size="icon" variant="destructive" className="h-8 w-8 rounded-xl"><Trash2 className="h-4 w-4" /></Button>
+                    </div>
+                  </div>
+                ))}
+                <button className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-slate-50 hover:bg-white hover:border-purple-600/40 transition-all text-slate-400 hover:text-purple-600">
+                  <Plus className="h-6 w-6" />
+                  <span className="text-[10px] font-black uppercase tracking-tighter">Add Photo</span>
+                </button>
+              </div>
+            </Card>
+          </section>
         </TabsContent>
       </Tabs>
     </div>
