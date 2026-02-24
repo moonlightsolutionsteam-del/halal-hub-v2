@@ -22,7 +22,8 @@ import {
   Upload, Save, ShieldCheck, Sparkles,
   Users, Info, Building2, Eye,
   Trash2, Plus, Image as ImageIcon,
-  CheckCircle2, Smartphone, Globe
+  CheckCircle2, Smartphone, Globe,
+  Calendar
 } from "lucide-react";
 
 const EVENT_TYPES = [
