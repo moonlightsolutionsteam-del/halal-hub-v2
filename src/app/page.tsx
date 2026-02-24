@@ -47,7 +47,7 @@ const FEATURES = [
   { name: "Prayer", icon: Moon, url: "/prayer-times" },
   { name: "Chat", icon: MessageSquare, url: "/community" },
   { name: "Feed", icon: Newspaper, url: "/community" },
-  { name: "Manage", icon: Settings, url: "/vendor/dashboard" },
+  { name: "Manage", icon: Settings, url: "/partner/portal" },
   { name: "Blog", icon: BookOpen, url: "/community" },
   { name: "Charity", icon: Heart, url: "/categories", highlight: true },
   { name: "Volunteer", icon: HandHelping, url: "/categories" },
