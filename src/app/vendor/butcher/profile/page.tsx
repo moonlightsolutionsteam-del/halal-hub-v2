@@ -2,7 +2,7 @@
 "use client"
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,27 +21,30 @@ import {
   MapPin, Clock, Phone, Globe, Camera, 
   Upload, Trash2, Plus, CheckCircle2, 
   Info, Save, ShieldCheck, Truck, ShoppingBag,
-  Beef, Layers, Smartphone, Wallet
+  Beef, Layers, Smartphone, Wallet,
+  Mail, Calendar, FileText, AlertCircle,
+  Video, Image as ImageIcon, GripVertical
 } from "lucide-react";
 
-const HIGHLIGHTS = [
-  "Local Farm Sourcing", "Organic Meat", "Daily Fresh", "Hand-Slaughtered", "HMC Certified", "Bulk Orders", "Home Delivery", "Marinated Items", "Wholesale Available"
-];
-
-const CERTIFICATIONS = [
-  "HMC Certified", "HFA Approved", "JAKIM (Malaysia)", "MUI (Indonesia)", "Organic Certified", "Antibiotic Free", "Grass-fed Only", "Local Farm Direct"
-];
-
-const MEAT_TYPES = [
-  "Chicken", "Mutton (Goat)", "Beef", "Buffalo", "Fish & Seafood", "Lamb", "Duck", "Turkey", "Quail", "Other"
-];
-
-const AMENITIES = [
-  "Air Conditioned", "Parking Available", "Cold Storage Facility", "Wheelchair Accessible", "Washroom Facility", "Waiting Area", "Home Delivery", "Vacuum Packing", "Custom Cuts"
+const DELIVERY_OPTIONS = [
+  "In-store Pickup", "Local Delivery", "Hyperlocal Delivery (e.g. Swiggy/Zomato)", "Statewide Shipping", "National Shipping"
 ];
 
 const PAYMENT_METHODS = [
-  "UPI", "Cash", "Credit/Debit Cards", "Net Banking", "Business Wallet"
+  "Cash", "UPI", "Credit/Debit Cards", "Wallets"
+];
+
+const MEAT_TYPES = [
+  "Chicken", "Mutton (Goat)", "Lamb", "Beef", "Buffalo", "Seafood", "Duck", "Turkey", "Eggs"
+];
+
+const COMPLIANCE_DOCS = [
+  { id: "halal", label: "Halal Certificate" },
+  { id: "fssai", label: "FSSAI Certificate" },
+  { id: "trade", label: "Trade / Municipal License" },
+  { id: "shop", label: "Shop & Establishment License" },
+  { id: "id", label: "Owner ID Proof" },
+  { id: "address", label: "Address Proof" },
 ];
 
 export default function ButcherProfilePage() {
@@ -51,11 +54,11 @@ export default function ButcherProfilePage() {
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight">Butcher Shop Profile</h1>
-          <p className="text-muted-foreground font-medium">Manage your shop's traceability logs, sourcing, and customer offerings.</p>
+          <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Butcher Profile</h1>
+          <p className="text-muted-foreground font-medium">Manage your shop's traceability, documents, and branding.</p>
         </div>
         <div className="flex gap-3">
-          <Button className="bg-primary hover:bg-primary/90 rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-12">
+          <Button className="bg-primary hover:bg-primary/90 rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
             <Save className="mr-2 h-4 w-4" /> Save Changes
           </Button>
         </div>
@@ -63,44 +66,105 @@ export default function ButcherProfilePage() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="bg-white border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
-          <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-primary data-[state=active]:text-white">Details</TabsTrigger>
-          <TabsTrigger value="sourcing" className="rounded-xl px-8 font-bold text-sm h-full">Sourcing & Logs</TabsTrigger>
-          <TabsTrigger value="documents" className="rounded-xl px-8 font-bold text-sm h-full">Certificates</TabsTrigger>
-          <TabsTrigger value="gallery" className="rounded-xl px-8 font-bold text-sm h-full">Gallery</TabsTrigger>
+          <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-primary data-[state=active]:text-white transition-all">Details</TabsTrigger>
+          <TabsTrigger value="documents" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Documents & Sourcing</TabsTrigger>
+          <TabsTrigger value="branding" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Branding</TabsTrigger>
         </TabsList>
 
+        {/* Tab 1: Details */}
         <TabsContent value="details" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
                 <Info className="h-5 w-5 text-primary" /> Basic Information
               </h2>
-              <p className="text-sm text-muted-foreground font-medium">Core brand and contact details for your meat shop.</p>
+              <p className="text-sm text-muted-foreground font-medium">Update your shop's name, description, and essential information.</p>
             </div>
             
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Shop Name</Label>
-                  <Input placeholder="e.g., Al-Barakah Premium Meats" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Business Name</Label>
+                  <Input placeholder="e.g., Al-Naseeb Meats" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Contact Number</Label>
-                  <Input placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Business Type</Label>
+                  <Select>
+                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="retail">Retail Butcher</SelectItem>
+                      <SelectItem value="wholesale">Wholesale Supplier</SelectItem>
+                      <SelectItem value="farm">Farm Direct</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Year Established</Label>
+                  <Input placeholder="e.g., 1995" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">About the Shop</Label>
-                  <Textarea placeholder="Describe your meat quality, sourcing ethics, and history..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">About Business</Label>
+                  <Textarea placeholder="Tell customers what makes your business special..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20" />
                 </div>
-                <div className="md:col-span-2 space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Shop Highlights</Label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {HIGHLIGHTS.map((item) => (
-                      <div key={item} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer">
-                        <Checkbox id={item} className="rounded-md border-slate-300" />
-                        <label htmlFor={item} className="text-xs font-bold text-slate-700 cursor-pointer">{item}</label>
-                      </div>
-                    ))}
+              </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Phone className="h-5 w-5 text-primary" /> Contact Details
+              </h2>
+            </div>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Owner Name</Label>
+                  <Input placeholder="Enter the owner's name" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Phone Number</Label>
+                  <Input placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">WhatsApp Number</Label>
+                  <Input placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Email Address</Label>
+                  <Input type="email" placeholder="contact@example.com" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+              </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <MapPin className="h-5 w-5 text-primary" /> Location
+              </h2>
+            </div>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="md:col-span-2 space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Full Address</Label>
+                  <Input placeholder="e.g., 16, Gali Kababian, Jama Masjid" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Area / City</Label>
+                  <Input placeholder="e.g., Old Delhi" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Pincode</Label>
+                  <Input placeholder="e.g., 110006" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="md:col-span-2 space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Google Map Embed URL</Label>
+                  <Input placeholder="Paste GMap Embed URL" className="h-12 rounded-2xl bg-slate-50 border-none font-medium" />
+                  <div className="aspect-video w-full rounded-[2rem] bg-slate-100 flex items-center justify-center text-slate-400 font-bold text-xs uppercase tracking-[0.2em] border-2 border-dashed border-slate-200 mt-4">
+                    Map preview will appear here
                   </div>
                 </div>
               </div>
@@ -109,34 +173,48 @@ export default function ButcherProfilePage() {
 
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2">
-                <Beef className="h-5 w-5 text-primary" /> Products & Sourcing
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Truck className="h-5 w-5 text-primary" /> Delivery & Ordering
               </h2>
-              <p className="text-sm text-muted-foreground font-medium">Manage types of meat and certification standards.</p>
             </div>
-            
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 space-y-8">
               <div className="space-y-4">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Available Meat Types</Label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {MEAT_TYPES.map((m) => (
-                    <div key={m} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors">
-                      <Checkbox id={`m-${m}`} />
-                      <label htmlFor={`m-${m}`} className="text-xs font-bold text-slate-700">{m}</label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Delivery Options</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {DELIVERY_OPTIONS.map((opt) => (
+                    <div key={opt} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors">
+                      <Checkbox id={opt} />
+                      <label htmlFor={opt} className="text-xs font-bold text-slate-700 leading-none">{opt}</label>
                     </div>
                   ))}
                 </div>
               </div>
-
-              <div className="space-y-4">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Primary Certifications</Label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {CERTIFICATIONS.map((c) => (
-                    <div key={c} className="flex items-center space-x-3 bg-emerald-50/50 p-3 rounded-xl border border-emerald-100 hover:bg-emerald-50 transition-colors">
-                      <Checkbox id={`c-${c}`} />
-                      <label htmlFor={`c-${c}`} className="text-xs font-bold text-emerald-900">{c}</label>
-                    </div>
-                  ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Minimum Order (₹)</Label>
+                  <Input placeholder="e.g., 300" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Delivery Charges (₹)</Label>
+                  <Input placeholder="e.g., 50" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Delivery Timings</Label>
+                  <Input placeholder="e.g., 10 AM - 8 PM" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Delivery Radius (km)</Label>
+                  <Select>
+                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                      <SelectValue placeholder="Select radius" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="3">3 km</SelectItem>
+                      <SelectItem value="5">5 km</SelectItem>
+                      <SelectItem value="10">10 km</SelectItem>
+                      <SelectItem value="city">City-wide</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </Card>
@@ -144,84 +222,304 @@ export default function ButcherProfilePage() {
 
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-primary" /> Location & Delivery
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Clock className="h-5 w-5 text-primary" /> Opening Hours
               </h2>
-              <p className="text-sm text-muted-foreground font-medium">Physical address and service radius.</p>
+            </div>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="space-y-4">
+                {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+                  <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-50 rounded-2xl gap-4">
+                    <span className="font-black text-sm text-slate-700 min-w-[100px]">{day}</span>
+                    <div className="flex items-center gap-4 flex-1 justify-end">
+                      <div className="flex items-center gap-2">
+                        <Input type="time" className="w-32 h-10 rounded-xl bg-white border-none shadow-sm font-bold" />
+                        <span className="text-xs font-black text-slate-400">TO</span>
+                        <Input type="time" className="w-32 h-10 rounded-xl bg-white border-none shadow-sm font-bold" />
+                      </div>
+                      <Badge variant="outline" className="rounded-full bg-emerald-50 text-emerald-600 border-emerald-100 font-black text-[9px] uppercase">Open</Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Wallet className="h-5 w-5 text-primary" /> Payment Methods
+              </h2>
+            </div>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {PAYMENT_METHODS.map((method) => (
+                  <div key={method} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors">
+                    <Checkbox id={method} />
+                    <label htmlFor={method} className="text-xs font-bold text-slate-700 leading-none">{method}</label>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+        </TabsContent>
+
+        {/* Tab 2: Documents & Sourcing */}
+        <TabsContent value="documents" className="space-y-10 animate-in fade-in duration-500">
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <ShieldCheck className="h-5 w-5 text-primary" /> Compliance Documents
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Upload mandatory licenses to get your profile verified and build trust with customers.</p>
             </div>
             
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Full Address</Label>
-                  <Input placeholder="Shop address..." className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
-                </div>
-                <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Delivery Availability</Label>
-                  <Select>
-                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="yes">Available</SelectItem>
-                      <SelectItem value="no">In-store Only</SelectItem>
-                      <SelectItem value="limited">Within 5km Only</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Minimum Order for Delivery</Label>
-                  <Input placeholder="e.g. 500" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {COMPLIANCE_DOCS.map((doc) => (
+                  <div key={doc.id} className="space-y-3">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">{doc.label}</Label>
+                    <div className="p-6 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-3 bg-slate-50/50 hover:bg-white transition-colors cursor-pointer group">
+                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors shadow-sm">
+                        <Upload className="h-5 w-5" />
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[10px] font-black uppercase text-primary group-hover:underline">Upload file</p>
+                        <p className="text-[9px] text-slate-400 mt-1">No file chosen</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Layers className="h-5 w-5 text-primary" /> Meat Source Transparency
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Add details about your meat suppliers to increase customer trust.</p>
+            </div>
+            
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
+              <CardHeader className="p-8 border-b bg-slate-50/50 flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg font-black">Supplier #1</CardTitle>
+                  <CardDescription className="font-medium text-xs">Manage supplier info and slaughterhouse proofs.</CardDescription>
+                </div>
+                <Button variant="ghost" size="icon" className="text-red-500 hover:bg-red-50 rounded-xl"><Trash2 className="h-5 w-5" /></Button>
+              </CardHeader>
+              <CardContent className="p-8 space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Supplier Name</Label>
+                    <Input placeholder="Enter supplier name" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Supplier Location (Optional)</Label>
+                    <Input placeholder="e.g., Shivajinagar, Bangalore" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  </div>
+                  <div className="md:col-span-2 space-y-4">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Meat Types Supplied</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {MEAT_TYPES.map((m) => (
+                        <div key={m} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl">
+                          <Checkbox id={`sup-${m}`} />
+                          <label htmlFor={`sup-${m}`} className="text-xs font-bold text-slate-700 leading-none">{m}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Supplier Phone (Optional)</Label>
+                    <Input placeholder="Phone Number" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Supplier Email (Optional)</Label>
+                    <Input placeholder="Email Address" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  </div>
+                  <div className="md:col-span-2 space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Upload Slaughterhouse / Supplier Proof (Optional)</Label>
+                    <div className="p-8 border-2 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center gap-3 bg-slate-50/50">
+                      <div className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-primary shadow-sm">
+                        <Upload className="h-6 w-6" />
+                      </div>
+                      <p className="text-xs font-bold text-slate-500">Upload invoice, bill, or screenshot (JPG, PNG, PDF)</p>
+                      <p className="text-[10px] text-slate-400">No file chosen</p>
+                    </div>
+                  </div>
+                  <div className="md:col-span-2 space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Notes (Optional)</Label>
+                    <Textarea placeholder="Add any additional comments about this supplier..." className="h-24 rounded-2xl bg-slate-50 border-none p-4 resize-none" />
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="p-8 border-t bg-slate-50/50 justify-center">
+                <Button variant="outline" className="rounded-2xl border-2 font-black uppercase text-[10px] tracking-widest h-12 px-8">
+                  <Plus className="mr-2 h-4 w-4" /> Add Another Supplier
+                </Button>
+              </CardFooter>
             </Card>
           </section>
 
           <section className="space-y-6">
             <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
-                <ShieldCheck className="h-32 w-32" />
+                <CheckCircle2 className="h-32 w-32" />
               </div>
               <div className="relative z-10 space-y-4">
-                <h3 className="text-2xl font-black font-headline text-white">Butcher Integrity Declaration</h3>
+                <h3 className="text-2xl font-black font-headline">Vendor Declaration</h3>
                 <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-3xl">
-                  By submitting this profile, you declare that all meat sourcing information is accurate and that you adhere to strict hand-slaughtering or certified machine-slaughtering protocols as stated. Providing false sourcing information will result in immediate delisting and platform ban.
+                  Please confirm the accuracy of the information provided. By checking this box, you take full responsibility for the accuracy of all submitted details and documents.
                 </p>
               </div>
               
-              <div className="space-y-4 relative z-10">
-                {[
-                  "I confirm all meat sources are 100% halal certified.",
-                  "I take full responsibility for traceability documentation.",
-                  "I understand platform audits can happen without prior notice."
-                ].map((conf, i) => (
-                  <div key={i} className="flex items-center space-x-4 bg-white/5 p-4 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group">
-                    <Checkbox id={`conf-butcher-${i}`} className="border-white/30 data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
-                    <label htmlFor={`conf-butcher-${i}`} className="text-sm font-bold text-white/80 cursor-pointer">{conf}</label>
-                  </div>
-                ))}
+              <div className="flex items-center space-x-4 bg-white/5 p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group relative z-10">
+                <Checkbox id="declaration" className="border-white/30 h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                <label htmlFor="declaration" className="text-sm font-bold text-white/80 cursor-pointer">I declare that all information provided is correct.</label>
               </div>
 
               <Button className="w-full h-16 rounded-[1.5rem] bg-primary hover:bg-primary/90 text-white font-black text-xl shadow-2xl transition-transform active:scale-[0.98]">
-                Submit Butcher Profile
+                Submit & Accept Disclaimer
               </Button>
             </Card>
           </section>
         </TabsContent>
 
-        <TabsContent value="sourcing" className="animate-in fade-in duration-500">
-          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-white space-y-6">
-            <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary">
-              <Layers className="h-10 w-10" />
+        {/* Tab 3: Branding */}
+        <TabsContent value="branding" className="space-y-10 animate-in fade-in duration-500">
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Smartphone className="h-5 w-5 text-primary" /> Branding
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Upload your shop's logo and a cover photo.</p>
             </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-black text-slate-900">Sourcing Logs</h3>
-              <p className="text-muted-foreground font-medium max-w-sm mx-auto">Upload weekly supply invoices and farm traceability logs to maintain your "Source Verified" status.</p>
+            
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="space-y-4">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Shop Logo</Label>
+                  <div className="flex items-center gap-8">
+                    <div className="h-32 w-32 rounded-3xl bg-slate-100 border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-400 overflow-hidden relative group">
+                      <Camera className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Upload className="h-6 w-6 text-white" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-9 border-2 uppercase tracking-tighter">Upload Logo</Button>
+                      <p className="text-[10px] font-bold text-slate-400 leading-tight">PNG, JPG (1:1)<br />Max 2MB</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Cover Photo</Label>
+                  <div className="aspect-video w-full rounded-[2rem] bg-slate-100 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 text-slate-400 relative group overflow-hidden">
+                    <ImageIcon className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Upload Cover</span>
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button variant="secondary" className="rounded-full font-black text-xs h-10 px-6 uppercase tracking-widest">Select Image</Button>
+                    </div>
+                  </div>
+                  <p className="text-[10px] font-bold text-slate-400 text-center uppercase tracking-tighter">Recommended: 16:9 ratio</p>
+                </div>
+              </div>
+            </Card>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+                <Layers className="h-5 w-5 text-primary" /> Manage Gallery
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Drag to reorder images. The first image will be your primary cover photo.</p>
             </div>
-            <Button variant="outline" className="rounded-2xl h-12 px-8 border-2 font-black uppercase text-xs tracking-widest">
-              <Upload className="mr-2 h-4 w-4" /> Upload Invoices
-            </Button>
-          </Card>
+            
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[
+                  { id: 1, label: "Fresh mutton cuts", img: "https://picsum.photos/seed/meat1/400/400" },
+                  { id: 2, label: "Clean shop interior", img: "https://picsum.photos/seed/meat2/400/400" },
+                  { id: 3, label: "Chicken selection", img: "https://picsum.photos/seed/meat3/400/400" },
+                ].map((item) => (
+                  <div key={item.id} className="relative aspect-square rounded-2xl overflow-hidden group cursor-grab active:cursor-grabbing border border-slate-100 shadow-sm">
+                    <img src={item.img} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
+                      <div className="flex justify-end gap-1">
+                        <Button size="icon" className="h-7 w-7 rounded-lg bg-white/20 backdrop-blur-md hover:bg-white/40 text-white border-none"><Trash2 className="h-3.5 w-3.5" /></Button>
+                      </div>
+                      <p className="text-[9px] font-bold text-white leading-tight truncate">{item.label}</p>
+                    </div>
+                    <div className="absolute top-2 left-2 h-6 w-6 rounded-lg bg-white/80 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <GripVertical className="h-3 w-3 text-slate-600" />
+                    </div>
+                  </div>
+                ))}
+                <button className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-slate-50 hover:bg-white hover:border-primary/40 transition-all text-slate-400 hover:text-primary">
+                  <Plus className="h-6 w-6" />
+                  <span className="text-[10px] font-black uppercase tracking-tighter">Add More</span>
+                </button>
+              </div>
+            </Card>
+          </section>
+
+          <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <h3 className="font-black text-sm text-slate-900">Shop Exterior</h3>
+                <p className="text-[10px] text-muted-foreground font-medium">Photos of your storefront.</p>
+              </div>
+              <div className="p-8 border-2 border-dashed border-slate-200 rounded-[2rem] bg-white flex flex-col items-center justify-center gap-2 hover:border-primary/40 transition-colors cursor-pointer group">
+                <Upload className="h-6 w-6 text-slate-300 group-hover:text-primary transition-colors" />
+                <span className="text-[10px] font-bold text-slate-400">Click or drag files</span>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <h3 className="font-black text-sm text-slate-900">Shop Interior</h3>
+                <p className="text-[10px] text-muted-foreground font-medium">Photos of the inside of your shop.</p>
+              </div>
+              <div className="p-8 border-2 border-dashed border-slate-200 rounded-[2rem] bg-white flex flex-col items-center justify-center gap-2 hover:border-primary/40 transition-colors cursor-pointer group">
+                <Upload className="h-6 w-6 text-slate-300 group-hover:text-primary transition-colors" />
+                <span className="text-[10px] font-bold text-slate-400">Click or drag files</span>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <h3 className="font-black text-sm text-slate-900">Meat Display</h3>
+                <p className="text-[10px] text-muted-foreground font-medium">Showcase your fresh meat display.</p>
+              </div>
+              <div className="p-8 border-2 border-dashed border-slate-200 rounded-[2rem] bg-white flex flex-col items-center justify-center gap-2 hover:border-primary/40 transition-colors cursor-pointer group">
+                <Upload className="h-6 w-6 text-slate-300 group-hover:text-primary transition-colors" />
+                <span className="text-[10px] font-bold text-slate-400">Click or drag files</span>
+              </div>
+            </div>
+          </section>
+
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black text-slate-900">Optional Uploads</h2>
+              <p className="text-sm text-muted-foreground font-medium">Providing these can increase customer trust and transparency.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {[
+                { title: "Cutting Area", desc: "Show cleanliness" },
+                { title: "Cold Storage", desc: "Refrigeration photos" },
+                { title: "Product Photos", desc: "Cuts & marinades" },
+                { title: "Shop Videos", desc: "Quick shop tour", icon: Video },
+              ].map((item) => (
+                <div key={item.title} className="space-y-3">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">{item.title}</Label>
+                  <div className="p-6 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-2 bg-slate-50/50 hover:bg-white transition-all cursor-pointer group">
+                    {item.icon ? <item.icon className="h-5 w-5 text-slate-300 group-hover:text-primary" /> : <Upload className="h-5 w-5 text-slate-300 group-hover:text-primary" />}
+                    <span className="text-[9px] font-bold text-slate-400 group-hover:text-primary">Upload</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         </TabsContent>
       </Tabs>
     </div>
