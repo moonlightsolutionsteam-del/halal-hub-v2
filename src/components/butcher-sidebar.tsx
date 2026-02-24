@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -14,7 +15,8 @@ import {
   PlusCircle,
   Headset,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  ClipboardList
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -51,15 +53,14 @@ export function ButcherSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/butcher/dashboard" },
-    { title: "Business Profile", icon: UserCircle, url: "#" },
-    { title: "Products", icon: Package, url: "#" },
-    { title: "Meat Source & Documents", icon: ShieldCheck, url: "#" },
+    { title: "Meat Inventory", icon: Package, url: "/vendor/butcher/products" },
+    { title: "Shop Orders", icon: ClipboardList, url: "/vendor/butcher/orders" },
+    { title: "Business Profile", icon: UserCircle, url: "/vendor/profile" },
+    { title: "Source Documents", icon: ShieldCheck, url: "/vendor/verification" },
     { title: "Media Gallery", icon: ImageIcon, url: "#" },
-    { title: "Delivery & Ordering", icon: Truck, url: "#" },
+    { title: "Delivery Management", icon: Truck, url: "#" },
     { title: "Offers & Promotions", icon: Tag, url: "#" },
     { title: "Reviews", icon: Star, url: "#" },
-    { title: "Branches", icon: MapPin, url: "#" },
-    { title: "Add-on Services", icon: PlusCircle, url: "#" },
     { title: "Support / Help", icon: Headset, url: "#" },
   ];
 

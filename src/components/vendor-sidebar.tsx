@@ -59,10 +59,10 @@ export function VendorSidebar() {
       icon: UtensilsCrossed,
       items: [
         { title: "Menu Items", icon: UtensilsCrossed, url: "/vendor/products" },
+        { title: "Order Management", icon: ClipboardList, url: "/vendor/orders" },
+        { title: "Dining Reservations", icon: CalendarDays, url: "/vendor/reservations" },
         { title: "QR Menu Generator", icon: QrCode, url: "#" },
         { title: "Digital Table Ordering", icon: Smartphone, url: "#" },
-        { title: "Order Management", icon: ClipboardList, url: "#" },
-        { title: "Dining Reservations", icon: CalendarDays, url: "#" },
         { title: "Digital Bills", icon: Receipt, url: "#" },
       ]
     },
