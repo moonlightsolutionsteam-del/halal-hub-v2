@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -16,7 +17,8 @@ import {
   ExternalLink,
   PlusCircle,
   Sparkles,
-  MapPin
+  MapPin,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -37,7 +39,7 @@ export function EventsSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/events/dashboard" },
-    { title: "Venue Profile", icon: Building2, url: "#" },
+    { title: "Venue Profile", icon: UserCircle, url: "/vendor/events/profile" },
     { title: "Event Packages", icon: Sparkles, url: "#" },
     { title: "Bookings & Calendar", icon: Calendar, url: "#" },
     { title: "Tickets & Sales", icon: Ticket, url: "#" },
@@ -46,7 +48,6 @@ export function EventsSidebar() {
     { title: "Media Gallery", icon: ImageIcon, url: "#" },
     { title: "Reviews", icon: Star, url: "#" },
     { title: "Offers & Promos", icon: Tag, url: "#" },
-    { title: "Locations", icon: MapPin, url: "#" },
     { title: "Settings", icon: Settings, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];

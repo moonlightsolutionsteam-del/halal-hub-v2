@@ -17,7 +17,8 @@ import {
   ExternalLink,
   PlusCircle,
   TrendingUp,
-  FileText
+  FileText,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -38,16 +39,14 @@ export function MediaSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/media/dashboard" },
+    { title: "Publisher Profile", icon: UserCircle, url: "/vendor/media/profile" },
     { title: "Inventory (Books)", icon: BookOpen, url: "#" },
     { title: "Digital Media", icon: Library, url: "#" },
     { title: "Authors & Publishers", icon: Users, url: "#" },
     { title: "Orders & Shipping", icon: ShoppingCart, url: "#" },
     { title: "Downloads & Licensing", icon: Download, url: "#" },
-    { title: "Manuscripts / Drafts", icon: FileText, url: "#" },
-    { title: "Media Gallery", icon: ImageIcon, url: "#" },
     { title: "Reader Reviews", icon: Star, url: "#" },
-    { title: "Discounts & Promos", icon: Tag, url: "#" },
-    { title: "Store Settings", icon: Settings, url: "#" },
+    { title: "Analytics", icon: TrendingUp, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];
 

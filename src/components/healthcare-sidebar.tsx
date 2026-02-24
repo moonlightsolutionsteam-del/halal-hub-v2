@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -14,9 +15,9 @@ import {
   Settings,
   Headset,
   ExternalLink,
-  PlusCircle,
   FileText,
-  Image as ImageIcon
+  Image as ImageIcon,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -37,6 +38,7 @@ export function HealthcareSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/healthcare/dashboard" },
+    { title: "Clinic Profile", icon: UserCircle, url: "/vendor/healthcare/profile" },
     { title: "Patient Directory", icon: Users, url: "#" },
     { title: "Appointment Calendar", icon: Calendar, url: "#" },
     { title: "Service Catalog", icon: Stethoscope, url: "#" },
@@ -44,10 +46,8 @@ export function HealthcareSidebar() {
     { title: "Medical Records", icon: FileText, url: "#" },
     { title: "Staff Management", icon: Activity, url: "#" },
     { title: "Certifications", icon: ShieldCheck, url: "/vendor/verification" },
-    { title: "Media Gallery", icon: ImageIcon, url: "#" },
-    { title: "Patient Reviews", icon: Star, url: "#" },
-    { title: "Special Offers", icon: Tag, url: "#" },
-    { title: "Entity Settings", icon: Settings, url: "#" },
+    { title: "Reviews", icon: Star, url: "#" },
+    { title: "Settings", icon: Settings, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];
 

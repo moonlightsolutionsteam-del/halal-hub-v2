@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -14,9 +15,8 @@ import {
   Settings,
   Headset,
   ExternalLink,
-  PlusCircle,
   TrendingUp,
-  Heart
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -37,6 +37,7 @@ export function FashionSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/fashion/dashboard" },
+    { title: "Brand Profile", icon: UserCircle, url: "/vendor/fashion/profile" },
     { title: "Collections", icon: Shirt, url: "#" },
     { title: "Product Catalog", icon: ShoppingBag, url: "#" },
     { title: "Inventory", icon: Package, url: "#" },
@@ -44,9 +45,7 @@ export function FashionSidebar() {
     { title: "Customers", icon: Users, url: "#" },
     { title: "Lookbooks", icon: ImageIcon, url: "#" },
     { title: "Reviews", icon: Star, url: "#" },
-    { title: "Discounts & Tags", icon: Tag, url: "#" },
     { title: "Analytics", icon: TrendingUp, url: "#" },
-    { title: "Store Settings", icon: Settings, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];
 

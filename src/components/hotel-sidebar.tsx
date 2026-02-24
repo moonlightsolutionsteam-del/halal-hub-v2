@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -6,7 +7,6 @@ import {
   Bed,
   Calendar,
   Users,
-  MapPin,
   Star,
   Tag,
   ShieldCheck,
@@ -14,9 +14,9 @@ import {
   Headset,
   Settings,
   ExternalLink,
-  PlusCircle,
   Coffee,
-  Wallet
+  Wallet,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -37,6 +37,7 @@ export function HotelSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/hotel/dashboard" },
+    { title: "Property Profile", icon: UserCircle, url: "/vendor/hotel/profile" },
     { title: "Room Management", icon: Bed, url: "#" },
     { title: "Booking Calendar", icon: Calendar, url: "#" },
     { title: "Guest List", icon: Users, url: "#" },
@@ -44,9 +45,7 @@ export function HotelSidebar() {
     { title: "Media Gallery", icon: ImageIcon, url: "#" },
     { title: "Reviews & Feedback", icon: Star, url: "#" },
     { title: "Special Offers", icon: Tag, url: "#" },
-    { title: "Trust & Halal Certs", icon: ShieldCheck, url: "#" },
     { title: "Billing & Wallet", icon: Wallet, url: "#" },
-    { title: "Property Settings", icon: Settings, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];
 

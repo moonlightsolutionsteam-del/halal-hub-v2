@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -16,7 +17,7 @@ import {
   PlusCircle,
   Wallet,
   ArrowUpRight,
-  ClipboardCheck,
+  UserCircle,
   History
 } from "lucide-react"
 import Link from "next/link"
@@ -38,17 +39,15 @@ export function FinanceSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/finance/dashboard" },
+    { title: "Entity Profile", icon: UserCircle, url: "/vendor/finance/profile" },
     { title: "Portfolio Mgt", icon: TrendingUp, url: "#" },
     { title: "Transactions", icon: Wallet, url: "#" },
-    { title: "Shariah Compliance", icon: ShieldCheck, url: "#" },
+    { title: "Compliance Hub", icon: ShieldCheck, url: "#" },
     { title: "Digital Documents", icon: FileText, url: "#" },
     { title: "Customer Database", icon: Users, url: "#" },
-    { title: "Finance Requests", icon: PlusCircle, url: "#" },
     { title: "Rates & Offers", icon: Tag, url: "#" },
     { title: "Audit Logs", icon: History, url: "#" },
-    { title: "Performance Reports", icon: ArrowUpRight, url: "#" },
-    { title: "Entity Settings", icon: Settings, url: "#" },
-    { title: "Partner Support", icon: Headset, url: "#" },
+    { title: "Support", icon: Headset, url: "#" },
   ];
 
   return (

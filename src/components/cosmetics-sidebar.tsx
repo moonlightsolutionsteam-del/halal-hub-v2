@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -13,9 +14,9 @@ import {
   Settings,
   Headset,
   ExternalLink,
-  PlusCircle,
   TrendingUp,
-  Image as ImageIcon
+  Image as ImageIcon,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -36,16 +37,15 @@ export function CosmeticsSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/cosmetics/dashboard" },
+    { title: "Beauty Profile", icon: UserCircle, url: "/vendor/cosmetics/profile" },
     { title: "Product Catalog", icon: ShoppingBag, url: "#" },
     { title: "Ingredient Analysis", icon: ShieldCheck, url: "/verifier" },
     { title: "Inventory", icon: Package, url: "#" },
     { title: "Order Management", icon: ShoppingBag, url: "#" },
-    { title: "Certifications", icon: ShieldCheck, url: "/vendor/verification" },
     { title: "Media Gallery", icon: ImageIcon, url: "#" },
     { title: "Reviews", icon: Star, url: "#" },
     { title: "Offers & Promos", icon: Tag, url: "#" },
     { title: "Analytics", icon: TrendingUp, url: "#" },
-    { title: "Store Settings", icon: Settings, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];
 

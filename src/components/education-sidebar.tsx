@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -7,7 +8,6 @@ import {
   Users,
   BookOpen,
   Calendar,
-  FileText,
   Star,
   Tag,
   ShieldCheck,
@@ -15,9 +15,9 @@ import {
   Headset,
   Settings,
   ExternalLink,
-  PlusCircle,
   Library,
-  Wallet
+  Wallet,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -38,16 +38,15 @@ export function EducationSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/education/dashboard" },
+    { title: "Institution Profile", icon: UserCircle, url: "/vendor/education/profile" },
     { title: "Students & Enrollment", icon: Users, url: "#" },
     { title: "Courses & Curriculum", icon: BookOpen, url: "#" },
     { title: "Class Schedules", icon: Calendar, url: "#" },
     { title: "Library & Resources", icon: Library, url: "#" },
     { title: "Certifications", icon: ShieldCheck, url: "#" },
     { title: "Fees & Finance", icon: Wallet, url: "#" },
-    { title: "Media Gallery", icon: ImageIcon, url: "#" },
-    { title: "Student Reviews", icon: Star, url: "#" },
-    { title: "Staff Management", icon: GraduationCap, url: "#" },
-    { title: "Entity Settings", icon: Settings, url: "#" },
+    { title: "Reviews", icon: Star, url: "#" },
+    { title: "Settings", icon: Settings, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];
 

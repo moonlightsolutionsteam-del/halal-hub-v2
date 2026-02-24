@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -6,7 +7,6 @@ import {
   Plane,
   Calendar,
   Users,
-  MapPin,
   Star,
   Tag,
   ShieldCheck,
@@ -14,10 +14,10 @@ import {
   Headset,
   Settings,
   ExternalLink,
-  PlusCircle,
   Briefcase,
   Compass,
-  FileText
+  FileText,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -38,6 +38,7 @@ export function TravelSidebar() {
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/travel/dashboard" },
+    { title: "Agency Profile", icon: UserCircle, url: "/vendor/travel/profile" },
     { title: "Tour Packages", icon: Compass, url: "#" },
     { title: "Booking Calendar", icon: Calendar, url: "#" },
     { title: "Customer Database", icon: Users, url: "#" },
@@ -46,8 +47,6 @@ export function TravelSidebar() {
     { title: "Media Gallery", icon: ImageIcon, url: "#" },
     { title: "Reviews & Feedback", icon: Star, url: "#" },
     { title: "Offers & Promos", icon: Tag, url: "#" },
-    { title: "Destinations", icon: MapPin, url: "#" },
-    { title: "Compliance & Certs", icon: ShieldCheck, url: "#" },
     { title: "Settings", icon: Settings, url: "#" },
     { title: "Support", icon: Headset, url: "#" },
   ];
