@@ -55,7 +55,7 @@ export function ButcherSidebar() {
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/butcher/dashboard" },
     { title: "Meat Inventory", icon: Package, url: "/vendor/butcher/products" },
     { title: "Shop Orders", icon: ClipboardList, url: "/vendor/butcher/orders" },
-    { title: "Business Profile", icon: UserCircle, url: "/vendor/profile" },
+    { title: "Business Profile", icon: UserCircle, url: "/vendor/butcher/profile" },
     { title: "Source Documents", icon: ShieldCheck, url: "/vendor/verification" },
     { title: "Media Gallery", icon: ImageIcon, url: "#" },
     { title: "Delivery Management", icon: Truck, url: "#" },

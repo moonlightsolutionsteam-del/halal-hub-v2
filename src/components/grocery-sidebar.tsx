@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -16,7 +17,8 @@ import {
   ExternalLink,
   PlusCircle,
   BarChart3,
-  Store
+  Store,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -39,6 +41,7 @@ export function GrocerySidebar() {
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/grocery/dashboard" },
     { title: "Inventory / Stock", icon: Boxes, url: "#" },
     { title: "Orders", icon: ShoppingCart, url: "#" },
+    { title: "Store Profile", icon: UserCircle, url: "/vendor/grocery/profile" },
     { title: "Products", icon: Package, url: "#" },
     { title: "POS System", icon: Receipt, url: "#" },
     { title: "Delivery Management", icon: Truck, url: "#" },

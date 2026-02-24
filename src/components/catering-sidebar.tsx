@@ -15,7 +15,8 @@ import {
   Headset,
   ExternalLink,
   PlusCircle,
-  ClipboardList
+  ClipboardList,
+  UserCircle
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -39,6 +40,7 @@ export function CateringSidebar() {
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/catering/dashboard" },
     { title: "Menu Management", icon: Utensils, url: "#" },
+    { title: "Catering Profile", icon: UserCircle, url: "/vendor/catering/profile" },
     { title: "Booking Calendar", icon: Calendar, url: "#" },
     { title: "Proposals & Invoices", icon: FileText, url: "#" },
     { title: "Inquiries", icon: ClipboardList, url: "#" },
