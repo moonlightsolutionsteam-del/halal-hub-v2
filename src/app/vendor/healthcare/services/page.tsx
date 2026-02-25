@@ -9,7 +9,7 @@ import {
   Plus, Search, Filter, Edit2, 
   Trash2, Eye, MoreVertical, HeartPulse,
   ShieldCheck, Beaker, Zap, Scale,
-  Stethoscope, Activity
+  Stethoscope, Activity, Clock
 } from "lucide-react";
 import { 
   DropdownMenu, 
@@ -95,7 +95,7 @@ export default function HealthcareServicesPage() {
                   <span className="text-xl font-black text-teal-600">{service.price}</span>
                   <div className="flex items-center gap-2">
                     <div className={`h-2 w-2 rounded-full ${service.status === 'Active' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-                    <span className="text-[10px] font-black text-slate-400 uppercase">{service.status}</span>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase">{service.status}</span>
                   </div>
                 </div>
               </div>
