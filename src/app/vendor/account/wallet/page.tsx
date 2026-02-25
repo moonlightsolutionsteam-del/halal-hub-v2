@@ -8,11 +8,12 @@ import {
   Wallet, ArrowUpRight, ArrowDownLeft, CreditCard, 
   History, Settings, ShieldCheck, Download,
   TrendingUp, Banknote, Calendar, Info,
-  MoreVertical, RefreshCcw
+  MoreVertical, RefreshCcw, Plus
 } from "lucide-react";
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table";
+import Image from "next/image";
 
 export default function AccountWalletPage() {
   const transactions = [
