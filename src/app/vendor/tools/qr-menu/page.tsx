@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -7,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { 
   QrCode, Download, Printer, Settings, 
   Smartphone, Share2, Eye, Layout,
-  Palette, SmartphoneNfc
+  Palette, SmartphoneNfc, Plus
 } from "lucide-react";
 import Image from "next/image";
 
