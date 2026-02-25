@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -35,7 +34,7 @@ export default function EngagementCheckInsPage() {
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">
             <LayoutGrid className="mr-2 h-4 w-4" /> Layout View
           </Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 h-12">
+          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 h-12 text-white">
             <SmartphoneNfc className="mr-2 h-4 w-4" /> Beacon Settings
           </Button>
         </div>
@@ -115,7 +114,7 @@ export default function EngagementCheckInsPage() {
                   </div>
                   <div className="flex gap-2">
                     <Button variant="outline" className="rounded-xl h-10 px-6 font-bold border-2 text-xs">Profile</Button>
-                    <Button className="rounded-xl h-10 px-6 font-black uppercase text-[10px] tracking-widest bg-primary">Award Points</Button>
+                    <Button className="rounded-xl h-10 px-6 font-black uppercase text-[10px] tracking-widest bg-primary text-white">Award Points</Button>
                   </div>
                 </div>
               </div>

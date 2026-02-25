@@ -36,7 +36,6 @@ export default function QRMenuGeneratorPage() {
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 flex flex-col items-center text-center space-y-8">
             <div className="relative p-8 bg-slate-50 rounded-[3rem] border-4 border-white shadow-inner">
               <div className="w-64 h-64 bg-white rounded-3xl flex items-center justify-center p-4 shadow-xl">
-                {/* Mock QR Code */}
                 <div className="w-full h-full relative">
                   <div className="absolute inset-0 bg-slate-900 grid grid-cols-10 grid-rows-10 gap-1 p-2 opacity-10">
                     {Array.from({ length: 100 }).map((_, i) => (
@@ -61,7 +60,7 @@ export default function QRMenuGeneratorPage() {
             </div>
 
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest bg-slate-900">
+              <Button size="lg" className="rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest bg-slate-900 text-white">
                 <Download className="mr-2 h-4 w-4" /> Download QR
               </Button>
               <Button size="lg" variant="outline" className="rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest border-2">
@@ -109,7 +108,7 @@ export default function QRMenuGeneratorPage() {
                   </div>
                   <div className="h-4 w-24 bg-white/50 rounded-full" />
                 </div>
-                <div className="p-4 space-y-4">
+                <div className="p-4 space-y-4 text-slate-900">
                   {[1, 2, 3].map(i => (
                     <div key={i} className="flex gap-3 items-center">
                       <div className="h-10 w-10 bg-slate-100 rounded-lg" />

@@ -86,7 +86,6 @@ export default function RootLayout({
             {getSidebar()}
             
             <div className="flex flex-1 flex-col overflow-hidden relative">
-              {/* Global High-Fidelity Header */}
               <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md px-4 sm:px-6 py-4 flex items-center justify-between border-b shadow-sm">
                 <div className="flex items-center gap-4">
                   <SidebarTrigger className="text-slate-600 hover:text-primary transition-colors h-10 w-10" />
@@ -128,7 +127,6 @@ export default function RootLayout({
                 </div>
               </main>
 
-              {/* Mobile Floating Bottom Nav - Only for Consumer view */}
               {!isAdminPath && !isVendorPath && (
                 <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]">
                   <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-full h-16 shadow-2xl flex items-center justify-around px-2 ring-1 ring-black/5">

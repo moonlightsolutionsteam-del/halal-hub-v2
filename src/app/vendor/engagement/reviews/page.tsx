@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -20,7 +19,7 @@ export default function EngagementReviewsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl">
+    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
@@ -33,7 +32,7 @@ export default function EngagementReviewsPage() {
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">
             Export Ratings
           </Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 h-12">
+          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 h-12 text-white">
             Auto-Reply AI
           </Button>
         </div>
@@ -121,7 +120,7 @@ export default function EngagementReviewsPage() {
                     </div>
                   ) : (
                     <div className="pt-4 flex gap-3">
-                      <Button className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest bg-primary">
+                      <Button className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest bg-primary text-white">
                         <Reply className="mr-2 h-4 w-4" /> Post Reply
                       </Button>
                       <Button variant="outline" className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest border-2">

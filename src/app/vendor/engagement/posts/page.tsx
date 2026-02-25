@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -19,7 +18,7 @@ export default function EngagementPostsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl">
+    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
@@ -28,7 +27,7 @@ export default function EngagementPostsPage() {
           <h1 className="text-3xl font-black font-headline">Social Feed Posts</h1>
           <p className="text-muted-foreground font-medium">Publish updates, offers, and stories directly to your customers' feeds.</p>
         </div>
-        <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12">
+        <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
           <Plus className="mr-2 h-4 w-4" /> Create New Post
         </Button>
       </div>

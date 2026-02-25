@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -44,7 +43,7 @@ export default function DigitalBillsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-primary text-white p-8">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-primary text-primary-foreground p-8">
           <div className="space-y-4">
             <div className="flex justify-between items-start">
               <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Today's Total</p>
@@ -120,7 +119,7 @@ export default function DigitalBillsPage() {
                   <TableCell className="font-black text-slate-900 text-base">{bill.total}</TableCell>
                   <TableCell>
                     <Badge variant={bill.status === 'Paid' ? 'secondary' : 'outline'} className={
-                      bill.status === 'Paid' ? 'bg-emerald-50 text-emerald-600 border-none' : 'bg-amber-50 text-amber-600 border-amber-200'
+                      bill.status === 'Paid' ? 'bg-emerald-50 text-emerald-600 border-none px-3' : 'bg-amber-50 text-amber-600 border-amber-200 px-3'
                     }>
                       {bill.status}
                     </Badge>

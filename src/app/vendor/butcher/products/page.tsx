@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -33,14 +32,14 @@ export default function ButcherProductsPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <ShieldCheck className="h-3 w-3" /> Inventory Control
           </div>
-          <h1 className="text-3xl font-black font-headline">Meat Inventory</h1>
+          <h1 className="text-3xl font-black font-headline text-slate-900">Meat Inventory</h1>
           <p className="text-muted-foreground font-medium">Manage stock levels, sourcing logs, and pricing for your cuts.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">
             <Layers className="mr-2 h-4 w-4" /> Categories
           </Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20">
+          <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 text-white">
             <Plus className="mr-2 h-4 w-4" /> Add New Cut
           </Button>
         </div>

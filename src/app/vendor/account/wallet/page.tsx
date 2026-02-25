@@ -36,7 +36,7 @@ export default function AccountWalletPage() {
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">
             <History className="mr-2 h-4 w-4" /> Settlement Logs
           </Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 h-12">
+          <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
             <ArrowUpRight className="mr-2 h-4 w-4" /> Request Payout
           </Button>
         </div>
@@ -138,36 +138,9 @@ export default function AccountWalletPage() {
 
         <div className="lg:col-span-4 space-y-8">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
-            <h3 className="text-xl font-black">Settlement Payouts</h3>
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                  <span className="text-slate-400">Next Payout Cycle</span>
-                  <span className="text-primary">85% Processed</span>
-                </div>
-                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary w-[85%] rounded-full" />
-                </div>
-              </div>
-              
-              <div className="p-6 rounded-[2rem] bg-slate-50 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm">
-                    <Banknote className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Payout Frequency</p>
-                    <p className="text-sm font-black text-slate-900">Weekly (Every Monday)</p>
-                  </div>
-                </div>
-                <Button variant="ghost" className="w-full font-bold text-xs p-0 h-auto justify-start text-primary">Change Frequency</Button>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+            <h3 className="text-xl font-black">Linked Accounts</h3>
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-black">Linked Accounts</h3>
+              <h3 className="text-sm font-bold text-slate-500">Linked Accounts</h3>
               <Button size="icon" variant="ghost" className="rounded-xl bg-slate-50"><Plus className="h-4 w-4" /></Button>
             </div>
             <div className="space-y-4">

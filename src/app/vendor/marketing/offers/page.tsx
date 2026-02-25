@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -28,7 +27,7 @@ export default function MarketingOffersPage() {
           <h1 className="text-3xl font-black font-headline">Offers & Coupons</h1>
           <p className="text-muted-foreground font-medium">Drive traffic and reward loyalty with customizable marketing campaigns.</p>
         </div>
-        <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12">
+        <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
           <Plus className="mr-2 h-4 w-4" /> Create New Offer
         </Button>
       </div>
@@ -117,47 +116,6 @@ export default function MarketingOffersPage() {
             </Card>
           ))}
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-black text-slate-900">Campaign Ideas</h3>
-            <p className="text-sm text-muted-foreground font-medium">Boost your sales with our proven marketing templates.</p>
-          </div>
-          <div className="space-y-3">
-            {[
-              { title: "Student Midweek", desc: "15% OFF for verified university users", icon: Zap, color: "text-blue-500" },
-              { title: "Loyalty Punch Card", desc: "Buy 5 meals, get 6th meal free", icon: CheckCircle2, color: "text-emerald-500" },
-            ].map((idea, i) => (
-              <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-transparent hover:border-primary/10 transition-all group cursor-pointer">
-                <div className="flex items-center gap-4">
-                  <idea.icon className={`h-5 w-5 ${idea.color}`} />
-                  <div>
-                    <p className="text-sm font-black text-slate-900">{idea.title}</p>
-                    <p className="text-[10px] font-bold text-slate-400">{idea.desc}</p>
-                  </div>
-                </div>
-                <ArrowRight className="h-4 w-4 text-slate-300 group-hover:translate-x-1 transition-transform" />
-              </div>
-            ))}
-          </div>
-        </Card>
-
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-xl font-black text-slate-900">Reward Partners</h3>
-            <p className="text-sm text-muted-foreground font-medium">Collaborate with our charity partners for "Donate my Discount" programs.</p>
-          </div>
-          <div className="p-6 bg-slate-900 rounded-[2rem] text-white flex items-center justify-between">
-            <div className="space-y-1">
-              <p className="text-xs font-black uppercase text-emerald-400 tracking-widest">Active Collab</p>
-              <p className="text-lg font-black leading-tight">Mercy Food Drive</p>
-              <p className="text-[10px] opacity-60">₹10 from every 'Mercy Bowl' donated</p>
-            </div>
-            <Button variant="secondary" className="rounded-xl font-black text-[10px] uppercase h-10">Manage</Button>
-          </div>
-        </Card>
       </div>
     </div>
   );

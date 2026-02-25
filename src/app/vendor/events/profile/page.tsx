@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react";
@@ -57,7 +56,6 @@ export default function EventsProfilePage() {
 
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
-      {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
           <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Event Venue Profile</h1>
@@ -79,7 +77,6 @@ export default function EventsProfilePage() {
           <TabsTrigger value="branding" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Branding & Gallery</TabsTrigger>
         </TabsList>
 
-        {/* Tab 1: Basic Info */}
         <TabsContent value="details" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
@@ -150,7 +147,6 @@ export default function EventsProfilePage() {
           </section>
         </TabsContent>
 
-        {/* Tab 2: Privacy & Shariah */}
         <TabsContent value="privacy" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
@@ -191,7 +187,6 @@ export default function EventsProfilePage() {
           </section>
         </TabsContent>
 
-        {/* Tab 3: Amenities & Capacity */}
         <TabsContent value="amenities" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
@@ -224,24 +219,6 @@ export default function EventsProfilePage() {
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <Sparkles className="h-5 w-5 text-purple-600" /> General Amenities
-              </h2>
-            </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {AMENITIES.map((item) => (
-                  <div key={item} className="flex items-center space-x-3 p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
-                    <Checkbox id={`a-${item}`} />
-                    <label htmlFor={`a-${item}`} className="text-xs font-bold text-slate-700 cursor-pointer">{item}</label>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </section>
-
-          <section className="space-y-6">
-            <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
                 <Calendar className="h-5 w-5 text-purple-600" /> Event Specialization
               </h2>
             </div>
@@ -258,7 +235,6 @@ export default function EventsProfilePage() {
           </section>
         </TabsContent>
 
-        {/* Tab 4: Accreditation */}
         <TabsContent value="documents" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
@@ -289,7 +265,6 @@ export default function EventsProfilePage() {
           </section>
         </TabsContent>
 
-        {/* Tab 5: Branding & Gallery */}
         <TabsContent value="branding" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">

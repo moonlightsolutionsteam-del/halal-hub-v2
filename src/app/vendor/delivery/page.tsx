@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Truck, MapPin, Clock, CheckCircle2, 
   Navigation, Users, Bike, Phone,
-  ArrowUpRight, SlidersHorizontal, Search
+  ArrowUpRight, SlidersHorizontal, Search,
+  PlusCircle
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -33,7 +33,7 @@ export default function DeliveryManagementPage() {
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">
             <SlidersHorizontal className="mr-2 h-4 w-4" /> Zones
           </Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20">
+          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 text-white">
             <PlusCircle className="mr-2 h-4 w-4" /> Assign Rider
           </Button>
         </div>
@@ -168,25 +168,4 @@ export default function DeliveryManagementPage() {
       </div>
     </div>
   );
-}
-
-function PlusCircle(props: any) {
-    return (
-        <svg
-            {...props}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M8 12h8" />
-            <path d="M12 8v8" />
-        </svg>
-    )
 }

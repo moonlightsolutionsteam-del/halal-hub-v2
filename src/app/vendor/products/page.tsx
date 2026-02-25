@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,17 +26,17 @@ export default function VendorProductsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl">
+    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline">Products & Services</h1>
+          <h1 className="text-3xl font-black font-headline text-slate-900">Products & Services</h1>
           <p className="text-muted-foreground font-medium">Manage your menu offerings and service catalogs.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">
             <Layers className="mr-2 h-4 w-4" /> Manage Categories
           </Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20">
+          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 text-white">
             <Plus className="mr-2 h-4 w-4" /> Add New Item
           </Button>
         </div>
@@ -49,7 +48,7 @@ export default function VendorProductsPage() {
           <Input placeholder="Search items..." className="pl-9 h-11 rounded-2xl bg-white border-none shadow-sm" />
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white">All Items</Badge>
+          <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-all">All Items</Badge>
           <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted">Mains</Badge>
           <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted">Desserts</Badge>
           <Button variant="ghost" size="icon" className="rounded-full"><Filter className="h-4 w-4" /></Button>
@@ -97,7 +96,7 @@ export default function VendorProductsPage() {
             </CardContent>
           </Card>
         ))}
-        <button className="rounded-[2.5rem] border-4 border-dashed border-muted hover:border-primary/40 hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-4 text-muted-foreground hover:text-primary p-8">
+        <button className="rounded-[2.5rem] border-4 border-dashed border-muted hover:border-primary/40 hover:bg-primary/5 transition-all flex flex-col items-center justify-center gap-4 text-muted-foreground hover:text-primary p-8 min-h-[300px]">
           <div className="h-16 w-16 rounded-3xl bg-muted/50 flex items-center justify-center">
             <Plus className="h-8 w-8" />
           </div>

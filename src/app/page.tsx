@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from "react";
@@ -71,13 +70,11 @@ export default function Home() {
 
   return (
     <div className="space-y-12 py-4 px-2 max-w-6xl mx-auto">
-      {/* Header Greeting Section */}
       <div className="space-y-1 text-center sm:text-left">
         <h1 className="text-3xl font-black text-slate-900 tracking-tight">Assalamualaikum, Super</h1>
         <p className="text-sm font-bold text-muted-foreground">{formattedDate}</p>
       </div>
 
-      {/* Hero Prayer Time Card */}
       <Card className="relative overflow-hidden border-none rounded-[2.5rem] bg-gradient-to-br from-primary to-emerald-400 text-white shadow-2xl shadow-primary/20">
         <div className="absolute top-0 right-0 p-8 opacity-20">
           <Moon className="h-32 w-32" />
@@ -97,7 +94,6 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      {/* Discovery Features Grid */}
       <section className="space-y-6">
         <div className="flex items-center justify-between px-2">
           <h2 className="text-xl font-black">Discover Features</h2>
@@ -119,7 +115,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* My Journey Section */}
       <section className="space-y-4">
         <h2 className="text-xl font-black px-2">My Journey</h2>
         <Card className="rounded-[2.5rem] border-none shadow-sm p-6 space-y-6">
@@ -142,7 +137,6 @@ export default function Home() {
         </Card>
       </section>
 
-      {/* Quick Picks / Media Grid */}
       <section className="space-y-4">
         <div className="flex items-center justify-between px-2">
           <h2 className="text-xl font-black">Quick Picks</h2>
@@ -165,7 +159,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trending Reels */}
       <section className="space-y-4">
         <div className="flex items-center justify-between px-2">
           <h2 className="text-xl font-black">Trending Reels</h2>
@@ -192,7 +185,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Platform Statistics */}
       <section className="space-y-4">
         <h2 className="text-xl font-black px-2">Halal Hub Growth</h2>
         <Card className="rounded-[2.5rem] border-none shadow-sm p-2">

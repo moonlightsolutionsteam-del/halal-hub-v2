@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -8,7 +7,7 @@ import {
   Headset, MessageSquare, LifeBuoy, FileText, 
   HelpCircle, Search, ExternalLink, ArrowRight,
   Phone, Mail, Globe, Zap, Clock, ShieldCheck,
-  ChevronRight
+  ChevronRight, ArrowUpRight, CheckCircle2
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -25,10 +24,10 @@ export default function AccountSupportPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <Headset className="h-3 w-3" /> Partner Success
           </div>
-          <h1 className="text-3xl font-black font-headline">Vendor Support Center</h1>
+          <h1 className="text-3xl font-black font-headline text-slate-900">Vendor Support Center</h1>
           <p className="text-muted-foreground font-medium">Get assistance with audits, technical issues, or marketplace growth.</p>
         </div>
-        <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12">
+        <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
           <MessageSquare className="mr-2 h-4 w-4" /> Open Support Ticket
         </Button>
       </div>
@@ -101,7 +100,7 @@ export default function AccountSupportPage() {
           </Card>
 
           <section className="space-y-6">
-            <h2 className="text-xl font-black px-2">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-black px-2 text-slate-900">Frequently Asked Questions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 "How do I update my Halal certificate?",
@@ -147,7 +146,7 @@ export default function AccountSupportPage() {
           </Card>
 
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
-            <h3 className="text-xl font-black">Knowledge Base</h3>
+            <h3 className="text-xl font-black text-slate-900">Knowledge Base</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-transparent hover:border-primary/10 transition-all cursor-pointer group">
                 <div className="flex items-center gap-4">

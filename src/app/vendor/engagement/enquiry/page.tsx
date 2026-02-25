@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -32,7 +31,7 @@ export default function EngagementEnquiryPage() {
           <Button variant="outline" className="rounded-full px-6 font-bold border-2">
             Archive Read
           </Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 h-12">
+          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20 h-12 text-white">
             Auto-Reply Settings
           </Button>
         </div>
@@ -86,8 +85,8 @@ export default function EngagementEnquiryPage() {
                   "{enq.body}"
                 </p>
                 <div className="pt-6 flex gap-3">
-                  <Button className="rounded-2xl h-12 px-8 font-black uppercase text-[10px] tracking-widest bg-primary">
-                    <Reply className="mr-2 h-4 w-4" /> Reply to Zaid
+                  <Button className="rounded-2xl h-12 px-8 font-black uppercase text-[10px] tracking-widest bg-primary text-white">
+                    <Reply className="mr-2 h-4 w-4" /> Reply to {enq.user.split(' ')[0]}
                   </Button>
                   <Button variant="outline" className="rounded-2xl h-12 px-8 font-black uppercase text-[10px] tracking-widest border-2">
                     Mark as Read
