@@ -1,0 +1,117 @@
+
+"use client"
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Users, Plus, Search, Filter, Phone, 
+  Mail, Calendar, ArrowUpRight, CheckCircle2,
+  Clock, User, Info, MoreVertical, ShieldCheck,
+  Zap, Star
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+
+export default function CateringStaffPage() {
+  const staff = [
+    { id: 1, name: "Omar Sheikh", role: "Head Chef", status: "On Duty", rating: 4.9, certs: ["Food Hygiene Lvl 3"] },
+    { id: 2, name: "Sami Khan", role: "Event Captain", status: "Available", rating: 4.8, certs: ["Crowd Control"] },
+    { id: 3, name: "Fatima S.", role: "Lead Hostess", status: "On Break", rating: 5.0, certs: ["Protocol Certified"] },
+    { id: 4, name: "Zaid Ali", role: "Logistics Lead", status: "Off-duty", rating: 4.7, certs: ["Heavy Driver"] },
+  ];
+
+  return (
+    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 text-blue-600 font-black uppercase tracking-widest text-[10px]">
+            <Users className="h-3 w-3" /> Human Resources
+          </div>
+          <h1 className="text-3xl font-black font-headline text-slate-900">Staff & Captains</h1>
+          <p className="text-muted-foreground font-medium">Manage your field team, uniforms, certifications, and shift rotations.</p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="outline" className="rounded-full px-6 font-bold border-2 h-12">
+            Schedule Roster
+          </Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 rounded-full px-8 font-black shadow-lg shadow-blue-200 h-12 text-white">
+            <Plus className="mr-2 h-4 w-4" /> Add Team Member
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {[
+          { label: "Active Today", value: "8", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
+          { label: "Uniform Check", value: "100%", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
+          { label: "Avg Staff Rating", value: "4.9", icon: Star, color: "text-amber-600", bg: "bg-amber-50" },
+          { label: "Next Shift", value: "12:00 PM", icon: Clock, color: "text-purple-600", bg: "bg-purple-50" },
+        ].map((stat, i) => (
+          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4">
+            <div className={`h-12 w-12 rounded-2xl ${stat.bg} flex items-center justify-center ${stat.color}`}>
+              <stat.icon className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">{stat.label}</p>
+              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <div className="space-y-6">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
+          <h2 className="text-xl font-black">Field Force Feed</h2>
+          <div className="relative w-full md:w-80">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input placeholder="Search Staff..." className="pl-9 h-11 rounded-2xl bg-white border-none shadow-sm font-medium" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4">
+          {staff.map((s) => (
+            <Card key={s.id} className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden border-2 border-transparent hover:border-blue-100 transition-all group">
+              <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-10">
+                <div className="flex items-center gap-6">
+                  <Avatar className="h-16 w-16 border-4 border-slate-50 shadow-md">
+                    <AvatarImage src={`https://picsum.photos/seed/staff-${s.id}/150/150`} />
+                    <AvatarFallback>{s.name[0]}</AvatarFallback>
+                  </Avatar>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <p className="text-xl font-black text-slate-900">{s.name}</p>
+                      <Badge className="bg-blue-50 text-blue-600 border-none font-black text-[9px] uppercase px-2">{s.role}</Badge>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
+                        <Star className="h-3 w-3 fill-current" /> {s.rating}
+                      </div>
+                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">• {s.certs[0]}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-12">
+                  <div className="text-right">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Current Status</p>
+                    <Badge className={
+                      s.status === 'On Duty' ? 'bg-emerald-50 text-emerald-600 border-none' : 
+                      s.status === 'Available' ? 'bg-blue-50 text-blue-600 border-none' : 'bg-slate-100 text-slate-400 border-none'
+                    }>
+                      {s.status}
+                    </Badge>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button size="icon" variant="ghost" className="rounded-xl"><Phone className="h-4 w-4 text-slate-400" /></Button>
+                    <Button size="icon" variant="ghost" className="rounded-xl"><MoreVertical className="h-4 w-4 text-slate-400" /></Button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
