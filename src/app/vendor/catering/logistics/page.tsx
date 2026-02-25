@@ -9,7 +9,7 @@ import {
   Navigation, Users, Bike, Phone,
   ArrowUpRight, Search, PlusCircle,
   Thermometer, ShieldCheck, Zap, Timer,
-  CookingPot
+  CookingPot, ChevronRight
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
