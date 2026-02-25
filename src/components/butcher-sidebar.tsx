@@ -15,7 +15,7 @@ import {
   PlusCircle,
   Headset,
   ExternalLink,
-  ChevronRight,
+  ChevronDown,
   ClipboardList
 } from "lucide-react"
 import Link from "next/link"
@@ -50,28 +50,33 @@ const MeatIcon = (props: any) => (
 
 export function ButcherSidebar() {
   const pathname = usePathname()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const menuItems = [
     { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/butcher/dashboard" },
     { title: "Meat Inventory", icon: Package, url: "/vendor/butcher/products" },
     { title: "Shop Orders", icon: ClipboardList, url: "/vendor/butcher/orders" },
     { title: "Business Profile", icon: UserCircle, url: "/vendor/butcher/profile" },
-    { title: "Source Documents", icon: ShieldCheck, url: "/vendor/verification" },
-    { title: "Media Gallery", icon: ImageIcon, url: "#" },
-    { title: "Delivery Management", icon: Truck, url: "#" },
-    { title: "Offers & Promotions", icon: Tag, url: "#" },
-    { title: "Reviews", icon: Star, url: "#" },
-    { title: "Support / Help", icon: Headset, url: "#" },
+    { title: "Source Documents", icon: ShieldCheck, url: "/vendor/butcher/documents" },
+    { title: "Media Gallery", icon: ImageIcon, url: "/vendor/butcher/gallery" },
+    { title: "Delivery Management", icon: Truck, url: "/vendor/butcher/delivery" },
+    { title: "Offers & Promotions", icon: Tag, url: "/vendor/butcher/offers" },
+    { title: "Reviews", icon: Star, url: "/vendor/butcher/reviews" },
+    { title: "Support / Help", icon: Headset, url: "/vendor/butcher/support" },
   ];
 
   return (
     <Sidebar variant="sidebar" className="border-r bg-white">
       <SidebarHeader className="p-6 border-b">
         <Link href="/vendor/butcher/dashboard" className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+          <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-red-200">
             <MeatIcon className="h-5 w-5" />
           </div>
-          <span className="font-black text-xl text-primary font-headline tracking-tight">Butcher Panel</span>
+          <span className="font-black text-xl text-slate-900 font-headline tracking-tight">Butcher Panel</span>
         </Link>
       </SidebarHeader>
 
@@ -82,8 +87,8 @@ export function ButcherSidebar() {
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton 
                   asChild 
-                  isActive={pathname === item.url} 
-                  className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-primary data-[active=true]:text-white transition-all"
+                  isActive={mounted && pathname === item.url} 
+                  className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-red-600 data-[active=true]:text-white transition-all"
                 >
                   <Link href={item.url}>
                     <item.icon className="h-4 w-4 mr-3" />
@@ -97,10 +102,10 @@ export function ButcherSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="p-6 border-t bg-slate-50/50">
-        <Link href="/" className="flex items-center gap-3 text-primary cursor-pointer hover:opacity-80 transition-opacity">
-          <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center text-white font-black text-xs">MB</div>
+        <Link href="/" className="flex items-center gap-3 text-red-600 cursor-pointer hover:opacity-80 transition-opacity">
+          <div className="h-8 w-8 bg-red-600 rounded-full flex items-center justify-center text-white font-black text-xs">MB</div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold">Meat Bar Butcher</span>
+            <span className="text-sm font-bold text-slate-900">Meat Bar Butcher</span>
             <span className="text-[10px] text-muted-foreground font-medium">Exit to App</span>
           </div>
           <ExternalLink className="h-3 w-3 ml-auto opacity-40" />
