@@ -380,9 +380,6 @@ const SidebarFooter = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
-  const { mounted } = useSidebar()
-  if (!mounted) return null
-
   return (
     <div
       ref={ref}
@@ -570,7 +567,7 @@ const SidebarMenuButton = React.forwardRef<
     const Comp = asChild ? Slot : "button"
     const { isMobile, state, mounted } = useSidebar()
 
-    // Gate isActive state behind mounted check to avoid hydration mismatch
+    // Gate isActive logic behind mounted check to prevent hydration mismatch
     const active = mounted ? isActive : false
 
     const button = (
@@ -733,7 +730,7 @@ const SidebarMenuSubButton = React.forwardRef<
   const Comp = asChild ? Slot : "a"
   const { mounted } = useSidebar()
 
-  // Gate isActive logic
+  // Gate isActive logic behind mounted check to prevent hydration mismatch
   const active = mounted ? isActive : false
 
   return (
