@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Camera, Upload, Trash2, Plus, 
   ImageIcon, GripVertical, CheckCircle2,
-  Layout, Eye, Star, Save
+  Layout, Eye, Star, Save, ShieldCheck
 } from "lucide-react";
 import Image from "next/image";
 
