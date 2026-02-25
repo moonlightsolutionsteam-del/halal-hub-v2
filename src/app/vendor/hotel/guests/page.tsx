@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,6 +12,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export default function HotelGuestsPage() {
   const guests = [
@@ -83,13 +85,16 @@ export default function HotelGuestsPage() {
                     <AvatarImage src={`https://picsum.photos/seed/guest-${g.id}/150/150`} />
                     <AvatarFallback>{g.name[0]}</AvatarFallback>
                   </Avatar>
-                  <div>
+                  <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <p className="text-xl font-black text-slate-900">{g.name}</p>
-                      <Badge className={
+                      <Badge className={cn(
+                        "text-[9px] font-black px-2 uppercase tracking-widest",
                         g.loyalty === 'Gold Member' ? 'bg-amber-50 text-amber-600 border-none' : 
                         g.loyalty === 'Silver Member' ? 'bg-slate-100 text-slate-600 border-none' : 'bg-sky-50 text-sky-600 border-none'
-                      } text-[9px] font-black px-2 uppercase tracking-widest>{g.loyalty}</Badge>
+                      )}>
+                        {g.loyalty}
+                      </Badge>
                     </div>
                     <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
                       <span>Total Stays: {g.stays}</span>
