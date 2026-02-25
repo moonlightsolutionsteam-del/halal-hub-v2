@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from 'react';
@@ -33,6 +32,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const isAdminPath = pathname?.startsWith('/admin');
   const isVendorPath = pathname?.startsWith('/vendor');
   const isButcherPath = pathname?.startsWith('/vendor/butcher');
@@ -127,19 +132,19 @@ export default function RootLayout({
               {!isAdminPath && !isVendorPath && (
                 <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]">
                   <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-full h-16 shadow-2xl flex items-center justify-around px-2 ring-1 ring-black/5">
-                    <Link href="/" className={`p-3 rounded-full transition-all ${pathname === '/' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                    <Link href="/" className={`p-3 rounded-full transition-all ${mounted && pathname === '/' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
                       <Home className="h-6 w-6" />
                     </Link>
-                    <Link href="/verifier" className={`p-3 rounded-full transition-all ${pathname === '/verifier' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                    <Link href="/verifier" className={`p-3 rounded-full transition-all ${mounted && pathname === '/verifier' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
                       <ShieldCheck className="h-6 w-6" />
                     </Link>
-                    <Link href="/restaurants" className={`p-3 rounded-full transition-all ${pathname === '/restaurants' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                    <Link href="/restaurants" className={`p-3 rounded-full transition-all ${mounted && pathname === '/restaurants' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
                       <Compass className="h-6 w-6" />
                     </Link>
-                    <Link href="/community" className={`p-3 rounded-full transition-all ${pathname === '/community' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                    <Link href="/community" className={`p-3 rounded-full transition-all ${mounted && pathname === '/community' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
                       <Globe className="h-6 w-6" />
                     </Link>
-                    <Link href="/account/dashboard" className={`p-3 rounded-full transition-all ${pathname?.startsWith('/account') ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                    <Link href="/account/dashboard" className={`p-3 rounded-full transition-all ${mounted && pathname?.startsWith('/account') ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
                       <User className="h-6 w-6" />
                     </Link>
                   </div>
