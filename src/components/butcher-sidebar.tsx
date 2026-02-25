@@ -11,12 +11,17 @@ import {
   Truck,
   Tag,
   Star,
-  MapPin,
   PlusCircle,
   Headset,
   ExternalLink,
   ChevronDown,
-  ClipboardList
+  ClipboardList,
+  Heart,
+  Users2,
+  PenTool,
+  BookOpen,
+  Wallet,
+  Settings
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -31,6 +36,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
 const MeatIcon = (props: any) => (
   <svg
@@ -56,17 +62,45 @@ export function ButcherSidebar() {
     setMounted(true)
   }, [])
 
-  const menuItems = [
-    { title: "Dashboard", icon: LayoutDashboard, url: "/vendor/butcher/dashboard" },
-    { title: "Meat Inventory", icon: Package, url: "/vendor/butcher/products" },
-    { title: "Shop Orders", icon: ClipboardList, url: "/vendor/butcher/orders" },
-    { title: "Business Profile", icon: UserCircle, url: "/vendor/butcher/profile" },
-    { title: "Source Documents", icon: ShieldCheck, url: "/vendor/butcher/documents" },
-    { title: "Media Gallery", icon: ImageIcon, url: "/vendor/butcher/gallery" },
-    { title: "Delivery Management", icon: Truck, url: "/vendor/butcher/delivery" },
-    { title: "Offers & Promotions", icon: Tag, url: "/vendor/butcher/offers" },
-    { title: "Reviews", icon: Star, url: "/vendor/butcher/reviews" },
-    { title: "Support / Help", icon: Headset, url: "/vendor/butcher/support" },
+  const toolGroups = [
+    {
+      title: "Inventory & Orders",
+      icon: Package,
+      items: [
+        { title: "Meat Inventory", icon: Package, url: "/vendor/butcher/products" },
+        { title: "Shop Orders", icon: ClipboardList, url: "/vendor/butcher/orders" },
+        { title: "Delivery Logistics", icon: Truck, url: "/vendor/butcher/delivery" },
+      ]
+    },
+    {
+      title: "Engagement",
+      icon: PenTool,
+      items: [
+        { title: "Social Posts", icon: PenTool, url: "/vendor/butcher/engagement/posts" },
+        { title: "Butcher Blog", icon: BookOpen, url: "/vendor/butcher/engagement/blog" },
+        { title: "Customer Reviews", icon: Star, url: "/vendor/butcher/reviews" },
+      ]
+    },
+    {
+      title: "Marketing",
+      icon: Tag,
+      items: [
+        { title: "Offers & Promos", icon: Tag, url: "/vendor/butcher/offers" },
+        { title: "Loyalty Program", icon: Heart, url: "/vendor/butcher/marketing/loyalty" },
+        { title: "Collaborate", icon: Users2, url: "/vendor/butcher/marketing/collaborate" },
+        { title: "Trust Hub", icon: ShieldCheck, url: "/vendor/butcher/marketing/transparency" },
+      ]
+    },
+    {
+      title: "Shop Account",
+      icon: Settings,
+      items: [
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/butcher/account/wallet" },
+        { title: "Source Documents", icon: ShieldCheck, url: "/vendor/butcher/documents" },
+        { title: "Media Gallery", icon: ImageIcon, url: "/vendor/butcher/gallery" },
+        { title: "Support Center", icon: Headset, url: "/vendor/butcher/support" },
+      ]
+    }
   ];
 
   return (
@@ -81,24 +115,66 @@ export function ButcherSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-3 py-4 bg-white">
-        <SidebarGroup>
-          <SidebarMenu className="space-y-1">
-            {menuItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton 
-                  asChild 
-                  isActive={mounted && pathname === item.url} 
-                  className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-red-600 data-[active=true]:text-white transition-all"
-                >
-                  <Link href={item.url}>
-                    <item.icon className="h-4 w-4 mr-3" />
-                    <span className="text-sm">{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
+        <SidebarMenu className="space-y-1 mb-4">
+          <SidebarMenuItem>
+            <SidebarMenuButton 
+              asChild 
+              isActive={mounted && pathname === "/vendor/butcher/dashboard"} 
+              className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-red-600 data-[active=true]:text-white transition-all"
+            >
+              <Link href="/vendor/butcher/dashboard">
+                <LayoutDashboard className="h-4 w-4 mr-3" />
+                <span>Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton 
+              asChild 
+              isActive={mounted && pathname === "/vendor/butcher/profile"} 
+              className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-red-600 data-[active=true]:text-white transition-all"
+            >
+              <Link href="/vendor/butcher/profile">
+                <UserCircle className="h-4 w-4 mr-3" />
+                <span>Shop Profile</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
+        {toolGroups.map((group) => (
+          <SidebarGroup key={group.title}>
+            <Collapsible defaultOpen className="group/collapsible">
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton className="h-10 font-bold text-red-600 bg-red-50/50 rounded-lg hover:bg-red-50 transition-colors">
+                    <group.icon className="h-4 w-4 mr-3" />
+                    <span className="text-sm">{group.title}</span>
+                    <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenu className="ml-4 mt-1 border-l border-red-100">
+                    {group.items.map((sub) => (
+                      <SidebarMenuItem key={sub.title}>
+                        <SidebarMenuButton 
+                          asChild 
+                          isActive={mounted && pathname === sub.url}
+                          className="h-9 font-bold text-slate-500 rounded-lg hover:text-red-600 hover:bg-red-50 transition-all"
+                        >
+                          <Link href={sub.url}>
+                            <sub.icon className="h-4 w-4 mr-3 opacity-60" />
+                            <span className="text-[13px]">{sub.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </CollapsibleContent>
               </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+            </Collapsible>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
 
       <SidebarFooter className="p-6 border-t bg-slate-50/50">
