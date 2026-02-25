@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Wallet, ArrowUpRight, CreditCard, 
   History, ShieldCheck, Download,
-  TrendingUp, Banknote, Info, Plus
+  TrendingUp, Banknote, Info, Plus,
+  CheckCircle2
 } from "lucide-react";
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
