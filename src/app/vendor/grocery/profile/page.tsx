@@ -66,7 +66,7 @@ export default function GroceryProfilePage() {
           <p className="text-muted-foreground font-medium">Manage your supermarket's inventory departments, logistics, and verification status.</p>
         </div>
         <div className="flex gap-3">
-          <Button className="bg-primary hover:bg-primary/90 rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-2xl px-8 font-black shadow-lg shadow-emerald-200 h-12 text-white">
             <Save className="mr-2 h-4 w-4" /> Save Changes
           </Button>
         </div>
@@ -74,19 +74,18 @@ export default function GroceryProfilePage() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="bg-white border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
-          <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-primary data-[state=active]:text-white transition-all">Basic Info</TabsTrigger>
+          <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all">Basic Info</TabsTrigger>
           <TabsTrigger value="departments" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Departments</TabsTrigger>
           <TabsTrigger value="logistics" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Logistics & Payments</TabsTrigger>
           <TabsTrigger value="documents" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Documents</TabsTrigger>
           <TabsTrigger value="branding" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Media & Branding</TabsTrigger>
         </TabsList>
 
-        {/* Tab 1: Basic Info */}
         <TabsContent value="details" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <Info className="h-5 w-5 text-primary" /> Core Details
+                <Info className="h-5 w-5 text-emerald-600" /> Core Details
               </h2>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
@@ -119,7 +118,7 @@ export default function GroceryProfilePage() {
                 </div>
                 <div className="md:col-span-2 space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">About Store</Label>
-                  <Textarea placeholder="Detail your store's mission, fresh produce standards, and community focus..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20" />
+                  <Textarea placeholder="Detail your store's mission, fresh produce standards, and community focus..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-emerald-600/20" />
                 </div>
                 <div className="md:col-span-2 space-y-4">
                   <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Business Highlights</Label>
@@ -139,7 +138,7 @@ export default function GroceryProfilePage() {
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <MapPin className="h-5 w-5 text-primary" /> Location & Timing
+                <MapPin className="h-5 w-5 text-emerald-600" /> Location & Timing
               </h2>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
@@ -180,12 +179,11 @@ export default function GroceryProfilePage() {
           </section>
         </TabsContent>
 
-        {/* Tab 2: Departments */}
         <TabsContent value="departments" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <Boxes className="h-5 w-5 text-primary" /> Active Departments
+                <Boxes className="h-5 w-5 text-emerald-600" /> Active Departments
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Select all departments available in your store to help customers find you.</p>
             </div>
@@ -204,8 +202,8 @@ export default function GroceryProfilePage() {
                 <ScrollArea className="h-[400px] rounded-2xl bg-slate-50/50 p-6 border border-slate-100 shadow-inner">
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {filteredDepts.map((d) => (
-                      <div key={d} className="flex items-center space-x-3 p-3 bg-white rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all cursor-pointer group">
-                        <Checkbox id={`dept-${d}`} className="rounded-md border-slate-300 group-hover:border-primary" />
+                      <div key={d} className="flex items-center space-x-3 p-3 bg-white rounded-xl shadow-sm border border-transparent hover:border-emerald-600/20 transition-all cursor-pointer group">
+                        <Checkbox id={`dept-${d}`} className="rounded-md border-slate-300 group-hover:border-emerald-600" />
                         <label htmlFor={`dept-${d}`} className="text-xs font-bold text-slate-700 cursor-pointer truncate">{d}</label>
                       </div>
                     ))}
@@ -216,12 +214,11 @@ export default function GroceryProfilePage() {
           </section>
         </TabsContent>
 
-        {/* Tab 3: Logistics */}
         <TabsContent value="logistics" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <Truck className="h-5 w-5 text-primary" /> Delivery & Pickup
+                <Truck className="h-5 w-5 text-emerald-600" /> Delivery & Pickup
               </h2>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 space-y-10">
@@ -270,7 +267,7 @@ export default function GroceryProfilePage() {
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <Wallet className="h-5 w-5 text-primary" /> Payments
+                <Wallet className="h-5 w-5 text-emerald-600" /> Payments
               </h2>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
@@ -291,7 +288,7 @@ export default function GroceryProfilePage() {
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <ShieldCheck className="h-5 w-5 text-primary" /> Compliance & Licenses
+                <ShieldCheck className="h-5 w-5 text-emerald-600" /> Compliance & Licenses
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Upload your certifications to build consumer trust and gain verification badges.</p>
             </div>
@@ -302,11 +299,11 @@ export default function GroceryProfilePage() {
                   <div key={doc.id} className="space-y-3">
                     <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">{doc.label}</Label>
                     <div className="p-6 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-3 bg-slate-50/50 hover:bg-white transition-colors cursor-pointer group">
-                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors shadow-sm">
+                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
                         <Upload className="h-5 w-5" />
                       </div>
                       <div className="text-center">
-                        <p className="text-[10px] font-black uppercase text-primary group-hover:underline">Upload file</p>
+                        <p className="text-[10px] font-black uppercase text-emerald-600 group-hover:underline">Upload file</p>
                         <p className="text-[9px] text-slate-400 mt-1">No file chosen</p>
                       </div>
                     </div>
@@ -322,7 +319,7 @@ export default function GroceryProfilePage() {
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <Smartphone className="h-5 w-5 text-primary" /> Visual Identity
+                <Smartphone className="h-5 w-5 text-emerald-600" /> Visual Identity
               </h2>
             </div>
             
@@ -360,7 +357,7 @@ export default function GroceryProfilePage() {
           <section className="space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
-                <Plus className="h-5 w-5 text-primary" /> Multi-Media Gallery
+                <Plus className="h-5 w-5 text-emerald-600" /> Multi-Media Gallery
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Add photos of your aisles, checkout, and exterior to attract customers.</p>
             </div>
@@ -374,9 +371,9 @@ export default function GroceryProfilePage() {
                     </div>
                   </div>
                 ))}
-                <button className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-slate-50 hover:bg-white hover:border-primary/40 transition-all text-slate-400 hover:text-primary">
+                <button className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-slate-50 hover:bg-white hover:border-emerald-600/40 transition-all text-slate-400 hover:text-emerald-600">
                   <Plus className="h-6 w-6" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Add Photo</span>
+                  <span className="text-[10px] font-black uppercase tracking-tighter">Add Photo</span>
                 </button>
               </div>
             </Card>
@@ -397,7 +394,7 @@ export default function GroceryProfilePage() {
                 <Checkbox id="final-declaration" className="border-white/30" />
                 <label htmlFor="final-declaration" className="text-sm font-bold text-white/80 cursor-pointer">I confirm that all provided data is accurate.</label>
               </div>
-              <Button className="w-full h-16 rounded-[1.5rem] bg-primary hover:bg-primary/90 text-white font-black text-xl shadow-2xl relative z-10">
+              <Button className="w-full h-16 rounded-[1.5rem] bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl shadow-2xl relative z-10">
                 Submit & Go Live
               </Button>
             </Card>
