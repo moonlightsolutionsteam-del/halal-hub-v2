@@ -61,41 +61,41 @@ export function VendorSidebar() {
         { title: "Menu Items", icon: UtensilsCrossed, url: "/vendor/products" },
         { title: "Order Management", icon: ClipboardList, url: "/vendor/orders" },
         { title: "Dining Reservations", icon: CalendarDays, url: "/vendor/reservations" },
-        { title: "QR Menu Generator", icon: QrCode, url: "#" },
-        { title: "Digital Table Ordering", icon: Smartphone, url: "#" },
-        { title: "Digital Bills", icon: Receipt, url: "#" },
+        { title: "QR Menu Generator", icon: QrCode, url: "/vendor/tools/qr-menu" },
+        { title: "Digital Table Ordering", icon: Smartphone, url: "/vendor/tools/table-ordering" },
+        { title: "Digital Bills", icon: Receipt, url: "/vendor/tools/bills" },
       ]
     },
     {
       title: "Engagement",
       icon: Share2,
       items: [
-        { title: "Posts", icon: PenTool, url: "#" },
-        { title: "Blog", icon: BookOpen, url: "#" },
-        { title: "Enquiry", icon: MessageSquare, url: "#" },
-        { title: "Reviews", icon: Star, url: "#" },
-        { title: "Check-ins", icon: MapPin, url: "#" },
+        { title: "Posts", icon: PenTool, url: "/vendor/engagement/posts" },
+        { title: "Blog", icon: BookOpen, url: "/vendor/engagement/blog" },
+        { title: "Enquiry", icon: MessageSquare, url: "/vendor/engagement/enquiry" },
+        { title: "Reviews", icon: Star, url: "/vendor/engagement/reviews" },
+        { title: "Check-ins", icon: MapPin, url: "/vendor/engagement/check-ins" },
       ]
     },
     {
       title: "Marketing",
       icon: TrendingUp,
       items: [
-        { title: "Events", icon: Calendar, url: "/events" },
-        { title: "Offers", icon: Tag, url: "#" },
-        { title: "Collaborate", icon: Users2, url: "#" },
-        { title: "Loyalty", icon: Heart, url: "#" },
-        { title: "Trust & Transparency", icon: ShieldCheck, url: "#" },
+        { title: "Events", icon: Calendar, url: "/vendor/marketing/events" },
+        { title: "Offers", icon: Tag, url: "/vendor/marketing/offers" },
+        { title: "Collaborate", icon: Users2, url: "/vendor/marketing/collaborate" },
+        { title: "Loyalty", icon: Heart, url: "/vendor/marketing/loyalty" },
+        { title: "Trust & Transparency", icon: ShieldCheck, url: "/vendor/marketing/transparency" },
       ]
     },
     {
       title: "Account",
       icon: Settings,
       items: [
-        { title: "Wallet & Billing", icon: Wallet, url: "#" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
         { title: "Certificates", icon: Award, url: "/vendor/verification" },
-        { title: "Request Services", icon: Package, url: "#" },
-        { title: "Support", icon: Headset, url: "#" },
+        { title: "Request Services", icon: Package, url: "/vendor/account/services" },
+        { title: "Support", icon: Headset, url: "/vendor/account/support" },
       ]
     }
   ];
@@ -126,14 +126,6 @@ export function VendorSidebar() {
               <Link href="/vendor/profile">
                 <UserCircle className="h-4 w-4 mr-3" />
                 <span>Profile</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50">
-              <Link href="#">
-                <Package className="h-4 w-4 mr-3" />
-                <span>Sourcing</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -170,27 +162,14 @@ export function VendorSidebar() {
         ))}
 
         <SidebarGroup>
-          <Collapsible className="group/collapsible-delivery">
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
-                  <Truck className="h-4 w-4 mr-3" />
-                  <span>Delivery Management</span>
-                  <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible-delivery:rotate-180" />
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenu className="ml-4 mt-1 border-l border-slate-100">
-                  <SidebarMenuItem>
-                    <SidebarMenuButton className="h-9 font-bold text-slate-500 rounded-lg">
-                      <LayoutDashboard className="h-4 w-4 mr-3 opacity-60" />
-                      <span className="text-[13px]">Overview</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === "/vendor/delivery"} className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
+              <Link href="/vendor/delivery">
+                <Truck className="h-4 w-4 mr-3" />
+                <span>Delivery Mgt</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarGroup>
       </SidebarContent>
 
