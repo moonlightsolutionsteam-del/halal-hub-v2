@@ -152,7 +152,7 @@ export function AdminSidebar() {
   ];
 
   const businessSubItems = [
-    { title: "Restaurants", icon: UtensilsCrossed, url: "/restaurants" },
+    { title: "Restaurants", icon: UtensilsCrossed, url: "/admin/restaurants" },
     { title: "Meat Shops", icon: MeatIcon, url: "#" },
     { title: "Grocery", icon: ShoppingCart, url: "#" },
     { title: "Catering", icon: CookingPot, url: "#" },
@@ -364,7 +364,7 @@ export function AdminSidebar() {
                   <SidebarMenu className="ml-4 mt-1 border-l border-emerald-100">
                     {businessSubItems.map((sub) => (
                       <SidebarMenuItem key={sub.title}>
-                        <SidebarMenuButton asChild className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/50">
+                        <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/50">
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-70" />
                             <span className="text-[13px]">{sub.title}</span>
