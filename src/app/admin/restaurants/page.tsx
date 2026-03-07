@@ -13,7 +13,8 @@ import {
   BarChart3, MapPin, Users, Download,
   MessageSquare, Clock, CheckCircle2,
   ChevronDown, Store, Tag, Plus,
-  Heart, Activity, FileText, Landmark
+  Heart, Activity, FileText, Landmark,
+  Calendar
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
