@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { 
   Plus, Search, Filter, Edit2, 
   Trash2, Eye, MoreVertical, Layers,
-  Shirt, PackageOpen, Scale, ShieldCheck, Tag
+  Shirt, PackageOpen, Scale, ShieldCheck, Tag,
+  Image as ImageIcon
 } from "lucide-react";
 import { 
   DropdownMenu, 
