@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -145,7 +144,7 @@ export function AdminSidebar() {
         { title: "Reward Engine", icon: Gift, url: "#" },
         { title: "Check-ins", icon: MapPin, url: "#" },
         { title: "Reviews & Media", icon: ImageIcon, url: "#" },
-        { title: "Family Tree", icon: Network, url: "#" },
+        { title: "Family Tree", icon: Network, url: "/admin/family-tree" },
         { title: "Community", icon: Globe, url: "/community" },
       ]
     }
