@@ -18,12 +18,19 @@ import {
   Calendar, Eye, XCircle, AlertTriangle,
   Smartphone, Trash2, Edit2, ShieldAlert,
   Coins, Wallet, Layers, Award, Percent,
-  TrendingUp, Scale, Settings
+  TrendingUp, Scale, Settings, ExternalLink, Gift
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import Link from "next/link"
 
 export default function SuperAdminRestaurantManagement() {
@@ -40,11 +47,6 @@ export default function SuperAdminRestaurantManagement() {
   const MOCK_REPORTS = [
     { id: "REP-991", item: "Review #8821", restaurant: "Al Bake", reason: "Inappropriate language", user: "Zaid Ali", time: "2h ago" },
     { id: "REP-992", item: "Photo #1042", restaurant: "Sultan's", reason: "Non-halal item pictured", user: "Sarah K.", time: "5h ago" },
-  ];
-
-  const MOCK_OFFERS = [
-    { id: "OFF-101", title: "Ramadan Early Bird", restaurant: "Multiple", type: "Discount", used: "1.2k", status: "Active" },
-    { id: "OFF-102", title: "Weekend Biryani Boost", restaurant: "Lucky Biryani", type: "Featured", used: "450", status: "Active" },
   ];
 
   return (
@@ -656,7 +658,7 @@ export default function SuperAdminRestaurantManagement() {
                   <Table>
                     <TableHeader className="bg-slate-50/50">
                       <TableRow className="border-none">
-                        <TableHead className="px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Merchant Type</TableHead>
+                        <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Merchant Type</TableHead>
                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-slate-400">Total Dues</TableHead>
                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-slate-400">Next Payout</TableHead>
                         <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest">Status</TableHead>
