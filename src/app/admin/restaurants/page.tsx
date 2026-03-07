@@ -1,158 +1,294 @@
 
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import * as React from "react"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
-  UtensilsCrossed, Search, Filter, MoreHorizontal, 
-  ShieldCheck, MapPin, Star, AlertTriangle,
-  CheckCircle2, XCircle, MoreVertical, Eye,
-  Building2, ArrowUpRight
-} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+  Search, Filter, MoreVertical, 
+  ShieldCheck, Star, ArrowUpRight,
+  BarChart3, MapPin, Users, Download,
+  MessageSquare, Clock, CheckCircle2,
+  ChevronDown, Store, Tag, Plus,
+  Heart, Activity, FileText, Landmark
+} from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
-} from "@/components/ui/table";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
-export default function AdminRestaurantsPage() {
-  const restaurants = [
-    { id: 1, name: "The Bosphorus Kitchen", cuisine: "Turkish", location: "Manhattan, NY", rating: 4.8, status: "Verified", trust: 98 },
-    { id: 2, name: "Al-Zaeem Shawarma", cuisine: "Arabic", location: "Brooklyn, NY", rating: 4.5, status: "Verified", trust: 92 },
-    { id: 3, name: "Istanbul Bistro", cuisine: "Turkish", location: "Queens, NY", rating: 4.9, status: "Pending", trust: 0 },
-    { id: 4, name: "Curry House Express", cuisine: "Indian", location: "Jersey City, NJ", rating: 4.2, status: "Flagged", trust: 65 },
-  ];
+const MeatIcon = (props: any) => (
+  <svg
+    {...props}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12.5 2a2.5 2.5 0 0 0-2.5 2.5V6a3 3 0 0 0 3 3h1a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3h-1a3 3 0 0 1-3-3v-1.5" />
+    <path d="M15 22a7 7 0 0 0 7-7c0-2.5-2-4.5-4.5-4.5h-1a2.5 2.5 0 0 0-2.5 2.5V15a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3v-1" />
+    <circle cx="15" cy="15" r="1" />
+  </svg>
+)
+
+export default function SuperAdminRestaurantManagement() {
+  const [activeTab, setActiveTab] = React.useState("dashboard")
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline">Restaurant Management</h1>
-          <p className="text-muted-foreground font-medium">Audit listings, manage verifications, and monitor reported eateries.</p>
-        </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="rounded-full px-6 font-bold border-2">Bulk Audit</Button>
-          <Button className="bg-primary rounded-full px-8 font-bold shadow-lg shadow-primary/20">Add Partner</Button>
-        </div>
+    <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
+      {/* Page Header */}
+      <div className="space-y-1">
+        <h1 className="text-3xl font-black font-headline text-slate-900">Restaurants</h1>
+        <p className="text-muted-foreground font-medium">Manage restaurant listings, verifications, and categories.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {[
-          { label: "Total Listings", value: "1,240", color: "text-slate-900" },
-          { label: "Verified Hubs", value: "842", color: "text-primary" },
-          { label: "Pending Audit", value: "15", color: "text-amber-500" },
-          { label: "Reported", value: "3", color: "text-red-500" },
-        ].map((stat, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-3xl p-4">
-            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">{stat.label}</p>
-            <p className={`text-2xl font-black ${stat.color}`}>{stat.value}</p>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+        <div className="flex items-center justify-between">
+          <TabsList className="bg-transparent h-auto p-0 gap-2 overflow-x-auto no-scrollbar justify-start">
+            <TabsTrigger value="dashboard" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 pb-2 font-bold text-slate-500 data-[state=active]:text-primary transition-all shadow-none">Dashboard</TabsTrigger>
+            <TabsTrigger value="all" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 pb-2 font-bold text-slate-500 data-[state=active]:text-primary transition-all shadow-none">All Restaurants</TabsTrigger>
+            <TabsTrigger value="verification" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 pb-2 font-bold text-slate-500 data-[state=active]:text-primary transition-all shadow-none">Verification Queue</TabsTrigger>
+            <TabsTrigger value="moderation" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 pb-2 font-bold text-slate-500 data-[state=active]:text-primary transition-all shadow-none">Reviews & Moderation</TabsTrigger>
+            <TabsTrigger value="promotions" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 pb-2 font-bold text-slate-500 data-[state=active]:text-primary transition-all shadow-none">Offers & Promotions</TabsTrigger>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 px-4 pb-2 font-bold text-slate-500 hover:text-slate-900 outline-none border-b-2 border-transparent">
+                  More <ChevronDown className="h-4 w-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="rounded-2xl p-2 border-none shadow-xl min-w-[200px]">
+                {[
+                  "Loyalty Rewards",
+                  "Events Moderation",
+                  "Halal Governance",
+                  "Certificates & Onboarding Kit",
+                  "Categories",
+                  "Services",
+                  "Coins, Wallet & Billing"
+                ].map((item) => (
+                  <DropdownMenuItem key={item} className="rounded-xl font-bold text-slate-600 hover:text-primary">
+                    {item}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TabsList>
+        </div>
+
+        <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-black text-slate-900">Restaurant Dashboard</h2>
+            <p className="text-sm text-muted-foreground font-medium">High-level overview of restaurant performance and activity.</p>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+              <div className="flex justify-between items-start mb-4">
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Restaurants</span>
+                <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-slate-100 transition-colors">
+                  <Store className="h-5 w-5" />
+                </div>
+              </div>
+              <div className="space-y-1">
+                <p className="text-4xl font-black text-slate-900">890</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">+15 new this month</p>
+              </div>
+            </Card>
+
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+              <div className="flex justify-between items-start mb-4">
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Verified Listings</span>
+                <div className="h-10 w-10 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+              </div>
+              <div className="space-y-1">
+                <p className="text-4xl font-black text-slate-900">750</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase">84% of total</p>
+              </div>
+            </Card>
+
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+              <div className="flex justify-between items-start mb-4">
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Pending Approvals</span>
+                <div className="h-10 w-10 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600">
+                  <Clock className="h-5 w-5" />
+                </div>
+              </div>
+              <div className="space-y-1">
+                <p className="text-4xl font-black text-slate-900">8</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase">New listings to review</p>
+              </div>
+            </Card>
+          </div>
+
+          {/* Main Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Recent Reviews */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-black">Recent Reviews</h3>
+                <Button variant="outline" size="sm" className="rounded-full font-black text-[10px] uppercase border-2 text-primary hover:bg-primary/5 px-4 h-8">
+                  View All <ArrowUpRight className="ml-1.5 h-3 w-3" />
+                </Button>
+              </div>
+              <div className="space-y-6">
+                {[
+                  { user: "Aisha K.", restaurant: "Karim's Restaurant", rating: 5, comment: "Amazing food as always!", initial: "AK", color: "bg-blue-100 text-blue-600" },
+                  { user: "Rohan S.", restaurant: "Al Bake", rating: 4, comment: "The shawarma is legendary.", initial: "RS", color: "bg-emerald-100 text-emerald-600" },
+                ].map((review, i) => (
+                  <div key={i} className="flex gap-4">
+                    <Avatar className="h-10 w-10 rounded-2xl">
+                      <AvatarFallback className={review.color + " font-black text-xs"}>{review.initial}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-bold text-slate-900">
+                          {review.user} <span className="font-medium text-slate-400 mx-1">on</span> <span className="text-primary">{review.restaurant}</span>
+                        </p>
+                        <div className="flex items-center gap-0.5">
+                          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                          <span className="text-[10px] font-black">{review.rating}</span>
+                        </div>
+                      </div>
+                      <p className="text-xs text-slate-500 leading-relaxed italic line-clamp-1">"{review.comment}"</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            {/* Verification Queue */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+              <h3 className="text-xl font-black">Verification Queue</h3>
+              <div className="space-y-1">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="hover:bg-transparent border-none">
+                      <TableHead className="h-8 font-black uppercase text-[10px] text-slate-400 p-0">Restaurant</TableHead>
+                      <TableHead className="h-8 font-black uppercase text-[10px] text-slate-400 p-0 text-right">Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[
+                      { name: "Sultan's Dine", area: "South Delhi", status: "Pending Docs", variant: "secondary" },
+                      { name: "Al-Huda Masjid", area: "Old Delhi", status: "Pending Review", variant: "outline" },
+                      { name: "Modern Abayas", area: "Bangalore", status: "Pending Review", variant: "outline" },
+                    ].map((item, i) => (
+                      <TableRow key={i} className="border-slate-50 hover:bg-slate-50/50">
+                        <TableCell className="py-4 pl-0">
+                          <p className="font-bold text-slate-900 text-sm">{item.name}</p>
+                          <p className="text-[10px] text-slate-400 font-medium">{item.area}</p>
+                        </TableCell>
+                        <TableCell className="py-4 pr-0 text-right">
+                          <Badge variant={item.variant === 'secondary' ? 'secondary' : 'outline'} className={
+                            item.status === 'Pending Docs' ? 'bg-emerald-50 text-emerald-600 border-none px-3 font-black text-[9px]' : 'bg-emerald-50/50 text-emerald-700 border-emerald-100 px-3 font-black text-[9px]'
+                          }>
+                            {item.status}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </Card>
+
+            {/* Recent Admin Activity */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+              <h3 className="text-xl font-black">Recent Admin Activity</h3>
+              <div className="space-y-6">
+                {[
+                  { user: "Yasar Khan", action: "approved verification for Karim's.", time: "2h ago", icon: CheckCircle2, color: "text-emerald-500" },
+                  { user: "MOHAMMED HUZAIFA", action: "suspended user 'spam_user_123'.", time: "5h ago", icon: Activity, color: "text-rose-500" },
+                  { user: "Vinayak kainthla", action: "updated event 'Food Festival'.", time: "1d ago", icon: Activity, color: "text-blue-500" },
+                ].map((act, i) => (
+                  <div key={i} className="flex gap-4 group">
+                    <div className={`h-10 w-10 rounded-[1.2rem] ${act.color} bg-opacity-10 flex items-center justify-center shrink-0`}>
+                      <act.icon className="h-5 w-5" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="text-sm text-slate-600 leading-snug">
+                        <span className="font-black text-slate-900">{act.user}</span> {act.action}
+                      </p>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{act.time}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+
+          {/* Analytics Section */}
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h3 className="text-xl font-black">Analytics & Reports</h3>
+              <p className="text-sm text-muted-foreground font-medium">Deep dive into platform data and generate reports.</p>
+            </div>
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { label: "Restaurant growth analytics", icon: BarChart3 },
+                  { label: "City-wise restaurant analysis", icon: MapPin },
+                  { label: "Reviews & ratings analytics", icon: Star },
+                  { label: "Loyalty engagement analytics", icon: Heart },
+                  { label: "Offer conversion analytics", icon: Tag },
+                  { label: "Event performance analysis", icon: Calendar },
+                  { label: "Coin usage analytics", icon: Landmark },
+                ].map((btn, i) => (
+                  <Button key={i} variant="outline" className="justify-start gap-3 h-14 rounded-2xl border-slate-100 bg-slate-50/50 hover:bg-white hover:border-primary transition-all group font-bold text-xs text-slate-600">
+                    <btn.icon className="h-4 w-4 text-slate-400 group-hover:text-primary transition-colors" />
+                    {btn.label}
+                  </Button>
+                ))}
+                <Button className="h-14 rounded-2xl bg-emerald-50 text-emerald-600 border-none font-black text-xs uppercase tracking-widest hover:bg-emerald-100 transition-all">
+                  <Download className="mr-2 h-4 w-4" /> Export reports (CSV)
+                </Button>
+              </div>
+            </Card>
+          </section>
+        </TabsContent>
+
+        <TabsContent value="all" className="animate-in fade-in duration-500">
+          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-white space-y-4">
+            <div className="h-20 w-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto text-slate-300">
+              <Store className="h-10 w-10" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-xl font-black text-slate-900">Restaurant Directory</h3>
+              <p className="text-muted-foreground font-medium">Manage and edit all 890 active restaurant listings.</p>
+            </div>
+            <Button className="bg-primary rounded-full px-8 font-black">Open List Manager</Button>
           </Card>
-        ))}
-      </div>
+        </TabsContent>
 
-      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
-        <CardHeader className="p-8 border-b space-y-4">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search restaurants by name or area..." className="pl-9 h-12 rounded-2xl bg-muted/30 border-none" />
+        <TabsContent value="verification" className="animate-in fade-in duration-500">
+          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-white space-y-4">
+            <div className="h-20 w-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-emerald-600">
+              <ShieldCheck className="h-10 w-10" />
             </div>
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" className="font-bold gap-2"><Filter className="h-4 w-4" /> Filters</Button>
-              <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 border-none font-black text-[10px] px-3 h-8 flex items-center">Verified Only</Badge>
+            <div className="space-y-1">
+              <h3 className="text-xl font-black text-slate-900">Verification Hub</h3>
+              <p className="text-muted-foreground font-medium">Review documents and certificates for new business applications.</p>
             </div>
-          </div>
-        </CardHeader>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader className="bg-muted/10">
-              <TableRow className="hover:bg-transparent border-none">
-                <TableHead className="px-8 h-14 font-black text-xs uppercase text-muted-foreground">Establishment</TableHead>
-                <TableHead className="h-14 font-black text-xs uppercase text-muted-foreground">Cuisine</TableHead>
-                <TableHead className="h-14 font-black text-xs uppercase text-muted-foreground">Trust Score</TableHead>
-                <TableHead className="h-14 font-black text-xs uppercase text-muted-foreground">Status</TableHead>
-                <TableHead className="h-14 text-right px-8 font-black text-xs uppercase text-muted-foreground">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {restaurants.map((res) => (
-                <TableRow key={res.id} className="hover:bg-muted/5 border-muted/20">
-                  <TableCell className="px-8 py-4">
-                    <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 bg-slate-100 rounded-xl flex items-center justify-center text-primary shadow-inner">
-                        <Building2 className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <p className="font-black text-slate-900">{res.name}</p>
-                        <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground">
-                          <MapPin className="h-3 w-3" /> {res.location}
-                        </div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary" className="rounded-full px-4 font-black uppercase text-[9px] tracking-widest">
-                      {res.cuisine}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="space-y-1.5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-black text-slate-700">{res.trust}%</span>
-                        <div className="h-1.5 w-24 bg-slate-100 rounded-full overflow-hidden">
-                          <div className={`h-full ${res.trust > 90 ? 'bg-emerald-500' : (res.trust > 70 ? 'bg-amber-500' : 'bg-red-500')} rounded-full`} style={{ width: `${res.trust}%` }} />
-                        </div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge className={
-                      res.status === 'Verified' ? 'bg-emerald-500' : 
-                      res.status === 'Pending' ? 'bg-amber-500' : 'bg-red-500'
-                    }>
-                      {res.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right px-8">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="rounded-full"><MoreHorizontal className="h-5 w-5" /></Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="rounded-2xl p-2 border-none shadow-xl">
-                        <DropdownMenuItem className="rounded-xl font-bold gap-2"><ShieldCheck className="h-4 w-4" /> Review Audit</DropdownMenuItem>
-                        <DropdownMenuItem className="rounded-xl font-bold gap-2"><Eye className="h-4 w-4" /> View Publicly</DropdownMenuItem>
-                        <DropdownMenuItem className="rounded-xl font-bold gap-2 text-red-500"><XCircle className="h-4 w-4" /> Suspend Listing</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-10">
-          <AlertTriangle className="h-32 w-32" />
-        </div>
-        <div className="relative z-10 space-y-6">
-          <div className="space-y-2">
-            <h3 className="text-2xl font-black font-headline tracking-tight">Recent Safety Reports</h3>
-            <p className="text-sm text-slate-400 font-medium">There are 3 restaurants currently flagged for Shariah compliance reviews.</p>
-          </div>
-          <Button variant="secondary" className="rounded-2xl h-12 px-8 font-black uppercase text-xs tracking-widest">
-            Launch Compliance Console <ArrowUpRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      </Card>
+            <Button className="bg-primary rounded-full px-8 font-black">Enter Audit Console</Button>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
-  );
+  )
 }
