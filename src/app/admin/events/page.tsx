@@ -151,8 +151,80 @@ export default function SuperAdminEventManagement() {
           </Card>
         </TabsContent>
 
+        <TabsContent value="governance" className="animate-in fade-in duration-500 m-0">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10">
+            <div className="space-y-10">
+              <div className="space-y-2">
+                <h3 className="text-3xl font-black text-slate-900">Shariah-Compliant Hosting</h3>
+                <p className="text-muted-foreground font-medium text-lg">Define standard privacy protocols for event spaces and vendors.</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="space-y-4">
+                  {[
+                    { label: "Mandatory Gender Segregation Capability", active: true },
+                    { label: "On-site Permanent Wudu Stations", active: true },
+                    { label: "Verified Halal-Only In-house Kitchen", active: true },
+                    { label: "Female Staff-Only Event Options", active: false },
+                  ].map((rule, i) => (
+                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer group">
+                      <span className="font-bold text-slate-700">{rule.label}</span>
+                      <Badge className={rule.active ? "bg-emerald-500 text-white" : "bg-slate-200 text-slate-500"}>
+                        {rule.active ? "MANDATORY" : "OPTIONAL"}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden">
+                  <ShieldCheck className="absolute -top-4 -right-4 h-32 w-32 opacity-10" />
+                  <div className="space-y-2 relative z-10">
+                    <h4 className="text-xl font-black text-primary">Venue Charter</h4>
+                    <p className="text-slate-400 text-sm">Updated Sept 2024. All new venues must sign the digital privacy charter.</p>
+                  </div>
+                  <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] h-12 uppercase tracking-widest relative z-10 shadow-xl">Download Charter Template</Button>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="billing" className="animate-in fade-in duration-500 m-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-2xl font-black">Escrow & Payout Health</h3>
+                  <Button variant="ghost" className="font-bold text-primary">Ticketing Ledger <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Platform Commission</p>
+                    <p className="text-3xl font-black text-slate-900">7.5% flat</p>
+                    <p className="text-xs font-bold text-emerald-600">On all digital ticket sales</p>
+                  </div>
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Active Escrow</p>
+                    <p className="text-3xl font-black text-slate-900">₹1.8M</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase">Released post-event</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div className="lg:col-span-4 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
+                <Wallet className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                <div className="relative z-10 space-y-2">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Revenue Target</p>
+                  <h2 className="text-5xl font-black tracking-tighter">₹12.4M</h2>
+                  <p className="text-xs font-bold text-slate-400 uppercase">Projected vertical GMV</p>
+                </div>
+                <Button className="w-full bg-primary rounded-xl h-12 font-black uppercase text-[10px] tracking-widest relative z-10 shadow-xl">Financial Policy</Button>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
         {/* OTHER TABS - PLACEHOLDERS */}
-        {["all", "verification", "governance", "reviews", "offers", "loyalty", "certificates", "categories", "billing"].map((tab) => (
+        {["all", "verification", "reviews", "offers", "loyalty", "certificates", "categories"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
               <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
@@ -160,7 +232,7 @@ export default function SuperAdminEventManagement() {
               </div>
               <div className="space-y-2">
                 <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab.replace(/&/g, ' & ')} Module</h3>
-                <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+                <p className="text-muted-foreground font-medium max-w-sm mx-auto italic">
                   Managing event integrity, ticketing security, and venue governance.
                 </p>
               </div>

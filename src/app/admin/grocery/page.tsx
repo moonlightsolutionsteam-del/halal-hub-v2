@@ -13,7 +13,7 @@ import {
   ShieldCheck, Star, ArrowUpRight,
   BarChart3, MapPin, Users, Download,
   MessageSquare, Clock, CheckCircle2,
-  Store, Tag, Plus, Heart, Activity, 
+  Tag, Plus, Heart, Activity, 
   FileText, Landmark, Calendar, Eye, 
   XCircle, Trash2, Edit2, ShieldAlert,
   Coins, Wallet, Layers, Award, Percent,
@@ -24,13 +24,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import Link from "next/link"
 
 export default function SuperAdminGroceryManagement() {
@@ -153,20 +146,90 @@ export default function SuperAdminGroceryManagement() {
           </Card>
         </TabsContent>
 
-        {/* OTHER TABS - PLACEHOLDERS FOR HIGH-FIDELITY IMPLEMENTATION */}
-        {["all", "verification", "governance", "reviews", "offers", "loyalty", "certificates", "categories", "billing"].map((tab) => (
+        <TabsContent value="governance" className="animate-in fade-in duration-500 m-0">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10">
+            <div className="space-y-10">
+              <div className="space-y-2">
+                <h3 className="text-3xl font-black text-slate-900">Departmental Halal Audits</h3>
+                <p className="text-muted-foreground font-medium text-lg">Define the audit scope for store sections (Meat, Bakery, Deli).</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="space-y-4">
+                  {[
+                    { label: "Meat Counter Source Log", active: true },
+                    { label: "Bakery Enzyme Disclosure", active: true },
+                    { label: "Hot Food Cross-Contamination Check", active: true },
+                    { label: "Pantry Enzyme Audit", active: false },
+                  ].map((rule, i) => (
+                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                      <span className="font-bold text-slate-700">{rule.label}</span>
+                      <Badge className={rule.active ? "bg-emerald-500" : "bg-slate-300"}>
+                        {rule.active ? "MANDATORY" : "OPTIONAL"}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden">
+                  <ShieldAlert className="absolute -top-4 -right-4 h-32 w-32 opacity-10" />
+                  <h4 className="text-xl font-black">Audit SLA</h4>
+                  <p className="text-slate-400 text-sm">Set max turnaround for supermarket departmental reviews.</p>
+                  <div className="flex gap-4">
+                    <Button variant="outline" className="flex-1 rounded-xl border-white/20 text-white hover:bg-white/10 font-bold">48 Hours</Button>
+                    <Button variant="outline" className="flex-1 rounded-xl border-white/20 text-white hover:bg-white/10 font-bold">7 Days</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="billing" className="animate-in fade-in duration-500 m-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
+                <h3 className="text-2xl font-black">Settlement Cycle</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Platform Fee</p>
+                    <p className="text-3xl font-black text-slate-900">2.5% Flat</p>
+                    <p className="text-xs font-bold text-emerald-600">On digital marketplace orders</p>
+                  </div>
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Net Revenue (MTD)</p>
+                    <p className="text-3xl font-black text-slate-900">₹12.4M</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase">Across 890 stores</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div className="lg:col-span-4 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
+                <Wallet className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                <div className="relative z-10 space-y-2">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">System Reserve</p>
+                  <h2 className="text-5xl font-black tracking-tighter">₹42.8M</h2>
+                  <p className="text-xs font-bold text-slate-400 uppercase">Retail vertical escrow</p>
+                </div>
+                <Button className="w-full bg-primary rounded-xl h-12 font-black uppercase text-[10px] tracking-widest relative z-10 shadow-xl">Financial Config</Button>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
+        {/* OTHER TABS - PLACEHOLDERS */}
+        {["all", "verification", "reviews", "offers", "loyalty", "certificates", "categories"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
               <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
                 <Settings className="h-10 w-10 animate-spin-slow" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab.replace(/&/g, ' & ')} Module</h3>
-                <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab} Module</h3>
+                <p className="text-muted-foreground font-medium max-w-sm mx-auto italic">
                   Managing the data integrity and operational throughput for the grocery ecosystem.
                 </p>
               </div>
-              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Data</Button>
+              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Console</Button>
             </Card>
           </TabsContent>
         ))}
