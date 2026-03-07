@@ -153,7 +153,7 @@ export function AdminSidebar() {
 
   const businessSubItems = [
     { title: "Restaurants", icon: UtensilsCrossed, url: "/admin/restaurants" },
-    { title: "Meat Shops", icon: MeatIcon, url: "#" },
+    { title: "Meat Shops", icon: MeatIcon, url: "/admin/meat" },
     { title: "Grocery", icon: ShoppingCart, url: "#" },
     { title: "Catering", icon: CookingPot, url: "#" },
     { title: "Event Services", icon: Sparkles, url: "#" },
