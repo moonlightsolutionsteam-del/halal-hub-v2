@@ -19,7 +19,8 @@ import {
   Coins, Wallet, Layers, Award, Percent,
   TrendingUp, Scale, Settings, ExternalLink, Gift,
   Network, Share2, Database, Lock, Users2,
-  HardDrive, LineChart, PieChart
+  HardDrive, LineChart, PieChart, GitBranch,
+  Merge, AlertTriangle, UserPlus, Info
 } from "lucide-react"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
@@ -31,17 +32,22 @@ export default function FamilyTreeAdminManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
   const MOCK_TREES = [
-    { id: "TR-001", name: "Al-Sayed Lineage", head: "Shaykh Omar", members: 450, privacy: "Private", status: "Verified", created: "Oct 2023" },
-    { id: "TR-002", name: "Abdullah Family", head: "Ahmed Abdullah", members: 120, privacy: "Restricted", status: "Verified", created: "Nov 2023" },
-    { id: "TR-003", name: "The Malik Estate", head: "Sara Malik", members: 85, privacy: "Public", status: "Under Review", created: "Jan 2024" },
-    { id: "TR-004", name: "Quraishi Global Hub", head: "Hamza Q.", members: 1240, privacy: "Private", status: "Verified", created: "Sept 2023" },
+    { id: "TR-001", name: "Al-Sayed Lineage", head: "Shaykh Omar", members: 450, privacy: "Private", status: "Verified", created: "Oct 2023", duplicates: 2 },
+    { id: "TR-002", name: "Abdullah Family", head: "Ahmed Abdullah", members: 120, privacy: "Restricted", status: "Verified", created: "Nov 2023", duplicates: 0 },
+    { id: "TR-003", name: "The Malik Estate", head: "Sara Malik", members: 85, privacy: "Public", status: "Under Review", created: "Jan 2024", duplicates: 5 },
+    { id: "TR-004", name: "Quraishi Global Hub", head: "Hamza Q.", members: 1240, privacy: "Private", status: "Verified", created: "Sept 2023", duplicates: 12 },
+  ];
+
+  const PENDING_NODES = [
+    { id: "NODE-101", name: "Hassan Al-Basri", relationship: "Great Grandfather", submittedBy: "Zaid Ali", tree: "Al-Basri Root", type: "New Node" },
+    { id: "NODE-102", name: "Fatima Malik", relationship: "Spouse", submittedBy: "Omar K.", tree: "Malik Estate", type: "Connection" },
   ];
 
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
       <div className="space-y-1">
         <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter">Family Tree Management</h1>
-        <p className="text-muted-foreground font-medium text-lg italic">Oversight for global lineages, relationship verifications, and privacy standards.</p>
+        <p className="text-muted-foreground font-medium text-lg italic">Oversight for global lineages, relationship verifications, and ancestry groups.</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
@@ -50,10 +56,10 @@ export default function FamilyTreeAdminManagement() {
             {[
               { id: "dashboard", label: "Dashboard" },
               { id: "all", label: "All Trees" },
-              { id: "verification", label: "Verification" },
+              { id: "verification", label: "Approvals & Links" },
               { id: "privacy", label: "Privacy Standards" },
-              { id: "governance", label: "Governance" },
-              { id: "reviews", label: "Reviews" },
+              { id: "governance", label: "Clans & Roots" },
+              { id: "reviews", label: "Disputes" },
               { id: "growth", label: "Growth" },
               { id: "loyalty", label: "Loyalty" },
               { id: "billing", label: "Billing & Storage" }
@@ -74,7 +80,7 @@ export default function FamilyTreeAdminManagement() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Active Trees</span>
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Active Lineages</span>
                 <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
                   <Network className="h-5 w-5" />
                 </div>
@@ -87,7 +93,7 @@ export default function FamilyTreeAdminManagement() {
 
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Members</span>
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Nodes</span>
                 <div className="h-10 w-10 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                   <Users className="h-5 w-5" />
                 </div>
@@ -100,58 +106,78 @@ export default function FamilyTreeAdminManagement() {
 
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Verifications</span>
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Pending Approvals</span>
                 <div className="h-10 w-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-slate-900">15</p>
+                <p className="text-4xl font-black text-slate-900">124</p>
                 <p className="text-[10px] font-bold text-red-500 uppercase">Action Required</p>
               </div>
             </Card>
           </div>
 
-          <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
-            <CardHeader className="p-8 flex flex-row items-center justify-between">
-              <div className="space-y-1">
-                <CardTitle className="text-xl font-black text-slate-900">Recent Verification Requests</CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Lineage claims requiring scholarly or documentation review.</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
+              <CardHeader className="p-8 flex flex-row items-center justify-between border-b bg-slate-50/30">
+                <div className="space-y-1">
+                  <CardTitle className="text-xl font-black text-slate-900">Node Approval Queue</CardTitle>
+                  <p className="text-sm text-muted-foreground font-medium">New member additions and relationship connections.</p>
+                </div>
+                <Button variant="outline" size="sm" className="rounded-xl font-black text-xs border-2">
+                  View Full List
+                </Button>
+              </CardHeader>
+              <CardContent className="p-0">
+                <Table>
+                  <TableBody>
+                    {PENDING_NODES.map((node) => (
+                      <TableRow key={node.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
+                        <TableCell className="px-8 py-6">
+                          <div className="flex items-center gap-4">
+                            <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner">
+                              <UserPlus className="h-6 w-6" />
+                            </div>
+                            <div>
+                              <p className="font-black text-slate-900 text-base">{node.name}</p>
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{node.relationship} in {node.tree}</p>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none font-black text-[9px] uppercase px-3">
+                            {node.type}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right px-8">
+                          <div className="flex items-center justify-end gap-2">
+                            <Button size="icon" variant="ghost" className="rounded-xl text-emerald-600 hover:bg-emerald-50"><CheckCircle2 className="h-5 w-5" /></Button>
+                            <Button size="icon" variant="ghost" className="rounded-xl text-rose-600 hover:bg-rose-50"><XCircle className="h-5 w-5" /></Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-[2rem] border-none shadow-sm bg-slate-900 text-white p-10 relative overflow-hidden flex flex-col justify-between">
+              <GitBranch className="absolute -top-4 -right-4 h-48 w-48 opacity-10 text-primary" />
+              <div className="relative z-10 space-y-4">
+                <h3 className="text-3xl font-black text-primary uppercase tracking-tighter">Root Ancestry</h3>
+                <p className="text-slate-400 text-lg leading-relaxed italic">
+                  Define high-level root ancestors to unify global clan branches and resolve ancestral overlaps.
+                </p>
               </div>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-primary/20">
-                Full Queue <ArrowUpRight className="ml-2 h-4 w-4" />
-              </Button>
-            </CardHeader>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader className="bg-slate-50/50">
-                  <TableRow className="border-none">
-                    <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Tree Identity</TableHead>
-                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Claim Type</TableHead>
-                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400 text-center">Urgency</TableHead>
-                    <TableHead className="text-right px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {[
-                    { name: "The Al-Basri Lineage", type: "Relationship Claim", level: "Critical", status: "In Review" },
-                    { name: "Modern Quraishi Hub", type: "Historical Proof", level: "Normal", status: "Pending" },
-                  ].map((item, i) => (
-                    <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <TableCell className="px-8 py-5 font-bold text-slate-800 text-sm">{item.name}</TableCell>
-                      <TableCell className="font-bold text-slate-500 text-xs italic">{item.type}</TableCell>
-                      <TableCell className="text-center">
-                        <Badge className={item.level === 'Critical' ? 'bg-red-50 text-red-600 border-none px-3 font-black text-[9px]' : 'bg-blue-50 text-blue-600 border-none px-3 font-black text-[9px]'}>
-                          {item.level}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right px-8 font-black text-slate-400 text-[10px] uppercase">{item.status}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+              <div className="relative z-10 pt-8">
+                <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-black uppercase text-xs tracking-widest shadow-2xl">
+                  Add Root Ancestor
+                </Button>
+              </div>
+            </Card>
+          </div>
         </TabsContent>
 
         {/* ALL TREES */}
@@ -161,13 +187,11 @@ export default function FamilyTreeAdminManagement() {
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input placeholder="Search trees by name, ID or family head..." className="pl-9 h-12 rounded-2xl bg-slate-50 border-none font-medium" />
+                  <Input placeholder="Search lineages, IDs or heads..." className="pl-9 h-12 rounded-2xl bg-slate-50 border-none font-medium" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" className="rounded-xl h-12 gap-2 border-2 font-bold"><Filter className="h-4 w-4" /> Filters</Button>
-                  <Button className="bg-primary hover:bg-primary/90 rounded-2xl h-12 px-8 font-black text-white shadow-lg shadow-primary/20">
-                    <Plus className="mr-2 h-4 w-4" /> Add Lineage
-                  </Button>
+                  <Button variant="outline" className="rounded-xl h-12 gap-2 border-2 font-bold hover:bg-slate-50"><Merge className="h-4 w-4" /> Duplicate Tool</Button>
+                  <Button variant="outline" className="rounded-xl h-12 gap-2 border-2 font-bold hover:bg-slate-50"><Filter className="h-4 w-4" /> Filters</Button>
                 </div>
               </div>
             </CardHeader>
@@ -178,8 +202,8 @@ export default function FamilyTreeAdminManagement() {
                     <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">ID / Created</TableHead>
                     <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Lineage Name</TableHead>
                     <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Family Head</TableHead>
-                    <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-center">Members</TableHead>
-                    <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest">Privacy</TableHead>
+                    <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-center">Nodes</TableHead>
+                    <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-center">Dupes</TableHead>
                     <TableHead className="text-right px-8 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Status</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -192,19 +216,20 @@ export default function FamilyTreeAdminManagement() {
                       <TableCell className="font-black text-slate-800 text-base">{tree.name}</TableCell>
                       <TableCell className="text-sm font-bold text-slate-500">{tree.head}</TableCell>
                       <TableCell className="text-center font-black text-sm text-primary">{tree.members}</TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className={
-                          tree.privacy === 'Private' ? 'bg-rose-50 text-rose-600 border-rose-200 font-black text-[9px] px-3' : 
-                          tree.privacy === 'Restricted' ? 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3' : 
-                          'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3'
-                        }>
-                          {tree.privacy}
-                        </Badge>
+                      <TableCell className="text-center">
+                        {tree.duplicates > 0 ? (
+                          <Badge className="bg-amber-50 text-amber-600 border-none font-black text-[9px] px-2">{tree.duplicates} Detected</Badge>
+                        ) : (
+                          <span className="text-slate-200">-</span>
+                        )}
                       </TableCell>
                       <TableCell className="text-right px-8">
-                        <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-3">
-                          {tree.status}
-                        </Badge>
+                        <div className="flex items-center justify-end gap-2">
+                          <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-3">
+                            {tree.status}
+                          </Badge>
+                          <Button size="icon" variant="ghost" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><MoreVertical className="h-4 w-4" /></Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -214,28 +239,28 @@ export default function FamilyTreeAdminManagement() {
           </Card>
         </TabsContent>
 
-        {/* VERIFICATION */}
+        {/* VERIFICATION & LINKS */}
         <TabsContent value="verification" className="animate-in fade-in duration-500 m-0 space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-6">
               <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
                 <CardHeader className="p-8 border-b">
-                  <CardTitle className="text-xl font-black">Audit Pipeline</CardTitle>
-                  <CardDescription>Relationship claims and historical proof verifications.</CardDescription>
+                  <CardTitle className="text-xl font-black">Connection Requests</CardTitle>
+                  <p className="text-sm text-muted-foreground font-medium italic">Moderation center for relationship links and user-to-node mapping.</p>
                 </CardHeader>
                 <CardContent className="p-0">
                   <Table>
                     <TableBody>
                       {[
-                        { name: "Abdullah Lineage Extension", type: "Brotherhood Claim", date: "2 mins ago", docs: 3 },
-                        { name: "Malik Historical Archive", type: "Digital Proof", date: "45 mins ago", docs: 1 },
-                        { name: "Sayed Global Root", type: "Scholar Vetting", date: "3 hours ago", docs: 5 },
+                        { name: "Ahmed Abdullah", action: "Link Request", target: "Abdullah Tree Node #44", date: "2 mins ago" },
+                        { name: "Sara Malik", action: "Relationship Claim", target: "Father: Dr. Ibrahim Malik", date: "45 mins ago" },
+                        { name: "Yusuf Sheikh", action: "New Node Addition", target: "Great Uncle: Omar Sheikh", date: "3 hours ago" },
                       ].map((item, i) => (
                         <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
                           <TableCell className="px-8 py-6">
                             <div className="flex items-center gap-4">
-                              <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner shrink-0">
-                                <FileText className="h-6 w-6" />
+                              <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner shrink-0">
+                                <Share2 className="h-6 w-6" />
                               </div>
                               <div>
                                 <p className="font-black text-slate-900 text-base">{item.name}</p>
@@ -244,12 +269,15 @@ export default function FamilyTreeAdminManagement() {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none font-black text-[9px] uppercase px-3">
-                              {item.type}
-                            </Badge>
+                            <div className="space-y-1">
+                              <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none font-black text-[9px] uppercase px-3">
+                                {item.action}
+                              </Badge>
+                              <p className="text-[10px] font-medium text-slate-400 italic">{item.target}</p>
+                            </div>
                           </TableCell>
                           <TableCell className="text-right px-8">
-                            <Button className="bg-primary hover:bg-primary/90 rounded-full font-black text-[10px] uppercase tracking-widest h-9 px-6 text-white shadow-md">Begin Audit</Button>
+                            <Button className="bg-primary hover:bg-primary/90 rounded-full font-black text-[10px] uppercase tracking-widest h-9 px-6 text-white shadow-md">Moderate</Button>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -262,9 +290,9 @@ export default function FamilyTreeAdminManagement() {
               <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
                 <ShieldCheck className="absolute -top-4 -right-4 h-24 w-24 opacity-10" />
                 <div className="space-y-2 relative z-10">
-                  <h3 className="text-xl font-black">Scholarly Audit SLA</h3>
+                  <h3 className="text-xl font-black">Audit SLA Alert</h3>
                   <p className="text-xs text-slate-400 leading-relaxed">
-                    Claims requiring scholar vetting must be resolved within 72 hours to maintain platform accuracy scores.
+                    12 relationship claims have been in the queue for more than 48 hours. Scholarly verification required for 3 claims.
                   </p>
                 </div>
                 <Button variant="secondary" className="w-full rounded-xl font-black text-xs h-12 shadow-2xl">Notify Scholars</Button>
@@ -273,141 +301,85 @@ export default function FamilyTreeAdminManagement() {
           </div>
         </TabsContent>
 
-        {/* PRIVACY STANDARDS */}
-        <TabsContent value="privacy" className="animate-in fade-in duration-500 m-0">
+        {/* GOVERNANCE: CLANS & ROOTS */}
+        <TabsContent value="governance" className="animate-in fade-in duration-500 m-0">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10">
             <div className="space-y-10">
               <div className="space-y-2 border-b pb-6">
-                <h3 className="text-3xl font-black text-slate-900">Privacy & Data Protection</h3>
-                <p className="text-muted-foreground font-medium text-lg italic">Define global mandatory compliance criteria for genealogical data.</p>
+                <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tight">Ancestral Governance</h3>
+                <p className="text-muted-foreground font-medium text-lg italic">Define the rules for relationship validation and root ancestor management.</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-4">
                   {[
-                    { label: "Automatic Living Relative Masking", active: true },
-                    { label: "Admin-Only DNA Marker Logging", active: true },
-                    { label: "Mandatory Relationship Consent", active: true },
-                    { label: "Public Profile Anonymization", active: false },
-                    { label: "Encrypted Historical Uploads", active: true },
+                    { label: "Mandatory Birth/Death Proof for Roots", active: true },
+                    { label: "Scholar-Vetted Lineage Over 100 Years", active: true },
+                    { label: "Multiple-Source Verification Rule", active: true },
+                    { label: "Community Crowdsourcing for Public Roots", active: false },
                   ].map((rule, i) => (
                     <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer group shadow-sm">
-                      <span className="font-bold text-slate-700">{rule.label}</span>
+                      <span className="font-bold text-slate-700 text-sm">{rule.label}</span>
                       <Badge className={rule.active ? "bg-emerald-500 text-white font-black text-[8px]" : "bg-slate-200 text-slate-500 font-black text-[8px]"}>
                         {rule.active ? "MANDATORY" : "OPTIONAL"}
                       </Badge>
                     </div>
                   ))}
                 </div>
-                <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-8 relative overflow-hidden flex flex-col justify-between">
-                  <Lock className="absolute -top-4 -right-4 h-32 w-32 opacity-10" />
-                  <div className="space-y-4 relative z-10">
-                    <h4 className="text-2xl font-black text-primary uppercase tracking-tighter">Security Protocol v4.0</h4>
-                    <p className="text-slate-400 text-sm leading-relaxed">
-                      Lineage data is encrypted at rest. Audit logs track every administrative access to sensitive family records.
-                    </p>
+                <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden flex flex-col justify-between">
+                  <Scale className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                  <div className="space-y-2 relative z-10">
+                    <h4 className="text-xl font-black text-primary uppercase tracking-tighter">Scholarly Oversight</h4>
+                    <p className="text-slate-400 text-sm">Automated reminders for ancestral history re-audits.</p>
                   </div>
-                  <div className="space-y-4 relative z-10">
-                    <Button className="w-full bg-primary hover:bg-primary/90 rounded-xl font-black text-[10px] h-12 uppercase tracking-widest shadow-xl">Update Encryption Keys</Button>
-                    <p className="text-[10px] text-center text-slate-500 font-bold">Last Key Rotation: Jan 12, 2024</p>
-                  </div>
+                  <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] h-12 uppercase tracking-widest relative z-10 shadow-xl bg-white text-slate-900">Manage Board</Button>
                 </div>
               </div>
             </div>
           </Card>
         </TabsContent>
 
-        {/* GOVERNANCE */}
-        <TabsContent value="governance" className="animate-in fade-in duration-500 m-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-slate-900">Scholarly Oversight Board</h3>
-                  <Button variant="ghost" className="font-black text-xs text-primary uppercase tracking-widest">Board Charter <ExternalLink className="ml-2 h-4 w-4" /></Button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-4 border">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm">
-                        <Users2 className="h-5 w-5" />
-                      </div>
-                      <p className="text-sm font-black text-slate-900">Board Members</p>
-                    </div>
-                    <p className="text-4xl font-black text-slate-900">12</p>
-                    <p className="text-xs font-bold text-emerald-600">Active Scholarly Reviewers</p>
-                  </div>
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-4 border">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm">
-                        <CheckCircle2 className="h-5 w-5" />
-                      </div>
-                      <p className="text-sm font-black text-slate-900">Resolution Rate</p>
-                    </div>
-                    <p className="text-4xl font-black text-slate-900">94.2%</p>
-                    <p className="text-xs font-bold text-slate-400 uppercase">Claims cleared this quarter</p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-            <div className="lg:col-span-4 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-8 relative overflow-hidden h-full flex flex-col justify-between">
-                <Scale className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
-                <div className="relative z-10 space-y-4">
-                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">System Policy</p>
-                  <h2 className="text-3xl font-black leading-tight">Lineage Standards</h2>
-                  <p className="text-sm text-slate-400 leading-relaxed">
-                    Define the rules for relationship validation and naming conventions across the global network.
-                  </p>
-                </div>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-14 font-black uppercase text-xs tracking-widest shadow-xl">Update Standards</Button>
-              </Card>
-            </div>
-          </div>
-        </TabsContent>
-
-        {/* REVIEWS */}
+        {/* REVIEWS: DISPUTES */}
         <TabsContent value="reviews" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
-            <CardHeader className="p-8 border-b flex flex-row items-center justify-between bg-amber-50/10">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden border-2 border-rose-50">
+            <CardHeader className="p-8 border-b flex flex-row items-center justify-between bg-rose-50/20">
               <div className="space-y-1">
-                <CardTitle className="text-xl font-black">Community Moderation</CardTitle>
-                <CardDescription className="font-medium italic">Moderate reported relationship claims and family media.</CardDescription>
+                <CardTitle className="text-xl font-black text-rose-600">Dispute Resolution Center</CardTitle>
+                <p className="text-sm text-muted-foreground font-medium">Moderate conflicting relationship claims or ancestral overlaps.</p>
               </div>
-              <Badge className="bg-amber-50 text-amber-600 border-none font-black px-4 h-8 flex items-center text-[9px] tracking-widest uppercase">8 PENDING REPORTS</Badge>
+              <Badge className="bg-rose-50 text-rose-600 border-none font-black px-4 h-8 flex items-center text-[9px] tracking-widest uppercase">5 PENDING DISPUTES</Badge>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-slate-50/50">
+                <TableHeader className="bg-rose-50/10">
                   <TableRow className="border-none">
-                    <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Report ID</TableHead>
-                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Tree & Content</TableHead>
-                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400 text-center">Flag Reason</TableHead>
-                    <TableHead className="text-right px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Action</TableHead>
+                    <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-rose-400">Claim ID</TableHead>
+                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-rose-400">Context & Nodes</TableHead>
+                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-rose-400 text-center">Type</TableHead>
+                    <TableHead className="text-right px-8 h-14 font-black uppercase text-[10px] tracking-widest text-rose-400">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {[
-                    { id: "REP-FT-901", tree: "Al-Sayed Lineage", content: "Media #8821", reason: "Privacy Violation", date: "2h ago" },
-                    { id: "REP-FT-902", tree: "Abdullah Family", content: "Relationship Claim", reason: "Spam / False Data", date: "5h ago" },
-                  ].map((rep, i) => (
-                    <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
+                    { id: "DIS-901", context: "Al-Basri Tree", nodes: "Node #42 vs Node #88", reason: "Ancestral Overlap", date: "2h ago" },
+                    { id: "DIS-902", context: "Malik Estate", nodes: "Parent Claim", reason: "Conflicting Records", date: "5h ago" },
+                  ].map((dis, i) => (
+                    <TableRow key={i} className="border-rose-50 hover:bg-rose-50/5 transition-colors group">
                       <TableCell className="px-8 py-6">
-                        <div className="font-black text-slate-900 text-xs">{rep.id}</div>
-                        <div className="text-[10px] font-bold text-slate-400 uppercase">{rep.date}</div>
+                        <div className="font-black text-slate-900 text-xs">{dis.id}</div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase">{dis.date}</div>
                       </TableCell>
                       <TableCell>
-                        <p className="font-black text-slate-800 text-base">{rep.content}</p>
-                        <p className="text-[10px] font-bold text-primary uppercase">in {rep.tree}</p>
+                        <p className="font-black text-slate-800 text-base">{dis.nodes}</p>
+                        <p className="text-[10px] font-bold text-rose-600 uppercase">in {dis.context}</p>
                       </TableCell>
                       <TableCell className="text-center">
                         <Badge variant="outline" className="border-rose-100 text-rose-600 bg-rose-50 font-black text-[9px] px-3 uppercase tracking-tighter">
-                          {rep.reason}
+                          {dis.reason}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right px-8">
                         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button size="sm" variant="outline" className="rounded-xl font-black text-[10px] border-2 uppercase h-9">Dismiss</Button>
-                          <Button size="sm" className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-black text-[10px] uppercase h-9 shadow-lg">Take Action</Button>
+                          <Button size="sm" className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-black text-[10px] uppercase h-9 shadow-lg">Resolve</Button>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -418,158 +390,23 @@ export default function FamilyTreeAdminManagement() {
           </Card>
         </TabsContent>
 
-        {/* GROWTH */}
-        <TabsContent value="growth" className="animate-in fade-in duration-500 m-0 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 flex flex-col justify-between group hover:shadow-md transition-all">
-              <div className="space-y-4">
-                <div className="flex justify-between items-start">
-                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">New Trees (Mo)</p>
-                  <TrendingUp className="h-5 w-5 text-emerald-500" />
-                </div>
-                <h2 className="text-5xl font-black text-slate-900">450</h2>
-                <p className="text-xs font-bold text-emerald-600 uppercase">+15.4% vs last month</p>
+        {/* OTHER TABS - PLACEHOLDERS */}
+        {["privacy", "growth", "loyalty", "billing"].map((tab) => (
+          <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
+              <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
+                <Settings className="h-10 w-10 animate-spin-slow" />
               </div>
-              <div className="h-16 w-full bg-emerald-50/50 rounded-2xl mt-8 flex items-end p-2 gap-1">
-                {[40, 60, 45, 90, 75, 85, 100].map((h, i) => (
-                  <div key={i} className="flex-1 bg-emerald-200 rounded-t-sm" style={{ height: `${h}%` }} />
-                ))}
+              <div className="space-y-2">
+                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab.replace(/-/g, ' ')} Module</h3>
+                <p className="text-muted-foreground font-medium max-w-sm mx-auto italic">
+                  Advanced administrative engine for genealogy ecosystem oversight.
+                </p>
               </div>
+              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Console</Button>
             </Card>
-
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 flex flex-col justify-between group hover:shadow-md transition-all">
-              <div className="space-y-4">
-                <div className="flex justify-between items-start">
-                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">New Members</p>
-                  <Users className="h-5 w-5 text-blue-500" />
-                </div>
-                <h2 className="text-5xl font-black text-slate-900">8.4k</h2>
-                <p className="text-xs font-bold text-blue-600 uppercase">+2.4k this week</p>
-              </div>
-              <div className="h-16 w-full bg-blue-50/50 rounded-2xl mt-8 flex items-end p-2 gap-1">
-                {[30, 50, 70, 40, 60, 90, 80].map((h, i) => (
-                  <div key={i} className="flex-1 bg-blue-200 rounded-t-sm" style={{ height: `${h}%` }} />
-                ))}
-              </div>
-            </Card>
-
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 relative overflow-hidden">
-              <PieChart className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
-              <div className="relative z-10 space-y-6">
-                <h3 className="text-xl font-black font-headline">Demographic Reach</h3>
-                <div className="space-y-4">
-                  {[
-                    { label: "Middle East", val: "45%" },
-                    { label: "Europe", val: "22%" },
-                    { label: "North America", val: "18%" },
-                  ].map((d, i) => (
-                    <div key={i} className="space-y-1.5">
-                      <div className="flex justify-between text-[10px] font-black uppercase">
-                        <span>{d.label}</span>
-                        <span>{d.val}</span>
-                      </div>
-                      <div className="h-1 bg-white/10 rounded-full">
-                        <div className="h-full bg-primary rounded-full" style={{ width: d.val }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          </div>
-        </TabsContent>
-
-        {/* LOYALTY */}
-        <TabsContent value="loyalty" className="animate-in fade-in duration-500 m-0 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-primary text-primary-foreground p-12 relative overflow-hidden">
-            <Coins className="absolute -top-4 -right-4 h-48 w-48 opacity-10" />
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Legacy Points Circulation</p>
-                  <h2 className="text-7xl font-black tracking-tighter">1.2M</h2>
-                  <div className="flex items-center gap-2 text-sm font-bold bg-white/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
-                    <TrendingUp className="h-4 w-4" /> +12% Engagement
-                  </div>
-                </div>
-                <div className="grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
-                  <div className="space-y-1">
-                    <p className="text-[10px] font-black uppercase opacity-60 tracking-widest">Issued</p>
-                    <p className="text-2xl font-black">850k</p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] font-black uppercase opacity-60 tracking-widest">Redeemed</p>
-                    <p className="text-2xl font-black">420k</p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] font-black uppercase opacity-60 tracking-widest">Avg Earn</p>
-                    <p className="text-2xl font-black">150</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/20 space-y-6">
-                <h3 className="text-xl font-black">Reward Tiers</h3>
-                <div className="space-y-4">
-                  {[
-                    { label: "New Tree Creation", rate: "500 Points" },
-                    { label: "Verified Relationship", rate: "100 Points" },
-                    { label: "Media Contribution", rate: "50 Points" },
-                  ].map((tier, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10">
-                      <span className="text-xs font-black uppercase tracking-tighter opacity-80">{tier.label}</span>
-                      <span className="text-sm font-black text-white">{tier.rate}</span>
-                    </div>
-                  ))}
-                </div>
-                <Button variant="secondary" className="w-full rounded-xl h-12 font-black uppercase text-[10px] tracking-widest">Adjust Ratios</Button>
-              </div>
-            </div>
-          </Card>
-        </TabsContent>
-
-        {/* BILLING & STORAGE */}
-        <TabsContent value="billing" className="animate-in fade-in duration-500 m-0 space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Revenue Configuration</h3>
-                  <Button variant="ghost" className="font-black text-xs text-primary uppercase tracking-widest">Policy PDF <ExternalLink className="ml-2 h-4 w-4" /></Button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border shadow-sm group hover:border-primary/20 transition-all">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Premium Subscriptions</p>
-                    <p className="text-4xl font-black text-slate-900">1,240</p>
-                    <p className="text-xs font-bold text-emerald-600 uppercase">+45 this month</p>
-                  </div>
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border shadow-sm group hover:border-primary/20 transition-all">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Net Revenue (MTD)</p>
-                    <p className="text-4xl font-black text-slate-900">₹1.2M</p>
-                    <p className="text-xs font-bold text-slate-400 uppercase">Legacy Premium Tier</p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-            <div className="lg:col-span-4 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-8 relative overflow-hidden flex flex-col justify-between">
-                <HardDrive className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
-                <div className="relative z-10 space-y-4">
-                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Infrastructure</p>
-                  <h2 className="text-5xl font-black tracking-tighter">4.2TB</h2>
-                  <p className="text-xs font-bold text-slate-400 uppercase">Cloud Storage Usage</p>
-                  <div className="space-y-2 pt-4">
-                    <div className="flex justify-between text-[10px] font-black uppercase opacity-60">
-                      <span>Usage</span>
-                      <span>84%</span>
-                    </div>
-                    <Progress value={84} className="h-2 bg-white/10" />
-                  </div>
-                </div>
-                <Button className="w-full bg-primary rounded-xl h-14 font-black uppercase text-xs tracking-widest shadow-2xl relative z-10">Expand Capacity</Button>
-              </Card>
-            </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
+        ))}
       </Tabs>
 
       <Link href="/admin/dashboard">
