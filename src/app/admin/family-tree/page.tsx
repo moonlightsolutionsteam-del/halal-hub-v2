@@ -20,7 +20,9 @@ import {
   TrendingUp, Scale, Settings, ExternalLink, Gift,
   Network, Share2, Database, Lock, Users2,
   HardDrive, LineChart, PieChart, GitBranch,
-  Merge, AlertTriangle, UserPlus, Info
+  Merge, AlertTriangle, UserPlus, Info,
+  Globe, Zap, ArrowRight, Save,
+  BarChart, History, RefreshCcw
 } from "lucide-react"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
@@ -390,23 +392,267 @@ export default function FamilyTreeAdminManagement() {
           </Card>
         </TabsContent>
 
-        {/* OTHER TABS - PLACEHOLDERS */}
-        {["privacy", "growth", "loyalty", "billing"].map((tab) => (
-          <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
-              <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
-                <Settings className="h-10 w-10 animate-spin-slow" />
+        {/* GROWTH */}
+        <TabsContent value="growth" className="animate-in fade-in duration-500 m-0 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-4">
+              <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
+                <TrendingUp className="h-6 w-6" />
               </div>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab.replace(/-/g, ' ')} Module</h3>
-                <p className="text-muted-foreground font-medium max-w-sm mx-auto italic">
-                  Advanced administrative engine for genealogy ecosystem oversight.
-                </p>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">New Node Velocity</p>
+                <h2 className="text-3xl font-black text-slate-900">+850 / week</h2>
+                <p className="text-xs font-bold text-emerald-600 uppercase">+12% vs Last Month</p>
               </div>
-              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Console</Button>
             </Card>
-          </TabsContent>
-        ))}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-4">
+              <div className="h-12 w-12 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600">
+                <Globe className="h-6 w-6" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Global Coverage</p>
+                <h2 className="text-3xl font-black text-slate-900">42 Countries</h2>
+                <p className="text-xs font-bold text-blue-600 uppercase">Top: UAE, UK, India</p>
+              </div>
+            </Card>
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-4 relative overflow-hidden">
+              <Zap className="absolute -top-4 -right-4 h-24 w-24 opacity-10 text-primary" />
+              <div className="space-y-4 relative z-10">
+                <p className="text-xs font-black uppercase tracking-widest opacity-80">Premium Upgrade Rate</p>
+                <h2 className="text-3xl font-black leading-snug">18.4%</h2>
+                <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] uppercase h-10 bg-primary text-white border-none">Analysis Hub</Button>
+              </div>
+            </Card>
+          </div>
+
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
+            <CardHeader className="p-8 border-b flex flex-row items-center justify-between bg-slate-50/30">
+              <div className="space-y-1">
+                <CardTitle className="text-xl font-black">Regional Lineage Density</CardTitle>
+                <p className="text-sm text-muted-foreground font-medium">Distribution of verified trees by geographic region.</p>
+              </div>
+              <Button variant="outline" className="rounded-xl border-2 font-black text-xs h-10 px-6">Export Map Data</Button>
+            </CardHeader>
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div className="aspect-square bg-slate-50 rounded-[3rem] border-4 border-white shadow-inner flex items-center justify-center relative overflow-hidden group">
+                  <Globe className="h-48 w-48 text-slate-200 group-hover:scale-110 transition-transform duration-1000" />
+                  <div className="absolute inset-0 bg-primary/5" />
+                  <div className="absolute top-1/4 left-1/4 h-4 w-4 bg-primary rounded-full animate-pulse shadow-lg shadow-primary/50" />
+                  <div className="absolute bottom-1/3 right-1/4 h-6 w-6 bg-primary/60 rounded-full animate-pulse shadow-lg shadow-primary/50" />
+                  <div className="absolute top-1/2 right-1/2 h-3 w-3 bg-primary/80 rounded-full animate-pulse shadow-lg shadow-primary/50" />
+                </div>
+                <div className="space-y-6">
+                  {[
+                    { region: "Middle East", count: "1,240", val: 85, color: "bg-primary" },
+                    { region: "Europe", count: "850", val: 62, color: "bg-blue-500" },
+                    { region: "South Asia", count: "1,142", val: 78, color: "bg-amber-500" },
+                    { region: "North America", count: "420", val: 35, color: "bg-rose-500" },
+                  ].map((reg, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="flex justify-between items-center text-sm font-black text-slate-700">
+                        <span>{reg.region}</span>
+                        <span className="text-slate-400">{reg.count} Trees</span>
+                      </div>
+                      <Progress value={reg.val} className={`h-2.5 ${reg.color}`} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* LOYALTY */}
+        <TabsContent value="loyalty" className="animate-in fade-in duration-500 m-0 space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-primary text-primary-foreground p-10 relative overflow-hidden">
+                <Coins className="absolute -top-4 -right-4 h-48 w-48 opacity-10" />
+                <div className="relative z-10 space-y-8">
+                  <div className="space-y-2">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Legacy Coins Issued</p>
+                    <h2 className="text-7xl font-black tracking-tighter">1.24M</h2>
+                    <div className="flex items-center gap-2 text-sm font-bold bg-white/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
+                      <TrendingUp className="h-4 w-4" /> +15.4% Contribution Lift
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 border-t border-white/10 pt-8">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase opacity-60 tracking-widest mb-1">Top Contributors</p>
+                      <p className="text-2xl font-black">450 Scholars</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase opacity-60 tracking-widest mb-1">Avg Earn Rate</p>
+                      <p className="text-2xl font-black">50 Pts/Node</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase opacity-60 tracking-widest mb-1">Total Redeemed</p>
+                      <p className="text-2xl font-black">840k</p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
+                <CardHeader className="p-8 border-b bg-slate-50/30">
+                  <CardTitle className="text-xl font-black">Contributor Leaderboard</CardTitle>
+                  <p className="text-sm text-muted-foreground font-medium italic">Rewarding users for verified historical data and document uploads.</p>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <Table>
+                    <TableHeader className="bg-slate-50/50">
+                      <TableRow className="border-none">
+                        <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Rank / Contributor</TableHead>
+                        <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Contributions</TableHead>
+                        <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400 text-center">Trust Rating</TableHead>
+                        <TableHead className="text-right px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Earnings</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {[
+                        { rank: 1, name: "Shaykh Hamza", contribs: 124, rating: 5.0, earnings: "12,450" },
+                        { rank: 2, name: "Dr. Aisha Khalil", contribs: 85, rating: 4.9, earnings: "8,500" },
+                        { rank: 3, name: "Omar Siddiqui", contribs: 42, rating: 4.8, earnings: "4,200" },
+                      ].map((con, i) => (
+                        <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
+                          <TableCell className="px-8 py-5">
+                            <div className="flex items-center gap-4">
+                              <span className="font-black text-slate-300">#0{con.rank}</span>
+                              <p className="font-bold text-slate-800 text-sm">{con.name}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell className="font-bold text-slate-500 text-xs">{con.contribs} Verified Nodes</TableCell>
+                          <TableCell className="text-center">
+                            <div className="flex items-center justify-center gap-1 font-black text-sm text-amber-500">
+                              <Star className="h-3.5 w-3.5 fill-current" /> {con.rating}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right px-8 font-black text-primary text-sm">
+                            {con.earnings} <span className="text-[9px] opacity-60">COINS</span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="lg:col-span-4 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+                <h3 className="text-xl font-black text-slate-900">Points Management</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: "Document Upload", pts: "100 Pts" },
+                    { label: "New Relationship Link", pts: "25 Pts" },
+                    { label: "Duplicate Fix", pts: "50 Pts" },
+                    { label: "Scholarly Review", pts: "500 Pts" },
+                  ].map((perk, i) => (
+                    <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all group cursor-pointer">
+                      <span className="text-xs font-bold text-slate-700 uppercase tracking-tighter">{perk.label}</span>
+                      <Badge variant="outline" className="border-primary/30 text-primary font-black text-[10px]">{perk.pts}</Badge>
+                    </div>
+                  ))}
+                </div>
+                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl h-12 font-black uppercase text-[10px] tracking-widest shadow-xl">
+                  Adjust Ratios
+                </Button>
+              </Card>
+
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
+                <Award className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                <div className="relative z-10 space-y-2">
+                  <h4 className="text-xl font-black text-primary uppercase tracking-tighter">Contributor Badges</h4>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    Automatically award "Historian" or "Verified Scholar" badges to users reaching 10k points.
+                  </p>
+                </div>
+                <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] h-12 uppercase tracking-widest relative z-10">Configure Badges</Button>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
+        {/* BILLING & STORAGE */}
+        <TabsContent value="billing" className="animate-in fade-in duration-500 m-0 space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Ancestry Infrastructure</h3>
+                  <Button variant="ghost" className="font-black text-xs text-primary uppercase tracking-widest">Pricing PDF <ExternalLink className="ml-2 h-4 w-4" /></Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-4 border shadow-inner">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Storage Utilization</p>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-end">
+                        <p className="text-4xl font-black text-slate-900">4.2TB</p>
+                        <p className="text-xs font-bold text-slate-400">/ 5.0TB Cap</p>
+                      </div>
+                      <Progress value={84} className="h-3 bg-slate-200" />
+                    </div>
+                    <p className="text-[10px] font-bold text-amber-600 uppercase">Approaching 85% Warning</p>
+                  </div>
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-4 border shadow-inner">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Premium MRR</p>
+                    <div className="space-y-1">
+                      <p className="text-4xl font-black text-slate-900">₹842k</p>
+                      <p className="text-xs font-bold text-emerald-600 uppercase">+15% Monthly Growth</p>
+                    </div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">From 1,240 Ancestry Plus users</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                  <h4 className="text-sm font-black uppercase text-slate-400 tracking-widest px-2">Cloud Provider Invoices</h4>
+                  <div className="divide-y border rounded-[2rem] overflow-hidden">
+                    {[
+                      { id: "INV-CLD-991", service: "Google Cloud Storage", amount: "₹45,000", date: "Nov 01", status: "Paid" },
+                      { id: "INV-CLD-992", service: "Media Optimization CDN", amount: "₹12,200", date: "Oct 28", status: "Paid" },
+                    ].map((inv, i) => (
+                      <div key={i} className="p-6 bg-white flex items-center justify-between text-xs font-bold group hover:bg-slate-50 transition-colors">
+                        <span className="text-slate-400">{inv.id}</span>
+                        <span className="text-slate-900 flex-1 px-8">{inv.service}</span>
+                        <span className="text-primary px-8">{inv.amount}</span>
+                        <Badge className="bg-emerald-50 text-emerald-600 border-none px-3">{inv.status}</Badge>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div className="lg:col-span-4 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden flex flex-col justify-between h-full">
+                <Database className="absolute -top-4 -right-4 h-48 w-48 opacity-10 text-primary" />
+                <div className="relative z-10 space-y-6">
+                  <div className="space-y-2">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Resource Reserve</p>
+                    <h2 className="text-6xl font-black tracking-tighter text-primary">₹1.2M</h2>
+                    <p className="text-xs font-bold text-slate-400 uppercase leading-relaxed">
+                      Infrastructure budget allocated for ancestry media optimization.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-4">
+                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                      <span className="text-slate-400">Media Compression</span>
+                      <span className="text-emerald-400">OPTIMAL</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                      <span className="text-slate-400">Archive Indexing</span>
+                      <span className="text-primary">RUNNING</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4 relative z-10">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 font-black uppercase text-xs tracking-widest shadow-xl">Infrastructure Hub</Button>
+                  <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 rounded-2xl h-14 font-black uppercase text-xs tracking-widest">Manage Storage Cap</Button>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
       </Tabs>
 
       <Link href="/admin/dashboard">
