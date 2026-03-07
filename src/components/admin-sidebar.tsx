@@ -154,29 +154,18 @@ export function AdminSidebar() {
   const businessSubItems = [
     { title: "Restaurants", icon: UtensilsCrossed, url: "/admin/restaurants" },
     { title: "Meat Shops", icon: MeatIcon, url: "/admin/meat" },
-    { title: "Grocery", icon: ShoppingCart, url: "#" },
-    { title: "Catering", icon: CookingPot, url: "#" },
-    { title: "Event Services", icon: Sparkles, url: "#" },
-    { title: "Hotels", icon: Hotel, url: "#" },
-    { title: "Travel", icon: Plane, url: "/travel" },
-    { title: "Fashion", icon: Shirt, url: "#" },
-    { title: "Cosmetics", icon: Sparkles, url: "#" },
-    { title: "Finance", icon: CircleDollarSign, url: "#" },
-    { title: "Healthcare", icon: Stethoscope, url: "#" },
-    { title: "Education", icon: GraduationCap, url: "#" },
-    { title: "Bookstores", icon: BookOpen, url: "#" },
+    { title: "Grocery", icon: ShoppingCart, url: "/admin/grocery" },
+    { title: "Catering", icon: CookingPot, url: "/admin/catering" },
+    { title: "Event Services", icon: Sparkles, url: "/admin/events" },
+    { title: "Hotels", icon: Hotel, url: "/admin/hotels" },
+    { title: "Travel", icon: Plane, url: "/admin/travel" },
+    { title: "Fashion", icon: Shirt, url: "/admin/fashion" },
+    { title: "Cosmetics", icon: Sparkles, url: "/admin/cosmetics" },
+    { title: "Finance", icon: CircleDollarSign, url: "/admin/finance" },
+    { title: "Healthcare", icon: Stethoscope, url: "/admin/healthcare" },
+    { title: "Education", icon: GraduationCap, url: "/admin/education" },
+    { title: "Bookstores", icon: BookOpen, url: "/admin/media" },
     { title: "Professionals", icon: Wrench, url: "#" },
-  ];
-
-  const eventSubItems = [
-    { title: "Dashboard", icon: LayoutGrid, url: "#" },
-    { title: "Manage Events", icon: Calendar, url: "/events" },
-    { title: "Booking & Tickets", icon: Ticket, url: "#" },
-    { title: "Attendees & Check-ins", icon: AttendeesIcon, url: "#" },
-    { title: "Event Promotions", icon: Megaphone, url: "#" },
-    { title: "Event Categories", icon: List, url: "#" },
-    { title: "Analytics", icon: BarChart3, url: "#" },
-    { title: "Support & Moderation", icon: Headset, url: "#" },
   ];
 
   const erpGroups = [
@@ -365,32 +354,6 @@ export function AdminSidebar() {
                     {businessSubItems.map((sub) => (
                       <SidebarMenuItem key={sub.title}>
                         <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/50">
-                          <Link href={sub.url}>
-                            <sub.icon className="h-4 w-4 mr-3 opacity-70" />
-                            <span className="text-[13px]">{sub.title}</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </CollapsibleContent>
-              </SidebarMenuItem>
-            </Collapsible>
-
-            <Collapsible className="group/collapsible-evt">
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton className="h-10 font-bold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-emerald-100">
-                    <Calendar className="h-4 w-4 mr-3" />
-                    <span>Events</span>
-                    <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible-evt:rotate-180" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenu className="ml-4 mt-1 border-l border-emerald-100">
-                    {eventSubItems.map((sub) => (
-                      <SidebarMenuItem key={sub.title}>
-                        <SidebarMenuButton asChild className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/50">
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-70" />
                             <span className="text-[13px]">{sub.title}</span>
