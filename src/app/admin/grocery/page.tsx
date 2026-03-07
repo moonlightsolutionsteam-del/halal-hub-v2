@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -20,7 +20,13 @@ import {
   TrendingUp, Scale, Settings, ExternalLink, Gift,
   ShoppingCart, Boxes, Apple, Milk, Truck
 } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table"
@@ -54,7 +60,7 @@ export default function SuperAdminGroceryManagement() {
               <TabsTrigger 
                 key={tab.id}
                 value={tab.id} 
-                className="rounded-xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap"
+                className="rounded-xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
               >
                 {tab.label}
               </TabsTrigger>
@@ -110,7 +116,7 @@ export default function SuperAdminGroceryManagement() {
                 <CardTitle className="text-xl font-black text-slate-900">Recent Applications</CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">New supermarkets awaiting retail verification.</p>
               </div>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-xl font-black text-xs h-10 px-6 text-white group">
+              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-primary/20">
                 View All <ArrowUpRight className="ml-2 h-4 w-4" />
               </Button>
             </CardHeader>
@@ -133,7 +139,7 @@ export default function SuperAdminGroceryManagement() {
                       <TableCell className="px-8 py-5 font-bold text-slate-800 text-sm">{item.name}</TableCell>
                       <TableCell className="font-bold text-slate-500 text-xs">{item.type}</TableCell>
                       <TableCell className="text-center">
-                        <Badge className={item.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-none' : 'bg-amber-50 text-amber-600 border-none'}>
+                        <Badge className={item.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-none font-black text-[9px] uppercase px-3' : 'bg-amber-50 text-amber-600 border-none font-black text-[9px] uppercase px-3'}>
                           {item.status}
                         </Badge>
                       </TableCell>
@@ -149,9 +155,9 @@ export default function SuperAdminGroceryManagement() {
         <TabsContent value="governance" className="animate-in fade-in duration-500 m-0">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10">
             <div className="space-y-10">
-              <div className="space-y-2">
+              <div className="space-y-2 border-b pb-6">
                 <h3 className="text-3xl font-black text-slate-900">Departmental Halal Audits</h3>
-                <p className="text-muted-foreground font-medium text-lg">Define the audit scope for store sections (Meat, Bakery, Deli).</p>
+                <p className="text-muted-foreground font-medium text-lg italic">Define the audit scope for store sections (Meat, Bakery, Deli).</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-4">
@@ -161,21 +167,23 @@ export default function SuperAdminGroceryManagement() {
                     { label: "Hot Food Cross-Contamination Check", active: true },
                     { label: "Pantry Enzyme Audit", active: false },
                   ].map((rule, i) => (
-                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer group shadow-sm">
                       <span className="font-bold text-slate-700">{rule.label}</span>
-                      <Badge className={rule.active ? "bg-emerald-500" : "bg-slate-300"}>
+                      <Badge className={rule.active ? "bg-emerald-500 text-white font-black text-[8px]" : "bg-slate-200 text-slate-500 font-black text-[8px]"}>
                         {rule.active ? "MANDATORY" : "OPTIONAL"}
                       </Badge>
                     </div>
                   ))}
                 </div>
-                <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden">
+                <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden flex flex-col justify-between">
                   <ShieldAlert className="absolute -top-4 -right-4 h-32 w-32 opacity-10" />
-                  <h4 className="text-xl font-black">Audit SLA</h4>
-                  <p className="text-slate-400 text-sm">Set max turnaround for supermarket departmental reviews.</p>
-                  <div className="flex gap-4">
-                    <Button variant="outline" className="flex-1 rounded-xl border-white/20 text-white hover:bg-white/10 font-bold">48 Hours</Button>
-                    <Button variant="outline" className="flex-1 rounded-xl border-white/20 text-white hover:bg-white/10 font-bold">7 Days</Button>
+                  <div className="space-y-2 relative z-10">
+                    <h4 className="text-xl font-black">Audit SLA</h4>
+                    <p className="text-slate-400 text-sm">Set max turnaround for supermarket departmental reviews.</p>
+                  </div>
+                  <div className="flex gap-4 relative z-10">
+                    <Button variant="outline" className="flex-1 rounded-xl border-white/20 text-white hover:bg-white/10 font-black text-[10px] uppercase h-12">48 Hours</Button>
+                    <Button variant="outline" className="flex-1 rounded-xl border-white/20 text-white hover:bg-white/10 font-black text-[10px] uppercase h-12">7 Days</Button>
                   </div>
                 </div>
               </div>
@@ -187,14 +195,17 @@ export default function SuperAdminGroceryManagement() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-8">
               <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
-                <h3 className="text-2xl font-black">Settlement Cycle</h3>
+                <div className="flex justify-between items-center">
+                  <h3 className="text-2xl font-black">Settlement Cycle</h3>
+                  <Button variant="ghost" className="font-black text-xs text-primary uppercase tracking-widest">Fee Policy PDF <ExternalLink className="ml-2 h-4 w-4" /></Button>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2">
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border">
                     <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Platform Fee</p>
                     <p className="text-3xl font-black text-slate-900">2.5% Flat</p>
                     <p className="text-xs font-bold text-emerald-600">On digital marketplace orders</p>
                   </div>
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2">
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border">
                     <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Net Revenue (MTD)</p>
                     <p className="text-3xl font-black text-slate-900">₹12.4M</p>
                     <p className="text-xs font-bold text-slate-400 uppercase">Across 890 stores</p>
@@ -210,13 +221,13 @@ export default function SuperAdminGroceryManagement() {
                   <h2 className="text-5xl font-black tracking-tighter">₹42.8M</h2>
                   <p className="text-xs font-bold text-slate-400 uppercase">Retail vertical escrow</p>
                 </div>
-                <Button className="w-full bg-primary rounded-xl h-12 font-black uppercase text-[10px] tracking-widest relative z-10 shadow-xl">Financial Config</Button>
+                <Button className="w-full bg-primary rounded-xl h-12 font-black uppercase text-[10px] tracking-widest relative z-10 shadow-xl text-white">Financial Config</Button>
               </Card>
             </div>
           </div>
         </TabsContent>
 
-        {/* OTHER TABS - PLACEHOLDERS */}
+        {/* OTHER TABS - WRAPPED FOR CONSISTENCY */}
         {["all", "verification", "reviews", "offers", "loyalty", "certificates", "categories"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
@@ -224,12 +235,12 @@ export default function SuperAdminGroceryManagement() {
                 <Settings className="h-10 w-10 animate-spin-slow" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab} Module</h3>
-                <p className="text-muted-foreground font-medium max-w-sm mx-auto italic">
-                  Managing the data integrity and operational throughput for the grocery ecosystem.
+                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab.replace(/-/g, ' ')} Module</h3>
+                <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+                  Advanced administrative engine for grocery ecosystem oversight.
                 </p>
               </div>
-              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Console</Button>
+              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Registry</Button>
             </Card>
           </TabsContent>
         ))}
@@ -239,7 +250,7 @@ export default function SuperAdminGroceryManagement() {
         <button className="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50 group">
           <div className="flex flex-col items-center">
             <ExternalLink className="h-5 w-5" />
-            <span className="text-[8px] font-black uppercase mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">Exit</span>
+            <span className="text-[8px] font-black uppercase mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Exit Panel</span>
           </div>
         </button>
       </Link>

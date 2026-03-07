@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -336,64 +336,6 @@ export default function SuperAdminEventManagement() {
           </Card>
         </TabsContent>
 
-        {/* WALLET & BILLING TAB */}
-        <TabsContent value="billing" className="animate-in fade-in duration-500 m-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-8 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black text-slate-900">Vertical Financial Health</h3>
-                  <Button variant="ghost" className="font-black text-xs text-primary uppercase tracking-widest">Billing Policy PDF <ExternalLink className="ml-2 h-4 w-4" /></Button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border shadow-inner">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Avg. Platform Fee</p>
-                    <p className="text-4xl font-black text-slate-900">7.5% <span className="text-sm font-bold text-slate-400 italic">flat</span></p>
-                    <p className="text-xs font-bold text-emerald-600">Applied to digital ticket sales</p>
-                  </div>
-                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border shadow-inner">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Escrow Holdings</p>
-                    <p className="text-4xl font-black text-slate-900">₹18.4M</p>
-                    <p className="text-xs font-bold text-slate-400 uppercase">Awaiting post-event release</p>
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <h4 className="text-sm font-black uppercase text-slate-400 tracking-widest">Recent Settlements</h4>
-                  <div className="divide-y border rounded-2xl overflow-hidden">
-                    {[
-                      { id: "SET-991", venue: "The Grand Hall", amount: "₹45,000", status: "Released", date: "Nov 01" },
-                      { id: "SET-992", venue: "Heritage Spaces", amount: "₹12,200", status: "Processing", date: "Oct 30" },
-                    ].map((set, i) => (
-                      <div key={i} className="p-4 bg-white flex items-center justify-between text-xs font-bold">
-                        <span className="text-slate-400">{set.id}</span>
-                        <span className="text-slate-900">{set.venue}</span>
-                        <span className="text-primary">{set.amount}</span>
-                        <Badge className={set.status === 'Released' ? 'bg-emerald-50 text-emerald-600 border-none' : 'bg-blue-50 text-blue-600 border-none'}>{set.status}</Badge>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Card>
-            </div>
-            <div className="lg:col-span-4 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-8 relative overflow-hidden flex flex-col justify-between h-full">
-                <Wallet className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
-                <div className="relative z-10 space-y-4">
-                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">System Reserve</p>
-                  <h2 className="text-6xl font-black tracking-tighter text-primary">₹42.8M</h2>
-                  <p className="text-xs font-bold text-slate-400 uppercase leading-relaxed">
-                    Vertical liquidity reserve for venue payouts and refund mitigation.
-                  </p>
-                </div>
-                <div className="space-y-4 relative z-10">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-14 font-black uppercase text-xs tracking-widest shadow-xl">Financial Dashboard</Button>
-                  <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 rounded-xl h-14 font-black uppercase text-xs tracking-widest">Update Payout Rules</Button>
-                </div>
-              </Card>
-            </div>
-          </div>
-        </TabsContent>
-
         {/* REVIEWS TAB */}
         <TabsContent value="reviews" className="animate-in fade-in duration-500 m-0">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
@@ -660,6 +602,64 @@ export default function SuperAdminEventManagement() {
               </Table>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* WALLET & BILLING TAB */}
+        <TabsContent value="billing" className="animate-in fade-in duration-500 m-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-black text-slate-900">Vertical Financial Health</h3>
+                  <Button variant="ghost" className="font-black text-xs text-primary uppercase tracking-widest">Billing Policy PDF <ExternalLink className="ml-2 h-4 w-4" /></Button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border shadow-inner">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Avg. Platform Fee</p>
+                    <p className="text-4xl font-black text-slate-900">7.5% <span className="text-sm font-bold text-slate-400 italic">flat</span></p>
+                    <p className="text-xs font-bold text-emerald-600">Applied to digital ticket sales</p>
+                  </div>
+                  <div className="p-8 bg-slate-50 rounded-[2rem] space-y-2 border shadow-inner">
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Escrow Holdings</p>
+                    <p className="text-4xl font-black text-slate-900">₹18.4M</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase">Awaiting post-event release</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="text-sm font-black uppercase text-slate-400 tracking-widest">Recent Settlements</h4>
+                  <div className="divide-y border rounded-2xl overflow-hidden">
+                    {[
+                      { id: "SET-991", venue: "The Grand Hall", amount: "₹45,000", status: "Released", date: "Nov 01" },
+                      { id: "SET-992", venue: "Heritage Spaces", amount: "₹12,200", status: "Processing", date: "Oct 30" },
+                    ].map((set, i) => (
+                      <div key={i} className="p-4 bg-white flex items-center justify-between text-xs font-bold">
+                        <span className="text-slate-400">{set.id}</span>
+                        <span className="text-slate-900">{set.venue}</span>
+                        <span className="text-primary">{set.amount}</span>
+                        <Badge className={set.status === 'Released' ? 'bg-emerald-50 text-emerald-600 border-none' : 'bg-blue-50 text-blue-600 border-none'}>{set.status}</Badge>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div className="lg:col-span-4 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-8 relative overflow-hidden flex flex-col justify-between h-full">
+                <Wallet className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                <div className="relative z-10 space-y-4">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">System Reserve</p>
+                  <h2 className="text-6xl font-black tracking-tighter text-primary">₹42.8M</h2>
+                  <p className="text-xs font-bold text-slate-400 uppercase leading-relaxed">
+                    Vertical liquidity reserve for venue payouts and refund mitigation.
+                  </p>
+                </div>
+                <div className="space-y-4 relative z-10">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-14 font-black uppercase text-xs tracking-widest shadow-xl">Financial Dashboard</Button>
+                  <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 rounded-xl h-14 font-black uppercase text-xs tracking-widest">Update Payout Rules</Button>
+                </div>
+              </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
 
