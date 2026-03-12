@@ -13,7 +13,8 @@ import {
   Network, MessageSquare, AlertTriangle,
   LayoutGrid, BarChart3, PieChart,
   UtensilsCrossed, ShoppingCart, Plane, 
-  Landmark, MoreVertical, Search, Filter
+  Landmark, MoreVertical, Search, Filter,
+  Settings
 } from "lucide-react"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
@@ -138,7 +139,7 @@ export default function SuperAdminDashboard() {
                     <span className="text-slate-400">{v.name}</span>
                     <span className="text-white">{v.value} Entities</span>
                   </div>
-                  <Progress value={(v.value / 1500) * 100} className="h-2 bg-white/10" indicatorClassName="bg-primary" />
+                  <Progress value={(v.value / 1500) * 100} className="h-2 bg-white/10" />
                 </div>
               ))}
             </div>
