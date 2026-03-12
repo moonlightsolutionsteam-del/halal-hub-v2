@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -124,7 +125,7 @@ export function AdminSidebar() {
         { title: "Users", icon: Users, url: "/admin/users" },
         { title: "Creators", icon: PenTool, url: "#" },
         { title: "Organizations", icon: Building, url: "#" },
-        { title: "Mosques", icon: Church, url: "#" },
+        { title: "Mosques", icon: Church, url: "/admin/mosques" },
       ]
     },
     {
