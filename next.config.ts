@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    // Adding allowed origins to prevent dev-time cross-origin warnings in cloud environments
+    allowedDevOrigins: [
+      '6000-firebase-studio-1771602950413.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev',
+      'localhost:9002'
+    ]
+  },
   images: {
     remotePatterns: [
       {

@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -10,14 +11,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Search, Filter, MoreVertical, 
   ShieldCheck, Star, ArrowUpRight,
-  MapPin, Users, Download,
+  BarChart3, MapPin, Users, Download,
   MessageSquare, Clock, CheckCircle2,
   Tag, Plus, Heart, Activity, 
   FileText, Landmark, Calendar, Eye, 
   XCircle, Trash2, Edit2, ShieldAlert,
   Coins, Wallet, Layers, Award, Percent,
   TrendingUp, Scale, Settings, ExternalLink, Gift,
-  Shirt, ShoppingBag
+  Shirt, ShoppingBag, Zap, Ruler
 } from "lucide-react"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
@@ -38,7 +39,7 @@ export default function SuperAdminFashionManagement() {
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
       <div className="space-y-1">
         <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter text-pink-600">Fashion & Modest Wear</h1>
-        <p className="text-muted-foreground font-medium text-lg italic">Manage design brands, ethical sourcing audits, and global shipping hubs.</p>
+        <p className="text-muted-foreground font-medium text-lg italic">Manage design brands, ethical sourcing audits, and global modesty standards.</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
@@ -184,8 +185,62 @@ export default function SuperAdminFashionManagement() {
           </Card>
         </TabsContent>
 
+        <TabsContent value="loyalty" className="animate-in fade-in duration-500 m-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-8 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-pink-600 text-white p-10 relative overflow-hidden">
+                <Coins className="absolute -top-4 -right-4 h-48 w-48 opacity-10" />
+                <div className="relative z-10 space-y-8">
+                  <div className="space-y-2">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Style Coin Circulation</p>
+                    <h2 className="text-7xl font-black tracking-tighter">4.2M</h2>
+                    <div className="flex items-center gap-2 text-sm font-bold bg-white/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
+                      <TrendingUp className="h-4 w-4" /> +18% growth
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 border-t border-white/10 pt-8">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase opacity-60 tracking-widest leading-none mb-1">Active Members</p>
+                      <p className="text-2xl font-black">12.4k</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase opacity-60 tracking-widest leading-none mb-1">Redemptions</p>
+                      <p className="text-2xl font-black">8.5k</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black uppercase opacity-60 tracking-widest leading-none mb-1">Avg Save</p>
+                      <p className="text-2xl font-black">₹450</p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div className="lg:col-span-4 space-y-8">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <h3 className="text-xl font-black text-slate-900">Style Tiers</h3>
+                  <p className="text-sm text-slate-500 font-medium italic">Manage how clients earn Hub Coins for modest wear purchases.</p>
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { label: "Standard Earn", rate: "1 Coin / ₹100" },
+                    { label: "Designer Brand Bonus", rate: "1.5x Multiplier" },
+                    { label: "New Launch Early Access", rate: "500 Flat Coins" },
+                  ].map((tier, i) => (
+                    <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border">
+                      <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter">{tier.label}</span>
+                      <span className="text-sm font-black text-pink-600">{tier.rate}</span>
+                    </div>
+                  ))}
+                </div>
+                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl h-12 font-black uppercase text-[10px] tracking-widest">Adjust Ratios</Button>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
         {/* Other Tabs - Wrapped for consistent high-fidelity UI */}
-        {["all", "verification", "reviews", "offers", "loyalty", "certificates", "categories", "billing"].map((tab) => (
+        {["all", "verification", "reviews", "offers", "certificates", "categories", "billing"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
               <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
