@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -252,8 +251,8 @@ export default function SuperAdminDashboard() {
                   <TableRow key={i} className="border-slate-50 hover:bg-slate-50/50 transition-colors group">
                     <TableCell className="px-10 py-6">
                       <div className="flex items-center gap-4">
-                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center text-white shadow-lg", item.color)}>
-                          <item.name.charAt(0) />
+                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center text-white font-black shadow-lg", item.color)}>
+                          {item.name.charAt(0)}
                         </div>
                         <div>
                           <div className="font-black text-slate-800 text-sm tracking-tight">{item.name}</div>
