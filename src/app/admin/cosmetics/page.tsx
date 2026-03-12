@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -28,10 +27,16 @@ import Link from "next/link"
 export default function SuperAdminCosmeticsManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
+  const MOCK_LABS = [
+    { id: "COS-L01", name: "Pure Glow Cosmetics", type: "Skincare", status: "Verified", rating: 4.9, scanner: "1.2k" },
+    { id: "COS-L02", name: "Noor Beauty Labs", type: "Makeup", status: "Pending", rating: 4.8, scanner: "850" },
+    { id: "COS-L03", name: "Velvet Veil", type: "Fragrance", status: "Verified", rating: 4.7, scanner: "2.1k" },
+  ];
+
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter">Cosmetics & Beauty</h1>
+        <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter text-rose-600">Cosmetics & Beauty</h1>
         <p className="text-muted-foreground font-medium text-lg italic">Manage ethical beauty brands, lab-verified formulations, and purity logs.</p>
       </div>
 
@@ -53,7 +58,7 @@ export default function SuperAdminCosmeticsManagement() {
               <TabsTrigger 
                 key={tab.id}
                 value={tab.id} 
-                className="rounded-xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
+                className="rounded-xl data-[state=active]:bg-rose-50 data-[state=active]:text-rose-600 px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
               >
                 {tab.label}
               </TabsTrigger>
@@ -66,7 +71,7 @@ export default function SuperAdminCosmeticsManagement() {
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Active Brands</span>
-                <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                <div className="h-10 w-10 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600">
                   <Sparkles className="h-5 w-5" />
                 </div>
               </div>
@@ -105,11 +110,8 @@ export default function SuperAdminCosmeticsManagement() {
 
           <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
             <CardHeader className="p-8 flex flex-row items-center justify-between">
-              <div className="space-y-1">
-                <CardTitle className="text-xl font-black text-slate-900">Lab Reports Queue</CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Verify breathability and alcohol-free lab reports for cosmetics.</p>
-              </div>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-primary/20">
+              <CardTitle className="text-xl font-black text-slate-900">Lab Reports Queue</CardTitle>
+              <Button size="sm" className="bg-rose-600 hover:bg-rose-700 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-rose-200">
                 Begin Verification <ArrowUpRight className="ml-2 h-4 w-4" />
               </Button>
             </CardHeader>
@@ -160,7 +162,7 @@ export default function SuperAdminCosmeticsManagement() {
                     { label: "Solvent Purity Log", active: true },
                     { label: "Sustainable Packaging Charter", active: false },
                   ].map((rule, i) => (
-                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer group shadow-sm">
+                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-rose-200 transition-all cursor-pointer group shadow-sm">
                       <span className="font-bold text-slate-700 text-sm">{rule.label}</span>
                       <Badge className={rule.active ? "bg-emerald-500 text-white font-black text-[8px]" : "bg-slate-200 text-slate-500 font-black text-[8px]"}>
                         {rule.active ? "MANDATORY" : "OPTIONAL"}
@@ -169,9 +171,9 @@ export default function SuperAdminCosmeticsManagement() {
                   ))}
                 </div>
                 <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden flex flex-col justify-between">
-                  <FlaskConical className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                  <FlaskConical className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-rose-400" />
                   <div className="space-y-2 relative z-10">
-                    <h4 className="text-xl font-black text-primary uppercase tracking-tighter">Lab Bridge</h4>
+                    <h4 className="text-xl font-black text-rose-400 uppercase tracking-tighter">Lab Bridge</h4>
                     <p className="text-slate-400 text-sm">Direct integration with ethical lab partners for instant verification.</p>
                   </div>
                   <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] h-12 uppercase tracking-widest relative z-10 shadow-xl bg-white text-slate-900">Sync Lab Data</Button>
@@ -181,7 +183,7 @@ export default function SuperAdminCosmeticsManagement() {
           </Card>
         </TabsContent>
 
-        {/* OTHER TABS - WRAPPED FOR CONSISTENCY */}
+        {/* Other Tabs - Wrapped for consistent high-fidelity UI */}
         {["all", "verification", "reviews", "offers", "loyalty", "certificates", "categories", "billing"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
@@ -194,7 +196,7 @@ export default function SuperAdminCosmeticsManagement() {
                   Managing beauty standards and brand purity across the global network.
                 </p>
               </div>
-              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Registry</Button>
+              <Button variant="outline" className="rounded-xl border-2 font-bold px-8 h-12 border-rose-100 text-rose-600 hover:bg-rose-50">Refresh Brand Data</Button>
             </Card>
           </TabsContent>
         ))}

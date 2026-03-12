@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -35,10 +34,16 @@ import Link from "next/link"
 export default function SuperAdminFinanceManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
+  const MOCK_FINANCE = [
+    { id: "FIN-001", name: "Amanah Islamic Bank", type: "Retail Banking", status: "Verified", aum: "₹12.4M", yield: "8.4%" },
+    { id: "FIN-002", name: "Sunnah Wealth", type: "Investment", status: "Verified", aum: "₹8.5M", yield: "10.2%" },
+    { id: "FIN-003", name: "Crescent Takaful", type: "Insurance", status: "Audit Needed", aum: "₹5.2M", yield: "N/A" },
+  ];
+
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter">Finance & Banking</h1>
+        <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter text-indigo-600">Finance & Banking</h1>
         <p className="text-muted-foreground font-medium text-lg italic">Manage Shariah-compliant institutions, investor KYC, and global asset logs.</p>
       </div>
 
@@ -60,7 +65,7 @@ export default function SuperAdminFinanceManagement() {
               <TabsTrigger 
                 key={tab.id}
                 value={tab.id} 
-                className="rounded-xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
+                className="rounded-xl data-[state=active]:bg-indigo-50 data-[state=active]:text-indigo-600 px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
               >
                 {tab.label}
               </TabsTrigger>
@@ -73,7 +78,7 @@ export default function SuperAdminFinanceManagement() {
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Active Entities</span>
-                <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                <div className="h-10 w-10 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600">
                   <Landmark className="h-5 w-5" />
                 </div>
               </div>
@@ -92,7 +97,7 @@ export default function SuperAdminFinanceManagement() {
               </div>
               <div className="space-y-1">
                 <p className="text-4xl font-black text-slate-900">₹45.2M</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">Under platform oversight</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase">Under oversight</p>
               </div>
             </Card>
 
@@ -112,11 +117,8 @@ export default function SuperAdminFinanceManagement() {
 
           <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
             <CardHeader className="p-8 flex flex-row items-center justify-between">
-              <div className="space-y-1">
-                <CardTitle className="text-xl font-black text-slate-900">Pending KYC & Audits</CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Review institutional and high-net-worth individual identity logs.</p>
-              </div>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-primary/20">
+              <CardTitle className="text-xl font-black text-slate-900">Pending KYC & Audits</CardTitle>
+              <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-indigo-200">
                 Begin Review <ArrowUpRight className="ml-2 h-4 w-4" />
               </Button>
             </CardHeader>
@@ -167,7 +169,7 @@ export default function SuperAdminFinanceManagement() {
                     { label: "Zakat Audit Transparency", active: true },
                     { label: "ESG Ethical Asset Protocol", active: false },
                   ].map((rule, i) => (
-                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer group shadow-sm">
+                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-indigo-200 transition-all cursor-pointer group shadow-sm">
                       <span className="font-bold text-slate-700 text-sm">{rule.label}</span>
                       <Badge className={rule.active ? "bg-emerald-500 text-white font-black text-[8px]" : "bg-slate-200 text-slate-500 font-black text-[8px]"}>
                         {rule.active ? "MANDATORY" : "OPTIONAL"}
@@ -176,9 +178,9 @@ export default function SuperAdminFinanceManagement() {
                   ))}
                 </div>
                 <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden flex flex-col justify-between">
-                  <Scale className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                  <Scale className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-indigo-400" />
                   <div className="space-y-2 relative z-10">
-                    <h4 className="text-xl font-black text-primary uppercase tracking-tighter">Audit Window</h4>
+                    <h4 className="text-xl font-black text-indigo-400 uppercase tracking-tighter">Audit Window</h4>
                     <p className="text-slate-400 text-sm">Manage the frequency of institutional ethics reviews.</p>
                   </div>
                   <Select defaultValue="6m">
@@ -197,7 +199,7 @@ export default function SuperAdminFinanceManagement() {
           </Card>
         </TabsContent>
 
-        {/* OTHER TABS - WRAPPED FOR CONSISTENCY */}
+        {/* Other Tabs - Wrapped for consistent high-fidelity UI */}
         {["all", "verification", "reviews", "offers", "loyalty", "certificates", "categories", "billing"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
@@ -210,7 +212,7 @@ export default function SuperAdminFinanceManagement() {
                   Managing institutional Shariah governance and global financial assets.
                 </p>
               </div>
-              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Registry</Button>
+              <Button variant="outline" className="rounded-xl border-2 font-bold px-8 h-12 border-indigo-100 text-indigo-600 hover:bg-indigo-50">Refresh Financial Ledger</Button>
             </Card>
           </TabsContent>
         ))}

@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -35,10 +34,16 @@ import Link from "next/link"
 export default function SuperAdminEducationManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
+  const MOCK_SCHOOLS = [
+    { id: "EDU-001", name: "Iman Knowledge Academy", city: "London, UK", type: "School", status: "Verified", rating: 4.9, students: "450" },
+    { id: "EDU-002", name: "Darul Uloom Central", city: "New York, USA", type: "Madrasa", status: "Verified", rating: 4.8, students: "120" },
+    { id: "EDU-003", name: "Global Tajweed Hub", city: "Online", type: "Digital", status: "Audit Needed", rating: 4.7, students: "8.5k" },
+  ];
+
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter">Education & Training</h1>
+        <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter text-violet-600">Education & Training</h1>
         <p className="text-muted-foreground font-medium text-lg italic">Manage madrasas, academic schools, and scholarly training programs.</p>
       </div>
 
@@ -60,7 +65,7 @@ export default function SuperAdminEducationManagement() {
               <TabsTrigger 
                 key={tab.id}
                 value={tab.id} 
-                className="rounded-xl data-[state=active]:bg-primary/10 data-[state=active]:text-primary px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
+                className="rounded-xl data-[state=active]:bg-violet-50 data-[state=active]:text-violet-600 px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
               >
                 {tab.label}
               </TabsTrigger>
@@ -73,7 +78,7 @@ export default function SuperAdminEducationManagement() {
             <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Active Entities</span>
-                <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                <div className="h-10 w-10 rounded-2xl bg-violet-50 flex items-center justify-center text-violet-600">
                   <School className="h-5 w-5" />
                 </div>
               </div>
@@ -116,7 +121,7 @@ export default function SuperAdminEducationManagement() {
                 <CardTitle className="text-xl font-black text-slate-900">Educational Audits</CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">Verify scholarly oversight and environment compliance standards.</p>
               </div>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-primary/20">
+              <Button size="sm" className="bg-violet-600 hover:bg-violet-700 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-violet-200">
                 Begin Audit <ArrowUpRight className="ml-2 h-4 w-4" />
               </Button>
             </CardHeader>
@@ -167,7 +172,7 @@ export default function SuperAdminEducationManagement() {
                     { label: "Verified Halal Nutrition Services", active: true },
                     { label: "Scholarly Oversight Board", active: true },
                   ].map((rule, i) => (
-                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer group shadow-sm">
+                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-violet-200 transition-all cursor-pointer group shadow-sm">
                       <span className="font-bold text-slate-700 text-sm">{rule.label}</span>
                       <Badge className={rule.active ? "bg-emerald-500 text-white font-black text-[8px]" : "bg-slate-200 text-slate-500 font-black text-[8px]"}>
                         {rule.active ? "MANDATORY" : "OPTIONAL"}
@@ -176,9 +181,9 @@ export default function SuperAdminEducationManagement() {
                   ))}
                 </div>
                 <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden flex flex-col justify-between">
-                  <Scale className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
+                  <Scale className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-violet-400" />
                   <div className="space-y-2 relative z-10">
-                    <h4 className="text-xl font-black text-primary uppercase tracking-tighter">Academic Review</h4>
+                    <h4 className="text-xl font-black text-violet-400 uppercase tracking-tighter">Academic Review</h4>
                     <p className="text-slate-400 text-sm">Schedule board reviews for curriculum alignment.</p>
                   </div>
                   <Select defaultValue="12m">
@@ -196,7 +201,7 @@ export default function SuperAdminEducationManagement() {
           </Card>
         </TabsContent>
 
-        {/* OTHER TABS - WRAPPED FOR CONSISTENCY */}
+        {/* Other Tabs - Wrapped for consistent high-fidelity UI */}
         {["all", "verification", "reviews", "offers", "loyalty", "certificates", "categories", "billing"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
@@ -209,7 +214,7 @@ export default function SuperAdminEducationManagement() {
                   Managing the global educational integrity network and institutional standards.
                 </p>
               </div>
-              <Button variant="outline" className="rounded-xl border-2 font-bold px-8">Refresh Registry</Button>
+              <Button variant="outline" className="rounded-xl border-2 font-bold px-8 h-12 border-violet-100 text-violet-600 hover:bg-violet-50">Refresh Registry</Button>
             </Card>
           </TabsContent>
         ))}
