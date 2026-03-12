@@ -14,76 +14,126 @@ import {
   LayoutGrid, BarChart3, PieChart,
   UtensilsCrossed, ShoppingCart, Plane, 
   Landmark, MoreVertical, Search, Filter,
-  Settings
+  Settings, Server, Cpu, Wifi, History,
+  CheckCircle2, ChevronRight, MapPin, 
+  ArrowRightLeft, Terminal
 } from "lucide-react"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table"
 import { 
-  Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer 
+  Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip 
 } from "recharts"
 import { 
   ChartContainer, ChartTooltip, ChartTooltipContent 
 } from "@/components/ui/chart"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const revenueData = [
-  { month: "Jan", revenue: 4500000 },
-  { month: "Feb", revenue: 5200000 },
-  { month: "Mar", revenue: 4800000 },
-  { month: "Apr", revenue: 6100000 },
-  { month: "May", revenue: 5900000 },
-  { month: "Jun", revenue: 7200000 },
-  { month: "Jul", revenue: 8400000 },
+  { month: "Jan", revenue: 4500000, target: 4000000 },
+  { month: "Feb", revenue: 5200000, target: 4500000 },
+  { month: "Mar", revenue: 4800000, target: 5000000 },
+  { month: "Apr", revenue: 6100000, target: 5500000 },
+  { month: "May", revenue: 5900000, target: 6000000 },
+  { month: "Jun", revenue: 7200000, target: 6500000 },
+  { month: "Jul", revenue: 8400000, target: 7000000 },
 ]
 
-const verticalData = [
-  { name: "Dining", value: 1240, color: "hsl(var(--primary))" },
-  { name: "Retail", value: 890, color: "hsl(var(--chart-2))" },
-  { name: "Services", value: 450, color: "hsl(var(--chart-3))" },
-  { name: "Inst.", value: 320, color: "hsl(var(--chart-4))" },
+const verticalStats = [
+  { name: "Dining", entities: 1240, health: 98, revenue: "₹4.2M", icon: UtensilsCrossed, color: "text-orange-500", bg: "bg-orange-50" },
+  { name: "Retail", entities: 890, health: 92, revenue: "₹3.8M", icon: ShoppingCart, color: "text-emerald-500", bg: "bg-emerald-50" },
+  { name: "Travel", entities: 156, health: 85, revenue: "₹12.4M", icon: Plane, color: "text-amber-500", bg: "bg-amber-50" },
+  { name: "Inst.", entities: 320, health: 99, revenue: "₹1.2M", icon: Landmark, color: "text-blue-500", bg: "bg-blue-50" },
 ]
 
 export default function SuperAdminDashboard() {
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
-    <div className="p-8 space-y-8 bg-[#F8F9FA] min-h-screen pb-24">
+    <div className="p-8 space-y-8 bg-[#F4F7F6] min-h-screen pb-24 selection:bg-primary/10">
+      
+      {/* System Integrity Ribbon */}
+      <div className="flex flex-wrap items-center gap-6 px-6 py-3 bg-slate-900 rounded-3xl shadow-2xl border border-white/10 overflow-hidden relative group">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-50" />
+        <div className="flex items-center gap-3 relative z-10">
+          <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+          <span className="text-[10px] font-black text-white uppercase tracking-widest">System Live</span>
+        </div>
+        <div className="h-4 w-px bg-white/10 mx-2" />
+        <div className="flex items-center gap-4 relative z-10">
+          <div className="flex items-center gap-2 text-slate-400">
+            <Wifi className="h-3 w-3" />
+            <span className="text-[10px] font-bold uppercase">Latency: 24ms</span>
+          </div>
+          <div className="flex items-center gap-2 text-slate-400">
+            <Cpu className="h-3 w-3" />
+            <span className="text-[10px] font-bold uppercase">Load: 14.2%</span>
+          </div>
+          <div className="flex items-center gap-2 text-slate-400">
+            <Server className="h-3 w-3" />
+            <span className="text-[10px] font-bold uppercase">Nodes: 128 Online</span>
+          </div>
+        </div>
+        <div className="ml-auto flex items-center gap-4 relative z-10">
+          <Badge variant="outline" className="border-white/20 text-white text-[8px] font-black uppercase tracking-tighter">Firewall: Active</Badge>
+          <span className="text-[10px] font-black text-primary uppercase tracking-widest animate-pulse">Scanning Threats...</span>
+        </div>
+      </div>
+
       {/* Control Room Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b pb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
-            <Zap className="h-3 w-3 fill-current" /> Mission Control Center
+            <Zap className="h-3 w-3 fill-current" /> Operational Command
           </div>
-          <h1 className="text-4xl font-black font-headline text-slate-900 tracking-tighter">PLATFORM OVERVIEW</h1>
-          <p className="text-muted-foreground font-medium text-lg italic">Command center for global Shariah-compliant operations and vertical analytics.</p>
+          <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tighter">HALAL HUB GLOBAL</h1>
+          <p className="text-muted-foreground font-medium text-lg italic">Tactical oversight of the unified Shariah-compliant ecosystem.</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-12 gap-2 hover:bg-slate-100">
-            <BarChart3 className="h-4 w-4" /> Global Export
+          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-12 gap-2 bg-white hover:bg-slate-50 shadow-sm">
+            <History className="h-4 w-4" /> Operations Log
           </Button>
           <Button className="bg-slate-900 hover:bg-slate-800 text-white rounded-2xl px-8 font-black shadow-2xl h-12 gap-2">
-            <Settings className="h-4 w-4" /> System Config
+            <Settings className="h-4 w-4" /> Global Config
           </Button>
         </div>
       </div>
 
-      {/* Primary KPIs */}
+      {/* Global Mission KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: "Net Platform GMV", value: "₹85.4M", trend: "+12.4% YoY", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
-          { label: "Verified Entities", value: "45,892", trend: "94.2% Audit Rate", icon: ShieldCheck, color: "text-blue-600", bg: "bg-blue-50" },
-          { label: "Global User Base", value: "1.2M", trend: "+2.4k today", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
-          { label: "Trust Score", value: "A+", trend: "System Optimal", icon: CheckCircle2, color: "text-primary", bg: "bg-primary/5" },
+          { label: "Net Ecosystem GMV", value: "₹85.4M", trend: "+12.4%", sub: "MTD Growth", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50", spark: [10, 40, 30, 50, 40, 60, 80] },
+          { label: "Verified Identity Base", value: "45,892", trend: "94.2%", sub: "Audit Compliance", icon: ShieldCheck, color: "text-blue-600", bg: "bg-blue-50", spark: [80, 85, 88, 90, 92, 94, 94] },
+          { label: "Global Node Registry", value: "1.24M", trend: "+2.4k", sub: "New Nodes Today", icon: Network, color: "text-purple-600", bg: "bg-purple-50", spark: [20, 30, 45, 40, 55, 70, 90] },
+          { label: "Platform Trust Score", value: "A+", trend: "Optimum", sub: "System Integrity", icon: CheckCircle2, color: "text-primary", bg: "bg-primary/5", spark: [90, 92, 95, 94, 96, 98, 100] },
         ].map((stat, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-[2rem] p-6 bg-white group hover:shadow-md transition-all">
-            <div className="flex justify-between items-start mb-4">
-              <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">{stat.label}</span>
-              <div className={cn("h-10 w-10 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
-                <stat.icon className="h-5 w-5" />
+          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-white group hover:shadow-xl transition-all duration-500 overflow-hidden relative">
+            <div className="flex justify-between items-start mb-6">
+              <div className="space-y-1">
+                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">{stat.label}</span>
+                <div className="text-4xl font-black text-slate-900 tracking-tighter">{stat.value}</div>
+              </div>
+              <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
+                <stat.icon className="h-6 w-6" />
               </div>
             </div>
-            <div className="space-y-1">
-              <div className="text-3xl font-black text-slate-900 tracking-tighter">{stat.value}</div>
-              <p className={cn("text-[10px] font-bold uppercase", stat.color)}>{stat.trend}</p>
+            <div className="flex items-end justify-between">
+              <div className="space-y-0.5">
+                <p className={cn("text-xs font-black uppercase", stat.color)}>{stat.trend}</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{stat.sub}</p>
+              </div>
+              <div className="flex gap-1 items-end h-8">
+                {stat.spark.map((v, idx) => (
+                  <div key={idx} className={cn("w-1 rounded-full", stat.bg.replace('bg-', 'bg-opacity-50 bg-'))} style={{ height: `${v}%`, opacity: 0.3 + (idx / 10) }} />
+                ))}
+              </div>
             </div>
           </Card>
         ))}
@@ -91,20 +141,28 @@ export default function SuperAdminDashboard() {
 
       {/* Analytics Command Center */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Main Revenue Chart */}
-        <Card className="lg:col-span-8 rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
-          <CardHeader className="p-8 border-b bg-slate-50/30 flex flex-row items-center justify-between">
+        {/* Tactical Revenue Growth */}
+        <Card className="lg:col-span-8 rounded-[3rem] border-none shadow-sm bg-white overflow-hidden">
+          <CardHeader className="p-10 border-b bg-slate-50/30 flex flex-row items-center justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-xl font-black text-slate-900">Platform Revenue Growth</CardTitle>
-              <CardDescription className="font-medium italic">Monthly gross volume across all 13 business verticals.</CardDescription>
+              <CardTitle className="text-2xl font-black text-slate-900">Ecosystem Revenue Velocity</CardTitle>
+              <CardDescription className="font-medium italic text-base">Real-time performance tracking across all 13 business verticals vs targets.</CardDescription>
             </div>
-            <div className="flex items-center gap-2">
-              <Badge className="bg-primary text-white font-black text-[9px] px-3 uppercase tracking-tighter">LIVE METRICS</Badge>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-primary" />
+                <span className="text-[10px] font-black uppercase text-slate-400">Actual</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-slate-200" />
+                <span className="text-[10px] font-black uppercase text-slate-400">Target</span>
+              </div>
+              <Badge className="bg-primary text-white font-black text-[9px] px-4 py-1 rounded-full uppercase tracking-[0.2em] shadow-lg shadow-primary/20">LIVE OPS</Badge>
             </div>
           </CardHeader>
-          <CardContent className="p-8">
-            <div className="h-[350px] w-full">
-              <ChartContainer config={{ revenue: { label: "Revenue", color: "hsl(var(--primary))" } }}>
+          <CardContent className="p-10">
+            <div className="h-[400px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={revenueData}>
                   <defs>
                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
@@ -115,86 +173,109 @@ export default function SuperAdminDashboard() {
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 'bold', fill: 'hsl(var(--muted-foreground))' }} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold', fill: 'hsl(var(--muted-foreground))' }} tickFormatter={(value) => `₹${value / 1000000}M`} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Tooltip content={<ChartTooltipContent />} />
+                  <Area type="monotone" dataKey="target" stroke="hsl(var(--muted))" strokeWidth={2} strokeDasharray="5 5" fill="none" />
                   <Area type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" />
                 </AreaChart>
-              </ChartContainer>
+              </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
 
-        {/* Vertical Distribution */}
-        <Card className="lg:col-span-4 rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-8 flex flex-col justify-between overflow-hidden relative">
-          <PieChart className="absolute -top-4 -right-4 h-48 w-48 opacity-10 text-primary" />
-          <div className="relative z-10 space-y-6">
-            <div className="space-y-1">
-              <h3 className="text-2xl font-black font-headline tracking-tight">Vertical Health</h3>
-              <p className="text-xs text-slate-400 font-medium uppercase tracking-widest">Active Partner Density</p>
-            </div>
-            
-            <div className="space-y-6">
-              {verticalData.map((v, i) => (
-                <div key={i} className="space-y-2">
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                    <span className="text-slate-400">{v.name}</span>
-                    <span className="text-white">{v.value} Entities</span>
+        {/* Vertical Sector Command Centers */}
+        <div className="lg:col-span-4 space-y-6">
+          <h3 className="text-xl font-black text-slate-900 px-2 flex items-center gap-2">
+            <LayoutGrid className="h-5 w-5 text-primary" /> Sector Health Status
+          </h3>
+          <div className="grid grid-cols-1 gap-4">
+            {verticalStats.map((v, i) => (
+              <Card key={i} className="border-none shadow-sm rounded-[2rem] p-6 bg-white group hover:bg-slate-900 hover:text-white transition-all duration-500 cursor-pointer">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center shadow-inner group-hover:bg-white/10", v.bg, v.color)}>
+                    <v.icon className="h-5 w-5" />
                   </div>
-                  <Progress value={(v.value / 1500) * 100} className="h-2 bg-white/10" />
+                  <div className="flex-1">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-black uppercase tracking-tight">{v.name}</span>
+                      <span className="text-[10px] font-black text-emerald-500">{v.health}% OK</span>
+                    </div>
+                    <Progress value={v.health} className="h-1.5 mt-1.5 bg-slate-100 group-hover:bg-white/10" />
+                  </div>
                 </div>
-              ))}
-            </div>
+                <div className="flex justify-between items-end border-t border-slate-50 group-hover:border-white/10 pt-4 mt-2">
+                  <div className="space-y-0.5">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Active Entities</p>
+                    <p className="text-lg font-black">{v.entities.toLocaleString()}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Revenue</p>
+                    <p className="text-lg font-black text-primary group-hover:text-emerald-400">{v.revenue}</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
-          <Button variant="secondary" className="w-full rounded-2xl h-14 font-black uppercase text-xs tracking-widest shadow-2xl relative z-10">
-            View Vertical Audits <ArrowUpRight className="ml-2 h-4 w-4" />
+          <Button variant="outline" className="w-full rounded-2xl h-14 font-black border-2 bg-white hover:bg-slate-50 shadow-sm gap-2">
+            Full Sector Audit <ArrowUpRight className="h-4 w-4" />
           </Button>
-        </Card>
+        </div>
       </div>
 
-      {/* Moderation & Quality Grid */}
+      {/* Moderation & Quality Matrix */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Cross-Vertical Verification Queue */}
-        <Card className="lg:col-span-7 rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
-          <CardHeader className="p-8 border-b bg-slate-50/30 flex flex-row items-center justify-between">
+        {/* Global Verification Pipeline */}
+        <Card className="lg:col-span-7 rounded-[3rem] border-none shadow-sm bg-white overflow-hidden">
+          <CardHeader className="p-10 border-b bg-slate-50/30 flex flex-row items-center justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-xl font-black">Global Verification Queue</CardTitle>
-              <CardDescription className="font-medium italic">Urgent submissions from all business verticals.</CardDescription>
+              <CardTitle className="text-2xl font-black">Verification Command Pipeline</CardTitle>
+              <CardDescription className="font-medium italic">High-priority cross-vertical certification requests.</CardDescription>
             </div>
-            <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-9 px-4 border-2 uppercase tracking-tighter">Full Queue</Button>
+            <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-10 px-6 border-2 uppercase tracking-widest bg-white">Real-time Stream</Button>
           </CardHeader>
           <CardContent className="p-0">
             <Table>
               <TableHeader className="bg-slate-50/50">
                 <TableRow className="border-none">
-                  <TableHead className="px-8 h-12 font-black text-[10px] uppercase tracking-widest text-slate-400">Entity / Type</TableHead>
-                  <TableHead className="h-12 font-black text-[10px] uppercase tracking-widest text-slate-400">Document Class</TableHead>
-                  <TableHead className="h-12 font-black text-[10px] uppercase tracking-widest text-slate-400 text-center">Status</TableHead>
-                  <TableHead className="text-right px-8 h-12 font-black text-[10px] uppercase tracking-widest text-slate-400">Action</TableHead>
+                  <TableHead className="px-10 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Identity / Origin</TableHead>
+                  <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Documentation</TableHead>
+                  <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400 text-center">Audit Severity</TableHead>
+                  <TableHead className="text-right px-10 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {[
-                  { name: "Elite Catering", vertical: "Catering", doc: "Thermal Logistics Log", status: "Critical", variant: "destructive" as const },
-                  { name: "Royal Halal Suites", vertical: "Hotels", doc: "Hospitality Charter", status: "Pending", variant: "warning" as const },
-                  { name: "Noor Beauty Labs", vertical: "Cosmetics", doc: "Lab Purity Report", status: "In Review", variant: "secondary" as const },
-                  { name: "Al-Barakah Meats", vertical: "Meat", doc: "Slaughterhouse Proof", status: "Renewal", variant: "outline" as const },
+                  { name: "Al-Barakah Meats", vertical: "Butchers", doc: "Slaughterhouse Proof", status: "Critical", loc: "London, UK", color: "bg-rose-500" },
+                  { name: "Noor Beauty Labs", vertical: "Cosmetics", doc: "Lab Purity Report", status: "High", loc: "Dubai, UAE", color: "bg-orange-500" },
+                  { name: "Royal Suites", vertical: "Hotels", doc: "Privacy Charter v2", status: "Routine", loc: "New York, US", color: "bg-blue-500" },
+                  { name: "Iman Knowledge", vertical: "Education", doc: "Curriculum Vetting", status: "Routine", loc: "London, UK", color: "bg-emerald-500" },
                 ].map((item, i) => (
-                  <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
-                    <TableCell className="px-8 py-5">
-                      <div className="font-bold text-slate-800 text-sm">{item.name}</div>
-                      <div className="text-[9px] font-black text-primary uppercase">{item.vertical}</div>
+                  <TableRow key={i} className="border-slate-50 hover:bg-slate-50/50 transition-colors group">
+                    <TableCell className="px-10 py-6">
+                      <div className="flex items-center gap-4">
+                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center text-white shadow-lg", item.color)}>
+                          <item.name.charAt(0) />
+                        </div>
+                        <div>
+                          <div className="font-black text-slate-800 text-sm tracking-tight">{item.name}</div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[9px] font-black text-primary uppercase">{item.vertical}</span>
+                            <span className="text-[9px] font-bold text-slate-300 uppercase">• {item.loc}</span>
+                          </div>
+                        </div>
+                      </div>
                     </TableCell>
                     <TableCell className="text-[11px] font-bold text-slate-500 italic">{item.doc}</TableCell>
                     <TableCell className="text-center">
                       <Badge className={cn(
-                        "rounded-full px-3 text-[8px] font-black uppercase border-none",
-                        item.status === 'Critical' ? 'bg-rose-500 text-white animate-pulse' : 
-                        item.status === 'Pending' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'
+                        "rounded-full px-4 py-1 text-[8px] font-black uppercase border-none",
+                        item.status === 'Critical' ? 'bg-rose-600 text-white animate-pulse shadow-lg shadow-rose-200' : 
+                        item.status === 'High' ? 'bg-orange-100 text-orange-700' : 'bg-slate-100 text-slate-600'
                       )}>
                         {item.status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right px-8">
-                      <Button size="icon" variant="ghost" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><ArrowUpRight className="h-4 w-4 text-primary" /></Button>
+                    <TableCell className="text-right px-10">
+                      <Button size="icon" variant="ghost" className="rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity bg-slate-50 hover:bg-primary hover:text-white"><ArrowRightLeft className="h-4 w-4" /></Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -203,96 +284,61 @@ export default function SuperAdminDashboard() {
           </CardContent>
         </Card>
 
-        {/* Platform Risk Center */}
+        {/* Global Activity Map & Insights */}
         <div className="lg:col-span-5 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6 border-2 border-rose-50">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600 shadow-inner">
-                  <AlertTriangle className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-black text-slate-900">High-Risk Alerts</h3>
+          <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 relative overflow-hidden h-[300px]">
+            <Globe className="absolute -top-10 -right-10 h-64 w-64 opacity-5 text-slate-900" />
+            <div className="relative z-10 space-y-6">
+              <div className="space-y-1">
+                <CardTitle className="text-xl font-black">Global Traffic Density</CardTitle>
+                <p className="text-sm font-medium text-slate-400">Activity heatmap across active nodes.</p>
               </div>
-              <Badge className="bg-rose-600 text-white border-none font-black text-[9px] px-3">8 ACTIVE</Badge>
-            </div>
-            
-            <div className="space-y-4">
-              {[
-                { title: "Privacy Violation Reported", loc: "Royal Suites Hotel", time: "2h ago", type: "Privacy" },
-                { title: "Sourcing Mismatch Detected", loc: "Local Butcher #42", time: "5h ago", type: "Halal" },
-              ].map((alert, i) => (
-                <div key={i} className="p-4 bg-slate-50 rounded-2xl border-l-4 border-rose-600 group cursor-pointer hover:bg-rose-50 transition-colors">
-                  <div className="flex justify-between items-start mb-1">
-                    <p className="font-black text-slate-900 text-sm">{alert.title}</p>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase">{alert.time}</span>
+              <div className="space-y-4">
+                {[
+                  { region: "Middle East", activity: 85 },
+                  { region: "Europe", activity: 62 },
+                  { region: "South Asia", activity: 78 },
+                ].map((r, i) => (
+                  <div key={i} className="space-y-1.5">
+                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-500">
+                      <span>{r.region}</span>
+                      <span className="text-primary">{r.activity}% flux</span>
+                    </div>
+                    <Progress value={r.activity} className="h-1 bg-slate-50" />
                   </div>
-                  <p className="text-[10px] font-bold text-rose-600 uppercase tracking-tighter">{alert.loc} • {alert.type}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-            <Button className="w-full bg-rose-600 hover:bg-rose-700 text-white rounded-xl h-12 font-black uppercase text-xs tracking-widest shadow-lg shadow-rose-200">
-              Launch Crisis Response
-            </Button>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
-            <h3 className="text-xl font-black flex items-center gap-2">
-              <Network className="h-5 w-5 text-blue-600" /> Community Network
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-6 bg-slate-50 rounded-3xl space-y-1 shadow-inner text-center">
-                <p className="text-[10px] font-black uppercase text-slate-400">Total Nodes</p>
-                <p className="text-3xl font-black text-slate-900">85.4k</p>
-                <p className="text-[9px] font-bold text-emerald-600 uppercase">+12% growth</p>
+          {/* Live Operational Terminal */}
+          <Card className="rounded-[3rem] border-none shadow-sm bg-slate-900 text-emerald-400 p-10 relative overflow-hidden">
+            <Terminal className="absolute -bottom-4 -right-4 h-24 w-24 opacity-10 text-emerald-400" />
+            <div className="space-y-4 relative z-10">
+              <div className="flex items-center gap-2 border-b border-emerald-400/20 pb-4">
+                <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-emerald-400/80">Live Operations Feed</h3>
               </div>
-              <div className="p-6 bg-slate-50 rounded-3xl space-y-1 shadow-inner text-center">
-                <p className="text-[10px] font-black uppercase text-slate-400">Active Clans</p>
-                <p className="text-3xl font-black text-slate-900">4,250</p>
-                <p className="text-[9px] font-bold text-blue-600 uppercase">Verified roots</p>
+              <div className="space-y-2 font-mono text-[10px] leading-relaxed">
+                <p className="opacity-60">[14:24:02] <span className="text-white">NODE_CREATE:</span> Family Tree Branch #882 verified in UK.</p>
+                <p className="opacity-60">[14:23:45] <span className="text-white">AUDIT_PASS:</span> 'Istanbul Bistro' hygiene check complete.</p>
+                <p className="opacity-100 animate-pulse">[14:23:12] <span className="text-white">SECURITY_ALERT:</span> Blocked anomalous KYC attempt from IP 192.168.x.x</p>
+                <p className="opacity-60">[14:22:50] <span className="text-white">SYS_SYNC:</span> Prayer time algorithm updated for 42 masjids.</p>
               </div>
             </div>
-            <Link href="/admin/family-tree">
-              <Button variant="outline" className="w-full rounded-xl border-2 font-black text-xs uppercase tracking-widest h-12 mt-2">
-                Manage Lineages
-              </Button>
-            </Link>
           </Card>
         </div>
       </div>
 
-      {/* Floating App Return */}
+      {/* Floating Return Button */}
       <Link href="/">
-        <button className="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50 group border-4 border-white">
+        <button className="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50 group border-4 border-white active:scale-95">
           <div className="flex flex-col items-center">
-            <ExternalLink className="h-5 w-5" />
-            <span className="text-[8px] font-black uppercase mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">Return App</span>
+            <ExternalLink className="h-6 w-6" />
+            <span className="text-[8px] font-black uppercase mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">Exit Panel</span>
           </div>
         </button>
       </Link>
     </div>
-  )
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ')
-}
-
-function CheckCircle2(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
   )
 }

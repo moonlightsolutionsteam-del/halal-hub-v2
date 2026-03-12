@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -12,7 +13,8 @@ const nextConfig: NextConfig = {
     // Adding allowed origins to prevent dev-time cross-origin warnings in cloud environments
     allowedDevOrigins: [
       '6000-firebase-studio-1771602950413.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev',
-      'localhost:9002'
+      'localhost:9002',
+      '0.0.0.0:9002'
     ]
   },
   images: {
