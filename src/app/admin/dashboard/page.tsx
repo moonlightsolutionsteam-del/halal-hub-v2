@@ -21,10 +21,10 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table"
 import { 
-  Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip 
+  Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip 
 } from "recharts"
 import { 
-  ChartContainer, ChartTooltip, ChartTooltipContent 
+  ChartContainer, ChartTooltipContent, type ChartConfig 
 } from "@/components/ui/chart"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -45,6 +45,17 @@ const verticalStats = [
   { name: "Travel", entities: 156, health: 85, revenue: "₹12.4M", icon: Plane, color: "text-amber-500", bg: "bg-amber-50" },
   { name: "Inst.", entities: 320, health: 99, revenue: "₹1.2M", icon: Landmark, color: "text-blue-500", bg: "bg-blue-50" },
 ]
+
+const chartConfig = {
+  revenue: {
+    label: "Actual Revenue",
+    color: "hsl(var(--primary))",
+  },
+  target: {
+    label: "Target Revenue",
+    color: "hsl(var(--muted))",
+  },
+} satisfies ChartConfig
 
 export default function SuperAdminDashboard() {
   const [mounted, setMounted] = React.useState(false)
@@ -100,7 +111,7 @@ export default function SuperAdminDashboard() {
             <History className="h-4 w-4" /> Operations Log
           </Button>
           <Button className="bg-slate-900 hover:bg-slate-800 text-white rounded-2xl px-8 font-black shadow-2xl h-12 gap-2">
-            <Settings className="h-4 w-4" /> Global Config
+            <Settings className="h-4 w-4" /> System Config
           </Button>
         </div>
       </div>
@@ -160,24 +171,24 @@ export default function SuperAdminDashboard() {
             </div>
           </CardHeader>
           <CardContent className="p-10">
-            <div className="h-[400px] w-full">
+            <ChartContainer config={chartConfig} className="h-[400px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={revenueData}>
                   <defs>
                     <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="var(--color-revenue)" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="var(--color-revenue)" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 'bold', fill: 'hsl(var(--muted-foreground))' }} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 'bold', fill: 'hsl(var(--muted-foreground))' }} tickFormatter={(value) => `₹${value / 1000000}M`} />
                   <Tooltip content={<ChartTooltipContent />} />
-                  <Area type="monotone" dataKey="target" stroke="hsl(var(--muted))" strokeWidth={2} strokeDasharray="5 5" fill="none" />
-                  <Area type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" />
+                  <Area type="monotone" dataKey="target" stroke="var(--color-target)" strokeWidth={2} strokeDasharray="5 5" fill="none" />
+                  <Area type="monotone" dataKey="revenue" stroke="var(--color-revenue)" strokeWidth={4} fillOpacity={1} fill="url(#colorRev)" />
                 </AreaChart>
               </ResponsiveContainer>
-            </div>
+            </ChartContainer>
           </CardContent>
         </Card>
 
