@@ -49,7 +49,7 @@ export function UserSidebar() {
 
   const partnerItems = [
     { title: "Manage Your Business", icon: Briefcase, url: "/partner/portal" },
-    { title: "Creator Studio", icon: User, url: "/community" },
+    { title: "Creator Studio", icon: User, url: "/vendor/creative/dashboard" },
   ];
 
   const generalItems = [
@@ -112,9 +112,9 @@ export function UserSidebar() {
         <SidebarGroup className="mt-4">
           <SidebarGroupLabel className="px-4 text-[11px] font-black uppercase text-slate-400 tracking-widest mb-4">Switch Role (Dev)</SidebarGroupLabel>
           <div className="px-2 space-y-1">
-            <button className="w-full text-left px-6 py-3 text-sm font-bold text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors">Consumer</button>
-            <button className="w-full text-left px-6 py-3 text-sm font-bold text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors">Creator</button>
-            <button className="w-full text-left px-6 py-3 text-sm font-bold text-amber-900 bg-amber-50 rounded-2xl transition-colors">Business Owner</button>
+            <Link href="/dev/role/consumer" className="block w-full text-left px-6 py-3 text-sm font-bold text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors">Consumer</Link>
+            <Link href="/dev/role/creator" className="block w-full text-left px-6 py-3 text-sm font-bold text-slate-900 hover:bg-slate-50 rounded-2xl transition-colors">Creator</Link>
+            <Link href="/dev/role/vendor" className="block w-full text-left px-6 py-3 text-sm font-bold text-amber-900 bg-amber-50 rounded-2xl transition-colors">Business Owner</Link>
           </div>
         </SidebarGroup>
 
