@@ -10,7 +10,7 @@ import {
   Users, Tag, ArrowUpRight, PlusCircle, Settings,
   Clock, MapPin, CheckCircle2, AlertCircle,
   Briefcase, UtensilsCrossed, ShoppingBag, Landmark,
-  LayoutGrid
+  LayoutGrid, Plus
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from "next/link";
@@ -47,7 +47,7 @@ export default function VendorRolePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-[2rem] bg-white p-2 group hover:shadow-md transition-all">
+          <Card key={i} className="border-none shadow-sm rounded-3xl bg-white p-2 group hover:shadow-md transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{kpi.label}</span>
               <kpi.icon className="h-4 w-4 text-slate-300 group-hover:text-primary transition-colors" />
