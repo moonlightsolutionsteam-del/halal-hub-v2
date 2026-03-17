@@ -8,9 +8,11 @@ import {
   Users, BarChart3, Star, Wallet, 
   Eye, MousePointer2, MessageSquare, Plus,
   PlusCircle, Tag, Calendar, Rocket,
-  ArrowUpRight, Clock, MapPin, CheckCircle2
+  ArrowUpRight, Clock, MapPin, CheckCircle2,
+  ShieldCheck, Award, Sparkles, ChevronRight
 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Link from "next/link";
 
 export default function VendorDashboard() {
   const kpis = [
@@ -61,69 +63,106 @@ export default function VendorDashboard() {
         ))}
       </div>
 
-      <section className="space-y-4">
-        <h2 className="text-lg font-black text-slate-800 px-2">Quick Actions</h2>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {quickActions.map((action, i) => (
-            <button key={i} className="group flex flex-col items-center justify-center p-6 bg-white rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-3 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
-                <action.icon className="h-6 w-6" />
-              </div>
-              <span className="text-xs font-black text-slate-700">{action.label}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
-          <CardHeader className="p-8 flex flex-row items-center justify-between">
-            <div className="space-y-1">
-              <CardTitle className="text-xl font-black">Top Menu Items</CardTitle>
-              <p className="text-sm text-muted-foreground font-medium">Your best-selling dishes this month.</p>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-8 space-y-8">
+          <section className="space-y-4">
+            <h2 className="text-lg font-black text-slate-800 px-2">Quick Actions</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {quickActions.map((action, i) => (
+                <button key={i} className="group flex flex-col items-center justify-center p-6 bg-white rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-3 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
+                    <action.icon className="h-6 w-6" />
+                  </div>
+                  <span className="text-xs font-black text-slate-700">{action.label}</span>
+                </button>
+              ))}
             </div>
-            <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full font-black text-xs px-6 h-10">
-              View Menu <ArrowUpRight className="ml-2 h-4 w-4" />
-            </Button>
-          </CardHeader>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader className="bg-slate-50/50">
-                <TableRow className="border-none">
-                  <TableHead className="px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Item</TableHead>
-                  <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Orders</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {topItems.map((item, i) => (
-                  <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
-                    <TableCell className="px-8 py-5 font-bold text-slate-800">{item.name}</TableCell>
-                    <TableCell className="text-right px-8 font-black text-slate-600">{item.orders}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+          </section>
 
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
-          <CardHeader className="px-0 pt-0">
-            <CardTitle className="text-xl font-black">Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent className="px-0 space-y-6">
-            {recentActivity.map((activity, i) => (
-              <div key={i} className="flex items-start gap-4 p-4 rounded-3xl bg-slate-50/50 hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-slate-100">
-                <div className={`mt-1 h-8 w-8 rounded-xl flex items-center justify-center ${activity.color} bg-white shadow-sm shrink-0`}>
-                  <activity.icon className="h-4 w-4" />
+          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+            <CardHeader className="p-8 flex flex-row items-center justify-between">
+              <div className="space-y-1">
+                <CardTitle className="text-xl font-black">Top Menu Items</CardTitle>
+                <p className="text-sm text-muted-foreground font-medium">Your best-selling dishes this month.</p>
+              </div>
+              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full font-black text-xs px-6 h-10">
+                View Menu <ArrowUpRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardHeader>
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader className="bg-slate-50/50">
+                  <TableRow className="border-none">
+                    <TableHead className="px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Item</TableHead>
+                    <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Orders</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {topItems.map((item, i) => (
+                    <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
+                      <TableCell className="px-8 py-5 font-bold text-slate-800">{item.name}</TableCell>
+                      <TableCell className="text-right px-8 font-black text-slate-600">{item.orders}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="lg:col-span-4 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-4 opacity-10">
+              <ShieldCheck className="h-24 w-24" />
+            </div>
+            <div className="relative z-10 space-y-4">
+              <h3 className="text-xl font-black">Trust & Compliance</h3>
+              <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                Build 2x more trust by getting verified. Apply for FSSAI or Halal certification today.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+                  <div className="flex items-center gap-3">
+                    <Award className="h-4 w-4 text-primary" />
+                    <span className="text-xs font-bold">Halal Hub Audit</span>
+                  </div>
+                  <Badge variant="outline" className="text-[8px] font-black border-red-500/50 text-red-400 uppercase">PENDING</Badge>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-bold text-slate-800 leading-tight">{activity.text}</p>
-                  <p className="text-[10px] font-black uppercase text-slate-400">{activity.time}</p>
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                    <span className="text-xs font-bold">FSSAI Status</span>
+                  </div>
+                  <Badge variant="outline" className="text-[8px] font-black border-emerald-500/50 text-emerald-400 uppercase">ACTIVE</Badge>
                 </div>
               </div>
-            ))}
-          </CardContent>
-        </Card>
+              <Link href="/vendor/verification" className="block w-full">
+                <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-12 font-black text-[10px] uppercase tracking-widest shadow-xl">
+                  Get Certified
+                </Button>
+              </Link>
+            </div>
+          </Card>
+
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+            <CardHeader className="px-0 pt-0">
+              <CardTitle className="text-xl font-black">Recent Activity</CardTitle>
+            </CardHeader>
+            <CardContent className="px-0 space-y-6">
+              {recentActivity.map((activity, i) => (
+                <div key={i} className="flex items-start gap-4 p-4 rounded-3xl bg-slate-50/50 hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-slate-100 group">
+                  <div className={`mt-1 h-8 w-8 rounded-xl flex items-center justify-center ${activity.color} bg-white shadow-sm shrink-0 group-hover:scale-110 transition-transform`}>
+                    <activity.icon className="h-4 w-4" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-slate-800 leading-tight">{activity.text}</p>
+                    <p className="text-[10px] font-black uppercase text-slate-400">{activity.time}</p>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

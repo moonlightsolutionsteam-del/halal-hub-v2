@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -92,7 +93,7 @@ export function VendorSidebar() {
       icon: Settings,
       items: [
         { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
-        { title: "Certificates", icon: Award, url: "/vendor/verification" },
+        { title: "Certifications", icon: Award, url: "/vendor/verification" },
         { title: "Request Services", icon: Package, url: "/vendor/account/services" },
         { title: "Support", icon: Headset, url: "/vendor/account/support" },
       ]
@@ -176,7 +177,7 @@ export function VendorSidebar() {
         <Link href="/" className="flex items-center gap-3 text-primary cursor-pointer hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center text-white font-black text-xs">BK</div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold">Bosphorus Kitchen</span>
+            <span className="text-sm font-bold text-slate-900">Bosphorus Kitchen</span>
             <span className="text-[10px] text-muted-foreground font-medium">Exit to App</span>
           </div>
           <ExternalLink className="h-3 w-3 ml-auto opacity-40" />
