@@ -86,10 +86,10 @@ export function FamilyTreeSidebar() {
       title: "Lineage & Preservation",
       icon: GitBranch,
       items: [
-        { title: "Ancestry Roots", icon: Network, url: "#" },
-        { title: "Member Directory", icon: Users, url: "#" },
-        { title: "Document Vault", icon: FileText, url: "#" },
-        { title: "Heritage Logs", icon: History, url: "#" },
+        { title: "Ancestry Roots", icon: Network, url: "/family-tree/lineage/roots" },
+        { title: "Member Directory", icon: Users, url: "/family-tree/lineage/members" },
+        { title: "Document Vault", icon: FileText, url: "/family-tree/lineage/documents" },
+        { title: "Heritage Logs", icon: History, url: "/family-tree/lineage/history" },
       ]
     },
     {
