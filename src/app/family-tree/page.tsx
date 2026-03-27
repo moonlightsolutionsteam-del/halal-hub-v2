@@ -13,7 +13,7 @@ import {
   Trash2, Edit2, Zap, AlertCircle, FileText,
   Upload, MoreVertical, ClipboardList, Calendar,
   Star, Heart, Sparkles, Plus, Settings,
-  Target, Utensils
+  Target, Utensils, MapIcon
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -46,7 +46,7 @@ export default function FamilyTreePage() {
   return (
     <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-[10px]">
             <Network className="h-3 w-3" /> Ancestral Lineage & Hub
@@ -335,7 +335,9 @@ export default function FamilyTreePage() {
           <section className="space-y-6">
             <div className="flex items-center justify-between px-2">
               <h2 className="text-2xl font-black text-slate-900 tracking-tight">Lineage Map</h2>
-              <Button variant="ghost" className="text-xs font-bold text-slate-400 uppercase tracking-widest">Full Screen View</Button>
+              <Link href="/family-tree/map">
+                <Button variant="ghost" className="text-xs font-bold text-slate-400 uppercase tracking-widest">Full Screen View</Button>
+              </Link>
             </div>
             <Card className="rounded-[3rem] border-none shadow-md bg-white h-[500px] flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-50" />
