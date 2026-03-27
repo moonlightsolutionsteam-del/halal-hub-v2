@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from 'react';
@@ -20,6 +21,7 @@ import { HealthcareSidebar } from "@/components/healthcare-sidebar";
 import { EducationSidebar } from "@/components/education-sidebar";
 import { MediaSidebar } from "@/components/media-sidebar";
 import { CreativeSidebar } from "@/components/creative-sidebar";
+import { FamilyTreeSidebar } from "@/components/family-tree-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -53,6 +55,7 @@ export default function RootLayout({
   const isEducationPath = pathname?.startsWith('/vendor/education');
   const isMediaPath = pathname?.startsWith('/vendor/media');
   const isCreativePath = pathname?.startsWith('/vendor/creative');
+  const isFamilyTreePath = pathname?.startsWith('/family-tree');
 
   const getSidebar = () => {
     if (isAdminPath) return <AdminSidebar />;
@@ -69,6 +72,7 @@ export default function RootLayout({
     if (isEducationPath) return <EducationSidebar />;
     if (isMediaPath) return <MediaSidebar />;
     if (isCreativePath) return <CreativeSidebar />;
+    if (isFamilyTreePath) return <FamilyTreeSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };
@@ -97,7 +101,7 @@ export default function RootLayout({
                   </Link>
                 </div>
 
-                {!isAdminPath && !isVendorPath && (
+                {!isAdminPath && !isVendorPath && !isFamilyTreePath && (
                   <div className="hidden md:flex items-center relative w-96 max-w-lg mx-4">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input 

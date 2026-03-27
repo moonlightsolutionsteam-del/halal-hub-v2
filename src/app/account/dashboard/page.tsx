@@ -112,9 +112,11 @@ export default function UserDashboard() {
 
           {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-4 mt-6">
-            <Button className="bg-[#E0F7FA] text-emerald-700 hover:bg-[#B2EBF2] font-black text-xs uppercase tracking-widest rounded-xl h-12 shadow-sm border-none gap-2">
-              <FamilyTreeIcon className="h-4 w-4" /> Family Tree
-            </Button>
+            <Link href="/family-tree">
+              <Button className="w-full bg-[#E0F7FA] text-emerald-700 hover:bg-[#B2EBF2] font-black text-xs uppercase tracking-widest rounded-xl h-12 shadow-sm border-none gap-2">
+                <FamilyTreeIcon className="h-4 w-4" /> Family Tree
+              </Button>
+            </Link>
             <Button className="bg-[#E0F7FA] text-emerald-700 hover:bg-[#B2EBF2] font-black text-xs uppercase tracking-widest rounded-xl h-12 shadow-sm border-none">
               Go Pro
             </Button>
@@ -241,7 +243,7 @@ export default function UserDashboard() {
                     { business: "Karim's Restaurant", rating: 5, date: "2 days ago", text: "Authentic Mughlai taste! The kebabs were succulent and the biryani was flavorful. A must-visit." },
                     { business: "Al-Naseeb Meats", rating: 4, date: "1 week ago", text: "Fresh meat and very clean shop. The staff is helpful." }
                   ].map((review, i) => (
-                    <Card key={i} className="rounded-[2rem] border-none shadow-sm bg-white p-6 space-y-3">
+                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-white p-6 space-y-3">
                       <div className="flex gap-0.5">
                         {Array.from({ length: 5 }).map((_, idx) => (
                           <Star key={idx} className={`h-3.5 w-3.5 ${idx < review.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-200'}`} />
@@ -260,7 +262,7 @@ export default function UserDashboard() {
               {/* My Check-ins */}
               <section className="space-y-4">
                 <h3 className="text-xl font-black text-slate-900 px-2">My Check-ins</h3>
-                <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden p-2">
+                <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden p-2">
                   {[
                     { name: "Jama Masjid", date: "Today" },
                     { name: "Karim's Restaurant", date: "2 days ago" },
@@ -287,7 +289,7 @@ export default function UserDashboard() {
                     { name: "Khan Chacha", type: "Restaurant" },
                     { name: "Fatehpuri Masjid", type: "Mosque" }
                   ].map((bookmark, i) => (
-                    <Card key={i} className="rounded-[2rem] border-none shadow-sm bg-white p-6 flex items-center justify-between group hover:shadow-md transition-all">
+                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-white p-6 flex items-center justify-between group hover:shadow-md transition-all">
                       <div className="space-y-1">
                         <h4 className="text-base font-black text-slate-900">{bookmark.name}</h4>
                         <Badge variant="secondary" className="bg-slate-50 text-slate-400 border-none font-black text-[8px] uppercase tracking-widest px-2">{bookmark.type}</Badge>
@@ -303,7 +305,7 @@ export default function UserDashboard() {
 
             <TabsContent value="content" className="m-0 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
               {/* My Posts Section */}
-              <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden p-8 space-y-6">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden p-8 space-y-6">
                 <CardHeader className="p-0">
                   <CardTitle className="text-xl font-black">My Posts</CardTitle>
                 </CardHeader>
@@ -327,7 +329,7 @@ export default function UserDashboard() {
               </Card>
 
               {/* Media Grid */}
-              <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden p-8 space-y-6">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden p-8 space-y-6">
                 <CardHeader className="p-0">
                   <CardTitle className="text-xl font-black">Media</CardTitle>
                 </CardHeader>
@@ -347,7 +349,7 @@ export default function UserDashboard() {
               </Card>
 
               {/* Rolls Section */}
-              <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden p-8 space-y-6">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden p-8 space-y-6">
                 <CardHeader className="p-0">
                   <CardTitle className="text-xl font-black">Rolls</CardTitle>
                 </CardHeader>
