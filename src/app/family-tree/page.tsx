@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -10,7 +11,7 @@ import {
   Search, Filter, ChevronRight, History,
   Database, Share2, Info, CheckCircle2,
   Trash2, Edit2, Zap, AlertCircle, FileText,
-  Upload
+  Upload, MoreVertical
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
