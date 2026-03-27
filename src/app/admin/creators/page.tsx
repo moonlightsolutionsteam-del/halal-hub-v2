@@ -21,7 +21,8 @@ import {
   PenTool, Video, Mic, Play, Film, Globe,
   Zap, Share2, HeartPulse, UserPlus, Crown,
   AlertTriangle, Target, Megaphone, Gauge,
-  Briefcase, BarChart, Sliders, LayoutGrid
+  Briefcase, BarChart, Sliders, LayoutGrid,
+  Image as ImageIcon
 } from "lucide-react"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
@@ -31,6 +32,7 @@ import { Progress } from "@/components/ui/progress"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 export default function SuperAdminCreatorsControlTower() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
