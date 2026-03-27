@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -10,7 +9,8 @@ import {
   ArrowUpRight, Clock, MapPin, UserPlus,
   Search, Filter, ChevronRight, History,
   Database, Share2, Info, CheckCircle2,
-  Trash2, Edit2, Zap
+  Trash2, Edit2, Zap, AlertCircle, FileText,
+  Upload
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -219,7 +219,7 @@ export default function FamilyTreePage() {
                       <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">{doc.type} • {doc.size}</p>
                     </div>
                   </div>
-                  <Download className="h-4 w-4 text-slate-300 group-hover:text-emerald-600 transition-all" />
+                  <DownloadIcon className="h-4 w-4 text-slate-300 group-hover:text-emerald-600 transition-all" />
                 </div>
               ))}
             </div>
@@ -244,7 +244,7 @@ export default function FamilyTreePage() {
   );
 }
 
-function Download(props: any) {
+function DownloadIcon(props: any) {
   return (
     <svg
       {...props}
