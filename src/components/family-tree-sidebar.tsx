@@ -21,7 +21,11 @@ import {
   Award,
   ClipboardList,
   Calendar,
-  Sparkles
+  Sparkles,
+  Heart,
+  Utensils,
+  Target,
+  Zap
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -61,13 +65,21 @@ export function FamilyTreeSidebar() {
 
   const hubGroups = [
     {
-      title: "Family Hub",
+      title: "Coordination",
       icon: LayoutDashboard,
       items: [
         { title: "Dashboard", icon: LayoutDashboard, url: "/family-tree" },
         { title: "Family Board", icon: ClipboardList, url: "/family-tree/board" },
         { title: "Events Planner", icon: Calendar, url: "/family-tree/events" },
         { title: "Halal Discovery", icon: Sparkles, url: "/family-tree/discovery" },
+      ]
+    },
+    {
+      title: "Living & Growth",
+      icon: Zap,
+      items: [
+        { title: "Goals & Wellness", icon: Target, url: "/family-tree/goals" },
+        { title: "Heritage Kitchen", icon: Utensils, url: "/family-tree/kitchen" },
       ]
     },
     {

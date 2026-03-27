@@ -12,7 +12,8 @@ import {
   Database, Share2, Info, CheckCircle2,
   Trash2, Edit2, Zap, AlertCircle, FileText,
   Upload, MoreVertical, ClipboardList, Calendar,
-  Star, Heart, Sparkles, Plus, Settings
+  Star, Heart, Sparkles, Plus, Settings,
+  Target, Utensils
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -110,37 +111,55 @@ export default function FamilyTreePage() {
               </div>
             </Card>
 
-            {/* Family Board Preview */}
-            <Card className="md:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+            {/* Family Pulse (Wellness & Charity) */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                    <ClipboardList className="h-5 w-5" />
+                  <div className="h-10 w-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600">
+                    <Target className="h-5 w-5" />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900">Shared Board</h3>
+                  <h3 className="text-xl font-black text-slate-900">Family Pulse</h3>
                 </div>
-                <Link href="/family-tree/board">
-                  <Button variant="ghost" size="sm" className="text-xs font-black uppercase text-emerald-600">Open Board <ChevronRight className="ml-1 h-4 w-4" /></Button>
+                <Link href="/family-tree/goals">
+                  <Button variant="ghost" size="icon" className="rounded-xl"><ArrowUpRight className="h-4 w-4" /></Button>
                 </Link>
               </div>
-              <div className="space-y-4">
-                {[
-                  { title: "Buy Groceries", assigned: "Fatima", priority: true, time: "Due Today" },
-                  { title: "Plan Weekend Outing", assigned: "Ibrahim", priority: false, time: "Oct 12" },
-                  { title: "Update Vaccine Records", assigned: "Zaid", priority: false, time: "Pending" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-emerald-100 transition-all">
-                    <div className="flex items-center gap-4">
-                      <div className={cn(
-                        "h-3 w-3 rounded-full",
-                        item.priority ? "bg-amber-500 animate-pulse" : "bg-slate-200"
-                      )} />
-                      <div>
-                        <p className="text-sm font-bold text-slate-800">{item.title}</p>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Assigned: {item.assigned}</p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] font-black text-slate-300 uppercase">{item.time}</span>
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    <span>Sadaqah Goal</span>
+                    <span className="text-emerald-600">₹8,500 / ₹10k</span>
+                  </div>
+                  <Progress value={85} className="h-1.5 bg-slate-50" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    <span>Steps Challenge</span>
+                    <span className="text-blue-600">42k / 50k</span>
+                  </div>
+                  <Progress value={74} className="h-1.5 bg-slate-50" />
+                </div>
+              </div>
+            </Card>
+
+            {/* Heritage Kitchen Quick Access */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+                    <Utensils className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900">Heritage Kitchen</h3>
+                </div>
+                <Link href="/family-tree/kitchen">
+                  <Button variant="ghost" size="icon" className="rounded-xl"><ArrowUpRight className="h-4 w-4" /></Button>
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {[1, 2].map(i => (
+                  <div key={i} className="aspect-square relative rounded-2xl overflow-hidden group cursor-pointer shadow-sm">
+                    <Image src={`https://picsum.photos/seed/recipe-${i}/200/200`} alt="Recipe" fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all" />
                   </div>
                 ))}
               </div>
@@ -177,6 +196,41 @@ export default function FamilyTreePage() {
               <Link href="/family-tree/events">
                 <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-12 font-black uppercase text-[10px] tracking-widest">Open Planner</Button>
               </Link>
+            </Card>
+
+            {/* Family Board Preview */}
+            <Card className="md:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                    <ClipboardList className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900">Shared Board</h3>
+                </div>
+                <Link href="/family-tree/board">
+                  <Button variant="ghost" size="sm" className="text-xs font-black uppercase text-emerald-600">Open Board <ChevronRight className="ml-1 h-4 w-4" /></Button>
+                </Link>
+              </div>
+              <div className="space-y-4">
+                {[
+                  { title: "Buy Groceries", assigned: "Fatima", priority: true, time: "Due Today" },
+                  { title: "Plan Weekend Outing", assigned: "Ibrahim", priority: false, time: "Oct 12" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-emerald-100 transition-all">
+                    <div className="flex items-center gap-4">
+                      <div className={cn(
+                        "h-3 w-3 rounded-full",
+                        item.priority ? "bg-amber-500 animate-pulse" : "bg-slate-200"
+                      )} />
+                      <div>
+                        <p className="text-sm font-bold text-slate-800">{item.title}</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Assigned: {item.assigned}</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-black text-slate-300 uppercase">{item.time}</span>
+                  </div>
+                ))}
+              </div>
             </Card>
 
             {/* Halal Discovery Strip */}
@@ -217,9 +271,8 @@ export default function FamilyTreePage() {
           </div>
         </TabsContent>
 
-        {/* Tab 2: Legacy & Roots (Existing Content) */}
+        {/* Tab 2: Legacy & Roots */}
         <TabsContent value="legacy" className="space-y-8 animate-in fade-in duration-500">
-          {/* Legacy Stats & Status */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="md:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
               <FamilyTreeIcon className="absolute -top-4 -right-4 h-48 w-48 opacity-10 text-emerald-400" />
@@ -279,7 +332,6 @@ export default function FamilyTreePage() {
             </Card>
           </div>
 
-          {/* Visual Tree Placeholder */}
           <section className="space-y-6">
             <div className="flex items-center justify-between px-2">
               <h2 className="text-2xl font-black text-slate-900 tracking-tight">Lineage Map</h2>
@@ -288,7 +340,6 @@ export default function FamilyTreePage() {
             <Card className="rounded-[3rem] border-none shadow-md bg-white h-[500px] flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-50" />
               <div className="relative z-10 flex flex-col items-center gap-12">
-                {/* Root Node */}
                 <div className="flex flex-col items-center gap-4">
                   <Avatar className="h-20 w-20 border-4 border-emerald-500 shadow-xl">
                     <AvatarImage src="https://picsum.photos/seed/root/200/200" />
@@ -299,13 +350,9 @@ export default function FamilyTreePage() {
                     <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] uppercase mt-1">HEAD OF LINEAGE</Badge>
                   </div>
                 </div>
-                
-                {/* Branch Lines Mockup */}
                 <div className="h-16 w-px bg-slate-200 relative">
                   <div className="absolute top-full left-1/2 -translate-x-1/2 w-[300px] h-px bg-slate-200" />
                 </div>
-
-                {/* Child Nodes */}
                 <div className="grid grid-cols-3 gap-24">
                   {[1, 2, 3].map(i => (
                     <div key={i} className="flex flex-col items-center gap-3">
@@ -319,15 +366,9 @@ export default function FamilyTreePage() {
                   ))}
                 </div>
               </div>
-              
-              <div className="absolute bottom-8 right-8 flex flex-col gap-2">
-                <Button size="icon" className="rounded-xl shadow-xl bg-white text-slate-900 hover:bg-slate-50 border h-12 w-12"><Zap className="h-5 w-5" /></Button>
-                <Button size="icon" className="rounded-xl shadow-xl bg-white text-slate-900 hover:bg-slate-50 border h-12 w-12"><Filter className="h-4 w-4" /></Button>
-              </div>
             </Card>
           </section>
 
-          {/* Tools & Logs */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
               <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
@@ -370,7 +411,6 @@ export default function FamilyTreePage() {
                   {[
                     { name: "Birth Certificate - 1945", type: "PDF", size: "1.2 MB" },
                     { name: "Family Hajj Record", type: "JPG", size: "4.5 MB" },
-                    { name: "Property Deed (Historical)", type: "PDF", size: "850 KB" },
                   ].map((doc, i) => (
                     <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-emerald-100 transition-all cursor-pointer group">
                       <div className="flex items-center gap-3">
@@ -382,7 +422,7 @@ export default function FamilyTreePage() {
                           <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">{doc.type} • {doc.size}</p>
                         </div>
                       </div>
-                      <DownloadIcon className="h-4 w-4 text-slate-300 group-hover:text-emerald-600 transition-all" />
+                      <Upload className="h-4 w-4 text-slate-300 group-hover:text-emerald-600 transition-all rotate-180" />
                     </div>
                   ))}
                 </div>
@@ -390,42 +430,10 @@ export default function FamilyTreePage() {
                   <Upload className="h-4 w-4 mr-2" /> Upload Legacy
                 </Button>
               </Card>
-
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-emerald-50 p-8 space-y-4 border-2 border-emerald-100">
-                <div className="flex items-center gap-3 text-emerald-600">
-                  <ShieldCheck className="h-6 w-6" />
-                  <h4 className="text-base font-black uppercase tracking-widest">Heritage Trust</h4>
-                </div>
-                <p className="text-[11px] text-emerald-900/70 font-medium leading-relaxed italic">
-                  Your lineage data is encrypted and only visible to confirmed family members. We follow strict theological data privacy standards.
-                </p>
-                <Button variant="outline" className="w-full rounded-xl border-emerald-200 text-emerald-700 bg-white font-black text-[9px] uppercase tracking-widest h-10">Read Trust Policy</Button>
-              </Card>
             </div>
           </div>
         </TabsContent>
       </Tabs>
     </div>
   );
-}
-
-function DownloadIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" x2="12" y1="15" y2="3" />
-    </svg>
-  )
 }
