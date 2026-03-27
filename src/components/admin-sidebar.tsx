@@ -123,7 +123,7 @@ export function AdminSidebar() {
       icon: Users,
       items: [
         { title: "Users", icon: Users, url: "/admin/users" },
-        { title: "Creators", icon: PenTool, url: "#" },
+        { title: "Creators", icon: PenTool, url: "/admin/creators" },
         { title: "Organizations", icon: Building, url: "#" },
         { title: "Mosques", icon: Church, url: "/admin/mosques" },
       ]
