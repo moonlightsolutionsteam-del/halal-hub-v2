@@ -12,7 +12,7 @@ import {
   Database, Share2, Info, CheckCircle2,
   Trash2, Edit2, Zap, AlertCircle, FileText,
   Upload, MoreVertical, ClipboardList, Calendar,
-  Star, Heart, Sparkles, Plus
+  Star, Heart, Sparkles, Plus, Settings
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -322,7 +322,7 @@ export default function FamilyTreePage() {
               
               <div className="absolute bottom-8 right-8 flex flex-col gap-2">
                 <Button size="icon" className="rounded-xl shadow-xl bg-white text-slate-900 hover:bg-slate-50 border h-12 w-12"><Zap className="h-5 w-5" /></Button>
-                <Button size="icon" className="rounded-xl shadow-xl bg-white text-slate-900 hover:bg-slate-50 border h-12 w-12"><Filter className="h-5 w-5" /></Button>
+                <Button size="icon" className="rounded-xl shadow-xl bg-white text-slate-900 hover:bg-slate-50 border h-12 w-12"><Filter className="h-4 w-4" /></Button>
               </div>
             </Card>
           </section>
