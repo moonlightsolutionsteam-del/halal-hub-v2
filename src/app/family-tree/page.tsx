@@ -12,7 +12,7 @@ import {
   Trash2, Edit2, Zap, AlertCircle, FileText,
   Upload, MoreVertical, ClipboardList, Calendar,
   Star, Heart, Sparkles, Plus, Settings,
-  Target, Utensils, MapIcon, Globe
+  Target, Utensils, MapIcon, Globe, Download
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
