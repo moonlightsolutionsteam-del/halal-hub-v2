@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -16,7 +15,8 @@ import {
   Video, Mic, Play, Film, Globe,
   HeartPulse, UserPlus, Crown, AlertTriangle,
   Target, Megaphone, Gauge, Briefcase,
-  BarChart, Sliders, Image as ImageIcon
+  BarChart, Sliders, Image as ImageIcon,
+  Clock, ArrowUpRight
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
