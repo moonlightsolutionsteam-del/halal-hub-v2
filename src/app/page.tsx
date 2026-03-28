@@ -42,7 +42,7 @@ const FEATURES = [
   { name: "Creators", icon: User, url: "/community" },
   { name: "Professionals", icon: Briefcase, url: "/categories" },
   { name: "Halal Check", icon: ShieldCheck, url: "/verifier" },
-  { name: "Family", icon: Users, url: "/categories" },
+  { name: "Family", icon: Users, url: "/family-tree" },
   { name: "Prayer", icon: Moon, url: "/prayer-times" },
   { name: "Chat", icon: MessageSquare, url: "/community" },
   { name: "Feed", icon: Newspaper, url: "/community" },
