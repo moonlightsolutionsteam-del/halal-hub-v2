@@ -1,14 +1,14 @@
 "use client"
 
 import * as React from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { 
   ArrowLeft, Search, Filter, Clock, 
   CheckCircle2, XCircle, Info, MapPin, 
   Sparkles, Star, ChevronRight, MoreVertical,
-  Plus
+  Plus, Share2
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
