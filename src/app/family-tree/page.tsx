@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -12,7 +13,8 @@ import {
   Trash2, Edit2, Zap, AlertCircle, FileText,
   Upload, MoreVertical, ClipboardList, Calendar,
   Star, Heart, Sparkles, Plus, Settings,
-  Target, Utensils, MapIcon, Globe, Download
+  Target, Utensils, MapIcon, Globe, Download,
+  Lock
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
