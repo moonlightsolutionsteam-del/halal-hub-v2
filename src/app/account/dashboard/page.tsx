@@ -12,10 +12,18 @@ import {
   ChevronRight, Share2, Camera, Edit2,
   ArrowLeft, MoreVertical, Flame, ShoppingBag,
   Package, LayoutGrid, PlayCircle, Users,
-  Info, Bookmark, CheckCircle2
+  Info, Bookmark, CheckCircle2, ArrowRight, Store, PenTool
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger,
+  DialogDescription
+} from "@/components/ui/dialog"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -117,9 +125,56 @@ export default function UserDashboard() {
                 <FamilyTreeIcon className="h-4 w-4" /> Family Tree
               </Button>
             </Link>
-            <Button className="bg-[#E0F7FA] text-emerald-700 hover:bg-[#B2EBF2] font-black text-xs uppercase tracking-widest rounded-xl h-12 shadow-sm border-none">
-              Go Pro
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-[#E0F7FA] text-emerald-700 hover:bg-[#B2EBF2] font-black text-xs uppercase tracking-widest rounded-xl h-12 shadow-sm border-none">
+                  Go Pro
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md rounded-[2.5rem] p-8 border-none bg-white">
+                <DialogHeader className="space-y-2">
+                  <DialogTitle className="text-2xl font-black text-slate-900 tracking-tight">Upgrade to Pro</DialogTitle>
+                  <DialogDescription className="font-medium text-slate-500 italic">
+                    Choose your professional path in the Halal Ecosystem.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-1 gap-4 pt-4">
+                  <Link href="/vendor/creative/dashboard">
+                    <Button className="w-full h-24 bg-blue-50 hover:bg-blue-100 text-blue-700 border-2 border-blue-100 rounded-3xl flex flex-col items-start px-6 group transition-all shadow-sm">
+                      <div className="flex items-center gap-3 w-full">
+                        <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                          <PenTool className="h-5 w-5" />
+                        </div>
+                        <div className="flex flex-col items-start">
+                          <span className="font-black text-base tracking-tight">Join as Creator</span>
+                          <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Influencers & Scholars</span>
+                        </div>
+                        <ArrowRight className="h-5 w-5 ml-auto group-hover:translate-x-1 transition-transform text-blue-300" />
+                      </div>
+                    </Button>
+                  </Link>
+                  <Link href="/partner/onboarding/business/category">
+                    <Button className="w-full h-24 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-2 border-emerald-100 rounded-3xl flex flex-col items-start px-6 group transition-all shadow-sm">
+                      <div className="flex items-center gap-3 w-full">
+                        <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                          <Store className="h-5 w-5" />
+                        </div>
+                        <div className="flex flex-col items-start">
+                          <span className="font-black text-base tracking-tight">Register Business</span>
+                          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Shops & Restaurants</span>
+                        </div>
+                        <ArrowRight className="h-5 w-5 ml-auto group-hover:translate-x-1 transition-transform text-emerald-300" />
+                      </div>
+                    </Button>
+                  </Link>
+                </div>
+                <div className="pt-4 text-center">
+                  <Link href="/partner/portal" className="text-[10px] font-black text-slate-400 hover:text-primary uppercase tracking-[0.2em] transition-colors">
+                    Explore all partner types
+                  </Link>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Social Stats */}
