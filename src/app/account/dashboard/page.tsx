@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -286,7 +285,9 @@ export default function UserDashboard() {
                       <Button variant="ghost" size="icon" className="rounded-xl group-hover:bg-white shadow-none transition-all"><ChevronRight className="h-4 w-4" /></Button>
                     </div>
                   ))}
-                  <Button variant="ghost" className="w-full font-black text-xs uppercase tracking-[0.2em] text-slate-400 h-12 hover:bg-slate-50">View All Suggestions</Button>
+                  <Link href="/account/suggestions">
+                    <Button variant="ghost" className="w-full font-black text-xs uppercase tracking-[0.2em] text-slate-400 h-12 hover:bg-slate-50">View All Suggestions</Button>
+                  </Link>
                 </Card>
               </section>
 
