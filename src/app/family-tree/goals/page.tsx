@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -30,9 +29,11 @@ export default function FamilyGoalsPage() {
           </div>
           <p className="text-muted-foreground font-medium">Coordinate family charity targets and physical wellness milestones.</p>
         </div>
-        <Button className="bg-rose-600 hover:bg-rose-700 rounded-full px-8 font-black shadow-lg shadow-rose-200 h-12 text-white">
-          <Plus className="mr-2 h-4 w-4" /> Create New Goal
-        </Button>
+        <Link href="/family-tree/goals/create">
+          <Button className="bg-rose-600 hover:bg-rose-700 rounded-full px-8 font-black shadow-lg shadow-rose-200 h-12 text-white">
+            <Plus className="mr-2 h-4 w-4" /> Create New Goal
+          </Button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
