@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -97,7 +96,7 @@ export function FamilyTreeSidebar() {
       icon: Settings,
       items: [
         { title: "Hub Configuration", icon: Settings, url: "/family-tree/setup" },
-        { title: "Privacy & Roles", icon: Lock, url: "#" },
+        { title: "Privacy & Roles", icon: Lock, url: "/family-tree/privacy-roles" },
       ]
     }
   ];
