@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -24,7 +23,7 @@ export default function FamilyEventsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
+    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
@@ -34,13 +33,15 @@ export default function FamilyEventsPage() {
             <div className="h-12 w-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner">
               <Calendar className="h-6 w-6" />
             </div>
-            <h1 className="text-3xl font-black font-headline text-slate-900">Family Events</h1>
+            <h1 className="text-3xl font-black font-headline">Family Events</h1>
           </div>
           <p className="text-muted-foreground font-medium">Coordinate outings, dinners, and special occasions with ease.</p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-8 font-black shadow-lg shadow-emerald-200 h-12 text-white">
-          <Plus className="mr-2 h-4 w-4" /> Create Event
-        </Button>
+        <Link href="/family-tree/events/create">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-8 font-black shadow-lg shadow-emerald-200 h-12 text-white">
+            <Plus className="mr-2 h-4 w-4" /> Create Event
+          </Button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
