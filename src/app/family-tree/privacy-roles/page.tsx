@@ -8,7 +8,8 @@ import {
   ShieldCheck, Lock, UserCheck, Users, 
   Settings, ArrowLeft, ChevronRight, Eye,
   EyeOff, ShieldAlert, CheckCircle2, Info,
-  Key, Database, Globe, Zap, AlertTriangle
+  Key, Database, Globe, Zap, AlertTriangle,
+  Network
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Switch } from "@/components/ui/switch"
