@@ -21,7 +21,8 @@ import {
   PenTool,
   BookOpen,
   Wallet,
-  Settings
+  Settings,
+  Zap
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -82,9 +83,10 @@ export function ButcherSidebar() {
       ]
     },
     {
-      title: "Marketing",
+      title: "Marketing & Growth",
       icon: Tag,
       items: [
+        { title: "Buy Credits", icon: Zap, url: "/vendor/credits/pricing" },
         { title: "Offers & Promos", icon: Tag, url: "/vendor/butcher/offers" },
         { title: "Loyalty Program", icon: Heart, url: "/vendor/butcher/marketing/loyalty" },
         { title: "Collaborate", icon: Users2, url: "/vendor/butcher/marketing/collaborate" },

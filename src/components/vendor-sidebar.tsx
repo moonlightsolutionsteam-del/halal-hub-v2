@@ -31,7 +31,8 @@ import {
   ExternalLink,
   PlusCircle,
   TrendingUp,
-  Settings
+  Settings,
+  Zap
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -78,9 +79,10 @@ export function VendorSidebar() {
       ]
     },
     {
-      title: "Marketing",
+      title: "Marketing & Growth",
       icon: TrendingUp,
       items: [
+        { title: "Buy Credits", icon: Zap, url: "/vendor/credits/pricing" },
         { title: "Events", icon: Calendar, url: "/vendor/marketing/events" },
         { title: "Offers", icon: Tag, url: "/vendor/marketing/offers" },
         { title: "Collaborate", icon: Users2, url: "/vendor/marketing/collaborate" },
