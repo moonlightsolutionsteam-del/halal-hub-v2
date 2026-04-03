@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -18,7 +17,8 @@ import {
   Info,
   Layers,
   ArrowUpRight,
-  Target
+  Target,
+  Wallet
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
