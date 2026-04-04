@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -22,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { cn } from "@/lib/utils"
 
 const CATEGORIES = [
   { id: 'food', label: 'Food / Dining', icon: Utensils, color: 'text-orange-600', bg: 'bg-orange-50' },
