@@ -11,7 +11,8 @@ import {
   ChevronRight, Share2, Camera, Edit2,
   ArrowLeft, MoreVertical, Flame, ShoppingBag,
   Package, LayoutGrid, PlayCircle, Users,
-  Info, Bookmark, CheckCircle2, ArrowRight, Store, PenTool
+  Info, Bookmark, CheckCircle2, ArrowRight, Store, PenTool,
+  Sparkles, Utensils, ClipboardList, Calendar
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -25,6 +26,7 @@ import {
 } from "@/components/ui/dialog"
 import Link from "next/link"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 const FamilyTreeIcon = (props: any) => (
   <svg
@@ -176,8 +178,38 @@ export default function UserDashboard() {
             </Dialog>
           </div>
 
+          {/* Family Moments Layer */}
+          <div className="mt-8 space-y-4">
+            <div className="flex items-center gap-2 px-2">
+              <Sparkles className="h-4 w-4 text-emerald-500" />
+              <h3 className="font-black text-xs uppercase tracking-widest text-slate-400">Family Moments</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { label: "Dinner planned tonight 🍽️", sub: "7:30 PM @ The Halal Grill", color: "bg-orange-50 text-orange-700", border: "border-orange-100", icon: Utensils },
+                { label: "3 tasks pending", sub: "Assigned to Ibrahim & Fatima", color: "bg-blue-50 text-blue-700", border: "border-blue-100", icon: ClipboardList },
+                { label: "Weekend outing coming up", sub: "Islamic Expo on Saturday", color: "bg-purple-50 text-purple-700", border: "border-purple-100", icon: Calendar },
+                { label: "New place saved nearby", sub: "Sunnah Organic Mart", color: "bg-emerald-50 text-emerald-700", border: "border-emerald-100", icon: MapPin },
+              ].map((moment, i) => (
+                <Link key={i} href="/family-tree">
+                  <Card className={cn("rounded-3xl border shadow-none p-5 transition-all hover:shadow-md cursor-pointer group", moment.color, moment.border)}>
+                    <div className="flex gap-4 items-center">
+                      <div className="h-10 w-10 rounded-2xl bg-white/50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <moment.icon className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-0.5">
+                        <p className="font-black text-sm leading-tight">{moment.label}</p>
+                        <p className="text-[10px] font-bold opacity-70 uppercase tracking-tight">{moment.sub}</p>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </div>
+
           {/* Social Stats */}
-          <div className="flex items-center justify-around py-6 text-center border-b border-slate-100">
+          <div className="flex items-center justify-around py-6 text-center border-b border-slate-100 mt-4">
             <div className="space-y-0.5">
               <p className="text-base font-black text-slate-900">12</p>
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Following</p>

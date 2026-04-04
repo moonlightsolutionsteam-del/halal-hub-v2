@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -84,8 +83,31 @@ export default function FamilyTreePage() {
 
         {/* Tab 1: Family Hub (Coordination) */}
         <TabsContent value="hub" className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          {/* Family Moments Highlight Layer */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            {[
+              { label: "Dinner planned tonight 🍽️", sub: "7:30 PM @ The Halal Grill", color: "bg-orange-50 text-orange-700", border: "border-orange-100", icon: Utensils, url: "/family-tree/events" },
+              { label: "3 tasks pending", sub: "Assigned to Ibrahim & Fatima", color: "bg-blue-50 text-blue-700", border: "border-blue-100", icon: ClipboardList, url: "/family-tree/board" },
+              { label: "Weekend outing coming up", sub: "Islamic Expo on Saturday", color: "bg-purple-50 text-purple-700", border: "border-purple-100", icon: Calendar, url: "/family-tree/events" },
+              { label: "New place saved nearby", sub: "Sunnah Organic Mart", color: "bg-emerald-50 text-emerald-700", border: "border-emerald-100", icon: MapPin, url: "/family-tree/discovery" },
+            ].map((moment, i) => (
+              <Link key={i} href={moment.url}>
+                <Card className={cn("rounded-3xl border shadow-none p-5 transition-all hover:shadow-md cursor-pointer group h-full", moment.color, moment.border)}>
+                  <div className="flex gap-4 items-center">
+                    <div className="h-10 w-10 rounded-2xl bg-white/50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <moment.icon className="h-5 w-5" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="font-black text-[13px] leading-tight">{moment.label}</p>
+                      <p className="text-[10px] font-bold opacity-70 uppercase tracking-tight line-clamp-1">{moment.sub}</p>
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
             {/* Family Members Strip */}
             <Card className="md:col-span-3 rounded-[3rem] border-none shadow-sm bg-white p-8">
               <div className="flex items-center justify-between mb-8 px-2">
