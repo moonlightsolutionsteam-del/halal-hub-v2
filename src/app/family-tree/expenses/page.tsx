@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -12,7 +13,7 @@ import {
   Plus, Search, Filter, ArrowLeft,
   ChevronRight, MoreVertical, ShieldCheck,
   Zap, MapPin, CheckCircle2, Sparkles,
-  Split
+  Split, FileText
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
@@ -114,33 +115,35 @@ export default function FamilyExpensesPage() {
             </div>
             <div className="space-y-4">
               {ACTIVITY.map((act) => (
-                <Card key={act.id} className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-blue-100 cursor-pointer">
-                  <div className="p-6 flex items-center justify-between gap-6">
-                    <div className="flex items-center gap-6">
-                      <Avatar className="h-14 w-14 border-4 border-slate-50 shadow-md group-hover:scale-105 transition-transform">
-                        <AvatarImage src={`https://picsum.photos/seed/${act.name}/150/150`} />
-                        <AvatarFallback>{act.name[0]}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="text-lg font-black text-slate-900 leading-tight">
-                          {act.name} <span className="font-medium text-slate-400 lowercase">{act.action}</span> {act.amount}
-                        </p>
-                        <div className="flex flex-wrap items-center gap-3 mt-1">
-                          <Badge variant="secondary" className={cn("border-none text-[9px] font-black uppercase px-2 h-5", act.color, "bg-slate-50")}>
-                            <act.icon className="h-3 w-3 mr-1" /> {act.item}
-                          </Badge>
-                          {act.split > 0 && (
-                            <Badge className="bg-blue-50 text-blue-600 border-none text-[9px] font-black uppercase h-5 px-2 flex items-center gap-1">
-                              <Split className="h-2.5 w-2.5" /> Shared with {act.split}
+                <Link key={act.id} href={`/family-tree/expenses/${act.id}`}>
+                  <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-white group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-blue-100 cursor-pointer mb-4">
+                    <div className="p-6 flex items-center justify-between gap-6">
+                      <div className="flex items-center gap-6">
+                        <Avatar className="h-14 w-14 border-4 border-slate-50 shadow-md group-hover:scale-105 transition-transform">
+                          <AvatarImage src={`https://picsum.photos/seed/${act.name}/150/150`} />
+                          <AvatarFallback>{act.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-lg font-black text-slate-900 leading-tight">
+                            {act.name} <span className="font-medium text-slate-400 lowercase">{act.action}</span> {act.amount}
+                          </p>
+                          <div className="flex flex-wrap items-center gap-3 mt-1">
+                            <Badge variant="secondary" className={cn("border-none text-[9px] font-black uppercase px-2 h-5", act.color, "bg-slate-50")}>
+                              <act.icon className="h-3 w-3 mr-1" /> {act.item}
                             </Badge>
-                          )}
-                          <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{act.time}</span>
+                            {act.split > 0 && (
+                              <Badge className="bg-blue-50 text-blue-600 border-none text-[9px] font-black uppercase h-5 px-2 flex items-center gap-1">
+                                <Split className="h-2.5 w-2.5" /> Shared with {act.split}
+                              </Badge>
+                            )}
+                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{act.time}</span>
+                          </div>
                         </div>
                       </div>
+                      <ChevronRight className="h-5 w-5 text-slate-200 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
                     </div>
-                    <ChevronRight className="h-5 w-5 text-slate-200 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
-                  </div>
-                </Card>
+                  </Card>
+                </Link>
               ))}
             </div>
             <Button variant="outline" className="w-full h-14 rounded-2xl border-2 font-black uppercase text-xs tracking-widest text-slate-400 hover:bg-slate-50">

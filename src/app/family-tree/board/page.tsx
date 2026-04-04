@@ -10,7 +10,7 @@ import {
   CheckCircle2, Clock, User, Pin,
   MoreVertical, ArrowLeft, Trash2, Edit2,
   AlertCircle, CheckCircle, Smartphone,
-  Wallet
+  Wallet, RotateCcw
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
@@ -41,9 +41,11 @@ export default function FamilyBoardPage() {
           </div>
           <p className="text-muted-foreground font-medium">Shared notes and coordination tasks for the whole family.</p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-8 font-black shadow-lg shadow-emerald-200 h-12 text-white">
-          <Plus className="mr-2 h-4 w-4" /> Add Note
-        </Button>
+        <Link href="/family-tree/board/add">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-8 font-black shadow-lg shadow-emerald-200 h-12 text-white">
+            <Plus className="mr-2 h-4 w-4" /> Add Note
+          </Button>
+        </Link>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2rem] shadow-sm">
@@ -91,18 +93,18 @@ export default function FamilyBoardPage() {
                     </Avatar>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Assigned: {item.assigned}</span>
                   </div>
-                  {item.title.toLowerCase().includes('buy') || item.title.toLowerCase().includes('book') ? (
+                  {(item.title.toLowerCase().includes('buy') || item.title.toLowerCase().includes('book')) && (
                     <Link href="/family-tree/expenses/add">
                       <Button variant="outline" size="sm" className="h-7 rounded-xl border-blue-200 text-blue-600 bg-blue-50 font-black text-[9px] uppercase hover:bg-blue-600 hover:text-white transition-all">
                         <Wallet className="h-3 w-3 mr-1" /> Mark as Expense
                       </Button>
                     </Link>
-                  ) : null}
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto md:flex-col justify-end">
                 <Button size="icon" variant="ghost" className="rounded-xl h-12 w-12 hover:bg-emerald-50 hover:text-emerald-600 transition-colors border">
-                  {item.status === 'Completed' ? <RotateCcwIcon className="h-5 w-5" /> : <CheckCircle className="h-5 w-5" />}
+                  {item.status === 'Completed' ? <RotateCcw className="h-5 w-5" /> : <CheckCircle2 className="h-5 w-5" />}
                 </Button>
                 <Button size="icon" variant="ghost" className="rounded-xl h-12 w-12 hover:bg-slate-100 transition-colors border"><Edit2 className="h-5 w-5 text-slate-400" /></Button>
                 <Button size="icon" variant="ghost" className="rounded-xl h-12 w-12 hover:bg-rose-50 hover:text-rose-600 transition-colors border"><Trash2 className="h-5 w-5 text-slate-400" /></Button>
@@ -115,7 +117,7 @@ export default function FamilyBoardPage() {
       {/* Role Notice */}
       <Card className="rounded-[2.5rem] border-none bg-slate-900 text-white p-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-4 opacity-5">
-          <ShieldCheckIcon className="h-32 w-32" />
+          <ShieldCheck className="h-32 w-32" />
         </div>
         <div className="relative z-10 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-emerald-400 border border-white/10">
@@ -129,44 +131,4 @@ export default function FamilyBoardPage() {
       </Card>
     </div>
   );
-}
-
-function RotateCcwIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-      <path d="M3 3v5h5" />
-    </svg>
-  )
-}
-
-function ShieldCheckIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
-  )
 }

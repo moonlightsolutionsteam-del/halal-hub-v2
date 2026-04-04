@@ -127,10 +127,10 @@ export default function ExpenseDetailPage() {
                 <ShieldCheck className="h-4 w-4 text-emerald-500" /> Verified by {expense.paidBy}
               </div>
               <div className="flex gap-3">
-                <Button variant="outline" className="rounded-xl h-10 border-2 font-black text-[10px] uppercase tracking-widest hover:bg-white shadow-sm">
+                <Button variant="outline" className="rounded-xl h-10 border-2 font-black text-[10px] uppercase tracking-tighter hover:bg-white shadow-sm">
                   <Edit2 className="h-3.5 w-3.5 mr-2" /> Edit Entry
                 </Button>
-                <Button variant="outline" className="rounded-xl h-10 border-2 font-black text-[10px] uppercase tracking-widest hover:bg-rose-50 hover:text-rose-600 hover:border-rose-100 shadow-sm transition-all">
+                <Button variant="outline" className="rounded-xl h-10 border-2 font-black text-[10px] uppercase tracking-tighter hover:bg-rose-50 hover:text-rose-600 hover:border-rose-100 shadow-sm transition-all">
                   <Trash2 className="h-3.5 w-3.5 mr-2" /> Remove
                 </Button>
               </div>

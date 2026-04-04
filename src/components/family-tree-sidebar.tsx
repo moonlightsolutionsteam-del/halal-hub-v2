@@ -94,6 +94,7 @@ export function FamilyTreeSidebar() {
       title: "Lineage & Preservation",
       icon: GitBranch,
       items: [
+        { title: "Lineage Map", icon: Globe, url: "/family-tree/map" },
         { title: "Ancestry Roots", icon: Network, url: "/family-tree/lineage/roots" },
         { title: "Member Directory", icon: Users, url: "/family-tree/lineage/members" },
         { title: "Document Vault", icon: FileText, url: "/family-tree/lineage/documents" },
