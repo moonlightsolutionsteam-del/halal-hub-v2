@@ -15,7 +15,7 @@ import {
   Info, Bookmark, CheckCircle2, ArrowRight, Store, PenTool,
   Sparkles, Utensils, ClipboardList, Calendar,
   Trophy, Globe, Activity as ActivityIcon,
-  Plus, Moon, BookOpen, HeartPulse
+  Plus, Moon, BookOpen, HeartPulse, Gift
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
