@@ -14,7 +14,8 @@ import {
   Upload, MoreVertical, ClipboardList, Calendar,
   Star, Heart, Sparkles, Plus, Settings,
   Target, Utensils, MapIcon, Globe, Download,
-  Lock, Wallet, SwitchCamera
+  Lock, Wallet, SwitchCamera, MessageSquare,
+  Image as ImageIcon, HeartPulse
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -92,8 +93,8 @@ export default function FamilyTreePage() {
             {[
               { label: "Dinner planned tonight 🍽️", sub: "7:30 PM @ The Halal Grill", color: "bg-orange-50 text-orange-700", border: "border-orange-100", icon: Utensils, url: "/family-tree/events" },
               { label: "3 tasks pending", sub: "Assigned to Ibrahim & Fatima", color: "bg-blue-50 text-blue-700", border: "border-blue-100", icon: ClipboardList, url: "/family-tree/board" },
-              { label: "Weekend outing coming up", sub: "Islamic Expo on Saturday", color: "bg-purple-50 text-purple-700", border: "border-purple-100", icon: Calendar, url: "/family-tree/events" },
-              { label: "New place saved nearby", sub: "Sunnah Organic Mart", color: "bg-emerald-50 text-emerald-700", border: "border-emerald-100", icon: MapPin, url: "/family-tree/discovery" },
+              { label: "New messages", sub: "Latest from Zaid & Fatima", color: "bg-emerald-50 text-emerald-700", border: "border-emerald-100", icon: MessageSquare, url: "/family-tree/chat" },
+              { label: "Health Alert", sub: "Sarah's vaccination due soon", color: "bg-teal-50 text-teal-700", border: "border-teal-100", icon: HeartPulse, url: "/family-tree/health" },
             ].map((moment, i) => (
               <Link key={i} href={moment.url}>
                 <Card className={cn("rounded-3xl border shadow-none p-5 transition-all hover:shadow-md cursor-pointer group h-full", moment.color, moment.border)}>
@@ -112,45 +113,38 @@ export default function FamilyTreePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Family Members Strip */}
-            <Card className="md:col-span-3 rounded-[3rem] border-none shadow-sm bg-white p-8">
-              <div className="flex items-center justify-between mb-8 px-2">
-                <div className="space-y-0.5">
-                  <h3 className="font-black text-sm uppercase tracking-widest text-slate-400">Current Members</h3>
-                  <p className="text-xs font-medium text-slate-400">Manage your private circle</p>
+            {/* Quick Chat Preview */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="h-14 w-14 rounded-3xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-110 transition-transform">
+                    <MessageSquare className="h-7 w-7" />
+                  </div>
+                  <div className="space-y-0.5">
+                    <h3 className="text-2xl font-black text-slate-900">Family Chat</h3>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Active Discussion</p>
+                  </div>
                 </div>
-                <Link href="/family-tree/privacy-roles">
-                  <Button variant="outline" className="rounded-xl font-black text-[10px] uppercase h-9 px-4 border-2">Manage Roles</Button>
+                <Link href="/family-tree/chat">
+                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5 text-emerald-600" /></Button>
                 </Link>
               </div>
-              <div className="flex gap-8 overflow-x-auto pb-4 no-scrollbar">
+              <div className="space-y-4">
                 {[
-                  { name: "Ibrahim", role: "Admin", img: "av1" },
-                  { name: "Fatima", role: "Parent", img: "av2" },
-                  { name: "Zaid", role: "Child", img: "av3" },
-                  { name: "Sarah", role: "Child", img: "av4" },
-                  { name: "Omar", role: "Extended", img: "av5" },
-                ].map((member, i) => (
-                  <div key={i} className="flex flex-col items-center gap-3 group cursor-pointer shrink-0">
-                    <div className="relative">
-                      <Avatar className="h-20 w-20 border-4 border-white shadow-xl group-hover:scale-110 transition-transform duration-500 ring-2 ring-emerald-50">
-                        <AvatarImage src={`https://picsum.photos/seed/${member.img}/150/150`} />
-                        <AvatarFallback className="font-black">{member.name[0]}</AvatarFallback>
-                      </Avatar>
-                      <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-emerald-500 rounded-full border-2 border-white flex items-center justify-center shadow-lg">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-white" />
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm font-black text-slate-900">{member.name}</p>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{member.role}</p>
+                  { name: "Fatima", text: "Added the grocery list...", time: "10:30 AM" },
+                  { name: "Zaid", text: "Don't forget the chocolate milk! 🍫", time: "11:02 AM" }
+                ].map((msg, i) => (
+                  <div key={i} className="flex gap-3 items-start p-3 bg-slate-50/50 rounded-2xl">
+                    <Avatar className="h-8 w-8 border-2 border-white">
+                      <AvatarImage src={`https://picsum.photos/seed/${msg.name}/50/50`} />
+                      <AvatarFallback>{msg.name[0]}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-black text-slate-900">{msg.name}</p>
+                      <p className="text-xs text-slate-500 truncate italic">"{msg.text}"</p>
                     </div>
                   </div>
                 ))}
-                <Link href="/family-tree/setup" className="h-20 w-20 rounded-full border-4 border-dashed border-slate-100 flex flex-col items-center justify-center text-slate-300 hover:border-emerald-300 hover:text-emerald-500 transition-all shrink-0 gap-1 bg-slate-50/30">
-                  <Plus className="h-6 w-6" />
-                  <span className="text-[8px] font-black uppercase">Add</span>
-                </Link>
               </div>
             </Card>
 
@@ -162,7 +156,7 @@ export default function FamilyTreePage() {
                     <Wallet className="h-7 w-7" />
                   </div>
                   <div className="space-y-0.5">
-                    <h3 className="text-2xl font-black text-slate-900">Family Expenses</h3>
+                    <h3 className="text-2xl font-black text-slate-900">Expenses</h3>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Shared spending</p>
                   </div>
                 </div>
@@ -198,7 +192,7 @@ export default function FamilyTreePage() {
                   </div>
                   <div className="space-y-0.5">
                     <h3 className="text-2xl font-black text-slate-900">Family Board</h3>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Shared tasks & notes</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Shared tasks</p>
                   </div>
                 </div>
                 <Link href="/family-tree/board">
@@ -208,7 +202,7 @@ export default function FamilyTreePage() {
               <div className="space-y-4">
                 {[
                   { title: "Buy Groceries", assigned: "Fatima", priority: true, time: "Due Today" },
-                  { title: "Plan Weekend Outing", assigned: "Ibrahim", priority: false, time: "Oct 12" },
+                  { title: "Plan Outing", assigned: "Ibrahim", priority: false, time: "Oct 12" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center justify-between p-5 bg-slate-50/50 rounded-3xl border border-transparent hover:border-emerald-100 hover:bg-white hover:shadow-md transition-all cursor-pointer group/item">
                     <div className="flex items-center gap-5">
@@ -216,16 +210,7 @@ export default function FamilyTreePage() {
                         "h-4 w-4 rounded-full border-2",
                         item.priority ? "bg-amber-100 border-amber-500 animate-pulse" : "bg-white border-slate-200"
                       )} />
-                      <div>
-                        <p className="text-base font-black text-slate-800">{item.title}</p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <Avatar className="h-5 w-5">
-                            <AvatarImage src={`https://picsum.photos/seed/${item.assigned}/50/50`} />
-                            <AvatarFallback>{item.assigned[0]}</AvatarFallback>
-                          </Avatar>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Assigned: {item.assigned}</p>
-                        </div>
-                      </div>
+                      <p className="text-base font-black text-slate-800 truncate">{item.title}</p>
                     </div>
                     <span className="text-[10px] font-black text-slate-300 uppercase bg-white px-3 py-1 rounded-full shadow-sm">{item.time}</span>
                   </div>
@@ -233,91 +218,76 @@ export default function FamilyTreePage() {
               </div>
             </Card>
 
-            {/* Upcoming Events Preview */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 space-y-10 flex flex-col justify-between relative overflow-hidden">
-              <Calendar className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-emerald-400" />
-              <div className="space-y-8 relative z-10">
-                <div className="space-y-1">
-                  <div className="h-14 w-14 rounded-3xl bg-white/10 flex items-center justify-center text-emerald-400 border border-white/10 shadow-2xl mb-4">
-                    <Calendar className="h-7 w-7" />
-                  </div>
-                  <h3 className="text-2xl font-black tracking-tight">Family Planner</h3>
-                  <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Upcoming Outings</p>
-                </div>
-                <div className="space-y-6">
-                  {[
-                    { title: "Nikah Anniversary", date: "Oct 15", loc: "The Halal Grill" },
-                    { title: "Shopping Trip", date: "Oct 18", loc: "City Mall" },
-                  ].map((event, i) => (
-                    <div key={i} className="space-y-2 group cursor-pointer">
-                      <p className="text-base font-black group-hover:text-emerald-400 transition-colors leading-tight">{event.title}</p>
-                      <div className="flex flex-col gap-1.5 opacity-60">
-                        <p className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                          <Clock className="h-3.5 w-3.5" /> {event.date}, 7:30 PM
-                        </p>
-                        <p className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                          <MapPin className="h-3.5 w-3.5" /> {event.loc}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <Link href="/family-tree/events" className="relative z-10 mt-4">
-                <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl h-14 font-black uppercase text-xs tracking-widest shadow-2xl">Open Planner</Button>
-              </Link>
-            </Card>
-
-            {/* Family Pulse (Wellness & Charity) */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-10 group">
+            {/* Health & Wellness Tracker */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="h-14 w-14 rounded-3xl bg-rose-50 flex items-center justify-center text-rose-600 shadow-inner group-hover:scale-110 transition-transform">
-                    <Target className="h-7 w-7" />
+                  <div className="h-14 w-14 rounded-3xl bg-teal-50 flex items-center justify-center text-teal-600 shadow-inner group-hover:scale-110 transition-transform">
+                    <HeartPulse className="h-7 w-7" />
                   </div>
                   <div className="space-y-0.5">
-                    <h3 className="text-2xl font-black text-slate-900">Family Pulse</h3>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Shared Growth</p>
+                    <h3 className="text-2xl font-black text-slate-900">Wellness</h3>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Health Tracker</p>
                   </div>
                 </div>
-                <Link href="/family-tree/goals">
-                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5" /></Button>
+                <Link href="/family-tree/health">
+                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5 text-teal-600" /></Button>
                 </Link>
               </div>
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                    <span className="text-slate-400">Sadaqah Well Project</span>
-                    <span className="text-emerald-600">85% Cleared</span>
+                  <div className="flex justify-between items-center text-[10px] font-black uppercase text-slate-400 tracking-widest px-1">
+                    <span>Sarah's Vaccination</span>
+                    <span className="text-rose-600">Due in 5d</span>
                   </div>
                   <Progress value={85} className="h-2 bg-slate-50" />
-                  <p className="text-[10px] font-bold text-slate-400 text-right">₹8,500 / ₹10k</p>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                    <span className="text-slate-400">Daily Steps Week</span>
-                    <span className="text-blue-600">74% Activity</span>
+                <div className="p-4 bg-teal-50 rounded-2xl flex items-center gap-3">
+                  <Activity className="h-4 w-4 text-teal-600" />
+                  <p className="text-[10px] font-bold text-teal-800 uppercase tracking-widest">Last Hijama: Oct 12 (Ibrahim)</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Moments Gallery Preview */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="h-14 w-14 rounded-3xl bg-purple-50 flex items-center justify-center text-purple-600 shadow-inner group-hover:scale-110 transition-transform">
+                    <ImageIcon className="h-7 w-7" />
                   </div>
-                  <Progress value={74} className="h-2 bg-slate-50" />
-                  <p className="text-[10px] font-bold text-slate-400 text-right">42k / 50k Steps</p>
+                  <div className="space-y-0.5">
+                    <h3 className="text-2xl font-black text-slate-900">Gallery</h3>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Shared moments</p>
+                  </div>
                 </div>
+                <Link href="/family-tree/gallery">
+                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5 text-purple-600" /></Button>
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {[1, 2].map(i => (
+                  <div key={i} className="aspect-video relative rounded-2xl overflow-hidden shadow-sm group/media cursor-pointer">
+                    <Image src={`https://picsum.photos/seed/moment-${i}/400/300`} alt="Moment" fill className="object-cover group-hover/media:scale-110 transition-transform duration-700" />
+                  </div>
+                ))}
               </div>
             </Card>
 
             {/* Heritage Kitchen Preview */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-10 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-inner group-hover:scale-110 transition-transform">
                     <Utensils className="h-7 w-7" />
                   </div>
                   <div className="space-y-0.5">
-                    <h3 className="text-2xl font-black text-slate-900">Heritage Kitchen</h3>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Secret Vault</p>
+                    <h3 className="text-2xl font-black text-slate-900">Kitchen</h3>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Heritage Vault</p>
                   </div>
                 </div>
                 <Link href="/family-tree/kitchen">
-                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5" /></Button>
+                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5 text-amber-600" /></Button>
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -325,53 +295,11 @@ export default function FamilyTreePage() {
                   { img: "recipe-1", label: "Grandma's Biryani" },
                   { img: "recipe-2", label: "Friday Kunafa" }
                 ].map((recipe, i) => (
-                  <div key={i} className="aspect-square relative rounded-[2rem] overflow-hidden group/recipe cursor-pointer shadow-md">
+                  <div key={i} className="aspect-square relative rounded-2xl overflow-hidden group/recipe cursor-pointer shadow-md">
                     <Image src={`https://picsum.photos/seed/${recipe.img}/400/400`} alt={recipe.label} fill className="object-cover group-hover/recipe:scale-110 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover/recipe:opacity-90 transition-opacity" />
                     <div className="absolute bottom-4 left-4 right-4">
                       <p className="text-[10px] font-black text-white uppercase tracking-tighter leading-tight line-clamp-1">{recipe.label}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            {/* Halal Discovery Strip */}
-            <Card className="md:col-span-3 rounded-[3rem] border-none shadow-sm bg-white p-10 space-y-8">
-              <div className="flex items-center justify-between px-2">
-                <div className="flex items-center gap-4">
-                  <div className="h-14 w-14 rounded-3xl bg-amber-100 flex items-center justify-center text-amber-600 shadow-inner group-hover:scale-110 transition-transform">
-                    <Sparkles className="h-7 w-7" />
-                  </div>
-                  <div className="space-y-0.5">
-                    <h3 className="text-2xl font-black text-slate-900">Family Suggestions</h3>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Curated for your group</p>
-                  </div>
-                </div>
-                <Link href="/family-tree/discovery">
-                  <Button className="rounded-2xl h-12 px-8 font-black uppercase text-xs tracking-widest bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-200">Explore All</Button>
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                {[
-                  { name: "The Halal Grill", type: "Restaurant", img: "food1", rate: 4.9, loc: "0.5m away" },
-                  { name: "Islamic Expo 2024", type: "Event", img: "event1", rate: 5.0, loc: "Sat, 10 AM" },
-                  { name: "City Library Hub", type: "Education", img: "edu1", rate: 4.7, loc: "Downtown" },
-                ].map((place, i) => (
-                  <div key={i} className="group flex items-center gap-6 p-5 bg-slate-50/50 rounded-[2rem] border border-transparent hover:border-emerald-100 hover:bg-white hover:shadow-xl transition-all duration-500 cursor-pointer">
-                    <div className="relative h-20 w-20 rounded-2xl overflow-hidden shrink-0 shadow-md">
-                      <Image src={`https://picsum.photos/seed/${place.img}/200/200`} alt={place.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                    </div>
-                    <div className="flex-1 min-w-0 space-y-1">
-                      <p className="text-base font-black text-slate-900 truncate group-hover:text-emerald-600 transition-colors">{place.name}</p>
-                      <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 border-none text-[8px] font-black uppercase h-5 px-2">{place.type}</Badge>
-                      <div className="flex items-center gap-3 pt-1">
-                        <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                          <span className="text-[10px] font-black text-slate-700">{place.rate}</span>
-                        </div>
-                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{place.loc}</span>
-                      </div>
                     </div>
                   </div>
                 ))}
