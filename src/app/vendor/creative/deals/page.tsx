@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -9,7 +8,8 @@ import {
   Tag, Target, ArrowUpRight, TrendingUp,
   Briefcase, Star, MessageSquare, Plus,
   ArrowLeft, Search, Filter, Smartphone,
-  CheckCircle2, Zap, ShieldCheck, Globe
+  CheckCircle2, Zap, ShieldCheck, Globe,
+  ArrowRight
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
@@ -47,7 +47,7 @@ export default function CreativeDealsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {DEALS.map((deal) => (
-          <Card key={deal.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-amber-100 flex flex-col h-full">
+          <Card key={deal.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-amber-100 flex flex-col h-full">
             <div className="p-8 flex-1 space-y-6">
               <div className="flex justify-between items-start">
                 <div className="h-14 w-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
