@@ -5,19 +5,21 @@ import * as React from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 import { 
   Banknote, ArrowUpRight, ArrowDownLeft, TrendingUp,
   History, PieChart, Wallet, CreditCard,
   Plus, Search, Filter, ArrowLeft,
   ChevronRight, MoreVertical, ShieldCheck,
   Zap, MapPin, CheckCircle2, Sparkles,
-  Download, FileText
+  Download, FileText, Settings
 } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
 
 const TRANSACTIONS = [
   { id: "CRT-TXN-101", type: "Brand Deal Payout", desc: "The Bosphorus Kitchen Feature", amount: "+₹15,000", date: "Nov 02, 2024", status: "Completed" },
@@ -50,7 +52,10 @@ export default function CreativeEarningsPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        {/* Left Column: Summary & Activity */}
         <div className="lg:col-span-8 space-y-10">
+          
+          {/* Summary Card */}
           <Card className="rounded-[3rem] border-none shadow-sm bg-slate-900 text-white p-12 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
             <div className="absolute top-0 right-0 p-10 opacity-10">
               <TrendingUp className="h-48 w-48 text-emerald-400" />
