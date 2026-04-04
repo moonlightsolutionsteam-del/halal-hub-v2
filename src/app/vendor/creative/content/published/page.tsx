@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -10,11 +9,13 @@ import {
   Search, Filter, Eye, Heart, 
   MessageSquare, MoreVertical, Edit2,
   Trash2, ArrowUpRight, Share2, PlayCircle,
-  BarChart3, LayoutGrid, Clock, ArrowLeft
+  BarChart3, LayoutGrid, Clock, ArrowLeft,
+  Plus
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const PUBLISHED_CONTENT = [
   { id: 1, title: "Sabr in the Modern Age", type: "Reel", views: "150k", likes: "12.4k", date: "2h ago", img: "reel1" },
@@ -25,7 +26,7 @@ const PUBLISHED_CONTENT = [
 
 export default function PublishedContentPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
+    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
@@ -113,25 +114,5 @@ export default function PublishedContentPage() {
         <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-white/20 text-white font-black uppercase text-sm tracking-widest hover:bg-white/10 relative z-10">Full Growth Report</Button>
       </div>
     </div>
-  )
-}
-
-function Plus(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
   )
 }

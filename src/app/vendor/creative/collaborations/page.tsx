@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -15,6 +14,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 const REQUESTS = [
   { id: 1, vendor: "The Bosphorus Kitchen", type: "Food Review", amount: "₹15,000", status: "New", date: "2h ago", img: "food1" },
@@ -38,7 +39,7 @@ export default function CollaborationsHubPage() {
           </div>
           <p className="text-muted-foreground font-medium">Manage brand partnerships, sponsorships, and community reviews.</p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12">
+        <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
           <Zap className="mr-2 h-4 w-4" /> Find Brand Deals
         </Button>
       </div>
@@ -50,7 +51,7 @@ export default function CollaborationsHubPage() {
           { label: "Partner Rating", value: "4.9", icon: Star, color: "text-amber-600", bg: "bg-amber-50" },
         ].map((stat, i) => (
           <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4 group hover:shadow-md transition-all">
-            <div className={`h-12 w-12 rounded-2xl ${stat.bg} flex items-center justify-center ${stat.color} group-hover:scale-110 transition-transform`}>
+            <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
               <stat.icon className="h-6 w-6" />
             </div>
             <div>
@@ -75,7 +76,10 @@ export default function CollaborationsHubPage() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-3">
                       <h3 className="text-2xl font-black text-slate-900 leading-tight">{req.vendor || req.name}</h3>
-                      <Badge className={req.status === 'New' ? 'bg-blue-50 text-blue-600 border-none px-3 text-[9px] font-black uppercase' : 'bg-slate-50 text-slate-400 border-none px-3 text-[9px] font-black uppercase'}>
+                      <Badge className={cn(
+                        "border-none font-black text-[9px] uppercase tracking-widest px-3 h-6 flex items-center",
+                        req.status === 'New' ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-400'
+                      )}>
                         {req.status}
                       </Badge>
                     </div>
