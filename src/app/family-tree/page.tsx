@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -13,7 +14,7 @@ import {
   Upload, MoreVertical, ClipboardList, Calendar,
   Star, Heart, Sparkles, Plus, Settings,
   Target, Utensils, MapIcon, Globe, Download,
-  Lock
+  Lock, Wallet
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -53,7 +54,7 @@ export default function FamilyTreePage() {
   return (
     <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 selection:bg-emerald-500/10">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-[10px]">
             <Network className="h-3 w-3" /> Unified Family Ecosystem
@@ -150,8 +151,43 @@ export default function FamilyTreePage() {
               </div>
             </Card>
 
+            {/* Expenses Summary Widget */}
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="h-14 w-14 rounded-3xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
+                    <Wallet className="h-7 w-7" />
+                  </div>
+                  <div className="space-y-0.5">
+                    <h3 className="text-2xl font-black text-slate-900">Family Expenses</h3>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Shared spending</p>
+                  </div>
+                </div>
+                <Link href="/family-tree/expenses">
+                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5 text-blue-600" /></Button>
+                </Link>
+              </div>
+              <div className="space-y-2">
+                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Spent This Month</p>
+                <div className="flex items-baseline gap-2">
+                  <p className="text-4xl font-black text-slate-900 tracking-tighter">₹12,450</p>
+                  <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-2">↓ 12%</Badge>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                  <span className="text-slate-400">Recent: Groceries 🛒</span>
+                  <span className="text-slate-900">₹850</span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
+                  <span className="text-slate-400">Recent: Dinner 🍽️</span>
+                  <span className="text-slate-900">₹1,200</span>
+                </div>
+              </div>
+            </Card>
+
             {/* Shared Board Preview */}
-            <Card className="md:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -163,7 +199,7 @@ export default function FamilyTreePage() {
                   </div>
                 </div>
                 <Link href="/family-tree/board">
-                  <Button variant="ghost" className="rounded-xl font-black text-xs uppercase tracking-widest text-emerald-600 hover:bg-emerald-50">View Full Board <ChevronRight className="ml-1 h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="rounded-2xl bg-slate-50 h-10 w-10"><ArrowUpRight className="h-5 w-5 text-emerald-600" /></Button>
                 </Link>
               </div>
               <div className="space-y-4">

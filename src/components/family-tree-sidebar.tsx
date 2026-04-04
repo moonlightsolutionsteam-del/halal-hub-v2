@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -24,7 +25,8 @@ import {
   Heart,
   Utensils,
   Target,
-  Zap
+  Zap,
+  Wallet
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -69,6 +71,7 @@ export function FamilyTreeSidebar() {
       items: [
         { title: "Dashboard", icon: LayoutDashboard, url: "/family-tree" },
         { title: "Family Board", icon: ClipboardList, url: "/family-tree/board" },
+        { title: "Family Expenses", icon: Wallet, url: "/family-tree/expenses" },
         { title: "Events Planner", icon: Calendar, url: "/family-tree/events" },
         { title: "Halal Discovery", icon: Sparkles, url: "/family-tree/discovery" },
       ]

@@ -9,7 +9,8 @@ import {
   ClipboardList, Plus, Search, Filter,
   CheckCircle2, Clock, User, Pin,
   MoreVertical, ArrowLeft, Trash2, Edit2,
-  AlertCircle, CheckCircle, Smartphone
+  AlertCircle, CheckCircle, Smartphone,
+  Wallet
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
@@ -54,14 +55,14 @@ export default function FamilyBoardPage() {
           <Badge 
             onClick={() => setActiveTab("active")}
             variant={activeTab === 'active' ? 'secondary' : 'outline'} 
-            className={`px-4 py-2 rounded-full cursor-pointer transition-all ${activeTab === 'active' ? 'bg-emerald-600 text-white border-none' : 'hover:bg-slate-50'}`}
+            className={`px-6 py-3 rounded-full cursor-pointer transition-all ${activeTab === 'active' ? 'bg-emerald-600 text-white border-none' : 'hover:bg-slate-50 text-slate-400'}`}
           >
             Active
           </Badge>
           <Badge 
             onClick={() => setActiveTab("completed")}
             variant={activeTab === 'completed' ? 'secondary' : 'outline'} 
-            className={`px-4 py-2 rounded-full cursor-pointer transition-all ${activeTab === 'completed' ? 'bg-emerald-600 text-white border-none' : 'hover:bg-slate-50'}`}
+            className={`px-6 py-3 rounded-full cursor-pointer transition-all ${activeTab === 'completed' ? 'bg-emerald-600 text-white border-none' : 'hover:bg-slate-50 text-slate-400'}`}
           >
             Completed
           </Badge>
@@ -90,6 +91,13 @@ export default function FamilyBoardPage() {
                     </Avatar>
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Assigned: {item.assigned}</span>
                   </div>
+                  {item.title.toLowerCase().includes('buy') || item.title.toLowerCase().includes('book') ? (
+                    <Link href="/family-tree/expenses/add">
+                      <Button variant="outline" size="sm" className="h-7 rounded-xl border-blue-200 text-blue-600 bg-blue-50 font-black text-[9px] uppercase hover:bg-blue-600 hover:text-white transition-all">
+                        <Wallet className="h-3 w-3 mr-1" /> Mark as Expense
+                      </Button>
+                    </Link>
+                  ) : null}
                 </div>
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto md:flex-col justify-end">
@@ -107,7 +115,7 @@ export default function FamilyBoardPage() {
       {/* Role Notice */}
       <Card className="rounded-[2.5rem] border-none bg-slate-900 text-white p-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-4 opacity-5">
-          <ShieldCheck className="h-32 w-32" />
+          <ShieldCheckIcon className="h-32 w-32" />
         </div>
         <div className="relative z-10 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-emerald-400 border border-white/10">
@@ -143,7 +151,7 @@ function RotateCcwIcon(props: any) {
   )
 }
 
-function ShieldCheck(props: any) {
+function ShieldCheckIcon(props: any) {
   return (
     <svg
       {...props}
