@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -22,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
 
 export default function ContentUploadPage() {
   const router = useRouter();
@@ -59,16 +59,17 @@ export default function ContentUploadPage() {
               <button
                 key={opt.id}
                 onClick={() => setType(opt.id)}
-                className={`flex flex-col items-center justify-center p-6 rounded-[2.5rem] transition-all border-4 ${
+                className={cn(
+                  "flex flex-col items-center justify-center p-6 rounded-[2.5rem] transition-all border-4",
                   type === opt.id 
                     ? 'bg-white border-primary shadow-xl scale-105' 
                     : 'bg-white border-transparent text-slate-400 hover:border-slate-100 hover:bg-slate-50'
-                }`}
+                )}
               >
-                <div className={`h-12 w-12 rounded-2xl flex items-center justify-center mb-3 ${type === opt.id ? opt.bg + ' ' + opt.color : 'bg-slate-50 text-slate-300'}`}>
+                <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center mb-3", type === opt.id ? opt.bg + ' ' + opt.color : 'bg-slate-50 text-slate-300')}>
                   <opt.icon className="h-6 w-6" />
                 </div>
-                <span className={`text-[10px] font-black uppercase tracking-tighter text-center leading-tight ${type === opt.id ? 'text-primary' : 'text-slate-400'}`}>
+                <span className={cn("text-[10px] font-black uppercase tracking-tighter text-center leading-tight", type === opt.id ? 'text-primary' : 'text-slate-400')}>
                   {opt.label}
                 </span>
               </button>

@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -22,7 +21,7 @@ const ACCOUNTS = [
 
 export default function ConnectedAccountsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-4xl pb-24">
+    <div className="container mx-auto p-6 space-y-10 max-w-4xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
@@ -54,8 +53,8 @@ export default function ConnectedAccountsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-4 w-full sm:w-auto">
-                <Button variant="outline" className="flex-1 sm:flex-none rounded-xl h-12 px-8 font-black text-xs uppercase tracking-widest border-2">Sync Data</Button>
-                <Button variant="ghost" size="icon" className="rounded-xl h-12 w-12 bg-slate-50 text-slate-400"><MoreVertical className="h-5 w-5" /></Button>
+                <Button variant="outline" className="flex-1 sm:flex-none rounded-xl h-12 px-8 font-black text-xs uppercase tracking-widest border-2 bg-white">Sync Data</Button>
+                <Button variant="ghost" size="icon" className="rounded-xl h-12 w-12 bg-slate-50 text-slate-400 hover:bg-white hover:shadow-sm"><MoreVertical className="h-5 w-5" /></Button>
               </div>
             </div>
           </Card>
@@ -72,17 +71,17 @@ export default function ConnectedAccountsPage() {
         </Card>
       </div>
 
-      <div className="p-10 bg-slate-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+      <div className="p-10 bg-slate-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ShieldCheck className="h-48 w-48" />
         </div>
         <div className="relative z-10 space-y-4 text-center md:text-left flex-1">
           <h2 className="text-3xl font-black font-headline">Privacy & API Security</h2>
-          <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-2xl">
+          <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-2xl italic">
             Linking accounts only pulls public analytics metadata. We never store your passwords or have access to your private direct messages on other platforms.
           </p>
         </div>
-        <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-white/20 text-white font-black uppercase text-sm tracking-widest hover:bg-white/10 relative z-10">Data Privacy Charter</Button>
+        <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-white/20 text-white hover:bg-white/10 font-black uppercase text-sm tracking-widest relative z-10">Data Privacy Charter</Button>
       </div>
     </div>
   )

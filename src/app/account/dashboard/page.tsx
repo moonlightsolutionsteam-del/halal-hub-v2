@@ -296,7 +296,7 @@ export default function UserDashboard() {
               ].map((tool, i) => (
                 <div key={i} className="flex flex-col items-center gap-3 group cursor-pointer">
                   <div className="relative">
-                    <div className={`h-16 w-16 rounded-[1.5rem] ${tool.bg} flex items-center justify-center ${tool.color} group-hover:scale-110 transition-all duration-500 shadow-sm border border-white group-hover:shadow-lg`}>
+                    <div className={cn("h-16 w-16 rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-all duration-500 shadow-sm border border-white group-hover:shadow-lg", tool.bg, tool.color)}>
                       <tool.icon className="h-7 w-7" />
                     </div>
                     {tool.badge && (
@@ -332,7 +332,7 @@ export default function UserDashboard() {
           </div>
 
           {/* Content Tabs */}
-          <Tabs defaultValue="activity" className="w-full mt-20">
+          <Tabs defaultValue="journey" className="w-full mt-20">
             <TabsList className="bg-transparent h-14 w-full p-0 gap-12 justify-start border-b-2 rounded-none mb-12 overflow-x-auto no-scrollbar">
               <TabsTrigger value="journey" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">Your Journey</TabsTrigger>
               <TabsTrigger value="activity" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">Marketplace Activity</TabsTrigger>

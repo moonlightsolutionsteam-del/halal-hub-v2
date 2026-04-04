@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -29,7 +28,7 @@ export default function CreativeAudiencePage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
           </Link>
           <div className="flex items-center gap-3 mt-4">
             <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner">
@@ -100,7 +99,9 @@ export default function CreativeAudiencePage() {
                   <div key={i} className="space-y-2 text-center w-32">
                     <p className="text-sm font-black text-slate-900">{reg.region}</p>
                     <p className="text-[10px] font-bold text-slate-400 uppercase">{reg.count} Members</p>
-                    <Progress value={reg.perc} className={cn("h-1.5", reg.color.replace('bg-', 'bg-opacity-20 bg-'))} />
+                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className={cn("h-full rounded-full transition-all duration-1000", reg.color)} style={{ width: `${reg.perc}%` }} />
+                    </div>
                   </div>
                 ))}
               </div>

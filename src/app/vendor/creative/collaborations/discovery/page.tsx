@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -11,7 +10,8 @@ import {
   TrendingUp, Globe, Smartphone, ArrowUpRight,
   ShieldCheck, Info, Sparkles, Target,
   DollarSign, Briefcase, Utensils, Shirt,
-  Compass, HeartPulse, GraduationCap
+  Compass, HeartPulse, GraduationCap,
+  Lock, ArrowRight
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
@@ -105,7 +105,7 @@ export default function DiscoveryHubPage() {
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2.5rem] border shadow-sm">
         <div className="relative w-full md:w-[450px]">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-          <Input placeholder="Search by brand, campaign, or niche..." className="pl-12 h-14 rounded-2xl bg-slate-50 border-none font-medium text-lg" />
+          <Input placeholder="Search by campaign, requirements, or niche..." className="pl-12 h-14 rounded-2xl bg-slate-50 border-none font-medium text-lg" />
         </div>
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto px-2">
           {CATEGORIES.map((cat) => (
@@ -157,7 +157,10 @@ export default function DiscoveryHubPage() {
                   <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                     <div className="space-y-1">
                       <p className="text-[10px] font-black uppercase text-primary tracking-[0.2em]">{deal.type}</p>
-                      <h3 className="text-2xl font-black text-white leading-tight drop-shadow-md">{deal.brand}</h3>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-2xl font-black text-white leading-tight drop-shadow-md blur-sm select-none">XXXXXXXXXXXXXX</h3>
+                        <Badge className="bg-amber-500 text-white border-none font-black text-[8px] h-5 px-2 flex items-center gap-1"><Lock className="h-2 w-2" /> LOCKED</Badge>
+                      </div>
                     </div>
                     <Badge className="bg-emerald-500 text-white border-none font-black text-[10px] h-6 px-3 rounded-full">{deal.slots}</Badge>
                   </div>
@@ -187,7 +190,7 @@ export default function DiscoveryHubPage() {
 
                 <CardFooter className="px-8 pb-8 pt-0 mt-auto">
                   <Button className="w-full bg-slate-900 hover:bg-primary text-white rounded-[1.5rem] font-black text-sm uppercase tracking-widest h-16 shadow-2xl transition-all group-hover:scale-[1.02] gap-2">
-                    Apply for 10 Credits <ArrowUpRight className="h-5 w-5" />
+                    Unlock Opportunity (10 Credits) <ArrowUpRight className="h-5 w-5" />
                   </Button>
                 </CardFooter>
               </Card>
@@ -220,7 +223,7 @@ export default function DiscoveryHubPage() {
                       {spot.name[0]}
                     </div>
                     <div>
-                      <p className="text-sm font-black text-slate-900">{spot.name}</p>
+                      <p className="text-sm font-black text-slate-900 blur-sm select-none">XXXXXXXXXXXX</p>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{spot.type}</p>
                     </div>
                   </div>
@@ -238,7 +241,7 @@ export default function DiscoveryHubPage() {
                 <div className="space-y-2">
                   <h4 className="text-xl font-black tracking-tight">Verified Credibility</h4>
                   <p className="text-xs text-slate-400 leading-relaxed font-medium italic">
-                    "Application credits are refunded if the brand does not review your proposal within 14 days. We ensure a high-fidelity experience for all creators."
+                    "Unlock fees are refunded if the brand does not review your proposal within 14 days. We ensure high-fidelity interactions."
                   </p>
                 </div>
                 <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 h-12 rounded-xl font-black text-[10px] uppercase tracking-widest">Read Charter</Button>

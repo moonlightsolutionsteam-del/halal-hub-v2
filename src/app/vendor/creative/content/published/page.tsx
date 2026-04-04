@@ -30,7 +30,7 @@ export default function PublishedContentPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
           </Link>
           <div className="flex items-center gap-3 mt-4">
             <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
@@ -101,7 +101,7 @@ export default function PublishedContentPage() {
         ))}
       </div>
 
-      <div className="p-10 bg-slate-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+      <div className="p-10 bg-slate-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-10">
           <BarChart3 className="h-48 w-48 text-primary" />
         </div>

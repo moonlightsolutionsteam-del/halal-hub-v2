@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -22,7 +21,7 @@ export default function CreativeAnalyticsPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
           </Link>
           <div className="flex items-center gap-3 mt-4">
             <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner">
@@ -85,7 +84,9 @@ export default function CreativeAnalyticsPage() {
                       <span>{s.label}</span>
                       <span className="text-slate-900">{s.val}%</span>
                     </div>
-                    <Progress value={s.val} className={cn("h-1.5", s.color.replace('bg-', 'bg-opacity-20 bg-'))} />
+                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className={cn("h-full rounded-full transition-all duration-1000", s.color)} style={{ width: `${s.val}%` }} />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -103,7 +104,9 @@ export default function CreativeAnalyticsPage() {
                       <span>{s.label}</span>
                       <span className="text-slate-900">{s.val}%</span>
                     </div>
-                    <Progress value={s.val} className={cn("h-1.5", s.color)} />
+                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className={cn("h-full rounded-full transition-all duration-1000", s.color)} style={{ width: `${s.val}%` }} />
+                    </div>
                   </div>
                 ))}
               </div>

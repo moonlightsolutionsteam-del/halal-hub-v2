@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -7,9 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { 
   Star, MessageSquare, Reply, ThumbsUp, 
-  MoreVertical, Search, Filter, ArrowUpRight,
+  Search, Filter, ArrowUpRight,
   TrendingUp, Activity, CheckCircle2,
-  Zap, Heart, Flag, Share2, ArrowLeft
+  Zap, Heart, Flag, Share2, ArrowLeft,
+  MoreHorizontal
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
@@ -28,7 +28,7 @@ export default function CreativeFeedbackPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
           </Link>
           <div className="flex items-center gap-3 mt-4">
             <div className="h-14 w-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-inner">
@@ -65,7 +65,7 @@ export default function CreativeFeedbackPage() {
                 <div key={star} className="flex items-center gap-6">
                   <span className="text-sm font-black text-slate-400 w-2">{star}</span>
                   <div className="h-2.5 bg-slate-50 rounded-full flex-1 overflow-hidden shadow-inner">
-                    <div className="h-full bg-amber-400 rounded-full transition-all duration-1000" style={{ width: star === 5 ? '92%' : star === 4 ? '6%' : '2%' }} />
+                    <div className={cn("h-full rounded-full transition-all duration-1000", "bg-amber-400")} style={{ width: star === 5 ? '92%' : star === 4 ? '6%' : '2%' }} />
                   </div>
                   <span className="text-[10px] font-black text-slate-300 w-10 text-right">{star === 5 ? '92%' : star === 4 ? '6%' : '2%'}</span>
                 </div>
@@ -73,7 +73,7 @@ export default function CreativeFeedbackPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[3rem] border-none bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <TrendingUp className="h-32 w-32 text-primary" />
             </div>

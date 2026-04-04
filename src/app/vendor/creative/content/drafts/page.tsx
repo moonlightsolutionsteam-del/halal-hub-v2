@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -13,6 +12,7 @@ import {
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const DRAFTS = [
   { id: 1, title: "The Virtues of Charity (Vlog)", category: "Production", lastEdit: "2h ago", completion: "80%", type: "Video" },
@@ -22,11 +22,11 @@ const DRAFTS = [
 
 export default function CreativeDraftsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-5xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
           </Link>
           <div className="flex items-center gap-3 mt-4">
             <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 shadow-inner">

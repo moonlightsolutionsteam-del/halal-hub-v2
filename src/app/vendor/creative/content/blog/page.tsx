@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -14,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const ARTICLES = [
   { id: 1, title: "The Science of Halal Ingredients", category: "Education", status: "Published", date: "Nov 01, 2024", reads: "4.2k", likes: "156", img: "art1" },
@@ -23,11 +23,11 @@ const ARTICLES = [
 
 export default function CreativeBlogPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
+    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
           </Link>
           <div className="flex items-center gap-3 mt-4">
             <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-inner">
@@ -55,7 +55,7 @@ export default function CreativeBlogPage() {
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
                       <Badge variant="secondary" className="bg-primary/5 text-primary border-none font-black text-[9px] uppercase px-3 h-6 flex items-center">{art.category}</Badge>
-                      <Badge className={art.status === 'Published' ? 'bg-emerald-50 text-emerald-600 border-none px-3 h-6 flex items-center text-[9px] font-black uppercase' : 'bg-slate-100 text-slate-400 border-none px-3 h-6 flex items-center text-[9px] font-black uppercase'}>
+                      <Badge className={cn("border-none text-[9px] font-black uppercase px-3 h-6 flex items-center", art.status === 'Published' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400')}>
                         {art.status}
                       </Badge>
                     </div>

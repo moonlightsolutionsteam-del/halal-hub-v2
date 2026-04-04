@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -9,11 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { 
-  UserCircle, Camera, Globe, Github, 
+  UserCircle, Camera, Globe, 
   Twitter, Instagram, Youtube, Save,
-  CheckCircle2, ShieldCheck, Globe2,
+  CheckCircle2, ShieldCheck, 
   Share2, ArrowLeft, MoreVertical,
-  Plus
+  Plus, Image as ImageIcon
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
@@ -21,7 +20,7 @@ import { cn } from "@/lib/utils"
 
 export default function CreativeProfilePage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-4xl pb-24">
+    <div className="container mx-auto p-6 space-y-10 max-w-4xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
@@ -96,7 +95,7 @@ export default function CreativeProfilePage() {
             ].map((social, i) => (
               <Card key={i} className="rounded-3xl border-none shadow-sm bg-white p-6 group hover:shadow-md transition-all">
                 <div className="flex items-center gap-4">
-                  <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner", social.bg, social.color)}>
+                  <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", social.bg, social.color)}>
                     <social.icon className="h-6 w-6" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -110,7 +109,7 @@ export default function CreativeProfilePage() {
         </section>
 
         {/* Verification Status */}
-        <Card className="rounded-[3rem] border-none bg-slate-900 text-white p-10 relative overflow-hidden flex flex-col md:flex-row items-center gap-10">
+        <Card className="rounded-[3rem] border-none bg-slate-900 text-white p-10 relative overflow-hidden flex flex-col md:flex-row items-center gap-10 shadow-2xl">
           <ShieldCheck className="absolute -top-4 -right-4 h-48 w-48 opacity-10 text-primary" />
           <div className="h-20 w-20 rounded-[2rem] bg-white/10 flex items-center justify-center text-primary border border-white/10 shadow-2xl shrink-0">
             <CheckCircle2 className="h-10 w-10" />
@@ -127,26 +126,5 @@ export default function CreativeProfilePage() {
         </Card>
       </div>
     </div>
-  )
-}
-
-function ImageIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-      <circle cx="9" cy="9" r="2" />
-      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-    </svg>
   )
 }
