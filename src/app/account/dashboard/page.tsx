@@ -13,7 +13,8 @@ import {
   Package, LayoutGrid, PlayCircle, Users,
   Info, Bookmark, CheckCircle2, ArrowRight, Store, PenTool,
   Sparkles, Utensils, ClipboardList, Calendar,
-  Trophy, Globe, Activity as ActivityIcon
+  Trophy, Globe, Activity as ActivityIcon,
+  Plus
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
