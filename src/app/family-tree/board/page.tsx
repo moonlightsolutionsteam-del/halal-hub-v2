@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -10,7 +9,7 @@ import {
   CheckCircle2, Clock, User, Pin,
   MoreVertical, ArrowLeft, Trash2, Edit2,
   AlertCircle, CheckCircle, Smartphone,
-  Wallet, RotateCcw
+  Wallet, RotateCcw, ShieldCheck
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
@@ -27,7 +26,7 @@ export default function FamilyBoardPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
+    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
