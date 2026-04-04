@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -10,11 +9,12 @@ import {
   ArrowLeft, Search, Filter, MoreVertical,
   Stethoscope, Pill, Apple, Droplets,
   Calendar, Clock, User, CheckCircle2,
-  Zap, Sparkles, TrendingUp
+  Zap, Sparkles, TrendingUp, ChevronRight, ArrowUpRight
 } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 export default function FamilyHealthPage() {
   return (
@@ -143,7 +143,9 @@ export default function FamilyHealthPage() {
                     <span>{n.label}</span>
                     <span className="text-slate-900">{n.val}% Goal</span>
                   </div>
-                  <Progress value={n.val} className={cn("h-1.5", n.color.replace('bg-', 'bg-opacity-20 bg-'))} />
+                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className={cn("h-full rounded-full transition-all duration-1000", n.color)} style={{ width: `${n.val}%` }} />
+                  </div>
                 </div>
               ))}
             </div>
