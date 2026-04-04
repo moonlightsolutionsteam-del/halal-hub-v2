@@ -21,6 +21,7 @@ import {
   ArrowLeft,
   Star,
   Timer,
+  Clock,
   ChevronRight,
   Target,
   BarChart3,
