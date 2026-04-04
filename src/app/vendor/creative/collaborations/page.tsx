@@ -24,7 +24,7 @@ const REQUESTS = [
 
 export default function CollaborationsHubPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
+    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-slate-900">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">

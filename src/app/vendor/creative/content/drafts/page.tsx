@@ -9,7 +9,7 @@ import {
   FileText, Search, Filter, Edit2, 
   Trash2, Eye, MoreVertical, Plus,
   ArrowLeft, Clock, History, AlertCircle,
-  LayoutGrid, ArrowRight
+  LayoutGrid, ArrowRight, Info
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"

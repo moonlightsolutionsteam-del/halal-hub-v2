@@ -42,7 +42,7 @@ export default function ContentUploadPage() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight">Upload Content</h1>
+          <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Upload Content</h1>
           <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest opacity-60">New Media Production</p>
         </div>
       </div>
