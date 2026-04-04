@@ -14,7 +14,7 @@ import {
   Upload, MoreVertical, ClipboardList, Calendar,
   Star, Heart, Sparkles, Plus, Settings,
   Target, Utensils, MapIcon, Globe, Download,
-  Lock, Wallet
+  Lock, Wallet, SwitchCamera
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -44,6 +44,7 @@ const FamilyTreeIcon = (props: any) => (
 export default function FamilyTreePage() {
   const [activeTab, setActiveTab] = React.useState("hub")
   const [mounted, setMounted] = React.useState(false)
+  const [isKidsMode, setIsKidsMode] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
@@ -52,27 +53,29 @@ export default function FamilyTreePage() {
   if (!mounted) return null
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 selection:bg-emerald-500/10">
+    <div className={cn("container mx-auto p-6 space-y-10 max-w-6xl pb-24 transition-all duration-700", isKidsMode ? "bg-amber-50/30" : "bg-[#FBFBFB]")}>
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-[10px]">
             <Network className="h-3 w-3" /> Unified Family Ecosystem
           </div>
-          <h1 className="text-4xl font-black font-headline text-slate-900 tracking-tight">Family Hub & Lineage</h1>
+          <h1 className="text-4xl font-black font-headline text-slate-900 tracking-tight">
+            {isKidsMode ? "Family Fun Zone 🌟" : "Family Hub & Lineage"}
+          </h1>
           <p className="text-muted-foreground font-medium text-lg italic max-w-2xl">
-            A high-fidelity space for daily coordination and the preservation of your ancestral legacy.
+            {isKidsMode ? "Play, learn, and grow with your family every day!" : "A high-fidelity space for daily coordination and the preservation of your ancestral legacy."}
           </p>
         </div>
         <div className="flex gap-3">
+          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-14 bg-white shadow-sm gap-2" onClick={() => setIsKidsMode(!isKidsMode)}>
+            <SwitchCamera className="h-4 w-4 text-emerald-600" /> {isKidsMode ? "Parent View" : "Kids Mode"}
+          </Button>
           <Link href="/family-tree/setup">
             <Button variant="outline" className="rounded-2xl px-8 font-black border-2 h-14 bg-white shadow-sm hover:bg-slate-50 transition-all">
               <Settings className="h-4 w-4 mr-2" /> Hub Settings
             </Button>
           </Link>
-          <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-2xl px-10 font-black shadow-lg shadow-emerald-200 h-14 text-white transition-all active:scale-95">
-            <UserPlus className="h-4 w-4 mr-2" /> Add Member
-          </Button>
         </div>
       </div>
 
@@ -144,10 +147,10 @@ export default function FamilyTreePage() {
                     </div>
                   </div>
                 ))}
-                <button className="h-20 w-20 rounded-full border-4 border-dashed border-slate-100 flex flex-col items-center justify-center text-slate-300 hover:border-emerald-300 hover:text-emerald-500 transition-all shrink-0 gap-1 bg-slate-50/30">
+                <Link href="/family-tree/setup" className="h-20 w-20 rounded-full border-4 border-dashed border-slate-100 flex flex-col items-center justify-center text-slate-300 hover:border-emerald-300 hover:text-emerald-500 transition-all shrink-0 gap-1 bg-slate-50/30">
                   <Plus className="h-6 w-6" />
                   <span className="text-[8px] font-black uppercase">Add</span>
-                </button>
+                </Link>
               </div>
             </Card>
 
