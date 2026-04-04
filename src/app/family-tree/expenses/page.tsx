@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -12,7 +11,8 @@ import {
   Car, Home, PartyPopper, Package,
   Plus, Search, Filter, ArrowLeft,
   ChevronRight, MoreVertical, ShieldCheck,
-  Zap, MapPin, CheckCircle2, Sparkles
+  Zap, MapPin, CheckCircle2, Sparkles,
+  Split
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
@@ -31,9 +31,9 @@ const CONTRIBUTIONS = [
 ];
 
 const ACTIVITY = [
-  { id: 1, name: "Fatima", action: "spent", amount: "₹850", item: "Groceries", icon: ShoppingCart, color: "text-emerald-600", time: "2h ago" },
-  { id: 2, name: "Ibrahim", action: "paid", amount: "₹1,200", item: "Dinner", icon: Utensils, color: "text-orange-600", time: "5h ago" },
-  { id: 3, name: "Zaid", action: "spent", amount: "₹450", item: "Transport", icon: Car, color: "text-blue-600", time: "Yesterday" },
+  { id: 1, name: "Fatima", action: "paid", amount: "₹850", item: "Groceries", icon: ShoppingCart, color: "text-emerald-600", time: "2h ago", split: 3 },
+  { id: 2, name: "Ibrahim", action: "paid", amount: "₹1,200", item: "Dinner", icon: Utensils, color: "text-orange-600", time: "5h ago", split: 4 },
+  { id: 3, name: "Zaid", action: "paid", amount: "₹450", item: "Transport", icon: Car, color: "text-blue-600", time: "Yesterday", split: 0 },
 ];
 
 export default function FamilyExpensesPage() {
@@ -125,10 +125,15 @@ export default function FamilyExpensesPage() {
                         <p className="text-lg font-black text-slate-900 leading-tight">
                           {act.name} <span className="font-medium text-slate-400 lowercase">{act.action}</span> {act.amount}
                         </p>
-                        <div className="flex items-center gap-3 mt-1">
-                          <Badge variant="secondary" className={cn("border-none text-[9px] font-black uppercase px-2 h-5", act.color, act.bg || 'bg-slate-50')}>
+                        <div className="flex flex-wrap items-center gap-3 mt-1">
+                          <Badge variant="secondary" className={cn("border-none text-[9px] font-black uppercase px-2 h-5", act.color, "bg-slate-50")}>
                             <act.icon className="h-3 w-3 mr-1" /> {act.item}
                           </Badge>
+                          {act.split > 0 && (
+                            <Badge className="bg-blue-50 text-blue-600 border-none text-[9px] font-black uppercase h-5 px-2 flex items-center gap-1">
+                              <Split className="h-2.5 w-2.5" /> Shared with {act.split}
+                            </Badge>
+                          )}
                           <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{act.time}</span>
                         </div>
                       </div>
