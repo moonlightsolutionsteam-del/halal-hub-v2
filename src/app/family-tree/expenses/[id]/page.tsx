@@ -6,12 +6,14 @@ import { useParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Label } from "@/components/ui/label"
 import { 
   ArrowLeft, Wallet, Calendar, User, 
   MapPin, Tag, Share2, MoreVertical,
   History, ShieldCheck, CheckCircle2,
   Trash2, Edit2, Split, Utensils,
-  ChevronRight, ArrowRight, Zap
+  ChevronRight, ArrowRight, Zap, Clock,
+  FileText
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"

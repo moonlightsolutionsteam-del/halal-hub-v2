@@ -15,7 +15,7 @@ import {
   Star, Heart, Sparkles, Plus, Settings,
   Target, Utensils, MapIcon, Globe, Download,
   Lock, Wallet, SwitchCamera, MessageSquare,
-  Image as ImageIcon, HeartPulse
+  ImageIcon, HeartPulse, Activity
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
