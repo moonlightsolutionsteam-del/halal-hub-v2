@@ -4,6 +4,7 @@ import * as React from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 import { 
   Heart, Clock, Star, Wallet, Settings, 
   Bell, ShieldCheck, MapPin, Award, 
@@ -14,7 +15,7 @@ import {
   Info, Bookmark, CheckCircle2, ArrowRight, Store, PenTool,
   Sparkles, Utensils, ClipboardList, Calendar,
   Trophy, Globe, Activity as ActivityIcon,
-  Plus
+  Plus, Moon, BookOpen, HeartPulse
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -337,6 +338,147 @@ export default function UserDashboard() {
               <TabsTrigger value="activity" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">Marketplace Activity</TabsTrigger>
               <TabsTrigger value="content" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">My Content</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="journey" className="m-0 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-24">
+              {/* Level & Rank Header */}
+              <div className="bg-slate-900 rounded-[3rem] p-10 flex flex-col md:flex-row items-center gap-10 text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-10 opacity-10">
+                  <Trophy className="h-64 w-64 text-primary" />
+                </div>
+                <div className="h-32 w-32 rounded-[2.5rem] bg-primary/20 flex items-center justify-center border border-white/10 shadow-3xl relative z-10 shrink-0">
+                  <span className="text-5xl font-black font-headline">12</span>
+                </div>
+                <div className="space-y-4 relative z-10 flex-1">
+                  <div className="space-y-1">
+                    <p className="text-xs font-black uppercase tracking-[0.3em] text-primary">Current Rank</p>
+                    <h3 className="text-4xl font-black tracking-tighter">Elite Community Pillar</h3>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
+                      <span>Progress to Level 13</span>
+                      <span>8,450 / 10,000 XP</span>
+                    </div>
+                    <Progress value={84.5} className="h-2 bg-white/10 rounded-full" />
+                  </div>
+                </div>
+                <Button className="bg-white text-slate-900 font-black h-14 px-8 rounded-2xl text-xs uppercase tracking-widest relative z-10 hover:bg-slate-100 shadow-2xl">Claim Rewards</Button>
+              </div>
+
+              {/* Activity Blocks Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Daily Deen */}
+                <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 space-y-8 group hover:shadow-xl transition-all">
+                  <div className="flex justify-between items-start">
+                    <div className="h-16 w-16 rounded-[1.5rem] bg-orange-50 flex items-center justify-center text-orange-600 shadow-inner group-hover:scale-110 transition-transform">
+                      <Moon className="h-8 w-8" />
+                    </div>
+                    <Badge className="bg-orange-50 text-orange-600 border-none font-black text-[9px] px-3 h-6 uppercase tracking-widest">Daily Streak</Badge>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-2xl font-black text-slate-900 tracking-tight">85 Day Prayer Streak</h4>
+                    <p className="text-sm font-medium text-slate-500 italic leading-relaxed">"Verified prayer sync from 3 different locations this week."</p>
+                  </div>
+                  <div className="flex gap-2">
+                    {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => (
+                      <div key={i} className={cn("h-10 flex-1 rounded-xl flex items-center justify-center font-black text-[10px] shadow-sm", i < 5 ? "bg-orange-500 text-white" : "bg-slate-50 text-slate-300")}>
+                        {d}
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+
+                {/* Verification Power */}
+                <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 space-y-8 group hover:shadow-xl transition-all">
+                  <div className="flex justify-between items-start">
+                    <div className="h-16 w-16 rounded-[1.5rem] bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-110 transition-transform">
+                      <ShieldCheck className="h-8 w-8" />
+                    </div>
+                    <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-3 h-6 uppercase tracking-widest">Hub Integrity</Badge>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-2xl font-black text-slate-900 tracking-tight">Master Verifier</h4>
+                    <p className="text-sm font-medium text-slate-500 italic leading-relaxed">You've verified 42 product labels and suggested 12 new halal venues.</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-slate-50 rounded-2xl text-center shadow-inner">
+                      <p className="text-xl font-black text-emerald-600">42</p>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Scans Verified</p>
+                    </div>
+                    <div className="p-4 bg-slate-50 rounded-2xl text-center shadow-inner">
+                      <p className="text-xl font-black text-emerald-600">12</p>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">New Listings</p>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Family Bond */}
+                <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 space-y-8 group hover:shadow-xl transition-all">
+                  <div className="flex justify-between items-start">
+                    <div className="h-16 w-16 rounded-[1.5rem] bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
+                      <FamilyTreeIcon className="h-8 w-8" />
+                    </div>
+                    <Badge className="bg-blue-50 text-blue-600 border-none font-black text-[9px] px-3 h-6 uppercase tracking-widest">Family Sync</Badge>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-2xl font-black text-slate-900 tracking-tight">Lineage Guard</h4>
+                    <p className="text-sm font-medium text-slate-500 italic leading-relaxed">You are managing the Al-Sayed Family Hub with 124 verified nodes.</p>
+                  </div>
+                  <Link href="/family-tree">
+                    <Button variant="outline" className="w-full h-12 rounded-xl border-2 font-black text-[10px] uppercase tracking-widest hover:bg-blue-50 hover:text-blue-600 border-blue-100">Enter Family Hub</Button>
+                  </Link>
+                </Card>
+
+                {/* Reward Center */}
+                <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 space-y-8 group hover:shadow-xl transition-all">
+                  <div className="flex justify-between items-start">
+                    <div className="h-16 w-16 rounded-[1.5rem] bg-amber-50 flex items-center justify-center text-amber-600 shadow-inner group-hover:scale-110 transition-transform">
+                      <Gift className="h-8 w-8" />
+                    </div>
+                    <Badge className="bg-amber-50 text-amber-600 border-none font-black text-[9px] px-3 h-6 uppercase tracking-widest">Rewards</Badge>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="text-2xl font-black text-slate-900 tracking-tight">Elite Tier Status</h4>
+                    <p className="text-sm font-medium text-slate-500 italic leading-relaxed">You have 1,240 Hub Coins ready to redeem for verified vendor vouchers.</p>
+                  </div>
+                  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl shadow-inner">
+                    <div className="flex -space-x-2">
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="h-8 w-8 rounded-full bg-amber-200 border-2 border-white flex items-center justify-center text-[10px] font-black text-amber-700">
+                          {i}
+                        </div>
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">3 Rewards Awaiting</span>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Achievements Timeline */}
+              <section className="space-y-8">
+                <div className="flex items-center justify-between px-2">
+                  <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-none">Recent Achievements</h3>
+                  <Button variant="ghost" className="text-[10px] font-black uppercase text-slate-400 tracking-widest">See All Archive</Button>
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { title: "Century Scans", desc: "Reached 100 successful product verifications in the AI Verifier.", date: "Oct 24", icon: Zap, color: "text-amber-500", bg: "bg-amber-50" },
+                    { title: "Legacy Keeper", desc: "Successfully linked 5 generations in the Al-Sayed Family Tree.", date: "Oct 12", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
+                    { title: "Hajj Spirit", desc: "Uploaded 10+ historical pilgrimage documents to the Archive.", date: "Sep 28", icon: Heart, color: "text-rose-500", bg: "bg-rose-50" },
+                  ].map((milestone, i) => (
+                    <div key={i} className="flex items-center gap-8 p-8 bg-white rounded-[2.5rem] border border-transparent hover:border-slate-100 transition-all shadow-sm group">
+                      <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", milestone.bg, milestone.color)}>
+                        <milestone.icon className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <h4 className="text-xl font-black text-slate-900 leading-tight">{milestone.title}</h4>
+                        <p className="text-sm font-medium text-slate-500 italic">{milestone.desc}</p>
+                      </div>
+                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{milestone.date}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </TabsContent>
 
             <TabsContent value="activity" className="m-0 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-24">
               {/* My Suggestions */}
