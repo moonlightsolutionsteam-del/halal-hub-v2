@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -124,15 +125,19 @@ export default function CollaborationsHubPage() {
           </div>
         </div>
         <div className="flex gap-3">
-          <Button
-            variant="outline"
-            className="rounded-2xl px-6 font-black border-2 h-14 bg-white shadow-sm gap-2"
-          >
-            <Target className="h-4 w-4 text-primary" /> Discovery Hub
-          </Button>
-          <Button className="bg-primary hover:bg-primary/90 text-white rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-14 text-white">
-            <Zap className="mr-2 h-4 w-4" /> Find New Deals
-          </Button>
+          <Link href="/vendor/creative/collaborations/discovery">
+            <Button
+              variant="outline"
+              className="rounded-2xl px-6 font-black border-2 h-14 bg-white shadow-sm gap-2"
+            >
+              <Target className="h-4 w-4 text-primary" /> Discovery Hub
+            </Button>
+          </Link>
+          <Link href="/vendor/creative/collaborations/discovery">
+            <Button className="bg-primary hover:bg-primary/90 text-white rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-14 text-white">
+              <Zap className="mr-2 h-4 w-4" /> Find New Deals
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -452,7 +457,7 @@ export default function CollaborationsHubPage() {
                 adding a 'Behind the Scenes' story to your proposals to increase
                 win rate."
               </p>
-              <div className="h-px bg-slate-50" />
+              <div className="h-px bg-slate-100" />
               <Link
                 href="#"
                 className="flex items-center justify-between text-[10px] font-black uppercase text-primary tracking-widest hover:gap-2 transition-all"
