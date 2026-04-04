@@ -17,6 +17,7 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
 } from "@/components/ui/table"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const TRANSACTIONS = [
   { id: "CRT-TXN-101", type: "Brand Deal Payout", desc: "The Bosphorus Kitchen Feature", amount: "+₹15,000", date: "Nov 02, 2024", status: "Completed" },
@@ -96,7 +97,7 @@ export default function CreativeEarningsPage() {
                   </TableHeader>
                   <TableBody>
                     {TRANSACTIONS.map((txn) => (
-                      <TableRow key={txn.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
+                      <TableRow key={txn.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
                         <TableCell className="px-8 py-5">
                           <div className="font-black text-slate-900 text-sm leading-none mb-1">{txn.id}</div>
                           <div className="text-[9px] font-bold text-slate-400 uppercase">{txn.date}</div>

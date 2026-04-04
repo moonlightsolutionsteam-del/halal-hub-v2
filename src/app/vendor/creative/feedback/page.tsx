@@ -7,13 +7,14 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { 
   Star, MessageSquare, Reply, ThumbsUp, 
-  Search, Filter, TrendingUp, CheckCircle2,
-  MoreVertical, MoreHorizontal, ArrowLeft,
-  Zap, Heart, Flag, Share2
+  MoreVertical, Search, Filter, ArrowUpRight,
+  TrendingUp, Activity, CheckCircle2,
+  Zap, Heart, Flag, Share2, ArrowLeft
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const FEEDBACK = [
   { id: 1, user: "Sarah Ahmed", rating: 5, date: "2 hours ago", comment: "The recent vlog on Sabr was exactly what I needed to hear today. JazakAllah for the scholarly insights!", response: "JazakAllah Sarah! So glad it could benefit you.", liked: true },
@@ -165,8 +166,4 @@ export default function CreativeFeedbackPage() {
       </div>
     </div>
   );
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ');
 }

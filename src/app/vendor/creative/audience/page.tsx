@@ -15,6 +15,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const TOP_FANS = [
   { id: 1, name: "Aisha Malik", status: "Super Fan", engagement: 98, img: "av1" },
@@ -156,8 +157,4 @@ export default function CreativeAudiencePage() {
       </div>
     </div>
   );
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ');
 }

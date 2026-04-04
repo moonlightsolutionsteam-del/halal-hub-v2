@@ -14,6 +14,7 @@ import {
 } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 export default function CreativeAnalyticsPage() {
   return (
@@ -125,7 +126,7 @@ export default function CreativeAnalyticsPage() {
               </div>
               <div className="pt-4 border-t border-white/10">
                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Top Performing Format</p>
-                <Badge className="bg-emerald-500 text-white border-none font-black text-[10px] px-4 h-7 flex items-center uppercase tracking-widest">STUDIO REELS</Badge>
+                <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[10px] px-4 h-7 flex items-center uppercase tracking-widest">STUDIO REELS</Badge>
               </div>
             </div>
           </Card>
@@ -155,8 +156,4 @@ export default function CreativeAnalyticsPage() {
       </div>
     </div>
   );
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ');
 }

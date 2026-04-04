@@ -12,6 +12,7 @@ import {
   Smartphone, Share2, MoreVertical
 } from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const ACCOUNTS = [
   { id: 1, name: "YouTube", handle: "Shaykh Hamza", icon: Youtube, status: "Connected", stats: "125k Subs", color: "text-red-600", bg: "bg-red-50" },
@@ -85,8 +86,4 @@ export default function ConnectedAccountsPage() {
       </div>
     </div>
   )
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ');
 }

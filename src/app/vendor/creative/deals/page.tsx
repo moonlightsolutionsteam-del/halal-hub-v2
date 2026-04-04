@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const DEALS = [
   { id: 1, brand: "Pure Glow Beauty", title: "Winter Purity Campaign", budget: "₹25,000", status: "Active", type: "Sponsored Review", deadline: "Dec 12" },
@@ -144,8 +145,4 @@ export default function CreativeDealsPage() {
       </div>
     </div>
   );
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(' ');
 }
