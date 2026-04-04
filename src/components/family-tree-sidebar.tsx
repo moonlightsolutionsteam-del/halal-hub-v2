@@ -6,30 +6,24 @@ import {
   LayoutDashboard,
   Network,
   Users,
-  ShieldCheck,
   FileText,
   History,
   Settings,
-  UserPlus,
   GitBranch,
   ChevronDown,
   ExternalLink,
-  Search,
-  Users2,
-  Lock,
   Globe,
-  Award,
   ClipboardList,
   Calendar,
   Sparkles,
-  Heart,
   Utensils,
   Target,
   Zap,
   Wallet,
   Image as ImageIcon,
   MessageSquare,
-  HeartPulse
+  HeartPulse,
+  Lock
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -64,52 +58,57 @@ const FamilyTreeIcon = (props: any) => (
   </svg>
 );
 
+const HUB_GROUPS = [
+  {
+    title: "Coordination",
+    icon: LayoutDashboard,
+    items: [
+      { title: "Dashboard", icon: LayoutDashboard, url: "/family-tree" },
+      { title: "Family Chat", icon: MessageSquare, url: "/family-tree/chat" },
+      { title: "Family Board", icon: ClipboardList, url: "/family-tree/board" },
+      { title: "Family Expenses", icon: Wallet, url: "/family-tree/expenses" },
+      { title: "Events Planner", icon: Calendar, url: "/family-tree/events" },
+    ]
+  },
+  {
+    title: "Lifestyle & Growth",
+    icon: Zap,
+    items: [
+      { title: "Wellness Hub", icon: HeartPulse, url: "/family-tree/health" },
+      { title: "Goals Tracker", icon: Target, url: "/family-tree/goals" },
+      { title: "Moments Gallery", icon: ImageIcon, url: "/family-tree/gallery" },
+      { title: "Heritage Kitchen", icon: Utensils, url: "/family-tree/kitchen" },
+      { title: "Halal Discovery", icon: Sparkles, url: "/family-tree/discovery" },
+    ]
+  },
+  {
+    title: "Lineage & Preservation",
+    icon: GitBranch,
+    items: [
+      { title: "Lineage Map", icon: Globe, url: "/family-tree/map" },
+      { title: "Ancestry Roots", icon: Network, url: "/family-tree/lineage/roots" },
+      { title: "Member Directory", icon: Users, url: "/family-tree/lineage/members" },
+      { title: "Document Vault", icon: FileText, url: "/family-tree/lineage/documents" },
+      { title: "Heritage Logs", icon: History, url: "/family-tree/lineage/history" },
+    ]
+  },
+  {
+    title: "Settings",
+    icon: Settings,
+    items: [
+      { title: "Hub Configuration", icon: Settings, url: "/family-tree/setup" },
+      { title: "Privacy & Roles", icon: Lock, url: "/family-tree/privacy-roles" },
+    ]
+  }
+];
+
 export function FamilyTreeSidebar() {
   const pathname = usePathname()
+  const [mounted, setMounted] = React.useState(false)
 
-  const hubGroups = [
-    {
-      title: "Coordination",
-      icon: LayoutDashboard,
-      items: [
-        { title: "Dashboard", icon: LayoutDashboard, url: "/family-tree" },
-        { title: "Family Chat", icon: MessageSquare, url: "/family-tree/chat" },
-        { title: "Family Board", icon: ClipboardList, url: "/family-tree/board" },
-        { title: "Family Expenses", icon: Wallet, url: "/family-tree/expenses" },
-        { title: "Events Planner", icon: Calendar, url: "/family-tree/events" },
-      ]
-    },
-    {
-      title: "Lifestyle & Growth",
-      icon: Zap,
-      items: [
-        { title: "Wellness Hub", icon: HeartPulse, url: "/family-tree/health" },
-        { title: "Goals Tracker", icon: Target, url: "/family-tree/goals" },
-        { title: "Moments Gallery", icon: ImageIcon, url: "/family-tree/gallery" },
-        { title: "Heritage Kitchen", icon: Utensils, url: "/family-tree/kitchen" },
-        { title: "Halal Discovery", icon: Sparkles, url: "/family-tree/discovery" },
-      ]
-    },
-    {
-      title: "Lineage & Preservation",
-      icon: GitBranch,
-      items: [
-        { title: "Lineage Map", icon: Globe, url: "/family-tree/map" },
-        { title: "Ancestry Roots", icon: Network, url: "/family-tree/lineage/roots" },
-        { title: "Member Directory", icon: Users, url: "/family-tree/lineage/members" },
-        { title: "Document Vault", icon: FileText, url: "/family-tree/lineage/documents" },
-        { title: "Heritage Logs", icon: History, url: "/family-tree/lineage/history" },
-      ]
-    },
-    {
-      title: "Settings",
-      icon: Settings,
-      items: [
-        { title: "Hub Configuration", icon: Settings, url: "/family-tree/setup" },
-        { title: "Privacy & Roles", icon: Lock, url: "/family-tree/privacy-roles" },
-      ]
-    }
-  ];
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <Sidebar variant="sidebar" className="border-r bg-white">
@@ -123,7 +122,7 @@ export function FamilyTreeSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-3 py-4 bg-white">
-        {hubGroups.map((group) => (
+        {HUB_GROUPS.map((group) => (
           <SidebarGroup key={group.title}>
             <Collapsible defaultOpen className="group/collapsible">
               <SidebarMenuItem>
@@ -140,7 +139,7 @@ export function FamilyTreeSidebar() {
                       <SidebarMenuItem key={sub.title}>
                         <SidebarMenuButton 
                           asChild 
-                          isActive={pathname === sub.url}
+                          isActive={mounted && pathname === sub.url}
                           className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50 transition-all"
                         >
                           <Link href={sub.url}>

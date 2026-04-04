@@ -23,7 +23,7 @@ import { MediaSidebar } from "@/components/media-sidebar";
 import { CreativeSidebar } from "@/components/creative-sidebar";
 import { FamilyTreeSidebar } from "@/components/family-tree-sidebar";
 import { Toaster } from "@/components/ui/toaster";
-import { MessageSquare, Home, Search, Compass, Globe, User, ShieldCheck } from "lucide-react";
+import { MessageSquare, Home, Search, Globe, User, ShieldCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -58,6 +58,9 @@ export default function RootLayout({
   const isFamilyTreePath = pathname?.startsWith('/family-tree');
 
   const getSidebar = () => {
+    // During hydration, return a placeholder or the default sidebar 
+    // to match server-side null pathname logic if necessary.
+    // However, FamilyTreeSidebar is now more stable.
     if (isAdminPath) return <AdminSidebar />;
     if (isButcherPath) return <ButcherSidebar />;
     if (isGroceryPath) return <GrocerySidebar />;
@@ -141,7 +144,7 @@ export default function RootLayout({
                       <ShieldCheck className="h-6 w-6" />
                     </Link>
                     <Link href="/restaurants" className={`p-3 rounded-full transition-all ${mounted && pathname === '/restaurants' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
-                      <Compass className="h-6 w-6" />
+                      <Globe className="h-6 w-6" />
                     </Link>
                     <Link href="/community" className={`p-3 rounded-full transition-all ${mounted && pathname === '/community' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
                       <Globe className="h-6 w-6" />
