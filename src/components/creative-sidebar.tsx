@@ -39,7 +39,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -56,47 +55,36 @@ export function CreativeSidebar() {
       title: "Identity & Studio",
       icon: UserCircle,
       items: [
-        { title: "Profile & Identity", icon: UserCircle, url: "#" },
-        { title: "Connected Accounts", icon: LinkIcon, url: "#" },
+        { title: "Profile & Identity", icon: UserCircle, url: "/vendor/creative/profile" },
+        { title: "Connected Accounts", icon: LinkIcon, url: "/vendor/creative/accounts" },
       ]
     },
     {
       title: "Content Manager",
       icon: LayoutGrid,
       items: [
-        { title: "Upload New", icon: Upload, url: "#" },
-        { title: "Published", icon: CheckCircle, url: "#" },
-        { title: "Drafts", icon: FileText, url: "#" },
-        { title: "Blog", icon: BookOpen, url: "#" },
+        { title: "Upload New", icon: Upload, url: "/vendor/creative/content/upload" },
+        { title: "Published", icon: CheckCircle, url: "/vendor/creative/content/published" },
+        { title: "Drafts", icon: FileText, url: "/vendor/creative/content/drafts" },
+        { title: "Blog", icon: BookOpen, url: "/vendor/creative/content/blog" },
       ]
     },
     {
       title: "Collaboration & Earnings",
       icon: Wallet,
       items: [
-        { title: "Collaborations Hub", icon: Users2, url: "#" },
-        { title: "Earnings & Payouts", icon: Banknote, url: "#" },
-        { title: "Brand Deals & Ads", icon: Tag, url: "#" },
+        { title: "Collaborations Hub", icon: Users2, url: "/vendor/creative/collaborations" },
+        { title: "Earnings & Payouts", icon: Banknote, url: "/vendor/creative/earnings" },
+        { title: "Brand Deals & Ads", icon: Tag, url: "/vendor/creative/deals" },
       ]
     },
     {
       title: "Growth & Insights",
       icon: TrendingUp,
       items: [
-        { title: "Subscriber Base", icon: Users, url: "#" },
-        { title: "Analytics & Growth", icon: TrendingUp, url: "#" },
-        { title: "Reviews & Feedback", icon: Star, url: "#" },
-        { title: "Comments & Chat", icon: MessageSquare, url: "#" },
-      ]
-    },
-    {
-      title: "Production Tools",
-      icon: Video,
-      items: [
-        { title: "Production Pipeline", icon: Video, url: "#" },
-        { title: "Podcasts & Audio", icon: Mic, url: "#" },
-        { title: "Media Gallery", icon: ImageIcon, url: "#" },
-        { title: "Content Library", icon: Library, url: "#" },
+        { title: "Subscriber Base", icon: Users, url: "/vendor/creative/audience" },
+        { title: "Analytics & Growth", icon: TrendingUp, url: "/vendor/creative/analytics" },
+        { title: "Reviews & Feedback", icon: Star, url: "/vendor/creative/feedback" },
       ]
     }
   ];
@@ -113,7 +101,7 @@ export function CreativeSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-3 py-4 bg-white">
-        <SidebarMenu className="mb-4">
+        <SidebarMenu className="mb-4 px-1">
           <SidebarMenuItem>
             <SidebarMenuButton 
               asChild 
@@ -157,27 +145,6 @@ export function CreativeSidebar() {
             </Collapsible>
           </SidebarGroup>
         ))}
-
-        <SidebarGroup className="mt-4">
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
-                <Link href="#">
-                  <Settings className="h-4 w-4 mr-3" />
-                  <span>Studio Settings</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50">
-                <Link href="#">
-                  <Headset className="h-4 w-4 mr-3" />
-                  <span>Help & Support</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="p-6 border-t bg-slate-50/50">
