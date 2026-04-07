@@ -46,7 +46,7 @@ export function UserSidebar() {
   const { setOpenMobile } = useSidebar()
 
   const mainItems = [
-    { title: "Website", icon: Globe, url: "/" },
+    { title: "Website", icon: Globe, url: "/welcome" },
     { title: "User profile", icon: UserCircle, url: "/account/dashboard" },
     { title: "Super Admin", icon: Shield, url: "/admin/dashboard", iconColor: "text-red-500" },
   ];
