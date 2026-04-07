@@ -18,7 +18,8 @@ import {
   Sun,
   LogOut,
   X,
-  MessageSquare
+  MessageSquare,
+  Globe
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -43,6 +44,7 @@ export function UserSidebar() {
   const { setOpenMobile } = useSidebar()
 
   const mainItems = [
+    { title: "Website", icon: Globe, url: "/" },
     { title: "User profile", icon: UserCircle, url: "/account/dashboard" },
     { title: "Super Admin", icon: Shield, url: "/admin/dashboard", iconColor: "text-red-500" },
   ];
