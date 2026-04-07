@@ -19,7 +19,9 @@ import {
   LogOut,
   X,
   MessageSquare,
-  Globe
+  Globe,
+  PlusCircle,
+  BookOpen
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -55,14 +57,13 @@ export function UserSidebar() {
   ];
 
   const generalItems = [
-    { title: "Suggest a Place", icon: MapPin, url: "#" },
-    { title: "My Suggestions", icon: List, url: "#" },
-    { title: "Terms & Privacy", icon: FileText, url: "#" },
-    { title: "Contact Us", icon: Mail, url: "#" },
-    { title: "Rate Us", icon: Star, url: "#" },
-    { title: "Share App", icon: Share2, url: "#" },
+    { title: "Suggest a Place", icon: PlusCircle, url: "/suggest" },
+    { title: "My Suggestions", icon: List, url: "/account/suggestions" },
+    { title: "Journal & Blog", icon: BookOpen, url: "/blog" },
+    { title: "Terms & Privacy", icon: FileText, url: "/terms" },
+    { title: "Contact Us", icon: Mail, url: "/contact" },
+    { title: "Help Center", icon: HelpCircle, url: "/help" },
     { title: "Settings", icon: Settings, url: "/account/settings" },
-    { title: "Help", icon: HelpCircle, url: "#" },
   ];
 
   return (
