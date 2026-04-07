@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -13,7 +12,8 @@ import {
   UtensilsCrossed, ShoppingCart, Plane,
   Shirt, CircleDollarSign, Stethoscope,
   GraduationCap, BookOpen, UserCheck,
-  Store, PenTool, Network, Landmark
+  Store, PenTool, Network, Landmark,
+  Map as MapIcon
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
