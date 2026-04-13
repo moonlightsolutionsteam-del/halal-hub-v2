@@ -1,4 +1,3 @@
-
 "use client"
 
 import { 
@@ -14,7 +13,8 @@ import {
   GraduationCap, 
   BookOpen,
   ChevronRight,
-  PenTool
+  PenTool,
+  Award
 } from "lucide-react";
 import Link from "next/link";
 
@@ -48,6 +48,7 @@ const CATEGORIES = [
   { id: 'healthcare', title: 'Healthcare & Wellness', desc: 'Clinics, pharmacies, hijama centers, and more.', icon: Stethoscope, directUrl: '/vendor/healthcare/dashboard' },
   { id: 'education', title: 'Education & Training', desc: 'Madrasas, schools, and Islamic training centres.', icon: GraduationCap, directUrl: '/vendor/education/dashboard' },
   { id: 'media', title: 'Bookstores & Islamic Media', desc: 'Literature and digital media.', icon: BookOpen, directUrl: '/vendor/media/dashboard' },
+  { id: 'certifier', title: 'Certification Body', desc: 'Halal audit and certification services.', icon: Award, directUrl: '/admin/certification-body' },
 ];
 
 export default function BusinessCategoryPage() {

@@ -19,14 +19,6 @@ import {
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger,
-  DialogDescription
-} from "@/components/ui/dialog"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -243,103 +235,15 @@ export default function UserDashboard() {
             </Dialog>
           </div>
 
-          {/* Family Moments Layer */}
-          <div className="mt-16 space-y-6">
-            <div className="flex items-center justify-between px-2">
-              <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary shadow-inner">
-                  <Sparkles className="h-4 w-4" />
-                </div>
-                <h3 className="font-black text-sm uppercase tracking-widest text-slate-900">Family Moments</h3>
-              </div>
-              <Link href="/family-tree">
-                <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase text-slate-400 hover:text-primary tracking-tighter">View Hub <ChevronRight className="h-3 w-3 ml-1" /></Button>
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { label: "Dinner planned tonight 🍽️", sub: "7:30 PM @ The Halal Grill", color: "bg-orange-50 text-orange-700", border: "border-orange-100", icon: Utensils, url: "/family-tree/events" },
-                { label: "3 tasks pending", sub: "Assigned to Ibrahim & Fatima", color: "bg-blue-50 text-blue-700", border: "border-blue-100", icon: ClipboardList, url: "/family-tree/board" },
-                { label: "Weekend outing coming up", sub: "Islamic Expo on Saturday", color: "bg-purple-50 text-purple-700", border: "border-purple-100", icon: Calendar, url: "/family-tree/events" },
-                { label: "New place saved nearby", sub: "Sunnah Organic Mart", color: "bg-emerald-50 text-emerald-700", border: "border-emerald-100", icon: MapPin, url: "/family-tree/discovery" },
-              ].map((moment, i) => (
-                <Link key={i} href={moment.url}>
-                  <Card className={cn("rounded-[2rem] border-2 shadow-none p-6 transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer group h-full", moment.color, moment.border)}>
-                    <div className="flex flex-col gap-4">
-                      <div className="h-12 w-12 rounded-2xl bg-white/50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-inner">
-                        <moment.icon className="h-6 w-6" />
-                      </div>
-                      <div className="space-y-1">
-                        <p className="font-black text-[15px] leading-tight tracking-tight">{moment.label}</p>
-                        <p className="text-[10px] font-bold opacity-70 uppercase tracking-widest">{moment.sub}</p>
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Tools Grid */}
-          <section className="mt-16 space-y-6">
-            <h3 className="font-black text-sm uppercase tracking-widest text-slate-900 px-2">Utility Toolkit</h3>
-            <div className="grid grid-cols-4 md:grid-cols-8 gap-6">
-              {[
-                { label: "Level", icon: Flame, color: "text-orange-500", bg: "bg-orange-50", badge: "Claim" },
-                { label: "Wallet", icon: Wallet, color: "text-blue-500", bg: "bg-blue-50" },
-                { label: "Store", icon: ShoppingBag, color: "text-emerald-600", bg: "bg-emerald-50" },
-                { label: "Backpack", icon: Package, color: "text-teal-600", bg: "bg-teal-50", badge: "New" },
-                { label: "Analytics", icon: TrendingUp, color: "text-indigo-500", bg: "bg-indigo-50" },
-                { label: "Badges", icon: Award, color: "text-purple-500", bg: "bg-purple-50" },
-                { label: "Network", icon: Globe, color: "text-sky-500", bg: "bg-sky-50" },
-                { label: "Vitals", icon: ActivityIcon, color: "text-rose-500", bg: "bg-rose-50" },
-              ].map((tool, i) => (
-                <div key={i} className="flex flex-col items-center gap-3 group cursor-pointer">
-                  <div className="relative">
-                    <div className={cn("h-16 w-16 rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-all duration-500 shadow-sm border border-white group-hover:shadow-lg", tool.bg, tool.color)}>
-                      <tool.icon className="h-7 w-7" />
-                    </div>
-                    {tool.badge && (
-                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] font-black px-2 py-0.5 rounded-lg uppercase shadow-xl ring-2 ring-white">
-                        {tool.badge}
-                      </span>
-                    )}
-                  </div>
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-hover:text-primary transition-colors">{tool.label}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Membership Bar */}
-          <div className="mt-16 bg-slate-900 rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center justify-between text-white shadow-2xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:scale-110 transition-transform duration-[10s]">
-              <Trophy className="h-64 w-64 text-primary" />
-            </div>
-            <div className="flex items-center gap-8 relative z-10 text-center md:text-left flex-col md:flex-row">
-              <div className="h-20 w-20 bg-primary/20 backdrop-blur-xl rounded-[1.5rem] flex items-center justify-center border border-white/10 shadow-2xl">
-                <Star className="h-10 w-10 text-primary fill-current" />
-              </div>
-              <div className="space-y-2">
-                <p className="text-xs font-black uppercase tracking-[0.3em] text-primary">Premium Tier</p>
-                <h3 className="text-3xl font-black tracking-tight leading-none">The Hub Membership</h3>
-                <p className="text-sm font-medium text-slate-400 italic">Unlock ad-free experience, exclusive widgets, and priority trust audits.</p>
-              </div>
-            </div>
-            <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 font-black h-16 px-12 rounded-2xl text-xs uppercase tracking-widest mt-8 md:mt-0 shadow-2xl relative z-10 transition-all active:scale-95">
-              Upgrade Hub <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Content Tabs */}
-          <Tabs defaultValue="journey" className="w-full mt-20">
+          {/* Unified My Activity Hub */}
+          <Tabs defaultValue="activity" className="w-full mt-20">
             <TabsList className="bg-transparent h-14 w-full p-0 gap-12 justify-start border-b-2 rounded-none mb-12 overflow-x-auto no-scrollbar">
-              <TabsTrigger value="journey" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">Your Journey</TabsTrigger>
-              <TabsTrigger value="activity" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">Marketplace Activity</TabsTrigger>
+              <TabsTrigger value="activity" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">My Activity Hub</TabsTrigger>
               <TabsTrigger value="content" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">My Content</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="journey" className="m-0 space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
+            <TabsContent value="activity" className="m-0 space-y-12 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
+              {/* Stats Overview */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
                   <CardHeader className="p-0 pb-4">
@@ -377,34 +281,7 @@ export default function UserDashboard() {
                 </Card>
               </div>
 
-              <section className="space-y-8 pt-4">
-                <div className="flex items-center justify-between px-2">
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">Recent Achievements</h3>
-                  <Button variant="ghost" className="text-[10px] font-black uppercase text-slate-400 tracking-widest">See All archive</Button>
-                </div>
-                <div className="space-y-4">
-                  {[
-                    { title: "Century Scans", desc: "100 successful product verifications in the AI Verifier.", date: "Oct 24", icon: Zap, color: "text-amber-500", bg: "bg-amber-50" },
-                    { title: "Legacy Keeper", desc: "Successfully linked 5 generations in the Al-Sayed Family Tree.", date: "Oct 12", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
-                    { title: "Hajj Spirit", desc: "Uploaded 10+ historical pilgrimage documents to the Archive.", date: "Sep 28", icon: Heart, color: "text-rose-500", bg: "bg-rose-50" },
-                  ].map((milestone, i) => (
-                    <div key={i} className="flex items-center gap-8 p-8 bg-white rounded-[2.5rem] border border-transparent hover:border-slate-100 transition-all shadow-sm group">
-                      <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", milestone.bg, milestone.color)}>
-                        <milestone.icon className="h-6 w-6" />
-                      </div>
-                      <div className="flex-1 space-y-1">
-                        <h4 className="text-xl font-black text-slate-900 leading-tight">{milestone.title}</h4>
-                        <p className="text-sm font-medium text-slate-500 italic">{milestone.desc}</p>
-                      </div>
-                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{milestone.date}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </TabsContent>
-
-            <TabsContent value="activity" className="m-0 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-24">
-              {/* My Suggestions */}
+              {/* Recent Contributions */}
               <section className="space-y-6">
                 <div className="flex items-center justify-between px-2">
                   <h3 className="text-2xl font-black text-slate-900 tracking-tight">Recent Contributions</h3>
@@ -458,9 +335,35 @@ export default function UserDashboard() {
                 </div>
               </section>
 
+              {/* Achievements Timeline */}
+              <section className="space-y-8 pt-4">
+                <div className="flex items-center justify-between px-2">
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">Recent Achievements</h3>
+                  <Button variant="ghost" className="text-[10px] font-black uppercase text-slate-400 tracking-widest">See All archive</Button>
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { title: "Century Scans", desc: "100 successful product verifications in the AI Verifier.", date: "Oct 24", icon: Zap, color: "text-amber-500", bg: "bg-amber-50" },
+                    { title: "Legacy Keeper", desc: "Successfully linked 5 generations in the Al-Sayed Family Tree.", date: "Oct 12", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
+                    { title: "Hajj Spirit", desc: "Uploaded 10+ historical pilgrimage documents to the Archive.", date: "Sep 28", icon: Heart, color: "text-rose-500", bg: "bg-rose-50" },
+                  ].map((milestone, i) => (
+                    <div key={i} className="flex items-center gap-8 p-8 bg-white rounded-[2.5rem] border border-transparent hover:border-slate-100 transition-all shadow-sm group">
+                      <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", milestone.bg, milestone.color)}>
+                        <milestone.icon className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <h4 className="text-xl font-black text-slate-900 leading-tight">{milestone.title}</h4>
+                        <p className="text-sm font-medium text-slate-500 italic">{milestone.desc}</p>
+                      </div>
+                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{milestone.date}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
               {/* My Reviews Summary */}
               <section className="space-y-6">
-                <h3 className="text-2xl font-black text-slate-900 px-2 tracking-tight">Engagement Integrity</h3>
+                <h3 className="text-2xl font-black text-slate-900 px-2 tracking-tight">Community Feedback</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[
                     { business: "Karim's Restaurant", rating: 5, date: "2 days ago", text: "Authentic Mughlai taste! The kebabs were succulent and the biryani was flavorful. A must-visit for families." },

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -58,7 +57,7 @@ const PARTNER_TYPES = [
     highlight: "For Halal Certification Bodies",
     description: "Manage your certification services, client businesses, and compliance reporting.",
     icon: Award,
-    url: "/admin/verification"
+    url: "/admin/certification-body"
   }
 ];
 
