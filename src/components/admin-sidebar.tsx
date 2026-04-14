@@ -36,7 +36,6 @@ import {
   Wrench,
   LayoutGrid,
   Ticket,
-  Users as AttendeesIcon,
   Megaphone,
   List,
   BarChart3,
@@ -79,7 +78,9 @@ import {
   Sliders,
   FolderOpen,
   Award,
-  MessageSquare
+  MessageSquare,
+  ShieldAlert,
+  Scale
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -116,6 +117,11 @@ const MeatIcon = (props: any) => (
 
 export function AdminSidebar() {
   const pathname = usePathname()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const platformGroups = [
     {
@@ -150,6 +156,21 @@ export function AdminSidebar() {
       ]
     }
   ];
+
+  const eventManagementGroup = {
+    title: "Events Management",
+    icon: Calendar,
+    items: [
+      { title: "Events Dashboard", icon: LayoutGrid, url: "/admin/events" },
+      { title: "Venue Registry", icon: Building, url: "/admin/events" },
+      { title: "Ticketing Ops", icon: Ticket, url: "/admin/events" },
+      { title: "Moderation", icon: ShieldAlert, url: "/admin/events" },
+      { title: "Lead Pipeline", icon: MessageSquare, url: "/admin/events" },
+      { title: "Attendee Hub", icon: Users, url: "/admin/events" },
+      { title: "Governance", icon: Scale, url: "/admin/events" },
+      { title: "Event Reports", icon: BarChart3, url: "/admin/events" },
+    ]
+  };
 
   const businessSubItems = [
     { title: "Restaurants", icon: UtensilsCrossed, url: "/admin/restaurants" },
@@ -295,7 +316,7 @@ export function AdminSidebar() {
       <SidebarContent className="px-3 py-4 bg-white">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/admin/dashboard"} className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900">
+            <SidebarMenuButton asChild isActive={mounted && pathname === "/admin/dashboard"} className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-slate-100 data-[active=true]:text-slate-900">
               <Link href="/admin/dashboard">
                 <LayoutDashboard className="h-4 w-4 mr-3" />
                 <span>Dashboard</span>
@@ -321,7 +342,7 @@ export function AdminSidebar() {
                     <SidebarMenu className="ml-4 mt-1 border-l border-slate-100">
                       {group.items.map((sub) => (
                         <SidebarMenuItem key={sub.title}>
-                          <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-primary hover:bg-emerald-50/50">
+                          <SidebarMenuButton asChild isActive={mounted && pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-primary hover:bg-emerald-50/50">
                             <Link href={sub.url}>
                               <sub.icon className="h-4 w-4 mr-3 opacity-60" />
                               <span className="text-[13px]">{sub.title}</span>
@@ -353,7 +374,39 @@ export function AdminSidebar() {
                   <SidebarMenu className="ml-4 mt-1 border-l border-emerald-100">
                     {businessSubItems.map((sub) => (
                       <SidebarMenuItem key={sub.title}>
-                        <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/50">
+                        <SidebarMenuButton asChild isActive={mounted && pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50/50">
+                          <Link href={sub.url}>
+                            <sub.icon className="h-4 w-4 mr-3 opacity-70" />
+                            <span className="text-[13px]">{sub.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        {/* New Events Management Group */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-slate-400 tracking-widest mt-4 mb-2">Events & Conferences</SidebarGroupLabel>
+          <SidebarMenu className="px-1 space-y-1">
+            <Collapsible className="group/collapsible-events">
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton className="h-10 font-bold text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100">
+                    <Calendar className="h-4 w-4 mr-3" />
+                    <span>Events Management</span>
+                    <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible-events:rotate-180" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenu className="ml-4 mt-1 border-l border-purple-100">
+                    {eventManagementGroup.items.map((sub) => (
+                      <SidebarMenuItem key={sub.title}>
+                        <SidebarMenuButton asChild isActive={mounted && pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-purple-600 hover:bg-purple-50/50">
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-70" />
                             <span className="text-[13px]">{sub.title}</span>
