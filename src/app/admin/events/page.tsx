@@ -17,7 +17,7 @@ import {
   TrendingUp, Scale, Settings, ExternalLink, Gift,
   Sparkles, Ticket, LayoutGrid, Smartphone, 
   ClipboardList, History, Zap, Shield,
-  Wifi, Server, Cpu, Terminal
+  Wifi, Server, Cpu, Terminal, Building
 } from "lucide-react"
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
