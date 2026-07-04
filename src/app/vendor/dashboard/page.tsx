@@ -42,38 +42,38 @@ export default function VendorDashboard() {
   ];
 
   return (
-    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen">
-      <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Restaurant Dashboard</h1>
-        <p className="text-muted-foreground font-medium opacity-60 text-sm">Here's what's happening at your restaurant today.</p>
+    <div className="p-3 sm:p-8 space-y-4 sm:space-y-8 bg-background min-h-screen">
+      <div className="space-y-0.5">
+        <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground">Restaurant Dashboard</h1>
+        <p className="text-muted-foreground font-medium opacity-60 text-xs sm:text-sm">Here's what's happening at your restaurant today.</p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6">
         {kpis.map((kpi, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-3xl bg-card p-2">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <span className="text-sm font-bold text-muted-foreground">{kpi.label}</span>
-              <kpi.icon className="h-5 w-5 text-muted-foreground" />
+          <Card key={i} className="border-none shadow-sm rounded-2xl sm:rounded-3xl bg-card">
+            <CardHeader className="flex flex-row items-center justify-between p-3 pb-1 sm:p-5 sm:pb-2">
+              <span className="text-[10px] sm:text-sm font-bold text-muted-foreground leading-tight">{kpi.label}</span>
+              <kpi.icon className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground shrink-0 ml-1" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-black text-foreground">{kpi.value}</div>
-              <p className="text-[10px] font-bold text-emerald-600 mt-1 uppercase tracking-tight">{kpi.trend}</p>
+            <CardContent className="px-3 pb-3 pt-0 sm:px-5 sm:pb-4">
+              <div className="text-lg sm:text-2xl font-black text-foreground">{kpi.value}</div>
+              <p className="text-[9px] sm:text-[10px] font-bold text-emerald-600 mt-0.5 uppercase tracking-tight">{kpi.trend}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
-        <div className="lg:col-span-8 space-y-5 sm:space-y-8">
-          <section className="space-y-3 sm:space-y-4">
-            <h2 className="text-lg font-black text-foreground px-1">Quick Actions</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
+        <div className="lg:col-span-8 space-y-4 sm:space-y-8">
+          <section className="space-y-2 sm:space-y-4">
+            <h2 className="text-sm sm:text-lg font-black text-foreground px-1">Quick Actions</h2>
+            <div className="grid grid-cols-4 gap-2 sm:gap-4">
               {quickActions.map((action, i) => (
-                <button key={i} className="group flex flex-col items-center justify-center p-4 sm:p-6 bg-card rounded-[1.5rem] sm:rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
-                  <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-2 sm:mb-3 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
-                    <action.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                <button key={i} className="group flex flex-col items-center justify-center p-2 sm:p-6 bg-card rounded-xl sm:rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
+                  <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl flex items-center justify-center mb-1 sm:mb-3 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
+                    <action.icon className="h-4 w-4 sm:h-6 sm:w-6" />
                   </div>
-                  <span className="text-xs font-black text-foreground">{action.label}</span>
+                  <span className="text-[9px] sm:text-xs font-black text-foreground text-center leading-tight">{action.label}</span>
                 </button>
               ))}
             </div>
