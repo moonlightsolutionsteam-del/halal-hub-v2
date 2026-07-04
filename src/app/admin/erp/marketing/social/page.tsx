@@ -138,7 +138,7 @@ export default function SocialMediaPage() {
             </CardContent>
         </Card>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 sm:gap-6 grid-cols-2">
             <Card>
                 <CardHeader>
                     <div className="flex justify-between items-center">

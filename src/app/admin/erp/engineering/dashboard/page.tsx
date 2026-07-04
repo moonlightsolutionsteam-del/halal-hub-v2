@@ -153,7 +153,7 @@ export default function EngineeringDashboardPage() {
         </Card>
       </div>
 
-       <div className="grid gap-6 md:grid-cols-2">
+       <div className="grid gap-4 sm:gap-6 grid-cols-2">
             {/* Section C: Release Pipeline */}
             <Card>
                 <CardHeader>
@@ -221,7 +221,7 @@ export default function EngineeringDashboardPage() {
             </Card>
         </div>
         
-         <div className="grid gap-6 md:grid-cols-2">
+         <div className="grid gap-4 sm:gap-6 grid-cols-2">
             {/* Section E: Vendor Performance */}
             <Card>
                 <CardHeader>

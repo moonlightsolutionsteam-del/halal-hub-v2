@@ -97,7 +97,7 @@ export default function InfrastructurePage() {
         ))}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 sm:gap-6 grid-cols-2">
         <Card>
             <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Server className="text-primary"/> Backend Services</CardTitle>
