@@ -3,5 +3,5 @@
 import { redirect } from 'next/navigation'
 
 export default function HrDashboardRedirect() {
-    redirect('/admin/erp/hr/dashboard')
+    redirect('/SKIP_ADMIN_ERP/hr/dashboard')
 }

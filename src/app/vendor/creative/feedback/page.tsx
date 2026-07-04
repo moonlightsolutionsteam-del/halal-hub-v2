@@ -24,7 +24,7 @@ const FEEDBACK = [
 
 export default function CreativeFeedbackPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
@@ -35,7 +35,7 @@ export default function CreativeFeedbackPage() {
               <Star className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline tracking-tight text-foreground">Reviews & Feedback</h1>
+              <h1 className="text-2xl sm:text-4xl font-black font-headline tracking-tight text-foreground">Reviews & Feedback</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Engage with your audience and manage your content's reputation.</p>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function CreativeFeedbackPage() {
           <div className="grid grid-cols-1 gap-6">
             {FEEDBACK.map((rev) => (
               <Card key={rev.id} className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-amber-100 transition-all group">
-                <div className="p-10 space-y-8">
+                <div className="p-5 sm:p-10 space-y-8">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-6">
                       <Avatar className="h-16 w-16 border-4 border-border shadow-md group-hover:scale-105 transition-transform">

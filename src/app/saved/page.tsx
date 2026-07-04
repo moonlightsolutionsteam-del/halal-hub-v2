@@ -14,13 +14,13 @@ export default function SavedPage() {
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Saved Places</h1>
+        <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Saved Places</h1>
         <p className="text-sm font-bold text-muted-foreground">Businesses and places you&apos;ve bookmarked.</p>
       </div>
 
       {saved.length === 0 ? (
         <Card className="rounded-[2rem] border-none shadow-soft">
-          <CardContent className="p-12 text-center space-y-4">
+          <CardContent className="p-6 sm:p-12 text-center space-y-4">
             <Bookmark className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
             <div className="space-y-1">
               <p className="text-lg font-black text-foreground">Nothing saved yet</p>

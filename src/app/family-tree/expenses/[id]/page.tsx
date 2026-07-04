@@ -46,7 +46,7 @@ export default function ExpenseDetailPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-4xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-4xl pb-24 text-foreground">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Button 
@@ -72,7 +72,7 @@ export default function ExpenseDetailPage() {
         {/* Main Info */}
         <div className="lg:col-span-8 space-y-8">
           <Card className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden">
-            <div className="p-10 space-y-10">
+            <div className="p-5 sm:p-10 space-y-10">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
                 <div className="space-y-4">
                   <Badge variant="secondary" className="bg-blue-50 text-blue-600 border-none font-black text-[10px] uppercase px-4 h-8 flex items-center gap-2 w-fit">

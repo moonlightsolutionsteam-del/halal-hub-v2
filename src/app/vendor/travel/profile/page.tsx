@@ -22,7 +22,7 @@ export default function TravelProfilePage() {
   const [activeTab, setActiveTab] = useState("details");
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-7xl pb-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
           <h1 className="text-2xl sm:text-3xl font-black font-headline tracking-tight text-foreground">Travel Agency Profile</h1>

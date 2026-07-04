@@ -43,7 +43,7 @@ export default function BlogFeedPage() {
           <Badge variant="outline" className="px-4 py-1.5 rounded-full border-primary/20 text-primary font-black uppercase text-[10px] tracking-[0.2em] bg-primary/5">
             Voice of Ummah
           </Badge>
-          <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter">Community Journal</h1>
+          <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tighter">Community Journal</h1>
           <p className="text-xl text-muted-foreground font-medium italic max-w-xl">Stories, research, and insights from the heart of the global hub.</p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
@@ -99,7 +99,7 @@ export default function BlogFeedPage() {
       {/* Grid Feed */}
       <section className="space-y-10">
         <div className="flex items-center justify-between px-4">
-          <h3 className="text-3xl font-black tracking-tighter">Latest Stories</h3>
+          <h3 className="text-xl sm:text-3xl font-black tracking-tighter">Latest Stories</h3>
           <div className="flex gap-3">
             {["Trending", "Health", "Lifestyle", "Finance", "Travel"].map(f => (
               <Badge key={f} variant="outline" className="px-5 py-2 rounded-full cursor-pointer hover:bg-muted transition-all border-border text-muted-foreground font-black text-[10px] uppercase tracking-widest">{f}</Badge>
@@ -138,7 +138,7 @@ export default function BlogFeedPage() {
         <div className="max-w-2xl mx-auto space-y-6 relative z-10">
           <Sparkles className="h-16 w-16 text-primary mx-auto animate-pulse" />
           <div className="space-y-4">
-            <h2 className="text-5xl font-black font-headline tracking-tight">Become a Hub Writer</h2>
+            <h2 className="text-3xl sm:text-5xl font-black font-headline tracking-tight">Become a Hub Writer</h2>
             <p className="text-muted-foreground font-medium text-xl leading-relaxed italic">
               "Share your stories, recipes, or scholarly research with a global audience of over 1.2 million users."
             </p>

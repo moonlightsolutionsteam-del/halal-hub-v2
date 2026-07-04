@@ -28,7 +28,7 @@ export default function ProfessionalEducationPage() {
   const [editEdu, setEditEdu] = useState<typeof EDUCATION[0] | null>(null)
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-3xl pb-24">
       {/* Header */}
       <div className="space-y-1">
         <div className="flex items-center gap-2 text-violet-600 font-black uppercase tracking-widest text-[10px]">

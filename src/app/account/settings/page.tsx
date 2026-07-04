@@ -17,9 +17,9 @@ import { Badge } from "@/components/ui/badge";
 
 export default function UserSettingsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-4xl">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-4xl">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-primary">Account Settings</h1>
+        <h1 className="text-xl sm:text-3xl font-black font-headline text-primary">Account Settings</h1>
         <p className="text-muted-foreground font-medium">Manage your personal profile, security, and preferences.</p>
       </div>
 

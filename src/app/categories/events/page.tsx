@@ -86,7 +86,7 @@ export default function EventServicesListingPage() {
                 <Sparkles className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Event Services</h1>
+                <h1 className="text-2xl sm:text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Event Services</h1>
                 <p className="text-muted-foreground font-medium text-xs sm:text-xl">Design your perfect halal occasion with verified venues and planners.</p>
               </div>
             </div>

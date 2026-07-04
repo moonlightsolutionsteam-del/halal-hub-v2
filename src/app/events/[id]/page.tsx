@@ -219,10 +219,10 @@ export default function EventDetailPage() {
           {/* Right Column: Booking Widget */}
           <div className="lg:col-span-4 space-y-10">
             <Card className="rounded-[3rem] border-none shadow-2xl overflow-hidden bg-card sticky top-28 border border-border">
-              <CardHeader className="p-10 pb-6 bg-muted/50">
+              <CardHeader className="p-5 sm:p-10 pb-6 bg-muted/50">
                 <div className="flex justify-between items-start">
                   <div className="space-y-1">
-                    <CardTitle className="text-3xl font-black tracking-tighter">Event Booking</CardTitle>
+                    <CardTitle className="text-xl sm:text-3xl font-black tracking-tighter">Event Booking</CardTitle>
                     <p className="text-[10px] font-black uppercase text-primary tracking-[0.2em]">Limited Slots Available</p>
                   </div>
                   <div className="h-12 w-12 rounded-2xl bg-card flex items-center justify-center shadow-sm">
@@ -230,7 +230,7 @@ export default function EventDetailPage() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-10 space-y-8">
+              <CardContent className="p-5 sm:p-10 space-y-8">
                 <div className="space-y-6">
                   <div className="flex items-center justify-between p-6 bg-muted rounded-[2rem] border-2 border-transparent hover:border-primary/10 transition-all">
                     <div className="space-y-1">

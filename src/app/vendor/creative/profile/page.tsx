@@ -63,7 +63,7 @@ export default function CreativeProfilePage() {
                 <ImageIcon className="h-4 w-4 mr-2" /> Change Cover
               </Button>
             </div>
-            <CardContent className="p-10 pt-0">
+            <CardContent className="p-5 sm:p-10 pt-0">
               <div className="flex flex-col sm:flex-row gap-8 items-end -mt-14 mb-10">
                 <div className="relative shrink-0">
                   <Avatar className="h-28 w-28 border-8 border-card shadow-2xl">

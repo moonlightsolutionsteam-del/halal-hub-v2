@@ -76,7 +76,7 @@ export default function SuperAdminEventManagement() {
           <div className="flex items-center gap-2 text-purple-600 font-black uppercase tracking-widest text-[10px]">
             <Zap className="h-3 w-3 fill-current" /> Tactical Oversight
           </div>
-          <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter">EVENTS & CONFERENCES</h1>
+          <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tighter">EVENTS & CONFERENCES</h1>
           <p className="text-muted-foreground font-medium text-sm sm:text-lg italic">Platform oversight for halls, ticketing, and Shariah-compliant hosting.</p>
         </div>
         <div className="flex gap-3">

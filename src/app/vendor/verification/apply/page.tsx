@@ -57,7 +57,7 @@ function CertificationApplyPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-4xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-4xl pb-24">
       <div className="flex items-center gap-6">
         <Button variant="ghost" size="icon" className="rounded-2xl bg-card shadow-sm" onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
@@ -137,7 +137,7 @@ function CertificationApplyPage() {
                 </div>
                 <div className="md:col-span-2 space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Current Trade License / Shop Act Proof</Label>
-                  <div className="p-10 border-2 border-dashed border-border rounded-[2rem] flex flex-col items-center justify-center gap-4 bg-muted/50 hover:bg-card transition-all cursor-pointer group">
+                  <div className="p-5 sm:p-10 border-2 border-dashed border-border rounded-[2rem] flex flex-col items-center justify-center gap-4 bg-muted/50 hover:bg-card transition-all cursor-pointer group">
                     <div className="h-12 w-12 bg-card rounded-2xl flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
                       <Upload className="h-6 w-6" />
                     </div>
@@ -156,7 +156,7 @@ function CertificationApplyPage() {
               <p className="text-muted-foreground font-medium">Review your application and complete the facilitation fee payment.</p>
             </div>
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
-              <div className="p-10 space-y-8">
+              <div className="p-5 sm:p-10 space-y-8">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-sm font-bold">
                     <span className="text-muted-foreground">Audit Fee ({PARTNERS.find(p => p.id === selectedPartner)?.name})</span>

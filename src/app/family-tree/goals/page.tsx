@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 
 export default function FamilyGoalsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-5xl pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
@@ -25,7 +25,7 @@ export default function FamilyGoalsPage() {
             <div className="h-12 w-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600 shadow-inner">
               <Target className="h-6 w-6" />
             </div>
-            <h1 className="text-3xl font-black font-headline text-foreground">Goals & Wellness</h1>
+            <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground">Goals & Wellness</h1>
           </div>
           <p className="text-muted-foreground font-medium">Coordinate family charity targets and physical wellness milestones.</p>
         </div>
@@ -39,7 +39,7 @@ export default function FamilyGoalsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Charity/Sadaqah Tracker */}
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden flex flex-col group">
-          <div className="p-10 space-y-8 flex-1">
+          <div className="p-5 sm:p-10 space-y-8 flex-1">
             <div className="flex justify-between items-start">
               <div className="h-16 w-16 rounded-[1.5rem] bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-110 transition-transform">
                 <HandHeart className="h-8 w-8" />
@@ -68,7 +68,7 @@ export default function FamilyGoalsPage() {
 
         {/* Wellness Challenge */}
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden flex flex-col group">
-          <div className="p-10 space-y-8 flex-1">
+          <div className="p-5 sm:p-10 space-y-8 flex-1">
             <div className="flex justify-between items-start">
               <div className="h-16 w-16 rounded-[1.5rem] bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
                 <Activity className="h-8 w-8" />

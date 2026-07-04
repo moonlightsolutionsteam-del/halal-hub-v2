@@ -23,10 +23,10 @@ export default function AdminUsersPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-6xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline">User Directory</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline">User Directory</h1>
           <p className="text-muted-foreground font-medium">Manage and audit all 1.2M platform participants.</p>
         </div>
         <div className="flex gap-3">

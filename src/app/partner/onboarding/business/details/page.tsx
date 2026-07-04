@@ -81,14 +81,14 @@ function DetailsForm() {
     <div className="max-w-2xl mx-auto py-12 px-6 space-y-8">
       <div className="space-y-2">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-primary">Step 2 of 8</p>
-        <h1 className="text-3xl font-black font-headline text-foreground flex items-center gap-3">
+        <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground flex items-center gap-3">
           <Building2 className="h-8 w-8 text-primary" /> Business Information
         </h1>
         <p className="text-sm text-muted-foreground font-medium">Tell us about your business. This will appear on your public listing.</p>
       </div>
 
       <Card className="rounded-[2rem] border-none shadow-soft bg-card">
-        <CardContent className="p-8 space-y-8">
+        <CardContent className="p-4 sm:p-8 space-y-6 sm:space-y-8">
           <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-2xl">
             <Info className="h-4 w-4 text-primary shrink-0" />
             <p className="text-xs font-bold text-primary">Category: <span className="font-black capitalize">{draft.categoryLabel || categoryFromUrl}</span> — you can change this by going back.</p>
@@ -162,7 +162,7 @@ function DetailsForm() {
 
 export default function DetailsPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center text-muted-foreground">Loading...</div>}>
+    <Suspense fallback={<div className="p-6 sm:p-12 text-center text-muted-foreground">Loading...</div>}>
       <DetailsForm />
     </Suspense>
   )

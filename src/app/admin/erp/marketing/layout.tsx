@@ -38,11 +38,11 @@ export default function MarketingLayout({
           </p>
         </div>
         <div className="flex items-center border-b overflow-x-auto no-scrollbar">
-            <NavLink href="/admin/erp/marketing/dashboard">Dashboard</NavLink>
-            <NavLink href="/admin/erp/marketing/blog">Blog</NavLink>
-            <NavLink href="/admin/erp/marketing/campaigns">Campaigns</NavLink>
-            <NavLink href="/admin/erp/marketing/social">Social Media</NavLink>
-            <NavLink href="/admin/erp/marketing/analytics">Analytics</NavLink>
+            <NavLink href="/SKIP_ADMIN_ERP/marketing/dashboard">Dashboard</NavLink>
+            <NavLink href="/SKIP_ADMIN_ERP/marketing/blog">Blog</NavLink>
+            <NavLink href="/SKIP_ADMIN_ERP/marketing/campaigns">Campaigns</NavLink>
+            <NavLink href="/SKIP_ADMIN_ERP/marketing/social">Social Media</NavLink>
+            <NavLink href="/SKIP_ADMIN_ERP/marketing/analytics">Analytics</NavLink>
         </div>
         <div className="mt-4">
             {children}

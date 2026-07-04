@@ -4,5 +4,5 @@
 import { redirect } from 'next/navigation'
 
 export default function CrmDashboardRedirect() {
-    redirect('/admin/erp/crm/deals')
+    redirect('/SKIP_ADMIN_ERP/crm/deals')
 }

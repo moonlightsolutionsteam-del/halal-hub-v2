@@ -41,7 +41,7 @@ export default function HealthcareDashboard() {
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-background min-h-screen pb-24">
+    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen pb-24">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Healthcare Management</h1>
         <p className="text-muted-foreground font-medium opacity-60">Manage clinical appointments, ethical care standards, and patient wellness.</p>

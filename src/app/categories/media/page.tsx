@@ -86,7 +86,7 @@ export default function MediaListingPage() {
                 <BookOpen className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Bookstores & Media</h1>
+                <h1 className="text-2xl sm:text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Bookstores & Media</h1>
                 <p className="text-muted-foreground font-medium text-xs sm:text-xl">Verified authentic Islamic literature and ethical digital media platforms.</p>
               </div>
             </div>
@@ -207,16 +207,16 @@ export default function MediaListingPage() {
                   
                   <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
                     <div className="space-y-2">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{item.type} • {item.specialty}</p>
-                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-muted-foreground transition-colors leading-tight">{item.name}</CardTitle>
-                      <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
-                        <MapPin className="h-4 w-4 text-muted-foreground" /> {item.loc}
+                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground line-clamp-1">{item.type}</p>
+                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-muted-foreground transition-colors leading-tight line-clamp-2">{item.name}</CardTitle>
+                      <div className="flex items-center gap-1 sm:gap-2 text-[10px] sm:text-sm font-bold text-muted-foreground mt-1 sm:mt-2">
+                        <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground shrink-0" /> <span className="line-clamp-1">{item.loc}</span>
                       </div>
                     </div>
                   </CardHeader>
 
-                  <CardContent className="px-3 pb-3 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
-                    <div className="space-y-3">
+                  <CardContent className="px-3 pb-2 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
+                    <div className="hidden sm:block space-y-3">
                       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Outlet Highlights</p>
                       <div className="flex flex-wrap gap-2">
                         {item.features.map(f => (
@@ -224,8 +224,8 @@ export default function MediaListingPage() {
                         ))}
                       </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-2 sm:gap-4 pt-3 sm:pt-6 border-t border-border">
+
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:pt-6 sm:border-t border-border">
                       <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
                         <Globe className="h-4 w-4 text-blue-500" /> Global Ship
                       </div>

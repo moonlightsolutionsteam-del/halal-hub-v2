@@ -47,7 +47,7 @@ export default function FamilyExpensesPage() {
   if (!mounted) return null
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-5xl pb-32">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-5xl pb-32">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
@@ -59,7 +59,7 @@ export default function FamilyExpensesPage() {
               <Wallet className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline text-foreground tracking-tight">Family Expenses</h1>
+              <h1 className="text-2xl sm:text-4xl font-black font-headline text-foreground tracking-tight">Family Expenses</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Awareness over accounting. Staying in sync without the stress.</p>
             </div>
           </div>

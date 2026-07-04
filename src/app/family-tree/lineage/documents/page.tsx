@@ -23,7 +23,7 @@ export default function DocumentVaultPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24">
       <div className="flex flex-col gap-6">
         <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
           <ArrowLeft className="h-4 w-4" /> Back to Hub
@@ -36,7 +36,7 @@ export default function DocumentVaultPage() {
                 <FileText className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Document Vault</h1>
+                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Document Vault</h1>
                 <p className="text-muted-foreground font-medium text-xl">Securely store and manage historical family records and certifications.</p>
               </div>
             </div>
@@ -121,12 +121,12 @@ export default function DocumentVaultPage() {
         ))}
       </div>
 
-      <div className="p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+      <div className="p-5 sm:p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Lock className="h-48 w-48" />
         </div>
         <div className="relative z-10 space-y-4 text-center md:text-left flex-1">
-          <h2 className="text-3xl font-black font-headline">Theological Data Privacy</h2>
+          <h2 className="text-xl sm:text-3xl font-black font-headline">Theological Data Privacy</h2>
           <p className="text-muted-foreground font-medium text-lg leading-relaxed max-w-2xl">
             Your documents are encrypted and only accessible by confirmed family members. We follow strict privacy standards to ensure your heritage stays private.
           </p>

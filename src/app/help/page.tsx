@@ -31,14 +31,14 @@ const CATEGORIES = [
 
 export default function HelpCenterPage() {
   return (
-    <div className="container mx-auto p-6 space-y-12 max-w-6xl pb-32 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-12 max-w-6xl pb-32 text-foreground">
       {/* Search Header */}
       <div className="text-center space-y-8 max-w-3xl mx-auto pt-10">
         <div className="space-y-4">
           <Badge variant="outline" className="px-4 py-1.5 rounded-full border-primary/20 text-primary font-black uppercase text-[10px] tracking-[0.2em] bg-primary/5">
             Knowledge Base
           </Badge>
-          <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter">How can we <span className="text-primary">Help You?</span></h1>
+          <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tighter">How can we <span className="text-primary">Help You?</span></h1>
         </div>
         <div className="relative group">
           <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground group-focus-within:text-primary transition-colors" />
@@ -103,7 +103,7 @@ export default function HelpCenterPage() {
                 <Zap className="h-10 w-10 fill-current" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-3xl font-black tracking-tighter">Live Support</h3>
+                <h3 className="text-xl sm:text-3xl font-black tracking-tighter">Live Support</h3>
                 <p className="text-sm text-muted-foreground font-medium leading-relaxed italic">
                   "Couldn't find what you were looking for? Our community support specialists are available Mon-Sat."
                 </p>

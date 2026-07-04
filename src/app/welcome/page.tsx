@@ -111,7 +111,7 @@ export default function WelcomeHubPage() {
             {VERTICALS.map((v, i) => (
               <Link key={i} href={`/categories/${v.slug}`}>
                 <Card className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-2xl transition-all duration-700 h-full border-2 border-transparent hover:border-primary/10">
-                  <div className="p-10 space-y-8 text-center flex flex-col items-center">
+                  <div className="p-5 sm:p-10 space-y-8 text-center flex flex-col items-center">
                     <div className={cn("h-20 w-20 rounded-[2rem] flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", v.bg, v.color)}>
                       <v.icon className="h-10 w-10" />
                     </div>
@@ -181,7 +181,7 @@ export default function WelcomeHubPage() {
           <div className="text-center space-y-4 max-w-2xl mx-auto">
             <Badge variant="secondary" className="bg-primary/5 text-primary border-none font-black text-[10px] px-4 py-1.5 rounded-full uppercase tracking-widest">Global Community</Badge>
             <h2 className="text-5xl font-black tracking-tighter text-foreground">Join the Conversation</h2>
-            <p className="text-xl text-muted-foreground font-medium">Connect with millions of members in our moderated community forums.</p>
+            <p className="text-sm sm:text-xl text-muted-foreground font-medium">Connect with millions of members in our moderated community forums.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -190,7 +190,7 @@ export default function WelcomeHubPage() {
               { title: "Travel Guides", desc: "Best spots in Istanbul from real travelers.", icon: MapIcon, color: "text-amber-600" },
               { title: "Spiritual Support", desc: "Connect with scholarly advice and guidance.", icon: HandHeart, color: "text-indigo-600" },
             ].map((topic, i) => (
-              <div key={i} className="p-10 rounded-[2.5rem] bg-muted border border-transparent hover:border-primary/20 hover:bg-card transition-all duration-500 group">
+              <div key={i} className="p-5 sm:p-10 rounded-[2.5rem] bg-muted border border-transparent hover:border-primary/20 hover:bg-card transition-all duration-500 group">
                 <topic.icon className={cn("h-10 w-10 mb-6 transition-transform group-hover:scale-110", topic.color)} />
                 <h3 className="text-2xl font-black text-foreground mb-2">{topic.title}</h3>
                 <p className="text-muted-foreground font-medium leading-relaxed mb-6 italic">"{topic.desc}"</p>

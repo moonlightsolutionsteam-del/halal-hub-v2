@@ -37,7 +37,7 @@ export default function CollaborationsHubPage() {
   if (!mounted) return null
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-7xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-7xl pb-24 text-foreground">
       {/* Top Header Navigation */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
@@ -49,7 +49,7 @@ export default function CollaborationsHubPage() {
               <Users2 className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline tracking-tight text-foreground">Collaborations Hub</h1>
+              <h1 className="text-2xl sm:text-4xl font-black font-headline tracking-tight text-foreground">Collaborations Hub</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Strategic brand partnerships and sponsored content pipeline.</p>
             </div>
           </div>

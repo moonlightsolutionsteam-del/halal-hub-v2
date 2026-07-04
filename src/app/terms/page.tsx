@@ -37,7 +37,7 @@ export default function TermsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-12 max-w-4xl pb-32 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-12 max-w-4xl pb-32 text-foreground">
       <div className="flex flex-col gap-6">
         <Link href="/" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
           <ArrowLeft className="h-4 w-4" /> Back to Home
@@ -48,7 +48,7 @@ export default function TermsPage() {
             <div className="h-10 w-10 rounded-xl flex items-center justify-center bg-primary/5 text-primary">
               <FileText className="h-5 w-5" />
             </div>
-            <h1 className="text-4xl font-black font-headline text-foreground tracking-tight">Terms & Privacy</h1>
+            <h1 className="text-2xl sm:text-4xl font-black font-headline text-foreground tracking-tight">Terms & Privacy</h1>
           </div>
           <p className="text-muted-foreground font-medium text-lg italic">The governing principles of our trusted community ecosystem.</p>
         </div>
@@ -86,7 +86,7 @@ export default function TermsPage() {
             <Zap className="h-10 w-10 fill-current" />
           </div>
           <div className="space-y-4 relative z-10 text-center md:text-left flex-1">
-            <h2 className="text-3xl font-black font-headline">Latest Updates: Oct 2024</h2>
+            <h2 className="text-xl sm:text-3xl font-black font-headline">Latest Updates: Oct 2024</h2>
             <p className="text-muted-foreground font-medium text-lg leading-relaxed max-w-xl italic">
               "We've updated our data handling protocols to match the new high-fidelity Family Hub encryption standards. Your heritage is now safer than ever."
             </p>

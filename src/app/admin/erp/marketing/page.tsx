@@ -4,5 +4,5 @@
 import { redirect } from 'next/navigation'
 
 export default function MarketingDashboardRedirect() {
-    redirect('/admin/erp/marketing/dashboard')
+    redirect('/SKIP_ADMIN_ERP/marketing/dashboard')
 }

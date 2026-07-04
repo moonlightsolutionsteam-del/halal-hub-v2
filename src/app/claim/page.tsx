@@ -68,7 +68,7 @@ export default function ClaimBusinessPage() {
           <div className="h-16 w-16 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto">
             <Building2 className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Claim Your Business</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground">Claim Your Business</h1>
           <p className="text-sm font-medium text-muted-foreground max-w-sm mx-auto">
             Verify your ownership to manage your listing, respond to reviews, and unlock your business dashboard.
           </p>

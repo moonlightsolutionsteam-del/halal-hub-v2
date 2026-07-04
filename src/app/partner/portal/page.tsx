@@ -67,7 +67,7 @@ export default function PartnerPortalPage() {
       <div className="max-w-6xl mx-auto space-y-12">
         {/* Header Section */}
         <div className="space-y-1 border-b pb-8">
-          <h1 className="text-3xl font-black font-headline text-foreground">Welcome On Board</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground">Welcome On Board</h1>
           <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs opacity-60">Sign Up as Partner / Admin</p>
         </div>
 

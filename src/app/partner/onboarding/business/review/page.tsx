@@ -87,7 +87,7 @@ export default function ReviewPage() {
     <div className="max-w-2xl mx-auto py-12 px-6 space-y-8">
       <div className="space-y-2">
         <p className="text-xs font-black uppercase tracking-[0.2em] text-primary">Step 8 of 8</p>
-        <h1 className="text-3xl font-black font-headline text-foreground flex items-center gap-3">
+        <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground flex items-center gap-3">
           <CheckCircle2 className="h-8 w-8 text-primary" /> Review & Submit
         </h1>
         <p className="text-sm text-muted-foreground font-medium">Almost there! Review your listing details before submitting for approval.</p>

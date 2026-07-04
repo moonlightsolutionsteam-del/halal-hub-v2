@@ -27,7 +27,7 @@ export default function AddRootAncestorPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-3xl pb-24 text-foreground">
       <div className="flex items-center gap-6">
         <Button 
           variant="ghost" 
@@ -38,7 +38,7 @@ export default function AddRootAncestorPage() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight">Define Root Ancestor</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline tracking-tight">Define Root Ancestor</h1>
           <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest opacity-60">Lineage Preservation</p>
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function AddRootAncestorPage() {
           </div>
           
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
-            <div className="p-10 border-4 border-dashed border-border rounded-[2.5rem] flex flex-col items-center justify-center gap-4 bg-muted/30 hover:bg-card hover:border-emerald-100 transition-all cursor-pointer group">
+            <div className="p-5 sm:p-10 border-4 border-dashed border-border rounded-[2.5rem] flex flex-col items-center justify-center gap-4 bg-muted/30 hover:bg-card hover:border-emerald-100 transition-all cursor-pointer group">
               <div className="h-16 w-16 bg-card rounded-3xl flex items-center justify-center text-emerald-600 shadow-sm group-hover:scale-110 transition-transform">
                 <Upload className="h-8 w-8" />
               </div>

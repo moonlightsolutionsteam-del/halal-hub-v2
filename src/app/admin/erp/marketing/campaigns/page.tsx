@@ -144,7 +144,7 @@ export default function CampaignsPage() {
             <div className="flex justify-between items-center">
                  <CardTitle>All Campaigns</CardTitle>
                  <Button asChild>
-                    <Link href="/admin/erp/marketing/campaigns/create">
+                    <Link href="/SKIP_ADMIN_ERP/marketing/campaigns/create">
                         <PlusCircle className="mr-2 h-4 w-4" />
                         New Campaign
                     </Link>

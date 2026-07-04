@@ -87,7 +87,7 @@ export default function EducationListingPage() {
                 <GraduationCap className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Education & Training</h1>
+                <h1 className="text-2xl sm:text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Education & Training</h1>
                 <p className="text-muted-foreground font-medium text-xs sm:text-xl">World-class educational institutions and training programs aligned with Islamic values.</p>
               </div>
             </div>

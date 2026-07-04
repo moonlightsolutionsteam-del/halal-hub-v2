@@ -40,7 +40,7 @@ export default function EventsPage() {
   return (
     <div className="container mx-auto p-4 space-y-4 sm:space-y-8 md:p-8 max-w-7xl">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-4xl font-black font-headline text-primary tracking-tight">Halal Events</h1>
+        <h1 className="text-2xl sm:text-2xl sm:text-4xl font-black font-headline text-primary tracking-tight">Halal Events</h1>
         <p className="text-muted-foreground font-medium text-sm sm:text-lg">Find seminars, festivals, and community gatherings near you.</p>
       </div>
 
@@ -92,7 +92,7 @@ export default function EventsPage() {
           <Ticket className="h-64 w-64 text-primary" />
         </div>
         <div className="max-w-2xl mx-auto space-y-4 relative z-10">
-            <h2 className="text-4xl font-black font-headline text-white tracking-tight">Hosting an Event?</h2>
+            <h2 className="text-2xl sm:text-4xl font-black font-headline text-white tracking-tight">Hosting an Event?</h2>
             <p className="text-muted-foreground font-medium text-lg leading-relaxed">Get your event listed on Halal Hub and reach thousands of interested community members. Manage ticketing, check-ins, and analytics from a single dashboard.</p>
             <div className="flex flex-wrap justify-center gap-4 pt-4">
                 <Button className="bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 px-10 font-black uppercase text-xs tracking-widest shadow-2xl">Post Your Event</Button>

@@ -69,7 +69,7 @@ export default function AddFamilyExpensePage() {
   }, [amount, splitWith]);
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-2xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-2xl pb-24 text-foreground">
       <div className="flex items-center gap-6">
         <Button 
           variant="ghost" 
@@ -80,7 +80,7 @@ export default function AddFamilyExpensePage() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight">Add Expense</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline tracking-tight">Add Expense</h1>
           <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest opacity-60">Log spending & split costs</p>
         </div>
       </div>

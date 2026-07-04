@@ -103,7 +103,7 @@ export default function SuperAdminDashboard() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <Zap className="h-3 w-3 fill-current" /> Operational Command
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tighter">HALAL HUB GLOBAL</h1>
+          <h1 className="text-3xl sm:text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tighter">HALAL HUB GLOBAL</h1>
           <p className="text-muted-foreground font-medium text-sm sm:text-lg italic">Tactical oversight of the unified Shariah-compliant ecosystem.</p>
         </div>
         <div className="flex flex-wrap gap-3">

@@ -21,13 +21,13 @@ export default function FamilySetupPage() {
   const [step, setStep] = React.useState(1);
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-3xl pb-24">
       <div className="flex items-center gap-6">
         <Button variant="ghost" size="icon" className="rounded-2xl bg-card shadow-sm border" onClick={() => step === 1 ? router.back() : setStep(step - 1)}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline text-foreground">Family Setup</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground">Family Setup</h1>
           <div className="flex gap-2">
             {[1, 2, 3].map(i => (
               <div key={i} className={`h-1.5 w-12 rounded-full transition-all ${step >= i ? 'bg-emerald-600' : 'bg-muted'}`} />

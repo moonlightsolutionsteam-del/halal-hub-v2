@@ -56,11 +56,11 @@ function SearchResults() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-5xl">
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between">
           <div className="space-y-1">
-            <h1 className="text-3xl font-black font-headline text-foreground">Search</h1>
+            <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground">Search</h1>
             <p className="text-muted-foreground font-medium">
               {query ? <>Found {results.length} match{results.length === 1 ? "" : "es"} for &ldquo;{query}&rdquo;</> : "Search halal businesses, mosques, and services."}
             </p>
@@ -100,7 +100,7 @@ function SearchResults() {
         </div>
       ) : results.length === 0 ? (
         <Card className="rounded-[2rem] border-none shadow-soft">
-          <CardContent className="p-12 text-center space-y-4">
+          <CardContent className="p-6 sm:p-12 text-center space-y-4">
             <SearchX className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
             <div className="space-y-1">
               <p className="text-lg font-black text-foreground">No results{query ? <> for &ldquo;{query}&rdquo;</> : ""}</p>

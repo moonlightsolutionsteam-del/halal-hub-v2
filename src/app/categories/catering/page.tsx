@@ -85,7 +85,7 @@ export default function CateringListingPage() {
                 <CookingPot className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Catering Services</h1>
+                <h1 className="text-2xl sm:text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Catering Services</h1>
                 <p className="text-muted-foreground font-medium text-xs sm:text-xl">Professional halal catering for every occasion, from intimate Nikahs to grand expos.</p>
               </div>
             </div>

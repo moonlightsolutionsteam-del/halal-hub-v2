@@ -82,7 +82,7 @@ export default function DiscoveryHubPage() {
   const [selectedCat, setSelectedCat] = React.useState("all");
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-7xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-7xl pb-24 text-foreground">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
@@ -94,7 +94,7 @@ export default function DiscoveryHubPage() {
               <Sparkles className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-5xl font-black font-headline tracking-tight text-foreground">Discovery Hub</h1>
+              <h1 className="text-3xl sm:text-5xl font-black font-headline tracking-tight text-foreground">Discovery Hub</h1>
               <p className="text-muted-foreground font-medium text-xl italic">Find your next strategic partnership from our vetted brand network.</p>
             </div>
           </div>

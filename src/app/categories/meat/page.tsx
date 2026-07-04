@@ -89,7 +89,7 @@ export default function MeatListingPage() {
                 <Beef className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Meat & Butchers</h1>
+                <h1 className="text-2xl sm:text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Meat & Butchers</h1>
                 <p className="text-muted-foreground font-medium text-xs sm:text-xl">Premium, traceable, and strictly certified halal sources.</p>
               </div>
             </div>

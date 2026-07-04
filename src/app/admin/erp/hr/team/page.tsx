@@ -77,14 +77,14 @@ export default function TeamDirectoryPage() {
             <div className="flex justify-between items-center">
                  <CardTitle>All Employees</CardTitle>
                  <div className="flex gap-2">
-                    <Link href="/admin/erp/hr/team/org-chart">
+                    <Link href="/SKIP_ADMIN_ERP/hr/team/org-chart">
                         <Button variant="outline">
                             <GitMerge className="mr-2 h-4 w-4" />
                             View Org Chart
                         </Button>
                     </Link>
                     <Button asChild>
-                        <Link href="/admin/erp/hr/team/create">
+                        <Link href="/SKIP_ADMIN_ERP/hr/team/create">
                             <PlusCircle className="mr-2 h-4 w-4" />
                             Add Employee
                         </Link>

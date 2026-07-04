@@ -69,7 +69,7 @@ export default function BusinessCategoryPage() {
               DEV: Skip to Dashboard
             </button>
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Select Business Category</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground">Select Business Category</h1>
           <p className="text-sm text-muted-foreground font-medium">Choose the category that best fits your business to get started.</p>
         </div>
 

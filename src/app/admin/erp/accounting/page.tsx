@@ -3,5 +3,5 @@
 import { redirect } from 'next/navigation'
 
 export default function AccountingDashboardRedirect() {
-    redirect('/admin/erp/accounting/revenue-dashboard')
+    redirect('/SKIP_ADMIN_ERP/accounting/revenue-dashboard')
 }

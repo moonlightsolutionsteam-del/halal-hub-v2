@@ -24,7 +24,7 @@ const TOP_FANS = [
 
 export default function CreativeAudiencePage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
@@ -35,7 +35,7 @@ export default function CreativeAudiencePage() {
               <Users className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline tracking-tight text-foreground">Subscriber Base</h1>
+              <h1 className="text-2xl sm:text-4xl font-black font-headline tracking-tight text-foreground">Subscriber Base</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Understand your community and engage with your top supporters.</p>
             </div>
           </div>
@@ -79,7 +79,7 @@ export default function CreativeAudiencePage() {
         <div className="lg:col-span-8 space-y-10">
           {/* Demographic Map Card */}
           <Card className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden h-[450px] relative">
-            <CardHeader className="p-10 border-b bg-muted/30 flex flex-row items-center justify-between relative z-10">
+            <CardHeader className="p-5 sm:p-10 border-b bg-muted/30 flex flex-row items-center justify-between relative z-10">
               <div className="space-y-1">
                 <CardTitle className="text-2xl font-black">Audience Demographics</CardTitle>
                 <CardDescription className="italic font-medium">Where your community is growing the fastest.</CardDescription>

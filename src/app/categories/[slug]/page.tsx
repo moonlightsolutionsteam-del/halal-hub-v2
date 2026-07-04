@@ -109,7 +109,7 @@ export default function CategoryListingPage() {
   const config = CATEGORY_CONFIG[slug] || { title: "Explore Hub", features: ["Verified Listings", "Trust Reports", "Community Driven"], icon: Info, accent: "text-primary bg-primary/5" };
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-6xl">
       <div className="flex flex-col gap-3 sm:gap-6">
         <Link href="/categories" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
           <ArrowLeft className="h-4 w-4" /> Back to Categories
@@ -121,7 +121,7 @@ export default function CategoryListingPage() {
               <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${config.accent}`}>
                 <config.icon className="h-5 w-5" />
               </div>
-              <h1 className="text-4xl font-black font-headline text-foreground tracking-tight">{config.title}</h1>
+              <h1 className="text-2xl sm:text-4xl font-black font-headline text-foreground tracking-tight">{config.title}</h1>
             </div>
             <p className="text-muted-foreground font-medium text-lg">High-fidelity directory of certified {config.title.toLowerCase()} providers.</p>
           </div>

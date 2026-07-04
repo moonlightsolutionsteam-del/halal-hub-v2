@@ -28,7 +28,7 @@ export default function CategoriesPage() {
   return (
     <div className="px-4 sm:px-6 py-5 sm:py-8 space-y-6 max-w-6xl mx-auto">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black font-headline text-primary tracking-tight">Explore Categories</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-2xl sm:text-4xl font-black font-headline text-primary tracking-tight">Explore Categories</h1>
         <p className="text-muted-foreground text-sm sm:text-base font-medium">Browse halal-certified services across all 13 premium verticals.</p>
       </div>
 

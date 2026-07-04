@@ -24,7 +24,7 @@ export default function FamilyDiscoveryPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24">
       <div className="flex flex-col gap-6">
         <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
           <ArrowLeft className="h-4 w-4" /> Back to Hub
@@ -37,7 +37,7 @@ export default function FamilyDiscoveryPage() {
                 <Sparkles className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Family Discovery</h1>
+                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Family Discovery</h1>
                 <p className="text-muted-foreground font-medium text-xl">Handpicked family-friendly halal venues for your shared board.</p>
               </div>
             </div>

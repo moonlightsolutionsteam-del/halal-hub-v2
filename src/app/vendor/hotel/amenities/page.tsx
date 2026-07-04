@@ -36,7 +36,7 @@ export default function HotelAmenitiesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {amenities.map((item, i) => (
           <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-sky-100">
-            <div className="p-10 flex gap-10">
+            <div className="p-5 sm:p-10 flex gap-10">
               <div className={`h-24 w-24 rounded-[2.5rem] ${item.bg} flex items-center justify-center ${item.color} shrink-0 group-hover:scale-110 transition-transform shadow-inner`}>
                 <item.icon className="h-12 w-12" />
               </div>

@@ -219,7 +219,7 @@ export default function MosquesPage() {
 
       {/* Header */}
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground flex items-center gap-3">
+        <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground flex items-center gap-3">
           <div className="h-10 w-10 rounded-2xl bg-primary/10 flex items-center justify-center">
             <Moon className="h-5 w-5 text-primary" />
           </div>
@@ -304,7 +304,7 @@ export default function MosquesPage() {
         </div>
         {all.length === 0 ? (
           <Card className="rounded-[2rem] border-none shadow-soft">
-            <CardContent className="p-12 text-center">
+            <CardContent className="p-6 sm:p-12 text-center">
               <Moon className="h-10 w-10 mx-auto text-muted-foreground opacity-30 mb-3" />
               <p className="font-black text-foreground">No mosques found</p>
               <p className="text-xs text-muted-foreground font-medium mt-1">Try a different search or filter.</p>

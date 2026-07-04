@@ -16,7 +16,7 @@ import Image from "next/image";
 
 export default function ConsumerRolePage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-5xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-5xl pb-24">
       <div className="space-y-1 text-center sm:text-left">
         <div className="flex items-center justify-center sm:justify-start gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
           <UserIcon className="h-3 w-3" /> Lifestyle Mode
@@ -135,7 +135,7 @@ export default function ConsumerRolePage() {
             <div className="h-14 w-14 rounded-2xl bg-card/10 flex items-center justify-center text-primary shadow-xl border border-white/10">
               <Sparkles className="h-8 w-8" />
             </div>
-            <h3 className="text-3xl font-black font-headline">Unlock Premium Hub</h3>
+            <h3 className="text-xl sm:text-3xl font-black font-headline">Unlock Premium Hub</h3>
             <p className="text-muted-foreground font-medium leading-relaxed italic">
               Get detailed ingredient reports, zero ads, and 2x loyalty rewards points on every scan.
             </p>

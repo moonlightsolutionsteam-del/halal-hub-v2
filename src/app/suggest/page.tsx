@@ -31,13 +31,13 @@ export default function SuggestPlacePage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-32 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-3xl pb-32 text-foreground">
       <div className="flex items-center gap-6">
         <Button variant="ghost" size="icon" className="rounded-2xl bg-card shadow-sm border" onClick={() => step === 1 ? router.back() : setStep(step - 1)}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight">Suggest a Place</h1>
+          <h1 className="text-xl sm:text-3xl font-black font-headline tracking-tight">Suggest a Place</h1>
           <div className="flex gap-2">
             {[1, 2, 3].map(i => (
               <div key={i} className={cn("h-1.5 w-16 rounded-full transition-all duration-500", step >= i ? 'bg-primary' : 'bg-muted')} />
@@ -116,7 +116,7 @@ export default function SuggestPlacePage() {
               <p className="text-muted-foreground font-medium">Sharing photos of the menu or certificate helps speed up verification.</p>
             </div>
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
-              <div className="p-12 border-4 border-dashed border-border rounded-[2.5rem] bg-muted/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-card transition-all cursor-pointer group">
+              <div className="p-6 sm:p-12 border-4 border-dashed border-border rounded-[2.5rem] bg-muted/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-card transition-all cursor-pointer group">
                 <div className="h-16 w-16 bg-card rounded-3xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
                   <Camera className="h-8 w-8 text-primary" />
                 </div>

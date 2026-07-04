@@ -323,7 +323,7 @@ export default function CreatorProfilePage() {
                       <Crown className="h-10 w-10" />
                     </div>
                     <div className="space-y-2">
-                      <h4 className="text-3xl font-black tracking-tighter text-blue-400">Verified Authority</h4>
+                      <h4 className="text-xl sm:text-3xl font-black tracking-tighter text-blue-400">Verified Authority</h4>
                       <p className="text-sm text-muted-foreground font-medium leading-relaxed italic">
                         This creator has been verified for scholarly accuracy by the Halal Hub content board.
                       </p>

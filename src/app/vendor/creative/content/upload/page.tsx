@@ -36,7 +36,7 @@ export default function ContentUploadPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-3xl pb-24 text-foreground">
       <div className="flex items-center gap-6">
         <Button variant="ghost" size="icon" className="rounded-2xl bg-card shadow-sm border h-12 w-12" onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
@@ -79,7 +79,7 @@ export default function ContentUploadPage() {
 
         {/* Media Upload Area */}
         <Card className="rounded-[3rem] border-none shadow-sm bg-card p-10 space-y-8">
-          <div className="p-12 border-4 border-dashed border-border rounded-[2.5rem] bg-muted/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-card transition-all cursor-pointer group">
+          <div className="p-6 sm:p-12 border-4 border-dashed border-border rounded-[2.5rem] bg-muted/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-card transition-all cursor-pointer group">
             <div className="h-20 w-20 bg-card rounded-3xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
               <Upload className="h-10 w-10 text-primary" />
             </div>

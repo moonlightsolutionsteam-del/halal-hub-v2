@@ -42,7 +42,7 @@ export default function SuccessPage() {
         </div>
 
         <div className="space-y-3">
-          <h1 className="text-4xl font-black font-headline text-foreground">Submitted!</h1>
+          <h1 className="text-2xl sm:text-4xl font-black font-headline text-foreground">Submitted!</h1>
           <p className="text-lg font-bold text-muted-foreground">
             {draft.businessName ? `"${draft.businessName}"` : "Your listing"} has been submitted for review.
           </p>

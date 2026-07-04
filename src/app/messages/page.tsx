@@ -33,7 +33,7 @@ export default function MessagesPage() {
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto space-y-6">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Messages</h1>
+        <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Messages</h1>
         <p className="text-sm font-bold text-muted-foreground">Chats with friends, businesses, and the community.</p>
       </div>
 

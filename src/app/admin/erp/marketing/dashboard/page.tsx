@@ -125,7 +125,7 @@ export default function MarketingDashboardPage() {
                  <div className="flex justify-between items-center">
                     <CardTitle>Recent Campaigns</CardTitle>
                     <Button asChild size="sm" variant="outline">
-                        <Link href="/admin/erp/marketing/campaigns">View All</Link>
+                        <Link href="/SKIP_ADMIN_ERP/marketing/campaigns">View All</Link>
                     </Button>
                 </div>
             </CardHeader>
@@ -159,7 +159,7 @@ export default function MarketingDashboardPage() {
             <div className="flex justify-between items-center">
                 <CardTitle>Recent Blog Posts</CardTitle>
                 <Button asChild size="sm" variant="outline">
-                    <Link href="/admin/erp/marketing/blog">View All</Link>
+                    <Link href="/SKIP_ADMIN_ERP/marketing/blog">View All</Link>
                 </Button>
             </div>
         </CardHeader>

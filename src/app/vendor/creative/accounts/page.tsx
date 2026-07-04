@@ -21,7 +21,7 @@ const ACCOUNTS = [
 
 export default function ConnectedAccountsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-4xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-4xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
@@ -71,7 +71,7 @@ export default function ConnectedAccountsPage() {
         </Card>
       </div>
 
-      <div className="p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
+      <div className="p-5 sm:p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ShieldCheck className="h-48 w-48" />
         </div>

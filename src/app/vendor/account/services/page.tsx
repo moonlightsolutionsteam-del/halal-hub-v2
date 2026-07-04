@@ -54,7 +54,7 @@ export default function AccountServicesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
         {marketplace.map((service) => (
           <Card key={service.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/10">
-            <div className="p-10 flex gap-10">
+            <div className="p-5 sm:p-10 flex gap-10">
               <div className={`h-24 w-24 rounded-[2rem] ${service.bg} flex items-center justify-center ${service.color} shrink-0 group-hover:scale-110 transition-transform shadow-inner`}>
                 <service.icon className="h-12 w-12" />
               </div>

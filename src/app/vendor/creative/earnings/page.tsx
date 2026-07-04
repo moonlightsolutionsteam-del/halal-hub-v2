@@ -29,7 +29,7 @@ const TRANSACTIONS = [
 
 export default function CreativeEarningsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
@@ -40,7 +40,7 @@ export default function CreativeEarningsPage() {
               <Banknote className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline tracking-tight text-foreground">Earnings & Payouts</h1>
+              <h1 className="text-2xl sm:text-4xl font-black font-headline tracking-tight text-foreground">Earnings & Payouts</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Track your revenue from sponsorships, ad-rev, and community gifting.</p>
             </div>
           </div>

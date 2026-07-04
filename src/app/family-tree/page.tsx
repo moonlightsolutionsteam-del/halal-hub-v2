@@ -54,14 +54,14 @@ export default function FamilyTreePage() {
   if (!mounted) return null
 
   return (
-    <div className={cn("container mx-auto p-6 space-y-10 max-w-6xl pb-24 transition-all duration-700", isKidsMode ? "bg-amber-50/30" : "bg-background")}>
+    <div className={cn("container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24 transition-all duration-700", isKidsMode ? "bg-amber-50/30" : "bg-background")}>
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-[10px]">
             <Network className="h-3 w-3" /> Unified Family Ecosystem
           </div>
-          <h1 className="text-4xl font-black font-headline text-foreground tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-black font-headline text-foreground tracking-tight">
             {isKidsMode ? "Family Fun Zone 🌟" : "Family Hub & Lineage"}
           </h1>
           <p className="text-muted-foreground font-medium text-lg italic max-w-2xl">
@@ -438,7 +438,7 @@ export default function FamilyTreePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-8">
               <Card className="rounded-[3rem] border-none shadow-sm overflow-hidden bg-card">
-                <CardHeader className="p-10 border-b flex flex-row items-center justify-between bg-muted/30">
+                <CardHeader className="p-5 sm:p-10 border-b flex flex-row items-center justify-between bg-muted/30">
                   <div className="space-y-1">
                     <CardTitle className="text-2xl font-black">History & Audits</CardTitle>
                     <p className="text-sm font-medium text-muted-foreground">Chronological verification and edit history.</p>

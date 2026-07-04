@@ -19,16 +19,16 @@ import Link from "next/link"
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto p-6 space-y-12 max-w-6xl pb-32 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-12 max-w-6xl pb-32 text-foreground">
       {/* Header */}
       <div className="text-center space-y-4 max-w-3xl mx-auto pt-10">
         <Badge variant="outline" className="px-4 py-1.5 rounded-full border-primary/20 text-primary font-black uppercase text-[10px] tracking-[0.2em] bg-primary/5">
           Get in Touch
         </Badge>
-        <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter leading-tight">
+        <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tighter leading-tight">
           We're Here to Support the <span className="text-primary">Global Ummah</span>
         </h1>
-        <p className="text-xl text-muted-foreground font-medium italic">
+        <p className="text-sm sm:text-xl text-muted-foreground font-medium italic">
           Whether you're a consumer with a question or a brand looking to join the hub, we'd love to hear from you.
         </p>
       </div>

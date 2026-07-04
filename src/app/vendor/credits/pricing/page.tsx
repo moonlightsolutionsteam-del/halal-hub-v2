@@ -81,17 +81,17 @@ const ACTIONS = [
 
 export default function CreditsPricingPage() {
   return (
-    <div className="container mx-auto p-6 space-y-20 max-w-7xl pb-32 selection:bg-primary/10">
+    <div className="container mx-auto p-4 sm:p-6 space-y-10 sm:space-y-20 max-w-7xl pb-32 selection:bg-primary/10">
       
       {/* Hero Header */}
       <div className="text-center space-y-4 max-w-3xl mx-auto pt-10">
         <Badge variant="outline" className="px-4 py-1.5 rounded-full border-primary/20 text-primary font-black uppercase text-[10px] tracking-[0.2em] bg-primary/5">
           Flexible Growth Economy
         </Badge>
-        <h1 className="text-5xl md:text-6xl font-black font-headline text-foreground tracking-tighter leading-tight">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-black font-headline text-foreground tracking-tighter leading-tight">
           Fuel Your Business with <span className="text-primary">Hub Credits</span>
         </h1>
-        <p className="text-xl text-muted-foreground font-medium italic">
+        <p className="text-sm sm:text-xl text-muted-foreground font-medium italic">
           No rigid subscriptions. Pay only for the features you use to grow your presence.
         </p>
       </div>
@@ -111,22 +111,22 @@ export default function CreditsPricingPage() {
                 <Badge className="bg-primary text-white border-none font-black text-[10px] uppercase px-4 h-7">Most Popular</Badge>
               </div>
             )}
-            <CardHeader className="p-10 space-y-6">
+            <CardHeader className="p-5 sm:p-10 space-y-4 sm:space-y-6">
               <div className="space-y-1">
                 <h3 className={cn("text-xl font-black uppercase tracking-widest", plan.color)}>{plan.name}</h3>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black text-foreground tracking-tighter">{plan.price}</span>
+                  <span className="text-3xl sm:text-5xl font-black text-foreground tracking-tighter">{plan.price}</span>
                 </div>
               </div>
               <div className="p-6 rounded-3xl bg-muted border-2 border-border space-y-1 shadow-inner group-hover:bg-primary/5 transition-colors">
-                <p className="text-3xl font-black text-foreground tracking-tight">{plan.credits}</p>
+                <p className="text-xl sm:text-3xl font-black text-foreground tracking-tight">{plan.credits}</p>
                 <p className="text-xs font-black uppercase text-muted-foreground">Total Credits</p>
                 {plan.bonus !== "+0" && (
                   <Badge className="bg-emerald-500 text-white border-none font-black text-[9px] h-5 px-2 mt-2">{plan.bonus} BONUS</Badge>
                 )}
               </div>
             </CardHeader>
-            <CardContent className="p-10 pt-0 flex-1 space-y-6">
+            <CardContent className="p-5 pt-0 sm:p-10 sm:pt-0 flex-1 space-y-4 sm:space-y-6">
               <p className="text-sm font-bold text-muted-foreground leading-relaxed italic">"{plan.desc}"</p>
               <div className="space-y-4">
                 {plan.features.map((f, i) => (
@@ -137,9 +137,9 @@ export default function CreditsPricingPage() {
                 ))}
               </div>
             </CardContent>
-            <CardFooter className="p-10 pt-0">
+            <CardFooter className="p-5 pt-0 sm:p-10 sm:pt-0">
               <Button className={cn(
-                "w-full h-14 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl transition-all group-hover:scale-105 active:scale-95",
+                "w-full h-10 sm:h-14 rounded-xl sm:rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl transition-all group-hover:scale-105 active:scale-95",
                 plan.popular ? "bg-primary hover:bg-primary/90 text-white" : "bg-zinc-900 hover:bg-zinc-800 text-white"
               )}>
                 Buy {plan.name} Pack
@@ -205,7 +205,7 @@ export default function CreditsPricingPage() {
           </div>
           <div className="relative z-10 space-y-6">
             <Badge className="bg-emerald-500 text-white border-none font-black text-xs uppercase px-6 py-2 rounded-full shadow-2xl">THE HUB EDGE</Badge>
-            <h2 className="text-4xl font-black font-headline tracking-tight leading-tight">Pay for Outcomes, <br />Not Permissions.</h2>
+            <h2 className="text-2xl sm:text-4xl font-black font-headline tracking-tight leading-tight">Pay for Outcomes, <br />Not Permissions.</h2>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-md italic">
               "Unlike traditional recurring subscriptions, credits give you total flexibility. If your shop is busy, save your credits. If you need a boost, spend them instantly."
             </p>
@@ -261,7 +261,7 @@ export default function CreditsPricingPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-emerald-500 to-emerald-400 opacity-50" />
         <Sparkles className="absolute -top-10 -left-10 h-64 w-64 opacity-10 text-white animate-pulse" />
         <div className="relative z-10 space-y-4">
-          <h2 className="text-5xl font-black font-headline tracking-tight">Ready to boost your presence?</h2>
+          <h2 className="text-3xl sm:text-5xl font-black font-headline tracking-tight">Ready to boost your presence?</h2>
           <p className="text-white/80 font-medium text-xl max-w-xl mx-auto italic">
             Select a credit pack today and start receiving verified leads within 24 hours.
           </p>

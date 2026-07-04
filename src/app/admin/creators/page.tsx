@@ -58,7 +58,7 @@ export default function SuperAdminCreatorsControlTower() {
           <div className="flex items-center gap-2 text-blue-600 font-black uppercase tracking-[0.2em] text-[10px]">
             <Gauge className="h-3 w-3" /> System Control Tower
           </div>
-          <h1 className="text-4xl font-black font-headline text-foreground uppercase tracking-tighter">Creator Ecosystem</h1>
+          <h1 className="text-2xl sm:text-4xl font-black font-headline text-foreground uppercase tracking-tighter">Creator Ecosystem</h1>
           <p className="text-muted-foreground font-medium text-sm sm:text-lg italic max-w-2xl">Centralized oversight for quality control, campaigns, financial settlements, and platform health.</p>
         </div>
         <div className="flex gap-3">

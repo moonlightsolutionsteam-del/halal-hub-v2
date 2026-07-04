@@ -40,7 +40,7 @@ export default function PrivacyRolesPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-5xl pb-24 text-foreground">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-5xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
@@ -50,7 +50,7 @@ export default function PrivacyRolesPage() {
             <div className="h-12 w-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 shadow-inner">
               <ShieldCheck className="h-6 w-6" />
             </div>
-            <h1 className="text-3xl font-black font-headline tracking-tight">Privacy & Roles</h1>
+            <h1 className="text-xl sm:text-3xl font-black font-headline tracking-tight">Privacy & Roles</h1>
           </div>
           <p className="text-muted-foreground font-medium italic">Manage who sees what and who controls the family ecosystem.</p>
         </div>

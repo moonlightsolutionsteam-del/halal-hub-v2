@@ -28,7 +28,7 @@ export default function FamilyMembersPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24">
       <div className="flex flex-col gap-6">
         <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
           <ArrowLeft className="h-4 w-4" /> Back to Hub
@@ -41,7 +41,7 @@ export default function FamilyMembersPage() {
                 <Users className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Member Directory</h1>
+                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Member Directory</h1>
                 <p className="text-muted-foreground font-medium text-xl">Manage family participants, roles, and collaboration permissions.</p>
               </div>
             </div>
@@ -125,12 +125,12 @@ export default function FamilyMembersPage() {
         </CardContent>
       </Card>
 
-      <div className="p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+      <div className="p-5 sm:p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ShieldCheck className="h-48 w-48" />
         </div>
         <div className="relative z-10 space-y-4 text-center md:text-left flex-1">
-          <h2 className="text-3xl font-black font-headline">Privacy & Role Governance</h2>
+          <h2 className="text-xl sm:text-3xl font-black font-headline">Privacy & Role Governance</h2>
           <p className="text-muted-foreground font-medium text-lg leading-relaxed max-w-2xl">
             Only Family Admins can change roles or remove members. All member activity is logged in the Heritage Logs for data integrity.
           </p>

@@ -55,13 +55,13 @@ export default function VendorCertificationHub() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24">
+    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <ShieldCheck className="h-3 w-3" /> Compliance OS
           </div>
-          <h1 className="text-4xl font-black font-headline text-foreground">Certification Marketplace</h1>
+          <h1 className="text-2xl sm:text-4xl font-black font-headline text-foreground">Certification Marketplace</h1>
           <p className="text-muted-foreground font-medium text-lg">Apply, manage, and track all your business certifications in one place.</p>
         </div>
         <div className="flex gap-3">
@@ -151,11 +151,11 @@ export default function VendorCertificationHub() {
         <div className="absolute top-0 right-0 p-12 opacity-5">
           <ShieldCheck className="h-64 w-64" />
         </div>
-        <div className="p-12 relative z-10 flex flex-col lg:flex-row items-center gap-12">
+        <div className="p-6 sm:p-12 relative z-10 flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 space-y-6">
             <Badge className="bg-primary text-white border-none font-black text-xs uppercase tracking-[0.2em] px-6 py-2 rounded-full">Best Value</Badge>
             <div className="space-y-2">
-              <h2 className="text-5xl font-black font-headline tracking-tight">Compliance Starter Pack</h2>
+              <h2 className="text-3xl sm:text-5xl font-black font-headline tracking-tight">Compliance Starter Pack</h2>
               <p className="text-muted-foreground font-medium text-xl leading-relaxed max-w-2xl">
                 Get your business fully verified and trusted in one go. Includes FSSAI registration, Halal Hub Audit, and a professional Hygiene Rating.
               </p>
