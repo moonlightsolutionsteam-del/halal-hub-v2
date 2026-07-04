@@ -15,7 +15,7 @@ export default function OrganizationSupportPage() {
         <p className="text-sm font-bold text-muted-foreground">Get help managing your organization&apos;s panel.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <Card className="rounded-[2rem] border-none shadow-soft text-center">
           <CardContent className="p-6 space-y-2">
             <MessageSquare className="h-6 w-6 text-indigo-600 mx-auto" />

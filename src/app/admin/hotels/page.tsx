@@ -77,7 +77,7 @@ export default function SuperAdminHotelManagement() {
 
         {/* DASHBOARD */}
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Total Properties</span>
@@ -118,7 +118,7 @@ export default function SuperAdminHotelManagement() {
             </Card>
           </div>
 
-          <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 flex flex-row items-center justify-between">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black text-foreground">Recent Hospitality Audits</CardTitle>
@@ -162,7 +162,7 @@ export default function SuperAdminHotelManagement() {
 
         {/* ALL PROPERTIES */}
         <TabsContent value="all" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 border-b space-y-6">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
@@ -227,7 +227,7 @@ export default function SuperAdminHotelManagement() {
         <TabsContent value="verification" className="animate-in fade-in duration-500 m-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-6">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
                 <CardHeader className="p-8 border-b">
                   <CardTitle className="text-xl font-black">Charter Audit Queue</CardTitle>
                   <p className="text-sm text-muted-foreground font-medium italic">Properties awaiting document verification and privacy audits.</p>
@@ -328,7 +328,7 @@ export default function SuperAdminHotelManagement() {
 
         {/* REVIEWS */}
         <TabsContent value="reviews" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between bg-amber-50/10">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black">Guest Feedback</CardTitle>
@@ -387,7 +387,7 @@ export default function SuperAdminHotelManagement() {
               { title: "Early Bird Booking", code: "EARLYHUB", discount: "Free Breakfast", active: true, claims: 450 },
               { title: "Family Group Deal", code: "FAMSTAY", discount: "15% OFF", active: false, claims: 85 },
             ].map((offer, i) => (
-              <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden flex flex-col justify-between border-2 border-transparent hover:border-primary/10 transition-all group">
+              <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card flex flex-col justify-between border-2 border-transparent hover:border-primary/10 transition-all group">
                 <CardHeader className="p-8 pb-4">
                   <div className="flex justify-between items-start mb-4">
                     <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -482,7 +482,7 @@ export default function SuperAdminHotelManagement() {
         {/* CERTIFICATES */}
         <TabsContent value="certificates" className="animate-in fade-in duration-500 m-0">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <Card className="lg:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+            <Card className="lg:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-card">
               <CardHeader className="p-8 border-b bg-muted/30 flex flex-row items-center justify-between">
                 <div className="space-y-1">
                   <CardTitle className="text-xl font-black">Hospitality Trust Assets</CardTitle>
@@ -548,7 +548,7 @@ export default function SuperAdminHotelManagement() {
 
         {/* CATEGORIES */}
         <TabsContent value="categories" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black text-foreground">Property Taxonomy</CardTitle>

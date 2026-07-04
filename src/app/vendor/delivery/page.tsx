@@ -54,7 +54,7 @@ export default function DeliveryManagementPage() {
                 </Badge>
               </div>
             </div>
-            <CardContent className="p-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <CardContent className="p-8 grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8">
               <div className="space-y-1">
                 <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Avg. Time</p>
                 <p className="text-2xl font-black text-foreground">24 mins</p>

@@ -147,7 +147,7 @@ export default function RootLayout({
                 </div>
               </header>
 
-              <main className="flex-1 overflow-y-auto overflow-x-hidden relative bg-background">
+              <main className="flex-1 overflow-y-auto relative bg-background">
                 <div className="max-w-[1440px] mx-auto pb-28 md:pb-8">
                   {children}
                 </div>

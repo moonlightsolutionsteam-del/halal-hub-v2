@@ -31,7 +31,7 @@ export default function MediaAuthorsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { label: "Total Authors", value: "38", icon: Users, color: "bg-primary/10 text-primary" },
           { label: "Active Publishers", value: "14", icon: Globe, color: "bg-blue-50 text-blue-600" },

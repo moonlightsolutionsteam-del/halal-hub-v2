@@ -58,7 +58,7 @@ export default function MediaOffersPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { label: "Active Offers", value: "3", icon: Tag, color: "bg-primary/10 text-primary" },
           { label: "Total Redemptions", value: "223", icon: Users, color: "bg-emerald-50 text-emerald-600" },

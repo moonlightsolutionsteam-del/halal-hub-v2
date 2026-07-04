@@ -30,7 +30,7 @@ export default function EngagementEventsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { label: "Total Events", value: "3", icon: Calendar, color: "bg-primary/10 text-primary" },
           { label: "Total Attendees", value: "206", icon: Users, color: "bg-emerald-50 text-emerald-600" },

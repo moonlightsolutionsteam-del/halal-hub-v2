@@ -77,7 +77,7 @@ export default function SuperAdminMosqueManagement() {
         </div>
 
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Active Masjids</span>
@@ -118,7 +118,7 @@ export default function SuperAdminMosqueManagement() {
             </Card>
           </div>
 
-          <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 flex flex-row items-center justify-between border-b">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black text-foreground">Recent Verifications</CardTitle>
@@ -153,7 +153,7 @@ export default function SuperAdminMosqueManagement() {
         </TabsContent>
 
         <TabsContent value="all" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 border-b space-y-6">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">

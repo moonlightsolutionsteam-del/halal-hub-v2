@@ -79,7 +79,7 @@ export default function FamilyTreeAdminManagement() {
 
         {/* DASHBOARD */}
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Active Lineages</span>
@@ -121,7 +121,7 @@ export default function FamilyTreeAdminManagement() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card">
               <CardHeader className="p-8 flex flex-row items-center justify-between border-b bg-muted/30">
                 <div className="space-y-1">
                   <CardTitle className="text-xl font-black text-foreground">Node Approval Queue</CardTitle>
@@ -184,7 +184,7 @@ export default function FamilyTreeAdminManagement() {
 
         {/* ALL TREES */}
         <TabsContent value="all" className="animate-in fade-in duration-500 m-0 space-y-6">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 border-b space-y-6">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
@@ -245,7 +245,7 @@ export default function FamilyTreeAdminManagement() {
         <TabsContent value="verification" className="animate-in fade-in duration-500 m-0 space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-6">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
                 <CardHeader className="p-8 border-b">
                   <CardTitle className="text-xl font-black">Connection Requests</CardTitle>
                   <p className="text-sm text-muted-foreground font-medium italic">Moderation center for relationship links and user-to-node mapping.</p>
@@ -342,7 +342,7 @@ export default function FamilyTreeAdminManagement() {
 
         {/* REVIEWS: DISPUTES */}
         <TabsContent value="reviews" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden border-2 border-rose-50">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card border-2 border-rose-50">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between bg-rose-50/20">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black text-rose-600">Dispute Resolution Center</CardTitle>
@@ -394,7 +394,7 @@ export default function FamilyTreeAdminManagement() {
 
         {/* GROWTH */}
         <TabsContent value="growth" className="animate-in fade-in duration-500 m-0 space-y-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-4">
               <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
                 <TrendingUp className="h-6 w-6" />
@@ -425,7 +425,7 @@ export default function FamilyTreeAdminManagement() {
             </Card>
           </div>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between bg-muted/30">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black">Regional Lineage Density</CardTitle>
@@ -494,7 +494,7 @@ export default function FamilyTreeAdminManagement() {
                 </div>
               </Card>
 
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
                 <CardHeader className="p-8 border-b bg-muted/30">
                   <CardTitle className="text-xl font-black">Contributor Leaderboard</CardTitle>
                   <p className="text-sm text-muted-foreground font-medium italic">Rewarding users for verified historical data and document uploads.</p>

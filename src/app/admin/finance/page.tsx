@@ -75,7 +75,7 @@ export default function SuperAdminFinanceManagement() {
         </div>
 
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Active Entities</span>
@@ -116,7 +116,7 @@ export default function SuperAdminFinanceManagement() {
             </Card>
           </div>
 
-          <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 flex flex-row items-center justify-between">
               <CardTitle className="text-xl font-black text-foreground">Pending KYC & Audits</CardTitle>
               <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-indigo-200">

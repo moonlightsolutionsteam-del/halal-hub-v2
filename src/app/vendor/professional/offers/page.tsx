@@ -58,7 +58,7 @@ export default function ProfessionalOffersPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
           { label: "Active Offers", value: "3", icon: Tag, color: "bg-violet-50 text-violet-600" },
           { label: "Total Redemptions", value: "57", icon: Users, color: "bg-emerald-50 text-emerald-600" },

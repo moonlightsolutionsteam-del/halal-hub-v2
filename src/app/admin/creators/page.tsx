@@ -125,7 +125,7 @@ export default function SuperAdminCreatorsControlTower() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <Card className="lg:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+            <Card className="lg:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-card">
               <CardHeader className="p-8 border-b flex flex-row items-center justify-between bg-muted/30">
                 <div className="space-y-1">
                   <CardTitle className="text-xl font-black">Creator Performance Matrix</CardTitle>
@@ -166,7 +166,7 @@ export default function SuperAdminCreatorsControlTower() {
 
         {/* 4. CREATOR MANAGEMENT PANEL */}
         <TabsContent value="directory" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
             <CardHeader className="p-8 border-b space-y-6">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
@@ -265,7 +265,7 @@ export default function SuperAdminCreatorsControlTower() {
         <TabsContent value="moderation" className="animate-in fade-in duration-500 m-0 space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-6">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card">
                 <CardHeader className="p-8 border-b bg-muted/30 flex flex-row items-center justify-between">
                   <div className="space-y-1">
                     <CardTitle className="text-xl font-black">Moderation Queue</CardTitle>
@@ -367,7 +367,7 @@ export default function SuperAdminCreatorsControlTower() {
               { title: "Organic Beef Drive", brand: "Punjab Meats", budget: "₹450k", creators: "5/5", completion: 100, status: "Success" },
               { title: "Halal Glow Launch", brand: "Pure Glow Beauty", budget: "₹850k", creators: "8/20", completion: 35, status: "Active" },
             ].map((camp, i) => (
-              <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-blue-100">
+              <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card flex flex-col group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-blue-100">
                 <CardHeader className="p-8 pb-4">
                   <div className="flex justify-between items-start mb-4">
                     <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
