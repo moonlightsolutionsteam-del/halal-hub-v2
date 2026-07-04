@@ -75,32 +75,32 @@ export default function MeatListingPage() {
   const [selectedCert, setSelectedCert] = useState("All");
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-7xl">
+    <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
       {/* Breadcrumbs & Header */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3 sm:gap-6">
         <Link href="/categories" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
           <ArrowLeft className="h-4 w-4" /> Back to Categories
         </Link>
         
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-8">
           <div className="space-y-3">
-            <div className="flex items-center gap-4">
-              <div className="h-14 w-14 rounded-2xl flex items-center justify-center bg-red-100 text-red-600 shadow-inner">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="h-9 w-9 sm:h-14 sm:w-14 rounded-xl sm:rounded-2xl flex items-center justify-center bg-red-100 text-red-600 shadow-inner">
                 <Beef className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Meat & Butchers</h1>
-                <p className="text-muted-foreground font-medium text-xl">Premium, traceable, and strictly certified halal sources.</p>
+                <h1 className="text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Meat & Butchers</h1>
+                <p className="text-muted-foreground font-medium text-xs sm:text-xl">Premium, traceable, and strictly certified halal sources.</p>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <Button variant="outline" className="h-14 rounded-2xl bg-card border-none shadow-sm gap-2 font-bold px-6 hover:bg-muted">
+            <Button variant="outline" className="h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm gap-2 font-bold px-4 sm:px-6 hover:bg-muted">
               <ShieldCheck className="h-5 w-5 text-red-600" /> Audit Reports
             </Button>
             <div className="relative flex-1 md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search beef, lamb, poultry, or shop names..." className="pl-12 h-14 rounded-2xl bg-card border-none shadow-sm font-medium text-lg" />
+              <Input placeholder="Search beef, lamb, poultry, or shop names..." className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg" />
             </div>
           </div>
         </div>
@@ -189,19 +189,19 @@ export default function MeatListingPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 gap-3 sm:gap-8">
             {MOCK_BUTCHERS.map((shop) => (
               <Link key={shop.id} href={`/entities/${shop.id}`}>
-                <Card className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-red-100/50">
-                  <div className="relative aspect-[16/9] overflow-hidden">
+                <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-red-100/50">
+                  <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
                     <Image src={shop.img} alt={shop.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
-                    <div className="absolute top-6 left-6 flex flex-col gap-2">
+                    <div className="absolute top-2 left-2 sm:top-6 sm:left-6 flex flex-col gap-2">
                       <Badge className="bg-card/90 backdrop-blur-md text-red-600 font-black border-none shadow-xl px-4 py-1.5 rounded-full flex items-center gap-1.5">
                         <Star className="h-3.5 w-3.5 fill-red-600 text-red-600" /> {shop.rate}
                       </Badge>
                     </div>
                     {shop.ver && (
-                      <div className="absolute bottom-6 left-6">
+                      <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6">
                         <Badge className="bg-red-600 text-white font-black border-none shadow-xl px-5 py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-2">
                           <ShieldCheck className="h-3 w-3 animate-pulse" /> Source Verified
                         </Badge>
@@ -209,7 +209,7 @@ export default function MeatListingPage() {
                     )}
                   </div>
                   
-                  <CardHeader className="p-8 pb-4">
+                  <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
                     <div className="space-y-2">
                       <p className="text-[10px] font-black uppercase tracking-widest text-red-600">{shop.source} • {shop.type}</p>
                       <CardTitle className="text-3xl font-black group-hover:text-red-600 transition-colors leading-tight">{shop.name}</CardTitle>
@@ -219,7 +219,7 @@ export default function MeatListingPage() {
                     </div>
                   </CardHeader>
 
-                  <CardContent className="px-8 pb-8 flex-1 space-y-6">
+                  <CardContent className="px-3 pb-3 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
                     <div className="space-y-3">
                       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">House Specialties</p>
                       <div className="flex flex-wrap gap-2">
@@ -229,7 +229,7 @@ export default function MeatListingPage() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 pt-6 border-t border-border">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 pt-3 sm:pt-6 border-t border-border">
                       <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
                         <Truck className={`h-4 w-4 ${shop.delivery ? 'text-emerald-500' : 'text-muted-foreground'}`} /> {shop.delivery ? 'Delivery' : 'No Delivery'}
                       </div>
@@ -239,8 +239,8 @@ export default function MeatListingPage() {
                     </div>
                   </CardContent>
 
-                  <CardFooter className="px-8 pb-8 pt-0 mt-auto">
-                    <Button className="w-full bg-zinc-900 hover:bg-red-600 text-white rounded-[1.5rem] font-black text-sm uppercase tracking-widest h-16 shadow-2xl transition-all group-hover:scale-[1.02]">
+                  <CardFooter className="px-3 pb-3 pt-0 sm:px-8 sm:pb-8 mt-auto">
+                    <Button className="w-full bg-zinc-900 hover:bg-red-600 text-white rounded-xl sm:rounded-[1.5rem] font-black text-[10px] sm:text-sm uppercase tracking-widest h-9 sm:h-16 shadow-lg sm:shadow-2xl transition-all group-hover:scale-[1.02]">
                       View Price List <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </CardFooter>
@@ -249,7 +249,7 @@ export default function MeatListingPage() {
             ))}
           </div>
           
-          <div className="flex flex-col items-center justify-center py-16 gap-6">
+          <div className="flex flex-col items-center justify-center py-6 sm:py-16 gap-4 sm:gap-6">
             <div className="flex items-center gap-2">
               <div className="h-1 w-12 bg-muted rounded-full" />
               <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Listings</p>
