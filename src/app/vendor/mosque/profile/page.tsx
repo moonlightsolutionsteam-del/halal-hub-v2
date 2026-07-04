@@ -216,7 +216,7 @@ export default function MosqueProfilePage() {
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Full Address</Label>
                   <Input placeholder="e.g., Jama Masjid, Chandni Chowk, Old Delhi" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-6">
                   <div className="space-y-2">
                     <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Area / Locality</Label>
                     <Input placeholder="e.g., Old Delhi" className="h-12 rounded-2xl bg-muted border-none font-bold" />
@@ -238,7 +238,7 @@ export default function MosqueProfilePage() {
               <Phone className="h-5 w-5 text-teal-600" /> Contact & Social
             </h2>
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6">
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Contact Number</Label>
                   <Input type="tel" placeholder="+91 11 2345 6789" className="h-12 rounded-2xl bg-muted border-none font-bold" />
@@ -270,7 +270,7 @@ export default function MosqueProfilePage() {
             <h2 className="text-xl font-black flex items-center gap-2">
               <UploadCloud className="h-5 w-5 text-teal-600" /> Branding
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-3 sm:gap-6">
               {["Mosque Logo (1:1)", "Cover Photo (16:9)"].map((label) => (
                 <Card key={label} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
                   <div className="relative border-2 border-dashed border-border rounded-[1.5rem] m-4 p-8 text-center hover:border-teal-300 transition-colors flex flex-col justify-center items-center gap-3">

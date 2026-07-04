@@ -102,7 +102,7 @@ export default function OrganizationProfilePage() {
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Upload your logo and cover photo for your public listing page.</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-3 sm:gap-6">
               {[
                 { label: "Organization Logo", hint: "PNG or SVG (1:1) · Max 5MB" },
                 { label: "Cover / Banner Photo", hint: "PNG or JPG (16:9) · Max 10MB" },
@@ -229,7 +229,7 @@ export default function OrganizationProfilePage() {
                 <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Office / HQ Address</Label>
                 <Input placeholder="e.g., 4th Floor, Community Centre, Bengaluru" className="h-12 rounded-2xl bg-muted border-none font-bold" />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6">
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Contact Number</Label>
                   <Input type="tel" placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-muted border-none font-bold" />

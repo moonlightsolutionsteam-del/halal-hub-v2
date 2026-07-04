@@ -42,7 +42,7 @@ export default function CosmeticsGalleryPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-8 space-y-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6">
             {photos.map((photo) => (
               <Card key={photo.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-xl transition-all border-2 border-transparent hover:border-rose-100">
                 <div className="relative aspect-[3/4]">

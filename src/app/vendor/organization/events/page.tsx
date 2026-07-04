@@ -25,7 +25,7 @@ export default function OrganizationEventsPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {events.map((event, i) => (
           <Card key={i} className="rounded-[2rem] border-none shadow-soft">
             <CardContent className="p-6 space-y-3">

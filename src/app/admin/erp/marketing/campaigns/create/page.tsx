@@ -34,7 +34,7 @@ export default function CreateCampaignPage() {
             <Label htmlFor="campaign-name">Campaign Name</Label>
             <Input id="campaign-name" placeholder="e.g., Ramadan 2025 Outreach" />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             <div className="space-y-2">
                 <Label htmlFor="campaign-type">Campaign Type</Label>
                 <Select>

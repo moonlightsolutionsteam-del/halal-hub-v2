@@ -174,7 +174,7 @@ export default function CreativeProfilePage() {
               <p className="text-sm text-muted-foreground font-medium">Tell brands how you're open to working together.</p>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 {COLLAB_TYPES.map((type) => (
                   <label key={type} className="flex items-center gap-3 p-4 bg-muted rounded-2xl cursor-pointer hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all">
                     <input type="checkbox" className="accent-emerald-600 h-4 w-4" />

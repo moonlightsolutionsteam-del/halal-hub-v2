@@ -23,7 +23,7 @@ export default function ProfessionalPractitionersPage() {
         <Button className="rounded-full"><PlusCircle className="h-4 w-4 mr-2" />Add Practitioner</Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {practitioners.map((p, i) => (
           <Card key={i} className="rounded-[2rem] border-none shadow-soft text-center">
             <CardContent className="p-6 space-y-3">

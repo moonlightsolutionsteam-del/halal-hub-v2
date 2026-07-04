@@ -35,7 +35,7 @@ export default function ButcherSupportPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-8 space-y-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-red-100">
               <div className="h-12 w-12 rounded-2xl bg-red-50 flex items-center justify-center text-red-600 mb-6">
                 <ShieldCheck className="h-6 w-6" />

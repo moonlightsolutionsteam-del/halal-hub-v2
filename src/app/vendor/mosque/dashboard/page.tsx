@@ -33,7 +33,7 @@ export default function MosqueDashboardPage() {
         <p className="text-sm font-bold text-muted-foreground">Here&apos;s what&apos;s happening at your masjid today.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {kpis.map((kpi) => (
           <Card key={kpi.label} className="rounded-[2rem] border-none shadow-soft">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

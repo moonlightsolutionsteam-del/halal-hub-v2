@@ -38,7 +38,7 @@ export default function CreateEmployeePage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="employee-name">Full Name</Label>
                   <Input id="employee-name" placeholder="e.g., Aisha Khan" />
@@ -48,7 +48,7 @@ export default function CreateEmployeePage() {
                   <Input id="employee-email" type="email" placeholder="e.g., aisha.k@example.com" />
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="employee-phone">Phone Number</Label>
                   <Input id="employee-phone" type="tel" placeholder="+91..." />
@@ -65,7 +65,7 @@ export default function CreateEmployeePage() {
                 <CardTitle>Role & Department</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     <div className="space-y-2">
                         <Label htmlFor="department">Department</Label>
                         <Select>
@@ -82,7 +82,7 @@ export default function CreateEmployeePage() {
                         <Input id="role" placeholder="e.g., Sales Executive" />
                     </div>
                 </div>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                 <div className="grid grid-cols-2 gap-3 sm:gap-4">
                      <div className="space-y-2">
                         <Label htmlFor="manager">Reporting Manager</Label>
                          <Select>

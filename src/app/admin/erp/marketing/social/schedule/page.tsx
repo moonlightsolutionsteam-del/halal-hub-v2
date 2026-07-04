@@ -99,7 +99,7 @@ export default function SchedulePostPage() {
                     <CardDescription>Publish immediately or schedule for a future date and time.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                     <div className="grid grid-cols-2 gap-3 sm:gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="schedule-date">Date</Label>
                             <Input id="schedule-date" type="date" />

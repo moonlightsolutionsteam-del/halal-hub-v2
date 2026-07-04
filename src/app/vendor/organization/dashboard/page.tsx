@@ -43,7 +43,7 @@ export default function OrganizationDashboardPage() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {kpis.map((kpi) => (
           <Card key={kpi.label} className="rounded-[2rem] border-none shadow-soft">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

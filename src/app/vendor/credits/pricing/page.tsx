@@ -233,7 +233,7 @@ export default function CreditsPricingPage() {
               We've designed our credit system to align with ethical trade principles—ensuring you only invest when your business is ready to scale.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6">
             <div className="p-8 bg-emerald-50 rounded-[2.5rem] border border-emerald-100 flex flex-col gap-4">
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400 border-none" />)}
