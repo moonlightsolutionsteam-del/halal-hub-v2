@@ -195,11 +195,11 @@ export default function MediaListingPage() {
                     </div>
                     <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 flex gap-2">
                       {item.ver && (
-                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-5 py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-2">
+                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
                           <CheckCircle2 className="h-3 w-3" /> Integrity Audited
                         </Badge>
                       )}
-                      <Badge className="bg-card text-muted-foreground font-black border-none shadow-xl px-5 py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-2">
+                      <Badge className="bg-card text-muted-foreground font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
                         {item.startingPrice}
                       </Badge>
                     </div>

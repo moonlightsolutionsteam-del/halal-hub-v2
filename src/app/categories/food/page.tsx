@@ -213,7 +213,7 @@ export default function FoodListingPage() {
                     </div>
                     {res.ver && (
                       <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6">
-                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-5 py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-2">
+                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
                           <div className="h-2 w-2 bg-card rounded-full animate-pulse" /> Verified Halal
                         </Badge>
                       </div>

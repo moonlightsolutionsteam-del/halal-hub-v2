@@ -196,13 +196,13 @@ export default function EventServicesListingPage() {
                         <Star className="h-3.5 w-3.5 fill-purple-600 text-purple-600" /> {service.rate}
                       </Badge>
                     </div>
-                    <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 flex gap-2">
+                    <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 flex gap-1.5 sm:gap-2">
                       {service.ver && (
-                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-5 py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-2">
-                          <CheckCircle2 className="h-3 w-3" /> Trust Verified
+                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
+                          <CheckCircle2 className="h-3 w-3" /> <span className="hidden sm:inline">Trust </span>Verified
                         </Badge>
                       )}
-                      <Badge className="bg-card text-purple-600 font-black border-none shadow-xl px-5 py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-2">
+                      <Badge className="hidden sm:flex bg-card text-purple-600 font-black border-none shadow-xl px-5 py-2 rounded-full uppercase text-[10px] tracking-widest items-center gap-2">
                         <Zap className="h-3 w-3" /> From {service.startingPrice}
                       </Badge>
                     </div>
