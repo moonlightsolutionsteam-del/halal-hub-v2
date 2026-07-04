@@ -32,7 +32,7 @@ export default function EventPackagesPage() {
           <div className="flex items-center gap-2 text-purple-600 font-black uppercase tracking-widest text-[10px]">
             <Sparkles className="h-3 w-3" /> Venue Offerings
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Event Packages</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Event Packages</h1>
           <p className="text-muted-foreground font-medium">Create and manage tiered pricing sets for different event types and guest counts.</p>
         </div>
         <Button className="bg-purple-600 hover:bg-purple-700 rounded-full px-8 font-black shadow-lg shadow-purple-200 h-12 text-white">
@@ -42,7 +42,7 @@ export default function EventPackagesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {packages.map((pkg) => (
-          <Card key={pkg.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-purple-100">
+          <Card key={pkg.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-purple-100">
             <div className="p-8 flex gap-8">
               <div className="relative h-32 w-32 rounded-[2rem] overflow-hidden shrink-0 shadow-lg">
                 <Image src={`https://picsum.photos/seed/event-pkg-${pkg.id}/400/400`} alt={pkg.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -55,7 +55,7 @@ export default function EventPackagesPage() {
                     </Badge>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button size="icon" variant="ghost" className="rounded-full h-8 w-8"><MoreVertical className="h-4 w-4 text-slate-300" /></Button>
+                        <Button size="icon" variant="ghost" className="rounded-full h-8 w-8"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="rounded-2xl p-2">
                         <DropdownMenuItem className="rounded-xl font-bold gap-2"><Edit2 className="h-4 w-4" /> Edit Tier</DropdownMenuItem>
@@ -63,14 +63,14 @@ export default function EventPackagesPage() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-tight">{pkg.name}</h3>
-                  <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <h3 className="text-2xl font-black text-foreground tracking-tight leading-tight">{pkg.name}</h3>
+                  <div className="flex items-center gap-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                     <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {pkg.guests} Pax</span>
                     <span>•</span>
                     <span className="flex items-center gap-1"><Layers className="h-3 w-3" /> {pkg.items} Inclusions</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between border-t border-slate-50 pt-4">
+                <div className="flex items-center justify-between border-t border-border pt-4">
                   <span className="text-xl font-black text-purple-600">{pkg.price}</span>
                   <Badge className="bg-emerald-50 text-emerald-600 border-none px-3 text-[9px] font-black uppercase">
                     {pkg.status}
@@ -81,13 +81,13 @@ export default function EventPackagesPage() {
           </Card>
         ))}
         
-        <button className="rounded-[3rem] border-4 border-dashed border-slate-100 bg-slate-50/30 flex flex-col items-center justify-center p-12 text-center gap-4 hover:bg-white hover:border-purple-200 transition-all cursor-pointer group">
-          <div className="h-16 w-16 bg-white rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+        <button className="rounded-[3rem] border-4 border-dashed border-border bg-muted/30 flex flex-col items-center justify-center p-12 text-center gap-4 hover:bg-card hover:border-purple-200 transition-all cursor-pointer group">
+          <div className="h-16 w-16 bg-card rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
             <Plus className="h-8 w-8 text-purple-600" />
           </div>
           <div className="space-y-1">
-            <p className="font-black text-xl text-slate-900">New Offering</p>
-            <p className="text-sm text-slate-400 font-medium">Build a custom tier for your venue</p>
+            <p className="font-black text-xl text-foreground">New Offering</p>
+            <p className="text-sm text-muted-foreground font-medium">Build a custom tier for your venue</p>
           </div>
         </button>
       </div>

@@ -34,7 +34,7 @@ export default function FashionProductsPage() {
           <div className="flex items-center gap-2 text-pink-600 font-black uppercase tracking-widest text-[10px]">
             <Shirt className="h-3 w-3" /> Inventory Control
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Product Catalog</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Product Catalog</h1>
           <p className="text-muted-foreground font-medium">Manage your modest fashion collections, inventory levels, and tiered pricing.</p>
         </div>
         <div className="flex gap-3">
@@ -47,22 +47,22 @@ export default function FashionProductsPage() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2rem] shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-[2rem] shadow-sm">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search items by name or SKU..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+          <Input placeholder="Search items by name or SKU..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer bg-pink-50 text-pink-600 border-none">All Styles</Badge>
-          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer border-slate-200">Abayas</Badge>
-          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer border-slate-200">Hijabs</Badge>
-          <Button variant="ghost" size="icon" className="rounded-full"><Filter className="h-4 w-4 text-slate-400" /></Button>
+          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer border-border">Abayas</Badge>
+          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer border-border">Hijabs</Badge>
+          <Button variant="ghost" size="icon" className="rounded-full"><Filter className="h-4 w-4 text-muted-foreground" /></Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <Card key={product.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-pink-100">
+          <Card key={product.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-pink-100">
             <div className="relative aspect-[3/4]">
               <Image 
                 src={`https://picsum.photos/seed/fashion-item${product.id}/600/800`} 
@@ -71,14 +71,14 @@ export default function FashionProductsPage() {
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute top-4 left-4">
-                <Badge className="bg-white/90 backdrop-blur-md text-pink-600 font-black border-none shadow-lg px-3 flex items-center gap-1.5">
+                <Badge className="bg-card/90 backdrop-blur-md text-pink-600 font-black border-none shadow-lg px-3 flex items-center gap-1.5">
                   {product.stock}
                 </Badge>
               </div>
               <div className="absolute top-4 right-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button size="icon" className="rounded-full bg-white/80 backdrop-blur-md text-slate-800 hover:bg-white border-none shadow-sm h-8 w-8">
+                    <Button size="icon" className="rounded-full bg-card/80 backdrop-blur-md text-foreground hover:bg-card border-none shadow-sm h-8 w-8">
                       <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -96,9 +96,9 @@ export default function FashionProductsPage() {
                 <span className="text-pink-600 font-black">{product.price}</span>
               </div>
               <CardTitle className="text-lg font-bold group-hover:text-pink-600 transition-colors leading-tight line-clamp-1">{product.name}</CardTitle>
-              <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest mt-1">SKU: {product.code}</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">SKU: {product.code}</p>
             </CardHeader>
-            <CardContent className="px-6 pb-6 pt-0 flex items-center justify-between border-t border-slate-50 pt-4 mt-2">
+            <CardContent className="px-6 pb-6 pt-0 flex items-center justify-between border-t border-border pt-4 mt-2">
               <div className="flex items-center gap-2">
                 <div className={`h-2 w-2 rounded-full ${product.status === 'Available' ? 'bg-emerald-500' : 'bg-red-500'}`} />
                 <span className="text-[10px] font-bold text-muted-foreground uppercase">{product.status}</span>
@@ -107,13 +107,13 @@ export default function FashionProductsPage() {
             </CardContent>
           </Card>
         ))}
-        <button className="rounded-[2.5rem] border-4 border-dashed border-slate-100 bg-slate-50/30 flex flex-col items-center justify-center p-8 text-center gap-4 hover:bg-white hover:border-pink-200 transition-all cursor-pointer group min-h-[300px]">
-          <div className="h-16 w-16 bg-white rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+        <button className="rounded-[2.5rem] border-4 border-dashed border-border bg-muted/30 flex flex-col items-center justify-center p-8 text-center gap-4 hover:bg-card hover:border-pink-200 transition-all cursor-pointer group min-h-[300px]">
+          <div className="h-16 w-16 bg-card rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
             <Plus className="h-8 w-8 text-pink-600" />
           </div>
           <div className="space-y-1">
-            <p className="font-black text-xl text-slate-900">New Item</p>
-            <p className="text-sm text-slate-400 font-medium px-4">Register a new modest design or accessory SKU</p>
+            <p className="font-black text-xl text-foreground">New Item</p>
+            <p className="text-sm text-muted-foreground font-medium px-4">Register a new modest design or accessory SKU</p>
           </div>
         </button>
       </div>

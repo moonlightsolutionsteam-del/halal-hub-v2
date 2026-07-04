@@ -14,7 +14,7 @@ export default function DigitalTableOrderingPage() {
     { id: "T-01", status: "Occupied", pax: 4, orders: 2, time: "45m", color: "border-primary" },
     { id: "T-02", status: "Occupied", pax: 2, orders: 1, time: "15m", color: "border-primary" },
     { id: "T-03", status: "Pending", pax: 6, orders: 0, time: "2m", color: "border-amber-500", alert: true },
-    { id: "T-04", status: "Available", pax: 0, orders: 0, time: "0m", color: "border-slate-100" },
+    { id: "T-04", status: "Available", pax: 0, orders: 0, time: "0m", color: "border-border" },
     { id: "T-05", status: "Cleaning", pax: 0, orders: 0, time: "5m", color: "border-blue-400" },
     { id: "T-06", status: "Occupied", pax: 3, orders: 3, time: "1h 10m", color: "border-primary" },
   ];
@@ -46,13 +46,13 @@ export default function DigitalTableOrderingPage() {
           { label: "Avg. Session", value: "52m", icon: Clock, color: "text-emerald-500" },
           { label: "Revenue Flow", value: "₹18.4k", icon: CheckCircle2, color: "text-primary" },
         ].map((stat, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-3xl p-4 bg-white flex items-center gap-4">
-            <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+          <Card key={i} className="border-none shadow-sm rounded-3xl p-4 bg-card flex items-center gap-4">
+            <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground">
               <stat.icon className={`h-6 w-6 ${stat.color}`} />
             </div>
             <div>
               <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-2xl font-black text-foreground">{stat.value}</p>
             </div>
           </Card>
         ))}
@@ -60,10 +60,10 @@ export default function DigitalTableOrderingPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
         {tables.map((table) => (
-          <Card key={table.id} className={`rounded-[2.5rem] border-4 ${table.color} shadow-sm bg-white overflow-hidden transition-all hover:shadow-xl group cursor-pointer`}>
+          <Card key={table.id} className={`rounded-[2.5rem] border-4 ${table.color} shadow-sm bg-card overflow-hidden transition-all hover:shadow-xl group cursor-pointer`}>
             <div className="p-6 space-y-4">
               <div className="flex justify-between items-start">
-                <h3 className="text-2xl font-black text-slate-900">{table.id}</h3>
+                <h3 className="text-2xl font-black text-foreground">{table.id}</h3>
                 {table.alert && <Bell className="h-5 w-5 text-amber-500 animate-bounce" />}
               </div>
               
@@ -71,15 +71,15 @@ export default function DigitalTableOrderingPage() {
                 <Badge variant="secondary" className="rounded-full px-3 text-[10px] font-black uppercase tracking-tighter">
                   {table.status}
                 </Badge>
-                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                   <Users className="h-3 w-3" /> {table.pax} Guests
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-50 flex justify-between items-center">
+              <div className="pt-4 border-t border-border flex justify-between items-center">
                 <div className="flex flex-col">
                   <span className="text-xs font-black text-primary">{table.orders} Orders</span>
-                  <span className="text-[9px] font-bold text-slate-400 uppercase">{table.time} active</span>
+                  <span className="text-[9px] font-bold text-muted-foreground uppercase">{table.time} active</span>
                 </div>
                 <Button size="icon" variant="ghost" className="rounded-xl group-hover:bg-primary group-hover:text-white transition-colors">
                   <ArrowUpRight className="h-4 w-4" />
@@ -90,31 +90,31 @@ export default function DigitalTableOrderingPage() {
         ))}
       </div>
 
-      <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 overflow-hidden relative">
+      <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 overflow-hidden relative">
         <ChefHat className="absolute -bottom-4 -right-4 h-48 w-48 opacity-10" />
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <div className="space-y-2">
               <h2 className="text-3xl font-black tracking-tight">Kitchen Communication</h2>
-              <p className="text-slate-400 font-medium">All digital orders are instantly routed to your kitchen display system (KDS).</p>
+              <p className="text-muted-foreground font-medium">All digital orders are instantly routed to your kitchen display system (KDS).</p>
             </div>
             <div className="flex gap-4">
               <Button className="bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest shadow-xl">
                 Open Kitchen Display
               </Button>
-              <Button variant="outline" className="border-white/20 text-white rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest hover:bg-white/10">
+              <Button variant="outline" className="border-white/20 text-white rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest hover:bg-card/10">
                 Setup Printers
               </Button>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-6 bg-white/5 rounded-3xl border border-white/10 text-center">
+            <div className="p-6 bg-card/5 rounded-3xl border border-white/10 text-center">
               <p className="text-3xl font-black text-emerald-400">12m</p>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Avg. Prep Time</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Avg. Prep Time</p>
             </div>
-            <div className="p-6 bg-white/5 rounded-3xl border border-white/10 text-center">
+            <div className="p-6 bg-card/5 rounded-3xl border border-white/10 text-center">
               <p className="text-3xl font-black text-blue-400">98%</p>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Order Accuracy</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Order Accuracy</p>
             </div>
           </div>
         </div>

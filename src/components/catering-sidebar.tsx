@@ -14,10 +14,18 @@ import {
   Settings,
   Headset,
   ExternalLink,
-  PlusCircle,
   ClipboardList,
   UserCircle,
-  ChevronDown
+  ChevronDown,
+  PenTool,
+  BookOpen,
+  MessageSquare,
+  TrendingUp,
+  Zap,
+  Heart,
+  Users2,
+  ShieldCheck,
+  Wallet
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -63,11 +71,24 @@ export function CateringSidebar() {
       ]
     },
     {
-      title: "Growth",
-      icon: Tag,
+      title: "Engagement",
+      icon: PenTool,
       items: [
-        { title: "Offers & Promos", icon: Tag, url: "/vendor/catering/offers" },
+        { title: "Social Posts", icon: PenTool, url: "/vendor/engagement/posts" },
+        { title: "Catering Blog", icon: BookOpen, url: "/vendor/engagement/blog" },
+        { title: "Enquiries", icon: MessageSquare, url: "/vendor/engagement/enquiry" },
         { title: "Guest Reviews", icon: Star, url: "/vendor/catering/reviews" },
+      ]
+    },
+    {
+      title: "Marketing & Growth",
+      icon: TrendingUp,
+      items: [
+        { title: "Buy Credits", icon: Zap, url: "/vendor/credits/pricing" },
+        { title: "Offers & Promos", icon: Tag, url: "/vendor/catering/offers" },
+        { title: "Collaborate", icon: Users2, url: "/vendor/marketing/collaborate" },
+        { title: "Loyalty Programme", icon: Heart, url: "/vendor/marketing/loyalty" },
+        { title: "Trust & Transparency", icon: ShieldCheck, url: "/vendor/marketing/transparency" },
       ]
     },
     {
@@ -75,23 +96,24 @@ export function CateringSidebar() {
       icon: Settings,
       items: [
         { title: "Catering Profile", icon: UserCircle, url: "/vendor/catering/profile" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
         { title: "Support Center", icon: Headset, url: "/vendor/catering/support" },
       ]
     }
   ];
 
   return (
-    <Sidebar variant="sidebar" className="border-r bg-white">
+    <Sidebar variant="sidebar" className="border-r bg-card">
       <SidebarHeader className="p-6 border-b">
         <Link href="/vendor/catering/dashboard" className="flex items-center gap-3">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-200">
             <Utensils className="h-5 w-5" />
           </div>
-          <span className="font-black text-xl text-slate-900 font-headline tracking-tight">Catering Panel</span>
+          <span className="font-black text-xl text-foreground font-headline tracking-tight">Catering Panel</span>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-3 py-4 bg-white">
+      <SidebarContent className="px-3 py-4 bg-card">
         {toolGroups.map((group) => (
           <SidebarGroup key={group.title}>
             <Collapsible defaultOpen className="group/collapsible">
@@ -110,7 +132,7 @@ export function CateringSidebar() {
                         <SidebarMenuButton 
                           asChild 
                           isActive={mounted && pathname === sub.url}
-                          className="h-9 font-bold text-slate-500 rounded-lg hover:text-blue-600 hover:bg-blue-50 transition-all"
+                          className="h-9 font-bold text-muted-foreground rounded-lg hover:text-blue-600 hover:bg-blue-50 transition-all"
                         >
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-60" />
@@ -127,11 +149,11 @@ export function CateringSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-6 border-t bg-slate-50/50">
+      <SidebarFooter className="p-6 border-t bg-muted/50">
         <Link href="/" className="flex items-center gap-3 text-blue-600 cursor-pointer hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-black text-xs">EC</div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-slate-900">Elite Catering</span>
+            <span className="text-sm font-bold text-foreground">Elite Catering</span>
             <span className="text-[10px] text-muted-foreground font-medium">Exit to App</span>
           </div>
           <ExternalLink className="h-3 w-3 ml-auto opacity-40" />

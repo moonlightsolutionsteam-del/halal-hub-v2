@@ -22,6 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 const FamilyTreeIcon = (props: any) => (
   <svg
@@ -51,32 +52,32 @@ export default function UserDashboard() {
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-[#FBFBFB] selection:bg-primary/10">
+    <div className="min-h-screen bg-background selection:bg-primary/10">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b px-6 h-20 flex items-center justify-between shadow-sm">
+      <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b px-6 h-20 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-6">
           <Link href="/">
-            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50 border shadow-sm h-12 w-12 transition-all active:scale-90">
-              <ArrowLeft className="h-5 w-5 text-slate-600" />
+            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-muted border shadow-sm h-12 w-12 transition-all active:scale-90">
+              <ArrowLeft className="h-5 w-5 text-muted-foreground" />
             </Button>
           </Link>
           <div className="space-y-0.5">
-            <h1 className="text-2xl font-black font-headline text-slate-900 tracking-tight">Profile Hub</h1>
+            <h1 className="text-2xl font-black font-headline text-foreground tracking-tight">Profile Hub</h1>
             <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Verified Identity</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-slate-50 relative group">
-            <Bell className="h-5 w-5 text-slate-600 group-hover:text-primary transition-colors" />
+          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-muted relative group">
+            <Bell className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
             <span className="absolute top-3.5 right-3.5 h-2.5 w-2.5 bg-red-500 rounded-full border-2 border-white" />
           </Button>
           <Link href="/account/settings">
-            <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-slate-50">
-              <Settings className="h-5 w-5 text-slate-600" />
+            <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-muted">
+              <Settings className="h-5 w-5 text-muted-foreground" />
             </Button>
           </Link>
-          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-slate-50">
-            <MoreVertical className="h-5 w-5 text-slate-600" />
+          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-muted">
+            <MoreVertical className="h-5 w-5 text-muted-foreground" />
           </Button>
         </div>
       </header>
@@ -99,7 +100,7 @@ export default function UserDashboard() {
         <div className="container mx-auto max-w-5xl px-6 -mt-24 relative z-10">
           <div className="flex flex-col md:flex-row items-end gap-10">
             <div className="relative shrink-0">
-              <div className="p-2 bg-white rounded-[3rem] shadow-2xl">
+              <div className="p-2 bg-card rounded-[3rem] shadow-2xl">
                 <Avatar className="h-40 w-48 rounded-[2.5rem] md:h-48 md:w-48">
                   <AvatarImage src="https://picsum.photos/seed/user-sa/400/400" />
                   <AvatarFallback className="text-4xl font-black bg-emerald-50 text-emerald-600">SA</AvatarFallback>
@@ -113,10 +114,10 @@ export default function UserDashboard() {
             <div className="flex-1 flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-8 pb-4">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-4xl font-black text-slate-900 tracking-tighter">Super Admin</h2>
-                  <Badge className="bg-slate-900 text-white border-none font-black text-[10px] uppercase tracking-widest px-4 h-7">ELITE MEMBER</Badge>
+                  <h2 className="text-4xl font-black text-foreground tracking-tighter">Super Admin</h2>
+                  <Badge className="bg-zinc-900 text-white border-none font-black text-[10px] uppercase tracking-widest px-4 h-7">ELITE MEMBER</Badge>
                 </div>
-                <div className="flex items-center gap-6 text-slate-400 font-bold">
+                <div className="flex items-center gap-6 text-muted-foreground font-bold">
                   <p className="text-base text-emerald-600 font-black">@admin</p>
                   <p className="flex items-center gap-2 text-sm"><MapPin className="h-4 w-4" /> New York, NY</p>
                   <p className="flex items-center gap-2 text-sm"><Calendar className="h-4 w-4" /> Joined May 2021</p>
@@ -124,11 +125,11 @@ export default function UserDashboard() {
               </div>
               <div className="flex gap-3">
                 <Link href="/account/settings">
-                  <Button className="rounded-2xl bg-white border-2 border-slate-100 h-14 px-8 font-black text-xs uppercase tracking-widest text-emerald-600 hover:bg-slate-50 shadow-sm transition-all active:scale-95">
+                  <Button className="rounded-2xl bg-card border-2 border-border h-14 px-8 font-black text-xs uppercase tracking-widest text-emerald-600 hover:bg-muted shadow-sm transition-all active:scale-95">
                     <Edit2 className="h-4 w-4 mr-2" /> Edit profile
                   </Button>
                 </Link>
-                <Button variant="outline" size="icon" className="rounded-2xl bg-white border-2 border-slate-100 h-14 w-14 text-slate-400 hover:text-primary hover:border-primary transition-all active:scale-95">
+                <Button variant="outline" size="icon" className="rounded-2xl bg-card border-2 border-border h-14 w-14 text-muted-foreground hover:text-primary hover:border-primary transition-all active:scale-95">
                   <Share2 className="h-5 w-5" />
                 </Button>
               </div>
@@ -136,7 +137,7 @@ export default function UserDashboard() {
           </div>
 
           {/* Social Stats Ribbon */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 border-y border-slate-100 mt-12 bg-white/50 backdrop-blur-sm rounded-[2.5rem] px-10 shadow-sm border border-white">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 border-y border-border mt-12 bg-card/50 backdrop-blur-sm rounded-[2.5rem] px-10 shadow-sm border border-white">
             {[
               { label: "Following", value: "12", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
               { label: "Followers", value: "5.4k", icon: Heart, color: "text-rose-600", bg: "bg-rose-50" },
@@ -148,8 +149,8 @@ export default function UserDashboard() {
                   <stat.icon className="h-7 w-7" />
                 </div>
                 <div>
-                  <p className="text-2xl font-black text-slate-900 tracking-tighter leading-none">{stat.value}</p>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">{stat.label}</p>
+                  <p className="text-2xl font-black text-foreground tracking-tighter leading-none">{stat.value}</p>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">{stat.label}</p>
                 </div>
               </div>
             ))}
@@ -165,7 +166,7 @@ export default function UserDashboard() {
                     <h3 className="text-2xl font-black tracking-tight leading-none uppercase">Family Tree</h3>
                     <p className="text-emerald-100 text-sm font-medium">Manage lineage & shared board</p>
                   </div>
-                  <div className="h-14 w-14 rounded-3xl bg-white/20 flex items-center justify-center backdrop-blur-md shadow-xl group-hover:translate-x-2 transition-all">
+                  <div className="h-14 w-14 rounded-3xl bg-card/20 flex items-center justify-center backdrop-blur-md shadow-xl group-hover:translate-x-2 transition-all">
                     <ArrowRight className="h-6 w-6" />
                   </div>
                 </div>
@@ -173,12 +174,12 @@ export default function UserDashboard() {
             </Link>
             <Dialog>
               <DialogTrigger asChild>
-                <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
+                <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
                   <Sparkles className="absolute -top-4 -right-4 h-32 w-32 opacity-10 group-hover:scale-110 transition-transform text-primary" />
                   <div className="relative z-10 flex items-center justify-between">
                     <div className="space-y-2">
                       <h3 className="text-2xl font-black tracking-tight leading-none uppercase">Go Pro</h3>
-                      <p className="text-slate-400 text-sm font-medium">Unlock premium hub tools</p>
+                      <p className="text-muted-foreground text-sm font-medium">Unlock premium hub tools</p>
                     </div>
                     <div className="h-14 w-14 rounded-3xl bg-primary flex items-center justify-center shadow-xl group-hover:translate-x-2 transition-all">
                       <Zap className="h-6 w-6 text-white" />
@@ -186,13 +187,13 @@ export default function UserDashboard() {
                   </div>
                 </Card>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md rounded-[3rem] p-10 border-none bg-white shadow-3xl">
+              <DialogContent className="sm:max-w-md rounded-[3rem] p-10 border-none bg-card shadow-3xl">
                 <DialogHeader className="space-y-4">
                   <div className="h-16 w-16 bg-primary/10 rounded-[1.5rem] flex items-center justify-center text-primary mx-auto mb-2">
                     <Trophy className="h-8 w-8" />
                   </div>
-                  <DialogTitle className="text-3xl font-black text-slate-900 text-center tracking-tight leading-tight">Elevate Your Presence</DialogTitle>
-                  <DialogDescription className="text-center font-medium text-slate-500 text-base leading-relaxed px-4">
+                  <DialogTitle className="text-3xl font-black text-foreground text-center tracking-tight leading-tight">Elevate Your Presence</DialogTitle>
+                  <DialogDescription className="text-center font-medium text-muted-foreground text-base leading-relaxed px-4">
                     Choose your professional path in the Halal Ecosystem and unlock specialized tools.
                   </DialogDescription>
                 </DialogHeader>
@@ -200,7 +201,7 @@ export default function UserDashboard() {
                   <Link href="/vendor/creative/dashboard">
                     <Button className="w-full h-24 bg-blue-50 hover:bg-blue-100 text-blue-700 border-2 border-blue-100 rounded-[2rem] flex flex-col items-start px-8 group transition-all shadow-sm">
                       <div className="flex items-center gap-4 w-full">
-                        <div className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                        <div className="h-12 w-12 bg-card rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                           <PenTool className="h-6 w-6" />
                         </div>
                         <div className="flex flex-col items-start">
@@ -214,7 +215,7 @@ export default function UserDashboard() {
                   <Link href="/partner/onboarding/business/category">
                     <Button className="w-full h-24 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-2 border-emerald-100 rounded-[2rem] flex flex-col items-start px-8 group transition-all shadow-sm">
                       <div className="flex items-center gap-4 w-full">
-                        <div className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                        <div className="h-12 w-12 bg-card rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                           <Store className="h-6 w-6" />
                         </div>
                         <div className="flex flex-col items-start">
@@ -227,7 +228,7 @@ export default function UserDashboard() {
                   </Link>
                 </div>
                 <div className="pt-8 text-center">
-                  <Link href="/partner/portal" className="text-[10px] font-black text-slate-400 hover:text-primary uppercase tracking-[0.2em] transition-colors flex items-center justify-center gap-2">
+                  <Link href="/partner/portal" className="text-[10px] font-black text-muted-foreground hover:text-primary uppercase tracking-[0.2em] transition-colors flex items-center justify-center gap-2">
                     Explore all partner types <ChevronRight className="h-3 w-3" />
                   </Link>
                 </div>
@@ -238,45 +239,45 @@ export default function UserDashboard() {
           {/* Unified My Activity Hub */}
           <Tabs defaultValue="activity" className="w-full mt-20">
             <TabsList className="bg-transparent h-14 w-full p-0 gap-12 justify-start border-b-2 rounded-none mb-12 overflow-x-auto no-scrollbar">
-              <TabsTrigger value="activity" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">My Activity Hub</TabsTrigger>
-              <TabsTrigger value="content" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-slate-400 data-[state=active]:text-slate-900 transition-all">My Content</TabsTrigger>
+              <TabsTrigger value="activity" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-muted-foreground data-[state=active]:text-foreground transition-all">My Activity Hub</TabsTrigger>
+              <TabsTrigger value="content" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-muted-foreground data-[state=active]:text-foreground transition-all">My Content</TabsTrigger>
             </TabsList>
 
             <TabsContent value="activity" className="m-0 space-y-12 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
               {/* Stats Overview */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+                <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
                   <CardHeader className="p-0 pb-4">
-                    <CardTitle className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Current Level</CardTitle>
+                    <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Current Level</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0 space-y-4">
-                    <div className="text-5xl font-black text-slate-900 tracking-tighter">12</div>
+                    <div className="text-5xl font-black text-foreground tracking-tighter">12</div>
                     <div className="space-y-2">
                       <Progress value={84.5} className="h-2" />
-                      <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">8,450 / 10,000 XP to Level 13</p>
+                      <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">8,450 / 10,000 XP to Level 13</p>
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+                <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
                   <CardHeader className="p-0 pb-4">
-                    <CardTitle className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Prayer Streak</CardTitle>
+                    <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Prayer Streak</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0 space-y-4">
                     <div className="text-5xl font-black text-orange-600 tracking-tighter">85 Days</div>
                     <div className="flex gap-1">
                       {['M','T','W','T','F','S','S'].map((d, i) => (
-                        <div key={i} className={cn("h-8 flex-1 rounded-xl flex items-center justify-center text-[10px] font-black shadow-inner", i < 5 ? "bg-orange-500 text-white" : "bg-slate-50 text-slate-300")}>{d}</div>
+                        <div key={i} className={cn("h-8 flex-1 rounded-xl flex items-center justify-center text-[10px] font-black shadow-inner", i < 5 ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground")}>{d}</div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+                <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
                   <CardHeader className="p-0 pb-4">
-                    <CardTitle className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Hub Coins</CardTitle>
+                    <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Hub Coins</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0 space-y-6">
                     <div className="text-5xl font-black text-amber-600 tracking-tighter">1,240</div>
-                    <Button className="w-full h-11 rounded-xl bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest shadow-xl">Redeem Rewards</Button>
+                    <Button className="w-full h-11 rounded-xl bg-zinc-900 text-white font-black text-[10px] uppercase tracking-widest shadow-xl">Redeem Rewards</Button>
                   </CardContent>
                 </Card>
               </div>
@@ -284,9 +285,9 @@ export default function UserDashboard() {
               {/* Recent Contributions */}
               <section className="space-y-6">
                 <div className="flex items-center justify-between px-2">
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">Recent Contributions</h3>
+                  <h3 className="text-2xl font-black text-foreground tracking-tight">Recent Contributions</h3>
                   <Link href="/account/suggestions">
-                    <Button variant="ghost" size="sm" className="font-black text-[10px] uppercase text-slate-400 hover:text-primary tracking-widest">Manage All <ArrowRight className="h-3 w-3 ml-1" /></Button>
+                    <Button variant="ghost" size="sm" className="font-black text-[10px] uppercase text-muted-foreground hover:text-primary tracking-widest">Manage All <ArrowRight className="h-3 w-3 ml-1" /></Button>
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -308,7 +309,7 @@ export default function UserDashboard() {
                       img: "grocery1"
                     }
                   ].map((suggestion, i) => (
-                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
+                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
                       <div className="flex gap-8 items-start">
                         <div className="relative h-24 w-24 rounded-[1.5rem] overflow-hidden shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500">
                           <Image src={`https://picsum.photos/seed/${suggestion.img}/300/300`} alt={suggestion.name} fill className="object-cover" />
@@ -316,11 +317,11 @@ export default function UserDashboard() {
                         <div className="flex-1 space-y-3 min-w-0">
                           <div className="flex justify-between items-start">
                             <Badge className={`${suggestion.statusColor} border-2 font-black text-[8px] uppercase tracking-widest h-6 px-3 rounded-full`}>{suggestion.status}</Badge>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-xl bg-slate-50"><MoreVertical className="h-4 w-4 text-slate-300" /></Button>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-xl bg-muted"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                           </div>
-                          <h4 className="text-xl font-black text-slate-900 truncate leading-tight">{suggestion.name}</h4>
+                          <h4 className="text-xl font-black text-foreground truncate leading-tight">{suggestion.name}</h4>
                           <div className="flex flex-col gap-1">
-                            <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Submitted: {suggestion.date}</p>
+                            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Submitted: {suggestion.date}</p>
                             {suggestion.points && <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em]">{suggestion.points}</p>}
                             {suggestion.info && (
                               <div className="flex items-center gap-1.5 text-[10px] font-bold text-blue-500 italic mt-1">
@@ -338,8 +339,8 @@ export default function UserDashboard() {
               {/* Achievements Timeline */}
               <section className="space-y-8 pt-4">
                 <div className="flex items-center justify-between px-2">
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none">Recent Achievements</h3>
-                  <Button variant="ghost" className="text-[10px] font-black uppercase text-slate-400 tracking-widest">See All archive</Button>
+                  <h3 className="text-2xl font-black text-foreground tracking-tight leading-none">Recent Achievements</h3>
+                  <Button variant="ghost" className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">See All archive</Button>
                 </div>
                 <div className="space-y-4">
                   {[
@@ -347,15 +348,15 @@ export default function UserDashboard() {
                     { title: "Legacy Keeper", desc: "Successfully linked 5 generations in the Al-Sayed Family Tree.", date: "Oct 12", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
                     { title: "Hajj Spirit", desc: "Uploaded 10+ historical pilgrimage documents to the Archive.", date: "Sep 28", icon: Heart, color: "text-rose-500", bg: "bg-rose-50" },
                   ].map((milestone, i) => (
-                    <div key={i} className="flex items-center gap-8 p-8 bg-white rounded-[2.5rem] border border-transparent hover:border-slate-100 transition-all shadow-sm group">
+                    <div key={i} className="flex items-center gap-8 p-8 bg-card rounded-[2.5rem] border border-transparent hover:border-border transition-all shadow-sm group">
                       <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", milestone.bg, milestone.color)}>
                         <milestone.icon className="h-6 w-6" />
                       </div>
                       <div className="flex-1 space-y-1">
-                        <h4 className="text-xl font-black text-slate-900 leading-tight">{milestone.title}</h4>
-                        <p className="text-sm font-medium text-slate-500 italic">{milestone.desc}</p>
+                        <h4 className="text-xl font-black text-foreground leading-tight">{milestone.title}</h4>
+                        <p className="text-sm font-medium text-muted-foreground italic">{milestone.desc}</p>
                       </div>
-                      <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{milestone.date}</span>
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{milestone.date}</span>
                     </div>
                   ))}
                 </div>
@@ -363,24 +364,24 @@ export default function UserDashboard() {
 
               {/* My Reviews Summary */}
               <section className="space-y-6">
-                <h3 className="text-2xl font-black text-slate-900 px-2 tracking-tight">Community Feedback</h3>
+                <h3 className="text-2xl font-black text-foreground px-2 tracking-tight">Community Feedback</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[
                     { business: "Karim's Restaurant", rating: 5, date: "2 days ago", text: "Authentic Mughlai taste! The kebabs were succulent and the biryani was flavorful. A must-visit for families." },
                     { business: "Al-Naseeb Meats", rating: 4, date: "1 week ago", text: "Fresh meat and very clean shop. The staff is helpful and knowledgeable about sourcing." }
                   ].map((review, i) => (
-                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-6 border-2 border-transparent hover:border-emerald-100/50 transition-all group">
+                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-6 border-2 border-transparent hover:border-emerald-100/50 transition-all group">
                       <div className="flex justify-between items-center">
-                        <div className="flex gap-1 bg-slate-50 p-2 rounded-xl">
+                        <div className="flex gap-1 bg-muted p-2 rounded-xl">
                           {Array.from({ length: 5 }).map((_, idx) => (
-                            <Star key={idx} className={`h-3.5 w-3.5 ${idx < review.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-200'}`} />
+                            <Star key={idx} className={`h-3.5 w-3.5 ${idx < review.rating ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground'}`} />
                           ))}
                         </div>
-                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{review.date}</span>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{review.date}</span>
                       </div>
-                      <p className="text-lg font-medium text-slate-600 leading-relaxed italic border-l-4 border-emerald-50 pl-6 group-hover:border-emerald-200 transition-all">"{review.text}"</p>
+                      <p className="text-lg font-medium text-muted-foreground leading-relaxed italic border-l-4 border-emerald-50 pl-6 group-hover:border-emerald-200 transition-all">"{review.text}"</p>
                       <div className="flex justify-between items-center pt-4">
-                        <span className="text-xs font-black text-slate-900 uppercase tracking-tighter bg-slate-50 px-4 py-1.5 rounded-full">{review.business}</span>
+                        <span className="text-xs font-black text-foreground uppercase tracking-tighter bg-muted px-4 py-1.5 rounded-full">{review.business}</span>
                         <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase text-emerald-600 p-0 h-auto hover:bg-transparent hover:underline">Edit Feedback</Button>
                       </div>
                     </Card>
@@ -393,18 +394,18 @@ export default function UserDashboard() {
               {/* My Posts Section */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-8 space-y-8">
-                  <h3 className="text-2xl font-black text-slate-900 px-2 tracking-tight">Social Timeline</h3>
+                  <h3 className="text-2xl font-black text-foreground px-2 tracking-tight">Social Timeline</h3>
                   <div className="space-y-6">
                     {[
                       { text: "Just had the most amazing biryani at Karim's! Highly recommend the Mutton Korma as well. A true taste of Old Delhi.", time: "3d ago", likes: 15, comments: 4, img: "food1" },
                       { text: "Reminder: 'Verily, with every hardship comes ease.' (Quran 94:5). A beautiful verse to reflect on during tough times.", time: "1w ago", likes: 58, comments: 12, img: "masjid1" },
                     ].map((post, i) => (
-                      <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden p-10 space-y-6 border-2 border-transparent hover:border-primary/10 transition-all">
+                      <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-10 space-y-6 border-2 border-transparent hover:border-primary/10 transition-all">
                         <div className="flex gap-6">
                           <div className="flex-1 space-y-4">
-                            <p className="text-lg font-medium text-slate-600 leading-relaxed italic">"{post.text}"</p>
-                            <div className="flex justify-between items-center pt-4 border-t border-slate-50 text-[10px] font-black text-slate-300 uppercase tracking-widest">
-                              <span className="bg-slate-50 px-3 py-1 rounded-full">{post.time}</span>
+                            <p className="text-lg font-medium text-muted-foreground leading-relaxed italic">"{post.text}"</p>
+                            <div className="flex justify-between items-center pt-4 border-t border-border text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+                              <span className="bg-muted px-3 py-1 rounded-full">{post.time}</span>
                               <div className="flex gap-6">
                                 <button className="flex items-center gap-2 hover:text-rose-500 transition-colors"><Heart className="h-4 w-4" /> {post.likes}</button>
                                 <button className="flex items-center gap-2 hover:text-primary transition-colors"><MessageSquare className="h-4 w-4" /> {post.comments}</button>
@@ -421,8 +422,8 @@ export default function UserDashboard() {
                 <div className="lg:col-span-4 space-y-10">
                   {/* Media Grid */}
                   <div className="space-y-6">
-                    <h3 className="text-xl font-black text-slate-900 px-2">Visual Vault</h3>
-                    <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+                    <h3 className="text-xl font-black text-foreground px-2">Visual Vault</h3>
+                    <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
                       <div className="grid grid-cols-2 gap-4">
                         {[1, 2, 3, 4].map(i => (
                           <div key={i} className="aspect-square relative rounded-2xl overflow-hidden shadow-md hover:scale-105 transition-transform cursor-pointer group">
@@ -444,7 +445,7 @@ export default function UserDashboard() {
 
                   {/* Rolls Preview */}
                   <div className="space-y-6">
-                    <h3 className="text-xl font-black text-slate-900 px-2">Recent Rolls</h3>
+                    <h3 className="text-xl font-black text-foreground px-2">Recent Rolls</h3>
                     <div className="grid grid-cols-2 gap-4">
                       {[1, 2].map(i => (
                         <div key={i} className="aspect-[9/16] relative rounded-3xl overflow-hidden shadow-xl group cursor-pointer border-4 border-white ring-1 ring-slate-100">

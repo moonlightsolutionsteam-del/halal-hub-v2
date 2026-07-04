@@ -11,9 +11,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'],
-        headline: ['PT Sans', 'sans-serif'],
-        code: ['monospace'],
+        body: ['Inter', 'sans-serif'],
+        headline: ['Fredoka', 'sans-serif'],
+        code: ['JetBrains Mono', 'monospace'],
+      },
+      boxShadow: {
+        'soft-sm': '0 1px 3px rgba(11, 11, 10, 0.06)',
+        'soft': '0 2px 10px rgba(11, 11, 10, 0.08)',
+        'soft-md': '0 8px 24px rgba(11, 11, 10, 0.10)',
+        'soft-lg': '0 16px 40px rgba(11, 11, 10, 0.14)',
+        'glow-primary': '0 8px 24px hsl(var(--primary) / 0.25)',
       },
       colors: {
         background: 'hsl(var(--background))',

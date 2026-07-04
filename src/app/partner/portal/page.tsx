@@ -22,21 +22,21 @@ const PARTNER_TYPES = [
     highlight: "For Service-Based Professionals",
     description: "Register and manage your professional services, such as legal, medical, or financial expertise. Connect with clients seeking trusted professionals.",
     icon: Wrench,
-    url: "/vendor/dashboard"
+    url: "/vendor/professional/dashboard"
   },
   {
     title: "Mosque",
     highlight: "Create and Manage a Masjid",
     description: "Add a new masjid or connect with an existing one as a Musalli or Masjid Admin. Manage prayer timings, announcements, events, and programs.",
     icon: Building2,
-    url: "/vendor/dashboard"
+    url: "/vendor/mosque/dashboard"
   },
   {
     title: "Muslim Organization",
     highlight: "For Cause-Driven Initiatives",
     description: "Register and manage your Islamic organization—NGOs, community groups, educational institutes, da'wah foundations, and more.",
     icon: Users,
-    url: "/vendor/dashboard"
+    url: "/vendor/organization/dashboard"
   },
   {
     title: "Creator Studio",
@@ -63,11 +63,11 @@ const PARTNER_TYPES = [
 
 export default function PartnerPortalPage() {
   return (
-    <div className="min-h-screen bg-slate-50/50 py-12 px-6">
+    <div className="min-h-screen bg-muted/50 py-12 px-6">
       <div className="max-w-6xl mx-auto space-y-12">
         {/* Header Section */}
         <div className="space-y-1 border-b pb-8">
-          <h1 className="text-3xl font-black font-headline text-slate-900">Welcome On Board</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Welcome On Board</h1>
           <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs opacity-60">Sign Up as Partner / Admin</p>
         </div>
 
@@ -75,14 +75,14 @@ export default function PartnerPortalPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {PARTNER_TYPES.map((type) => (
             <Link key={type.title} href={type.url}>
-              <Card className="group h-full rounded-[2rem] border-none shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden bg-white/80 backdrop-blur-sm cursor-pointer border-2 border-transparent hover:border-primary/20">
+              <Card className="group h-full rounded-[2rem] border-none shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden bg-card/80 backdrop-blur-sm cursor-pointer border-2 border-transparent hover:border-primary/20">
                 <CardContent className="p-8 flex gap-6">
                   <div className="h-16 w-16 rounded-3xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500 text-primary">
                     <type.icon className="h-8 w-8" />
                   </div>
                   <div className="space-y-3">
                     <div className="space-y-1">
-                      <h3 className="text-xl font-black text-slate-900">{type.title}</h3>
+                      <h3 className="text-xl font-black text-foreground">{type.title}</h3>
                       <p className="text-sm font-bold text-primary">{type.highlight}</p>
                     </div>
                     <p className="text-sm text-muted-foreground font-medium leading-relaxed line-clamp-3">
@@ -100,12 +100,12 @@ export default function PartnerPortalPage() {
           <div className="text-center">
             <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">For Internal Team</p>
           </div>
-          <Card className="max-w-md mx-auto rounded-[2.5rem] border-none shadow-2xl overflow-hidden bg-white p-2">
+          <Card className="max-w-md mx-auto rounded-[2.5rem] border-none shadow-2xl overflow-hidden bg-card p-2">
             <CardContent className="p-8 space-y-6 text-center">
-              <div className="h-16 w-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto text-slate-300">
+              <div className="h-16 w-16 bg-muted rounded-full flex items-center justify-center mx-auto text-muted-foreground">
                 <ShieldCheck className="h-8 w-8" />
               </div>
-              <h3 className="text-xl font-black text-slate-900">Halal Hub Super Admin</h3>
+              <h3 className="text-xl font-black text-foreground">Halal Hub Super Admin</h3>
               <Link href="/admin/dashboard">
                 <Button className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 font-black text-lg shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">
                   Admin Login

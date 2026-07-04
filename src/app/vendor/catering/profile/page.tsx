@@ -67,7 +67,7 @@ export default function CateringProfilePage() {
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Catering Profile</h1>
+          <h1 className="text-3xl font-black font-headline tracking-tight text-foreground">Catering Profile</h1>
           <p className="text-muted-foreground font-medium">Manage your event specializations, logistics, and service standards.</p>
         </div>
         <div className="flex gap-3">
@@ -78,7 +78,7 @@ export default function CateringProfilePage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-        <TabsList className="bg-white border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
+        <TabsList className="bg-card border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
           <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all">Basic Info</TabsTrigger>
           <TabsTrigger value="menu" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Menu & Cuisine</TabsTrigger>
           <TabsTrigger value="capacity" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Logistics & Capacity</TabsTrigger>
@@ -90,20 +90,20 @@ export default function CateringProfilePage() {
         <TabsContent value="details" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Info className="h-5 w-5 text-blue-600" /> Core Information
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Catering Business Name</Label>
-                  <Input placeholder="e.g., Royal Feast Caterers" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Catering Business Name</Label>
+                  <Input placeholder="e.g., Royal Feast Caterers" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Business Type</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Business Type</Label>
                   <Select>
-                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted border-none font-bold">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -114,24 +114,24 @@ export default function CateringProfilePage() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Tagline</Label>
-                  <Input placeholder="e.g., Premium Halal Catering for Grand Nikahs" className="h-12 rounded-2xl bg-slate-50 border-none font-medium" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Tagline</Label>
+                  <Input placeholder="e.g., Premium Halal Catering for Grand Nikahs" className="h-12 rounded-2xl bg-muted border-none font-medium" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Primary Contact Phone</Label>
-                  <Input placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Primary Contact Phone</Label>
+                  <Input placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">About the Service</Label>
-                  <Textarea placeholder="Describe your experience, staff quality, and commitment to Shariah-compliant logistics..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-blue-600/20" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">About the Service</Label>
+                  <Textarea placeholder="Describe your experience, staff quality, and commitment to Shariah-compliant logistics..." className="min-h-[120px] rounded-2xl bg-muted border-none p-4 font-medium resize-none focus:ring-2 focus:ring-blue-600/20" />
                 </div>
                 <div className="md:col-span-2 space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Service Highlights</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Service Highlights</Label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {HIGHLIGHTS.map((item) => (
-                      <div key={item} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer">
+                      <div key={item} className="flex items-center space-x-3 bg-muted p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer">
                         <Checkbox id={`h-${item}`} />
-                        <label htmlFor={`h-${item}`} className="text-xs font-bold text-slate-700 leading-none cursor-pointer">{item}</label>
+                        <label htmlFor={`h-${item}`} className="text-xs font-bold text-foreground leading-none cursor-pointer">{item}</label>
                       </div>
                     ))}
                   </div>
@@ -145,40 +145,40 @@ export default function CateringProfilePage() {
         <TabsContent value="menu" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Utensils className="h-5 w-5 text-blue-600" /> Menu Specialization
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Signature Dish</Label>
-                    <Input placeholder="e.g., Awadhi Dum Biryani" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Signature Dish</Label>
+                    <Input placeholder="e.g., Awadhi Dum Biryani" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                   </div>
                   <div className="space-y-2">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Price per Person (₹)</Label>
-                    <Input placeholder="e.g., 800" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Price per Person (₹)</Label>
+                    <Input placeholder="e.g., 800" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Cuisine Expertise</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Cuisine Expertise</Label>
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input 
                       placeholder="Search cuisines..." 
-                      className="pl-10 h-11 rounded-2xl bg-slate-50 border-none"
+                      className="pl-10 h-11 rounded-2xl bg-muted border-none"
                       value={searchCuisine}
                       onChange={(e) => setSearchCuisine(e.target.value)}
                     />
                   </div>
-                  <ScrollArea className="h-64 rounded-2xl bg-slate-50/50 p-4 border border-slate-100">
+                  <ScrollArea className="h-64 rounded-2xl bg-muted/50 p-4 border border-border">
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                       {filteredCuisines.map((c) => (
-                        <div key={c} className="flex items-center space-x-2 p-2 hover:bg-white rounded-lg transition-all cursor-pointer group">
+                        <div key={c} className="flex items-center space-x-2 p-2 hover:bg-card rounded-lg transition-all cursor-pointer group">
                           <Checkbox id={`c-${c}`} />
-                          <label htmlFor={`c-${c}`} className="text-[11px] font-bold text-slate-600 cursor-pointer">{c}</label>
+                          <label htmlFor={`c-${c}`} className="text-[11px] font-bold text-muted-foreground cursor-pointer">{c}</label>
                         </div>
                       ))}
                     </div>
@@ -186,12 +186,12 @@ export default function CateringProfilePage() {
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Meat Types Available</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Meat Types Available</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {MEAT_TYPES.map((m) => (
-                      <div key={m} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer">
+                      <div key={m} className="flex items-center space-x-3 bg-muted p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer">
                         <Checkbox id={`m-${m}`} />
-                        <label htmlFor={`m-${m}`} className="text-xs font-bold text-slate-700 leading-none cursor-pointer">{m}</label>
+                        <label htmlFor={`m-${m}`} className="text-xs font-bold text-foreground leading-none cursor-pointer">{m}</label>
                       </div>
                     ))}
                   </div>
@@ -205,40 +205,40 @@ export default function CateringProfilePage() {
         <TabsContent value="capacity" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Users className="h-5 w-5 text-blue-600" /> Capacity & Service
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 space-y-10">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 space-y-10">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Min Guest Count</Label>
-                  <Input type="number" placeholder="e.g., 50" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Min Guest Count</Label>
+                  <Input type="number" placeholder="e.g., 50" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Max Capacity</Label>
-                  <Input type="number" placeholder="e.g., 2000" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Max Capacity</Label>
+                  <Input type="number" placeholder="e.g., 2000" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Min Notice (Days)</Label>
-                  <Input type="number" placeholder="e.g., 14" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Min Notice (Days)</Label>
+                  <Input type="number" placeholder="e.g., 14" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
               </div>
 
               <div className="space-y-4">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Service Levels Provided</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Service Levels Provided</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {SERVICE_LEVELS.map((sl) => (
-                    <div key={sl} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer">
+                    <div key={sl} className="flex items-center space-x-3 bg-muted p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer">
                       <Checkbox id={`sl-${sl}`} />
-                      <label htmlFor={`sl-${sl}`} className="text-xs font-bold text-slate-700 leading-none cursor-pointer">{sl}</label>
+                      <label htmlFor={`sl-${sl}`} className="text-xs font-bold text-foreground leading-none cursor-pointer">{sl}</label>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-4">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Specialized Events</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Specialized Events</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {EVENT_TYPES.map((et) => (
                     <div key={et} className="flex items-center space-x-3 bg-blue-50/50 p-3 rounded-xl border border-blue-100 hover:bg-blue-50 transition-colors cursor-pointer group">
@@ -256,24 +256,24 @@ export default function CateringProfilePage() {
         <TabsContent value="documents" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <ShieldCheck className="h-5 w-5 text-blue-600" /> Compliance Vault
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Upload mandatory catering licenses and hygiene certifications to get verified.</p>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {COMPLIANCE_DOCS.map((doc) => (
                   <div key={doc.id} className="space-y-3">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">{doc.label}</Label>
-                    <div className="p-6 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-3 bg-slate-50/50 hover:bg-white transition-colors cursor-pointer group">
-                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-blue-600 transition-colors shadow-sm">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">{doc.label}</Label>
+                    <div className="p-6 border-2 border-dashed border-border rounded-2xl flex flex-col items-center justify-center gap-3 bg-muted/50 hover:bg-card transition-colors cursor-pointer group">
+                      <div className="h-10 w-10 bg-card rounded-full flex items-center justify-center text-muted-foreground group-hover:text-blue-600 transition-colors shadow-sm">
                         <Upload className="h-5 w-5" />
                       </div>
                       <div className="text-center">
                         <p className="text-[10px] font-black uppercase text-blue-600 group-hover:underline">Upload file</p>
-                        <p className="text-[9px] text-slate-400 mt-1">No file chosen</p>
+                        <p className="text-[9px] text-muted-foreground mt-1">No file chosen</p>
                       </div>
                     </div>
                   </div>
@@ -287,17 +287,17 @@ export default function CateringProfilePage() {
         <TabsContent value="branding" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Smartphone className="h-5 w-5 text-blue-600" /> Visual Identity
               </h2>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Business Logo</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Business Logo</Label>
                   <div className="flex items-center gap-8">
-                    <div className="h-32 w-32 rounded-3xl bg-slate-100 border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-400 overflow-hidden relative group">
+                    <div className="h-32 w-32 rounded-3xl bg-muted border-2 border-dashed border-border flex items-center justify-center text-muted-foreground overflow-hidden relative group">
                       <Camera className="h-8 w-8 group-hover:scale-110 transition-transform" />
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <Upload className="h-6 w-6 text-white" />
@@ -305,13 +305,13 @@ export default function CateringProfilePage() {
                     </div>
                     <div className="space-y-2">
                       <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-9 border-2 uppercase tracking-tighter">Choose Logo</Button>
-                      <p className="text-[10px] font-bold text-slate-400 leading-tight">PNG, JPG (1:1)<br />Max 2MB</p>
+                      <p className="text-[10px] font-bold text-muted-foreground leading-tight">PNG, JPG (1:1)<br />Max 2MB</p>
                     </div>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Catering Showcase Banner</Label>
-                  <div className="aspect-video w-full rounded-[2rem] bg-slate-100 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 text-slate-400 relative group overflow-hidden shadow-inner">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Catering Showcase Banner</Label>
+                  <div className="aspect-video w-full rounded-[2rem] bg-muted border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 text-muted-foreground relative group overflow-hidden shadow-inner">
                     <ImageIcon className="h-8 w-8 group-hover:scale-110 transition-transform" />
                     <span className="text-[10px] font-black uppercase tracking-widest">Upload Banner</span>
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -325,22 +325,22 @@ export default function CateringProfilePage() {
 
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Plus className="h-5 w-5 text-blue-600" /> Event Gallery
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Showcase past wedding setups, buffet displays, and signature dish plating.</p>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-100 shadow-sm">
+                  <div key={i} className="relative aspect-square rounded-2xl overflow-hidden group border border-border shadow-sm">
                     <img src={`https://picsum.photos/seed/catering-setup-${i}/400/400`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <Button size="icon" variant="destructive" className="h-8 w-8 rounded-xl"><Trash2 className="h-4 w-4" /></Button>
                     </div>
                   </div>
                 ))}
-                <button className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-slate-50 hover:bg-white hover:border-blue-600/40 transition-all text-slate-400 hover:text-blue-600">
+                <button className="aspect-square rounded-2xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 bg-muted hover:bg-card hover:border-blue-600/40 transition-all text-muted-foreground hover:text-blue-600">
                   <Plus className="h-6 w-6" />
                   <span className="text-[10px] font-black uppercase tracking-tighter">Add Photo</span>
                 </button>
@@ -349,17 +349,17 @@ export default function CateringProfilePage() {
           </section>
 
           <section className="space-y-6">
-            <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden">
+            <Card className="rounded-[2.5rem] border-none shadow-xl bg-zinc-900 text-white p-10 space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <CheckCircle2 className="h-32 w-32" />
               </div>
               <div className="relative z-10 space-y-4">
                 <h3 className="text-2xl font-black font-headline text-white">Catering Compliance Declaration</h3>
-                <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-3xl">
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed max-w-3xl">
                   By publishing this profile, you declare that all catering services marked as "Halal" utilize 100% verified halal meat and zero non-permissible cross-contamination in both base and on-site kitchens. You take full responsibility for the accuracy of these claims.
                 </p>
               </div>
-              <div className="flex items-center space-x-4 bg-white/5 p-4 rounded-2xl border border-white/10 relative z-10">
+              <div className="flex items-center space-x-4 bg-card/5 p-4 rounded-2xl border border-white/10 relative z-10">
                 <Checkbox id="final-declaration" className="border-white/30" />
                 <label htmlFor="final-declaration" className="text-sm font-bold text-white/80 cursor-pointer">I confirm that all provided data is accurate.</label>
               </div>

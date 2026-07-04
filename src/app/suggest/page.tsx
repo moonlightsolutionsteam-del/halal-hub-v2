@@ -31,16 +31,16 @@ export default function SuggestPlacePage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-32 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-32 text-foreground">
       <div className="flex items-center gap-6">
-        <Button variant="ghost" size="icon" className="rounded-2xl bg-white shadow-sm border" onClick={() => step === 1 ? router.back() : setStep(step - 1)}>
+        <Button variant="ghost" size="icon" className="rounded-2xl bg-card shadow-sm border" onClick={() => step === 1 ? router.back() : setStep(step - 1)}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
           <h1 className="text-3xl font-black font-headline tracking-tight">Suggest a Place</h1>
           <div className="flex gap-2">
             {[1, 2, 3].map(i => (
-              <div key={i} className={cn("h-1.5 w-16 rounded-full transition-all duration-500", step >= i ? 'bg-primary' : 'bg-slate-200')} />
+              <div key={i} className={cn("h-1.5 w-16 rounded-full transition-all duration-500", step >= i ? 'bg-primary' : 'bg-muted')} />
             ))}
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function SuggestPlacePage() {
         {step === 1 && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
             <div className="space-y-2">
-              <h2 className="text-2xl font-black text-slate-900">What kind of place is this?</h2>
+              <h2 className="text-2xl font-black text-foreground">What kind of place is this?</h2>
               <p className="text-muted-foreground font-medium">Help the community by categorizing your suggestion correctly.</p>
             </div>
             
@@ -67,14 +67,14 @@ export default function SuggestPlacePage() {
                   className={cn(
                     "flex flex-col items-center justify-center p-6 rounded-[2.5rem] transition-all border-4",
                     category === opt.id 
-                      ? 'bg-white border-primary shadow-xl scale-105' 
-                      : 'bg-white border-transparent text-slate-400 hover:border-slate-100 hover:bg-slate-50'
+                      ? 'bg-card border-primary shadow-xl scale-105' 
+                      : 'bg-card border-transparent text-muted-foreground hover:border-border hover:bg-muted'
                   )}
                 >
-                  <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center mb-3", category === opt.id ? opt.bg + ' ' + opt.color : 'bg-slate-50 text-slate-300')}>
+                  <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center mb-3", category === opt.id ? opt.bg + ' ' + opt.color : 'bg-muted text-muted-foreground')}>
                     <opt.icon className="h-6 w-6" />
                   </div>
-                  <span className={cn("text-[10px] font-black uppercase tracking-tighter text-center leading-tight", category === opt.id ? 'text-primary' : 'text-slate-400')}>
+                  <span className={cn("text-[10px] font-black uppercase tracking-tighter text-center leading-tight", category === opt.id ? 'text-primary' : 'text-muted-foreground')}>
                     {opt.label}
                   </span>
                 </button>
@@ -86,24 +86,24 @@ export default function SuggestPlacePage() {
         {step === 2 && (
           <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
             <div className="space-y-2">
-              <h2 className="text-2xl font-black text-slate-900">Where is it located?</h2>
+              <h2 className="text-2xl font-black text-foreground">Where is it located?</h2>
               <p className="text-muted-foreground font-medium">Provide as much detail as possible for the audit team.</p>
             </div>
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Place Name</Label>
-                <Input placeholder="e.g., The Halal Grill" className="h-14 rounded-2xl bg-slate-50 border-none font-black text-xl" />
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Place Name</Label>
+                <Input placeholder="e.g., The Halal Grill" className="h-14 rounded-2xl bg-muted border-none font-black text-xl" />
               </div>
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Street Address</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Street Address</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input placeholder="Search address..." className="h-12 rounded-2xl bg-slate-50 border-none font-bold pl-12" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search address..." className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Why are you suggesting this?</Label>
-                <Textarea placeholder="e.g., They serve hand-slaughtered beef and have a clean prayer area..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none" />
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Why are you suggesting this?</Label>
+                <Textarea placeholder="e.g., They serve hand-slaughtered beef and have a clean prayer area..." className="min-h-[120px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" />
               </div>
             </Card>
           </div>
@@ -112,17 +112,17 @@ export default function SuggestPlacePage() {
         {step === 3 && (
           <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
             <div className="space-y-2">
-              <h2 className="text-2xl font-black text-slate-900">Photos & Proof</h2>
+              <h2 className="text-2xl font-black text-foreground">Photos & Proof</h2>
               <p className="text-muted-foreground font-medium">Sharing photos of the menu or certificate helps speed up verification.</p>
             </div>
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
-              <div className="p-12 border-4 border-dashed border-slate-100 rounded-[2.5rem] bg-slate-50/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-white transition-all cursor-pointer group">
-                <div className="h-16 w-16 bg-white rounded-3xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
+              <div className="p-12 border-4 border-dashed border-border rounded-[2.5rem] bg-muted/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-card transition-all cursor-pointer group">
+                <div className="h-16 w-16 bg-card rounded-3xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
                   <Camera className="h-8 w-8 text-primary" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-lg font-black text-slate-900">Snap or Upload</p>
-                  <p className="text-sm font-medium text-slate-400">Menu, Storefront, or Halal Logo</p>
+                  <p className="text-lg font-black text-foreground">Snap or Upload</p>
+                  <p className="text-sm font-medium text-muted-foreground">Menu, Storefront, or Halal Logo</p>
                 </div>
               </div>
               <div className="p-6 bg-emerald-50 rounded-2xl border-2 border-emerald-100 flex items-start gap-4">
@@ -139,7 +139,7 @@ export default function SuggestPlacePage() {
           {step > 1 && (
             <Button 
               variant="outline" 
-              className="rounded-2xl h-16 px-10 border-2 font-black uppercase text-xs tracking-widest text-slate-400"
+              className="rounded-2xl h-16 px-10 border-2 font-black uppercase text-xs tracking-widest text-muted-foreground"
               onClick={() => setStep(step - 1)}
             >
               Previous

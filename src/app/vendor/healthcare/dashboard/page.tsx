@@ -37,25 +37,25 @@ export default function HealthcareDashboard() {
     { label: "Add Service", icon: HeartPulse, color: "text-purple-500", bg: "bg-purple-50" },
     { label: "Inventory", icon: Pill, color: "text-amber-500", bg: "bg-amber-50" },
     { label: "Trust Reports", icon: ShieldCheck, color: "text-teal-500", bg: "bg-teal-50" },
-    { label: "Settings", icon: Settings, color: "text-slate-500", bg: "bg-slate-50" },
+    { label: "Settings", icon: Settings, color: "text-muted-foreground", bg: "bg-muted" },
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-[#F8FBFB] min-h-screen pb-24">
+    <div className="p-8 space-y-8 bg-background min-h-screen pb-24">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-slate-900">Healthcare Management</h1>
+        <h1 className="text-3xl font-black font-headline text-foreground">Healthcare Management</h1>
         <p className="text-muted-foreground font-medium opacity-60">Manage clinical appointments, ethical care standards, and patient wellness.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-3xl bg-white p-2">
+          <Card key={i} className="border-none shadow-sm rounded-3xl bg-card p-2">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-tighter">{kpi.label}</span>
-              <kpi.icon className={`h-4 w-4 ${kpi.variant === 'destructive' ? 'text-red-400' : 'text-slate-300'}`} />
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-tighter">{kpi.label}</span>
+              <kpi.icon className={`h-4 w-4 ${kpi.variant === 'destructive' ? 'text-red-400' : 'text-muted-foreground'}`} />
             </CardHeader>
             <CardContent>
-              <div className={`text-2xl font-black ${kpi.variant === 'destructive' ? 'text-red-600' : 'text-slate-800'}`}>
+              <div className={`text-2xl font-black ${kpi.variant === 'destructive' ? 'text-red-600' : 'text-foreground'}`}>
                 {kpi.value}
               </div>
               <p className={`text-[10px] font-bold mt-1 uppercase tracking-tight ${kpi.variant === 'destructive' ? 'text-red-400' : 'text-emerald-600'}`}>
@@ -68,7 +68,7 @@ export default function HealthcareDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-white">
+          <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-card">
             <CardHeader className="p-8 flex flex-row items-center justify-between">
               <CardTitle className="text-xl font-black">Live Appointment Queue</CardTitle>
               <Button size="sm" className="bg-teal-600 hover:bg-teal-700 rounded-full font-black text-xs px-6 h-10 text-white">
@@ -77,23 +77,23 @@ export default function HealthcareDashboard() {
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-slate-50/50">
+                <TableHeader className="bg-muted/50">
                   <TableRow className="border-none">
-                    <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Patient / ID</TableHead>
-                    <TableHead className="font-black uppercase text-[10px] tracking-widest text-slate-400">Service</TableHead>
-                    <TableHead className="font-black uppercase text-[10px] tracking-widest text-slate-400">Time</TableHead>
-                    <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Status</TableHead>
+                    <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Patient / ID</TableHead>
+                    <TableHead className="font-black uppercase text-[10px] tracking-widest text-muted-foreground">Service</TableHead>
+                    <TableHead className="font-black uppercase text-[10px] tracking-widest text-muted-foreground">Time</TableHead>
+                    <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {upcomingAppointments.map((appt, i) => (
-                    <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
+                    <TableRow key={i} className="border-border hover:bg-muted/50 transition-colors group">
                       <TableCell className="px-8 py-5">
-                        <div className="font-bold text-slate-800 text-sm">{appt.patient}</div>
+                        <div className="font-bold text-foreground text-sm">{appt.patient}</div>
                         <div className="text-[9px] font-bold text-muted-foreground uppercase">{appt.id}</div>
                       </TableCell>
-                      <TableCell className="font-bold text-slate-600 text-xs">{appt.service}</TableCell>
-                      <TableCell className="font-bold text-slate-500 text-sm">{appt.time}</TableCell>
+                      <TableCell className="font-bold text-muted-foreground text-xs">{appt.service}</TableCell>
+                      <TableCell className="font-bold text-muted-foreground text-sm">{appt.time}</TableCell>
                       <TableCell className="text-right px-8">
                         <Badge variant="outline" className="rounded-full px-4 text-[9px] font-black uppercase border-teal-200 text-teal-600 bg-teal-50/50">
                           {appt.status}
@@ -110,11 +110,11 @@ export default function HealthcareDashboard() {
             <h2 className="text-xl font-black px-2">Clinical Management</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {quickActions.map((action, i) => (
-                <button key={i} className="group flex flex-col items-center justify-center p-6 bg-white rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-teal-100">
+                <button key={i} className="group flex flex-col items-center justify-center p-6 bg-card rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-teal-100">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-2 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
                     <action.icon className="h-6 w-6" />
                   </div>
-                  <span className="text-[10px] font-black text-slate-700 uppercase tracking-tighter text-center">{action.label}</span>
+                  <span className="text-[10px] font-black text-foreground uppercase tracking-tighter text-center">{action.label}</span>
                 </button>
               ))}
             </div>
@@ -122,7 +122,7 @@ export default function HealthcareDashboard() {
         </div>
 
         <div className="space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
             <CardHeader className="px-0 pt-0">
               <CardTitle className="text-xl font-black">Treatment Demand</CardTitle>
             </CardHeader>
@@ -134,10 +134,10 @@ export default function HealthcareDashboard() {
               ].map((item, i) => (
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                    <span className="text-slate-500">{item.name}</span>
+                    <span className="text-muted-foreground">{item.name}</span>
                     <span className={item.variant === 'warning' ? 'text-amber-500' : 'text-emerald-500'}>{item.status}</span>
                   </div>
-                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
                     <div 
                       className={`h-full ${item.variant === 'warning' ? 'bg-amber-400' : 'bg-teal-600'} transition-all`}
                       style={{ width: `${item.val}%` }}
@@ -159,20 +159,20 @@ export default function HealthcareDashboard() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
             <CardHeader className="px-0 pt-0">
               <CardTitle className="text-xl font-black">Patient Spotlight</CardTitle>
             </CardHeader>
             <CardContent className="px-0">
               <div className="p-4 bg-muted/30 rounded-2xl border-2 border-transparent hover:border-teal-100 transition-all cursor-pointer group">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-teal-600 font-black text-xs shadow-sm">SA</div>
+                  <div className="h-10 w-10 bg-card rounded-xl flex items-center justify-center text-teal-600 font-black text-xs shadow-sm">SA</div>
                   <div>
-                    <p className="text-sm font-black text-slate-800">Sarah Ahmed</p>
+                    <p className="text-sm font-black text-foreground">Sarah Ahmed</p>
                     <p className="text-[10px] text-muted-foreground font-bold uppercase">Loyalty Lvl 5 • 1d ago</p>
                   </div>
                 </div>
-                <p className="text-[11px] text-slate-600 font-medium italic mt-3 line-clamp-2 leading-relaxed">
+                <p className="text-[11px] text-muted-foreground font-medium italic mt-3 line-clamp-2 leading-relaxed">
                   "Exceeded expectations! The female practitioner was very professional and the privacy screens were excellent..."
                 </p>
                 <div className="flex gap-0.5 mt-2">

@@ -27,11 +27,11 @@ export default function FamilyChatPage() {
   const [inputText, setInputText] = React.useState("");
 
   return (
-    <div className="container mx-auto p-6 h-[calc(100svh-8rem)] max-w-6xl flex flex-col gap-6 text-slate-900">
+    <div className="container mx-auto p-6 h-[calc(100svh-8rem)] max-w-6xl flex flex-col gap-6 text-foreground">
       <div className="flex items-center justify-between shrink-0">
         <div className="flex items-center gap-6">
           <Link href="/family-tree">
-            <Button variant="ghost" size="icon" className="rounded-2xl bg-white shadow-sm border h-12 w-12">
+            <Button variant="ghost" size="icon" className="rounded-2xl bg-card shadow-sm border h-12 w-12">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
@@ -44,34 +44,34 @@ export default function FamilyChatPage() {
             </div>
             <div>
               <h1 className="text-xl font-black tracking-tight leading-none">Family Circle</h1>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">4 Members Online</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">4 Members Online</p>
             </div>
           </div>
         </div>
         <div className="flex gap-2">
-          <Button variant="ghost" size="icon" className="rounded-xl border h-12 w-12"><Phone className="h-5 w-5 text-slate-400" /></Button>
-          <Button variant="ghost" size="icon" className="rounded-xl border h-12 w-12"><Video className="h-5 w-5 text-slate-400" /></Button>
-          <Button variant="ghost" size="icon" className="rounded-xl border h-12 w-12"><MoreVertical className="h-5 w-5 text-slate-400" /></Button>
+          <Button variant="ghost" size="icon" className="rounded-xl border h-12 w-12"><Phone className="h-5 w-5 text-muted-foreground" /></Button>
+          <Button variant="ghost" size="icon" className="rounded-xl border h-12 w-12"><Video className="h-5 w-5 text-muted-foreground" /></Button>
+          <Button variant="ghost" size="icon" className="rounded-xl border h-12 w-12"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1 min-h-0">
         {/* Members Sidebar (Hidden on mobile) */}
         <aside className="hidden lg:flex lg:col-span-3 flex-col gap-6">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-6 space-y-6 flex-1">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-6 space-y-6 flex-1">
             <div className="space-y-1">
-              <h3 className="font-black text-xs uppercase tracking-widest text-slate-400">Members</h3>
+              <h3 className="font-black text-xs uppercase tracking-widest text-muted-foreground">Members</h3>
             </div>
             <div className="space-y-4">
               {["Ibrahim", "Fatima", "Zaid", "Sarah"].map((name, i) => (
-                <div key={name} className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors cursor-pointer group">
+                <div key={name} className="flex items-center justify-between p-3 bg-muted rounded-2xl hover:bg-muted transition-colors cursor-pointer group">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 border-2 border-white shadow-sm group-hover:scale-105 transition-transform">
                       <AvatarImage src={`https://picsum.photos/seed/av${i+1}/100/100`} />
                       <AvatarFallback>{name[0]}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="text-sm font-black text-slate-900">{name}</p>
+                      <p className="text-sm font-black text-foreground">{name}</p>
                       <p className="text-[9px] font-bold text-emerald-500 uppercase">Online</p>
                     </div>
                   </div>
@@ -80,18 +80,18 @@ export default function FamilyChatPage() {
             </div>
           </Card>
           
-          <Card className="rounded-[2rem] border-none bg-slate-900 text-white p-6 space-y-4 relative overflow-hidden">
+          <Card className="rounded-[2rem] border-none bg-zinc-900 text-white p-6 space-y-4 relative overflow-hidden">
             <Bell className="absolute -top-2 -right-2 h-16 w-16 opacity-10 text-emerald-400" />
             <h4 className="text-sm font-black uppercase tracking-widest">Notice Board</h4>
-            <p className="text-xs text-slate-400 leading-relaxed italic">
+            <p className="text-xs text-muted-foreground leading-relaxed italic">
               "Grandparents visiting this weekend. Room 2 needs to be ready!"
             </p>
           </Card>
         </aside>
 
         {/* Chat Area */}
-        <Card className="lg:col-span-9 rounded-[3rem] border-none shadow-xl bg-white flex flex-col overflow-hidden">
-          <div className="flex-1 p-8 overflow-y-auto space-y-6 bg-slate-50/30">
+        <Card className="lg:col-span-9 rounded-[3rem] border-none shadow-xl bg-card flex flex-col overflow-hidden">
+          <div className="flex-1 p-8 overflow-y-auto space-y-6 bg-muted/30">
             {MESSAGES.map((msg) => (
               <div key={msg.id} className={cn(
                 "flex gap-4 max-w-[80%]",
@@ -106,12 +106,12 @@ export default function FamilyChatPage() {
                     "flex items-baseline gap-3",
                     msg.isMe && "flex-row-reverse"
                   )}>
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{msg.user}</span>
-                    <span className="text-[9px] font-bold text-slate-300 uppercase">{msg.time}</span>
+                    <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{msg.user}</span>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase">{msg.time}</span>
                   </div>
                   <div className={cn(
                     "p-4 rounded-3xl text-sm font-medium shadow-sm",
-                    msg.isMe ? "bg-emerald-600 text-white rounded-tr-none" : "bg-white text-slate-700 rounded-tl-none border border-slate-100"
+                    msg.isMe ? "bg-emerald-600 text-white rounded-tr-none" : "bg-card text-foreground rounded-tl-none border border-border"
                   )}>
                     {msg.text}
                   </div>
@@ -123,15 +123,15 @@ export default function FamilyChatPage() {
           {/* Quick Reply Bar */}
           <div className="px-8 pt-4 flex gap-2 overflow-x-auto no-scrollbar">
             {["Need Bread?", "On my way!", "In Prayer 🤲", "Love you!", "Ready to eat? 🍽️"].map(q => (
-              <Button key={q} variant="outline" size="sm" className="rounded-full bg-slate-50 border-none font-black text-[9px] uppercase tracking-tighter whitespace-nowrap hover:bg-emerald-50 hover:text-emerald-600">
+              <Button key={q} variant="outline" size="sm" className="rounded-full bg-muted border-none font-black text-[9px] uppercase tracking-tighter whitespace-nowrap hover:bg-emerald-50 hover:text-emerald-600">
                 {q}
               </Button>
             ))}
           </div>
 
           <div className="p-8 pt-4">
-            <div className="bg-slate-100 rounded-[2rem] p-2 flex items-center gap-2 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-              <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 text-slate-400 hover:text-emerald-600">
+            <div className="bg-muted rounded-[2rem] p-2 flex items-center gap-2 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
+              <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 text-muted-foreground hover:text-emerald-600">
                 <Paperclip className="h-5 w-5" />
               </Button>
               <Input 
@@ -141,10 +141,10 @@ export default function FamilyChatPage() {
                 className="border-none bg-transparent shadow-none focus-visible:ring-0 text-base font-medium h-12"
               />
               <div className="flex gap-1 pr-1">
-                <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 text-slate-400 hover:text-emerald-600">
+                <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 text-muted-foreground hover:text-emerald-600">
                   <Smile className="h-5 w-5" />
                 </Button>
-                <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 text-slate-400 hover:text-emerald-600">
+                <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 text-muted-foreground hover:text-emerald-600">
                   <Mic className="h-5 w-5" />
                 </Button>
                 <Button className="rounded-[1.5rem] bg-emerald-600 hover:bg-emerald-700 text-white h-12 w-12 p-0 shadow-lg shadow-emerald-200">

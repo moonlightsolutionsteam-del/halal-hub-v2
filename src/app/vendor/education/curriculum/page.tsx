@@ -32,7 +32,7 @@ export default function EducationCurriculumPage() {
           <div className="flex items-center gap-2 text-violet-600 font-black uppercase tracking-widest text-[10px]">
             <BookOpen className="h-3 w-3" /> Scholarly Integrity
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Course & Curriculum</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Course & Curriculum</h1>
           <p className="text-muted-foreground font-medium">Design educational tracks, manage syllabi, and track scholarly vetting statuses.</p>
         </div>
         <div className="flex gap-3">
@@ -47,7 +47,7 @@ export default function EducationCurriculumPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
         {courses.map((course) => (
-          <Card key={course.id} className="group rounded-[3rem] border-none shadow-sm bg-white overflow-hidden hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-violet-100">
+          <Card key={course.id} className="group rounded-[3rem] border-none shadow-sm bg-card overflow-hidden hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-violet-100">
             <div className="p-8 flex gap-8">
               <div className="h-32 w-32 rounded-[2rem] bg-violet-50 flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform">
                 <BookOpen className="h-12 w-12 text-violet-600 opacity-40" />
@@ -60,7 +60,7 @@ export default function EducationCurriculumPage() {
                     </Badge>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button size="icon" variant="ghost" className="rounded-full h-8 w-8"><MoreVertical className="h-4 w-4 text-slate-300" /></Button>
+                        <Button size="icon" variant="ghost" className="rounded-full h-8 w-8"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="rounded-2xl p-2 border-none shadow-xl">
                         <DropdownMenuItem className="rounded-xl font-bold gap-2"><Edit2 className="h-4 w-4" /> Edit Syllabus</DropdownMenuItem>
@@ -69,15 +69,15 @@ export default function EducationCurriculumPage() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-tight">{course.name}</h3>
-                  <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <h3 className="text-2xl font-black text-foreground tracking-tight leading-tight">{course.name}</h3>
+                  <div className="flex items-center gap-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                     <span className="flex items-center gap-1"><Layers className="h-3 w-3" /> {course.modules} Modules</span>
                     <span>•</span>
                     <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {course.code}</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between border-t border-slate-50 pt-4">
-                  <span className="text-sm font-bold text-slate-500">{course.enrollment}</span>
+                <div className="flex items-center justify-between border-t border-border pt-4">
+                  <span className="text-sm font-bold text-muted-foreground">{course.enrollment}</span>
                   <Badge className={course.status === 'Vetted' ? 'bg-emerald-50 text-emerald-600 border-none' : 'bg-amber-50 text-amber-600 border-none'}>
                     {course.status}
                   </Badge>

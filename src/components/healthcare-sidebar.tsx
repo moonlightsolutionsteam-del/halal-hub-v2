@@ -7,7 +7,6 @@ import {
   Stethoscope,
   Users,
   Calendar,
-  Pill,
   Activity,
   ShieldCheck,
   Star,
@@ -20,12 +19,13 @@ import {
   UserCircle,
   ChevronDown,
   TrendingUp,
-  FlaskConical,
   HeartPulse,
   Wallet,
-  ClipboardList,
-  History,
-  Briefcase
+  PenTool,
+  BookOpen,
+  MessageSquare,
+  Users2,
+  Heart
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -70,11 +70,22 @@ export function HealthcareSidebar() {
       ]
     },
     {
+      title: "Engagement",
+      icon: PenTool,
+      items: [
+        { title: "Social Posts", icon: PenTool, url: "/vendor/engagement/posts" },
+        { title: "Health Blog", icon: BookOpen, url: "/vendor/engagement/blog" },
+        { title: "Enquiries", icon: MessageSquare, url: "/vendor/engagement/enquiry" },
+      ]
+    },
+    {
       title: "Growth & Trust",
       icon: TrendingUp,
       items: [
         { title: "Marketing Offers", icon: Tag, url: "/vendor/healthcare/offers" },
         { title: "Patient Reviews", icon: Star, url: "/vendor/healthcare/reviews" },
+        { title: "Collaborate", icon: Users2, url: "/vendor/marketing/collaborate" },
+        { title: "Loyalty Programme", icon: Heart, url: "/vendor/marketing/loyalty" },
         { title: "Ethics & Purity", icon: ShieldCheck, url: "/vendor/healthcare/marketing/transparency" },
       ]
     },
@@ -92,17 +103,17 @@ export function HealthcareSidebar() {
   ];
 
   return (
-    <Sidebar variant="sidebar" className="border-r bg-white">
+    <Sidebar variant="sidebar" className="border-r bg-card">
       <SidebarHeader className="p-6 border-b">
         <Link href="/vendor/healthcare/dashboard" className="flex items-center gap-3">
           <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-teal-200">
             <Stethoscope className="h-5 w-5" />
           </div>
-          <span className="font-black text-xl text-slate-900 font-headline tracking-tight">Health Panel</span>
+          <span className="font-black text-xl text-foreground font-headline tracking-tight">Health Panel</span>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-3 py-4 bg-white">
+      <SidebarContent className="px-3 py-4 bg-card">
         {toolGroups.map((group) => (
           <SidebarGroup key={group.title}>
             <Collapsible defaultOpen className="group/collapsible">
@@ -121,7 +132,7 @@ export function HealthcareSidebar() {
                         <SidebarMenuButton 
                           asChild 
                           isActive={mounted && pathname === sub.url}
-                          className="h-9 font-bold text-slate-500 rounded-lg hover:text-teal-600 hover:bg-teal-50 transition-all"
+                          className="h-9 font-bold text-muted-foreground rounded-lg hover:text-teal-600 hover:bg-teal-50 transition-all"
                         >
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-60" />
@@ -138,11 +149,11 @@ export function HealthcareSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-6 border-t bg-slate-50/50">
+      <SidebarFooter className="p-6 border-t bg-muted/50">
         <Link href="/" className="flex items-center gap-3 text-teal-600 cursor-pointer hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-black text-xs">SC</div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-slate-900">Safe Care Hub</span>
+            <span className="text-sm font-bold text-foreground">Safe Care Hub</span>
             <span className="text-[10px] text-muted-foreground font-medium">Exit to App</span>
           </div>
           <ExternalLink className="h-3 w-3 ml-auto opacity-40" />

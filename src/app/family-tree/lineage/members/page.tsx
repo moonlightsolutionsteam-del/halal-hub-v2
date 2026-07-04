@@ -41,7 +41,7 @@ export default function FamilyMembersPage() {
                 <Users className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tight">Member Directory</h1>
+                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Member Directory</h1>
                 <p className="text-muted-foreground font-medium text-xl">Manage family participants, roles, and collaboration permissions.</p>
               </div>
             </div>
@@ -54,35 +54,35 @@ export default function FamilyMembersPage() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2.5rem] shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-[2.5rem] shadow-sm">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search family members..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+          <Input placeholder="Search family members..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
         </div>
         <div className="flex items-center gap-2">
           {["All", "Admin", "Parents", "Children", "Extended"].map(f => (
-            <Badge key={f} variant="secondary" className="px-4 py-2 rounded-full cursor-pointer hover:bg-emerald-600 hover:text-white transition-all border-none bg-slate-50 text-slate-500 font-black text-[10px] uppercase tracking-widest">{f}</Badge>
+            <Badge key={f} variant="secondary" className="px-4 py-2 rounded-full cursor-pointer hover:bg-emerald-600 hover:text-white transition-all border-none bg-muted text-muted-foreground font-black text-[10px] uppercase tracking-widest">{f}</Badge>
           ))}
           <Button variant="ghost" size="icon" className="rounded-full h-11 w-11"><Filter className="h-4 w-4" /></Button>
         </div>
       </div>
 
-      <Card className="rounded-[3rem] border-none shadow-sm overflow-hidden bg-white">
+      <Card className="rounded-[3rem] border-none shadow-sm overflow-hidden bg-card">
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50/50">
+            <TableHeader className="bg-muted/50">
               <TableRow className="border-none">
-                <TableHead className="px-10 h-16 font-black text-[10px] uppercase tracking-widest text-slate-400">Family Member</TableHead>
-                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-slate-400 text-center">Hub Role</TableHead>
-                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-slate-400 text-center">Nodes Contributed</TableHead>
-                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-slate-400">Join Date</TableHead>
-                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-slate-400">Status</TableHead>
-                <TableHead className="text-right px-10 h-16 font-black text-[10px] uppercase tracking-widest text-slate-400">Action</TableHead>
+                <TableHead className="px-10 h-16 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Family Member</TableHead>
+                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-muted-foreground text-center">Hub Role</TableHead>
+                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-muted-foreground text-center">Nodes Contributed</TableHead>
+                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Join Date</TableHead>
+                <TableHead className="h-16 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Status</TableHead>
+                <TableHead className="text-right px-10 h-16 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {members.map((m) => (
-                <TableRow key={m.id} className="border-slate-50 hover:bg-slate-50/50 transition-colors group">
+                <TableRow key={m.id} className="border-border hover:bg-muted/50 transition-colors group">
                   <TableCell className="px-10 py-6">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
@@ -90,32 +90,32 @@ export default function FamilyMembersPage() {
                         <AvatarFallback>{m.name[0]}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-black text-slate-900 text-base">{m.name}</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">ID: HUB-F-882{m.id}</p>
+                        <p className="font-black text-foreground text-base">{m.name}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">ID: HUB-F-882{m.id}</p>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="text-center">
                     <Badge variant="outline" className={`rounded-full px-3 text-[9px] font-black uppercase border-none ${
-                      m.role === 'Admin' ? 'bg-slate-900 text-white' : 
+                      m.role === 'Admin' ? 'bg-zinc-900 text-white' : 
                       m.role === 'Parent' ? 'bg-emerald-50 text-emerald-600' : 
-                      'bg-slate-50 text-slate-500'
+                      'bg-muted text-muted-foreground'
                     }`}>
                       {m.role}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-center font-black text-slate-900">{m.nodesAdded}</TableCell>
-                  <TableCell className="text-xs font-bold text-slate-500">{m.joined}</TableCell>
+                  <TableCell className="text-center font-black text-foreground">{m.nodesAdded}</TableCell>
+                  <TableCell className="text-xs font-bold text-muted-foreground">{m.joined}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <div className={`h-2 w-2 rounded-full ${m.status === 'Active' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`} />
-                      <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">{m.status}</span>
+                      <div className={`h-2 w-2 rounded-full ${m.status === 'Active' ? 'bg-emerald-500 animate-pulse' : 'bg-muted'}`} />
+                      <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">{m.status}</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-right px-10">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button size="icon" variant="ghost" className="rounded-xl"><Phone className="h-4 w-4 text-slate-400" /></Button>
-                      <Button size="icon" variant="ghost" className="rounded-xl"><MoreVertical className="h-4 w-4 text-slate-400" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-xl"><Phone className="h-4 w-4 text-muted-foreground" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-xl"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -125,13 +125,13 @@ export default function FamilyMembersPage() {
         </CardContent>
       </Card>
 
-      <div className="p-10 bg-slate-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+      <div className="p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <ShieldCheck className="h-48 w-48" />
         </div>
         <div className="relative z-10 space-y-4 text-center md:text-left flex-1">
           <h2 className="text-3xl font-black font-headline">Privacy & Role Governance</h2>
-          <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-2xl">
+          <p className="text-muted-foreground font-medium text-lg leading-relaxed max-w-2xl">
             Only Family Admins can change roles or remove members. All member activity is logged in the Heritage Logs for data integrity.
           </p>
         </div>

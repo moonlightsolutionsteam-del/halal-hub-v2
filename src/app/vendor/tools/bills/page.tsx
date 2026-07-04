@@ -55,23 +55,23 @@ export default function DigitalBillsPage() {
             </div>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex flex-col justify-between">
-          <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Pending Payment</p>
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex flex-col justify-between">
+          <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">Pending Payment</p>
           <div className="space-y-1">
             <h2 className="text-4xl font-black text-amber-500">₹8,420</h2>
-            <p className="text-xs font-bold text-slate-400 uppercase">Across 5 tables</p>
+            <p className="text-xs font-bold text-muted-foreground uppercase">Across 5 tables</p>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex flex-col justify-between">
-          <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Digital Payouts</p>
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex flex-col justify-between">
+          <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">Digital Payouts</p>
           <div className="space-y-1">
             <h2 className="text-4xl font-black text-blue-500">₹32,100</h2>
-            <p className="text-xs font-bold text-slate-400 uppercase">92% of total sales</p>
+            <p className="text-xs font-bold text-muted-foreground uppercase">92% of total sales</p>
           </div>
         </Card>
       </div>
 
-      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
         <CardHeader className="p-8 border-b flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="space-y-1">
             <CardTitle className="text-xl font-black">Recent Invoices</CardTitle>
@@ -82,7 +82,7 @@ export default function DigitalBillsPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input placeholder="Search Invoice ID..." className="pl-9 h-11 rounded-2xl bg-muted/30 border-none" />
             </div>
-            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-white border-none shadow-sm">
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-card border-none shadow-sm">
               <Filter className="h-4 w-4" />
             </Button>
           </div>
@@ -103,20 +103,20 @@ export default function DigitalBillsPage() {
               {bills.map((bill) => (
                 <TableRow key={bill.id} className="hover:bg-muted/5 border-muted/20">
                   <TableCell className="px-8 py-5">
-                    <div className="font-black text-slate-900">{bill.id}</div>
+                    <div className="font-black text-foreground">{bill.id}</div>
                     <div className="text-[10px] font-bold text-muted-foreground uppercase">{bill.time}</div>
                   </TableCell>
                   <TableCell>
-                    <div className="font-bold text-slate-800">{bill.customer}</div>
+                    <div className="font-bold text-foreground">{bill.customer}</div>
                     <div className="text-[10px] font-black text-primary uppercase">Table: {bill.table}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      {bill.method !== '-' ? <CreditCard className="h-3.5 w-3.5 text-blue-500" /> : <Wallet className="h-3.5 w-3.5 text-slate-300" />}
-                      <span className="text-xs font-bold text-slate-600">{bill.method}</span>
+                      {bill.method !== '-' ? <CreditCard className="h-3.5 w-3.5 text-blue-500" /> : <Wallet className="h-3.5 w-3.5 text-muted-foreground" />}
+                      <span className="text-xs font-bold text-muted-foreground">{bill.method}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="font-black text-slate-900 text-base">{bill.total}</TableCell>
+                  <TableCell className="font-black text-foreground text-base">{bill.total}</TableCell>
                   <TableCell>
                     <Badge variant={bill.status === 'Paid' ? 'secondary' : 'outline'} className={
                       bill.status === 'Paid' ? 'bg-emerald-50 text-emerald-600 border-none px-3' : 'bg-amber-50 text-amber-600 border-amber-200 px-3'
@@ -126,8 +126,8 @@ export default function DigitalBillsPage() {
                   </TableCell>
                   <TableCell className="text-right px-8">
                     <div className="flex items-center justify-end gap-2">
-                      <Button size="icon" variant="ghost" className="rounded-xl"><Printer className="h-4 w-4 text-slate-400" /></Button>
-                      <Button size="icon" variant="ghost" className="rounded-xl"><Download className="h-4 w-4 text-slate-400" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-xl"><Printer className="h-4 w-4 text-muted-foreground" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-xl"><Download className="h-4 w-4 text-muted-foreground" /></Button>
                       <Button size="icon" variant="ghost" className="rounded-xl hover:text-primary"><Eye className="h-4 w-4" /></Button>
                     </div>
                   </TableCell>

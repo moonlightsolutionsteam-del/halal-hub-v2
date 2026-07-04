@@ -44,12 +44,12 @@ export default function CreateFamilyGoalPage() {
   const [targetAmount, setTargetAmount] = React.useState([5000]);
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-foreground">
       <div className="flex items-center gap-6">
         <Button 
           variant="ghost" 
           size="icon" 
-          className="rounded-2xl bg-white shadow-sm border h-12 w-12" 
+          className="rounded-2xl bg-card shadow-sm border h-12 w-12" 
           onClick={() => router.back()}
         >
           <ArrowLeft className="h-5 w-5" />
@@ -77,14 +77,14 @@ export default function CreateFamilyGoalPage() {
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`flex flex-col items-center justify-center p-6 rounded-[2rem] transition-all border-4 ${
                   selectedCategory === cat.id 
-                    ? 'bg-white border-rose-500 shadow-xl scale-105' 
-                    : 'bg-white border-transparent text-slate-400 hover:border-slate-100 hover:bg-slate-50'
+                    ? 'bg-card border-rose-500 shadow-xl scale-105' 
+                    : 'bg-card border-transparent text-muted-foreground hover:border-border hover:bg-muted'
                 }`}
               >
-                <div className={`h-12 w-12 rounded-2xl flex items-center justify-center mb-3 ${selectedCategory === cat.id ? 'bg-rose-50 text-rose-600' : 'bg-slate-50 text-slate-300'}`}>
+                <div className={`h-12 w-12 rounded-2xl flex items-center justify-center mb-3 ${selectedCategory === cat.id ? 'bg-rose-50 text-rose-600' : 'bg-muted text-muted-foreground'}`}>
                   <cat.icon className="h-6 w-6" />
                 </div>
-                <span className={`text-[10px] font-black uppercase tracking-tighter text-center leading-tight ${selectedCategory === cat.id ? 'text-rose-600' : 'text-slate-400'}`}>
+                <span className={`text-[10px] font-black uppercase tracking-tighter text-center leading-tight ${selectedCategory === cat.id ? 'text-rose-600' : 'text-muted-foreground'}`}>
                   {cat.label}
                 </span>
               </button>
@@ -101,17 +101,17 @@ export default function CreateFamilyGoalPage() {
             <h2 className="text-xl font-black">Goal Details</h2>
           </div>
           
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Goal Title</Label>
-              <Input placeholder="e.g., Save for Community Water Well" className="h-14 rounded-2xl bg-slate-50 border-none font-black text-lg" />
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Goal Title</Label>
+              <Input placeholder="e.g., Save for Community Water Well" className="h-14 rounded-2xl bg-muted border-none font-black text-lg" />
             </div>
 
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Target Objective</Label>
-              <div className="p-6 bg-slate-50 rounded-3xl space-y-6 border border-slate-100">
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Target Objective</Label>
+              <div className="p-6 bg-muted rounded-3xl space-y-6 border border-border">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold text-slate-600">Set Amount / Count</span>
+                  <span className="text-sm font-bold text-muted-foreground">Set Amount / Count</span>
                   <span className="text-2xl font-black text-rose-600">₹{targetAmount[0].toLocaleString()}</span>
                 </div>
                 <Slider 
@@ -121,7 +121,7 @@ export default function CreateFamilyGoalPage() {
                   onValueChange={setTargetAmount}
                   className="py-4"
                 />
-                <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <div className="flex justify-between text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                   <span>₹500</span>
                   <span>₹50,000+</span>
                 </div>
@@ -129,10 +129,10 @@ export default function CreateFamilyGoalPage() {
             </div>
 
             <div className="space-y-2">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Deadline (Optional)</Label>
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Deadline (Optional)</Label>
               <div className="relative">
-                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input type="date" className="h-12 rounded-2xl bg-slate-50 border-none font-bold pl-12" />
+                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input type="date" className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
               </div>
             </div>
           </Card>
@@ -147,17 +147,17 @@ export default function CreateFamilyGoalPage() {
             <h2 className="text-xl font-black">Assign Members</h2>
           </div>
           
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {FAMILY_MEMBERS.map((member) => (
-                <div key={member.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-rose-100 transition-all cursor-pointer group">
+                <div key={member.id} className="flex items-center justify-between p-4 bg-muted rounded-2xl border-2 border-transparent hover:border-rose-100 transition-all cursor-pointer group">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center font-black text-xs shadow-sm text-slate-400 group-hover:text-rose-600 transition-colors">
+                    <div className="h-10 w-10 bg-card rounded-xl flex items-center justify-center font-black text-xs shadow-sm text-muted-foreground group-hover:text-rose-600 transition-colors">
                       {member.initials}
                     </div>
-                    <span className="text-sm font-bold text-slate-700">{member.name}</span>
+                    <span className="text-sm font-bold text-foreground">{member.name}</span>
                   </div>
-                  <Checkbox className="rounded-full h-6 w-6 border-slate-200 data-[state=checked]:bg-rose-600 data-[state=checked]:border-rose-600" />
+                  <Checkbox className="rounded-full h-6 w-6 border-border data-[state=checked]:bg-rose-600 data-[state=checked]:border-rose-600" />
                 </div>
               ))}
             </div>
@@ -169,7 +169,7 @@ export default function CreateFamilyGoalPage() {
           <Button className="w-full h-16 rounded-[1.5rem] bg-rose-600 hover:bg-rose-700 text-white font-black text-xl shadow-2xl transition-transform active:scale-[0.98]">
             Activate Family Goal
           </Button>
-          <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">
+          <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] text-center">
             <Trophy className="h-3 w-3" /> Completing goals awards Hub Coins to all members
           </div>
         </div>

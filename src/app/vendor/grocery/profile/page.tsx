@@ -62,7 +62,7 @@ export default function GroceryProfilePage() {
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Grocery Store Profile</h1>
+          <h1 className="text-3xl font-black font-headline tracking-tight text-foreground">Grocery Store Profile</h1>
           <p className="text-muted-foreground font-medium">Manage your supermarket's inventory departments, logistics, and verification status.</p>
         </div>
         <div className="flex gap-3">
@@ -73,7 +73,7 @@ export default function GroceryProfilePage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-        <TabsList className="bg-white border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
+        <TabsList className="bg-card border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
           <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all">Basic Info</TabsTrigger>
           <TabsTrigger value="departments" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Departments</TabsTrigger>
           <TabsTrigger value="logistics" className="rounded-xl px-8 font-bold text-sm h-full transition-all">Logistics & Payments</TabsTrigger>
@@ -84,20 +84,20 @@ export default function GroceryProfilePage() {
         <TabsContent value="details" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Info className="h-5 w-5 text-emerald-600" /> Core Details
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Store Name</Label>
-                  <Input placeholder="e.g., Green Garden Hypermarket" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Store Name</Label>
+                  <Input placeholder="e.g., Green Garden Hypermarket" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Store Category</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Store Category</Label>
                   <Select>
-                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted border-none font-bold">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -109,24 +109,24 @@ export default function GroceryProfilePage() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Year Established</Label>
-                  <Input placeholder="e.g., 2005" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Year Established</Label>
+                  <Input placeholder="e.g., 2005" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Store Tagline</Label>
-                  <Input placeholder="e.g., Freshness Guaranteed, Halal Always" className="h-12 rounded-2xl bg-slate-50 border-none font-medium" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Store Tagline</Label>
+                  <Input placeholder="e.g., Freshness Guaranteed, Halal Always" className="h-12 rounded-2xl bg-muted border-none font-medium" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">About Store</Label>
-                  <Textarea placeholder="Detail your store's mission, fresh produce standards, and community focus..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-emerald-600/20" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">About Store</Label>
+                  <Textarea placeholder="Detail your store's mission, fresh produce standards, and community focus..." className="min-h-[120px] rounded-2xl bg-muted border-none p-4 font-medium resize-none focus:ring-2 focus:ring-emerald-600/20" />
                 </div>
                 <div className="md:col-span-2 space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Business Highlights</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Business Highlights</Label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {HIGHLIGHTS.map((item) => (
-                      <div key={item} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer">
+                      <div key={item} className="flex items-center space-x-3 bg-muted p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer">
                         <Checkbox id={`h-${item}`} />
-                        <label htmlFor={`h-${item}`} className="text-xs font-bold text-slate-700 leading-none cursor-pointer">{item}</label>
+                        <label htmlFor={`h-${item}`} className="text-xs font-bold text-foreground leading-none cursor-pointer">{item}</label>
                       </div>
                     ))}
                   </div>
@@ -137,38 +137,38 @@ export default function GroceryProfilePage() {
 
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <MapPin className="h-5 w-5 text-emerald-600" /> Location & Timing
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Full Address</Label>
-                  <Input placeholder="Store number, complex, street..." className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Full Address</Label>
+                  <Input placeholder="Store number, complex, street..." className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Landmark</Label>
-                  <Input placeholder="e.g., Opposite Central Park" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Landmark</Label>
+                  <Input placeholder="e.g., Opposite Central Park" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">City</Label>
-                  <Input placeholder="e.g., Mumbai" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">City</Label>
+                  <Input placeholder="e.g., Mumbai" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Pincode</Label>
-                  <Input placeholder="e.g., 400001" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Pincode</Label>
+                  <Input placeholder="e.g., 400001" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Operating Timings</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Operating Timings</Label>
                   <div className="space-y-3">
                     {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
-                      <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-slate-50 rounded-xl gap-4">
-                        <span className="font-bold text-xs text-slate-600 min-w-[100px] uppercase tracking-wider">{day}</span>
+                      <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-muted rounded-xl gap-4">
+                        <span className="font-bold text-xs text-muted-foreground min-w-[100px] uppercase tracking-wider">{day}</span>
                         <div className="flex items-center gap-3">
-                          <Input type="time" defaultValue="09:00" className="w-32 h-9 rounded-lg bg-white border-none shadow-sm text-xs font-bold" />
-                          <span className="text-[10px] font-black text-slate-400">TO</span>
-                          <Input type="time" defaultValue="22:00" className="w-32 h-9 rounded-lg bg-white border-none shadow-sm text-xs font-bold" />
+                          <Input type="time" defaultValue="09:00" className="w-32 h-9 rounded-lg bg-card border-none shadow-sm text-xs font-bold" />
+                          <span className="text-[10px] font-black text-muted-foreground">TO</span>
+                          <Input type="time" defaultValue="22:00" className="w-32 h-9 rounded-lg bg-card border-none shadow-sm text-xs font-bold" />
                         </div>
                       </div>
                     ))}
@@ -182,29 +182,29 @@ export default function GroceryProfilePage() {
         <TabsContent value="departments" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Boxes className="h-5 w-5 text-emerald-600" /> Active Departments
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Select all departments available in your store to help customers find you.</p>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="space-y-6">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input 
                     placeholder="Search departments (e.g. Dairy, Fruits)..." 
-                    className="pl-10 h-12 rounded-2xl bg-slate-50 border-none font-medium"
+                    className="pl-10 h-12 rounded-2xl bg-muted border-none font-medium"
                     value={searchDept}
                     onChange={(e) => setSearchDept(e.target.value)}
                   />
                 </div>
-                <ScrollArea className="h-[400px] rounded-2xl bg-slate-50/50 p-6 border border-slate-100 shadow-inner">
+                <ScrollArea className="h-[400px] rounded-2xl bg-muted/50 p-6 border border-border shadow-inner">
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {filteredDepts.map((d) => (
-                      <div key={d} className="flex items-center space-x-3 p-3 bg-white rounded-xl shadow-sm border border-transparent hover:border-emerald-600/20 transition-all cursor-pointer group">
-                        <Checkbox id={`dept-${d}`} className="rounded-md border-slate-300 group-hover:border-emerald-600" />
-                        <label htmlFor={`dept-${d}`} className="text-xs font-bold text-slate-700 cursor-pointer truncate">{d}</label>
+                      <div key={d} className="flex items-center space-x-3 p-3 bg-card rounded-xl shadow-sm border border-transparent hover:border-emerald-600/20 transition-all cursor-pointer group">
+                        <Checkbox id={`dept-${d}`} className="rounded-md border-border group-hover:border-emerald-600" />
+                        <label htmlFor={`dept-${d}`} className="text-xs font-bold text-foreground cursor-pointer truncate">{d}</label>
                       </div>
                     ))}
                   </div>
@@ -217,39 +217,39 @@ export default function GroceryProfilePage() {
         <TabsContent value="logistics" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Truck className="h-5 w-5 text-emerald-600" /> Delivery & Pickup
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 space-y-10">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 space-y-10">
               <div className="space-y-4">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Fulfillment Options</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Fulfillment Options</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {DELIVERY_OPTIONS.map((opt) => (
-                    <div key={opt} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer">
+                    <div key={opt} className="flex items-center space-x-3 bg-muted p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer">
                       <Checkbox id={`del-${opt}`} />
-                      <label htmlFor={`del-${opt}`} className="text-xs font-bold text-slate-700 leading-none cursor-pointer">{opt}</label>
+                      <label htmlFor={`del-${opt}`} className="text-xs font-bold text-foreground leading-none cursor-pointer">{opt}</label>
                     </div>
                   ))}
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Min Order Value (₹)</Label>
-                  <Input placeholder="e.g., 500" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Min Order Value (₹)</Label>
+                  <Input placeholder="e.g., 500" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Base Delivery Fee (₹)</Label>
-                  <Input placeholder="e.g., 40" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Base Delivery Fee (₹)</Label>
+                  <Input placeholder="e.g., 40" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Free Delivery Threshold (₹)</Label>
-                  <Input placeholder="e.g., 1500" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Free Delivery Threshold (₹)</Label>
+                  <Input placeholder="e.g., 1500" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Delivery Radius (km)</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Delivery Radius (km)</Label>
                   <Select>
-                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted border-none font-bold">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -266,16 +266,16 @@ export default function GroceryProfilePage() {
 
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Wallet className="h-5 w-5 text-emerald-600" /> Payments
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {PAYMENT_METHODS.map((method) => (
-                  <div key={method} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer">
+                  <div key={method} className="flex items-center space-x-3 bg-muted p-3 rounded-xl hover:bg-muted transition-colors cursor-pointer">
                     <Checkbox id={`p-${method}`} />
-                    <label htmlFor={`p-${method}`} className="text-xs font-bold text-slate-700 leading-none cursor-pointer">{method}</label>
+                    <label htmlFor={`p-${method}`} className="text-xs font-bold text-foreground leading-none cursor-pointer">{method}</label>
                   </div>
                 ))}
               </div>
@@ -287,24 +287,24 @@ export default function GroceryProfilePage() {
         <TabsContent value="documents" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <ShieldCheck className="h-5 w-5 text-emerald-600" /> Compliance & Licenses
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Upload your certifications to build consumer trust and gain verification badges.</p>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {COMPLIANCE_DOCS.map((doc) => (
                   <div key={doc.id} className="space-y-3">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">{doc.label}</Label>
-                    <div className="p-6 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-3 bg-slate-50/50 hover:bg-white transition-colors cursor-pointer group">
-                      <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">{doc.label}</Label>
+                    <div className="p-6 border-2 border-dashed border-border rounded-2xl flex flex-col items-center justify-center gap-3 bg-muted/50 hover:bg-card transition-colors cursor-pointer group">
+                      <div className="h-10 w-10 bg-card rounded-full flex items-center justify-center text-muted-foreground group-hover:text-emerald-600 transition-colors shadow-sm">
                         <Upload className="h-5 w-5" />
                       </div>
                       <div className="text-center">
                         <p className="text-[10px] font-black uppercase text-emerald-600 group-hover:underline">Upload file</p>
-                        <p className="text-[9px] text-slate-400 mt-1">No file chosen</p>
+                        <p className="text-[9px] text-muted-foreground mt-1">No file chosen</p>
                       </div>
                     </div>
                   </div>
@@ -318,17 +318,17 @@ export default function GroceryProfilePage() {
         <TabsContent value="branding" className="space-y-10 animate-in fade-in duration-500">
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Smartphone className="h-5 w-5 text-emerald-600" /> Visual Identity
               </h2>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Store Logo</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Store Logo</Label>
                   <div className="flex items-center gap-8">
-                    <div className="h-32 w-32 rounded-3xl bg-slate-100 border-2 border-dashed border-slate-200 flex items-center justify-center text-slate-400 overflow-hidden relative group">
+                    <div className="h-32 w-32 rounded-3xl bg-muted border-2 border-dashed border-border flex items-center justify-center text-muted-foreground overflow-hidden relative group">
                       <Camera className="h-8 w-8 group-hover:scale-110 transition-transform" />
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <Upload className="h-6 w-6 text-white" />
@@ -336,13 +336,13 @@ export default function GroceryProfilePage() {
                     </div>
                     <div className="space-y-2">
                       <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-9 border-2 uppercase tracking-tighter">Choose Logo</Button>
-                      <p className="text-[10px] font-bold text-slate-400 leading-tight">1:1 Ratio<br />Max 2MB</p>
+                      <p className="text-[10px] font-bold text-muted-foreground leading-tight">1:1 Ratio<br />Max 2MB</p>
                     </div>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Store Banner / Cover</Label>
-                  <div className="aspect-video w-full rounded-[2rem] bg-slate-100 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 text-slate-400 relative group overflow-hidden shadow-inner">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Store Banner / Cover</Label>
+                  <div className="aspect-video w-full rounded-[2rem] bg-muted border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 text-muted-foreground relative group overflow-hidden shadow-inner">
                     <ImageIcon className="h-8 w-8 group-hover:scale-110 transition-transform" />
                     <span className="text-[10px] font-black uppercase tracking-widest">Select Banner</span>
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -356,22 +356,22 @@ export default function GroceryProfilePage() {
 
           <section className="space-y-6">
             <div className="space-y-1">
-              <h2 className="text-xl font-black flex items-center gap-2 text-slate-900">
+              <h2 className="text-xl font-black flex items-center gap-2 text-foreground">
                 <Plus className="h-5 w-5 text-emerald-600" /> Multi-Media Gallery
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Add photos of your aisles, checkout, and exterior to attract customers.</p>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-100 shadow-sm">
+                  <div key={i} className="relative aspect-square rounded-2xl overflow-hidden group border border-border shadow-sm">
                     <img src={`https://picsum.photos/seed/grocery-img-${i}/400/400`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <Button size="icon" variant="destructive" className="h-8 w-8 rounded-xl"><Trash2 className="h-4 w-4" /></Button>
                     </div>
                   </div>
                 ))}
-                <button className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-2 bg-slate-50 hover:bg-white hover:border-emerald-600/40 transition-all text-slate-400 hover:text-emerald-600">
+                <button className="aspect-square rounded-2xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 bg-muted hover:bg-card hover:border-emerald-600/40 transition-all text-muted-foreground hover:text-emerald-600">
                   <Plus className="h-6 w-6" />
                   <span className="text-[10px] font-black uppercase tracking-tighter">Add Photo</span>
                 </button>
@@ -380,17 +380,17 @@ export default function GroceryProfilePage() {
           </section>
 
           <section className="space-y-6">
-            <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden">
+            <Card className="rounded-[2.5rem] border-none shadow-xl bg-zinc-900 text-white p-10 space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <CheckCircle2 className="h-32 w-32" />
               </div>
               <div className="relative z-10 space-y-4">
                 <h3 className="text-2xl font-black font-headline">Store Compliance Declaration</h3>
-                <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-3xl">
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed max-w-3xl">
                   By publishing this profile, you declare that all grocery products sold as "Halal" are sourced from verified suppliers. You take full responsibility for the accuracy of inventory labels and hygiene standards.
                 </p>
               </div>
-              <div className="flex items-center space-x-4 bg-white/5 p-4 rounded-2xl border border-white/10 relative z-10">
+              <div className="flex items-center space-x-4 bg-card/5 p-4 rounded-2xl border border-white/10 relative z-10">
                 <Checkbox id="final-declaration" className="border-white/30" />
                 <label htmlFor="final-declaration" className="text-sm font-bold text-white/80 cursor-pointer">I confirm that all provided data is accurate.</label>
               </div>

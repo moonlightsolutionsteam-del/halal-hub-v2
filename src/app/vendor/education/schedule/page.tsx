@@ -24,7 +24,7 @@ export default function EducationSchedulePage() {
           <div className="flex items-center gap-2 text-violet-600 font-black uppercase tracking-widest text-[10px]">
             <Calendar className="h-3 w-3" /> Academic Calendar
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Class Schedule</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Class Schedule</h1>
           <p className="text-muted-foreground font-medium">Manage daily class timings, exam dates, and teacher assignments.</p>
         </div>
         <div className="flex gap-3">
@@ -39,40 +39,40 @@ export default function EducationSchedulePage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-6">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
-            <CardHeader className="p-8 border-b flex items-center justify-between bg-slate-50/50">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+            <CardHeader className="p-8 border-b flex items-center justify-between bg-muted/50">
               <div className="flex items-center gap-4">
                 <Button size="icon" variant="ghost" className="rounded-xl"><ChevronLeft className="h-5 w-5" /></Button>
                 <CardTitle className="text-xl font-black">Nov 02, 2024</CardTitle>
                 <Button size="icon" variant="ghost" className="rounded-xl"><ChevronRight className="h-5 w-5" /></Button>
               </div>
               <div className="flex gap-2">
-                <Button size="sm" variant="ghost" className="rounded-xl bg-white shadow-sm border font-bold h-10"><Grid className="h-4 w-4 mr-2" /> Grid</Button>
+                <Button size="sm" variant="ghost" className="rounded-xl bg-card shadow-sm border font-bold h-10"><Grid className="h-4 w-4 mr-2" /> Grid</Button>
                 <Button size="sm" variant="ghost" className="rounded-xl font-bold h-10"><List className="h-4 w-4 mr-2" /> List</Button>
               </div>
             </CardHeader>
             <CardContent className="p-0">
               <div className="divide-y divide-slate-50">
                 {sessions.map((s) => (
-                  <div key={s.id} className="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-50/50 transition-colors group">
+                  <div key={s.id} className="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-muted/50 transition-colors group">
                     <div className="flex items-center gap-8">
                       <div className="text-center w-20 shrink-0">
-                        <p className="text-sm font-black text-slate-900">{s.time}</p>
+                        <p className="text-sm font-black text-foreground">{s.time}</p>
                         <Badge variant="secondary" className={
-                          s.status === 'Live' ? 'bg-rose-50 text-rose-600 border-none animate-pulse px-2 text-[8px]' : 'bg-slate-100 text-slate-400 border-none px-2 text-[8px]'
+                          s.status === 'Live' ? 'bg-rose-50 text-rose-600 border-none animate-pulse px-2 text-[8px]' : 'bg-muted text-muted-foreground border-none px-2 text-[8px]'
                         }>
                           {s.status}
                         </Badge>
                       </div>
                       <div className="space-y-1">
-                        <h3 className="text-xl font-black text-slate-900 tracking-tight">{s.subject}</h3>
+                        <h3 className="text-xl font-black text-foreground tracking-tight">{s.subject}</h3>
                         <div className="flex items-center gap-4">
-                          <span className="flex items-center gap-1.5 text-xs font-bold text-slate-400 uppercase tracking-widest"><User className="h-3.5 w-3.5 text-violet-500" /> {s.teacher}</span>
-                          <span className="flex items-center gap-1.5 text-xs font-bold text-slate-400 uppercase tracking-widest"><MapPin className="h-3.5 w-3.5 text-blue-500" /> {s.room}</span>
+                          <span className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground uppercase tracking-widest"><User className="h-3.5 w-3.5 text-violet-500" /> {s.teacher}</span>
+                          <span className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground uppercase tracking-widest"><MapPin className="h-3.5 w-3.5 text-blue-500" /> {s.room}</span>
                         </div>
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><MoreVertical className="h-5 w-5 text-slate-300" /></Button>
+                    <Button variant="ghost" size="icon" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
                   </div>
                 ))}
               </div>
@@ -81,7 +81,7 @@ export default function EducationSchedulePage() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-6">
             <h3 className="text-xl font-black">Room Availability</h3>
             <div className="space-y-4">
               {[
@@ -89,10 +89,10 @@ export default function EducationSchedulePage() {
                 { name: "Room 202", status: "Starting Soon", pax: "12/20" },
                 { name: "Seminar Room", status: "Available", pax: "0/15" },
               ].map((room, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10">
+                <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-card/5 border border-white/10">
                   <div>
                     <p className="text-sm font-bold">{room.name}</p>
-                    <p className="text-[10px] font-black text-slate-400 uppercase">{room.status}</p>
+                    <p className="text-[10px] font-black text-muted-foreground uppercase">{room.status}</p>
                   </div>
                   <span className="text-xs font-black text-violet-400">{room.pax}</span>
                 </div>

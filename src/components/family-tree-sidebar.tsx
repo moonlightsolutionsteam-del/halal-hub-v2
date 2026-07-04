@@ -111,17 +111,17 @@ export function FamilyTreeSidebar() {
   }, [])
 
   return (
-    <Sidebar variant="sidebar" className="border-r bg-white">
+    <Sidebar variant="sidebar" className="border-r bg-card">
       <SidebarHeader className="p-6 border-b">
         <Link href="/family-tree" className="flex items-center gap-3">
           <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-emerald-200">
             <FamilyTreeIcon className="h-5 w-5" />
           </div>
-          <span className="font-black text-xl text-slate-900 font-headline tracking-tight">Family Hub</span>
+          <span className="font-black text-xl text-foreground font-headline tracking-tight">Family Hub</span>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-3 py-4 bg-white">
+      <SidebarContent className="px-3 py-4 bg-card">
         {HUB_GROUPS.map((group) => (
           <SidebarGroup key={group.title}>
             <Collapsible defaultOpen className="group/collapsible">
@@ -140,7 +140,7 @@ export function FamilyTreeSidebar() {
                         <SidebarMenuButton 
                           asChild 
                           isActive={mounted && pathname === sub.url}
-                          className="h-9 font-bold text-slate-500 rounded-lg hover:text-emerald-600 hover:bg-emerald-50 transition-all"
+                          className="h-9 font-bold text-muted-foreground rounded-lg hover:text-emerald-600 hover:bg-emerald-50 transition-all"
                         >
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-60" />
@@ -157,11 +157,11 @@ export function FamilyTreeSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-6 border-t bg-slate-50/50">
+      <SidebarFooter className="p-6 border-t bg-muted/50">
         <Link href="/account/dashboard" className="flex items-center gap-3 text-emerald-600 cursor-pointer hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 bg-emerald-600 rounded-full flex items-center justify-center text-white font-black text-xs">SA</div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-slate-900">Super Admin</span>
+            <span className="text-sm font-bold text-foreground">Super Admin</span>
             <span className="text-[10px] text-muted-foreground font-medium">Exit Family Hub</span>
           </div>
           <ExternalLink className="h-3 w-3 ml-auto opacity-40" />

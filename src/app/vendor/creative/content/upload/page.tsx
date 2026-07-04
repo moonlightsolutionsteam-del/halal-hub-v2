@@ -36,13 +36,13 @@ export default function ContentUploadPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-foreground">
       <div className="flex items-center gap-6">
-        <Button variant="ghost" size="icon" className="rounded-2xl bg-white shadow-sm border h-12 w-12" onClick={() => router.back()}>
+        <Button variant="ghost" size="icon" className="rounded-2xl bg-card shadow-sm border h-12 w-12" onClick={() => router.back()}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Upload Content</h1>
+          <h1 className="text-3xl font-black font-headline tracking-tight text-foreground">Upload Content</h1>
           <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest opacity-60">New Media Production</p>
         </div>
       </div>
@@ -62,14 +62,14 @@ export default function ContentUploadPage() {
                 className={cn(
                   "flex flex-col items-center justify-center p-6 rounded-[2.5rem] transition-all border-4",
                   type === opt.id 
-                    ? 'bg-white border-primary shadow-xl scale-105' 
-                    : 'bg-white border-transparent text-slate-400 hover:border-slate-100 hover:bg-slate-50'
+                    ? 'bg-card border-primary shadow-xl scale-105' 
+                    : 'bg-card border-transparent text-muted-foreground hover:border-border hover:bg-muted'
                 )}
               >
-                <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center mb-3", type === opt.id ? opt.bg + ' ' + opt.color : 'bg-slate-50 text-slate-300')}>
+                <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center mb-3", type === opt.id ? opt.bg + ' ' + opt.color : 'bg-muted text-muted-foreground')}>
                   <opt.icon className="h-6 w-6" />
                 </div>
-                <span className={cn("text-[10px] font-black uppercase tracking-tighter text-center leading-tight", type === opt.id ? 'text-primary' : 'text-slate-400')}>
+                <span className={cn("text-[10px] font-black uppercase tracking-tighter text-center leading-tight", type === opt.id ? 'text-primary' : 'text-muted-foreground')}>
                   {opt.label}
                 </span>
               </button>
@@ -78,32 +78,32 @@ export default function ContentUploadPage() {
         </section>
 
         {/* Media Upload Area */}
-        <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 space-y-8">
-          <div className="p-12 border-4 border-dashed border-slate-100 rounded-[2.5rem] bg-slate-50/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-white transition-all cursor-pointer group">
-            <div className="h-20 w-20 bg-white rounded-3xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+        <Card className="rounded-[3rem] border-none shadow-sm bg-card p-10 space-y-8">
+          <div className="p-12 border-4 border-dashed border-border rounded-[2.5rem] bg-muted/30 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 hover:bg-card transition-all cursor-pointer group">
+            <div className="h-20 w-20 bg-card rounded-3xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
               <Upload className="h-10 w-10 text-primary" />
             </div>
             <div className="space-y-1">
-              <p className="text-lg font-black text-slate-900">Drop your file here</p>
-              <p className="text-sm font-medium text-slate-400">MP4, MOV, MP3 or PDF (Max 500MB)</p>
+              <p className="text-lg font-black text-foreground">Drop your file here</p>
+              <p className="text-sm font-medium text-muted-foreground">MP4, MOV, MP3 or PDF (Max 500MB)</p>
             </div>
             <Button size="sm" variant="outline" className="rounded-xl font-black text-[10px] border-2 uppercase h-10 px-8 mt-4">Select from Computer</Button>
           </div>
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Content Title</Label>
-              <Input placeholder="e.g., Lessons from the Seerah - Part 4" className="h-14 rounded-2xl bg-slate-50 border-none font-black text-xl" />
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Content Title</Label>
+              <Input placeholder="e.g., Lessons from the Seerah - Part 4" className="h-14 rounded-2xl bg-muted border-none font-black text-xl" />
             </div>
             <div className="space-y-2">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Description / Captions</Label>
-              <Textarea placeholder="What is this about?" className="min-h-[150px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none" />
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Description / Captions</Label>
+              <Textarea placeholder="What is this about?" className="min-h-[150px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Visibility</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Visibility</Label>
                 <Select defaultValue="public">
-                  <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                  <SelectTrigger className="h-12 rounded-2xl bg-muted border-none font-bold">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-none shadow-2xl">
@@ -114,23 +114,23 @@ export default function ContentUploadPage() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Topic Tags</Label>
-                <Input placeholder="History, Faith, etc." className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Topic Tags</Label>
+                <Input placeholder="History, Faith, etc." className="h-12 rounded-2xl bg-muted border-none font-bold" />
               </div>
             </div>
           </div>
         </Card>
 
         {/* AI Enhancements */}
-        <Card className="rounded-[2.5rem] border-none bg-slate-900 text-white p-10 space-y-6 relative overflow-hidden">
+        <Card className="rounded-[2.5rem] border-none bg-zinc-900 text-white p-10 space-y-6 relative overflow-hidden">
           <Sparkles className="absolute -top-4 -right-4 h-24 w-24 opacity-10 text-primary" />
           <div className="relative z-10 flex items-center gap-6">
-            <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-primary shadow-inner border border-white/10">
+            <div className="h-14 w-14 rounded-2xl bg-card/10 flex items-center justify-center text-primary shadow-inner border border-white/10">
               <Zap className="h-8 w-8 fill-current" />
             </div>
             <div className="space-y-1">
               <h3 className="text-xl font-black tracking-tight">AI Co-Producer</h3>
-              <p className="text-xs text-slate-400 font-medium">Generate auto-subtitles and chapter markers for this upload.</p>
+              <p className="text-xs text-muted-foreground font-medium">Generate auto-subtitles and chapter markers for this upload.</p>
             </div>
             <Button size="sm" variant="secondary" className="ml-auto rounded-xl font-black text-[10px] uppercase h-10 px-6 shadow-2xl">Enable AI</Button>
           </div>
@@ -144,7 +144,7 @@ export default function ContentUploadPage() {
           >
             {loading ? <Loader2 className="h-8 w-8 animate-spin" /> : "Publish to Hub"}
           </Button>
-          <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">
+          <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] text-center">
             <CheckCircle2 className="h-3 w-3 text-emerald-500" /> Vetted according to Community Standards
           </div>
         </div>

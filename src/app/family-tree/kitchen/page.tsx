@@ -37,7 +37,7 @@ export default function HeritageKitchenPage() {
                 <Utensils className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tight">Heritage Kitchen</h1>
+                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Heritage Kitchen</h1>
                 <p className="text-muted-foreground font-medium text-xl">The private repository of our family's culinary legacy.</p>
               </div>
             </div>
@@ -45,7 +45,7 @@ export default function HeritageKitchenPage() {
           <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="relative flex-1 md:w-80">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search family recipes..." className="pl-12 h-14 rounded-2xl bg-white border-none shadow-sm font-medium text-lg" />
+              <Input placeholder="Search family recipes..." className="pl-12 h-14 rounded-2xl bg-card border-none shadow-sm font-medium text-lg" />
             </div>
             <Button className="bg-amber-600 hover:bg-amber-700 text-white rounded-2xl h-14 px-10 font-black shadow-lg shadow-amber-200">
               <Plus className="h-5 w-5 mr-2" /> Add Recipe
@@ -56,11 +56,11 @@ export default function HeritageKitchenPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {recipes.map((recipe) => (
-          <Card key={recipe.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-amber-100">
+          <Card key={recipe.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-amber-100">
             <div className="relative aspect-square overflow-hidden">
               <Image src={`https://picsum.photos/seed/recipe-${recipe.img}/600/600`} alt={recipe.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute top-4 left-4">
-                <Badge className="bg-white/90 backdrop-blur-md text-amber-600 font-black border-none shadow-xl px-3 py-1 rounded-full flex items-center gap-1.5 text-[10px]">
+                <Badge className="bg-card/90 backdrop-blur-md text-amber-600 font-black border-none shadow-xl px-3 py-1 rounded-full flex items-center gap-1.5 text-[10px]">
                   <Star className="h-3 w-3 fill-amber-400 text-amber-400" /> {recipe.rating}
                 </Badge>
               </div>
@@ -72,10 +72,10 @@ export default function HeritageKitchenPage() {
               <div className="space-y-1">
                 <div className="flex justify-between items-start">
                   <Badge variant="secondary" className="bg-amber-50 text-amber-600 border-none text-[9px] font-black uppercase tracking-tighter">{recipe.difficulty}</Badge>
-                  <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-1"><Clock className="h-3 w-3" /> {recipe.time}</span>
+                  <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-1"><Clock className="h-3 w-3" /> {recipe.time}</span>
                 </div>
-                <h3 className="text-xl font-black text-slate-900 line-clamp-1 group-hover:text-amber-600 transition-colors">{recipe.name}</h3>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><ChefHat className="h-3 w-3 text-amber-500" /> From {recipe.author}'s Vault</p>
+                <h3 className="text-xl font-black text-foreground line-clamp-1 group-hover:text-amber-600 transition-colors">{recipe.name}</h3>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5"><ChefHat className="h-3 w-3 text-amber-500" /> From {recipe.author}'s Vault</p>
               </div>
             </CardHeader>
           </Card>
@@ -84,7 +84,7 @@ export default function HeritageKitchenPage() {
 
       {/* Culinary Preservation Info */}
       <Card className="rounded-[3rem] border-none bg-amber-50 p-12 flex flex-col lg:flex-row items-center gap-12 border-2 border-amber-100">
-        <div className="h-24 w-24 rounded-[2rem] bg-white flex items-center justify-center text-amber-600 shadow-xl shrink-0">
+        <div className="h-24 w-24 rounded-[2rem] bg-card flex items-center justify-center text-amber-600 shadow-xl shrink-0">
           <BookOpen className="h-12 w-12" />
         </div>
         <div className="space-y-4 text-center lg:text-left flex-1">
@@ -93,7 +93,7 @@ export default function HeritageKitchenPage() {
             Kitchen secrets are part of your family heritage. Save ingredients, traditional techniques, and voice notes from the elders so the legacy lives on forever.
           </p>
         </div>
-        <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-amber-200 text-amber-700 font-black uppercase text-sm tracking-widest hover:bg-white shadow-sm">Record Oral History</Button>
+        <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-amber-200 text-amber-700 font-black uppercase text-sm tracking-widest hover:bg-card shadow-sm">Record Oral History</Button>
       </Card>
     </div>
   );

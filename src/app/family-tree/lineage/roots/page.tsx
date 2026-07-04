@@ -30,7 +30,7 @@ export default function AncestryRootsPage() {
                 <Network className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tight">Ancestry Roots</h1>
+                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Ancestry Roots</h1>
                 <p className="text-muted-foreground font-medium text-xl">Manage high-level root ancestors and unify global family branches.</p>
               </div>
             </div>
@@ -46,8 +46,8 @@ export default function AncestryRootsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Main Roots Explorer */}
         <div className="lg:col-span-8 space-y-8">
-          <Card className="rounded-[3rem] border-none shadow-sm bg-white overflow-hidden">
-            <CardHeader className="p-10 border-b bg-slate-50/30 flex flex-row items-center justify-between">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden">
+            <CardHeader className="p-10 border-b bg-muted/30 flex flex-row items-center justify-between">
               <div className="space-y-1">
                 <CardTitle className="text-2xl font-black">Primary Lineages</CardTitle>
                 <CardDescription className="text-base font-medium">Verified root branches connecting multiple trees.</CardDescription>
@@ -60,26 +60,26 @@ export default function AncestryRootsPage() {
                   { name: "Al-Sayed Primary Branch", root: "Sheikh Ibrahim Al-Sayed", origin: "Old Delhi, India", count: 124, year: "1895" },
                   { name: "Malik Merchant Clan", root: "Haji Yusuf Malik", origin: "Fes, Morocco", count: 85, year: "1912" },
                 ].map((root, i) => (
-                  <div key={i} className="p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-slate-50/50 transition-colors group">
+                  <div key={i} className="p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-muted/50 transition-colors group">
                     <div className="flex items-center gap-6">
                       <div className="h-16 w-16 rounded-[1.5rem] bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-110 transition-transform">
                         <GitBranch className="h-8 w-8" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-black text-slate-900 leading-tight">{root.name}</h3>
-                        <p className="text-sm font-bold text-slate-400 mt-1">Root: {root.root}</p>
+                        <h3 className="text-xl font-black text-foreground leading-tight">{root.name}</h3>
+                        <p className="text-sm font-bold text-muted-foreground mt-1">Root: {root.root}</p>
                         <div className="flex items-center gap-3 mt-2">
-                          <span className="text-[10px] font-black uppercase text-slate-300 tracking-widest flex items-center gap-1"><MapPin className="h-3 w-3" /> {root.origin}</span>
-                          <span className="text-[10px] font-black uppercase text-slate-300 tracking-widest flex items-center gap-1"><History className="h-3 w-3" /> Est. {root.year}</span>
+                          <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest flex items-center gap-1"><MapPin className="h-3 w-3" /> {root.origin}</span>
+                          <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest flex items-center gap-1"><History className="h-3 w-3" /> Est. {root.year}</span>
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-8">
                       <div className="text-center md:text-right">
-                        <p className="text-[10px] font-black uppercase text-slate-400 mb-1">Total Nodes</p>
-                        <p className="text-2xl font-black text-slate-900">{root.count}</p>
+                        <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">Total Nodes</p>
+                        <p className="text-2xl font-black text-foreground">{root.count}</p>
                       </div>
-                      <Button variant="ghost" size="icon" className="rounded-xl"><ArrowUpRight className="h-5 w-5 text-slate-300" /></Button>
+                      <Button variant="ghost" size="icon" className="rounded-xl"><ArrowUpRight className="h-5 w-5 text-muted-foreground" /></Button>
                     </div>
                   </div>
                 ))}
@@ -88,15 +88,15 @@ export default function AncestryRootsPage() {
           </Card>
 
           {/* Interactive Clan Map Placeholder */}
-          <Card className="rounded-[3rem] border-none shadow-sm bg-slate-900 text-white p-12 overflow-hidden relative min-h-[400px] flex items-center justify-center">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-zinc-900 text-white p-12 overflow-hidden relative min-h-[400px] flex items-center justify-center">
             <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:32px_32px] opacity-5" />
             <div className="relative z-10 text-center space-y-6">
-              <div className="h-24 w-24 rounded-[2rem] bg-white/10 flex items-center justify-center mx-auto border border-white/10 shadow-2xl">
+              <div className="h-24 w-24 rounded-[2rem] bg-card/10 flex items-center justify-center mx-auto border border-white/10 shadow-2xl">
                 <Globe className="h-12 w-12 text-emerald-400" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-3xl font-black tracking-tight">Global Lineage Map</h3>
-                <p className="text-slate-400 font-medium text-lg max-w-sm mx-auto">
+                <p className="text-muted-foreground font-medium text-lg max-w-sm mx-auto">
                   Visualize how your family roots branch out across different continents and generations.
                 </p>
               </div>
@@ -107,14 +107,14 @@ export default function AncestryRootsPage() {
 
         {/* Sidebar Info */}
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
                 <GitMerge className="h-5 w-5" />
               </div>
-              <h3 className="text-xl font-black text-slate-900">Merge Logs</h3>
+              <h3 className="text-xl font-black text-foreground">Merge Logs</h3>
             </div>
-            <p className="text-sm text-slate-500 font-medium leading-relaxed italic">
+            <p className="text-sm text-muted-foreground font-medium leading-relaxed italic">
               Recent attempts to link similar branches detected in the global database.
             </p>
             <div className="space-y-4">
@@ -122,12 +122,12 @@ export default function AncestryRootsPage() {
                 { label: "Abdullah Root", status: "Potential Match", date: "2h ago" },
                 { label: "Delhi Silk Clan", status: "Conflict Resolved", date: "1d ago" },
               ].map((log, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-blue-100 transition-all cursor-pointer group">
+                <div key={i} className="flex items-center justify-between p-4 bg-muted rounded-2xl border border-transparent hover:border-blue-100 transition-all cursor-pointer group">
                   <div>
-                    <p className="text-sm font-black text-slate-700">{log.label}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase">{log.date}</p>
+                    <p className="text-sm font-black text-foreground">{log.label}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase">{log.date}</p>
                   </div>
-                  <Badge variant="secondary" className="bg-white text-blue-600 font-black text-[9px] uppercase border border-blue-50">{log.status}</Badge>
+                  <Badge variant="secondary" className="bg-card text-blue-600 font-black text-[9px] uppercase border border-blue-50">{log.status}</Badge>
                 </div>
               ))}
             </div>
@@ -141,7 +141,7 @@ export default function AncestryRootsPage() {
             <p className="text-xs text-amber-900/70 font-medium leading-relaxed">
               Adding a Root Ancestor requires at least 2 verified historical documents (Birth Cert, Hajj Record, or Land Deed) to ensure the integrity of the global lineage.
             </p>
-            <Button variant="outline" className="w-full rounded-xl border-amber-200 text-amber-700 bg-white font-black text-[10px] uppercase tracking-widest h-10 shadow-sm">View Verification Rules</Button>
+            <Button variant="outline" className="w-full rounded-xl border-amber-200 text-amber-700 bg-card font-black text-[10px] uppercase tracking-widest h-10 shadow-sm">View Verification Rules</Button>
           </Card>
         </div>
       </div>

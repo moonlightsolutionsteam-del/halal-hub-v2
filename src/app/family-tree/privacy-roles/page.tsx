@@ -40,7 +40,7 @@ export default function PrivacyRolesPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-5xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-5xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
@@ -69,7 +69,7 @@ export default function PrivacyRolesPage() {
             
             <div className="space-y-4">
               {members.map((member) => (
-                <Card key={member.id} className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden border-2 border-transparent hover:border-emerald-100 transition-all group">
+                <Card key={member.id} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-emerald-100 transition-all group">
                   <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                     <div className="flex items-center gap-6">
                       <Avatar className="h-14 w-14 border-2 border-white shadow-md">
@@ -77,16 +77,16 @@ export default function PrivacyRolesPage() {
                         <AvatarFallback>{member.name[0]}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="text-lg font-black text-slate-900 leading-tight">{member.name}</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">ID: HUB-F-882{member.id}</p>
+                        <p className="text-lg font-black text-foreground leading-tight">{member.name}</p>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">ID: HUB-F-882{member.id}</p>
                       </div>
                     </div>
                     
                     <div className="flex items-center gap-4">
                       <div className="space-y-1 text-right hidden sm:block">
-                        <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Assigned Role</p>
+                        <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Assigned Role</p>
                         <Select defaultValue={member.role.toLowerCase()}>
-                          <SelectTrigger className="h-9 w-32 rounded-xl bg-slate-50 border-none font-black text-[10px] uppercase">
+                          <SelectTrigger className="h-9 w-32 rounded-xl bg-muted border-none font-black text-[10px] uppercase">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="rounded-xl border-none shadow-2xl">
@@ -97,7 +97,7 @@ export default function PrivacyRolesPage() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <Button variant="ghost" size="icon" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><MoreVertical className="h-5 w-5 text-slate-300" /></Button>
+                      <Button variant="ghost" size="icon" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
                     </div>
                   </div>
                 </Card>
@@ -109,7 +109,7 @@ export default function PrivacyRolesPage() {
             <h2 className="text-xl font-black px-2 flex items-center gap-2">
               <Eye className="h-5 w-5 text-emerald-600" /> Visibility Controls
             </h2>
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
               {[
                 { title: "Extended Family Visibility", desc: "Allow members with 'Extended' role to see the Family Board.", icon: Globe, default: false },
                 { title: "Ancestry Roots Access", desc: "Restrict root ancestor editing to Admins only.", icon: Network, default: true },
@@ -118,12 +118,12 @@ export default function PrivacyRolesPage() {
               ].map((pref, i) => (
                 <div key={i} className="flex items-center justify-between gap-10">
                   <div className="flex items-start gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 shrink-0">
+                    <div className="h-10 w-10 rounded-xl bg-muted flex items-center justify-center text-muted-foreground shrink-0">
                       <pref.icon className="h-5 w-5" />
                     </div>
                     <div className="space-y-1">
-                      <p className="text-sm font-black text-slate-900">{pref.title}</p>
-                      <p className="text-xs text-slate-500 font-medium leading-relaxed">{pref.desc}</p>
+                      <p className="text-sm font-black text-foreground">{pref.title}</p>
+                      <p className="text-xs text-muted-foreground font-medium leading-relaxed">{pref.desc}</p>
                     </div>
                   </div>
                   <Switch defaultChecked={pref.default} className="data-[state=checked]:bg-emerald-600" />
@@ -135,28 +135,28 @@ export default function PrivacyRolesPage() {
 
         {/* Right Column: Roles Info & Security */}
         <div className="lg:col-span-4 space-y-10">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-8 relative overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <Key className="h-32 w-32" />
             </div>
             <div className="relative z-10 space-y-6">
-              <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-emerald-400 border border-white/10 shadow-2xl">
+              <div className="h-14 w-14 rounded-2xl bg-card/10 flex items-center justify-center text-emerald-400 border border-white/10 shadow-2xl">
                 <ShieldCheck className="h-8 w-8" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-2xl font-black tracking-tight">Security Audit</h3>
-                <p className="text-sm text-slate-400 font-medium leading-relaxed italic">
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed italic">
                   Your family data is end-to-end encrypted. We follow strict theological data privacy standards.
                 </p>
               </div>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-3 p-3 bg-card/5 rounded-2xl border border-white/10">
                   <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">Data Encrypted</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Data Encrypted</span>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-3 p-3 bg-card/5 rounded-2xl border border-white/10">
                   <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">Private Registry</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Private Registry</span>
                 </div>
               </div>
               <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-12 font-black uppercase text-[10px] tracking-widest shadow-2xl relative z-10">
@@ -165,21 +165,21 @@ export default function PrivacyRolesPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
-            <h3 className="text-xl font-black text-slate-900">Role Guide</h3>
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
+            <h3 className="text-xl font-black text-foreground">Role Guide</h3>
             <div className="space-y-6">
               {[
-                { role: "Admin", access: "Full Control", color: "bg-slate-900" },
+                { role: "Admin", access: "Full Control", color: "bg-zinc-900" },
                 { role: "Parent", access: "Edit & Create", color: "bg-emerald-600" },
                 { role: "Child", access: "Limited Action", color: "bg-blue-500" },
-                { role: "Extended", access: "View Only", color: "bg-slate-400" },
+                { role: "Extended", access: "View Only", color: "bg-muted" },
               ].map((r, i) => (
-                <div key={i} className="flex items-center justify-between border-b border-slate-50 pb-4 last:border-none last:pb-0">
+                <div key={i} className="flex items-center justify-between border-b border-border pb-4 last:border-none last:pb-0">
                   <div className="flex items-center gap-3">
                     <div className={cn("h-2 w-2 rounded-full", r.color)} />
-                    <span className="text-xs font-black uppercase tracking-widest text-slate-900">{r.role}</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-foreground">{r.role}</span>
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">{r.access}</span>
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase">{r.access}</span>
                 </div>
               ))}
             </div>
@@ -199,7 +199,7 @@ export default function PrivacyRolesPage() {
             <p className="text-[11px] text-rose-900/70 font-medium leading-relaxed italic">
               Permanently remove this family hub and all associated lineage data. This action is irreversible.
             </p>
-            <Button variant="outline" size="sm" className="w-full rounded-xl border-rose-200 text-rose-700 bg-white font-black text-[9px] uppercase tracking-widest h-10 hover:bg-rose-600 hover:text-white transition-all">Delete Family Hub</Button>
+            <Button variant="outline" size="sm" className="w-full rounded-xl border-rose-200 text-rose-700 bg-card font-black text-[9px] uppercase tracking-widest h-10 hover:bg-rose-600 hover:text-white transition-all">Delete Family Hub</Button>
           </Card>
         </div>
       </div>

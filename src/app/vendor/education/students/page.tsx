@@ -32,7 +32,7 @@ export default function EducationStudentsPage() {
           <div className="flex items-center gap-2 text-violet-600 font-black uppercase tracking-widest text-[10px]">
             <Users className="h-3 w-3" /> Student Success
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Student Registry</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Student Registry</h1>
           <p className="text-muted-foreground font-medium">Manage student profiles, parent communication, and enrollment lifecycles.</p>
         </div>
         <div className="flex gap-3">
@@ -52,41 +52,41 @@ export default function EducationStudentsPage() {
           { label: "Scholarships", value: "15", icon: ShieldCheck, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Attendance", value: "94%", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
         ].map((stat, i) => (
-          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4">
+          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-card flex items-center gap-4">
             <div className={`h-12 w-12 rounded-2xl ${stat.bg} flex items-center justify-center ${stat.color}`}>
               <stat.icon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">{stat.label}</p>
+              <p className="text-2xl font-black text-foreground">{stat.value}</p>
             </div>
           </Card>
         ))}
       </div>
 
-      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
         <CardHeader className="p-8 border-b flex flex-col md:flex-row items-center justify-between gap-4">
           <CardTitle className="text-xl font-black">Enrollment Registry</CardTitle>
           <div className="relative w-full md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search Student..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+            <Input placeholder="Search Student..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50/50">
+            <TableHeader className="bg-muted/50">
               <TableRow className="border-none">
-                <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">ID / Date</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Student & Parent</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Program</TableHead>
+                <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">ID / Date</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Student & Parent</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Program</TableHead>
                 <TableHead className="h-14 text-right px-8 font-black text-[10px] uppercase tracking-widest">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {students.map((student) => (
-                <TableRow key={student.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
+                <TableRow key={student.id} className="border-border hover:bg-muted/50 transition-colors group">
                   <TableCell className="px-8 py-5">
-                    <div className="font-black text-slate-900 text-sm">{student.id}</div>
+                    <div className="font-black text-foreground text-sm">{student.id}</div>
                     <div className="text-[9px] font-bold text-muted-foreground uppercase">{student.joined}</div>
                   </TableCell>
                   <TableCell>
@@ -96,17 +96,17 @@ export default function EducationStudentsPage() {
                         <AvatarFallback>{student.name[0]}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-bold text-slate-800">{student.name}</p>
-                        <p className="text-[10px] text-slate-400 font-medium">P: {student.parent}</p>
+                        <p className="font-bold text-foreground">{student.name}</p>
+                        <p className="text-[10px] text-muted-foreground font-medium">P: {student.parent}</p>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="text-xs font-bold text-slate-600">{student.enrollment}</span>
+                    <span className="text-xs font-bold text-muted-foreground">{student.enrollment}</span>
                   </TableCell>
                   <TableCell className="text-right px-8">
                     <Badge className={
-                      student.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-none' : 'bg-slate-100 text-slate-400 border-none'
+                      student.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-none' : 'bg-muted text-muted-foreground border-none'
                     }>
                       {student.status}
                     </Badge>

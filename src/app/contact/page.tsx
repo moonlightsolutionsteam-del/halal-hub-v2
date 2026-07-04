@@ -15,16 +15,17 @@ import {
   Instagram, Github, Linkedin, HelpCircle
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto p-6 space-y-12 max-w-6xl pb-32 text-slate-900">
+    <div className="container mx-auto p-6 space-y-12 max-w-6xl pb-32 text-foreground">
       {/* Header */}
       <div className="text-center space-y-4 max-w-3xl mx-auto pt-10">
         <Badge variant="outline" className="px-4 py-1.5 rounded-full border-primary/20 text-primary font-black uppercase text-[10px] tracking-[0.2em] bg-primary/5">
           Get in Touch
         </Badge>
-        <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tighter leading-tight">
+        <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter leading-tight">
           We're Here to Support the <span className="text-primary">Global Ummah</span>
         </h1>
         <p className="text-xl text-muted-foreground font-medium italic">
@@ -35,28 +36,28 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Contact Form */}
         <div className="lg:col-span-7 space-y-8">
-          <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 space-y-10">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-card p-10 space-y-10">
             <div className="space-y-2">
               <h2 className="text-2xl font-black">Send a Message</h2>
-              <p className="text-sm text-slate-400 font-medium italic">Our team usually responds within 24 hours.</p>
+              <p className="text-sm text-muted-foreground font-medium italic">Our team usually responds within 24 hours.</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Full Name</Label>
-                <Input placeholder="Enter your name" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Full Name</Label>
+                <Input placeholder="Enter your name" className="h-12 rounded-2xl bg-muted border-none font-bold" />
               </div>
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Email Address</Label>
-                <Input type="email" placeholder="name@example.com" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Email Address</Label>
+                <Input type="email" placeholder="name@example.com" className="h-12 rounded-2xl bg-muted border-none font-bold" />
               </div>
               <div className="md:col-span-2 space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Subject</Label>
-                <Input placeholder="How can we help?" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Subject</Label>
+                <Input placeholder="How can we help?" className="h-12 rounded-2xl bg-muted border-none font-bold" />
               </div>
               <div className="md:col-span-2 space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Message</Label>
-                <Textarea placeholder="Tell us more..." className="min-h-[150px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none" />
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Message</Label>
+                <Textarea placeholder="Tell us more..." className="min-h-[150px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" />
               </div>
             </div>
 
@@ -78,14 +79,14 @@ export default function ContactPage() {
                 { label: "Business Enquiries", val: "partners@halalhub.com", icon: Zap, color: "text-amber-600", bg: "bg-amber-50" },
                 { label: "Phone Support", val: "+91 1800 555 0198", icon: Phone, color: "text-emerald-600", bg: "bg-emerald-50" },
               ].map((item, i) => (
-                <Card key={i} className="rounded-[2rem] border-none shadow-sm bg-white p-6 group hover:shadow-md transition-all">
+                <Card key={i} className="rounded-[2rem] border-none shadow-sm bg-card p-6 group hover:shadow-md transition-all">
                   <div className="flex items-center gap-6">
                     <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner", item.bg, item.color)}>
                       <item.icon className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-0.5">{item.label}</p>
-                      <p className="text-base font-black text-slate-900">{item.val}</p>
+                      <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-0.5">{item.label}</p>
+                      <p className="text-base font-black text-foreground">{item.val}</p>
                     </div>
                   </div>
                 </Card>
@@ -93,7 +94,7 @@ export default function ContactPage() {
             </div>
           </section>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
             <h3 className="text-xl font-black flex items-center gap-2">
               <MapPin className="h-5 w-5 text-rose-500" /> Office Hubs
             </h3>
@@ -104,27 +105,27 @@ export default function ContactPage() {
                 { city: "New York, USA", addr: "Broadway Manhattan, Hub Tower" },
               ].map((loc, i) => (
                 <div key={i} className="flex gap-4 items-start group">
-                  <div className="h-2 w-2 rounded-full bg-slate-200 mt-2 group-hover:bg-primary transition-colors" />
+                  <div className="h-2 w-2 rounded-full bg-muted mt-2 group-hover:bg-primary transition-colors" />
                   <div className="space-y-0.5">
-                    <p className="text-sm font-black text-slate-900 uppercase tracking-tighter">{loc.city}</p>
-                    <p className="text-xs font-medium text-slate-400 leading-relaxed">{loc.addr}</p>
+                    <p className="text-sm font-black text-foreground uppercase tracking-tighter">{loc.city}</p>
+                    <p className="text-xs font-medium text-muted-foreground leading-relaxed">{loc.addr}</p>
                   </div>
                 </div>
               ))}
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none bg-slate-900 text-white p-10 space-y-6 relative overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none bg-zinc-900 text-white p-10 space-y-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <HelpCircle className="h-24 w-24 text-primary" />
             </div>
             <div className="relative z-10 space-y-4">
               <h3 className="text-2xl font-black tracking-tight leading-tight">Need help fast?</h3>
-              <p className="text-sm text-slate-400 font-medium leading-relaxed italic">
+              <p className="text-sm text-muted-foreground font-medium leading-relaxed italic">
                 "Our comprehensive Help Center has answers to 90% of all customer and vendor queries."
               </p>
               <Link href="/help" className="block">
-                <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 rounded-2xl h-14 font-black uppercase text-xs tracking-widest shadow-xl">
+                <Button variant="outline" className="w-full border-white/20 text-white hover:bg-card/10 rounded-2xl h-14 font-black uppercase text-xs tracking-widest shadow-xl">
                   Visit Help Center
                 </Button>
               </Link>

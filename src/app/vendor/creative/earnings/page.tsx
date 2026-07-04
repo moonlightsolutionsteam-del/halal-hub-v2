@@ -29,7 +29,7 @@ const TRANSACTIONS = [
 
 export default function CreativeEarningsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
@@ -40,7 +40,7 @@ export default function CreativeEarningsPage() {
               <Banknote className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline tracking-tight text-slate-900">Earnings & Payouts</h1>
+              <h1 className="text-4xl font-black font-headline tracking-tight text-foreground">Earnings & Payouts</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Track your revenue from sponsorships, ad-rev, and community gifting.</p>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default function CreativeEarningsPage() {
         <div className="lg:col-span-8 space-y-10">
           
           {/* Summary Card */}
-          <Card className="rounded-[3rem] border-none shadow-sm bg-slate-900 text-white p-12 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-zinc-900 text-white p-12 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
             <div className="absolute top-0 right-0 p-10 opacity-10">
               <TrendingUp className="h-48 w-48 text-emerald-400" />
             </div>
@@ -87,30 +87,30 @@ export default function CreativeEarningsPage() {
           </Card>
 
           <section className="space-y-6">
-            <h3 className="text-2xl font-black text-slate-900 tracking-tight px-4">Ledger Activity</h3>
-            <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+            <h3 className="text-2xl font-black text-foreground tracking-tight px-4">Ledger Activity</h3>
+            <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
               <CardContent className="p-0">
                 <Table>
-                  <TableHeader className="bg-slate-50/50">
+                  <TableHeader className="bg-muted/50">
                     <TableRow className="border-none">
-                      <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">ID / Date</TableHead>
-                      <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Description</TableHead>
-                      <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Value</TableHead>
-                      <TableHead className="text-right px-8 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Status</TableHead>
+                      <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">ID / Date</TableHead>
+                      <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Description</TableHead>
+                      <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Value</TableHead>
+                      <TableHead className="text-right px-8 h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Status</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {TRANSACTIONS.map((txn) => (
-                      <TableRow key={txn.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
+                      <TableRow key={txn.id} className="border-border hover:bg-muted/50 transition-colors group">
                         <TableCell className="px-8 py-5">
-                          <div className="font-black text-slate-900 text-sm leading-none mb-1">{txn.id}</div>
-                          <div className="text-[9px] font-bold text-slate-400 uppercase">{txn.date}</div>
+                          <div className="font-black text-foreground text-sm leading-none mb-1">{txn.id}</div>
+                          <div className="text-[9px] font-bold text-muted-foreground uppercase">{txn.date}</div>
                         </TableCell>
                         <TableCell>
-                          <p className="font-bold text-slate-800 text-sm">{txn.type}</p>
-                          <p className="text-[10px] font-medium text-slate-400 italic line-clamp-1">{txn.desc}</p>
+                          <p className="font-bold text-foreground text-sm">{txn.type}</p>
+                          <p className="text-[10px] font-medium text-muted-foreground italic line-clamp-1">{txn.desc}</p>
                         </TableCell>
-                        <TableCell className={cn("font-black text-base", txn.amount.startsWith('+') ? 'text-emerald-600' : 'text-slate-900')}>
+                        <TableCell className={cn("font-black text-base", txn.amount.startsWith('+') ? 'text-emerald-600' : 'text-foreground')}>
                           {txn.amount}
                         </TableCell>
                         <TableCell className="text-right px-8">
@@ -128,19 +128,19 @@ export default function CreativeEarningsPage() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-black text-slate-900">Payout Method</h3>
-              <Button size="icon" variant="ghost" className="rounded-xl bg-slate-50"><Settings className="h-4 w-4" /></Button>
+              <h3 className="text-xl font-black text-foreground">Payout Method</h3>
+              <Button size="icon" variant="ghost" className="rounded-xl bg-muted"><Settings className="h-4 w-4" /></Button>
             </div>
-            <div className="p-6 bg-slate-50 rounded-[2rem] border-2 border-transparent hover:border-emerald-100 transition-all cursor-pointer group">
+            <div className="p-6 bg-muted rounded-[2rem] border-2 border-transparent hover:border-emerald-100 transition-all cursor-pointer group">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-sm group-hover:scale-110 transition-transform">
+                <div className="h-12 w-12 bg-card rounded-2xl flex items-center justify-center text-blue-600 shadow-sm group-hover:scale-110 transition-transform">
                   <CreditCard className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-sm font-black text-slate-900 uppercase tracking-widest">HDFC Bank</p>
-                  <p className="text-xs font-bold text-slate-400">•••• 8821 (Current)</p>
+                  <p className="text-sm font-black text-foreground uppercase tracking-widest">HDFC Bank</p>
+                  <p className="text-xs font-bold text-muted-foreground">•••• 8821 (Current)</p>
                 </div>
               </div>
             </div>
@@ -155,8 +155,8 @@ export default function CreativeEarningsPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-6">
-            <h3 className="text-xl font-black text-slate-900">Revenue Breakdown</h3>
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-6">
+            <h3 className="text-xl font-black text-foreground">Revenue Breakdown</h3>
             <div className="space-y-6">
               {[
                 { label: "Sponsorships", val: 65, color: "bg-blue-500" },
@@ -165,10 +165,10 @@ export default function CreativeEarningsPage() {
               ].map((r, i) => (
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                    <span className="text-slate-500">{r.label}</span>
-                    <span className="text-slate-900">{r.val}%</span>
+                    <span className="text-muted-foreground">{r.label}</span>
+                    <span className="text-foreground">{r.val}%</span>
                   </div>
-                  <div className="h-1.5 bg-slate-50 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                     <div className={cn("h-full rounded-full transition-all duration-1000", r.color)} style={{ width: `${r.val}%` }} />
                   </div>
                 </div>

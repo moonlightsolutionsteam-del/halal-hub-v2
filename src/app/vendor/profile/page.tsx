@@ -2,7 +2,7 @@
 "use client"
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,7 +82,7 @@ export default function VendorProfilePage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-        <TabsList className="bg-white border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
+        <TabsList className="bg-card border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
           <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-primary data-[state=active]:text-white">Details</TabsTrigger>
           <TabsTrigger value="sourcing" className="rounded-xl px-8 font-bold text-sm h-full">Sourcing & Traceability</TabsTrigger>
           <TabsTrigger value="documents" className="rounded-xl px-8 font-bold text-sm h-full">Documents</TabsTrigger>
@@ -98,31 +98,31 @@ export default function VendorProfilePage() {
               </h2>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Restaurant Name</Label>
-                  <Input placeholder="e.g., Karim's Restaurant" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Restaurant Name</Label>
+                  <Input placeholder="e.g., Karim's Restaurant" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Alternate / Brand Name (Optional)</Label>
-                  <Input placeholder="e.g., Karim's Hotel" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Alternate / Brand Name (Optional)</Label>
+                  <Input placeholder="e.g., Karim's Hotel" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Contact Number</Label>
-                  <Input placeholder="+91 11 2326 9880" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Contact Number</Label>
+                  <Input placeholder="+91 11 2326 9880" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">WhatsApp Number</Label>
-                  <Input placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">WhatsApp Number</Label>
+                  <Input placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Short Description (Tagline)</Label>
-                  <Input placeholder="e.g., The Original from Old Delhi since 1913" className="h-12 rounded-2xl bg-slate-50 border-none font-medium" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Short Description (Tagline)</Label>
+                  <Input placeholder="e.g., The Original from Old Delhi since 1913" className="h-12 rounded-2xl bg-muted border-none font-medium" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">About Restaurant (Long Description)</Label>
-                  <Textarea placeholder="Tell customers what makes your business special..." className="min-h-[150px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">About Restaurant (Long Description)</Label>
+                  <Textarea placeholder="Tell customers what makes your business special..." className="min-h-[150px] rounded-2xl bg-muted border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20" />
                 </div>
               </div>
             </Card>
@@ -135,12 +135,12 @@ export default function VendorProfilePage() {
               </h2>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Food Category</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Food Category</Label>
                   <Select>
-                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted border-none font-bold">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
@@ -152,16 +152,16 @@ export default function VendorProfilePage() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Primary Cuisine</Label>
-                  <Input placeholder="e.g., Mughlai" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Primary Cuisine</Label>
+                  <Input placeholder="e.g., Mughlai" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-4">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">What types of meat do you serve?</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">What types of meat do you serve?</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {MEAT_TYPES.map((m) => (
-                      <div key={m} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors">
+                      <div key={m} className="flex items-center space-x-3 bg-muted p-3 rounded-xl hover:bg-muted transition-colors">
                         <Checkbox id={`m-${m}`} />
-                        <label htmlFor={`m-${m}`} className="text-xs font-bold text-slate-700 leading-none">{m}</label>
+                        <label htmlFor={`m-${m}`} className="text-xs font-bold text-foreground leading-none">{m}</label>
                       </div>
                     ))}
                   </div>
@@ -180,8 +180,8 @@ export default function VendorProfilePage() {
               <p className="text-sm text-muted-foreground font-medium">Add details about your meat suppliers to get the "Source Verified" badge.</p>
             </div>
             
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
-              <CardHeader className="p-8 border-b bg-slate-50/50 flex flex-row items-center justify-between">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
+              <CardHeader className="p-8 border-b bg-muted/50 flex flex-row items-center justify-between">
                 <div>
                   <CardTitle className="text-lg font-black">Supplier Entry #1</CardTitle>
                   <CardDescription className="font-medium text-xs">Primary meat or poultry source.</CardDescription>
@@ -191,36 +191,36 @@ export default function VendorProfilePage() {
               <CardContent className="p-8 space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Supplier / Brand Name</Label>
-                    <Input placeholder="Enter name" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Supplier / Brand Name</Label>
+                    <Input placeholder="Enter name" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                   </div>
                   <div className="space-y-2">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Location (City/Area)</Label>
-                    <Input placeholder="e.g., Delhi" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Location (City/Area)</Label>
+                    <Input placeholder="e.g., Delhi" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                   </div>
                   <div className="md:col-span-2 space-y-4">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Items Supplied</Label>
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Items Supplied</Label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {MEAT_TYPES.slice(0, 6).map((m) => (
-                        <div key={m} className="flex items-center space-x-3 bg-slate-50 p-3 rounded-xl">
+                        <div key={m} className="flex items-center space-x-3 bg-muted p-3 rounded-xl">
                           <Checkbox id={`sup-${m}`} />
-                          <label htmlFor={`sup-${m}`} className="text-xs font-bold text-slate-700 leading-none">{m}</label>
+                          <label htmlFor={`sup-${m}`} className="text-xs font-bold text-foreground leading-none">{m}</label>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className="md:col-span-2 space-y-2">
-                    <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Upload Purchase Proof / Slaughterhouse Certificate</Label>
-                    <div className="p-8 border-2 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center gap-3 bg-slate-50/50 hover:bg-white transition-colors cursor-pointer group">
-                      <div className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-primary transition-colors shadow-sm">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Upload Purchase Proof / Slaughterhouse Certificate</Label>
+                    <div className="p-8 border-2 border-dashed border-border rounded-[2rem] flex flex-col items-center justify-center gap-3 bg-muted/50 hover:bg-card transition-colors cursor-pointer group">
+                      <div className="h-12 w-12 bg-card rounded-2xl flex items-center justify-center text-muted-foreground group-hover:text-primary transition-colors shadow-sm">
                         <Upload className="h-6 w-6" />
                       </div>
-                      <p className="text-xs font-bold text-slate-500">Click or drag image/PDF</p>
+                      <p className="text-xs font-bold text-muted-foreground">Click or drag image/PDF</p>
                     </div>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="p-8 border-t bg-slate-50/50 justify-center">
+              <CardFooter className="p-8 border-t bg-muted/50 justify-center">
                 <Button variant="outline" className="rounded-2xl border-2 font-black uppercase text-[10px] tracking-widest h-12 px-8">
                   <Plus className="mr-2 h-4 w-4" /> Add Another Supplier
                 </Button>
@@ -234,32 +234,32 @@ export default function VendorProfilePage() {
                 <Droplets className="h-5 w-5 text-primary" /> Oil & Dairy Sourcing
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Cooking Oil Used</Label>
-                  <Input placeholder="e.g., Saffola, Fortune" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Cooking Oil Used</Label>
+                  <Input placeholder="e.g., Saffola, Fortune" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Dairy Supplier</Label>
-                  <Input placeholder="e.g., Amul, Mother Dairy" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Dairy Supplier</Label>
+                  <Input placeholder="e.g., Amul, Mother Dairy" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
               </div>
             </Card>
           </section>
 
           <section className="space-y-6">
-            <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden">
+            <Card className="rounded-[2.5rem] border-none shadow-xl bg-zinc-900 text-white p-10 space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <ShieldCheck className="h-32 w-32" />
               </div>
               <div className="relative z-10 space-y-4">
                 <h3 className="text-2xl font-black font-headline">Transparency Declaration</h3>
-                <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-3xl">
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed max-w-3xl">
                   By submitting these details, you confirm that all meat and ingredients served in your restaurant are sourced as stated. False information regarding halal supply chains will lead to immediate delisting.
                 </p>
               </div>
-              <div className="flex items-center space-x-4 bg-white/5 p-4 rounded-2xl border border-white/10 relative z-10">
+              <div className="flex items-center space-x-4 bg-card/5 p-4 rounded-2xl border border-white/10 relative z-10">
                 <Checkbox id="decl-trans" className="border-white/30" />
                 <label htmlFor="decl-trans" className="text-sm font-bold text-white/80 cursor-pointer">I declare that all sourcing info is accurate.</label>
               </div>
@@ -268,12 +268,12 @@ export default function VendorProfilePage() {
         </TabsContent>
 
         <TabsContent value="documents" className="animate-in fade-in duration-500">
-          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-white space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-card space-y-6">
             <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary">
               <ShieldCheck className="h-10 w-10" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl font-black text-slate-900">Certificate Vault</h3>
+              <h3 className="text-2xl font-black text-foreground">Certificate Vault</h3>
               <p className="text-muted-foreground font-medium max-w-sm mx-auto">Upload your Halal certificates, hygiene ratings, and business licenses here.</p>
             </div>
             <Button variant="outline" className="rounded-2xl h-12 px-8 border-2 font-black uppercase text-xs tracking-widest">
@@ -283,12 +283,12 @@ export default function VendorProfilePage() {
         </TabsContent>
 
         <TabsContent value="gallery" className="animate-in fade-in duration-500">
-          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-white space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-card space-y-6">
             <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary">
               <Camera className="h-10 w-10" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl font-black text-slate-900">Visual Showcase</h3>
+              <h3 className="text-2xl font-black text-foreground">Visual Showcase</h3>
               <p className="text-muted-foreground font-medium max-w-sm mx-auto">Update your menu photos, interior shots, and logo to attract customers.</p>
             </div>
             <Button variant="outline" className="rounded-2xl h-12 px-8 border-2 font-black uppercase text-xs tracking-widest">
@@ -298,12 +298,12 @@ export default function VendorProfilePage() {
         </TabsContent>
 
         <TabsContent value="branches" className="animate-in fade-in duration-500">
-          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-white space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm p-12 text-center bg-card space-y-6">
             <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary">
               <Building2 className="h-10 w-10" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl font-black text-slate-900">Branch Management</h3>
+              <h3 className="text-2xl font-black text-foreground">Branch Management</h3>
               <p className="text-muted-foreground font-medium max-w-sm mx-auto">List multiple outlets and manage their individual details from one dashboard.</p>
             </div>
             <Button variant="outline" className="rounded-2xl h-12 px-8 border-2 font-black uppercase text-xs tracking-widest">

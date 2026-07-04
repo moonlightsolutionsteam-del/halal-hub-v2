@@ -29,7 +29,7 @@ export default function VendorProductsPage() {
     <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline text-slate-900">Products & Services</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Products & Services</h1>
           <p className="text-muted-foreground font-medium">Manage your menu offerings and service catalogs.</p>
         </div>
         <div className="flex gap-3">
@@ -45,7 +45,7 @@ export default function VendorProductsPage() {
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search items..." className="pl-9 h-11 rounded-2xl bg-white border-none shadow-sm" />
+          <Input placeholder="Search items..." className="pl-9 h-11 rounded-2xl bg-card border-none shadow-sm" />
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-all">All Items</Badge>
@@ -57,7 +57,7 @@ export default function VendorProductsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <Card key={product.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500">
+          <Card key={product.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500">
             <div className="relative aspect-square">
               <Image 
                 src={`https://picsum.photos/seed/product${product.id}/400/400`} 
@@ -68,7 +68,7 @@ export default function VendorProductsPage() {
               <div className="absolute top-4 right-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button size="icon" className="rounded-full bg-white/80 backdrop-blur-md text-slate-800 hover:bg-white border-none shadow-sm">
+                    <Button size="icon" className="rounded-full bg-card/80 backdrop-blur-md text-foreground hover:bg-card border-none shadow-sm">
                       <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -92,7 +92,7 @@ export default function VendorProductsPage() {
                 <div className={`h-2 w-2 rounded-full ${product.status === 'Available' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
                 <span className="text-[10px] font-bold text-muted-foreground uppercase">{product.status}</span>
               </div>
-              <span className="text-[10px] font-bold text-slate-500 uppercase">{product.sales} Sales</span>
+              <span className="text-[10px] font-bold text-muted-foreground uppercase">{product.sales} Sales</span>
             </CardContent>
           </Card>
         ))}

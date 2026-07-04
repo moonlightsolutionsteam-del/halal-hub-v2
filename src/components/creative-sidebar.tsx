@@ -4,23 +4,16 @@
 import * as React from "react"
 import {
   LayoutDashboard,
-  Video,
-  Mic,
   PenTool,
   Users,
   Star,
   Tag,
-  MessageSquare,
   TrendingUp,
   ImageIcon,
   Settings,
   Headset,
   ExternalLink,
-  PlusCircle,
-  Film,
-  Library,
   UserCircle,
-  Share2,
   Wallet,
   CheckCircle,
   FileText,
@@ -86,11 +79,20 @@ export function CreativeSidebar() {
         { title: "Analytics & Growth", icon: TrendingUp, url: "/vendor/creative/analytics" },
         { title: "Reviews & Feedback", icon: Star, url: "/vendor/creative/feedback" },
       ]
+    },
+    {
+      title: "Account",
+      icon: Settings,
+      items: [
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Certifications", icon: CheckCircle, url: "/vendor/verification" },
+        { title: "Support Center", icon: Headset, url: "/vendor/account/support" },
+      ]
     }
   ];
 
   return (
-    <Sidebar variant="sidebar" className="border-r bg-white">
+    <Sidebar variant="sidebar" className="border-r bg-card">
       <SidebarHeader className="p-6 border-b">
         <Link href="/vendor/creative/dashboard" className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
@@ -100,13 +102,13 @@ export function CreativeSidebar() {
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-3 py-4 bg-white">
+      <SidebarContent className="px-3 py-4 bg-card">
         <SidebarMenu className="mb-4 px-1">
           <SidebarMenuItem>
             <SidebarMenuButton 
               asChild 
               isActive={pathname === "/vendor/creative/dashboard"} 
-              className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-primary data-[active=true]:text-white transition-all"
+              className="h-10 font-bold rounded-lg text-muted-foreground hover:bg-muted data-[active=true]:bg-primary data-[active=true]:text-white transition-all"
             >
               <Link href="/vendor/creative/dashboard">
                 <LayoutDashboard className="h-4 w-4 mr-3" />
@@ -121,17 +123,17 @@ export function CreativeSidebar() {
             <Collapsible defaultOpen className="group/collapsible">
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton className="h-10 font-bold text-slate-600 hover:bg-slate-50">
+                  <SidebarMenuButton className="h-10 font-bold text-muted-foreground hover:bg-muted">
                     <group.icon className="h-4 w-4 mr-3 opacity-70" />
                     <span className="text-sm">{group.title}</span>
                     <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-180" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <SidebarMenu className="ml-4 mt-1 border-l border-slate-100">
+                  <SidebarMenu className="ml-4 mt-1 border-l border-border">
                     {group.items.map((sub) => (
                       <SidebarMenuItem key={sub.title}>
-                        <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-primary hover:bg-emerald-50/50">
+                        <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-muted-foreground rounded-lg hover:text-primary hover:bg-emerald-50/50">
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-60" />
                             <span className="text-[13px]">{sub.title}</span>
@@ -147,7 +149,7 @@ export function CreativeSidebar() {
         ))}
       </SidebarContent>
 
-      <SidebarFooter className="p-6 border-t bg-slate-50/50">
+      <SidebarFooter className="p-6 border-t bg-muted/50">
         <Link href="/" className="flex items-center gap-3 text-primary cursor-pointer hover:opacity-80 transition-opacity">
           <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-black text-xs">IS</div>
           <div className="flex flex-col">

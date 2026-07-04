@@ -18,7 +18,8 @@ import {
   Layers,
   ArrowUpRight,
   Target,
-  Wallet
+  Wallet,
+  Sparkles
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -31,8 +32,8 @@ const PRICING_PLANS = [
     desc: "Best for small businesses exploring the hub.",
     features: ["Basic Directory Listing", "Standard Support", "Pay-per-lead active"],
     popular: false,
-    color: "text-slate-600",
-    bg: "bg-slate-50"
+    color: "text-muted-foreground",
+    bg: "bg-muted"
   },
   {
     name: "Growth",
@@ -87,7 +88,7 @@ export default function CreditsPricingPage() {
         <Badge variant="outline" className="px-4 py-1.5 rounded-full border-primary/20 text-primary font-black uppercase text-[10px] tracking-[0.2em] bg-primary/5">
           Flexible Growth Economy
         </Badge>
-        <h1 className="text-5xl md:text-6xl font-black font-headline text-slate-900 tracking-tighter leading-tight">
+        <h1 className="text-5xl md:text-6xl font-black font-headline text-foreground tracking-tighter leading-tight">
           Fuel Your Business with <span className="text-primary">Hub Credits</span>
         </h1>
         <p className="text-xl text-muted-foreground font-medium italic">
@@ -102,7 +103,7 @@ export default function CreditsPricingPage() {
             key={plan.name} 
             className={cn(
               "rounded-[3rem] border-none shadow-sm flex flex-col hover:shadow-2xl transition-all duration-500 relative group overflow-hidden",
-              plan.popular ? "bg-white ring-4 ring-primary/20 scale-105 z-10" : "bg-white"
+              plan.popular ? "bg-card ring-4 ring-primary/20 scale-105 z-10" : "bg-card"
             )}
           >
             {plan.popular && (
@@ -114,24 +115,24 @@ export default function CreditsPricingPage() {
               <div className="space-y-1">
                 <h3 className={cn("text-xl font-black uppercase tracking-widest", plan.color)}>{plan.name}</h3>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black text-slate-900 tracking-tighter">{plan.price}</span>
+                  <span className="text-5xl font-black text-foreground tracking-tighter">{plan.price}</span>
                 </div>
               </div>
-              <div className="p-6 rounded-3xl bg-slate-50 border-2 border-slate-100 space-y-1 shadow-inner group-hover:bg-primary/5 transition-colors">
-                <p className="text-3xl font-black text-slate-900 tracking-tight">{plan.credits}</p>
-                <p className="text-xs font-black uppercase text-slate-400">Total Credits</p>
+              <div className="p-6 rounded-3xl bg-muted border-2 border-border space-y-1 shadow-inner group-hover:bg-primary/5 transition-colors">
+                <p className="text-3xl font-black text-foreground tracking-tight">{plan.credits}</p>
+                <p className="text-xs font-black uppercase text-muted-foreground">Total Credits</p>
                 {plan.bonus !== "+0" && (
                   <Badge className="bg-emerald-500 text-white border-none font-black text-[9px] h-5 px-2 mt-2">{plan.bonus} BONUS</Badge>
                 )}
               </div>
             </CardHeader>
             <CardContent className="p-10 pt-0 flex-1 space-y-6">
-              <p className="text-sm font-bold text-slate-500 leading-relaxed italic">"{plan.desc}"</p>
+              <p className="text-sm font-bold text-muted-foreground leading-relaxed italic">"{plan.desc}"</p>
               <div className="space-y-4">
                 {plan.features.map((f, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                    <span className="text-xs font-bold text-slate-700 leading-tight">{f}</span>
+                    <span className="text-xs font-bold text-foreground leading-tight">{f}</span>
                   </div>
                 ))}
               </div>
@@ -139,7 +140,7 @@ export default function CreditsPricingPage() {
             <CardFooter className="p-10 pt-0">
               <Button className={cn(
                 "w-full h-14 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl transition-all group-hover:scale-105 active:scale-95",
-                plan.popular ? "bg-primary hover:bg-primary/90 text-white" : "bg-slate-900 hover:bg-slate-800 text-white"
+                plan.popular ? "bg-primary hover:bg-primary/90 text-white" : "bg-zinc-900 hover:bg-zinc-800 text-white"
               )}>
                 Buy {plan.name} Pack
               </Button>
@@ -151,11 +152,11 @@ export default function CreditsPricingPage() {
       {/* How it works */}
       <section className="space-y-12">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">How Credits Work</h2>
+          <h2 className="text-3xl font-black text-foreground tracking-tight">How Credits Work</h2>
           <p className="text-muted-foreground font-medium">Three simple steps to scaling your halal brand.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-          <div className="hidden md:block absolute top-1/2 left-[20%] right-[20%] h-0.5 bg-slate-100 -translate-y-1/2 z-0" />
+          <div className="hidden md:block absolute top-1/2 left-[20%] right-[20%] h-0.5 bg-muted -translate-y-1/2 z-0" />
           {[
             { step: "01", title: "Buy Credits", desc: "Purchase credit packs that suit your monthly growth budget.", icon: Wallet, color: "bg-blue-100 text-blue-600" },
             { step: "02", title: "Use Credits", desc: "Spend them on listing boosts, leads, and brand collaborations.", icon: MousePointer2, color: "bg-emerald-100 text-emerald-600" },
@@ -167,8 +168,8 @@ export default function CreditsPricingPage() {
               </div>
               <div className="space-y-2">
                 <p className="text-[10px] font-black uppercase text-primary tracking-widest leading-none">Step {item.step}</p>
-                <h3 className="text-2xl font-black text-slate-900">{item.title}</h3>
-                <p className="text-sm font-medium text-slate-500 max-w-[200px] mx-auto italic leading-relaxed">"{item.desc}"</p>
+                <h3 className="text-2xl font-black text-foreground">{item.title}</h3>
+                <p className="text-sm font-medium text-muted-foreground max-w-[200px] mx-auto italic leading-relaxed">"{item.desc}"</p>
               </div>
             </div>
           ))}
@@ -178,17 +179,17 @@ export default function CreditsPricingPage() {
       {/* Usage Grid */}
       <section className="space-y-12">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight text-center">What can you do?</h2>
+          <h2 className="text-3xl font-black text-foreground tracking-tight text-center">What can you do?</h2>
           <p className="text-muted-foreground font-medium italic">Full control over your growth toolkit.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {ACTIONS.map((action, i) => (
-            <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex flex-col items-center text-center gap-4 hover:shadow-md transition-all group">
+            <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex flex-col items-center text-center gap-4 hover:shadow-md transition-all group">
               <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", action.bg, action.color)}>
                 <action.icon className="h-6 w-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-black text-slate-900 leading-tight">{action.name}</p>
+                <p className="text-sm font-black text-foreground leading-tight">{action.name}</p>
                 <p className={cn("text-[10px] font-black uppercase tracking-tighter", action.color)}>{action.cost}</p>
               </div>
             </Card>
@@ -198,14 +199,14 @@ export default function CreditsPricingPage() {
 
       {/* Value Proposition */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        <Card className="rounded-[3rem] border-none shadow-xl bg-slate-900 text-white p-12 space-y-8 relative overflow-hidden">
+        <Card className="rounded-[3rem] border-none shadow-xl bg-zinc-900 text-white p-12 space-y-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Target className="h-48 w-48 text-primary" />
           </div>
           <div className="relative z-10 space-y-6">
             <Badge className="bg-emerald-500 text-white border-none font-black text-xs uppercase px-6 py-2 rounded-full shadow-2xl">THE HUB EDGE</Badge>
             <h2 className="text-4xl font-black font-headline tracking-tight leading-tight">Pay for Outcomes, <br />Not Permissions.</h2>
-            <p className="text-slate-400 text-lg leading-relaxed max-w-md italic">
+            <p className="text-muted-foreground text-lg leading-relaxed max-w-md italic">
               "Unlike traditional recurring subscriptions, credits give you total flexibility. If your shop is busy, save your credits. If you need a boost, spend them instantly."
             </p>
             <div className="grid grid-cols-2 gap-6 pt-4">
@@ -215,7 +216,7 @@ export default function CreditsPricingPage() {
                 { label: "No Hidden Fees", icon: CheckCircle2 },
                 { label: "Pay for Results", icon: Target },
               ].map((f, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm font-bold text-slate-300">
+                <div key={i} className="flex items-center gap-2 text-sm font-bold text-muted-foreground">
                   <f.icon className="h-4 w-4 text-emerald-400" /> {f.label}
                 </div>
               ))}
@@ -225,10 +226,10 @@ export default function CreditsPricingPage() {
 
         <div className="space-y-8">
           <div className="space-y-4 px-4">
-            <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-snug">
+            <h3 className="text-3xl font-black text-foreground tracking-tight leading-snug">
               Trusted by 10,000+ Halal Business Leaders Globally.
             </h3>
-            <p className="text-slate-500 font-medium text-lg leading-relaxed">
+            <p className="text-muted-foreground font-medium text-lg leading-relaxed">
               We've designed our credit system to align with ethical trade principles—ensuring you only invest when your business is ready to scale.
             </p>
           </div>
@@ -266,10 +267,10 @@ export default function CreditsPricingPage() {
           </p>
         </div>
         <div className="relative z-10 flex flex-col sm:flex-row justify-center gap-4">
-          <Button size="lg" className="bg-white text-primary hover:bg-slate-50 h-16 px-12 rounded-2xl font-black uppercase text-sm tracking-widest shadow-2xl">
+          <Button size="lg" className="bg-card text-primary hover:bg-muted h-16 px-12 rounded-2xl font-black uppercase text-sm tracking-widest shadow-2xl">
             Buy Growth Pack Now
           </Button>
-          <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 h-16 px-12 rounded-2xl font-black uppercase text-sm tracking-widest">
+          <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-card/10 h-16 px-12 rounded-2xl font-black uppercase text-sm tracking-widest">
             Contact Sales
           </Button>
         </div>

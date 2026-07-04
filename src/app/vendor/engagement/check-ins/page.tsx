@@ -41,30 +41,30 @@ export default function EngagementCheckInsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center gap-6">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
             <UserCheck className="h-7 w-7" />
           </div>
           <div>
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Today's Visits</p>
-            <p className="text-3xl font-black text-slate-900">142</p>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Today's Visits</p>
+            <p className="text-3xl font-black text-foreground">142</p>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center gap-6">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
             <TrendingUp className="h-7 w-7" />
           </div>
           <div>
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Returning Rate</p>
-            <p className="text-3xl font-black text-slate-900">64%</p>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Returning Rate</p>
+            <p className="text-3xl font-black text-foreground">64%</p>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 flex items-center gap-6 relative overflow-hidden">
-          <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-primary relative z-10">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 flex items-center gap-6 relative overflow-hidden">
+          <div className="h-14 w-14 rounded-2xl bg-card/10 flex items-center justify-center text-primary relative z-10">
             <Zap className="h-7 w-7" />
           </div>
           <div className="relative z-10">
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Loyalty Points Issued</p>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Loyalty Points Issued</p>
             <p className="text-3xl font-black text-white">12.5k</p>
           </div>
           <div className="absolute -top-4 -right-4 h-24 w-24 bg-primary/10 rounded-full blur-2xl" />
@@ -77,40 +77,40 @@ export default function EngagementCheckInsPage() {
           <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="relative flex-1 md:w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search visitors..." className="pl-9 h-11 rounded-2xl bg-white border-none shadow-sm" />
+              <Input placeholder="Search visitors..." className="pl-9 h-11 rounded-2xl bg-card border-none shadow-sm" />
             </div>
-            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-white border-none shadow-sm"><Filter className="h-4 w-4" /></Button>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-card border-none shadow-sm"><Filter className="h-4 w-4" /></Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
           {visitors.map((visitor) => (
-            <Card key={visitor.id} className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden border-2 border-transparent hover:border-primary/10 transition-all group">
+            <Card key={visitor.id} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-primary/10 transition-all group">
               <div className="p-6 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-6">
-                  <Avatar className="h-12 w-12 border-2 border-slate-50">
+                  <Avatar className="h-12 w-12 border-2 border-border">
                     <AvatarImage src={`https://picsum.photos/seed/visit${visitor.id}/100/100`} />
                     <AvatarFallback>{visitor.name[0]}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-lg font-black text-slate-900 leading-tight">{visitor.name}</p>
+                    <p className="text-lg font-black text-foreground leading-tight">{visitor.name}</p>
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className={
                         visitor.loyalty === 'Gold' ? 'border-amber-200 text-amber-600 bg-amber-50' : 
-                        visitor.loyalty === 'Silver' ? 'border-slate-200 text-slate-600 bg-slate-50' : 
+                        visitor.loyalty === 'Silver' ? 'border-border text-muted-foreground bg-muted' : 
                         'border-primary/20 text-primary bg-primary/5'
                       }>
                         {visitor.loyalty}
                       </Badge>
-                      <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">• {visitor.time}</span>
+                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">• {visitor.time}</span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-10">
                   <div className="text-center md:text-right">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Lifetime Visits</p>
-                    <p className="text-xl font-black text-slate-900">{visitor.visitCount}</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Lifetime Visits</p>
+                    <p className="text-xl font-black text-foreground">{visitor.visitCount}</p>
                   </div>
                   <div className="flex gap-2">
                     <Button variant="outline" className="rounded-xl h-10 px-6 font-bold border-2 text-xs">Profile</Button>

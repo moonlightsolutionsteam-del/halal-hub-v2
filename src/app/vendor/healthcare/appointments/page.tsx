@@ -31,7 +31,7 @@ export default function HealthcareAppointmentsPage() {
           <div className="flex items-center gap-2 text-teal-600 font-black uppercase tracking-widest text-[10px]">
             <Calendar className="h-3 w-3" /> Clinical Pipeline
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Appointment Registry</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Appointment Registry</h1>
           <p className="text-muted-foreground font-medium">Manage patient bookings, practitioner schedules, and real-time clinic arrivals.</p>
         </div>
         <div className="flex gap-3">
@@ -51,54 +51,54 @@ export default function HealthcareAppointmentsPage() {
           { label: "Completed Today", value: "8", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
           { label: "Avg. Wait Time", value: "14m", icon: Clock, color: "text-purple-600", bg: "bg-purple-50" },
         ].map((stat, i) => (
-          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4">
+          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-card flex items-center gap-4">
             <div className={`h-12 w-12 rounded-2xl ${stat.bg} flex items-center justify-center ${stat.color}`}>
               <stat.icon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">{stat.label}</p>
+              <p className="text-2xl font-black text-foreground">{stat.value}</p>
             </div>
           </Card>
         ))}
       </div>
 
-      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
         <CardHeader className="p-8 border-b flex flex-col md:flex-row items-center justify-between gap-4">
           <CardTitle className="text-xl font-black">Daily Appointment Ledger</CardTitle>
           <div className="relative w-full md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search Patient..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+            <Input placeholder="Search Patient..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50/50">
+            <TableHeader className="bg-muted/50">
               <TableRow className="border-none">
-                <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Time / ID</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Patient & Service</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Practitioner</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Date</TableHead>
-                <TableHead className="h-14 text-right px-8 font-black text-[10px] uppercase tracking-widest text-slate-400">Status</TableHead>
+                <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Time / ID</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Patient & Service</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Practitioner</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Date</TableHead>
+                <TableHead className="h-14 text-right px-8 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {appointments.map((appt) => (
-                <TableRow key={appt.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
+                <TableRow key={appt.id} className="border-border hover:bg-muted/50 transition-colors group">
                   <TableCell className="px-8 py-5">
-                    <div className="font-black text-slate-900 text-sm">{appt.time}</div>
+                    <div className="font-black text-foreground text-sm">{appt.time}</div>
                     <div className="text-[9px] font-bold text-muted-foreground uppercase">{appt.id}</div>
                   </TableCell>
                   <TableCell>
-                    <p className="font-bold text-slate-800">{appt.guest}</p>
+                    <p className="font-bold text-foreground">{appt.guest}</p>
                     <p className="text-[10px] font-black text-teal-600 uppercase">{appt.service}</p>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                      <User className="h-3 w-3 text-slate-400" /> {appt.practitioner}
+                    <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground">
+                      <User className="h-3 w-3 text-muted-foreground" /> {appt.practitioner}
                     </div>
                   </TableCell>
-                  <TableCell className="font-black text-slate-900 text-xs">{appt.date}</TableCell>
+                  <TableCell className="font-black text-foreground text-xs">{appt.date}</TableCell>
                   <TableCell className="text-right px-8">
                     <Badge variant="outline" className={
                       appt.status === 'Confirmed' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : 

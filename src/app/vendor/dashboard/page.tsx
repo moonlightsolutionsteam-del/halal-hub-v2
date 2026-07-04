@@ -42,21 +42,21 @@ export default function VendorDashboard() {
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-[#F8FBF9] min-h-screen">
+    <div className="p-8 space-y-8 bg-background min-h-screen">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-slate-900">Restaurant Dashboard</h1>
+        <h1 className="text-3xl font-black font-headline text-foreground">Restaurant Dashboard</h1>
         <p className="text-muted-foreground font-medium opacity-60">Here's what's happening at your restaurant today.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-3xl bg-white p-2">
+          <Card key={i} className="border-none shadow-sm rounded-3xl bg-card p-2">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <span className="text-sm font-bold text-slate-400">{kpi.label}</span>
-              <kpi.icon className="h-5 w-5 text-slate-300" />
+              <span className="text-sm font-bold text-muted-foreground">{kpi.label}</span>
+              <kpi.icon className="h-5 w-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-black text-slate-800">{kpi.value}</div>
+              <div className="text-2xl font-black text-foreground">{kpi.value}</div>
               <p className="text-[10px] font-bold text-emerald-600 mt-1 uppercase tracking-tight">{kpi.trend}</p>
             </CardContent>
           </Card>
@@ -66,20 +66,20 @@ export default function VendorDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-8">
           <section className="space-y-4">
-            <h2 className="text-lg font-black text-slate-800 px-2">Quick Actions</h2>
+            <h2 className="text-lg font-black text-foreground px-2">Quick Actions</h2>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {quickActions.map((action, i) => (
-                <button key={i} className="group flex flex-col items-center justify-center p-6 bg-white rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
+                <button key={i} className="group flex flex-col items-center justify-center p-6 bg-card rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-3 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
                     <action.icon className="h-6 w-6" />
                   </div>
-                  <span className="text-xs font-black text-slate-700">{action.label}</span>
+                  <span className="text-xs font-black text-foreground">{action.label}</span>
                 </button>
               ))}
             </div>
           </section>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
             <CardHeader className="p-8 flex flex-row items-center justify-between">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black">Top Menu Items</CardTitle>
@@ -91,17 +91,17 @@ export default function VendorDashboard() {
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-slate-50/50">
+                <TableHeader className="bg-muted/50">
                   <TableRow className="border-none">
-                    <TableHead className="px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Item</TableHead>
-                    <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest text-slate-400">Orders</TableHead>
+                    <TableHead className="px-8 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Item</TableHead>
+                    <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Orders</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {topItems.map((item, i) => (
-                    <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <TableCell className="px-8 py-5 font-bold text-slate-800">{item.name}</TableCell>
-                      <TableCell className="text-right px-8 font-black text-slate-600">{item.orders}</TableCell>
+                    <TableRow key={i} className="border-border hover:bg-muted/50 transition-colors">
+                      <TableCell className="px-8 py-5 font-bold text-foreground">{item.name}</TableCell>
+                      <TableCell className="text-right px-8 font-black text-muted-foreground">{item.orders}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -111,24 +111,24 @@ export default function VendorDashboard() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-xl bg-zinc-900 text-white p-8 space-y-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <ShieldCheck className="h-24 w-24" />
             </div>
             <div className="relative z-10 space-y-4">
               <h3 className="text-xl font-black">Trust & Compliance</h3>
-              <p className="text-sm text-slate-400 font-medium leading-relaxed">
+              <p className="text-sm text-muted-foreground font-medium leading-relaxed">
                 Build 2x more trust by getting verified. Apply for FSSAI or Halal certification today.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-card/5 border border-white/10">
                   <div className="flex items-center gap-3">
                     <Award className="h-4 w-4 text-primary" />
                     <span className="text-xs font-bold">Halal Hub Audit</span>
                   </div>
                   <Badge variant="outline" className="text-[8px] font-black border-red-500/50 text-red-400 uppercase">PENDING</Badge>
                 </div>
-                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-card/5 border border-white/10">
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="h-4 w-4 text-emerald-400" />
                     <span className="text-xs font-bold">FSSAI Status</span>
@@ -144,19 +144,19 @@ export default function VendorDashboard() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
             <CardHeader className="px-0 pt-0">
               <CardTitle className="text-xl font-black">Recent Activity</CardTitle>
             </CardHeader>
             <CardContent className="px-0 space-y-6">
               {recentActivity.map((activity, i) => (
-                <div key={i} className="flex items-start gap-4 p-4 rounded-3xl bg-slate-50/50 hover:bg-white hover:shadow-sm transition-all border border-transparent hover:border-slate-100 group">
-                  <div className={`mt-1 h-8 w-8 rounded-xl flex items-center justify-center ${activity.color} bg-white shadow-sm shrink-0 group-hover:scale-110 transition-transform`}>
+                <div key={i} className="flex items-start gap-4 p-4 rounded-3xl bg-muted/50 hover:bg-card hover:shadow-sm transition-all border border-transparent hover:border-border group">
+                  <div className={`mt-1 h-8 w-8 rounded-xl flex items-center justify-center ${activity.color} bg-card shadow-sm shrink-0 group-hover:scale-110 transition-transform`}>
                     <activity.icon className="h-4 w-4" />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm font-bold text-slate-800 leading-tight">{activity.text}</p>
-                    <p className="text-[10px] font-black uppercase text-slate-400">{activity.time}</p>
+                    <p className="text-sm font-bold text-foreground leading-tight">{activity.text}</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground">{activity.time}</p>
                   </div>
                 </div>
               ))}

@@ -41,7 +41,7 @@ export default function VendorReservationsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black">Today's Guest List</CardTitle>
@@ -69,31 +69,31 @@ export default function VendorReservationsPage() {
                   {reservations.map((res) => (
                     <TableRow key={res.id} className="hover:bg-muted/5 border-muted/20">
                       <TableCell className="px-8 py-5">
-                        <div className="font-bold text-slate-900">{res.name}</div>
+                        <div className="font-bold text-foreground">{res.name}</div>
                         <div className="text-[10px] text-muted-foreground italic line-clamp-1">{res.note}</div>
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col">
-                          <span className="text-xs font-black text-slate-700">{res.time}</span>
+                          <span className="text-xs font-black text-foreground">{res.time}</span>
                           <span className="text-[10px] font-bold text-primary uppercase">{res.date}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center gap-1.5 text-xs font-black text-slate-600">
+                        <div className="flex items-center gap-1.5 text-xs font-black text-muted-foreground">
                           <Users className="h-3.5 w-3.5" /> {res.guests}
                         </div>
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className={
                           res.status === 'Arrived' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 
-                          res.status === 'Confirmed' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-slate-50 text-slate-600 border-slate-200'
+                          res.status === 'Confirmed' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-muted text-muted-foreground border-border'
                         }>
                           {res.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right px-8">
                         <div className="flex items-center justify-end gap-2">
-                          <Button size="icon" variant="ghost" className="rounded-xl"><Phone className="h-4 w-4 text-slate-400" /></Button>
+                          <Button size="icon" variant="ghost" className="rounded-xl"><Phone className="h-4 w-4 text-muted-foreground" /></Button>
                           <Button size="icon" variant="ghost" className="rounded-xl hover:text-emerald-600"><CheckCircle2 className="h-4 w-4" /></Button>
                         </div>
                       </TableCell>
@@ -116,11 +116,11 @@ export default function VendorReservationsPage() {
                 <p className="text-xs font-bold opacity-70 uppercase tracking-[0.2em]">Tonight's Session</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
+                <div className="bg-card/10 backdrop-blur-md rounded-2xl p-4 text-center">
                   <p className="text-2xl font-black">85%</p>
                   <p className="text-[9px] font-bold uppercase opacity-60">Fullness</p>
                 </div>
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
+                <div className="bg-card/10 backdrop-blur-md rounded-2xl p-4 text-center">
                   <p className="text-2xl font-black">12</p>
                   <p className="text-[9px] font-bold uppercase opacity-60">Left</p>
                 </div>
@@ -129,15 +129,15 @@ export default function VendorReservationsPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm p-8 space-y-6 bg-white">
-            <h3 className="text-xl font-black text-slate-900">Waitlist</h3>
+          <Card className="rounded-[2.5rem] border-none shadow-sm p-8 space-y-6 bg-card">
+            <h3 className="text-xl font-black text-foreground">Waitlist</h3>
             <div className="space-y-4">
               {[1, 2].map(i => (
                 <div key={i} className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl border border-transparent hover:border-primary/10">
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 bg-white rounded-xl flex items-center justify-center text-primary font-black text-xs shadow-sm">P{i}</div>
+                    <div className="h-8 w-8 bg-card rounded-xl flex items-center justify-center text-primary font-black text-xs shadow-sm">P{i}</div>
                     <div>
-                      <p className="text-sm font-bold text-slate-800">Pending Guest {i}</p>
+                      <p className="text-sm font-bold text-foreground">Pending Guest {i}</p>
                       <p className="text-[10px] text-muted-foreground font-bold">Waiting: 15m</p>
                     </div>
                   </div>

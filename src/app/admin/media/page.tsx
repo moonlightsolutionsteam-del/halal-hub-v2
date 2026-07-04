@@ -37,12 +37,12 @@ export default function SuperAdminMediaManagement() {
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-slate-900 uppercase tracking-tighter text-slate-600">Bookstores & Islamic Media</h1>
+        <h1 className="text-3xl font-black font-headline text-foreground uppercase tracking-tighter text-muted-foreground">Bookstores & Islamic Media</h1>
         <p className="text-muted-foreground font-medium text-lg italic">Manage publishers, digital media integrity, and scholarly vetting.</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-        <div className="flex items-center justify-between bg-white p-2 rounded-2xl shadow-sm border overflow-x-auto no-scrollbar">
+        <div className="flex items-center justify-between bg-card p-2 rounded-2xl shadow-sm border overflow-x-auto no-scrollbar">
           <TabsList className="bg-transparent h-auto p-0 gap-1 flex justify-start min-w-max">
             {[
               { id: "dashboard", label: "Dashboard" },
@@ -59,7 +59,7 @@ export default function SuperAdminMediaManagement() {
               <TabsTrigger 
                 key={tab.id}
                 value={tab.id} 
-                className="rounded-xl data-[state=active]:bg-slate-100 data-[state=active]:text-slate-900 px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
+                className="rounded-xl data-[state=active]:bg-muted data-[state=active]:text-foreground px-6 py-2.5 font-bold transition-all shadow-none border-none whitespace-nowrap uppercase text-[10px] tracking-widest"
               >
                 {tab.label}
               </TabsTrigger>
@@ -69,63 +69,63 @@ export default function SuperAdminMediaManagement() {
 
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Managed Titles</span>
-                <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Managed Titles</span>
+                <div className="h-10 w-10 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground">
                   <BookOpen className="h-5 w-5" />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-slate-900">1,240</p>
+                <p className="text-4xl font-black text-foreground">1,240</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+45 since last month</p>
               </div>
             </Card>
 
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Scholarly Audits</span>
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Scholarly Audits</span>
                 <div className="h-10 w-10 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-slate-900">92%</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">Authenticity score</p>
+                <p className="text-4xl font-black text-foreground">92%</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase">Authenticity score</p>
               </div>
             </Card>
 
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Digital Payouts</span>
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Digital Payouts</span>
                 <div className="h-10 w-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
                   <Download className="h-5 w-5" />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-slate-900">₹75k</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">Licensing revenue (mo)</p>
+                <p className="text-4xl font-black text-foreground">₹75k</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase">Licensing revenue (mo)</p>
               </div>
             </Card>
           </div>
 
-          <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
             <CardHeader className="p-8 flex flex-row items-center justify-between">
               <div className="space-y-1">
-                <CardTitle className="text-xl font-black text-slate-900">Content Integrity Log</CardTitle>
+                <CardTitle className="text-xl font-black text-foreground">Content Integrity Log</CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">Verify authentic source metadata for new digital course releases.</p>
               </div>
-              <Button size="sm" className="bg-slate-900 hover:bg-slate-800 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-slate-200">
+              <Button size="sm" className="bg-zinc-900 hover:bg-zinc-800 rounded-xl font-black text-xs h-10 px-6 text-white group shadow-lg shadow-slate-200">
                 Begin Review <ArrowUpRight className="ml-2 h-4 w-4" />
               </Button>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-slate-50/50">
+                <TableHeader className="bg-muted/50">
                   <TableRow className="border-none">
-                    <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Publisher</TableHead>
-                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400">Title</TableHead>
-                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-slate-400 text-center">Format</TableHead>
+                    <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Publisher</TableHead>
+                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Title</TableHead>
+                    <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest text-muted-foreground text-center">Format</TableHead>
                     <TableHead className="text-right px-8 h-14 font-black uppercase text-[10px] tracking-widest">Status</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -134,9 +134,9 @@ export default function SuperAdminMediaManagement() {
                     { name: "Noor Islamic Media", title: "The Sealed Nectar", format: "E-Book", status: "Verified" },
                     { name: "Crescent Digital Hub", title: "Tajweed Masterclass", format: "Digital Course", status: "Pending" },
                   ].map((item, i) => (
-                    <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <TableCell className="px-8 py-5 font-bold text-slate-800 text-sm">{item.name}</TableCell>
-                      <TableCell className="font-bold text-slate-500 text-xs italic">{item.title}</TableCell>
+                    <TableRow key={i} className="border-border hover:bg-muted/50 transition-colors">
+                      <TableCell className="px-8 py-5 font-bold text-foreground text-sm">{item.name}</TableCell>
+                      <TableCell className="font-bold text-muted-foreground text-xs italic">{item.title}</TableCell>
                       <TableCell className="text-center font-bold text-[10px] text-blue-600 uppercase">{item.format}</TableCell>
                       <TableCell className="text-right px-8">
                         <Badge className={item.status === 'Verified' ? 'bg-emerald-50 text-emerald-600 border-none px-3 font-black text-[9px]' : 'bg-amber-50 text-amber-600 border-none px-3 font-black text-[9px]'}>
@@ -152,10 +152,10 @@ export default function SuperAdminMediaManagement() {
         </TabsContent>
 
         <TabsContent value="governance" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10">
             <div className="space-y-10">
               <div className="space-y-2 border-b pb-6">
-                <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tight">Content Distribution Standards</h3>
+                <h3 className="text-3xl font-black text-foreground uppercase tracking-tight">Content Distribution Standards</h3>
                 <p className="text-muted-foreground font-medium text-lg italic">Global mandatory compliance criteria for media partners.</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -166,21 +166,21 @@ export default function SuperAdminMediaManagement() {
                     { label: "Zero Ad-Support Policy", active: true },
                     { label: "Ethical Royalties Protocol", active: true },
                   ].map((rule, i) => (
-                    <div key={i} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border border-transparent hover:border-slate-300 transition-all cursor-pointer group shadow-sm">
-                      <span className="font-bold text-slate-700 text-sm">{rule.label}</span>
-                      <Badge className={rule.active ? "bg-emerald-500 text-white font-black text-[8px]" : "bg-slate-200 text-slate-500 font-black text-[8px]"}>
+                    <div key={i} className="flex items-center justify-between p-5 bg-muted rounded-2xl border border-transparent hover:border-border transition-all cursor-pointer group shadow-sm">
+                      <span className="font-bold text-foreground text-sm">{rule.label}</span>
+                      <Badge className={rule.active ? "bg-emerald-500 text-white font-black text-[8px]" : "bg-muted text-muted-foreground font-black text-[8px]"}>
                         {rule.active ? "MANDATORY" : "OPTIONAL"}
                       </Badge>
                     </div>
                   ))}
                 </div>
-                <div className="bg-slate-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden flex flex-col justify-between">
-                  <Library className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-slate-400" />
+                <div className="bg-zinc-900 rounded-[2.5rem] p-10 text-white space-y-6 relative overflow-hidden flex flex-col justify-between">
+                  <Library className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-muted-foreground" />
                   <div className="space-y-2 relative z-10">
-                    <h4 className="text-xl font-black text-slate-400 uppercase tracking-tighter">Scholarly Oversight</h4>
-                    <p className="text-slate-400 text-sm">Automated reminders for content re-vetting cycles.</p>
+                    <h4 className="text-xl font-black text-muted-foreground uppercase tracking-tighter">Scholarly Oversight</h4>
+                    <p className="text-muted-foreground text-sm">Automated reminders for content re-vetting cycles.</p>
                   </div>
-                  <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] h-12 uppercase tracking-widest relative z-10 shadow-xl bg-white text-slate-900">Manage Board</Button>
+                  <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] h-12 uppercase tracking-widest relative z-10 shadow-xl bg-card text-foreground">Manage Board</Button>
                 </div>
               </div>
             </div>
@@ -190,13 +190,13 @@ export default function SuperAdminMediaManagement() {
         <TabsContent value="loyalty" className="animate-in fade-in duration-500 m-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 relative overflow-hidden">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 relative overflow-hidden">
                 <Coins className="absolute -top-4 -right-4 h-48 w-48 opacity-10" />
                 <div className="relative z-10 space-y-8">
                   <div className="space-y-2">
                     <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Knowledge Coin Circulation</p>
                     <h2 className="text-7xl font-black tracking-tighter">1.2M</h2>
-                    <div className="flex items-center gap-2 text-sm font-bold bg-white/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
+                    <div className="flex items-center gap-2 text-sm font-bold bg-card/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
                       <TrendingUp className="h-4 w-4" /> +15% engagement
                     </div>
                   </div>
@@ -218,10 +218,10 @@ export default function SuperAdminMediaManagement() {
               </Card>
             </div>
             <div className="lg:col-span-4 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6 flex flex-col justify-between">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6 flex flex-col justify-between">
                 <div className="space-y-2">
-                  <h3 className="text-xl font-black text-slate-900">Reader Tiers</h3>
-                  <p className="text-sm text-slate-500 font-medium italic">Manage how readers earn Hub Coins for buying authentic literature.</p>
+                  <h3 className="text-xl font-black text-foreground">Reader Tiers</h3>
+                  <p className="text-sm text-muted-foreground font-medium italic">Manage how readers earn Hub Coins for buying authentic literature.</p>
                 </div>
                 <div className="space-y-4">
                   {[
@@ -229,13 +229,13 @@ export default function SuperAdminMediaManagement() {
                     { label: "Course Completion Bonus", rate: "1.2x Multiplier" },
                     { label: "Scholarly Review", rate: "100 Flat Coins" },
                   ].map((tier, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border">
-                      <span className="text-[10px] font-black text-slate-600 uppercase tracking-tighter">{tier.label}</span>
+                    <div key={i} className="flex items-center justify-between p-4 bg-muted rounded-2xl border">
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-tighter">{tier.label}</span>
                       <span className="text-sm font-black text-primary">{tier.rate}</span>
                     </div>
                   ))}
                 </div>
-                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl h-12 font-black uppercase text-[10px] tracking-widest">Adjust Ratios</Button>
+                <Button className="w-full bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl h-12 font-black uppercase text-[10px] tracking-widest">Adjust Ratios</Button>
               </Card>
             </div>
           </div>
@@ -244,24 +244,24 @@ export default function SuperAdminMediaManagement() {
         {/* Other Tabs - Wrapped for consistent high-fidelity UI */}
         {["all", "verification", "reviews", "offers", "certificates", "categories", "billing"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
-              <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-20 text-center space-y-6">
+              <div className="h-20 w-20 rounded-[2rem] bg-muted flex items-center justify-center text-muted-foreground mx-auto">
                 <Settings className="h-10 w-10 animate-spin-slow" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab.replace(/-/g, ' ')} Module</h3>
+                <h3 className="text-2xl font-black text-foreground uppercase tracking-tight">{tab.replace(/-/g, ' ')} Module</h3>
                 <p className="text-muted-foreground font-medium max-w-sm mx-auto italic">
                   Managing the global Islamic media network and scholarly integrity.
                 </p>
               </div>
-              <Button variant="outline" className="rounded-xl border-2 font-bold px-8 h-12 border-slate-100 text-slate-600 hover:bg-slate-50">Refresh Catalog Data</Button>
+              <Button variant="outline" className="rounded-xl border-2 font-bold px-8 h-12 border-border text-muted-foreground hover:bg-muted">Refresh Catalog Data</Button>
             </Card>
           </TabsContent>
         ))}
       </Tabs>
 
       <Link href="/admin/dashboard">
-        <button className="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50 group">
+        <button className="fixed bottom-8 right-8 w-14 h-14 bg-zinc-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50 group">
           <div className="flex flex-col items-center">
             <ExternalLink className="h-5 w-5" />
             <span className="text-[8px] font-black uppercase mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Exit Panel</span>

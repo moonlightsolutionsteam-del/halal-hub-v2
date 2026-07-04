@@ -41,7 +41,7 @@ export default function VerifierPage() {
       case "HALAL": return "text-emerald-600 border-emerald-200 bg-emerald-50";
       case "HARAM": return "text-red-600 border-red-200 bg-red-50";
       case "MASHBOOH": return "text-yellow-600 border-yellow-200 bg-yellow-50";
-      default: return "text-slate-600 border-slate-200 bg-slate-50";
+      default: return "text-muted-foreground border-border bg-muted";
     }
   };
 
@@ -50,7 +50,7 @@ export default function VerifierPage() {
       case "HALAL": return <CheckCircle2 className="h-8 w-8 text-emerald-600" />;
       case "HARAM": return <XCircle className="h-8 w-8 text-red-600" />;
       case "MASHBOOH": return <AlertTriangle className="h-8 w-8 text-yellow-600" />;
-      default: return <Info className="h-8 w-8 text-slate-600" />;
+      default: return <Info className="h-8 w-8 text-muted-foreground" />;
     }
   };
 

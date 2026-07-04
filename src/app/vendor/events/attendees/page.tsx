@@ -27,7 +27,7 @@ export default function EventAttendeesPage() {
           <div className="flex items-center gap-2 text-purple-600 font-black uppercase tracking-widest text-[10px]">
             <Users className="h-3 w-3" /> Live Check-in
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Guest & Attendees</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Guest & Attendees</h1>
           <p className="text-muted-foreground font-medium">Monitor live event check-ins, manage guest lists, and issue digital passes.</p>
         </div>
         <div className="flex gap-3">
@@ -41,30 +41,30 @@ export default function EventAttendeesPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center gap-6">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
             <CheckCircle2 className="h-7 w-7" />
           </div>
           <div>
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Checked In Today</p>
-            <p className="text-3xl font-black text-slate-900">842</p>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Checked In Today</p>
+            <p className="text-3xl font-black text-foreground">842</p>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center gap-6">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
             <Users className="h-7 w-7" />
           </div>
           <div>
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Expected Guests</p>
-            <p className="text-3xl font-black text-slate-900">1,250</p>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Expected Guests</p>
+            <p className="text-3xl font-black text-foreground">1,250</p>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 flex items-center gap-6 relative overflow-hidden">
-          <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-primary relative z-10">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 flex items-center gap-6 relative overflow-hidden">
+          <div className="h-14 w-14 rounded-2xl bg-card/10 flex items-center justify-center text-primary relative z-10">
             <Zap className="h-7 w-7" />
           </div>
           <div className="relative z-10">
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Real-time Flux</p>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Real-time Flux</p>
             <p className="text-3xl font-black text-white">+12 / min</p>
           </div>
           <div className="absolute -top-4 -right-4 h-24 w-24 bg-purple-600/10 rounded-full blur-2xl" />
@@ -77,46 +77,46 @@ export default function EventAttendeesPage() {
           <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="relative flex-1 md:w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search attendees..." className="pl-9 h-11 rounded-2xl bg-white border-none shadow-sm" />
+              <Input placeholder="Search attendees..." className="pl-9 h-11 rounded-2xl bg-card border-none shadow-sm" />
             </div>
-            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-white border-none shadow-sm"><Filter className="h-4 w-4" /></Button>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-card border-none shadow-sm"><Filter className="h-4 w-4" /></Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
           {attendees.map((a) => (
-            <Card key={a.id} className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden border-2 border-transparent hover:border-purple-100 transition-all group">
+            <Card key={a.id} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-purple-100 transition-all group">
               <div className="p-6 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-6">
-                  <Avatar className="h-12 w-12 border-2 border-slate-50 shadow-sm">
+                  <Avatar className="h-12 w-12 border-2 border-border shadow-sm">
                     <AvatarImage src={`https://picsum.photos/seed/guest${a.id}/100/100`} />
                     <AvatarFallback>{a.name[0]}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-lg font-black text-slate-900 leading-tight">{a.name}</p>
+                    <p className="text-lg font-black text-foreground leading-tight">{a.name}</p>
                     <div className="flex items-center gap-2">
                       <Badge variant="outline" className="text-[9px] font-black uppercase border-purple-200 text-purple-600 bg-purple-50">
                         {a.type}
                       </Badge>
-                      <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">• {a.event}</span>
+                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">• {a.event}</span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-10">
                   <div className="text-center md:text-right">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Status</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Status</p>
                     <Badge className={
-                      a.status === 'Checked-in' ? 'bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-3' : 'bg-slate-100 text-slate-400 border-none font-black text-[9px] px-3'
+                      a.status === 'Checked-in' ? 'bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-3' : 'bg-muted text-muted-foreground border-none font-black text-[9px] px-3'
                     }>
                       {a.status}
                     </Badge>
                   </div>
                   <div className="text-center md:text-right">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Time</p>
-                    <p className="text-sm font-black text-slate-900">{a.time}</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Time</p>
+                    <p className="text-sm font-black text-foreground">{a.time}</p>
                   </div>
-                  <Button variant="ghost" size="icon" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><MoreVertical className="h-5 w-5 text-slate-300" /></Button>
+                  <Button variant="ghost" size="icon" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
                 </div>
               </div>
             </Card>

@@ -30,7 +30,7 @@ export default function TravelBookingsPage() {
           <div className="flex items-center gap-2 text-amber-600 font-black uppercase tracking-widest text-[10px]">
             <Calendar className="h-3 w-3" /> Guest Pipeline
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Booking Registry</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Booking Registry</h1>
           <p className="text-muted-foreground font-medium">Manage traveler registrations, payment clearances, and departure schedules.</p>
         </div>
         <div className="flex gap-3">
@@ -50,51 +50,51 @@ export default function TravelBookingsPage() {
           { label: "Total Travelers", value: "124", icon: Users, color: "text-purple-600", bg: "bg-purple-50" },
           { label: "Agent Trust", value: "Verified", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
         ].map((stat, i) => (
-          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4">
+          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-card flex items-center gap-4">
             <div className={`h-12 w-12 rounded-2xl ${stat.bg} flex items-center justify-center ${stat.color}`}>
               <stat.icon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">{stat.label}</p>
+              <p className="text-2xl font-black text-foreground">{stat.value}</p>
             </div>
           </Card>
         ))}
       </div>
 
-      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
         <CardHeader className="p-8 border-b flex flex-col md:flex-row items-center justify-between gap-4">
           <CardTitle className="text-xl font-black">Departure Registry</CardTitle>
           <div className="relative w-full md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search Traveler..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+            <Input placeholder="Search Traveler..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
-            <TableHeader className="bg-slate-50/50">
+            <TableHeader className="bg-muted/50">
               <TableRow className="border-none">
-                <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">ID / Traveler</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Tour & Dates</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Pax</TableHead>
-                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Amount</TableHead>
-                <TableHead className="h-14 text-right px-8 font-black text-[10px] uppercase tracking-widest text-slate-400">Status</TableHead>
+                <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">ID / Traveler</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Tour & Dates</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Pax</TableHead>
+                <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Amount</TableHead>
+                <TableHead className="h-14 text-right px-8 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {bookings.map((booking) => (
-                <TableRow key={booking.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors group">
+                <TableRow key={booking.id} className="border-border hover:bg-muted/50 transition-colors group">
                   <TableCell className="px-8 py-5">
-                    <div className="font-bold text-slate-800">{booking.guest}</div>
+                    <div className="font-bold text-foreground">{booking.guest}</div>
                     <div className="text-[9px] font-black text-muted-foreground uppercase">{booking.id}</div>
                   </TableCell>
                   <TableCell>
                     <p className="font-black text-amber-600 text-[11px] uppercase">{booking.tour}</p>
-                    <p className="text-xs font-bold text-slate-500">{booking.date}</p>
+                    <p className="text-xs font-bold text-muted-foreground">{booking.date}</p>
                   </TableCell>
-                  <TableCell className="font-black text-slate-900">{booking.pax}</TableCell>
+                  <TableCell className="font-black text-foreground">{booking.pax}</TableCell>
                   <TableCell>
-                    <p className="font-black text-slate-900 text-sm">₹1,25,000</p>
+                    <p className="font-black text-foreground text-sm">₹1,25,000</p>
                     <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 border-none text-[8px] font-black h-4 px-1">{booking.payment}</Badge>
                   </TableCell>
                   <TableCell className="text-right px-8">

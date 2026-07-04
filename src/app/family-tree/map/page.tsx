@@ -33,7 +33,7 @@ const TreeNode = ({ name, img, label, isUser, hasSpouse, className }: TreeNodePr
   <div className={cn("relative flex flex-col items-center gap-3 group shrink-0", className)}>
     <div className={cn(
       "w-36 h-36 rounded-[2.5rem] flex flex-col items-center justify-center gap-3 transition-all duration-500 shadow-xl border-4",
-      isUser ? "bg-emerald-50 border-emerald-200" : "bg-white border-transparent hover:border-slate-100"
+      isUser ? "bg-emerald-50 border-emerald-200" : "bg-card border-transparent hover:border-border"
     )}>
       <div className="relative">
         <Avatar className="h-20 w-20 border-2 border-white shadow-md">
@@ -41,40 +41,40 @@ const TreeNode = ({ name, img, label, isUser, hasSpouse, className }: TreeNodePr
           <AvatarFallback className="font-black text-xl">{name[0]}</AvatarFallback>
         </Avatar>
         {hasSpouse && (
-          <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-white rounded-full flex items-center justify-center shadow-lg">
+          <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-card rounded-full flex items-center justify-center shadow-lg">
             <Heart className="h-3.5 w-3.5 text-rose-500 fill-current" />
           </div>
         )}
       </div>
-      <span className="text-[11px] font-black text-slate-900 uppercase tracking-widest text-center px-2">{label}</span>
+      <span className="text-[11px] font-black text-foreground uppercase tracking-widest text-center px-2">{label}</span>
     </div>
   </div>
 )
 
 const ConnectorLine = ({ className }: { className?: string }) => (
-  <div className={cn("absolute bg-slate-200", className)} />
+  <div className={cn("absolute bg-muted", className)} />
 )
 
 export default function LineageMapPage() {
   return (
-    <div className="min-h-screen bg-[#F8F9FA] pb-24 overflow-x-hidden">
+    <div className="min-h-screen bg-background pb-24 overflow-x-hidden">
       {/* Premium Navigation Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md px-6 h-20 flex items-center justify-between border-b shadow-sm">
+      <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-md px-6 h-20 flex items-center justify-between border-b shadow-sm">
         <div className="flex items-center gap-6">
           <Link href="/family-tree">
-            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50 border shadow-sm h-12 w-12">
-              <ArrowLeft className="h-5 w-5 text-slate-600" />
+            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-muted border shadow-sm h-12 w-12">
+              <ArrowLeft className="h-5 w-5 text-muted-foreground" />
             </Button>
           </Link>
-          <h1 className="text-2xl font-black font-headline text-slate-900 tracking-tight">Family Tree</h1>
+          <h1 className="text-2xl font-black font-headline text-foreground tracking-tight">Family Tree</h1>
         </div>
         <div className="flex items-center gap-4">
           <Avatar className="h-10 w-10 border-2 border-white shadow-md">
             <AvatarImage src="https://picsum.photos/seed/sa/150/150" />
             <AvatarFallback>SA</AvatarFallback>
           </Avatar>
-          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 hover:bg-slate-50 border shadow-sm">
-            <Menu className="h-5 w-5 text-slate-600" />
+          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 hover:bg-muted border shadow-sm">
+            <Menu className="h-5 w-5 text-muted-foreground" />
           </Button>
         </div>
       </header>
@@ -161,9 +161,9 @@ export default function LineageMapPage() {
 
       {/* Pending Invitations Section */}
       <div className="container mx-auto max-w-2xl px-6 mt-20">
-        <Card className="rounded-[3rem] border-none shadow-2xl bg-white p-10 space-y-10">
+        <Card className="rounded-[3rem] border-none shadow-2xl bg-card p-10 space-y-10">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight">Pending Invitations</h2>
+            <h2 className="text-2xl font-black text-foreground tracking-tight">Pending Invitations</h2>
             <Button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl h-12 px-6 font-black uppercase text-[10px] tracking-widest shadow-xl shadow-emerald-200">
               <UserPlus className="h-4 w-4 mr-2" /> Invite Member
             </Button>
@@ -176,16 +176,16 @@ export default function LineageMapPage() {
             ].map((invite, i) => (
               <div key={i} className="flex flex-col sm:flex-row items-center justify-between p-6 bg-emerald-50/50 rounded-[2rem] border border-emerald-100/50 gap-6 transition-all hover:bg-emerald-50">
                 <div className="flex items-center gap-6">
-                  <div className="h-14 w-14 rounded-full bg-white flex items-center justify-center text-slate-400 font-black text-lg shadow-inner">
+                  <div className="h-14 w-14 rounded-full bg-card flex items-center justify-center text-muted-foreground font-black text-lg shadow-inner">
                     {invite.initials}
                   </div>
                   <div>
-                    <p className="text-lg font-black text-slate-900 leading-tight">{invite.name}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Invited by You</p>
+                    <p className="text-lg font-black text-foreground leading-tight">{invite.name}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">Invited by You</p>
                   </div>
                 </div>
                 <div className="flex gap-3 w-full sm:w-auto">
-                  <Button variant="outline" className="flex-1 sm:flex-none rounded-xl h-11 bg-white border-none shadow-sm font-black text-[10px] uppercase tracking-widest text-slate-600 hover:bg-slate-50">
+                  <Button variant="outline" className="flex-1 sm:flex-none rounded-xl h-11 bg-card border-none shadow-sm font-black text-[10px] uppercase tracking-widest text-muted-foreground hover:bg-muted">
                     <RotateCcw className="h-3.5 w-3.5 mr-2" /> Resend
                   </Button>
                   <Button variant="destructive" className="flex-1 sm:flex-none rounded-xl h-11 font-black text-[10px] uppercase tracking-widest bg-rose-600 shadow-lg shadow-rose-200">
@@ -200,7 +200,7 @@ export default function LineageMapPage() {
 
       {/* Footer Exit Label */}
       <div className="container mx-auto max-w-7xl px-6 pt-20 flex justify-center">
-        <div className="h-10 w-10 bg-slate-900 rounded-full flex items-center justify-center text-white font-black text-xs shadow-xl">
+        <div className="h-10 w-10 bg-zinc-900 rounded-full flex items-center justify-center text-white font-black text-xs shadow-xl">
           N
         </div>
       </div>

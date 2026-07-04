@@ -59,7 +59,7 @@ export default function FamilyExpensesPage() {
               <Wallet className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline text-slate-900 tracking-tight">Family Expenses</h1>
+              <h1 className="text-4xl font-black font-headline text-foreground tracking-tight">Family Expenses</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Awareness over accounting. Staying in sync without the stress.</p>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function FamilyExpensesPage() {
         <div className="lg:col-span-8 space-y-10">
           
           {/* Summary Card */}
-          <Card className="rounded-[3rem] border-none shadow-sm bg-slate-900 text-white p-12 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-zinc-900 text-white p-12 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
             <div className="absolute top-0 right-0 p-10 opacity-10">
               <TrendingUp className="h-48 w-48 text-emerald-400" />
             </div>
@@ -110,25 +110,25 @@ export default function FamilyExpensesPage() {
           {/* Activity Feed */}
           <section className="space-y-6">
             <div className="flex items-center justify-between px-4">
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight">Spending Feed</h3>
+              <h3 className="text-2xl font-black text-foreground tracking-tight">Spending Feed</h3>
               <Button variant="ghost" className="text-blue-600 font-black text-xs uppercase tracking-widest">Filter By Category</Button>
             </div>
             <div className="space-y-4">
               {ACTIVITY.map((act) => (
                 <Link key={act.id} href={`/family-tree/expenses/${act.id}`}>
-                  <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-white group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-blue-100 cursor-pointer mb-4">
+                  <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden bg-card group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-blue-100 cursor-pointer mb-4">
                     <div className="p-6 flex items-center justify-between gap-6">
                       <div className="flex items-center gap-6">
-                        <Avatar className="h-14 w-14 border-4 border-slate-50 shadow-md group-hover:scale-105 transition-transform">
+                        <Avatar className="h-14 w-14 border-4 border-border shadow-md group-hover:scale-105 transition-transform">
                           <AvatarImage src={`https://picsum.photos/seed/${act.name}/150/150`} />
                           <AvatarFallback>{act.name[0]}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="text-lg font-black text-slate-900 leading-tight">
-                            {act.name} <span className="font-medium text-slate-400 lowercase">{act.action}</span> {act.amount}
+                          <p className="text-lg font-black text-foreground leading-tight">
+                            {act.name} <span className="font-medium text-muted-foreground lowercase">{act.action}</span> {act.amount}
                           </p>
                           <div className="flex flex-wrap items-center gap-3 mt-1">
-                            <Badge variant="secondary" className={cn("border-none text-[9px] font-black uppercase px-2 h-5", act.color, "bg-slate-50")}>
+                            <Badge variant="secondary" className={cn("border-none text-[9px] font-black uppercase px-2 h-5", act.color, "bg-muted")}>
                               <act.icon className="h-3 w-3 mr-1" /> {act.item}
                             </Badge>
                             {act.split > 0 && (
@@ -136,17 +136,17 @@ export default function FamilyExpensesPage() {
                                 <Split className="h-2.5 w-2.5" /> Shared with {act.split}
                               </Badge>
                             )}
-                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{act.time}</span>
+                            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{act.time}</span>
                           </div>
                         </div>
                       </div>
-                      <ChevronRight className="h-5 w-5 text-slate-200 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+                      <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
                     </div>
                   </Card>
                 </Link>
               ))}
             </div>
-            <Button variant="outline" className="w-full h-14 rounded-2xl border-2 font-black uppercase text-xs tracking-widest text-slate-400 hover:bg-slate-50">
+            <Button variant="outline" className="w-full h-14 rounded-2xl border-2 font-black uppercase text-xs tracking-widest text-muted-foreground hover:bg-muted">
               Load Earlier Spending
             </Button>
           </section>
@@ -156,19 +156,19 @@ export default function FamilyExpensesPage() {
         <div className="lg:col-span-4 space-y-8">
           
           {/* Category Breakdown */}
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
-            <h3 className="text-xl font-black text-slate-900">By Category</h3>
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
+            <h3 className="text-xl font-black text-foreground">By Category</h3>
             <div className="space-y-8">
               {CATEGORIES.map((cat, i) => (
                 <div key={i} className="space-y-3">
                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
                     <div className="flex items-center gap-2">
                       <cat.icon className={cn("h-4 w-4", cat.color)} />
-                      <span className="text-slate-500">{cat.name}</span>
+                      <span className="text-muted-foreground">{cat.name}</span>
                     </div>
-                    <span className="text-slate-900">₹{cat.spend.toLocaleString()}</span>
+                    <span className="text-foreground">₹{cat.spend.toLocaleString()}</span>
                   </div>
-                  <div className="h-3 bg-slate-50 rounded-full overflow-hidden shadow-inner">
+                  <div className="h-3 bg-muted rounded-full overflow-hidden shadow-inner">
                     <div className={cn("h-full rounded-full transition-all duration-1000", cat.color.replace('text-', 'bg-'))} style={{ width: `${cat.percentage}%` }} />
                   </div>
                 </div>
@@ -177,8 +177,8 @@ export default function FamilyExpensesPage() {
           </Card>
 
           {/* Member Contribution */}
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
-            <h3 className="text-xl font-black text-slate-900">Contributions</h3>
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
+            <h3 className="text-xl font-black text-foreground">Contributions</h3>
             <div className="space-y-6">
               {CONTRIBUTIONS.map((mem, i) => (
                 <div key={i} className="flex items-center justify-between group cursor-default">
@@ -187,11 +187,11 @@ export default function FamilyExpensesPage() {
                       <AvatarImage src={`https://picsum.photos/seed/${mem.img}/100/100`} />
                       <AvatarFallback>{mem.name[0]}</AvatarFallback>
                     </Avatar>
-                    <span className="text-sm font-black text-slate-700">{mem.name}</span>
+                    <span className="text-sm font-black text-foreground">{mem.name}</span>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-black text-slate-900">₹{mem.spend.toLocaleString()}</p>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Contribution</p>
+                    <p className="text-sm font-black text-foreground">₹{mem.spend.toLocaleString()}</p>
+                    <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">Contribution</p>
                   </div>
                 </div>
               ))}
@@ -202,7 +202,7 @@ export default function FamilyExpensesPage() {
           <Card className="rounded-[2.5rem] border-none bg-emerald-50 p-10 space-y-6 relative overflow-hidden border-2 border-emerald-100 shadow-inner">
             <Sparkles className="absolute -top-4 -right-4 h-24 w-24 opacity-10 text-emerald-600" />
             <div className="flex items-center gap-4 relative z-10">
-              <div className="h-12 w-12 rounded-2xl bg-white flex items-center justify-center shadow-md">
+              <div className="h-12 w-12 rounded-2xl bg-card flex items-center justify-center shadow-md">
                 <Utensils className="h-6 w-6 text-emerald-600" />
               </div>
               <h4 className="text-lg font-black text-emerald-900 uppercase tracking-tighter">Dining Discovery</h4>
@@ -211,7 +211,7 @@ export default function FamilyExpensesPage() {
               You spent ₹5,000 on Food this month. Explore similar high-rated halal restaurants in your area.
             </p>
             <Link href="/family-tree/discovery">
-              <Button variant="outline" className="w-full rounded-2xl font-black text-[10px] uppercase tracking-widest border-2 border-emerald-200 h-12 bg-white text-emerald-700 relative z-10 hover:bg-emerald-50">Explore Nearby</Button>
+              <Button variant="outline" className="w-full rounded-2xl font-black text-[10px] uppercase tracking-widest border-2 border-emerald-200 h-12 bg-card text-emerald-700 relative z-10 hover:bg-emerald-50">Explore Nearby</Button>
             </Link>
           </Card>
         </div>

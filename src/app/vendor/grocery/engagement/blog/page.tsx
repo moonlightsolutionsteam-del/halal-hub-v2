@@ -24,7 +24,7 @@ export default function GroceryBlogPage() {
           <div className="flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-[10px]">
             <BookOpen className="h-3 w-3" /> Content Hub
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Grocery Blog & Articles</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Grocery Blog & Articles</h1>
           <p className="text-muted-foreground font-medium">Educate your shoppers on product sourcing, healthy living, and seasonal recipes.</p>
         </div>
         <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-8 font-black shadow-lg shadow-emerald-200 h-12 text-white">
@@ -38,13 +38,13 @@ export default function GroceryBlogPage() {
           { label: "Total Read Time", value: "450h", icon: Eye },
           { label: "Engaged Readers", value: "8.5k", icon: MessageSquare },
         ].map((stat, i) => (
-          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4">
-            <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-card flex items-center gap-4">
+            <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground">
               <stat.icon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">{stat.label}</p>
+              <p className="text-2xl font-black text-foreground">{stat.value}</p>
             </div>
           </Card>
         ))}
@@ -54,39 +54,39 @@ export default function GroceryBlogPage() {
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
           <div className="relative w-full md:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search articles..." className="pl-9 h-11 rounded-2xl bg-white border-none shadow-sm" />
+            <Input placeholder="Search articles..." className="pl-9 h-11 rounded-2xl bg-card border-none shadow-sm" />
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer bg-emerald-50 text-emerald-600 border-none">Published</Badge>
             <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer">Drafts</Badge>
-            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-white border-none shadow-sm"><Filter className="h-4 w-4" /></Button>
+            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-card border-none shadow-sm"><Filter className="h-4 w-4" /></Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
           {articles.map((article) => (
-            <Card key={article.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all border-2 border-transparent hover:border-emerald-100">
+            <Card key={article.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all border-2 border-transparent hover:border-emerald-100">
               <div className="p-8 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center gap-3">
-                    <Badge className={article.status === 'Published' ? 'bg-emerald-50 text-emerald-600 border-none px-3' : 'bg-slate-100 text-slate-400 border-none px-3'}>
+                    <Badge className={article.status === 'Published' ? 'bg-emerald-50 text-emerald-600 border-none px-3' : 'bg-muted text-muted-foreground border-none px-3'}>
                       {article.status}
                     </Badge>
-                    <span className="text-[10px] font-black uppercase text-slate-300 tracking-widest">{article.category}</span>
+                    <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">{article.category}</span>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-tight">{article.title}</h3>
+                  <h3 className="text-2xl font-black text-foreground tracking-tight leading-tight">{article.title}</h3>
                   <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
                       <Calendar className="h-3.5 w-3.5" /> {article.date}
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
                       <Eye className="h-3.5 w-3.5" /> {article.reads} Reads
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   <Button variant="outline" className="rounded-xl h-12 px-6 font-bold border-2">Edit</Button>
-                  <Button variant="ghost" size="icon" className="h-12 w-12 rounded-xl bg-slate-50"><MoreVertical className="h-5 w-5" /></Button>
+                  <Button variant="ghost" size="icon" className="h-12 w-12 rounded-xl bg-muted"><MoreVertical className="h-5 w-5" /></Button>
                 </div>
               </div>
             </Card>

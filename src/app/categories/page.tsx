@@ -21,7 +21,7 @@ const CATEGORIES = [
   { name: "Finance & Banking", slug: "finance", icon: CircleDollarSign, count: "42", color: "bg-indigo-100 text-indigo-600" },
   { name: "Healthcare & Wellness", slug: "healthcare", icon: Stethoscope, count: "115", color: "bg-teal-100 text-teal-600" },
   { name: "Education & Training", slug: "education", icon: GraduationCap, count: "64", color: "bg-violet-100 text-violet-600" },
-  { name: "Bookstores & Media", slug: "media", icon: BookOpen, count: "78", color: "bg-slate-100 text-slate-600" },
+  { name: "Bookstores & Media", slug: "media", icon: BookOpen, count: "78", color: "bg-muted text-muted-foreground" },
 ];
 
 export default function CategoriesPage() {
@@ -35,7 +35,7 @@ export default function CategoriesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {CATEGORIES.map((cat) => (
           <Link key={cat.slug} href={`/categories/${cat.slug}`}>
-            <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-none shadow-sm rounded-[2rem] overflow-hidden group bg-white">
+            <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-none shadow-sm rounded-[2rem] overflow-hidden group bg-card">
               <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-6">
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${cat.color} group-hover:scale-110 transition-transform shadow-sm`}>
                   <cat.icon className="h-7 w-7" />

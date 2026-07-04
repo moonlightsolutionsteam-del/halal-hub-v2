@@ -45,12 +45,12 @@ export default function SuperAdminRestaurantManagement() {
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-slate-900">Restaurant Management</h1>
+        <h1 className="text-3xl font-black font-headline text-foreground">Restaurant Management</h1>
         <p className="text-muted-foreground font-medium text-lg">Platform-wide oversight for directory listings, audits, and community safety.</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-        <div className="flex items-center justify-between bg-white p-2 rounded-2xl shadow-sm border overflow-x-auto no-scrollbar">
+        <div className="flex items-center justify-between bg-card p-2 rounded-2xl shadow-sm border overflow-x-auto no-scrollbar">
           <TabsList className="bg-transparent h-auto p-0 gap-1 flex justify-start min-w-max">
             {[
               { id: "dashboard", label: "Dashboard" },
@@ -78,47 +78,47 @@ export default function SuperAdminRestaurantManagement() {
         {/* DASHBOARD TAB */}
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Total Active</span>
-                <div className="h-10 w-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Total Active</span>
+                <div className="h-10 w-10 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground">
                   <Store className="h-5 w-5" />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-slate-900">890</p>
+                <p className="text-4xl font-black text-foreground">890</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+15 new this month</p>
               </div>
             </Card>
 
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Verified Hubs</span>
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Verified Hubs</span>
                 <div className="h-10 w-10 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-slate-900">750</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">84% of total</p>
+                <p className="text-4xl font-black text-foreground">750</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase">84% of total</p>
               </div>
             </Card>
 
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 group hover:shadow-md transition-all">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Growth Factor</span>
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Growth Factor</span>
                 <div className="h-10 w-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner">
                   <TrendingUp className="h-5 w-5" />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-slate-900">12%</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">Conversion Lift</p>
+                <p className="text-4xl font-black text-foreground">12%</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase">Conversion Lift</p>
               </div>
             </Card>
           </div>
 
-          <Card className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden">
             <CardHeader className="p-8 border-b">
               <CardTitle className="text-xl font-black">Recent Activity</CardTitle>
             </CardHeader>
@@ -132,10 +132,10 @@ export default function SuperAdminRestaurantManagement() {
                     <act.icon className="h-5 w-5" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm text-slate-600 leading-snug">
-                      <span className="font-black text-slate-900">{act.user}</span> {act.action}
+                    <p className="text-sm text-muted-foreground leading-snug">
+                      <span className="font-black text-foreground">{act.user}</span> {act.action}
                     </p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{act.time}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">{act.time}</p>
                   </div>
                 </div>
               ))}
@@ -145,12 +145,12 @@ export default function SuperAdminRestaurantManagement() {
 
         {/* ALL RESTAURANTS TAB */}
         <TabsContent value="all" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
             <CardHeader className="p-8 border-b space-y-6">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input placeholder="Search by name, ID or city..." className="pl-9 h-12 rounded-2xl bg-slate-50 border-none font-medium" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search by name, ID or city..." className="pl-9 h-12 rounded-2xl bg-muted border-none font-medium" />
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" className="rounded-xl h-12 gap-2 border-2 font-bold"><Filter className="h-4 w-4" /> Filters</Button>
@@ -162,7 +162,7 @@ export default function SuperAdminRestaurantManagement() {
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-slate-50/50">
+                <TableHeader className="bg-muted/50">
                   <TableRow className="border-none">
                     <TableHead className="px-8 h-14 font-black uppercase text-[10px] tracking-widest">ID / Date</TableHead>
                     <TableHead className="h-14 font-black uppercase text-[10px] tracking-widest">Restaurant</TableHead>
@@ -174,13 +174,13 @@ export default function SuperAdminRestaurantManagement() {
                 </TableHeader>
                 <TableBody>
                   {MOCK_RESTAURANTS.map((res) => (
-                    <TableRow key={res.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <TableCell className="px-8 py-5 font-black text-slate-900 text-xs">{res.id}</TableCell>
+                    <TableRow key={res.id} className="border-border hover:bg-muted/50 transition-colors">
+                      <TableCell className="px-8 py-5 font-black text-foreground text-xs">{res.id}</TableCell>
                       <TableCell>
-                        <p className="font-black text-slate-800 text-base">{res.name}</p>
+                        <p className="font-black text-foreground text-base">{res.name}</p>
                         <p className="text-[10px] font-bold text-primary uppercase">{res.cuisine}</p>
                       </TableCell>
-                      <TableCell className="text-xs font-bold text-slate-500">{res.city}</TableCell>
+                      <TableCell className="text-xs font-bold text-muted-foreground">{res.city}</TableCell>
                       <TableCell className="text-center font-black text-sm text-amber-500">
                         <div className="flex items-center justify-center gap-1">
                           <Star className="h-3 w-3 fill-current" /> {res.rating}
@@ -194,7 +194,7 @@ export default function SuperAdminRestaurantManagement() {
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right px-8">
-                        <Button size="icon" variant="ghost" className="rounded-xl"><MoreVertical className="h-4 w-4 text-slate-400" /></Button>
+                        <Button size="icon" variant="ghost" className="rounded-xl"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -208,8 +208,8 @@ export default function SuperAdminRestaurantManagement() {
         <TabsContent value="verification" className="animate-in fade-in duration-500 m-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-6">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
-                <CardHeader className="p-8 bg-slate-50/50">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+                <CardHeader className="p-8 bg-muted/50">
                   <CardTitle className="text-xl font-black">Audit Queue</CardTitle>
                   <CardDescription>Businesses awaiting document verification and Halal trust audits.</CardDescription>
                 </CardHeader>
@@ -221,20 +221,20 @@ export default function SuperAdminRestaurantManagement() {
                         { name: "Istanbul Bistro", date: "45 mins ago", type: "Health Permit", docs: 1 },
                         { name: "Al-Zaeem Sweets", date: "3 hours ago", type: "New Store", docs: 5 },
                       ].map((item, i) => (
-                        <TableRow key={i} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
+                        <TableRow key={i} className="border-border hover:bg-muted/50 transition-colors">
                           <TableCell className="px-8 py-6">
                             <div className="flex items-center gap-4">
                               <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner shrink-0">
                                 <FileText className="h-6 w-6" />
                               </div>
                               <div>
-                                <p className="font-black text-slate-900 text-base">{item.name}</p>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.date}</p>
+                                <p className="font-black text-foreground text-base">{item.name}</p>
+                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{item.date}</p>
                               </div>
                             </div>
                           </TableCell>
                           <TableCell>
-                            <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none font-black text-[9px] uppercase px-3">
+                            <Badge variant="secondary" className="bg-muted text-muted-foreground border-none font-black text-[9px] uppercase px-3">
                               {item.type}
                             </Badge>
                           </TableCell>
@@ -249,11 +249,11 @@ export default function SuperAdminRestaurantManagement() {
               </Card>
             </div>
             <div className="lg:col-span-4 space-y-6">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-6 relative overflow-hidden">
                 <ShieldCheck className="absolute -top-4 -right-4 h-24 w-24 opacity-10" />
                 <div className="space-y-2 relative z-10">
                   <h3 className="text-xl font-black">Audit SLA Alert</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-muted-foreground leading-relaxed">
                     12 applications have been in the queue for more than 48 hours. Prioritizing older audits improves partner satisfaction.
                   </p>
                 </div>
@@ -265,7 +265,7 @@ export default function SuperAdminRestaurantManagement() {
 
         {/* MODERATION TAB */}
         <TabsContent value="moderation" className="animate-in fade-in duration-500 m-0">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black text-rose-600">Content Moderation</CardTitle>
@@ -289,14 +289,14 @@ export default function SuperAdminRestaurantManagement() {
                     { id: "REP-991", item: "Review #8821", restaurant: "Al Bake", reason: "Inappropriate language", user: "Zaid Ali", time: "2h ago" },
                     { id: "REP-992", item: "Photo #1042", restaurant: "Sultan's", reason: "Non-halal item pictured", user: "Sarah K.", time: "5h ago" },
                   ].map((rep) => (
-                    <TableRow key={rep.id} className="border-slate-50 hover:bg-rose-50/10 transition-colors">
-                      <TableCell className="px-8 py-6 font-black text-xs text-slate-900">{rep.id}</TableCell>
+                    <TableRow key={rep.id} className="border-border hover:bg-rose-50/10 transition-colors">
+                      <TableCell className="px-8 py-6 font-black text-xs text-foreground">{rep.id}</TableCell>
                       <TableCell>
-                        <p className="font-black text-slate-800 text-sm">{rep.item}</p>
+                        <p className="font-black text-foreground text-sm">{rep.item}</p>
                         <p className="text-[10px] font-bold text-primary uppercase">at {rep.restaurant}</p>
                       </TableCell>
                       <TableCell className="text-rose-600 text-xs font-bold uppercase">{rep.reason}</TableCell>
-                      <TableCell className="text-xs font-bold text-slate-500">{rep.user}</TableCell>
+                      <TableCell className="text-xs font-bold text-muted-foreground">{rep.user}</TableCell>
                       <TableCell className="text-right px-8">
                         <Button size="sm" className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-black text-[10px] uppercase h-9">Moderate</Button>
                       </TableCell>
@@ -311,15 +311,15 @@ export default function SuperAdminRestaurantManagement() {
         {/* LOYALTY REWARDS TAB */}
         <TabsContent value="loyalty" className="animate-in fade-in duration-500 m-0 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
               <div className="space-y-2">
-                <h3 className="text-2xl font-black text-slate-900">Program Performance</h3>
+                <h3 className="text-2xl font-black text-foreground">Program Performance</h3>
                 <p className="text-sm text-muted-foreground font-medium">Global platform-wide loyalty metrics.</p>
               </div>
               <div className="grid grid-cols-2 gap-6">
-                <div className="p-6 bg-slate-50 rounded-3xl space-y-1 shadow-inner text-center">
-                  <p className="text-[10px] font-black uppercase text-slate-400">Total Issued</p>
-                  <p className="text-3xl font-black text-slate-900">4.2M</p>
+                <div className="p-6 bg-muted rounded-3xl space-y-1 shadow-inner text-center">
+                  <p className="text-[10px] font-black uppercase text-muted-foreground">Total Issued</p>
+                  <p className="text-3xl font-black text-foreground">4.2M</p>
                 </div>
                 <div className="p-6 bg-emerald-50 rounded-3xl space-y-1 shadow-inner text-center">
                   <p className="text-[10px] font-black uppercase text-emerald-600">Redeemed</p>
@@ -329,14 +329,14 @@ export default function SuperAdminRestaurantManagement() {
               <Button className="w-full bg-primary rounded-2xl h-14 font-black uppercase text-xs tracking-widest shadow-xl text-white">Adjust Reward Ratios</Button>
             </Card>
 
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 relative overflow-hidden flex flex-col justify-between">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 relative overflow-hidden flex flex-col justify-between">
               <Gift className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
               <div className="relative z-10 space-y-6">
                 <h3 className="text-2xl font-black font-headline">Featured Reward Partner</h3>
-                <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed">
                   Boost visibility for restaurants offering Hub Coin bonuses.
                 </p>
-                <div className="p-4 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-between">
+                <div className="p-4 bg-card/5 rounded-2xl border border-white/10 flex items-center justify-between">
                   <span className="text-xs font-bold text-white/80">Active Bonus Partners: 12</span>
                   <Badge className="bg-emerald-500 text-white border-none font-black text-[9px]">LIVE</Badge>
                 </div>
@@ -348,11 +348,11 @@ export default function SuperAdminRestaurantManagement() {
 
         {/* HALAL GOVERNANCE TAB */}
         <TabsContent value="governance" className="animate-in fade-in duration-500 m-0 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10">
             <div className="flex flex-col md:flex-row justify-between items-start gap-10">
               <div className="space-y-6 flex-1">
                 <div className="space-y-2">
-                  <h3 className="text-3xl font-black text-slate-900">Governance & Standards</h3>
+                  <h3 className="text-3xl font-black text-foreground">Governance & Standards</h3>
                   <p className="text-lg text-muted-foreground font-medium">Define compliance criteria for dining establishments.</p>
                 </div>
                 <div className="space-y-4">
@@ -362,9 +362,9 @@ export default function SuperAdminRestaurantManagement() {
                     { label: "Alcohol-Free Site Protocol", active: true },
                     { label: "Hygiene Certification Lvl 4+", active: true },
                   ].map((rule, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer">
-                      <span className="font-bold text-slate-700">{rule.label}</span>
-                      <Badge className={rule.active ? "bg-emerald-500 text-white" : "bg-slate-300"}>
+                    <div key={i} className="flex items-center justify-between p-4 bg-muted rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                      <span className="font-bold text-foreground">{rule.label}</span>
+                      <Badge className={rule.active ? "bg-emerald-500 text-white" : "bg-muted"}>
                         {rule.active ? "MANDATORY" : "OPTIONAL"}
                       </Badge>
                     </div>
@@ -376,7 +376,7 @@ export default function SuperAdminRestaurantManagement() {
                 <h4 className="text-xl font-black text-indigo-900">Audit Protocol</h4>
                 <p className="text-sm text-indigo-800/70 font-medium text-xs">Set re-verification frequency.</p>
                 <Select defaultValue="6m">
-                  <SelectTrigger className="bg-white border-indigo-100 rounded-xl font-bold h-12">
+                  <SelectTrigger className="bg-card border-indigo-100 rounded-xl font-bold h-12">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="rounded-xl border-none shadow-2xl">
@@ -394,27 +394,27 @@ export default function SuperAdminRestaurantManagement() {
         <TabsContent value="billing" className="animate-in fade-in duration-500 m-0 space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div className="lg:col-span-8 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
-                <h3 className="text-2xl font-black text-slate-900">Settlement Configuration</h3>
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
+                <h3 className="text-2xl font-black text-foreground">Settlement Configuration</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-4">
-                    <Label className="font-black text-[10px] uppercase text-slate-400 tracking-widest">Global Coin Ratio</Label>
-                    <div className="flex items-center gap-4 p-6 bg-slate-50 rounded-[2rem] border-2 border-slate-100">
+                    <Label className="font-black text-[10px] uppercase text-muted-foreground tracking-widest">Global Coin Ratio</Label>
+                    <div className="flex items-center gap-4 p-6 bg-muted rounded-[2rem] border-2 border-border">
                       <Coins className="h-8 w-8 text-primary" />
                       <div className="flex-1">
-                        <p className="text-sm font-black text-slate-900">1 Hub Coin = ₹1.00</p>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase">Redeem Value</p>
+                        <p className="text-sm font-black text-foreground">1 Hub Coin = ₹1.00</p>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">Redeem Value</p>
                       </div>
                       <Button variant="ghost" size="sm" className="font-black text-xs text-primary">Edit</Button>
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <Label className="font-black text-[10px] uppercase text-slate-400 tracking-widest">Commission</Label>
-                    <div className="flex items-center gap-4 p-6 bg-slate-50 rounded-[2rem] border-2 border-slate-100">
+                    <Label className="font-black text-[10px] uppercase text-muted-foreground tracking-widest">Commission</Label>
+                    <div className="flex items-center gap-4 p-6 bg-muted rounded-[2rem] border-2 border-border">
                       <Percent className="h-8 w-8 text-blue-600" />
                       <div className="flex-1">
-                        <p className="text-sm font-black text-slate-900">5.0% flat fee</p>
-                        <p className="text-[9px] font-bold text-slate-400 uppercase">On digital orders</p>
+                        <p className="text-sm font-black text-foreground">5.0% flat fee</p>
+                        <p className="text-[9px] font-bold text-muted-foreground uppercase">On digital orders</p>
                       </div>
                       <Button variant="ghost" size="sm" className="font-black text-xs text-primary">Edit</Button>
                     </div>
@@ -423,12 +423,12 @@ export default function SuperAdminRestaurantManagement() {
               </Card>
             </div>
             <div className="lg:col-span-4 space-y-8">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6 relative overflow-hidden">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-6 relative overflow-hidden">
                 <Wallet className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
                 <div className="relative z-10 space-y-2">
                   <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">System Reserve</p>
                   <h2 className="text-5xl font-black tracking-tighter">₹42.8M</h2>
-                  <p className="text-xs font-bold text-slate-400 uppercase">Available for partner payouts</p>
+                  <p className="text-xs font-bold text-muted-foreground uppercase">Available for partner payouts</p>
                 </div>
                 <Button className="w-full bg-primary rounded-xl h-12 font-black uppercase text-[10px] tracking-widest relative z-10 shadow-xl text-white">Financial Dashboard</Button>
               </Card>
@@ -439,12 +439,12 @@ export default function SuperAdminRestaurantManagement() {
         {/* OTHER TABS - WRAPPED FOR CONSISTENCY */}
         {["promotions", "onboarding", "categories"].map((tab) => (
           <TabsContent key={tab} value={tab} className="animate-in fade-in duration-500 m-0">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-20 text-center space-y-6">
-              <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-20 text-center space-y-6">
+              <div className="h-20 w-20 rounded-[2rem] bg-muted flex items-center justify-center text-muted-foreground mx-auto">
                 <Settings className="h-10 w-10 animate-spin-slow" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">{tab.replace(/-/g, ' ')} Module</h3>
+                <h3 className="text-2xl font-black text-foreground uppercase tracking-tight">{tab.replace(/-/g, ' ')} Module</h3>
                 <p className="text-muted-foreground font-medium max-w-sm mx-auto">
                   Advanced administrative engine for restaurant ecosystem oversight.
                 </p>
@@ -456,7 +456,7 @@ export default function SuperAdminRestaurantManagement() {
       </Tabs>
 
       <Link href="/admin/dashboard">
-        <button className="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50 group">
+        <button className="fixed bottom-8 right-8 w-14 h-14 bg-zinc-900 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50 group">
           <div className="flex flex-col items-center">
             <ExternalLink className="h-5 w-5" />
             <span className="text-[8px] font-black uppercase mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">Exit</span>

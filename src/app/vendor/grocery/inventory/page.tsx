@@ -33,7 +33,7 @@ export default function GroceryInventoryPage() {
           <div className="flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-[10px]">
             <Boxes className="h-3 w-3" /> Supply Chain Control
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Inventory & Stock</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Inventory & Stock</h1>
           <p className="text-muted-foreground font-medium">Manage your supermarket SKU levels, category performance, and stock audits.</p>
         </div>
         <div className="flex gap-3">
@@ -53,22 +53,22 @@ export default function GroceryInventoryPage() {
           { label: "Out of Stock", value: "4", icon: PackageOpen, color: "text-red-600", bg: "bg-red-50" },
           { label: "Audit Accuracy", value: "99.2%", icon: ShieldCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
         ].map((stat, i) => (
-          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4">
+          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-card flex items-center gap-4">
             <div className={`h-12 w-12 rounded-2xl ${stat.bg} flex items-center justify-center ${stat.color}`}>
               <stat.icon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">{stat.label}</p>
+              <p className="text-2xl font-black text-foreground">{stat.value}</p>
             </div>
           </Card>
         ))}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2.5rem] shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-[2.5rem] shadow-sm">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search items, categories, or IDs..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+          <Input placeholder="Search items, categories, or IDs..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer hover:bg-emerald-600 hover:text-white transition-all">All Stock</Badge>
@@ -80,7 +80,7 @@ export default function GroceryInventoryPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stockItems.map((item) => (
-          <Card key={item.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-emerald-100">
+          <Card key={item.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-emerald-100">
             <div className="relative aspect-square">
               <Image 
                 src={`https://picsum.photos/seed/grocery-sku-${item.id}/400/400`} 
@@ -89,14 +89,14 @@ export default function GroceryInventoryPage() {
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute top-4 left-4 flex gap-2">
-                <Badge className="bg-white/90 backdrop-blur-md text-emerald-600 font-black border-none shadow-lg px-3 flex items-center gap-1.5">
+                <Badge className="bg-card/90 backdrop-blur-md text-emerald-600 font-black border-none shadow-lg px-3 flex items-center gap-1.5">
                   <Scale className="h-3 w-3" /> {item.stock}
                 </Badge>
               </div>
               <div className="absolute top-4 right-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button size="icon" className="rounded-full bg-white/80 backdrop-blur-md text-slate-800 hover:bg-white border-none shadow-sm">
+                    <Button size="icon" className="rounded-full bg-card/80 backdrop-blur-md text-foreground hover:bg-card border-none shadow-sm">
                       <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -122,13 +122,13 @@ export default function GroceryInventoryPage() {
           </Card>
         ))}
         
-        <button className="rounded-[2.5rem] border-4 border-dashed border-slate-100 bg-slate-50/30 flex flex-col items-center justify-center p-8 text-center gap-4 hover:bg-white hover:border-emerald-200 transition-all cursor-pointer group min-h-[300px]">
-          <div className="h-16 w-16 bg-white rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+        <button className="rounded-[2.5rem] border-4 border-dashed border-border bg-muted/30 flex flex-col items-center justify-center p-8 text-center gap-4 hover:bg-card hover:border-emerald-200 transition-all cursor-pointer group min-h-[300px]">
+          <div className="h-16 w-16 bg-card rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
             <Plus className="h-8 w-8 text-emerald-600" />
           </div>
           <div className="space-y-1">
-            <p className="font-black text-xl text-slate-900">Add New Item</p>
-            <p className="text-sm text-slate-400 font-medium">Scan barcode or manually add SKU</p>
+            <p className="font-black text-xl text-foreground">Add New Item</p>
+            <p className="text-sm text-muted-foreground font-medium">Scan barcode or manually add SKU</p>
           </div>
         </button>
       </div>

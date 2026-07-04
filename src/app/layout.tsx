@@ -22,8 +22,18 @@ import { EducationSidebar } from "@/components/education-sidebar";
 import { MediaSidebar } from "@/components/media-sidebar";
 import { CreativeSidebar } from "@/components/creative-sidebar";
 import { FamilyTreeSidebar } from "@/components/family-tree-sidebar";
+import { MosqueSidebar } from "@/components/mosque-sidebar";
+import { OrganizationSidebar } from "@/components/organization-sidebar";
+import { ProfessionalSidebar } from "@/components/professional-sidebar";
 import { Toaster } from "@/components/ui/toaster";
-import { MessageSquare, Home, Search, Globe, User, ShieldCheck } from "lucide-react";
+import { HeaderLocation } from "@/components/header-location";
+import { HeaderSearch } from "@/components/header-search";
+import { ThemeProvider } from "@/lib/theme-context";
+import { PrayerSettingsProvider } from "@/lib/prayer-context";
+import { FavoritesProvider } from "@/lib/favorites-context";
+import { SavedBusinessesProvider } from "@/lib/saved-businesses-context";
+import { AuthProvider } from "@/context/AuthContext";
+import { MessageSquare, Home, Search, Globe, User, List, Newspaper } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -55,6 +65,9 @@ export default function RootLayout({
   const isEducationPath = pathname?.startsWith('/vendor/education');
   const isMediaPath = pathname?.startsWith('/vendor/media');
   const isCreativePath = pathname?.startsWith('/vendor/creative');
+  const isMosquePath = pathname?.startsWith('/vendor/mosque');
+  const isOrganizationPath = pathname?.startsWith('/vendor/organization');
+  const isProfessionalPath = pathname?.startsWith('/vendor/professional');
   const isFamilyTreePath = pathname?.startsWith('/family-tree');
 
   const getSidebar = () => {
@@ -75,6 +88,9 @@ export default function RootLayout({
     if (isEducationPath) return <EducationSidebar />;
     if (isMediaPath) return <MediaSidebar />;
     if (isCreativePath) return <CreativeSidebar />;
+    if (isMosquePath) return <MosqueSidebar />;
+    if (isOrganizationPath) return <OrganizationSidebar />;
+    if (isProfessionalPath) return <ProfessionalSidebar />;
     if (isFamilyTreePath) return <FamilyTreeSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
@@ -85,42 +101,36 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700;900&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased selection:bg-primary/20 overflow-x-hidden">
+      <body className="antialiased selection:bg-primary/20 overflow-x-hidden bg-background text-foreground">
+        <ThemeProvider>
+        <AuthProvider>
+        <PrayerSettingsProvider>
+        <FavoritesProvider>
+        <SavedBusinessesProvider>
         <SidebarProvider defaultOpen={false}>
-          <div className="flex min-h-screen w-full bg-[#FBFBFB]">
+          <div className="flex min-h-screen w-full bg-background">
             {getSidebar()}
             
             <div className="flex flex-1 flex-col overflow-hidden relative">
-              <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md px-4 sm:px-6 py-4 flex items-center justify-between border-b shadow-sm">
+              <header className="sticky top-0 z-20 glass px-4 sm:px-6 py-4 flex items-center justify-between border-b border-border/60 shadow-soft-sm">
                 <div className="flex items-center gap-4">
-                  <SidebarTrigger className="text-slate-600 hover:text-primary transition-colors h-10 w-10" />
+                  <SidebarTrigger className="text-muted-foreground hover:text-primary transition-colors duration-200 h-10 w-10" />
                   <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-xl shadow-primary/20 transition-transform group-hover:scale-105">
+                    <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-glow-primary transition-transform duration-200 group-hover:scale-105">
                       <MessageSquare className="h-5 w-5 fill-current" />
                     </div>
-                    <span className="text-xl font-black text-primary font-headline tracking-tight whitespace-nowrap hidden sm:block">Halal Hub</span>
+                    <span className="text-xl font-semibold text-primary font-headline tracking-tight whitespace-nowrap hidden sm:block">Halal Hub</span>
                   </Link>
                 </div>
 
-                {!isAdminPath && !isVendorPath && !isFamilyTreePath && (
-                  <div className="hidden md:flex items-center relative w-96 max-w-lg mx-4">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input 
-                      placeholder="Search for food, products, mosques..." 
-                      className="pl-9 h-11 rounded-2xl bg-muted/30 border-none font-medium text-sm focus:ring-primary/20"
-                    />
-                  </div>
-                )}
-                
+                {!isAdminPath && !isVendorPath && !isFamilyTreePath && <HeaderSearch />}
+
                 <div className="flex items-center gap-4">
-                  <div className="hidden lg:flex flex-col items-end">
-                    <span className="text-[10px] font-black uppercase text-slate-400 leading-none mb-1">Your Location</span>
-                    <span className="text-xs font-bold text-slate-700">New York, USA</span>
-                  </div>
+                  <HeaderLocation />
                   <Link href="/account/dashboard">
-                    <Avatar className="h-10 w-10 border-2 border-white shadow-md hover:shadow-lg transition-all ring-2 ring-primary/10">
+                    <Avatar className="h-10 w-10 border-2 border-card shadow-soft hover:shadow-soft-md transition-shadow duration-200 ring-2 ring-primary/10">
                       <AvatarImage src="https://picsum.photos/seed/user/100/100" />
                       <AvatarFallback>JD</AvatarFallback>
                     </Avatar>
@@ -128,7 +138,7 @@ export default function RootLayout({
                 </div>
               </header>
 
-              <main className="flex-1 overflow-y-auto relative bg-[#F8FAFB]">
+              <main className="flex-1 overflow-y-auto relative bg-background">
                 <div className="max-w-[1440px] mx-auto pb-24 md:pb-8">
                   {children}
                 </div>
@@ -136,20 +146,20 @@ export default function RootLayout({
 
               {!isAdminPath && !isVendorPath && (
                 <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]">
-                  <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-full h-16 shadow-2xl flex items-center justify-around px-2 ring-1 ring-black/5">
-                    <Link href="/" className={`p-3 rounded-full transition-all ${mounted && pathname === '/' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                  <div className="glass-strong border border-border/60 rounded-full h-16 shadow-soft-lg flex items-center justify-around px-2 ring-1 ring-black/5 dark:ring-white/10">
+                    <Link href="/" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname === '/' ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
                       <Home className="h-6 w-6" />
                     </Link>
-                    <Link href="/verifier" className={`p-3 rounded-full transition-all ${mounted && pathname === '/verifier' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
-                      <ShieldCheck className="h-6 w-6" />
+                    <Link href="/feed" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname === '/feed' ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
+                      <Newspaper className="h-6 w-6" />
                     </Link>
-                    <Link href="/restaurants" className={`p-3 rounded-full transition-all ${mounted && pathname === '/restaurants' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                    <Link href="/categories" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname?.startsWith('/categories') ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
+                      <List className="h-6 w-6" />
+                    </Link>
+                    <Link href="/community" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname === '/community' ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
                       <Globe className="h-6 w-6" />
                     </Link>
-                    <Link href="/community" className={`p-3 rounded-full transition-all ${mounted && pathname === '/community' ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
-                      <Globe className="h-6 w-6" />
-                    </Link>
-                    <Link href="/account/dashboard" className={`p-3 rounded-full transition-all ${mounted && pathname?.startsWith('/account') ? 'text-primary bg-primary/10 scale-110' : 'text-slate-400'}`}>
+                    <Link href="/account/dashboard" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname?.startsWith('/account') ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
                       <User className="h-6 w-6" />
                     </Link>
                   </div>
@@ -159,6 +169,11 @@ export default function RootLayout({
           </div>
         </SidebarProvider>
         <Toaster />
+        </SavedBusinessesProvider>
+        </FavoritesProvider>
+        </PrayerSettingsProvider>
+        </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

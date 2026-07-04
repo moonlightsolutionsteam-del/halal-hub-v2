@@ -45,7 +45,7 @@ export default function AccountWalletPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 space-y-10 relative overflow-hidden">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 space-y-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <Banknote className="h-32 w-32" />
               </div>
@@ -54,52 +54,52 @@ export default function AccountWalletPage() {
                 <h2 className="text-6xl font-black tracking-tighter">₹24,850</h2>
               </div>
               <div className="flex items-center gap-4 relative z-10 pt-4">
-                <div className="h-10 w-10 bg-white/10 rounded-xl flex items-center justify-center">
+                <div className="h-10 w-10 bg-card/10 rounded-xl flex items-center justify-center">
                   <TrendingUp className="h-5 w-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase text-slate-400">Next Auto-Payout</p>
+                  <p className="text-[10px] font-black uppercase text-muted-foreground">Next Auto-Payout</p>
                   <p className="text-sm font-bold">Nov 05, 2024</p>
                 </div>
               </div>
             </Card>
 
             <div className="grid grid-rows-2 gap-6">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
                 <div className="flex items-center gap-6">
                   <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
                     <CreditCard className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Active Bank</p>
-                    <p className="text-sm font-bold text-slate-900">HDFC •••• 8821</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Active Bank</p>
+                    <p className="text-sm font-bold text-foreground">HDFC •••• 8821</p>
                   </div>
                 </div>
-                <Settings className="h-4 w-4 text-slate-300 group-hover:text-primary transition-colors" />
+                <Settings className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
               </Card>
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
                 <div className="flex items-center gap-6">
                   <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <ShieldCheck className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Security Status</p>
-                    <p className="text-sm font-bold text-slate-900">2FA Enabled</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Security Status</p>
+                    <p className="text-sm font-bold text-foreground">2FA Enabled</p>
                   </div>
                 </div>
-                <ArrowUpRight className="h-4 w-4 text-slate-300" />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
               </Card>
             </div>
           </div>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between">
               <CardTitle className="text-xl font-black">Transaction History</CardTitle>
               <Button variant="ghost" className="font-bold text-primary">View All <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-slate-50/50">
+                <TableHeader className="bg-muted/50">
                   <TableRow className="border-none">
                     <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest">ID / Date</TableHead>
                     <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest">Description</TableHead>
@@ -109,16 +109,16 @@ export default function AccountWalletPage() {
                 </TableHeader>
                 <TableBody>
                   {transactions.map((txn) => (
-                    <TableRow key={txn.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
+                    <TableRow key={txn.id} className="border-border hover:bg-muted/50 transition-colors">
                       <TableCell className="px-8 py-5">
-                        <div className="font-black text-slate-900 text-xs">{txn.id}</div>
-                        <div className="text-[10px] font-bold text-slate-400 uppercase">{txn.date}</div>
+                        <div className="font-black text-foreground text-xs">{txn.id}</div>
+                        <div className="text-[10px] font-bold text-muted-foreground uppercase">{txn.date}</div>
                       </TableCell>
                       <TableCell>
-                        <p className="font-bold text-slate-700 text-sm">{txn.type}</p>
-                        <p className="text-[10px] font-medium text-slate-400">{txn.method}</p>
+                        <p className="font-bold text-foreground text-sm">{txn.type}</p>
+                        <p className="text-[10px] font-medium text-muted-foreground">{txn.method}</p>
                       </TableCell>
-                      <TableCell className={`font-black text-sm ${txn.amount.startsWith('+') ? 'text-emerald-600' : 'text-slate-900'}`}>
+                      <TableCell className={`font-black text-sm ${txn.amount.startsWith('+') ? 'text-emerald-600' : 'text-foreground'}`}>
                         {txn.amount}
                       </TableCell>
                       <TableCell className="text-right px-8">
@@ -137,21 +137,21 @@ export default function AccountWalletPage() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
             <h3 className="text-xl font-black">Linked Accounts</h3>
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-500">Linked Accounts</h3>
-              <Button size="icon" variant="ghost" className="rounded-xl bg-slate-50"><Plus className="h-4 w-4" /></Button>
+              <h3 className="text-sm font-bold text-muted-foreground">Linked Accounts</h3>
+              <Button size="icon" variant="ghost" className="rounded-xl bg-muted"><Plus className="h-4 w-4" /></Button>
             </div>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border-2 border-transparent hover:border-blue-100 transition-all group">
+              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-2xl border-2 border-transparent hover:border-blue-100 transition-all group">
                 <div className="flex items-center gap-4">
-                  <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                  <div className="h-10 w-10 bg-card rounded-xl flex items-center justify-center shadow-sm">
                     <Image src="https://placehold.co/100x100/png?text=Bank" alt="Bank" width={20} height={20} className="opacity-40 grayscale" />
                   </div>
                   <div>
-                    <p className="text-sm font-black text-slate-900">HDFC Bank</p>
-                    <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">•••• 8821</p>
+                    <p className="text-sm font-black text-foreground">HDFC Bank</p>
+                    <p className="text-[10px] font-bold text-muted-foreground tracking-widest uppercase">•••• 8821</p>
                   </div>
                 </div>
                 <Badge className="bg-emerald-50 text-emerald-600 border-none text-[9px] font-black">PRIMARY</Badge>
@@ -159,12 +159,12 @@ export default function AccountWalletPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
             <div className="flex items-center gap-3 text-amber-600">
               <Info className="h-5 w-5" />
               <h3 className="text-base font-black">Fee Disclosure</h3>
             </div>
-            <p className="text-xs text-slate-500 font-medium leading-relaxed">
+            <p className="text-xs text-muted-foreground font-medium leading-relaxed">
               Standard marketplace fee of 5% applies to all digital orders. Bank settlement fees vary by provider. Access your billing documents for a full breakdown.
             </p>
             <Button variant="outline" className="w-full h-12 rounded-2xl border-2 font-black text-xs uppercase tracking-widest">

@@ -33,7 +33,7 @@ export default function HotelProfilePage() {
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight text-slate-900">Hotel Profile</h1>
+          <h1 className="text-3xl font-black font-headline tracking-tight text-foreground">Hotel Profile</h1>
           <p className="text-muted-foreground font-medium">Manage your property details, room availability, and halal hospitality standards.</p>
         </div>
         <Button className="bg-sky-600 hover:bg-sky-700 rounded-2xl px-8 font-black shadow-lg shadow-sky-200 h-12 text-white">
@@ -42,7 +42,7 @@ export default function HotelProfilePage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-        <TabsList className="bg-white border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
+        <TabsList className="bg-card border rounded-2xl h-14 p-1 shadow-sm w-full md:w-auto overflow-x-auto justify-start">
           <TabsTrigger value="details" className="rounded-xl px-8 font-bold text-sm h-full data-[state=active]:bg-sky-600 data-[state=active]:text-white">Property Info</TabsTrigger>
           <TabsTrigger value="amenities" className="rounded-xl px-8 font-bold text-sm h-full">Amenities</TabsTrigger>
           <TabsTrigger value="rooms" className="rounded-xl px-8 font-bold text-sm h-full">Room Catalog</TabsTrigger>
@@ -56,16 +56,16 @@ export default function HotelProfilePage() {
                 <Building2 className="h-5 w-5 text-sky-600" /> Basic Information
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Property Name</Label>
-                  <Input placeholder="e.g., Royal Halal Suites" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Property Name</Label>
+                  <Input placeholder="e.g., Royal Halal Suites" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Star Rating</Label>
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Star Rating</Label>
                   <Select>
-                    <SelectTrigger className="h-12 rounded-2xl bg-slate-50 border-none font-bold">
+                    <SelectTrigger className="h-12 rounded-2xl bg-muted border-none font-bold">
                       <SelectValue placeholder="Select rating" />
                     </SelectTrigger>
                     <SelectContent>
@@ -77,16 +77,16 @@ export default function HotelProfilePage() {
                   </Select>
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Description</Label>
-                  <Textarea placeholder="Detail your hospitality vision, dining options, and guest services..." className="min-h-[120px] rounded-2xl bg-slate-50 border-none p-4 font-medium" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Description</Label>
+                  <Textarea placeholder="Detail your hospitality vision, dining options, and guest services..." className="min-h-[120px] rounded-2xl bg-muted border-none p-4 font-medium" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Check-in Time</Label>
-                  <Input type="time" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Check-in Time</Label>
+                  <Input type="time" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Check-out Time</Label>
-                  <Input type="time" className="h-12 rounded-2xl bg-slate-50 border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Check-out Time</Label>
+                  <Input type="time" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
               </div>
             </Card>
@@ -100,23 +100,96 @@ export default function HotelProfilePage() {
                 <Moon className="h-5 w-5 text-sky-600" /> Halal Amenities
               </h2>
             </div>
-            <Card className="rounded-[2rem] border-none shadow-sm bg-white p-8">
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {AMENITIES.map((item) => (
-                  <div key={item} className="flex items-center space-x-3 p-4 bg-slate-50 rounded-2xl hover:bg-sky-50 transition-colors">
+                  <div key={item} className="flex items-center space-x-3 p-4 bg-muted rounded-2xl hover:bg-sky-50 transition-colors">
                     <Checkbox id={`a-${item}`} />
-                    <label htmlFor={`a-${item}`} className="text-sm font-bold text-slate-700">{item}</label>
+                    <label htmlFor={`a-${item}`} className="text-sm font-bold text-foreground">{item}</label>
                   </div>
                 ))}
               </div>
             </Card>
           </section>
 
-          <Card className="rounded-[2.5rem] border-none shadow-xl bg-slate-900 text-white p-10 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-xl bg-zinc-900 text-white p-10 space-y-8">
             <h3 className="text-2xl font-black">Hospitality Charter</h3>
-            <p className="text-sm text-slate-400 font-medium">By listing here, you commit to providing a strictly compliant environment according to our "Halal Hospitality Charter."</p>
+            <p className="text-sm text-muted-foreground font-medium">By listing here, you commit to providing a strictly compliant environment according to our "Halal Hospitality Charter."</p>
             <Button className="w-full h-16 rounded-[1.5rem] bg-sky-600 hover:bg-sky-700 text-white font-black text-xl">Sign & Submit Profile</Button>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="rooms" className="animate-in fade-in duration-500 space-y-10">
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2">
+                <Bed className="h-5 w-5 text-sky-600" /> Room Catalog
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Configure your room types, rates, and availability.</p>
+            </div>
+            <div className="space-y-4">
+              {ROOM_TYPES.map((room) => (
+                <Card key={room} className="rounded-[2rem] border-none shadow-sm bg-card p-6">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <Checkbox id={`r-${room}`} />
+                      <label htmlFor={`r-${room}`} className="font-black text-sm text-foreground">{room}</label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Input placeholder="Nightly rate (USD)" className="h-10 rounded-2xl bg-muted border-none font-bold w-44 text-sm" />
+                      <Input placeholder="Max guests" className="h-10 rounded-2xl bg-muted border-none font-bold w-28 text-sm" />
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </section>
+          <section className="space-y-6">
+            <h2 className="text-xl font-black flex items-center gap-2">
+              <Coffee className="h-5 w-5 text-sky-600" /> Dining & Food Offerings
+            </h2>
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Restaurant Name (On-site)</Label>
+                  <Input placeholder="e.g., The Saffron Kitchen" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Halal Certification (Food)</Label>
+                  <Input placeholder="e.g., JAKIM, HFSAA" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                </div>
+              </div>
+            </Card>
+          </section>
+        </TabsContent>
+
+        <TabsContent value="documents" className="animate-in fade-in duration-500 space-y-10">
+          <section className="space-y-6">
+            <div className="space-y-1">
+              <h2 className="text-xl font-black flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5 text-sky-600" /> Trust Certificates
+              </h2>
+              <p className="text-sm text-muted-foreground font-medium">Upload your hotel license, halal hospitality certification, and safety compliance docs.</p>
+            </div>
+            {[
+              { label: "Hotel Operating License", hint: "Ministry of tourism registration" },
+              { label: "Halal Hospitality Certificate", hint: "Issued by recognized halal authority" },
+              { label: "Fire & Safety Compliance", hint: "Latest inspection certificate" },
+              { label: "Food Safety Certificate", hint: "For on-site dining facilities" },
+            ].map((doc) => (
+              <Card key={doc.label} className="rounded-[2rem] border-none shadow-sm bg-card p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-0.5">
+                    <p className="font-black text-sm text-foreground">{doc.label}</p>
+                    <p className="text-xs text-muted-foreground font-medium">{doc.hint}</p>
+                  </div>
+                  <Button variant="outline" className="rounded-2xl h-10 px-6 border-2 font-bold text-xs shrink-0">
+                    Upload
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </section>
         </TabsContent>
       </Tabs>
     </div>

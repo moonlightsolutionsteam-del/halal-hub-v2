@@ -29,7 +29,7 @@ export default function ButcherWalletPage() {
           <div className="flex items-center gap-2 text-red-600 font-black uppercase tracking-widest text-[10px]">
             <Wallet className="h-3 w-3" /> Financial Management
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Wallet & Settlements</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Wallet & Settlements</h1>
           <p className="text-muted-foreground font-medium">Monitor your earnings from meat sales, manage withdrawals, and view transaction history.</p>
         </div>
         <div className="flex gap-3">
@@ -45,7 +45,7 @@ export default function ButcherWalletPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 space-y-10 relative overflow-hidden">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 space-y-10 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10">
                 <Banknote className="h-32 w-32 text-red-600" />
               </div>
@@ -54,37 +54,37 @@ export default function ButcherWalletPage() {
                 <h2 className="text-6xl font-black tracking-tighter">₹48,250</h2>
               </div>
               <div className="flex items-center gap-4 relative z-10 pt-4">
-                <div className="h-10 w-10 bg-white/10 rounded-xl flex items-center justify-center">
+                <div className="h-10 w-10 bg-card/10 rounded-xl flex items-center justify-center">
                   <TrendingUp className="h-5 w-5 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase text-slate-400">Growth this week</p>
+                  <p className="text-[10px] font-black uppercase text-muted-foreground">Growth this week</p>
                   <p className="text-sm font-bold">+₹15,400</p>
                 </div>
               </div>
             </Card>
 
             <div className="grid grid-rows-2 gap-6">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
                 <div className="flex items-center gap-6">
                   <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
                     <CreditCard className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Linked Account</p>
-                    <p className="text-sm font-bold text-slate-900">ICICI •••• 1124</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Linked Account</p>
+                    <p className="text-sm font-bold text-foreground">ICICI •••• 1124</p>
                   </div>
                 </div>
-                <ArrowUpRight className="h-4 w-4 text-slate-300" />
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
               </Card>
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
                 <div className="flex items-center gap-6">
                   <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <ShieldCheck className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Verification</p>
-                    <p className="text-sm font-bold text-slate-900">Audit Passed</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Verification</p>
+                    <p className="text-sm font-bold text-foreground">Audit Passed</p>
                   </div>
                 </div>
                 <CheckCircle2 className="h-4 w-4 text-emerald-500" />
@@ -92,13 +92,13 @@ export default function ButcherWalletPage() {
             </div>
           </div>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
             <CardHeader className="p-8 border-b">
               <CardTitle className="text-xl font-black">Butcher Shop Ledger</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
-                <TableHeader className="bg-slate-50/50">
+                <TableHeader className="bg-muted/50">
                   <TableRow className="border-none">
                     <TableHead className="px-8 h-14 font-black text-[10px] uppercase tracking-widest">ID / Date</TableHead>
                     <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest">Type</TableHead>
@@ -108,12 +108,12 @@ export default function ButcherWalletPage() {
                 </TableHeader>
                 <TableBody>
                   {transactions.map((txn) => (
-                    <TableRow key={txn.id} className="border-slate-100 hover:bg-slate-50/50 transition-colors">
-                      <TableCell className="px-8 py-5 text-xs font-black text-slate-900">
-                        {txn.id}<br /><span className="text-slate-400 font-bold uppercase">{txn.date}</span>
+                    <TableRow key={txn.id} className="border-border hover:bg-muted/50 transition-colors">
+                      <TableCell className="px-8 py-5 text-xs font-black text-foreground">
+                        {txn.id}<br /><span className="text-muted-foreground font-bold uppercase">{txn.date}</span>
                       </TableCell>
-                      <TableCell className="text-sm font-bold text-slate-700">{txn.type}</TableCell>
-                      <TableCell className={`font-black text-sm ${txn.amount.startsWith('+') ? 'text-emerald-600' : 'text-slate-900'}`}>
+                      <TableCell className="text-sm font-bold text-foreground">{txn.type}</TableCell>
+                      <TableCell className={`font-black text-sm ${txn.amount.startsWith('+') ? 'text-emerald-600' : 'text-foreground'}`}>
                         {txn.amount}
                       </TableCell>
                       <TableCell className="text-right px-8">
@@ -130,30 +130,30 @@ export default function ButcherWalletPage() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-black uppercase text-slate-400 tracking-widest">Bank Details</h3>
-              <Button size="icon" variant="ghost" className="rounded-xl bg-slate-50"><Plus className="h-4 w-4" /></Button>
+              <h3 className="text-sm font-black uppercase text-muted-foreground tracking-widest">Bank Details</h3>
+              <Button size="icon" variant="ghost" className="rounded-xl bg-muted"><Plus className="h-4 w-4" /></Button>
             </div>
-            <div className="p-4 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-red-100 transition-all cursor-pointer group">
+            <div className="p-4 bg-muted rounded-2xl border-2 border-transparent hover:border-red-100 transition-all cursor-pointer group">
               <div className="flex items-center gap-4">
-                <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                <div className="h-10 w-10 bg-card rounded-xl flex items-center justify-center shadow-sm">
                   <Image src="https://placehold.co/100x100/png?text=Bank" alt="Bank" width={20} height={20} className="opacity-40 grayscale" />
                 </div>
                 <div>
-                  <p className="text-sm font-black text-slate-900">ICICI Bank</p>
-                  <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">•••• 1124</p>
+                  <p className="text-sm font-black text-foreground">ICICI Bank</p>
+                  <p className="text-[10px] font-bold text-muted-foreground tracking-widest uppercase">•••• 1124</p>
                 </div>
               </div>
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
             <div className="flex items-center gap-3 text-amber-600">
               <Info className="h-5 w-5" />
               <h3 className="text-base font-black">Payout Schedule</h3>
             </div>
-            <p className="text-xs text-slate-500 font-medium leading-relaxed">
+            <p className="text-xs text-muted-foreground font-medium leading-relaxed">
               Standard payouts occur every Tuesday. Express payouts are available for "Elite" verified butchers with a trust score over 95%.
             </p>
             <Button variant="outline" className="w-full h-12 rounded-2xl border-2 font-black text-xs uppercase tracking-widest text-red-600 border-red-100 hover:bg-red-50">

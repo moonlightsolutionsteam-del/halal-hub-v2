@@ -13,6 +13,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 
 export default function UserSettingsPage() {
   return (
@@ -114,7 +115,7 @@ export default function UserSettingsPage() {
                 <h3 className="text-xl font-black">Two-Factor Authentication</h3>
                 <div className="flex items-center justify-between p-4 bg-primary/5 rounded-2xl border-2 border-primary/10">
                   <div className="space-y-1">
-                    <p className="font-bold text-slate-900">SMS Verification</p>
+                    <p className="font-bold text-foreground">SMS Verification</p>
                     <p className="text-xs text-muted-foreground">Receive a code via phone for every login.</p>
                   </div>
                   <Switch />

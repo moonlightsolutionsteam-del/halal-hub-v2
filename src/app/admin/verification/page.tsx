@@ -60,7 +60,7 @@ export default function AdminVerificationCenter() {
                           <Building2 className="h-5 w-5" />
                         </div>
                         <div>
-                          <p className="font-black text-slate-900">{item.business}</p>
+                          <p className="font-black text-foreground">{item.business}</p>
                           <p className="text-[10px] font-bold text-muted-foreground uppercase">{item.country}</p>
                         </div>
                       </div>
@@ -71,7 +71,7 @@ export default function AdminVerificationCenter() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
                         <Calendar className="h-3 w-3" /> {item.date}
                       </div>
                     </TableCell>

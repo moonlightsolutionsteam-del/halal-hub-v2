@@ -27,7 +27,7 @@ export default function CosmeticsDocumentsPage() {
           <div className="flex items-center gap-2 text-rose-600 font-black uppercase tracking-widest text-[10px]">
             <ShieldCheck className="h-3 w-3" /> Compliance Vault
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Lab Certs & Compliance</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Lab Certs & Compliance</h1>
           <p className="text-muted-foreground font-medium">Manage your brand's medical licenses, lab-verified formulation reports, and purity logs.</p>
         </div>
         <Button className="bg-rose-600 hover:bg-rose-700 rounded-full px-8 font-black shadow-lg shadow-rose-200 h-12 text-white">
@@ -47,18 +47,18 @@ export default function CosmeticsDocumentsPage() {
         <div className="lg:col-span-8 space-y-6">
           <div className="grid grid-cols-1 gap-4">
             {documents.map((doc) => (
-              <Card key={doc.id} className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden border-2 border-transparent hover:border-rose-100 transition-all group">
+              <Card key={doc.id} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-rose-100 transition-all group">
                 <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div className="flex items-center gap-6">
-                    <div className="h-14 w-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-rose-600 group-hover:bg-rose-50 transition-colors shadow-inner">
+                    <div className="h-14 w-14 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground group-hover:text-rose-600 group-hover:bg-rose-50 transition-colors shadow-inner">
                       <FileText className="h-7 w-7" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="text-lg font-black text-slate-900 leading-tight">{doc.name}</p>
-                        <Badge variant="outline" className="text-[9px] font-black uppercase border-slate-200 text-slate-400">{doc.type}</Badge>
+                        <p className="text-lg font-black text-foreground leading-tight">{doc.name}</p>
+                        <Badge variant="outline" className="text-[9px] font-black uppercase border-border text-muted-foreground">{doc.type}</Badge>
                       </div>
-                      <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      <div className="flex items-center gap-3 text-xs font-bold text-muted-foreground uppercase tracking-widest">
                         <span>Issuer: {doc.issuer}</span>
                         <span>•</span>
                         <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Exp: {doc.expiry}</span>
@@ -73,8 +73,8 @@ export default function CosmeticsDocumentsPage() {
                       {doc.status}
                     </Badge>
                     <div className="flex gap-1">
-                      <Button size="icon" variant="ghost" className="rounded-xl"><Download className="h-4 w-4 text-slate-400" /></Button>
-                      <Button size="icon" variant="ghost" className="rounded-xl hover:text-rose-600"><Trash2 className="h-4 w-4 text-slate-400" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-xl"><Download className="h-4 w-4 text-muted-foreground" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-xl hover:text-rose-600"><Trash2 className="h-4 w-4 text-muted-foreground" /></Button>
                     </div>
                   </div>
                 </div>
@@ -84,18 +84,18 @@ export default function CosmeticsDocumentsPage() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-5">
               <Award className="h-24 w-24" />
             </div>
             <div className="relative z-10 space-y-6">
               <div className="space-y-2">
                 <h3 className="text-2xl font-black font-headline">Verification Grade</h3>
-                <p className="text-sm text-slate-400 font-medium">Your current brand integrity score is elite.</p>
+                <p className="text-sm text-muted-foreground font-medium">Your current brand integrity score is elite.</p>
               </div>
               <div className="text-6xl font-black text-emerald-400 tracking-tighter">A+</div>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 bg-white/5 p-4 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-3 bg-card/5 p-4 rounded-2xl border border-white/10">
                   <CheckCircle2 className="h-5 w-5 text-emerald-400" />
                   <span className="text-xs font-bold text-white/80">Breathability Badge Active</span>
                 </div>

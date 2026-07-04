@@ -61,7 +61,7 @@ export default function VendorCertificationHub() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <ShieldCheck className="h-3 w-3" /> Compliance OS
           </div>
-          <h1 className="text-4xl font-black font-headline text-slate-900">Certification Marketplace</h1>
+          <h1 className="text-4xl font-black font-headline text-foreground">Certification Marketplace</h1>
           <p className="text-muted-foreground font-medium text-lg">Apply, manage, and track all your business certifications in one place.</p>
         </div>
         <div className="flex gap-3">
@@ -74,12 +74,12 @@ export default function VendorCertificationHub() {
       {/* Active Applications Section */}
       <section className="space-y-6">
         <div className="flex items-center justify-between px-2">
-          <h2 className="text-xl font-black text-slate-900">Active Applications</h2>
+          <h2 className="text-xl font-black text-foreground">Active Applications</h2>
           <Badge variant="secondary" className="rounded-full px-3 py-1 font-black text-[10px] uppercase">{activeApplications.length} In Progress</Badge>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {activeApplications.map((app) => (
-            <Card key={app.id} className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden group hover:shadow-md transition-all">
+            <Card key={app.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-md transition-all">
               <div className="p-8 space-y-6">
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-4">
@@ -87,8 +87,8 @@ export default function VendorCertificationHub() {
                       <Clock className="h-6 w-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-black text-slate-900">{app.name}</h3>
-                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Partner: {app.partner}</p>
+                      <h3 className="text-xl font-black text-foreground">{app.name}</h3>
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Partner: {app.partner}</p>
                     </div>
                   </div>
                   <Badge variant="outline" className={`${app.color} border-current font-black text-[10px] uppercase px-3 h-7 flex items-center`}>
@@ -97,13 +97,13 @@ export default function VendorCertificationHub() {
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center text-xs font-bold">
-                    <span className="text-slate-400 uppercase tracking-tighter">Application Progress</span>
-                    <span className="text-slate-900">{app.progress}%</span>
+                    <span className="text-muted-foreground uppercase tracking-tighter">Application Progress</span>
+                    <span className="text-foreground">{app.progress}%</span>
                   </div>
-                  <Progress value={app.progress} className="h-2 bg-slate-50" />
+                  <Progress value={app.progress} className="h-2 bg-muted" />
                 </div>
-                <div className="pt-4 flex items-center justify-between border-t border-slate-50">
-                  <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Est. Completion: {app.date}</p>
+                <div className="pt-4 flex items-center justify-between border-t border-border">
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Est. Completion: {app.date}</p>
                   <Button variant="ghost" size="sm" className="font-black text-[10px] uppercase text-primary p-0 h-auto hover:bg-transparent">
                     View Details <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
@@ -117,27 +117,27 @@ export default function VendorCertificationHub() {
       {/* Marketplace Section */}
       <section className="space-y-6">
         <div className="flex items-center justify-between px-2">
-          <h2 className="text-xl font-black text-slate-900">Available Certifications</h2>
+          <h2 className="text-xl font-black text-foreground">Available Certifications</h2>
           <Button variant="ghost" className="text-primary font-black text-xs uppercase tracking-widest">View Phase 2 <Plus className="ml-1 h-3 w-3" /></Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {availableCerts.map((cert) => (
-            <Card key={cert.id} className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/10">
+            <Card key={cert.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/10">
               <div className="p-8 flex-1 space-y-6">
                 <div className="flex justify-between items-start">
                   <div className={`h-16 w-16 rounded-[1.5rem] ${cert.bg} ${cert.color} flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner`}>
                     <cert.icon className="h-8 w-8" />
                   </div>
-                  <Badge className="bg-slate-900 text-white border-none font-black text-[9px] uppercase tracking-widest px-3 py-1">{cert.tag}</Badge>
+                  <Badge className="bg-zinc-900 text-white border-none font-black text-[9px] uppercase tracking-widest px-3 py-1">{cert.tag}</Badge>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-black text-slate-900 leading-tight">{cert.title}</h3>
-                  <p className="text-sm font-medium text-slate-500 leading-relaxed italic">{cert.desc}</p>
+                  <h3 className="text-2xl font-black text-foreground leading-tight">{cert.title}</h3>
+                  <p className="text-sm font-medium text-muted-foreground leading-relaxed italic">{cert.desc}</p>
                 </div>
                 <div className="pt-4 flex items-center justify-between">
                   <span className="text-xl font-black text-primary">{cert.price}</span>
                   <Link href={`/vendor/verification/apply?type=${cert.id}`}>
-                    <Button size="sm" className="rounded-xl font-black text-[10px] uppercase tracking-widest bg-slate-900 text-white shadow-lg h-10 px-6">Apply Now</Button>
+                    <Button size="sm" className="rounded-xl font-black text-[10px] uppercase tracking-widest bg-zinc-900 text-white shadow-lg h-10 px-6">Apply Now</Button>
                   </Link>
                 </div>
               </div>
@@ -147,7 +147,7 @@ export default function VendorCertificationHub() {
       </section>
 
       {/* Bundle Upsell Card */}
-      <Card className="rounded-[3rem] border-none shadow-xl bg-slate-900 text-white overflow-hidden relative">
+      <Card className="rounded-[3rem] border-none shadow-xl bg-zinc-900 text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 p-12 opacity-5">
           <ShieldCheck className="h-64 w-64" />
         </div>
@@ -156,7 +156,7 @@ export default function VendorCertificationHub() {
             <Badge className="bg-primary text-white border-none font-black text-xs uppercase tracking-[0.2em] px-6 py-2 rounded-full">Best Value</Badge>
             <div className="space-y-2">
               <h2 className="text-5xl font-black font-headline tracking-tight">Compliance Starter Pack</h2>
-              <p className="text-slate-400 font-medium text-xl leading-relaxed max-w-2xl">
+              <p className="text-muted-foreground font-medium text-xl leading-relaxed max-w-2xl">
                 Get your business fully verified and trusted in one go. Includes FSSAI registration, Halal Hub Audit, and a professional Hygiene Rating.
               </p>
             </div>
@@ -169,21 +169,21 @@ export default function VendorCertificationHub() {
             </div>
             <Button className="bg-primary hover:bg-primary/90 text-white rounded-2xl h-16 px-12 font-black uppercase text-sm tracking-widest shadow-2xl shadow-primary/20">Get The Pack</Button>
           </div>
-          <div className="w-full lg:w-80 shrink-0 bg-white/5 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/10 text-center space-y-6 shadow-2xl">
+          <div className="w-full lg:w-80 shrink-0 bg-card/5 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white/10 text-center space-y-6 shadow-2xl">
             <div className="h-20 w-20 bg-primary/20 rounded-[2rem] flex items-center justify-center mx-auto shadow-inner">
               <Zap className="h-10 w-10 text-primary" />
             </div>
             <div className="space-y-1">
-              <p className="text-xs font-black uppercase text-slate-500 tracking-widest">Average ROI</p>
+              <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">Average ROI</p>
               <p className="text-4xl font-black text-white">+40%</p>
-              <p className="text-[10px] font-bold text-slate-400">Increased listing engagement</p>
+              <p className="text-[10px] font-bold text-muted-foreground">Increased listing engagement</p>
             </div>
           </div>
         </div>
       </Card>
 
-      <div className="p-8 text-center bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200">
-        <p className="text-xs font-bold text-slate-400 max-w-2xl mx-auto leading-relaxed italic uppercase tracking-tighter">
+      <div className="p-8 text-center bg-muted rounded-[2rem] border-2 border-dashed border-border">
+        <p className="text-xs font-bold text-muted-foreground max-w-2xl mx-auto leading-relaxed italic uppercase tracking-tighter">
           * Halal Hub facilitates certification through third-party partners. The responsibility of certification lies with the issuing authority. We ensure you are matched with the most trusted professionals in the ecosystem.
         </p>
       </div>

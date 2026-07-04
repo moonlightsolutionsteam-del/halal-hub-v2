@@ -34,7 +34,7 @@ export default function TravelPackagesPage() {
           <div className="flex items-center gap-2 text-amber-600 font-black uppercase tracking-widest text-[10px]">
             <Compass className="h-3 w-3" /> Itinerary Manager
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Tour Packages</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Tour Packages</h1>
           <p className="text-muted-foreground font-medium">Create and manage your halal-certified travel itineraries and seasonal pilgrim packages.</p>
         </div>
         <div className="flex gap-3">
@@ -47,22 +47,22 @@ export default function TravelPackagesPage() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2.5rem] shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-[2.5rem] shadow-sm">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search tours, destinations..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+          <Input placeholder="Search tours, destinations..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer bg-amber-50 text-amber-600 border-none">All Tours</Badge>
-          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-slate-200">Umrah</Badge>
-          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-slate-200">Cultural</Badge>
+          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-border">Umrah</Badge>
+          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-border">Cultural</Badge>
           <Button variant="ghost" size="icon" className="rounded-full"><Filter className="h-4 w-4" /></Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
         {packages.map((pkg) => (
-          <Card key={pkg.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-amber-100">
+          <Card key={pkg.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-amber-100">
             <div className="p-8 flex flex-col sm:flex-row gap-8">
               <div className="relative h-40 w-full sm:w-40 rounded-[2rem] overflow-hidden shrink-0 shadow-lg">
                 <Image src={`https://picsum.photos/seed/travel-pkg-${pkg.id}/400/400`} alt={pkg.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -75,7 +75,7 @@ export default function TravelPackagesPage() {
                     </Badge>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button size="icon" variant="ghost" className="rounded-full h-8 w-8"><MoreVertical className="h-4 w-4 text-slate-300" /></Button>
+                        <Button size="icon" variant="ghost" className="rounded-full h-8 w-8"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="rounded-2xl p-2 border-none shadow-xl">
                         <DropdownMenuItem className="rounded-xl font-bold gap-2"><Edit2 className="h-4 w-4" /> Edit Itinerary</DropdownMenuItem>
@@ -84,18 +84,18 @@ export default function TravelPackagesPage() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-tight">{pkg.name}</h3>
-                  <div className="flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <h3 className="text-2xl font-black text-foreground tracking-tight leading-tight">{pkg.name}</h3>
+                  <div className="flex items-center gap-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                     <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {pkg.destination}</span>
                     <span>•</span>
                     <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {pkg.duration}</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between border-t border-slate-50 pt-4">
+                <div className="flex items-center justify-between border-t border-border pt-4">
                   <span className="text-xl font-black text-amber-600">{pkg.price}</span>
                   <div className="flex items-center gap-2">
                     <div className={`h-2 w-2 rounded-full ${pkg.status === 'Active' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-                    <span className="text-[10px] font-black text-slate-400 uppercase">{pkg.status}</span>
+                    <span className="text-[10px] font-black text-muted-foreground uppercase">{pkg.status}</span>
                   </div>
                 </div>
               </div>
@@ -103,13 +103,13 @@ export default function TravelPackagesPage() {
           </Card>
         ))}
         
-        <button className="rounded-[3rem] border-4 border-dashed border-slate-100 bg-slate-50/30 flex flex-col items-center justify-center p-12 text-center gap-4 hover:bg-white hover:border-amber-200 transition-all cursor-pointer group">
-          <div className="h-16 w-16 bg-white rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+        <button className="rounded-[3rem] border-4 border-dashed border-border bg-muted/30 flex flex-col items-center justify-center p-12 text-center gap-4 hover:bg-card hover:border-amber-200 transition-all cursor-pointer group">
+          <div className="h-16 w-16 bg-card rounded-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
             <Plus className="h-8 w-8 text-amber-600" />
           </div>
           <div className="space-y-1">
-            <p className="font-black text-xl text-slate-900">Add New Tour</p>
-            <p className="text-sm text-slate-400 font-medium px-4">Create a new destination-based experience</p>
+            <p className="font-black text-xl text-foreground">Add New Tour</p>
+            <p className="text-sm text-muted-foreground font-medium px-4">Create a new destination-based experience</p>
           </div>
         </button>
       </div>

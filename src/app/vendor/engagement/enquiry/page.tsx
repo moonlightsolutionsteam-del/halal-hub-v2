@@ -40,7 +40,7 @@ export default function EngagementEnquiryPage() {
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search messages..." className="pl-9 h-12 rounded-2xl bg-white border-none shadow-sm" />
+          <Input placeholder="Search messages..." className="pl-9 h-12 rounded-2xl bg-card border-none shadow-sm" />
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-all">All</Badge>
@@ -52,21 +52,21 @@ export default function EngagementEnquiryPage() {
 
       <div className="grid grid-cols-1 gap-6">
         {enquiries.map((enq) => (
-          <Card key={enq.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/10">
+          <Card key={enq.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/10">
             <div className="p-8 flex flex-col md:flex-row gap-10">
               <div className="md:w-48 shrink-0 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-slate-50 rounded-2xl flex items-center justify-center text-primary font-black text-xs shadow-sm">
+                  <div className="h-10 w-10 bg-muted rounded-2xl flex items-center justify-center text-primary font-black text-xs shadow-sm">
                     {enq.user.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div>
-                    <p className="text-sm font-black text-slate-900">{enq.user}</p>
+                    <p className="text-sm font-black text-foreground">{enq.user}</p>
                     <p className="text-[10px] font-bold text-muted-foreground uppercase">{enq.time}</p>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Badge className={
-                    enq.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none' : 'bg-slate-50 text-slate-600 border-none'
+                    enq.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none' : 'bg-muted text-muted-foreground border-none'
                   }>
                     {enq.priority} Priority
                   </Badge>
@@ -78,10 +78,10 @@ export default function EngagementEnquiryPage() {
               
               <div className="flex-1 space-y-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-black text-slate-900 tracking-tight">{enq.subject}</h3>
-                  <Button variant="ghost" size="icon" className="rounded-full"><MoreVertical className="h-5 w-5 text-slate-300" /></Button>
+                  <h3 className="text-xl font-black text-foreground tracking-tight">{enq.subject}</h3>
+                  <Button variant="ghost" size="icon" className="rounded-full"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed italic text-base">
+                <p className="text-muted-foreground font-medium leading-relaxed italic text-base">
                   "{enq.body}"
                 </p>
                 <div className="pt-6 flex gap-3">
@@ -98,22 +98,22 @@ export default function EngagementEnquiryPage() {
         ))}
       </div>
 
-      <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-10 relative overflow-hidden">
+      <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Info className="h-32 w-32" />
         </div>
         <div className="relative z-10 space-y-6">
           <h3 className="text-2xl font-black font-headline">Concierge Intelligence</h3>
-          <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-2xl">
+          <p className="text-sm text-muted-foreground font-medium leading-relaxed max-w-2xl">
             Our AI analysis tags and prioritizes incoming enquiries based on urgency and topic (e.g., Booking vs. Certification). Use the "Priority" badges to manage your workflow during peak hours.
           </p>
           <div className="flex items-center gap-6">
             <div className="flex -space-x-3">
               {[1, 2, 3].map(i => (
-                <div key={i} className="h-10 w-10 bg-slate-800 rounded-full border-2 border-slate-900 flex items-center justify-center text-[10px] font-black">U{i}</div>
+                <div key={i} className="h-10 w-10 bg-zinc-900 rounded-full border-2 border-border flex items-center justify-center text-[10px] font-black">U{i}</div>
               ))}
             </div>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">+12 other enquiries pending</p>
+            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">+12 other enquiries pending</p>
           </div>
         </div>
       </Card>

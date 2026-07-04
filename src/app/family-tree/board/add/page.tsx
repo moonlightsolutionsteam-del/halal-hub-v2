@@ -39,12 +39,12 @@ export default function AddBoardItemPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-2xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-2xl pb-24 text-foreground">
       <div className="flex items-center gap-6">
         <Button 
           variant="ghost" 
           size="icon" 
-          className="rounded-2xl bg-white shadow-sm border h-12 w-12" 
+          className="rounded-2xl bg-card shadow-sm border h-12 w-12" 
           onClick={() => router.back()}
         >
           <ArrowLeft className="h-5 w-5" />
@@ -57,22 +57,22 @@ export default function AddBoardItemPage() {
 
       <div className="grid grid-cols-1 gap-10">
         <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <Card className="rounded-[3rem] border-none shadow-xl bg-white p-10 space-y-8">
+          <Card className="rounded-[3rem] border-none shadow-xl bg-card p-10 space-y-8">
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Note Title</Label>
-              <Input placeholder="e.g., Buy ingredients for Biryani" className="h-14 rounded-2xl bg-slate-50 border-none font-black text-xl" />
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Note Title</Label>
+              <Input placeholder="e.g., Buy ingredients for Biryani" className="h-14 rounded-2xl bg-muted border-none font-black text-xl" />
             </div>
 
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Details (Optional)</Label>
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Details (Optional)</Label>
               <Textarea 
                 placeholder="Add more context here..." 
-                className="min-h-[100px] rounded-2xl bg-slate-50 border-none p-4 font-medium resize-none" 
+                className="min-h-[100px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" 
               />
             </div>
 
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-400">Assign to Member</Label>
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Assign to Member</Label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {FAMILY_MEMBERS.map((member) => (
                   <button
@@ -82,7 +82,7 @@ export default function AddBoardItemPage() {
                       "flex flex-col items-center justify-center p-4 rounded-3xl transition-all border-4",
                       selectedAssignee === member.id 
                         ? 'bg-emerald-50 border-emerald-500 text-emerald-700' 
-                        : 'bg-slate-50 border-transparent text-slate-400 hover:bg-slate-100'
+                        : 'bg-muted border-transparent text-muted-foreground hover:bg-muted'
                     )}
                   >
                     <Avatar className="h-10 w-10 mb-2 border-2 border-white shadow-sm">
@@ -97,7 +97,7 @@ export default function AddBoardItemPage() {
 
             <div className="flex items-center justify-between p-6 bg-amber-50 rounded-2xl border-2 border-amber-100 cursor-pointer transition-all hover:bg-amber-100" onClick={() => setIsPriority(!isPriority)}>
               <div className="flex items-center gap-4">
-                <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-sm transition-colors", isPriority ? "bg-amber-500 text-white" : "bg-white text-slate-300")}>
+                <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-sm transition-colors", isPriority ? "bg-amber-500 text-white" : "bg-card text-muted-foreground")}>
                   <Pin className="h-6 w-6" />
                 </div>
                 <div>
@@ -105,7 +105,7 @@ export default function AddBoardItemPage() {
                   <p className="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Pin to top of family board</p>
                 </div>
               </div>
-              <Badge variant={isPriority ? "default" : "outline"} className={cn("rounded-full h-6 px-3 border-amber-200", isPriority ? "bg-amber-500 text-white" : "text-slate-400")}>
+              <Badge variant={isPriority ? "default" : "outline"} className={cn("rounded-full h-6 px-3 border-amber-200", isPriority ? "bg-amber-500 text-white" : "text-muted-foreground")}>
                 {isPriority ? "ON" : "OFF"}
               </Badge>
             </div>
@@ -120,7 +120,7 @@ export default function AddBoardItemPage() {
           >
             {loading ? <Loader2 className="h-8 w-8 animate-spin" /> : "Post to Family Board"}
           </Button>
-          <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">
+          <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] text-center">
             <Zap className="h-3 w-3 text-blue-500" /> Notifications will be sent to all members
           </div>
         </div>

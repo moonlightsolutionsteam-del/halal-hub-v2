@@ -33,17 +33,17 @@ export default function QRMenuGeneratorPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-7 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 flex flex-col items-center text-center space-y-8">
-            <div className="relative p-8 bg-slate-50 rounded-[3rem] border-4 border-white shadow-inner">
-              <div className="w-64 h-64 bg-white rounded-3xl flex items-center justify-center p-4 shadow-xl">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 flex flex-col items-center text-center space-y-8">
+            <div className="relative p-8 bg-muted rounded-[3rem] border-4 border-white shadow-inner">
+              <div className="w-64 h-64 bg-card rounded-3xl flex items-center justify-center p-4 shadow-xl">
                 <div className="w-full h-full relative">
-                  <div className="absolute inset-0 bg-slate-900 grid grid-cols-10 grid-rows-10 gap-1 p-2 opacity-10">
+                  <div className="absolute inset-0 bg-zinc-900 grid grid-cols-10 grid-rows-10 gap-1 p-2 opacity-10">
                     {Array.from({ length: 100 }).map((_, i) => (
-                      <div key={i} className="bg-slate-900 rounded-sm" style={{ opacity: Math.random() > 0.5 ? 1 : 0 }} />
+                      <div key={i} className="bg-zinc-900 rounded-sm" style={{ opacity: Math.random() > 0.5 ? 1 : 0 }} />
                     ))}
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center border-2 border-primary/20">
+                    <div className="w-12 h-12 bg-card rounded-xl shadow-lg flex items-center justify-center border-2 border-primary/20">
                       <QrCode className="h-6 w-6 text-primary" />
                     </div>
                   </div>
@@ -53,14 +53,14 @@ export default function QRMenuGeneratorPage() {
             </div>
             
             <div className="space-y-2">
-              <h3 className="text-2xl font-black text-slate-900">Your Contactless Menu</h3>
+              <h3 className="text-2xl font-black text-foreground">Your Contactless Menu</h3>
               <p className="text-sm text-muted-foreground font-medium max-w-sm">
                 Customers can scan this code to view your full verified halal menu and place orders from their table.
               </p>
             </div>
 
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest bg-slate-900 text-white">
+              <Button size="lg" className="rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest bg-zinc-900 text-white">
                 <Download className="mr-2 h-4 w-4" /> Download QR
               </Button>
               <Button size="lg" variant="outline" className="rounded-2xl h-14 px-8 font-black uppercase text-xs tracking-widest border-2">
@@ -69,23 +69,23 @@ export default function QRMenuGeneratorPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
             <CardHeader className="px-0 pt-0 flex flex-row items-center justify-between">
               <CardTitle className="text-xl font-black">Visual Customization</CardTitle>
               <Button variant="ghost" className="font-bold text-primary">Reset to Default</Button>
             </CardHeader>
             <CardContent className="px-0 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Brand Palette</p>
+                <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">Brand Palette</p>
                 <div className="flex gap-3">
                   {['#10B981', '#F59E0B', '#3B82F6', '#EF4444', '#000000'].map(color => (
                     <button key={color} className="h-10 w-10 rounded-xl shadow-sm border-2 border-white hover:scale-110 transition-transform" style={{ backgroundColor: color }} />
                   ))}
-                  <button className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400"><Plus className="h-4 w-4" /></button>
+                  <button className="h-10 w-10 rounded-xl bg-muted flex items-center justify-center text-muted-foreground"><Plus className="h-4 w-4" /></button>
                 </div>
               </div>
               <div className="space-y-4">
-                <p className="text-xs font-black uppercase text-slate-400 tracking-widest">QR Style</p>
+                <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">QR Style</p>
                 <div className="grid grid-cols-2 gap-3">
                   <Button variant="outline" className="h-12 rounded-xl font-bold border-primary/20 bg-primary/5 text-primary">Rounded</Button>
                   <Button variant="outline" className="h-12 rounded-xl font-bold">Standard</Button>
@@ -96,46 +96,46 @@ export default function QRMenuGeneratorPage() {
         </div>
 
         <div className="lg:col-span-5 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 relative overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 relative overflow-hidden">
             <Smartphone className="absolute -top-4 -right-4 h-24 w-24 opacity-10" />
             <div className="relative z-10 space-y-6">
               <h3 className="text-xl font-black">Menu Preview</h3>
-              <div className="aspect-[9/16] bg-white rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800">
+              <div className="aspect-[9/16] bg-card rounded-3xl overflow-hidden shadow-2xl border-4 border-border">
                 <div className="bg-primary p-4 space-y-4">
                   <div className="flex justify-between items-center">
-                    <div className="h-2 w-8 bg-white/30 rounded-full" />
-                    <div className="h-2 w-2 bg-white/30 rounded-full" />
+                    <div className="h-2 w-8 bg-card/30 rounded-full" />
+                    <div className="h-2 w-2 bg-card/30 rounded-full" />
                   </div>
-                  <div className="h-4 w-24 bg-white/50 rounded-full" />
+                  <div className="h-4 w-24 bg-card/50 rounded-full" />
                 </div>
-                <div className="p-4 space-y-4 text-slate-900">
+                <div className="p-4 space-y-4 text-foreground">
                   {[1, 2, 3].map(i => (
                     <div key={i} className="flex gap-3 items-center">
-                      <div className="h-10 w-10 bg-slate-100 rounded-lg" />
+                      <div className="h-10 w-10 bg-muted rounded-lg" />
                       <div className="space-y-1.5 flex-1">
-                        <div className="h-2 w-20 bg-slate-200 rounded-full" />
-                        <div className="h-1.5 w-full bg-slate-100 rounded-full" />
+                        <div className="h-2 w-20 bg-muted rounded-full" />
+                        <div className="h-1.5 w-full bg-muted rounded-full" />
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-              <Button className="w-full h-14 rounded-2xl bg-white text-slate-900 font-black text-xs uppercase tracking-widest hover:bg-slate-100">
+              <Button className="w-full h-14 rounded-2xl bg-card text-foreground font-black text-xs uppercase tracking-widest hover:bg-muted">
                 <Eye className="mr-2 h-4 w-4" /> Full Mobile Preview
               </Button>
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
             <h3 className="text-xl font-black">Scan Statistics</h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-slate-50 rounded-2xl">
-                <p className="text-2xl font-black text-slate-900">1,240</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Total Scans</p>
+              <div className="p-4 bg-muted rounded-2xl">
+                <p className="text-2xl font-black text-foreground">1,240</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">Total Scans</p>
               </div>
-              <div className="p-4 bg-slate-50 rounded-2xl">
+              <div className="p-4 bg-muted rounded-2xl">
                 <p className="text-2xl font-black text-primary">85%</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Conversion</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">Conversion</p>
               </div>
             </div>
             <Button variant="outline" className="w-full rounded-2xl h-12 border-2 font-black text-xs uppercase tracking-widest">

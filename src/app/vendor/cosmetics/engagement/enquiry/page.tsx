@@ -26,7 +26,7 @@ export default function CosmeticsEnquiryPage() {
           <div className="flex items-center gap-2 text-rose-600 font-black uppercase tracking-widest text-[10px]">
             <MessageSquare className="h-3 w-3" /> Brand Concierge
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Direct Enquiries</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Direct Enquiries</h1>
           <p className="text-muted-foreground font-medium">Respond to wholesale requests, ingredient queries, and influencer collaboration interests.</p>
         </div>
         <div className="flex gap-3">
@@ -39,22 +39,22 @@ export default function CosmeticsEnquiryPage() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2.5rem] shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-[2.5rem] shadow-sm">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search messages..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+          <Input placeholder="Search messages..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="px-4 py-2 rounded-full cursor-pointer bg-rose-50 text-rose-600 border-none">All</Badge>
-          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-slate-200">High Priority</Badge>
-          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-slate-200">Unread</Badge>
+          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-border">High Priority</Badge>
+          <Badge variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted border-border">Unread</Badge>
           <Button variant="ghost" size="icon" className="rounded-full"><Filter className="h-4 w-4" /></Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
         {enquiries.map((enq) => (
-          <Card key={enq.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-rose-100">
+          <Card key={enq.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-rose-100">
             <div className="p-8 flex flex-col md:flex-row gap-10">
               <div className="md:w-48 shrink-0 space-y-4">
                 <div className="flex items-center gap-3">
@@ -62,13 +62,13 @@ export default function CosmeticsEnquiryPage() {
                     {enq.user.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div>
-                    <p className="text-sm font-black text-slate-900">{enq.user}</p>
+                    <p className="text-sm font-black text-foreground">{enq.user}</p>
                     <p className="text-[10px] font-bold text-muted-foreground uppercase">{enq.time}</p>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Badge className={
-                    enq.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none px-2 h-6 flex items-center text-[9px] font-black uppercase' : 'bg-slate-50 text-slate-600 border-none px-2 h-6 flex items-center text-[9px] font-black uppercase'
+                    enq.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none px-2 h-6 flex items-center text-[9px] font-black uppercase' : 'bg-muted text-muted-foreground border-none px-2 h-6 flex items-center text-[9px] font-black uppercase'
                   }>
                     {enq.priority} Priority
                   </Badge>
@@ -80,10 +80,10 @@ export default function CosmeticsEnquiryPage() {
               
               <div className="flex-1 space-y-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-black text-slate-900 tracking-tight">{enq.subject}</h3>
-                  <Button variant="ghost" size="icon" className="rounded-full"><MoreVertical className="h-5 w-5 text-slate-300" /></Button>
+                  <h3 className="text-xl font-black text-foreground tracking-tight">{enq.subject}</h3>
+                  <Button variant="ghost" size="icon" className="rounded-full"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed italic text-base">
+                <p className="text-muted-foreground font-medium leading-relaxed italic text-base">
                   "{enq.body}"
                 </p>
                 <div className="pt-6 flex gap-3">

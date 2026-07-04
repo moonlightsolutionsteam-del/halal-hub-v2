@@ -41,36 +41,36 @@ export default function DeliveryManagementPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
-            <div className="relative h-[400px] w-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+            <div className="relative h-[400px] w-full bg-muted flex items-center justify-center text-muted-foreground font-bold overflow-hidden">
               <Image src="https://placehold.co/1200x800/png?text=Interactive+Delivery+Map" alt="Map" fill className="object-cover opacity-50 grayscale" />
               <div className="absolute inset-0 bg-primary/5 backdrop-blur-[1px]" />
               <div className="relative z-10 flex flex-col items-center gap-4">
-                <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center shadow-2xl border-4 border-primary">
+                <div className="h-16 w-16 bg-card rounded-full flex items-center justify-center shadow-2xl border-4 border-primary">
                   <Navigation className="h-8 w-8 text-primary animate-pulse" />
                 </div>
-                <Badge className="bg-slate-900 text-white font-black px-6 py-2 rounded-full text-xs uppercase tracking-widest border-4 border-white shadow-2xl">
+                <Badge className="bg-zinc-900 text-white font-black px-6 py-2 rounded-full text-xs uppercase tracking-widest border-4 border-white shadow-2xl">
                   3 ACTIVE RIDERS ON TRACK
                 </Badge>
               </div>
             </div>
             <CardContent className="p-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
               <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Avg. Time</p>
-                <p className="text-2xl font-black text-slate-900">24 mins</p>
+                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Avg. Time</p>
+                <p className="text-2xl font-black text-foreground">24 mins</p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Rider Efficiency</p>
+                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Rider Efficiency</p>
                 <p className="text-2xl font-black text-primary">98%</p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Zone Health</p>
+                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Zone Health</p>
                 <p className="text-2xl font-black text-emerald-500">Peak Ops</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
             <CardHeader className="p-8 border-b">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <CardTitle className="text-xl font-black">Active Dispatch Queue</CardTitle>
@@ -83,32 +83,32 @@ export default function DeliveryManagementPage() {
             <CardContent className="p-0">
               <div className="divide-y divide-slate-100">
                 {activeDeliveries.map((delivery) => (
-                  <div key={delivery.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-50/50 transition-colors group">
+                  <div key={delivery.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-muted/50 transition-colors group">
                     <div className="flex items-center gap-6">
                       <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform shadow-inner">
                         <Bike className="h-7 w-7" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-sm font-black text-slate-900">{delivery.id}</span>
+                          <span className="text-sm font-black text-foreground">{delivery.id}</span>
                           <Badge variant="outline" className="text-[9px] font-black uppercase px-2 h-5 flex items-center border-blue-200 text-blue-600">{delivery.status}</Badge>
                         </div>
-                        <p className="font-bold text-slate-700 text-sm">{delivery.customer}</p>
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                        <p className="font-bold text-foreground text-sm">{delivery.customer}</p>
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
                           <MapPin className="h-3 w-3" /> {delivery.address}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center justify-between md:justify-end gap-10">
                       <div className="text-right">
-                        <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Rider</p>
-                        <p className="text-sm font-bold text-slate-900">{delivery.rider}</p>
+                        <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Rider</p>
+                        <p className="text-sm font-bold text-foreground">{delivery.rider}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Arrival</p>
+                        <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Arrival</p>
                         <p className="text-sm font-black text-primary">{delivery.time}</p>
                       </div>
-                      <Button size="icon" variant="ghost" className="rounded-xl hover:bg-white hover:shadow-md"><ArrowUpRight className="h-5 w-5 text-slate-400" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-xl hover:bg-card hover:shadow-md"><ArrowUpRight className="h-5 w-5 text-muted-foreground" /></Button>
                     </div>
                   </div>
                 ))}
@@ -118,7 +118,7 @@ export default function DeliveryManagementPage() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
             <CardHeader className="px-0 pt-0">
               <CardTitle className="text-xl font-black">Rider Management</CardTitle>
             </CardHeader>
@@ -128,20 +128,20 @@ export default function DeliveryManagementPage() {
                 { name: "Sami Khan", status: "Waiting", rating: 4.8, active: true },
                 { name: "Ibrahim Sheikh", status: "Off-duty", rating: 4.7, active: false },
               ].map((rider, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-3xl bg-slate-50/50 border border-transparent hover:border-primary/10 transition-all group">
+                <div key={i} className="flex items-center justify-between p-4 rounded-3xl bg-muted/50 border border-transparent hover:border-primary/10 transition-all group">
                   <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center text-primary font-black text-xs shadow-sm">
+                    <div className="h-10 w-10 bg-card rounded-full flex items-center justify-center text-primary font-black text-xs shadow-sm">
                       {rider.name.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div>
-                      <p className="text-sm font-black text-slate-900">{rider.name}</p>
+                      <p className="text-sm font-black text-foreground">{rider.name}</p>
                       <div className="flex items-center gap-2">
-                        <div className={`h-1.5 w-1.5 rounded-full ${rider.active ? 'bg-emerald-500' : 'bg-slate-300'}`} />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{rider.status}</span>
+                        <div className={`h-1.5 w-1.5 rounded-full ${rider.active ? 'bg-emerald-500' : 'bg-muted'}`} />
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">{rider.status}</span>
                       </div>
                     </div>
                   </div>
-                  <Button size="icon" variant="ghost" className="rounded-xl"><Phone className="h-4 w-4 text-slate-400" /></Button>
+                  <Button size="icon" variant="ghost" className="rounded-xl"><Phone className="h-4 w-4 text-muted-foreground" /></Button>
                 </div>
               ))}
               <Button variant="outline" className="w-full h-12 rounded-2xl border-2 font-black text-xs uppercase tracking-widest">
@@ -150,13 +150,13 @@ export default function DeliveryManagementPage() {
             </CardContent>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-6 overflow-hidden relative">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-6 overflow-hidden relative">
             <div className="absolute top-0 right-0 p-4 opacity-5">
               <CheckCircle2 className="h-24 w-24" />
             </div>
             <div className="relative z-10 space-y-4">
               <h3 className="text-xl font-black">Route Optimization</h3>
-              <p className="text-sm text-slate-400 font-medium leading-relaxed">
+              <p className="text-sm text-muted-foreground font-medium leading-relaxed">
                 Our AI-powered route planner saves an average of 15% on delivery fuel costs and reduces wait times.
               </p>
               <Button className="w-full bg-primary hover:bg-primary/90 text-white rounded-2xl h-12 font-black text-xs uppercase tracking-widest shadow-xl">

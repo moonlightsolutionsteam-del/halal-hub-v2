@@ -26,7 +26,7 @@ export default function VenueLeadsPage() {
           <div className="flex items-center gap-2 text-purple-600 font-black uppercase tracking-widest text-[10px]">
             <Target className="h-3 w-3" /> Event Pipeline
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Venue Leads</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Venue Leads</h1>
           <p className="text-muted-foreground font-medium">Manage incoming inquiries for event spaces, halls, and professional hosting services.</p>
         </div>
         <div className="flex gap-3">
@@ -41,21 +41,21 @@ export default function VenueLeadsPage() {
 
       <div className="grid grid-cols-1 gap-6">
         {leads.map((lead) => (
-          <Card key={lead.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-purple-100">
+          <Card key={lead.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-purple-100">
             <div className="p-8 flex flex-col md:flex-row gap-10">
               <div className="md:w-48 shrink-0 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-slate-50 rounded-2xl flex items-center justify-center text-purple-600 font-black text-xs shadow-sm">
+                  <div className="h-10 w-10 bg-muted rounded-2xl flex items-center justify-center text-purple-600 font-black text-xs shadow-sm">
                     {lead.user.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div>
-                    <p className="text-sm font-black text-slate-900">{lead.user}</p>
+                    <p className="text-sm font-black text-foreground">{lead.user}</p>
                     <p className="text-[10px] font-bold text-muted-foreground uppercase">{lead.time}</p>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Badge className={
-                    lead.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none px-2 h-6 flex items-center text-[9px] font-black uppercase' : 'bg-slate-50 text-slate-600 border-none px-2 h-6 flex items-center text-[9px] font-black uppercase'
+                    lead.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none px-2 h-6 flex items-center text-[9px] font-black uppercase' : 'bg-muted text-muted-foreground border-none px-2 h-6 flex items-center text-[9px] font-black uppercase'
                   }>
                     {lead.priority} Priority
                   </Badge>
@@ -67,10 +67,10 @@ export default function VenueLeadsPage() {
               
               <div className="flex-1 space-y-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-black text-slate-900 tracking-tight">{lead.subject}</h3>
-                  <Button variant="ghost" size="icon" className="rounded-full"><MoreVertical className="h-5 w-5 text-slate-300" /></Button>
+                  <h3 className="text-xl font-black text-foreground tracking-tight">{lead.subject}</h3>
+                  <Button variant="ghost" size="icon" className="rounded-full"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
                 </div>
-                <p className="text-slate-600 font-medium leading-relaxed italic text-base">
+                <p className="text-muted-foreground font-medium leading-relaxed italic text-base">
                   "{lead.body}"
                 </p>
                 <div className="pt-6 flex gap-3">

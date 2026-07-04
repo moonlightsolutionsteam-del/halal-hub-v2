@@ -24,7 +24,7 @@ const TOP_FANS = [
 
 export default function CreativeAudiencePage() {
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-6xl pb-24 text-foreground">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
           <Link href="/vendor/creative/dashboard" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
@@ -35,13 +35,13 @@ export default function CreativeAudiencePage() {
               <Users className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline tracking-tight text-slate-900">Subscriber Base</h1>
+              <h1 className="text-4xl font-black font-headline tracking-tight text-foreground">Subscriber Base</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Understand your community and engage with your top supporters.</p>
             </div>
           </div>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-14 bg-white shadow-sm gap-2">
+          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-14 bg-card shadow-sm gap-2">
             <Mail className="h-4 w-4 text-primary" /> Community Message
           </Button>
           <Button className="bg-primary hover:bg-primary/90 text-white rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-14 text-white">
@@ -57,11 +57,11 @@ export default function CreativeAudiencePage() {
           { label: "Global Presence", value: "42", trend: "Countries", sub: "Top: UK, UAE", icon: Globe, color: "text-purple-600", bg: "bg-purple-50" },
           { label: "Loyalty Score", value: "A+", trend: "Elite", sub: "Network Trust", icon: Star, color: "text-amber-600", bg: "bg-amber-50" },
         ].map((stat, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-white group hover:shadow-xl transition-all duration-500">
+          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-card group hover:shadow-xl transition-all duration-500">
             <div className="flex justify-between items-start mb-6">
               <div className="space-y-1">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">{stat.label}</span>
-                <div className="text-4xl font-black text-slate-900 tracking-tighter">{stat.value}</div>
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">{stat.label}</span>
+                <div className="text-4xl font-black text-foreground tracking-tighter">{stat.value}</div>
               </div>
               <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
                 <stat.icon className="h-6 w-6" />
@@ -69,7 +69,7 @@ export default function CreativeAudiencePage() {
             </div>
             <div className="space-y-0.5">
               <p className={cn("text-xs font-black uppercase", stat.color)}>{stat.trend}</p>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{stat.sub}</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">{stat.sub}</p>
             </div>
           </Card>
         ))}
@@ -78,16 +78,16 @@ export default function CreativeAudiencePage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div className="lg:col-span-8 space-y-10">
           {/* Demographic Map Card */}
-          <Card className="rounded-[3rem] border-none shadow-sm bg-white overflow-hidden h-[450px] relative">
-            <CardHeader className="p-10 border-b bg-slate-50/30 flex flex-row items-center justify-between relative z-10">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden h-[450px] relative">
+            <CardHeader className="p-10 border-b bg-muted/30 flex flex-row items-center justify-between relative z-10">
               <div className="space-y-1">
                 <CardTitle className="text-2xl font-black">Audience Demographics</CardTitle>
                 <CardDescription className="italic font-medium">Where your community is growing the fastest.</CardDescription>
               </div>
-              <Button variant="outline" size="sm" className="rounded-xl font-black text-xs h-9 bg-white">Full Map</Button>
+              <Button variant="outline" size="sm" className="rounded-xl font-black text-xs h-9 bg-card">Full Map</Button>
             </CardHeader>
             <div className="absolute inset-0 flex items-center justify-center pt-24">
-              <Globe className="h-64 w-64 text-slate-50 animate-spin-slow" />
+              <Globe className="h-64 w-64 text-card animate-spin-slow" />
               <div className="absolute inset-0 bg-gradient-to-b from-white/0 to-white/40" />
               <div className="relative z-10 grid grid-cols-2 gap-12">
                 {[
@@ -97,9 +97,9 @@ export default function CreativeAudiencePage() {
                   { region: "N. America", count: "18k", perc: 45, color: "bg-amber-500" },
                 ].map((reg, i) => (
                   <div key={i} className="space-y-2 text-center w-32">
-                    <p className="text-sm font-black text-slate-900">{reg.region}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase">{reg.count} Members</p>
-                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <p className="text-sm font-black text-foreground">{reg.region}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase">{reg.count} Members</p>
+                    <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                       <div className={cn("h-full rounded-full transition-all duration-1000", reg.color)} style={{ width: `${reg.perc}%` }} />
                     </div>
                   </div>
@@ -111,44 +111,44 @@ export default function CreativeAudiencePage() {
 
         {/* Top Fans Sidebar */}
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
             <div className="flex items-center justify-between">
-              <h3 className="text-2xl font-black text-slate-900 tracking-tight">Top Supporters</h3>
+              <h3 className="text-2xl font-black text-foreground tracking-tight">Top Supporters</h3>
               <Zap className="h-5 w-5 text-amber-500 fill-current" />
             </div>
             <div className="space-y-6">
               {TOP_FANS.map((fan) => (
                 <div key={fan.id} className="flex items-center justify-between group cursor-pointer">
                   <div className="flex items-center gap-4">
-                    <Avatar className="h-12 w-12 border-2 border-slate-50 shadow-md group-hover:scale-105 transition-transform">
+                    <Avatar className="h-12 w-12 border-2 border-border shadow-md group-hover:scale-105 transition-transform">
                       <AvatarImage src={`https://picsum.photos/seed/fan-${fan.img}/100/100`} />
                       <AvatarFallback>{fan.name[0]}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="text-sm font-black text-slate-900">{fan.name}</p>
-                      <Badge variant="secondary" className="bg-slate-50 text-slate-400 border-none font-black text-[8px] uppercase tracking-widest px-2 h-5 flex items-center">{fan.status}</Badge>
+                      <p className="text-sm font-black text-foreground">{fan.name}</p>
+                      <Badge variant="secondary" className="bg-muted text-muted-foreground border-none font-black text-[8px] uppercase tracking-widest px-2 h-5 flex items-center">{fan.status}</Badge>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-black text-primary">{fan.engagement}%</p>
-                    <p className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">Engaged</p>
+                    <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">Engaged</p>
                   </div>
                 </div>
               ))}
             </div>
-            <Button variant="ghost" className="w-full font-black text-xs uppercase tracking-widest text-slate-400 hover:text-primary h-12 rounded-xl border-2 border-dashed border-slate-100">View Full Fan-base</Button>
+            <Button variant="ghost" className="w-full font-black text-xs uppercase tracking-widest text-muted-foreground hover:text-primary h-12 rounded-xl border-2 border-dashed border-border">View Full Fan-base</Button>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none bg-slate-900 text-white p-10 space-y-6 relative overflow-hidden shadow-2xl">
+          <Card className="rounded-[2.5rem] border-none bg-zinc-900 text-white p-10 space-y-6 relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 p-4 opacity-5">
               <Share2 className="h-24 w-24 text-primary" />
             </div>
             <div className="relative z-10 space-y-4">
-              <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-primary shadow-xl border border-white/10">
+              <div className="h-12 w-12 rounded-2xl bg-card/10 flex items-center justify-center text-primary shadow-xl border border-white/10">
                 <UserPlus className="h-6 w-6" />
               </div>
               <h3 className="text-2xl font-black tracking-tight leading-tight">Subscriber Blast</h3>
-              <p className="text-sm text-slate-400 font-medium leading-relaxed italic">
+              <p className="text-sm text-muted-foreground font-medium leading-relaxed italic">
                 Send a personalized newsletter or "Notice Board" update to your entire 125k community.
               </p>
             </div>

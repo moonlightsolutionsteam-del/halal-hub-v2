@@ -17,13 +17,15 @@ import {
   Compass, Shirt, Beaker,
   Scale, Stethoscope, GraduationCap,
   BookOpen, Library, Box, TrendingUp, HeartPulse,
-  Mic, Video, Newspaper
+  Mic, Video, Newspaper, School
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useState } from "react";
+import { useSavedBusinesses } from "@/lib/saved-businesses-context";
+import { useToast } from "@/hooks/use-toast";
 
 export default function EntityProfilePage() {
   const { id } = useParams();
@@ -54,23 +56,23 @@ export default function EntityProfilePage() {
     if (isFinance) return 'bg-indigo-600';
     if (isHealthcare) return 'bg-teal-600';
     if (isEducation) return 'bg-violet-600';
-    if (isMedia) return 'bg-slate-600';
+    if (isMedia) return 'bg-muted-foreground';
     return 'bg-primary';
   };
 
   const getAccentLight = () => {
-    if (isCosmetics) return 'bg-rose-50 text-rose-600';
-    if (isFashion) return 'bg-pink-50 text-pink-600';
-    if (isTravel) return 'bg-amber-50 text-amber-600';
-    if (isHotel) return 'bg-sky-50 text-sky-600';
-    if (isEvents) return 'bg-purple-50 text-purple-600';
-    if (isCatering) return 'bg-blue-50 text-blue-600';
-    if (isGrocery) return 'bg-emerald-50 text-emerald-600';
-    if (isButcher) return 'bg-red-50 text-red-600';
-    if (isFinance) return 'bg-indigo-50 text-indigo-600';
-    if (isHealthcare) return 'bg-teal-50 text-teal-600';
-    if (isEducation) return 'bg-violet-50 text-violet-600';
-    if (isMedia) return 'bg-slate-50 text-slate-600';
+    if (isCosmetics) return 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400';
+    if (isFashion) return 'bg-pink-50 text-pink-600 dark:bg-pink-950/40 dark:text-pink-400';
+    if (isTravel) return 'bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400';
+    if (isHotel) return 'bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-400';
+    if (isEvents) return 'bg-purple-50 text-purple-600 dark:bg-purple-950/40 dark:text-purple-400';
+    if (isCatering) return 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400';
+    if (isGrocery) return 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400';
+    if (isButcher) return 'bg-red-50 text-red-600 dark:bg-red-950/40 dark:text-red-400';
+    if (isFinance) return 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400';
+    if (isHealthcare) return 'bg-teal-50 text-teal-600 dark:bg-teal-950/40 dark:text-teal-400';
+    if (isEducation) return 'bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400';
+    if (isMedia) return 'bg-muted text-muted-foreground';
     return 'bg-primary/5 text-primary';
   };
 
@@ -281,18 +283,41 @@ export default function EntityProfilePage() {
   };
 
   const entityData = getEntityData();
+  const { isSaved, toggleSaved } = useSavedBusinesses();
+  const { toast } = useToast();
+  const entityId = String(id);
+  const savedHere = isSaved(entityId);
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(entityData.name + " " + entityData.location)}`;
+
+  const handleShare = async () => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: entityData.name, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast({ title: "Link copied", description: "Listing link copied to clipboard." });
+      }
+    } catch {}
+  };
+
+  const handleSave = () => {
+    toggleSaved({ id: entityId, name: entityData.name, category: entityData.category, location: entityData.location });
+    toast({ title: savedHere ? "Removed from Saved" : "Saved", description: savedHere ? `${entityData.name} removed from your saved places.` : `${entityData.name} added to your saved places.` });
+  };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FBFBFB] pb-24 selection:bg-primary/10">
-      <div className="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b">
+    <div className="flex flex-col min-h-screen bg-background pb-24 selection:bg-primary/10">
+      <div className="bg-card/80 backdrop-blur-md sticky top-0 z-40 border-b">
         <div className="container mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
-          <Link href={getBackLink()} className="flex items-center gap-2 text-sm font-black text-slate-600 hover:text-primary transition-all group">
+          <Link href={getBackLink()} className="flex items-center gap-2 text-sm font-black text-muted-foreground hover:text-primary transition-all group">
             <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" /> 
             Back to {getBackLabel()}
           </Link>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-slate-50"><Share2 className="h-5 w-5" /></Button>
-            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-rose-50 text-rose-500"><Heart className="h-5 w-5" /></Button>
+            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-muted" onClick={handleShare} aria-label="Share listing"><Share2 className="h-5 w-5" /></Button>
+            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-rose-50 dark:hover:bg-rose-950/40 text-rose-500" onClick={handleSave} aria-label="Save listing"><Heart className={savedHere ? "h-5 w-5 fill-rose-500" : "h-5 w-5"} /></Button>
+            <Link href={`/entities/${id}/report`}><Button variant="ghost" size="icon" className="rounded-2xl hover:bg-muted" aria-label="Report listing"><ShieldAlert className="h-5 w-5" /></Button></Link>
             <Button className={`${getAccentColor()} rounded-2xl font-black text-xs uppercase px-6 hidden sm:flex text-white`}>
               {getActionButtonLabel()}
             </Button>
@@ -314,13 +339,13 @@ export default function EntityProfilePage() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
                 <Badge className={`${getAccentColor()} text-white border-none font-black px-5 py-1.5 rounded-full text-xs shadow-2xl uppercase tracking-[0.2em]`}>{entityData.category}</Badge>
-                <Badge variant="outline" className="bg-white/10 backdrop-blur-md text-emerald-400 border-emerald-500/30 font-black px-5 py-1.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2">
+                <Badge variant="outline" className="bg-card/10 backdrop-blur-md text-emerald-400 border-emerald-500/30 font-black px-5 py-1.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2">
                   <div className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse" /> Fully Verified
                 </Badge>
               </div>
               <h1 className="text-6xl md:text-7xl font-black text-white font-headline tracking-tighter drop-shadow-2xl">{entityData.name}</h1>
               <div className="flex flex-wrap items-center gap-8 text-white font-bold">
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/20 shadow-2xl">
+                <div className="flex items-center gap-3 bg-card/10 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/20 shadow-2xl">
                   <Star className="h-6 w-6 fill-amber-400 text-amber-400" />
                   <span className="text-3xl tracking-tight">{entityData.rating}</span>
                   <span className="text-xs uppercase font-black opacity-60 tracking-widest">({entityData.reviews} Reviews)</span>
@@ -334,23 +359,23 @@ export default function EntityProfilePage() {
               </div>
             </div>
             
-            <Card className="p-8 rounded-[3rem] bg-white border-none shadow-2xl w-full md:w-96 mb-[-4rem] z-10 relative">
+            <Card className="p-8 rounded-[3rem] bg-card border-none shadow-soft-lg ring-1 ring-white/40 dark:ring-white/5 w-full md:w-96 mb-[-4rem] z-10 relative before:absolute before:inset-0 before:-z-10 before:rounded-[3rem] before:bg-primary/20 before:blur-3xl before:opacity-40 before:scale-95">
               <div className="space-y-6">
                 <div className="space-y-1">
-                  <h3 className="text-xl font-black text-slate-900">{getWidgetTitle()}</h3>
+                  <h3 className="text-xl font-black text-foreground">{getWidgetTitle()}</h3>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Powered by Halal Hub</p>
                 </div>
                 
                 {(isFinance || isHealthcare || isEducation || isMedia) ? (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                    <div className="flex items-center justify-between p-4 bg-muted rounded-2xl">
                       <div className="flex items-center gap-2">
-                        {isEducation ? <School className="h-4 w-4 text-violet-600" /> : (isFinance ? <TrendingUp className="h-4 w-4 text-indigo-600" /> : (isMedia ? <BookOpen className="h-4 w-4 text-slate-600" /> : <Clock className="h-4 w-4 text-teal-600" />))}
+                        {isEducation ? <School className="h-4 w-4 text-violet-600" /> : (isFinance ? <TrendingUp className="h-4 w-4 text-indigo-600" /> : (isMedia ? <BookOpen className="h-4 w-4 text-muted-foreground" /> : <Clock className="h-4 w-4 text-teal-600" />))}
                         <span className="text-sm font-bold">
                           {isEducation ? "Enrolling Now" : (isFinance ? "Yield: 8.4% - 12%" : (isMedia ? "Stock Available" : "Wait Time: < 15m"))}
                         </span>
                       </div>
-                      <Badge className={`${isEducation ? "bg-violet-50 text-violet-600" : (isFinance ? "bg-indigo-50 text-indigo-600" : (isMedia ? "bg-slate-50 text-slate-600" : "bg-teal-50 text-teal-600"))} border-none text-[10px]`}>
+                      <Badge className={`${isEducation ? "bg-violet-50 text-violet-600" : (isFinance ? "bg-indigo-50 text-indigo-600" : (isMedia ? "bg-muted text-muted-foreground" : "bg-teal-50 text-teal-600"))} border-none text-[10px]`}>
                         {isEducation ? "Vetted Ed" : (isFinance ? "99.8% Comp." : (isMedia ? "Verified Content" : "Verified Hub"))}
                       </Badge>
                     </div>
@@ -359,11 +384,13 @@ export default function EntityProfilePage() {
                     </Button>
                   </div>
                 ) : (
-                  <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>
-                    {getActionButtonLabel()}
-                  </Button>
+                  <Link href={`/entities/${id}/reserve`} className="block">
+                    <Button className={`w-full h-16 rounded-[1.5rem] ${getAccentColor()} hover:opacity-90 font-black text-lg shadow-xl text-white`}>
+                      {getActionButtonLabel()}
+                    </Button>
+                  </Link>
                 )}
-                <p className="text-[10px] text-center font-bold text-slate-400 uppercase tracking-tighter">Verified Halal Ecosystem Partner</p>
+                <p className="text-[10px] text-center font-bold text-muted-foreground uppercase tracking-tighter">Verified Halal Ecosystem Partner</p>
               </div>
             </Card>
           </div>
@@ -374,11 +401,12 @@ export default function EntityProfilePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-8 space-y-16">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 rounded-[2.5rem] bg-white border shadow-sm h-20 p-2">
+              <TabsList className="grid w-full grid-cols-4 rounded-[2.5rem] bg-card border shadow-sm h-20 p-2">
                 <TabsTrigger value="overview" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Overview</TabsTrigger>
                 <TabsTrigger value="items" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>
                   {isEducation ? "Curriculum" : (isFinance ? "Products" : (isHealthcare ? "Medical Services" : (isCosmetics ? "Catalog" : (isMedia ? "Library" : "Specialties"))))}
                 </TabsTrigger>
+                <TabsTrigger value="gallery" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Gallery</TabsTrigger>
                 <TabsTrigger value="reviews" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Reviews</TabsTrigger>
               </TabsList>
 
@@ -386,30 +414,30 @@ export default function EntityProfilePage() {
                 <div className="space-y-8">
                   <div className="flex items-center gap-3">
                     <div className={`h-1 w-8 rounded-full ${getAccentColor()}`} />
-                    <h2 className="text-4xl font-black tracking-tight text-slate-900">
+                    <h2 className="text-4xl font-black tracking-tight text-foreground">
                       {isEducation ? "The Academy Vision" : (isFinance ? "The Amanah Story" : (isHealthcare ? "Our Care Philosophy" : (isMedia ? "Our Mission" : "About Us")))}
                     </h2>
                   </div>
-                  <p className="text-xl text-slate-600 leading-relaxed font-medium">
+                  <p className="text-xl text-muted-foreground leading-relaxed font-medium">
                     {entityData.description}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <div className="flex items-center gap-6 p-8 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all">
+                    <div className="flex items-center gap-6 p-8 bg-card rounded-[2.5rem] shadow-sm border border-border group hover:shadow-xl transition-all">
                       <div className={`h-16 w-16 ${getAccentLight()} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
                         <ShieldCheck className="h-8 w-8" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Audited By</p>
-                        <p className="text-xl font-black text-slate-900">{entityData.verifiedBy}</p>
+                        <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Audited By</p>
+                        <p className="text-xl font-black text-foreground">{entityData.verifiedBy}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-6 p-8 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 group hover:shadow-xl transition-all">
+                    <div className="flex items-center gap-6 p-8 bg-card rounded-[2.5rem] shadow-sm border border-border group hover:shadow-xl transition-all">
                       <div className={`h-16 w-16 ${getAccentLight()} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
                         <Calendar className="h-8 w-8" />
                       </div>
                       <div>
-                        <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Hub Partner Since</p>
-                        <p className="text-xl font-black text-slate-900">{entityData.joined}</p>
+                        <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Hub Partner Since</p>
+                        <p className="text-xl font-black text-foreground">{entityData.joined}</p>
                       </div>
                     </div>
                   </div>
@@ -417,22 +445,22 @@ export default function EntityProfilePage() {
 
                 <div className="space-y-8">
                   <div className="flex items-center gap-3">
-                    <div className="h-1 bg-emerald-500 w-8 rounded-full" />
-                    <h3 className="text-3xl font-black tracking-tight text-slate-900">Compliance & Ethics</h3>
+                    <div className="h-1 bg-primary w-8 rounded-full" />
+                    <h3 className="text-3xl font-black tracking-tight text-foreground">Compliance & Ethics</h3>
                   </div>
-                  <Card className="rounded-[3rem] border-none bg-emerald-50/50 p-10 overflow-hidden group hover:bg-emerald-50 transition-all border-2 border-emerald-100/50">
+                  <Card className="rounded-[3rem] border-none bg-primary/5 p-10 overflow-hidden group hover:bg-primary/[0.08] transition-all duration-250 border-2 border-primary/10 shadow-soft-md">
                     <CardContent className="p-0 flex flex-col md:flex-row items-start gap-10">
-                      <div className="h-24 w-24 bg-emerald-500 rounded-[2.5rem] flex items-center justify-center text-white shrink-0 shadow-2xl shadow-emerald-200 group-hover:scale-110 transition-transform">
+                      <div className="h-24 w-24 bg-primary rounded-[2.5rem] flex items-center justify-center text-primary-foreground shrink-0 shadow-glow-primary group-hover:scale-110 transition-transform duration-250">
                         {isFinance ? <Scale className="h-14 w-14" /> : <CheckCircle2 className="h-14 w-14" />}
                       </div>
                       <div className="space-y-4">
-                        <h4 className="text-2xl font-black text-emerald-900">{getComplianceTitle()}</h4>
-                        <p className="text-emerald-800/80 font-medium text-lg leading-relaxed">
+                        <h4 className="text-2xl font-black text-foreground">{getComplianceTitle()}</h4>
+                        <p className="text-foreground/70 font-medium text-lg leading-relaxed">
                           {getComplianceText()}
                         </p>
                         <div className="pt-4 flex flex-wrap gap-4">
-                          <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-2xl font-black text-xs uppercase px-8 h-12 text-white">View Certificates</Button>
-                          <Button variant="outline" className="border-emerald-200 bg-white text-emerald-700 rounded-2xl font-black text-xs uppercase px-8 h-12 shadow-sm">Audit Report</Button>
+                          <Link href={`/entities/${id}/verify`}><Button className="rounded-2xl font-black text-xs uppercase px-8 h-12">View Certificates</Button></Link>
+                          <Button variant="outline" className="rounded-2xl font-black text-xs uppercase px-8 h-12">Audit Report</Button>
                         </div>
                       </div>
                     </CardContent>
@@ -442,7 +470,7 @@ export default function EntityProfilePage() {
 
               <TabsContent value="items" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-3xl font-black tracking-tight text-slate-900">
+                  <h3 className="text-3xl font-black tracking-tight text-foreground">
                     {isEducation ? "Program Catalog" : (isFinance ? "Banking Products" : (isHealthcare ? "Medical Catalog" : (isMedia ? "Latest Releases" : "Specialties")))}
                   </h3>
                   <Button variant="outline" className="rounded-full font-black text-xs border-2 uppercase tracking-tighter h-10 px-6">
@@ -451,16 +479,16 @@ export default function EntityProfilePage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {entityData.items.map((item, i) => (
-                    <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-white border-2 border-transparent hover:border-primary/10`}>
+                    <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-card border-2 border-transparent hover:border-primary/10`}>
                       <div className={`relative h-24 w-24 rounded-3xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-700`}>
                         {isEducation ? <BookOpen className="h-10 w-10" /> : (isFinance ? <TrendingUp className="h-10 w-10" /> : (isHealthcare ? <HeartPulse className="h-10 w-10" /> : (isMedia ? <Newspaper className="h-10 w-10" /> : <Box className="h-10 w-10" />)))}
                       </div>
                       <div className="space-y-2.5 flex-1">
                         <div className="flex justify-between items-start gap-2">
-                          <h4 className={`text-xl font-black text-slate-900 leading-tight group-hover:text-primary transition-colors`}>{item.name}</h4>
+                          <h4 className={`text-xl font-black text-foreground leading-tight group-hover:text-primary transition-colors`}>{item.name}</h4>
                           <span className={`${isEducation ? 'text-violet-600' : (isHealthcare ? 'text-teal-600' : 'text-indigo-600')} font-black text-xl tracking-tighter whitespace-nowrap`}>{item.price}</span>
                         </div>
-                        <p className="text-sm font-medium text-slate-500 line-clamp-2 italic">{item.desc}</p>
+                        <p className="text-sm font-medium text-muted-foreground line-clamp-2 italic">{item.desc}</p>
                         {item.popular && (
                           <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest ${getAccentLight()} border-current px-3 py-1 rounded-full`}>Most Applied</Badge>
                         )}
@@ -470,49 +498,75 @@ export default function EntityProfilePage() {
                 </div>
               </TabsContent>
 
+              <TabsContent value="gallery" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-3xl font-black tracking-tight text-foreground">Photos & Videos</h3>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {[...Array(9)].map((_, i) => (
+                    <div key={i} className={`relative rounded-[2rem] overflow-hidden bg-muted ${i === 0 ? "col-span-2 aspect-video" : "aspect-square"} group cursor-pointer hover:shadow-xl transition-all`}>
+                      <Image
+                        src={`https://picsum.photos/seed/${id}-gallery-${i}/800/600`}
+                        alt={`Gallery image ${i + 1}`}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      {i === 3 && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className={`h-14 w-14 ${getAccentColor()} rounded-full flex items-center justify-center shadow-2xl`}>
+                            <Zap className="h-6 w-6 text-white fill-white ml-0.5" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-center text-xs text-muted-foreground font-bold uppercase tracking-widest pt-4">All photos are property of the listed business</p>
+              </TabsContent>
+
               <TabsContent value="reviews" className="mt-12 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <div className="flex flex-col md:flex-row gap-12 items-center bg-white p-12 rounded-[3rem] border border-slate-100 shadow-sm">
-                  <div className="text-center space-y-3 shrink-0 md:px-12 md:border-r border-slate-100">
-                    <div className="text-8xl font-black text-slate-900 tracking-tighter">{entityData.rating}</div>
+                <div className="flex flex-col md:flex-row gap-12 items-center bg-card p-12 rounded-[3rem] border border-border shadow-sm">
+                  <div className="text-center space-y-3 shrink-0 md:px-12 md:border-r border-border">
+                    <div className="text-8xl font-black text-foreground tracking-tighter">{entityData.rating}</div>
                     <div className="flex gap-1.5 justify-center">
                       {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-5 w-5 fill-amber-400 text-amber-400" />)}
                     </div>
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{entityData.reviews} Verified Reviews</p>
+                    <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">{entityData.reviews} Verified Reviews</p>
                   </div>
                   <div className="flex-1 w-full space-y-4">
                     {[5, 4, 3, 2, 1].map((star) => (
                       <div key={star} className="flex items-center gap-6">
-                        <span className="text-sm font-black text-slate-500 w-4">{star}</span>
-                        <div className="h-3 bg-slate-100 rounded-full flex-1 overflow-hidden shadow-inner">
+                        <span className="text-sm font-black text-muted-foreground w-4">{star}</span>
+                        <div className="h-3 bg-muted rounded-full flex-1 overflow-hidden shadow-inner">
                           <div className={`h-full ${getAccentColor()} rounded-full transition-all duration-1000`} style={{ width: star === 5 ? '90%' : star === 4 ? '8%' : '2%' }} />
                         </div>
-                        <span className="text-xs font-black text-slate-400 w-12 text-right">{star === 5 ? '90%' : star === 4 ? '8%' : '2%'}</span>
+                        <span className="text-xs font-black text-muted-foreground w-12 text-right">{star === 5 ? '90%' : star === 4 ? '8%' : '2%'}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 <div className="space-y-8">
-                  <Card className={`rounded-[3rem] border-none shadow-sm p-10 bg-white border border-slate-100 group hover:shadow-xl transition-all hover:border-primary/10`}>
+                  <Card className={`rounded-[3rem] border-none shadow-sm p-10 bg-card border border-border group hover:shadow-xl transition-all hover:border-primary/10`}>
                     <div className="flex justify-between items-start mb-8">
                       <div className="flex items-center gap-6">
-                        <Avatar className="h-16 w-16 border-4 border-slate-50 shadow-md">
+                        <Avatar className="h-16 w-16 border-4 border-border shadow-md">
                           <AvatarImage src={`https://picsum.photos/seed/reviewer/150/150`} />
                           <AvatarFallback>R</AvatarFallback>
                         </Avatar>
                         <div className="space-y-1">
-                          <p className="text-xl font-black text-slate-900">Dr. Sarah Khalil</p>
+                          <p className="text-xl font-black text-foreground">Dr. Sarah Khalil</p>
                           <div className="flex items-center gap-3">
                             <Badge className={`${getAccentLight()} text-[10px] font-black border-none uppercase px-3 py-1 rounded-full`}>Verified Member</Badge>
-                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Date: 3 weeks ago</span>
+                            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Date: 3 weeks ago</span>
                           </div>
                         </div>
                       </div>
-                      <div className="flex gap-1 bg-slate-50 p-2 rounded-2xl">
+                      <div className="flex gap-1 bg-muted p-2 rounded-2xl">
                         {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
                       </div>
                     </div>
-                    <p className="text-slate-600 font-medium leading-relaxed italic text-xl">
+                    <p className="text-muted-foreground font-medium leading-relaxed italic text-xl">
                       "{getCategorySpecificReview()}"
                     </p>
                   </Card>
@@ -522,11 +576,11 @@ export default function EntityProfilePage() {
           </div>
 
           <div className="lg:col-span-4 space-y-10">
-            <Card className="rounded-[3rem] border-none shadow-2xl overflow-hidden bg-white sticky top-28 border border-slate-100">
+            <Card className="rounded-[3rem] border-none shadow-2xl overflow-hidden bg-card sticky top-28 border border-border">
               <div className="h-64 bg-muted relative group overflow-hidden">
                 <Image src={`https://placehold.co/800x600/png?text=Entity+Location`} alt="Map" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
-                <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> View Map</Button>
+                <div className="absolute inset-0 bg-zinc-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <a href={mapsUrl} target="_blank" rel="noopener noreferrer"><Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> Get Directions</Button></a>
                 </div>
               </div>
               <CardContent className="p-10 space-y-10">
@@ -536,8 +590,8 @@ export default function EntityProfilePage() {
                       <MapPin className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Location</p>
-                      <p className="text-base font-bold text-slate-900 leading-snug">{entityData.location}</p>
+                      <p className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-1">Location</p>
+                      <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="text-base font-bold text-foreground leading-snug hover:text-primary transition-colors">{entityData.location}</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-6">
@@ -545,8 +599,8 @@ export default function EntityProfilePage() {
                       <Clock className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Operating Hours</p>
-                      <p className="text-base font-bold text-slate-900 leading-snug">{entityData.contact.hours}</p>
+                      <p className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-1">Operating Hours</p>
+                      <p className="text-base font-bold text-foreground leading-snug">{entityData.contact.hours}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-6">
@@ -554,44 +608,52 @@ export default function EntityProfilePage() {
                       <Phone className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Contact Office</p>
-                      <p className="text-base font-bold text-slate-900 leading-snug">{entityData.contact.phone}</p>
+                      <p className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-1">Contact Office</p>
+                      <a href={`tel:${entityData.contact.phone.replace(/[^+\d]/g, "")}`} className="text-base font-bold text-foreground leading-snug hover:text-primary transition-colors">{entityData.contact.phone}</a>
                     </div>
                   </div>
                 </div>
                 
-                <div className="pt-8 border-t border-slate-50 space-y-4">
+                <div className="pt-8 border-t border-border space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <Button className={`${getAccentColor()} hover:opacity-90 text-white rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-xl`}>
                       {getActionButtonLabel()}
                     </Button>
                     <Button variant="outline" className="rounded-2xl font-black text-xs uppercase tracking-widest h-14 border-2"><Globe className="h-4 w-4 mr-2" /> Portal</Button>
                   </div>
-                  <Button variant="secondary" className="w-full bg-slate-900 text-white hover:bg-slate-800 rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-lg transition-all">Download Info</Button>
+                  <Button variant="secondary" className="w-full bg-zinc-900 text-white hover:bg-zinc-800 rounded-2xl font-black text-xs uppercase tracking-widest h-14 shadow-lg transition-all">Download Info</Button>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="rounded-[3rem] border-none bg-slate-900 shadow-2xl p-12 text-center space-y-8 relative overflow-hidden">
+            <Card className="rounded-[3rem] border-none bg-zinc-900 shadow-2xl p-12 text-center space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-6 opacity-5">
                 <ShieldAlert className="h-32 w-32 text-white" />
               </div>
               <div className="relative z-10 space-y-6">
-                <div className={`h-20 w-20 bg-white/10 backdrop-blur-xl rounded-[2rem] flex items-center justify-center ${getAccentLight()} mx-auto shadow-2xl border border-white/10`}>
+                <div className={`h-20 w-20 bg-card/10 backdrop-blur-xl rounded-[2rem] flex items-center justify-center ${getAccentLight()} mx-auto shadow-2xl border border-white/10`}>
                   {isMedia ? <Library className="h-10 w-10 text-white" /> : <ShieldCheck className="h-10 w-10 text-white" />}
                 </div>
                 <div className="space-y-3">
                   <h4 className="text-3xl font-black text-white tracking-tight">{isMedia ? "Resource Aid" : "Verification Aid"}</h4>
-                  <p className="text-sm text-slate-400 font-medium leading-relaxed px-2">
+                  <p className="text-sm text-muted-foreground font-medium leading-relaxed px-2">
                     {isMedia ? "Need help with finding specific literature or digital courses? Our concierge is here to guide you." : "Need help with audits or certification selection? Our trust support team is here to guide you."}
                   </p>
                 </div>
-                <Button className="w-full rounded-2xl font-black bg-white text-slate-900 hover:bg-slate-100 h-16 shadow-2xl text-base tracking-tight transition-transform active:scale-95">
+                <Button className="w-full rounded-2xl font-black bg-card text-foreground hover:bg-muted h-16 shadow-2xl text-base tracking-tight transition-transform active:scale-95">
                   Chat with Support
                 </Button>
               </div>
             </Card>
           </div>
+        </div>
+      </div>
+
+      <div className="sm:hidden fixed bottom-20 left-4 right-4 z-30">
+        <div className="glass-strong rounded-2xl shadow-soft-lg ring-1 ring-white/40 dark:ring-white/5 p-3">
+          <Button className={`w-full ${getAccentColor()} hover:opacity-90 text-white rounded-xl font-black text-sm uppercase tracking-widest h-14`}>
+            {getActionButtonLabel()}
+          </Button>
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ export default function AccountSupportPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <Headset className="h-3 w-3" /> Partner Success
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Vendor Support Center</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Vendor Support Center</h1>
           <p className="text-muted-foreground font-medium">Get assistance with audits, technical issues, or marketplace growth.</p>
         </div>
         <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
@@ -35,29 +35,29 @@ export default function AccountSupportPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-primary/10">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-primary/10">
               <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 mb-6">
                 <LifeBuoy className="h-6 w-6" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-black text-slate-900">Technical Help</h3>
-                <p className="text-sm text-slate-500 font-medium">Issues with QR menus, table ordering, or your dashboard.</p>
+                <h3 className="text-xl font-black text-foreground">Technical Help</h3>
+                <p className="text-sm text-muted-foreground font-medium">Issues with QR menus, table ordering, or your dashboard.</p>
               </div>
-              <ArrowRight className="h-5 w-5 text-slate-300 ml-auto mt-6 group-hover:text-primary transition-colors" />
+              <ArrowRight className="h-5 w-5 text-muted-foreground ml-auto mt-6 group-hover:text-primary transition-colors" />
             </Card>
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-primary/10">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-primary/10">
               <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 mb-6">
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-black text-slate-900">Audit & Verification</h3>
-                <p className="text-sm text-slate-500 font-medium">Help with certificate uploads, re-audits, and trust badges.</p>
+                <h3 className="text-xl font-black text-foreground">Audit & Verification</h3>
+                <p className="text-sm text-muted-foreground font-medium">Help with certificate uploads, re-audits, and trust badges.</p>
               </div>
-              <ArrowRight className="h-5 w-5 text-slate-300 ml-auto mt-6 group-hover:text-primary transition-colors" />
+              <ArrowRight className="h-5 w-5 text-muted-foreground ml-auto mt-6 group-hover:text-primary transition-colors" />
             </Card>
           </div>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
             <CardHeader className="p-8 border-b flex flex-row items-center justify-between">
               <CardTitle className="text-xl font-black">Active Tickets</CardTitle>
               <Button variant="ghost" className="font-bold text-primary">All Tickets <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
@@ -66,41 +66,41 @@ export default function AccountSupportPage() {
               {activeTickets.length > 0 ? (
                 <div className="divide-y divide-slate-100">
                   {activeTickets.map((ticket) => (
-                    <div key={ticket.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-50/50 transition-colors">
+                    <div key={ticket.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-muted/50 transition-colors">
                       <div className="space-y-1">
                         <div className="flex items-center gap-3">
-                          <span className="text-sm font-black text-slate-900">{ticket.id}</span>
+                          <span className="text-sm font-black text-foreground">{ticket.id}</span>
                           <Badge variant="outline" className={
-                            ticket.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none px-2 text-[9px] font-black' : 'bg-slate-50 text-slate-600 border-none px-2 text-[9px] font-black'
+                            ticket.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none px-2 text-[9px] font-black' : 'bg-muted text-muted-foreground border-none px-2 text-[9px] font-black'
                           }>
                             {ticket.priority} PRIORITY
                           </Badge>
                         </div>
-                        <p className="font-bold text-slate-700 text-base">{ticket.subject}</p>
-                        <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Created: {ticket.date}</p>
+                        <p className="font-bold text-foreground text-base">{ticket.subject}</p>
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Created: {ticket.date}</p>
                       </div>
                       <div className="flex items-center gap-6">
-                        <Badge className={ticket.status === 'Closed' ? 'bg-slate-100 text-slate-400 border-none' : 'bg-blue-50 text-blue-600 border-none'}>
+                        <Badge className={ticket.status === 'Closed' ? 'bg-muted text-muted-foreground border-none' : 'bg-blue-50 text-blue-600 border-none'}>
                           {ticket.status}
                         </Badge>
-                        <Button size="icon" variant="ghost" className="rounded-xl"><ChevronRight className="h-5 w-5 text-slate-300" /></Button>
+                        <Button size="icon" variant="ghost" className="rounded-xl"><ChevronRight className="h-5 w-5 text-muted-foreground" /></Button>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
                 <div className="p-20 text-center space-y-4">
-                  <div className="h-16 w-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto text-slate-200">
+                  <div className="h-16 w-16 bg-muted rounded-full flex items-center justify-center mx-auto text-muted-foreground">
                     <CheckCircle2 className="h-8 w-8" />
                   </div>
-                  <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">No active tickets</p>
+                  <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">No active tickets</p>
                 </div>
               )}
             </CardContent>
           </Card>
 
           <section className="space-y-6">
-            <h2 className="text-xl font-black px-2 text-slate-900">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-black px-2 text-foreground">Frequently Asked Questions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 "How do I update my Halal certificate?",
@@ -108,9 +108,9 @@ export default function AccountSupportPage() {
                 "How to change settlement account?",
                 "Troubleshoot QR code scanning",
               ].map((faq, i) => (
-                <div key={i} className="p-6 rounded-[2rem] bg-white border border-slate-100 flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
-                  <span className="text-sm font-bold text-slate-700">{faq}</span>
-                  <HelpCircle className="h-4 w-4 text-slate-300 group-hover:text-primary transition-colors" />
+                <div key={i} className="p-6 rounded-[2rem] bg-card border border-border flex items-center justify-between group cursor-pointer hover:shadow-md transition-all">
+                  <span className="text-sm font-bold text-foreground">{faq}</span>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
               ))}
             </div>
@@ -118,23 +118,23 @@ export default function AccountSupportPage() {
         </div>
 
         <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-8 relative overflow-hidden">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-5">
               <Zap className="h-24 w-24" />
             </div>
             <div className="relative z-10 space-y-6">
               <div className="space-y-2">
                 <h3 className="text-2xl font-black font-headline">Live Concierge</h3>
-                <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed">
                   Our vendor support agents are available Mon-Sat, 9AM to 6PM for urgent assistance.
                 </p>
               </div>
               <div className="space-y-4">
-                <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-4 bg-card/5 p-4 rounded-2xl border border-white/10">
                   <Phone className="h-5 w-5 text-primary" />
                   <span className="text-sm font-bold">+91 1800 555 0198</span>
                 </div>
-                <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                <div className="flex items-center gap-4 bg-card/5 p-4 rounded-2xl border border-white/10">
                   <Mail className="h-5 w-5 text-primary" />
                   <span className="text-sm font-bold">vendors@halalhub.com</span>
                 </div>
@@ -145,29 +145,29 @@ export default function AccountSupportPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
-            <h3 className="text-xl font-black text-slate-900">Knowledge Base</h3>
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
+            <h3 className="text-xl font-black text-foreground">Knowledge Base</h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-transparent hover:border-primary/10 transition-all cursor-pointer group">
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-muted border border-transparent hover:border-primary/10 transition-all cursor-pointer group">
                 <div className="flex items-center gap-4">
-                  <FileText className="h-5 w-5 text-slate-400" />
-                  <span className="text-sm font-bold text-slate-700">Vendor Handbook</span>
+                  <FileText className="h-5 w-5 text-muted-foreground" />
+                  <span className="text-sm font-bold text-foreground">Vendor Handbook</span>
                 </div>
-                <ExternalLink className="h-4 w-4 text-slate-300 group-hover:text-primary" />
+                <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
               </div>
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-transparent hover:border-primary/10 transition-all cursor-pointer group">
-                <Globe className="h-5 w-5 text-slate-400" />
-                <span className="text-sm font-bold text-slate-700">Halal Compliance FAQ</span>
+              <div className="flex items-center justify-between p-4 rounded-2xl bg-muted border border-transparent hover:border-primary/10 transition-all cursor-pointer group">
+                <Globe className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm font-bold text-foreground">Halal Compliance FAQ</span>
               </div>
             </div>
           </Card>
 
           <div className="p-8 bg-primary/5 rounded-[2.5rem] border-2 border-dashed border-primary/20 text-center space-y-4">
-            <div className="h-12 w-12 bg-white rounded-full flex items-center justify-center mx-auto text-primary shadow-sm">
+            <div className="h-12 w-12 bg-card rounded-full flex items-center justify-center mx-auto text-primary shadow-sm">
               <Clock className="h-6 w-6" />
             </div>
             <p className="text-xs font-bold text-primary uppercase tracking-widest">Avg. Response Time</p>
-            <p className="text-2xl font-black text-slate-900">Under 2 Hours</p>
+            <p className="text-2xl font-black text-foreground">Under 2 Hours</p>
           </div>
         </div>
       </div>

@@ -37,7 +37,7 @@ export default function FamilyDiscoveryPage() {
                 <Sparkles className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tight">Family Discovery</h1>
+                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Family Discovery</h1>
                 <p className="text-muted-foreground font-medium text-xl">Handpicked family-friendly halal venues for your shared board.</p>
               </div>
             </div>
@@ -45,9 +45,9 @@ export default function FamilyDiscoveryPage() {
           <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="relative flex-1 md:w-80">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search family spots..." className="pl-12 h-14 rounded-2xl bg-white border-none shadow-sm font-medium text-lg" />
+              <Input placeholder="Search family spots..." className="pl-12 h-14 rounded-2xl bg-card border-none shadow-sm font-medium text-lg" />
             </div>
-            <Button variant="outline" className="h-14 w-14 rounded-2xl bg-white border-none shadow-sm">
+            <Button variant="outline" className="h-14 w-14 rounded-2xl bg-card border-none shadow-sm">
               <Filter className="h-5 w-5" />
             </Button>
           </div>
@@ -56,16 +56,16 @@ export default function FamilyDiscoveryPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {suggestedPlaces.map((place) => (
-          <Card key={place.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-emerald-100">
+          <Card key={place.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-emerald-100">
             <div className="relative aspect-square overflow-hidden">
               <Image src={`https://picsum.photos/seed/${place.img}/600/600`} alt={place.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute top-4 left-4 flex flex-col gap-2">
-                <Badge className="bg-white/90 backdrop-blur-md text-emerald-600 font-black border-none shadow-xl px-3 py-1 rounded-full flex items-center gap-1.5 text-[10px]">
+                <Badge className="bg-card/90 backdrop-blur-md text-emerald-600 font-black border-none shadow-xl px-3 py-1 rounded-full flex items-center gap-1.5 text-[10px]">
                   <Star className="h-3 w-3 fill-amber-400 text-amber-400" /> {place.rate}
                 </Badge>
               </div>
               <div className="absolute top-4 right-4">
-                <Button size="icon" className="h-10 w-10 rounded-xl bg-white/80 backdrop-blur-md text-slate-900 hover:bg-white border-none shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button size="icon" className="h-10 w-10 rounded-xl bg-card/80 backdrop-blur-md text-foreground hover:bg-card border-none shadow-sm opacity-0 group-hover:opacity-100 transition-opacity">
                   <Plus className="h-5 w-5" />
                 </Button>
               </div>
@@ -73,8 +73,8 @@ export default function FamilyDiscoveryPage() {
             <CardHeader className="p-6 pb-4">
               <div className="space-y-1">
                 <Badge variant="secondary" className="bg-emerald-50 text-emerald-600 border-none text-[9px] font-black uppercase tracking-tighter">{place.tag}</Badge>
-                <h3 className="text-xl font-black text-slate-900 line-clamp-1 group-hover:text-emerald-600 transition-colors">{place.name}</h3>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><MapPin className="h-3 w-3 text-emerald-500" /> {place.loc}</p>
+                <h3 className="text-xl font-black text-foreground line-clamp-1 group-hover:text-emerald-600 transition-colors">{place.name}</h3>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5"><MapPin className="h-3 w-3 text-emerald-500" /> {place.loc}</p>
               </div>
             </CardHeader>
             <CardFooter className="px-6 pb-6 pt-0 mt-auto">
@@ -87,13 +87,13 @@ export default function FamilyDiscoveryPage() {
       </div>
 
       {/* Info Notice */}
-      <div className="p-8 bg-slate-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="p-8 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="absolute top-0 right-0 p-8 opacity-10">
           <Compass className="h-32 w-32" />
         </div>
         <div className="relative z-10 space-y-2 text-center md:text-left">
           <h3 className="text-2xl font-black font-headline">Directory Insight</h3>
-          <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-xl">
+          <p className="text-sm text-muted-foreground font-medium leading-relaxed max-w-xl">
             Suggestions are synced from our global Halal directory. Saving a place to your Family Board allows all members to see location details and operating hours instantly.
           </p>
         </div>

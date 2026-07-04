@@ -83,7 +83,7 @@ export default function AdminUsersPage() {
                         <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-black text-slate-900">{user.name}</p>
+                        <p className="font-black text-foreground">{user.name}</p>
                         <p className="text-xs text-muted-foreground">{user.email}</p>
                       </div>
                     </div>
@@ -94,7 +94,7 @@ export default function AdminUsersPage() {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
                       <MapPin className="h-3 w-3" /> {user.location}
                     </div>
                   </TableCell>

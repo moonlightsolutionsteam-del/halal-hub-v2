@@ -93,7 +93,7 @@ const CATEGORY_CONFIG: Record<string, { title: string; features: string[]; icon:
     title: "Bookstores & Media", 
     features: ["Digital Library", "Rare Manuscripts", "Audio Courses", "Global Shipping"], 
     icon: ShoppingBag,
-    accent: "text-slate-600 bg-slate-50 border-slate-100"
+    accent: "text-muted-foreground bg-muted border-border"
   },
 };
 
@@ -121,16 +121,16 @@ export default function CategoryListingPage() {
               <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${config.accent}`}>
                 <config.icon className="h-5 w-5" />
               </div>
-              <h1 className="text-4xl font-black font-headline text-slate-900 tracking-tight">{config.title}</h1>
+              <h1 className="text-4xl font-black font-headline text-foreground tracking-tight">{config.title}</h1>
             </div>
             <p className="text-muted-foreground font-medium text-lg">High-fidelity directory of certified {config.title.toLowerCase()} providers.</p>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="relative flex-1 md:w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder={`Search in ${config.title}...`} className="pl-9 h-12 rounded-2xl bg-white border-none shadow-sm font-medium" />
+              <Input placeholder={`Search in ${config.title}...`} className="pl-9 h-12 rounded-2xl bg-card border-none shadow-sm font-medium" />
             </div>
-            <Button variant="outline" className="h-12 w-12 rounded-2xl bg-white border-none shadow-sm">
+            <Button variant="outline" className="h-12 w-12 rounded-2xl bg-card border-none shadow-sm">
               <SlidersHorizontal className="h-5 w-5" />
             </Button>
           </div>
@@ -149,12 +149,12 @@ export default function CategoryListingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Filters Sidebar */}
         <aside className="hidden lg:block space-y-6">
-          <Card className="rounded-[2rem] border-none shadow-sm p-6 bg-white space-y-6">
+          <Card className="rounded-[2rem] border-none shadow-sm p-6 bg-card space-y-6">
             <div className="space-y-4">
-              <h3 className="font-black text-sm uppercase tracking-widest text-slate-400">Refine Search</h3>
+              <h3 className="font-black text-sm uppercase tracking-widest text-muted-foreground">Refine Search</h3>
               <div className="space-y-2">
                 {["Verified Only", "Top Rated", "Nearest Me", "Newest Arrivals"].map(f => (
-                  <button key={f} className="flex items-center gap-3 w-full p-2 hover:bg-muted/50 rounded-xl transition-colors text-sm font-bold text-slate-600">
+                  <button key={f} className="flex items-center gap-3 w-full p-2 hover:bg-muted/50 rounded-xl transition-colors text-sm font-bold text-muted-foreground">
                     <div className="h-4 w-4 border-2 rounded-md border-muted" />
                     {f}
                   </button>
@@ -163,7 +163,7 @@ export default function CategoryListingPage() {
             </div>
             <div className="h-px bg-muted w-full" />
             <div className="space-y-4">
-              <h3 className="font-black text-sm uppercase tracking-widest text-slate-400">Service Highlights</h3>
+              <h3 className="font-black text-sm uppercase tracking-widest text-muted-foreground">Service Highlights</h3>
               <div className="flex flex-wrap gap-2">
                 {config.features.map(f => (
                   <Badge key={f} variant="secondary" className="rounded-full px-3 py-1 text-[10px] font-black">{f}</Badge>
@@ -172,12 +172,12 @@ export default function CategoryListingPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2rem] border-none bg-slate-900 text-white p-8 space-y-4 relative overflow-hidden">
+          <Card className="rounded-[2rem] border-none bg-zinc-900 text-white p-8 space-y-4 relative overflow-hidden">
             <div className="absolute -top-4 -right-4 opacity-10">
               <ShieldCheck className="h-24 w-24" />
             </div>
             <h3 className="font-black text-lg leading-tight relative z-10">Trust & Safety Guarantee</h3>
-            <p className="text-xs text-slate-400 leading-relaxed relative z-10">
+            <p className="text-xs text-muted-foreground leading-relaxed relative z-10">
               Every entity listed in {config.title} has undergone our rigorous 5-step verification process for Shariah compliance.
             </p>
             <Button variant="secondary" className="w-full rounded-xl font-black text-xs h-10">Read Our Policy</Button>
@@ -189,7 +189,7 @@ export default function CategoryListingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {MOCK_DATA.map((entity) => (
               <Link key={entity.id} href={`/entities/${entity.id}`}>
-                <Card className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 flex flex-col h-full border border-transparent hover:border-primary/10">
+                <Card className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 flex flex-col h-full border border-transparent hover:border-primary/10">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image 
                       src={entity.img} 
@@ -199,9 +199,9 @@ export default function CategoryListingPage() {
                     />
                     <div className="absolute top-4 left-4 flex gap-2">
                       {entity.ver && (
-                        <Badge className="bg-white/90 backdrop-blur-md text-primary font-black border-none shadow-lg px-3">Verified</Badge>
+                        <Badge className="bg-card/90 backdrop-blur-md text-primary font-black border-none shadow-lg px-3">Verified</Badge>
                       )}
-                      <Badge className="bg-slate-900/80 backdrop-blur-md text-white font-black border-none shadow-lg px-3">
+                      <Badge className="bg-zinc-900/80 backdrop-blur-md text-white font-black border-none shadow-lg px-3">
                         <Star className="h-3 w-3 fill-amber-400 text-amber-400 mr-1" /> {entity.rate}
                       </Badge>
                     </div>
@@ -217,10 +217,10 @@ export default function CategoryListingPage() {
                   </CardHeader>
                   <CardContent className="px-6 pb-4">
                     <div className="space-y-2">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Available Features</p>
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Available Features</p>
                       <div className="flex flex-wrap gap-1.5">
                         {config.features.slice(0, 2).map((f, idx) => (
-                          <div key={idx} className="flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-muted/50 px-2 py-1 rounded-lg">
+                          <div key={idx} className="flex items-center gap-1 text-[10px] font-bold text-muted-foreground bg-muted/50 px-2 py-1 rounded-lg">
                             <CheckCircle2 className="h-3 w-3 text-primary" /> {f}
                           </div>
                         ))}

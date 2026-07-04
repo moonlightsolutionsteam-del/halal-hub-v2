@@ -44,12 +44,12 @@ export default function CreateFamilyEventPage() {
   const [remindersEnabled, setRemindersEnabled] = React.useState(true);
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-3xl pb-24 text-foreground">
       <div className="flex items-center gap-6">
         <Button 
           variant="ghost" 
           size="icon" 
-          className="rounded-2xl bg-white shadow-sm border h-12 w-12" 
+          className="rounded-2xl bg-card shadow-sm border h-12 w-12" 
           onClick={() => router.back()}
         >
           <ArrowLeft className="h-5 w-5" />
@@ -70,14 +70,14 @@ export default function CreateFamilyEventPage() {
             <h2 className="text-xl font-black">Event Basics</h2>
           </div>
           
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Event Title</Label>
-              <Input placeholder="e.g., Weekly Family Dinner" className="h-14 rounded-2xl bg-slate-50 border-none font-black text-lg" />
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Event Title</Label>
+              <Input placeholder="e.g., Weekly Family Dinner" className="h-14 rounded-2xl bg-muted border-none font-black text-lg" />
             </div>
 
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Event Type</Label>
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Event Type</Label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {EVENT_TYPES.map((type) => (
                   <button
@@ -87,7 +87,7 @@ export default function CreateFamilyEventPage() {
                       return `flex flex-col items-center justify-center p-4 rounded-3xl transition-all border-4 ${
                         selectedType === type.id 
                           ? 'bg-emerald-50 border-emerald-500 text-emerald-600' 
-                          : 'bg-slate-50 border-transparent text-slate-400 hover:bg-slate-100'
+                          : 'bg-muted border-transparent text-muted-foreground hover:bg-muted'
                       }`;
                     }, [selectedType, type.id])}
                   >
@@ -109,27 +109,27 @@ export default function CreateFamilyEventPage() {
             <h2 className="text-xl font-black">When & Where</h2>
           </div>
           
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Select Date</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Select Date</Label>
                 <div className="relative">
-                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input type="date" className="h-12 rounded-2xl bg-slate-50 border-none font-bold pl-12" />
+                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input type="date" className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Select Time</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Select Time</Label>
                 <div className="relative">
-                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input type="time" className="h-12 rounded-2xl bg-slate-50 border-none font-bold pl-12" />
+                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input type="time" className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
                 </div>
               </div>
               <div className="md:col-span-2 space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Location / Venue</Label>
+                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Location / Venue</Label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                  <Input placeholder="Search venue or enter address..." className="h-12 rounded-2xl bg-slate-50 border-none font-bold pl-12" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search venue or enter address..." className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
                 </div>
                 <div className="pt-2">
                   <Link href="/family-tree/discovery" className="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline flex items-center gap-1.5">
@@ -150,19 +150,19 @@ export default function CreateFamilyEventPage() {
             <h2 className="text-xl font-black">Who's Coming?</h2>
           </div>
           
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
             <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-slate-500">Invited Members</Label>
+              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Invited Members</Label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {FAMILY_MEMBERS.map((member) => (
-                  <div key={member.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-emerald-100 transition-all cursor-pointer group">
+                  <div key={member.id} className="flex items-center justify-between p-4 bg-muted rounded-2xl border-2 border-transparent hover:border-emerald-100 transition-all cursor-pointer group">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center font-black text-xs shadow-sm text-slate-400 group-hover:text-emerald-600 transition-colors">
+                      <div className="h-10 w-10 bg-card rounded-xl flex items-center justify-center font-black text-xs shadow-sm text-muted-foreground group-hover:text-emerald-600 transition-colors">
                         {member.initials}
                       </div>
-                      <span className="text-sm font-bold text-slate-700">{member.name}</span>
+                      <span className="text-sm font-bold text-foreground">{member.name}</span>
                     </div>
-                    <Checkbox className="rounded-full h-6 w-6 border-slate-200 data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600" />
+                    <Checkbox className="rounded-full h-6 w-6 border-border data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600" />
                   </div>
                 ))}
               </div>
@@ -170,7 +170,7 @@ export default function CreateFamilyEventPage() {
 
             <div className="flex items-center justify-between p-6 bg-emerald-50 rounded-[2rem] border-2 border-emerald-100">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-2xl bg-white flex items-center justify-center text-emerald-600 shadow-sm">
+                <div className="h-12 w-12 rounded-2xl bg-card flex items-center justify-center text-emerald-600 shadow-sm">
                   <Bell className="h-6 w-6" />
                 </div>
                 <div>
@@ -192,7 +192,7 @@ export default function CreateFamilyEventPage() {
           <Button className="w-full h-16 rounded-[1.5rem] bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl shadow-2xl transition-transform active:scale-[0.98]">
             Schedule Family Event
           </Button>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-center">
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] text-center">
             This will be posted to the shared Family Hub board instantly
           </p>
         </div>

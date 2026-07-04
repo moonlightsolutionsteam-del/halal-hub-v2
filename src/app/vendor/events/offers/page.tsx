@@ -25,7 +25,7 @@ export default function EventOffersPage() {
           <div className="flex items-center gap-2 text-purple-600 font-black uppercase tracking-widest text-[10px]">
             <Tag className="h-3 w-3" /> Growth & Revenue
           </div>
-          <h1 className="text-3xl font-black font-headline text-slate-900">Event Promotions</h1>
+          <h1 className="text-3xl font-black font-headline text-foreground">Event Promotions</h1>
           <p className="text-muted-foreground font-medium">Create targeted discounts for seasonal bookings or large-scale exhibitions.</p>
         </div>
         <Button className="bg-purple-600 hover:bg-purple-700 rounded-full px-8 font-black shadow-lg shadow-purple-200 h-12 text-white">
@@ -34,27 +34,27 @@ export default function EventOffersPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-4">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-4">
           <div className="h-12 w-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
             <TrendingUp className="h-6 w-6" />
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Promo ROI</p>
-            <h2 className="text-3xl font-black text-slate-900">₹4.2M</h2>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">Promo ROI</p>
+            <h2 className="text-3xl font-black text-foreground">₹4.2M</h2>
             <p className="text-xs font-bold text-emerald-600 uppercase">+15% Monthly Boost</p>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-4">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-4">
           <div className="h-12 w-12 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600">
             <Users className="h-6 w-6" />
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">Claims</p>
-            <h2 className="text-3xl font-black text-slate-900">124</h2>
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">Claims</p>
+            <h2 className="text-3xl font-black text-foreground">124</h2>
             <p className="text-xs font-bold text-blue-600 uppercase">This Quarter</p>
           </div>
         </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-slate-900 text-white p-8 space-y-4 relative overflow-hidden">
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-4 relative overflow-hidden">
           <Sparkles className="absolute -top-4 -right-4 h-24 w-24 opacity-10" />
           <div className="space-y-4 relative z-10">
             <p className="text-xs font-black uppercase tracking-widest opacity-80">Venue Visibility</p>
@@ -68,38 +68,38 @@ export default function EventOffersPage() {
         <h2 className="text-xl font-black px-2">Active Venue Promos</h2>
         <div className="grid grid-cols-1 gap-6">
           {activeOffers.map((offer) => (
-            <Card key={offer.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-purple-100">
+            <Card key={offer.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-purple-100">
               <div className="p-8 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex items-center gap-8">
-                  <div className={`h-20 w-20 rounded-3xl ${offer.status === 'Active' ? 'bg-purple-50 text-purple-600' : 'bg-slate-100 text-slate-400'} flex items-center justify-center shadow-inner`}>
+                  <div className={`h-20 w-20 rounded-3xl ${offer.status === 'Active' ? 'bg-purple-50 text-purple-600' : 'bg-muted text-muted-foreground'} flex items-center justify-center shadow-inner`}>
                     {offer.title.includes('Wedding') ? <Building2 className="h-10 w-10" /> : <Percent className="h-10 w-10" />}
                   </div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-3">
-                      <h3 className="text-2xl font-black text-slate-900">{offer.title}</h3>
-                      <Badge className={offer.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-none px-3' : 'bg-slate-100 text-slate-400 border-none px-3'}>
+                      <h3 className="text-2xl font-black text-foreground">{offer.title}</h3>
+                      <Badge className={offer.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-none px-3' : 'bg-muted text-muted-foreground border-none px-3'}>
                         {offer.status}
                       </Badge>
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-xs font-black text-purple-600 bg-purple-50 px-3 py-1 rounded-full uppercase tracking-tighter">{offer.code}</span>
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{offer.type}</span>
+                      <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{offer.type}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-10">
                   <div className="text-center md:text-right">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Discount</p>
-                    <p className="text-2xl font-black text-slate-900">{offer.discount}</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Discount</p>
+                    <p className="text-2xl font-black text-foreground">{offer.discount}</p>
                   </div>
                   <div className="text-center md:text-right">
-                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Total Claims</p>
-                    <p className="text-2xl font-black text-slate-900">{offer.used}</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Total Claims</p>
+                    <p className="text-2xl font-black text-foreground">{offer.used}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" className="rounded-xl"><Edit2 className="h-4 w-4 text-slate-400" /></Button>
-                    <Button variant="ghost" size="icon" className="rounded-xl hover:text-rose-500"><Trash2 className="h-4 w-4 text-slate-400" /></Button>
+                    <Button variant="ghost" size="icon" className="rounded-xl"><Edit2 className="h-4 w-4 text-muted-foreground" /></Button>
+                    <Button variant="ghost" size="icon" className="rounded-xl hover:text-rose-500"><Trash2 className="h-4 w-4 text-muted-foreground" /></Button>
                   </div>
                 </div>
               </div>

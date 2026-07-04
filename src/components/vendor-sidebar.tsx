@@ -103,7 +103,7 @@ export function VendorSidebar() {
   ];
 
   return (
-    <Sidebar variant="sidebar" className="border-r bg-white">
+    <Sidebar variant="sidebar" className="border-r bg-card">
       <SidebarHeader className="p-6 border-b">
         <Link href="/vendor/dashboard" className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
@@ -113,10 +113,10 @@ export function VendorSidebar() {
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-3 py-4 bg-white">
+      <SidebarContent className="px-3 py-4 bg-card">
         <SidebarMenu className="space-y-1">
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/vendor/dashboard"} className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50 data-[active=true]:bg-primary data-[active=true]:text-white">
+            <SidebarMenuButton asChild isActive={pathname === "/vendor/dashboard"} className="h-10 font-bold rounded-lg text-muted-foreground hover:bg-muted data-[active=true]:bg-primary data-[active=true]:text-white">
               <Link href="/vendor/dashboard">
                 <LayoutDashboard className="h-4 w-4 mr-3" />
                 <span>Dashboard</span>
@@ -124,7 +124,7 @@ export function VendorSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/vendor/profile"} className="h-10 font-bold rounded-lg text-slate-600 hover:bg-slate-50">
+            <SidebarMenuButton asChild isActive={pathname === "/vendor/profile"} className="h-10 font-bold rounded-lg text-muted-foreground hover:bg-muted">
               <Link href="/vendor/profile">
                 <UserCircle className="h-4 w-4 mr-3" />
                 <span>Profile</span>
@@ -148,7 +148,7 @@ export function VendorSidebar() {
                   <SidebarMenu className="ml-4 mt-1 border-l border-primary/10">
                     {group.items.map((sub) => (
                       <SidebarMenuItem key={sub.title}>
-                        <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-slate-500 rounded-lg hover:text-primary hover:bg-primary/5 transition-all">
+                        <SidebarMenuButton asChild isActive={pathname === sub.url} className="h-9 font-bold text-muted-foreground rounded-lg hover:text-primary hover:bg-primary/5 transition-all">
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-60" />
                             <span className="text-[13px]">{sub.title}</span>
@@ -165,7 +165,7 @@ export function VendorSidebar() {
 
         <SidebarGroup>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/vendor/delivery"} className="h-10 font-bold text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
+            <SidebarMenuButton asChild isActive={pathname === "/vendor/delivery"} className="h-10 font-bold text-muted-foreground rounded-lg hover:bg-muted transition-colors">
               <Link href="/vendor/delivery">
                 <Truck className="h-4 w-4 mr-3" />
                 <span>Delivery Mgt</span>
@@ -175,11 +175,11 @@ export function VendorSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-6 border-t bg-slate-50/50">
+      <SidebarFooter className="p-6 border-t bg-muted/50">
         <Link href="/" className="flex items-center gap-3 text-primary cursor-pointer hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center text-white font-black text-xs">BK</div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-slate-900">Bosphorus Kitchen</span>
+            <span className="text-sm font-bold text-foreground">Bosphorus Kitchen</span>
             <span className="text-[10px] text-muted-foreground font-medium">Exit to App</span>
           </div>
           <ExternalLink className="h-3 w-3 ml-auto opacity-40" />

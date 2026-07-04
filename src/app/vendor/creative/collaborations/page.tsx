@@ -37,7 +37,7 @@ export default function CollaborationsHubPage() {
   if (!mounted) return null
 
   return (
-    <div className="container mx-auto p-6 space-y-10 max-w-7xl pb-24 text-slate-900">
+    <div className="container mx-auto p-6 space-y-10 max-w-7xl pb-24 text-foreground">
       {/* Top Header Navigation */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
@@ -49,14 +49,14 @@ export default function CollaborationsHubPage() {
               <Users2 className="h-8 w-8" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-4xl font-black font-headline tracking-tight text-slate-900">Collaborations Hub</h1>
+              <h1 className="text-4xl font-black font-headline tracking-tight text-foreground">Collaborations Hub</h1>
               <p className="text-muted-foreground font-medium text-lg italic">Strategic brand partnerships and sponsored content pipeline.</p>
             </div>
           </div>
         </div>
         <div className="flex gap-3">
           <Link href="/vendor/creative/collaborations/discovery">
-            <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-14 bg-white shadow-sm gap-2">
+            <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-14 bg-card shadow-sm gap-2">
               <Target className="h-4 w-4 text-primary" /> Discovery Hub
             </Button>
           </Link>
@@ -76,11 +76,11 @@ export default function CollaborationsHubPage() {
           { label: "Partner Rating", value: "4.9", trend: "Elite", sub: "Based on 12 brands", icon: Star, color: "text-amber-600", bg: "bg-amber-50" },
           { label: "Avg. ROI", value: "3.2x", trend: "+0.4", sub: "Value for Brands", icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-50" },
         ].map((stat, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-white group hover:shadow-xl transition-all duration-500">
+          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-card group hover:shadow-xl transition-all duration-500">
             <div className="flex justify-between items-start mb-6">
               <div className="space-y-1">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">{stat.label}</span>
-                <div className="text-4xl font-black text-slate-900 tracking-tighter">{stat.value}</div>
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">{stat.label}</span>
+                <div className="text-4xl font-black text-foreground tracking-tighter">{stat.value}</div>
               </div>
               <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
                 <stat.icon className="h-6 w-6" />
@@ -88,7 +88,7 @@ export default function CollaborationsHubPage() {
             </div>
             <div className="space-y-0.5">
               <p className={cn("text-xs font-black uppercase", stat.color)}>{stat.trend}</p>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{stat.sub}</p>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">{stat.sub}</p>
             </div>
           </Card>
         ))}
@@ -98,7 +98,7 @@ export default function CollaborationsHubPage() {
         {/* Main Pipeline Manager */}
         <div className="lg:col-span-8 space-y-8">
           <Tabs defaultValue="requests" className="w-full">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-2 rounded-2xl border shadow-sm mb-8 overflow-x-auto no-scrollbar">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-2 rounded-2xl border shadow-sm mb-8 overflow-x-auto no-scrollbar">
               <TabsList className="bg-transparent h-auto p-0 gap-1 flex justify-start min-w-max">
                 <TabsTrigger value="requests" className="rounded-xl px-8 py-3 font-black text-[10px] uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-white">New Requests</TabsTrigger>
                 <TabsTrigger value="ongoing" className="rounded-xl px-8 py-3 font-black text-[10px] uppercase tracking-widest data-[state=active]:bg-primary data-[state=active]:text-white">Ongoing</TabsTrigger>
@@ -106,22 +106,22 @@ export default function CollaborationsHubPage() {
               </TabsList>
               <div className="flex items-center gap-2 pr-2">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
-                  <Input placeholder="Filter by brand..." className="h-9 w-48 pl-9 rounded-xl bg-slate-50 border-none text-xs font-medium" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                  <Input placeholder="Filter by brand..." className="h-9 w-48 pl-9 rounded-xl bg-muted border-none text-xs font-medium" />
                 </div>
-                <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl border"><Filter className="h-4 w-4 text-slate-400" /></Button>
+                <Button variant="ghost" size="icon" className="h-9 w-9 rounded-xl border"><Filter className="h-4 w-4 text-muted-foreground" /></Button>
               </div>
             </div>
 
             <TabsContent value="requests" className="m-0 space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
               {REQUESTS.map((req) => (
-                <Card key={req.id} className="rounded-[3rem] border-none shadow-sm bg-white overflow-hidden border-2 border-transparent hover:border-primary/10 transition-all duration-500 group">
+                <Card key={req.id} className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-primary/10 transition-all duration-500 group">
                   <div className="p-8 flex flex-col md:flex-row gap-10">
                     <div className="relative w-full md:w-48 aspect-square rounded-[2.5rem] overflow-hidden shrink-0 shadow-2xl group-hover:scale-[1.02] transition-transform">
                       <Image src={`https://picsum.photos/seed/collab-brand-${req.id}/400/400`} alt="Brand" fill className="object-cover" />
-                      <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors" />
+                      <div className="absolute inset-0 bg-zinc-900/20 group-hover:bg-transparent transition-colors" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <Badge className="bg-white/90 backdrop-blur-md text-primary border-none font-black text-[9px] uppercase px-3 h-6 w-full flex items-center justify-center gap-1.5 shadow-xl">
+                        <Badge className="bg-card/90 backdrop-blur-md text-primary border-none font-black text-[9px] uppercase px-3 h-6 w-full flex items-center justify-center gap-1.5 shadow-xl">
                           <CheckCircle2 className="h-3 w-3" /> VERIFIED BRAND
                         </Badge>
                       </div>
@@ -132,36 +132,36 @@ export default function CollaborationsHubPage() {
                         <div className="flex justify-between items-start">
                           <div className="space-y-1">
                             <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">{req.type}</p>
-                            <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-tight group-hover:text-primary transition-colors">{req.brand}</h3>
+                            <h3 className="text-3xl font-black text-foreground tracking-tight leading-tight group-hover:text-primary transition-colors">{req.brand}</h3>
                           </div>
                           <div className="text-right">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Synergy Score</p>
+                            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Synergy Score</p>
                             <div className="flex items-center gap-2">
                               <span className="text-xl font-black text-emerald-600">{req.match}%</span>
-                              <Progress value={req.match} className="h-1.5 w-12 bg-slate-50" />
+                              <Progress value={req.match} className="h-1.5 w-12 bg-muted" />
                             </div>
                           </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-6 pt-4">
                           <div className="space-y-1">
-                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Scope of Work</p>
-                            <p className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                            <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Scope of Work</p>
+                            <p className="text-sm font-bold text-foreground flex items-center gap-2">
                               <Smartphone className="h-3.5 w-3.5 text-blue-500" /> {req.requirements}
                             </p>
                           </div>
                           <div className="space-y-1 text-right sm:text-left">
-                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Proposed Budget</p>
-                            <p className="text-sm font-black text-slate-900 flex items-center justify-end sm:justify-start gap-2">
+                            <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Proposed Budget</p>
+                            <p className="text-sm font-black text-foreground flex items-center justify-end sm:justify-start gap-2">
                               <Landmark className="h-3.5 w-3.5 text-emerald-500" /> {req.budget}
                             </p>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-slate-50 mt-6">
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-border mt-6">
                         <div className="flex items-center gap-6">
-                          <div className="flex items-center gap-2 text-[10px] font-black text-slate-300 uppercase tracking-widest">
+                          <div className="flex items-center gap-2 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                             <Clock className="h-3.5 w-3.5" /> Received {req.date}
                           </div>
                           <div className="flex items-center gap-2 text-[10px] font-black text-rose-500 uppercase tracking-widest">
@@ -180,19 +180,19 @@ export default function CollaborationsHubPage() {
             </TabsContent>
 
             <TabsContent value="ongoing" className="m-0 py-20 text-center space-y-6 animate-in fade-in duration-500">
-              <div className="h-20 w-20 rounded-[2rem] bg-slate-50 flex items-center justify-center text-slate-200 mx-auto">
+              <div className="h-20 w-20 rounded-[2rem] bg-muted flex items-center justify-center text-muted-foreground mx-auto">
                 <BarChart3 className="h-10 w-10" />
               </div>
-              <p className="text-slate-400 font-medium italic">No active production tasks. Start a new collaboration from the Requests tab.</p>
+              <p className="text-muted-foreground font-medium italic">No active production tasks. Start a new collaboration from the Requests tab.</p>
             </TabsContent>
           </Tabs>
         </div>
 
         {/* Strategic Support Sidebar */}
         <aside className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-10 space-y-8 group">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Market Trends</h3>
+              <h3 className="text-xl font-black text-foreground uppercase tracking-tighter">Market Trends</h3>
               <TrendingUp className="h-5 w-5 text-emerald-500 animate-pulse" />
             </div>
             <div className="space-y-6">
@@ -203,27 +203,27 @@ export default function CollaborationsHubPage() {
               ].map((trend, i) => (
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                    <span className="text-slate-500">{trend.label}</span>
+                    <span className="text-muted-foreground">{trend.label}</span>
                     <span className="text-primary">{trend.trend}</span>
                   </div>
-                  <div className="h-1.5 bg-slate-50 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                     <div className={cn("h-full rounded-full transition-all duration-1000", trend.color)} style={{ width: `${trend.val}%` }} />
                   </div>
                 </div>
               ))}
             </div>
-            <Button variant="outline" className="w-full rounded-xl h-12 font-black text-[10px] uppercase border-2 bg-white">Full Market Insights</Button>
+            <Button variant="outline" className="w-full rounded-xl h-12 font-black text-[10px] uppercase border-2 bg-card">Full Market Insights</Button>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none bg-slate-900 text-white p-10 space-y-8 relative overflow-hidden shadow-2xl">
+          <Card className="rounded-[2.5rem] border-none bg-zinc-900 text-white p-10 space-y-8 relative overflow-hidden shadow-2xl">
             <Sparkles className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
             <div className="relative z-10 space-y-6">
-              <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-primary border border-white/10 shadow-3xl group-hover:rotate-12 transition-transform duration-500">
+              <div className="h-14 w-14 rounded-2xl bg-card/10 flex items-center justify-center text-primary border border-white/10 shadow-3xl group-hover:rotate-12 transition-transform duration-500">
                 <ShieldCheck className="h-8 w-8" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-2xl font-black tracking-tight leading-tight">Verification Power</h3>
-                <p className="text-sm text-slate-400 font-medium leading-relaxed italic">
+                <p className="text-sm text-muted-foreground font-medium leading-relaxed italic">
                   Creators with a verified "Scholarly Board Audit" receive 3x more premium brand requests.
                 </p>
               </div>
@@ -231,16 +231,16 @@ export default function CollaborationsHubPage() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-white p-8 space-y-6">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-6">
             <h3 className="text-lg font-black flex items-center gap-2">
               <Info className="h-4 w-4 text-blue-500" /> Collaboration Tips
             </h3>
             <div className="space-y-4">
-              <p className="text-xs font-medium text-slate-500 leading-relaxed italic">
+              <p className="text-xs font-medium text-muted-foreground leading-relaxed italic">
                 "Brands are looking for high-fidelity storytelling. Consider adding a 'Behind the Scenes' story to your proposals to increase win rate."
               </p>
-              <div className="h-px bg-slate-100" />
-              <Link href="#" className="flex items-center justify-between text-[10px] font-black uppercase text-primary tracking-widest hover:gap-2 transition-all">
+              <div className="h-px bg-muted" />
+              <Link href="/vendor/creative/content/upload" className="flex items-center justify-between text-[10px] font-black uppercase text-primary tracking-widest hover:gap-2 transition-all">
                 Download Media Kit Template <ChevronRight className="h-3 w-3" />
               </Link>
             </div>

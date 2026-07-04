@@ -67,26 +67,26 @@ export default function SuperAdminDashboard() {
   if (!mounted) return null
 
   return (
-    <div className="p-8 space-y-8 bg-[#F4F7F6] min-h-screen pb-24 selection:bg-primary/10">
+    <div className="p-8 space-y-8 bg-background min-h-screen pb-24 selection:bg-primary/10">
       
       {/* System Integrity Ribbon */}
-      <div className="flex flex-wrap items-center gap-6 px-6 py-3 bg-slate-900 rounded-3xl shadow-2xl border border-white/10 overflow-hidden relative group">
+      <div className="flex flex-wrap items-center gap-6 px-6 py-3 bg-zinc-900 rounded-3xl shadow-2xl border border-white/10 overflow-hidden relative group">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-50" />
         <div className="flex items-center gap-3 relative z-10">
           <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
           <span className="text-[10px] font-black text-white uppercase tracking-widest">System Live</span>
         </div>
-        <div className="h-4 w-px bg-white/10 mx-2" />
+        <div className="h-4 w-px bg-card/10 mx-2" />
         <div className="flex items-center gap-4 relative z-10">
-          <div className="flex items-center gap-2 text-slate-400">
+          <div className="flex items-center gap-2 text-muted-foreground">
             <Wifi className="h-3 w-3" />
             <span className="text-[10px] font-bold uppercase">Latency: 24ms</span>
           </div>
-          <div className="flex items-center gap-2 text-slate-400">
+          <div className="flex items-center gap-2 text-muted-foreground">
             <Cpu className="h-3 w-3" />
             <span className="text-[10px] font-bold uppercase">Load: 14.2%</span>
           </div>
-          <div className="flex items-center gap-2 text-slate-400">
+          <div className="flex items-center gap-2 text-muted-foreground">
             <Server className="h-3 w-3" />
             <span className="text-[10px] font-bold uppercase">Nodes: 128 Online</span>
           </div>
@@ -103,14 +103,14 @@ export default function SuperAdminDashboard() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <Zap className="h-3 w-3 fill-current" /> Operational Command
           </div>
-          <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tighter">HALAL HUB GLOBAL</h1>
+          <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter">HALAL HUB GLOBAL</h1>
           <p className="text-muted-foreground font-medium text-lg italic">Tactical oversight of the unified Shariah-compliant ecosystem.</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-12 gap-2 bg-white hover:bg-slate-50 shadow-sm">
+          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-12 gap-2 bg-card hover:bg-muted shadow-sm">
             <History className="h-4 w-4" /> Operations Log
           </Button>
-          <Button className="bg-slate-900 hover:bg-slate-800 text-white rounded-2xl px-8 font-black shadow-2xl h-12 gap-2">
+          <Button className="bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl px-8 font-black shadow-2xl h-12 gap-2">
             <Settings className="h-4 w-4" /> System Config
           </Button>
         </div>
@@ -124,11 +124,11 @@ export default function SuperAdminDashboard() {
           { label: "Global Node Registry", value: "1.24M", trend: "+2.4k", sub: "New Nodes Today", icon: Network, color: "text-purple-600", bg: "bg-purple-50", spark: [20, 30, 45, 40, 55, 70, 90] },
           { label: "Platform Trust Score", value: "A+", trend: "Optimum", sub: "System Integrity", icon: CheckCircle2, color: "text-primary", bg: "bg-primary/5", spark: [90, 92, 95, 94, 96, 98, 100] },
         ].map((stat, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-white group hover:shadow-xl transition-all duration-500 overflow-hidden relative">
+          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-card group hover:shadow-xl transition-all duration-500 overflow-hidden relative">
             <div className="flex justify-between items-start mb-6">
               <div className="space-y-1">
-                <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none">{stat.label}</span>
-                <div className="text-4xl font-black text-slate-900 tracking-tighter">{stat.value}</div>
+                <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">{stat.label}</span>
+                <div className="text-4xl font-black text-foreground tracking-tighter">{stat.value}</div>
               </div>
               <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
                 <stat.icon className="h-6 w-6" />
@@ -137,7 +137,7 @@ export default function SuperAdminDashboard() {
             <div className="flex items-end justify-between">
               <div className="space-y-0.5">
                 <p className={cn("text-xs font-black uppercase", stat.color)}>{stat.trend}</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{stat.sub}</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">{stat.sub}</p>
               </div>
               <div className="flex gap-1 items-end h-8">
                 {stat.spark.map((v, idx) => (
@@ -152,20 +152,20 @@ export default function SuperAdminDashboard() {
       {/* Analytics Command Center */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Tactical Revenue Growth */}
-        <Card className="lg:col-span-8 rounded-[3rem] border-none shadow-sm bg-white overflow-hidden">
-          <CardHeader className="p-10 border-b bg-slate-50/30 flex flex-row items-center justify-between">
+        <Card className="lg:col-span-8 rounded-[3rem] border-none shadow-sm bg-card overflow-hidden">
+          <CardHeader className="p-10 border-b bg-muted/30 flex flex-row items-center justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-2xl font-black text-slate-900">Ecosystem Revenue Velocity</CardTitle>
+              <CardTitle className="text-2xl font-black text-foreground">Ecosystem Revenue Velocity</CardTitle>
               <CardDescription className="font-medium italic text-base">Real-time performance tracking across all 13 business verticals vs targets.</CardDescription>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full bg-primary" />
-                <span className="text-[10px] font-black uppercase text-slate-400">Actual</span>
+                <span className="text-[10px] font-black uppercase text-muted-foreground">Actual</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-slate-200" />
-                <span className="text-[10px] font-black uppercase text-slate-400">Target</span>
+                <div className="h-2 w-2 rounded-full bg-muted" />
+                <span className="text-[10px] font-black uppercase text-muted-foreground">Target</span>
               </div>
               <Badge className="bg-primary text-white font-black text-[9px] px-4 py-1 rounded-full uppercase tracking-[0.2em] shadow-lg shadow-primary/20">LIVE OPS</Badge>
             </div>
@@ -194,14 +194,14 @@ export default function SuperAdminDashboard() {
 
         {/* Vertical Sector Command Centers */}
         <div className="lg:col-span-4 space-y-6">
-          <h3 className="text-xl font-black text-slate-900 px-2 flex items-center gap-2">
+          <h3 className="text-xl font-black text-foreground px-2 flex items-center gap-2">
             <LayoutGrid className="h-5 w-5 text-primary" /> Sector Health Status
           </h3>
           <div className="grid grid-cols-1 gap-4">
             {verticalStats.map((v, i) => (
-              <Card key={i} className="border-none shadow-sm rounded-[2rem] p-6 bg-white group hover:bg-slate-900 hover:text-white transition-all duration-500 cursor-pointer">
+              <Card key={i} className="border-none shadow-sm rounded-[2rem] p-6 bg-card group hover:bg-zinc-800 hover:text-white transition-all duration-500 cursor-pointer">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center shadow-inner group-hover:bg-white/10", v.bg, v.color)}>
+                  <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center shadow-inner group-hover:bg-card/10", v.bg, v.color)}>
                     <v.icon className="h-5 w-5" />
                   </div>
                   <div className="flex-1">
@@ -209,23 +209,23 @@ export default function SuperAdminDashboard() {
                       <span className="text-sm font-black uppercase tracking-tight">{v.name}</span>
                       <span className="text-[10px] font-black text-emerald-500">{v.health}% OK</span>
                     </div>
-                    <Progress value={v.health} className="h-1.5 mt-1.5 bg-slate-100 group-hover:bg-white/10" />
+                    <Progress value={v.health} className="h-1.5 mt-1.5 bg-muted group-hover:bg-card/10" />
                   </div>
                 </div>
-                <div className="flex justify-between items-end border-t border-slate-50 group-hover:border-white/10 pt-4 mt-2">
+                <div className="flex justify-between items-end border-t border-border group-hover:border-white/10 pt-4 mt-2">
                   <div className="space-y-0.5">
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Active Entities</p>
+                    <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Active Entities</p>
                     <p className="text-lg font-black">{v.entities.toLocaleString()}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Revenue</p>
+                    <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Revenue</p>
                     <p className="text-lg font-black text-primary group-hover:text-emerald-400">{v.revenue}</p>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
-          <Button variant="outline" className="w-full rounded-2xl h-14 font-black border-2 bg-white hover:bg-slate-50 shadow-sm gap-2">
+          <Button variant="outline" className="w-full rounded-2xl h-14 font-black border-2 bg-card hover:bg-muted shadow-sm gap-2">
             Full Sector Audit <ArrowUpRight className="h-4 w-4" />
           </Button>
         </div>
@@ -234,22 +234,22 @@ export default function SuperAdminDashboard() {
       {/* Moderation & Quality Matrix */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Global Verification Pipeline */}
-        <Card className="lg:col-span-7 rounded-[3rem] border-none shadow-sm bg-white overflow-hidden">
-          <CardHeader className="p-10 border-b bg-slate-50/30 flex flex-row items-center justify-between">
+        <Card className="lg:col-span-7 rounded-[3rem] border-none shadow-sm bg-card overflow-hidden">
+          <CardHeader className="p-10 border-b bg-muted/30 flex flex-row items-center justify-between">
             <div className="space-y-1">
               <CardTitle className="text-2xl font-black">Verification Command Pipeline</CardTitle>
               <CardDescription className="font-medium italic">High-priority cross-vertical certification requests.</CardDescription>
             </div>
-            <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-10 px-6 border-2 uppercase tracking-widest bg-white">Real-time Stream</Button>
+            <Button variant="outline" size="sm" className="rounded-xl font-black text-[10px] h-10 px-6 border-2 uppercase tracking-widest bg-card">Real-time Stream</Button>
           </CardHeader>
           <CardContent className="p-0">
             <Table>
-              <TableHeader className="bg-slate-50/50">
+              <TableHeader className="bg-muted/50">
                 <TableRow className="border-none">
-                  <TableHead className="px-10 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Identity / Origin</TableHead>
-                  <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Documentation</TableHead>
-                  <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-slate-400 text-center">Audit Severity</TableHead>
-                  <TableHead className="text-right px-10 h-14 font-black text-[10px] uppercase tracking-widest text-slate-400">Action</TableHead>
+                  <TableHead className="px-10 h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Identity / Origin</TableHead>
+                  <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Documentation</TableHead>
+                  <TableHead className="h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground text-center">Audit Severity</TableHead>
+                  <TableHead className="text-right px-10 h-14 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -259,33 +259,33 @@ export default function SuperAdminDashboard() {
                   { name: "Royal Suites", vertical: "Hotels", doc: "Privacy Charter v2", status: "Routine", loc: "New York, US", color: "bg-blue-500" },
                   { name: "Iman Knowledge", vertical: "Education", doc: "Curriculum Vetting", status: "Routine", loc: "London, UK", color: "bg-emerald-500" },
                 ].map((item, i) => (
-                  <TableRow key={i} className="border-slate-50 hover:bg-slate-50/50 transition-colors group">
+                  <TableRow key={i} className="border-border hover:bg-muted/50 transition-colors group">
                     <TableCell className="px-10 py-6">
                       <div className="flex items-center gap-4">
                         <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center text-white font-black shadow-lg", item.color)}>
                           {item.name.charAt(0)}
                         </div>
                         <div>
-                          <div className="font-black text-slate-800 text-sm tracking-tight">{item.name}</div>
+                          <div className="font-black text-foreground text-sm tracking-tight">{item.name}</div>
                           <div className="flex items-center gap-2">
                             <span className="text-[9px] font-black text-primary uppercase">{item.vertical}</span>
-                            <span className="text-[9px] font-bold text-slate-300 uppercase">• {item.loc}</span>
+                            <span className="text-[9px] font-bold text-muted-foreground uppercase">• {item.loc}</span>
                           </div>
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-[11px] font-bold text-slate-500 italic">{item.doc}</TableCell>
+                    <TableCell className="text-[11px] font-bold text-muted-foreground italic">{item.doc}</TableCell>
                     <TableCell className="text-center">
                       <Badge className={cn(
                         "rounded-full px-4 py-1 text-[8px] font-black uppercase border-none",
                         item.status === 'Critical' ? 'bg-rose-600 text-white animate-pulse shadow-lg shadow-rose-200' : 
-                        item.status === 'High' ? 'bg-orange-100 text-orange-700' : 'bg-slate-100 text-slate-600'
+                        item.status === 'High' ? 'bg-orange-100 text-orange-700' : 'bg-muted text-muted-foreground'
                       )}>
                         {item.status}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right px-10">
-                      <Button size="icon" variant="ghost" className="rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity bg-slate-50 hover:bg-primary hover:text-white"><ArrowRightLeft className="h-4 w-4" /></Button>
+                      <Button size="icon" variant="ghost" className="rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity bg-muted hover:bg-primary hover:text-white"><ArrowRightLeft className="h-4 w-4" /></Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -296,12 +296,12 @@ export default function SuperAdminDashboard() {
 
         {/* Global Activity Map & Insights */}
         <div className="lg:col-span-5 space-y-8">
-          <Card className="rounded-[3rem] border-none shadow-sm bg-white p-10 relative overflow-hidden h-[300px]">
-            <Globe className="absolute -top-10 -right-10 h-64 w-64 opacity-5 text-slate-900" />
+          <Card className="rounded-[3rem] border-none shadow-sm bg-card p-10 relative overflow-hidden h-[300px]">
+            <Globe className="absolute -top-10 -right-10 h-64 w-64 opacity-5 text-foreground" />
             <div className="relative z-10 space-y-6">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-black">Global Traffic Density</CardTitle>
-                <p className="text-sm font-medium text-slate-400">Activity heatmap across active nodes.</p>
+                <p className="text-sm font-medium text-muted-foreground">Activity heatmap across active nodes.</p>
               </div>
               <div className="space-y-4">
                 {[
@@ -310,11 +310,11 @@ export default function SuperAdminDashboard() {
                   { region: "South Asia", activity: 78 },
                 ].map((r, i) => (
                   <div key={i} className="space-y-1.5">
-                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                       <span>{r.region}</span>
                       <span className="text-primary">{r.activity}% flux</span>
                     </div>
-                    <Progress value={r.activity} className="h-1 bg-slate-50" />
+                    <Progress value={r.activity} className="h-1 bg-muted" />
                   </div>
                 ))}
               </div>
@@ -322,7 +322,7 @@ export default function SuperAdminDashboard() {
           </Card>
 
           {/* Live Operational Terminal */}
-          <Card className="rounded-[3rem] border-none shadow-sm bg-slate-900 text-emerald-400 p-10 relative overflow-hidden">
+          <Card className="rounded-[3rem] border-none shadow-sm bg-zinc-900 text-emerald-400 p-10 relative overflow-hidden">
             <Terminal className="absolute -bottom-4 -right-4 h-24 w-24 opacity-10 text-emerald-400" />
             <div className="space-y-4 relative z-10">
               <div className="flex items-center gap-2 border-b border-emerald-400/20 pb-4">

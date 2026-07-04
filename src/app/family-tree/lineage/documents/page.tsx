@@ -36,7 +36,7 @@ export default function DocumentVaultPage() {
                 <FileText className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-5xl font-black font-headline text-slate-900 tracking-tight">Document Vault</h1>
+                <h1 className="text-5xl font-black font-headline text-foreground tracking-tight">Document Vault</h1>
                 <p className="text-muted-foreground font-medium text-xl">Securely store and manage historical family records and certifications.</p>
               </div>
             </div>
@@ -56,26 +56,26 @@ export default function DocumentVaultPage() {
           { label: "Storage Used", value: "142 MB", icon: Lock, color: "text-amber-600", bg: "bg-amber-50" },
           { label: "Pending Review", value: "2", icon: History, color: "text-rose-600", bg: "bg-rose-50" },
         ].map((stat, i) => (
-          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-white flex items-center gap-4 group hover:shadow-md transition-all">
+          <Card key={i} className="rounded-3xl border-none shadow-sm p-6 bg-card flex items-center gap-4 group hover:shadow-md transition-all">
             <div className={`h-12 w-12 rounded-2xl ${stat.bg} flex items-center justify-center ${stat.color} group-hover:scale-110 transition-transform`}>
               <stat.icon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">{stat.label}</p>
-              <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+              <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">{stat.label}</p>
+              <p className="text-2xl font-black text-foreground">{stat.value}</p>
             </div>
           </Card>
         ))}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-[2.5rem] shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-[2.5rem] shadow-sm">
         <div className="relative w-full md:w-96">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search vault..." className="pl-9 h-11 rounded-2xl bg-slate-50 border-none font-medium" />
+          <Input placeholder="Search vault..." className="pl-9 h-11 rounded-2xl bg-muted border-none font-medium" />
         </div>
         <div className="flex items-center gap-2">
           {["All Files", "Certificates", "Religious", "Legal"].map(f => (
-            <Badge key={f} variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-slate-50 transition-all border-slate-200 text-slate-500 font-black text-[10px] uppercase tracking-widest">{f}</Badge>
+            <Badge key={f} variant="outline" className="px-4 py-2 rounded-full cursor-pointer hover:bg-muted transition-all border-border text-muted-foreground font-black text-[10px] uppercase tracking-widest">{f}</Badge>
           ))}
           <Button variant="ghost" size="icon" className="rounded-full h-11 w-11"><Filter className="h-4 w-4" /></Button>
         </div>
@@ -83,18 +83,18 @@ export default function DocumentVaultPage() {
 
       <div className="grid grid-cols-1 gap-4">
         {docs.map((doc) => (
-          <Card key={doc.id} className="rounded-[2rem] border-none shadow-sm bg-white overflow-hidden border-2 border-transparent hover:border-emerald-100 transition-all group">
+          <Card key={doc.id} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-emerald-100 transition-all group">
             <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-10">
               <div className="flex items-center gap-6 flex-1">
-                <div className="h-16 w-16 rounded-[1.5rem] bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-emerald-600 group-hover:bg-emerald-50 transition-colors shadow-inner">
+                <div className="h-16 w-16 rounded-[1.5rem] bg-muted flex items-center justify-center text-muted-foreground group-hover:text-emerald-600 group-hover:bg-emerald-50 transition-colors shadow-inner">
                   <FileText className="h-8 w-8" />
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-xl font-black text-slate-900 truncate leading-tight">{doc.name}</h3>
-                    <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest border-slate-200 text-slate-400 h-5 px-2">{doc.type}</Badge>
+                    <h3 className="text-xl font-black text-foreground truncate leading-tight">{doc.name}</h3>
+                    <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest border-border text-muted-foreground h-5 px-2">{doc.type}</Badge>
                   </div>
-                  <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <div className="flex flex-wrap items-center gap-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                     <span className="flex items-center gap-1"><User className="h-3 w-3" /> By {doc.uploader}</span>
                     <span>•</span>
                     <span>{doc.size}</span>
@@ -111,9 +111,9 @@ export default function DocumentVaultPage() {
                   {doc.status}
                 </Badge>
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="icon" variant="ghost" className="rounded-xl h-10 w-10 hover:bg-white hover:shadow-sm"><Eye className="h-4 w-4 text-slate-400" /></Button>
-                  <Button size="icon" variant="ghost" className="rounded-xl h-10 w-10 hover:bg-white hover:shadow-sm"><Download className="h-4 w-4 text-slate-400" /></Button>
-                  <Button size="icon" variant="ghost" className="rounded-xl h-10 w-10 hover:bg-rose-50 hover:text-rose-600"><Trash2 className="h-4 w-4 text-slate-400" /></Button>
+                  <Button size="icon" variant="ghost" className="rounded-xl h-10 w-10 hover:bg-card hover:shadow-sm"><Eye className="h-4 w-4 text-muted-foreground" /></Button>
+                  <Button size="icon" variant="ghost" className="rounded-xl h-10 w-10 hover:bg-card hover:shadow-sm"><Download className="h-4 w-4 text-muted-foreground" /></Button>
+                  <Button size="icon" variant="ghost" className="rounded-xl h-10 w-10 hover:bg-rose-50 hover:text-rose-600"><Trash2 className="h-4 w-4 text-muted-foreground" /></Button>
                 </div>
               </div>
             </div>
@@ -121,17 +121,17 @@ export default function DocumentVaultPage() {
         ))}
       </div>
 
-      <div className="p-10 bg-slate-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
+      <div className="p-10 bg-zinc-900 text-white rounded-[3rem] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
         <div className="absolute top-0 right-0 p-8 opacity-5">
           <Lock className="h-48 w-48" />
         </div>
         <div className="relative z-10 space-y-4 text-center md:text-left flex-1">
           <h2 className="text-3xl font-black font-headline">Theological Data Privacy</h2>
-          <p className="text-slate-400 font-medium text-lg leading-relaxed max-w-2xl">
+          <p className="text-muted-foreground font-medium text-lg leading-relaxed max-w-2xl">
             Your documents are encrypted and only accessible by confirmed family members. We follow strict privacy standards to ensure your heritage stays private.
           </p>
         </div>
-        <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-white/20 text-white font-black uppercase text-sm tracking-widest hover:bg-white/10 relative z-10">Read Trust Policy</Button>
+        <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-white/20 text-white font-black uppercase text-sm tracking-widest hover:bg-card/10 relative z-10">Read Trust Policy</Button>
       </div>
     </div>
   );
