@@ -310,7 +310,7 @@ export default function FamilyTreePage() {
 
         {/* Tab 2: Legacy & Roots (Preservation) */}
         <TabsContent value="legacy" className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
             {/* Verified Lineage Overview */}
             <Card className="md:col-span-2 rounded-[3rem] border-none shadow-sm bg-zinc-900 text-white p-12 relative overflow-hidden flex flex-col justify-between min-h-[350px]">
               <FamilyTreeIcon className="absolute -top-4 -right-4 h-64 w-64 opacity-10 text-emerald-400" />
