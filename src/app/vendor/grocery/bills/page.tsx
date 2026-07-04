@@ -41,7 +41,7 @@ export default function GroceryBillsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-6">
           <div className="flex justify-between items-start">
             <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Today's Sales</p>

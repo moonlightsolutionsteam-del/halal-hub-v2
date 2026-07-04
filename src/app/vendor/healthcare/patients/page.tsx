@@ -36,7 +36,7 @@ export default function HealthcarePatientsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {[
           { label: "Active Patients", value: "1,240", icon: Users, color: "text-teal-600", bg: "bg-teal-50" },
           { label: "Critical Care", value: "12", icon: ShieldAlert, color: "text-rose-600", bg: "bg-rose-50" },

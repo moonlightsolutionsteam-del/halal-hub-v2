@@ -31,7 +31,7 @@ export default function ButcherBlogPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {[
           { label: "Total Articles", value: "8", icon: Layout },
           { label: "Lifetime Reads", value: "12.4k", icon: Eye },

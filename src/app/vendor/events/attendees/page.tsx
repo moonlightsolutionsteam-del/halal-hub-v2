@@ -40,7 +40,7 @@ export default function EventAttendeesPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
             <CheckCircle2 className="h-7 w-7" />

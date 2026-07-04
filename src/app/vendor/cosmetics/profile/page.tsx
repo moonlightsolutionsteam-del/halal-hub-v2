@@ -164,7 +164,7 @@ export default function CosmeticsProfilePage() {
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Upload product photography, brand imagery, and packaging shots.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {["Logo (SVG/PNG)", "Brand Banner", "Hero Product Shot", "Packaging Detail", "Lifestyle Photography", "Lab / Process Shot"].map((slot, i) => (
                 <Card key={slot} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-md transition-all">
                   <div className="aspect-video bg-muted flex flex-col items-center justify-center gap-3 border-2 border-dashed border-border group-hover:border-rose-300 transition-all m-4 rounded-2xl">

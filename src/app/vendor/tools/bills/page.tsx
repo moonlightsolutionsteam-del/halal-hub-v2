@@ -42,7 +42,7 @@ export default function DigitalBillsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-primary text-primary-foreground p-8">
           <div className="space-y-4">
             <div className="flex justify-between items-start">

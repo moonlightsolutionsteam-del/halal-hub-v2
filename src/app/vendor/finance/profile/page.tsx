@@ -177,7 +177,7 @@ export default function FinanceProfilePage() {
                 <CircleDollarSign className="h-5 w-5 text-indigo-600" /> Active Product Catalog
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {PRODUCTS.map((prod, i) => (
                 <Card key={i} className="rounded-[2rem] border-none shadow-sm bg-card p-6 flex flex-col justify-between group hover:shadow-md transition-all">
                   <div className="space-y-4">

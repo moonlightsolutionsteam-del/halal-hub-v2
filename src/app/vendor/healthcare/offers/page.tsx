@@ -32,7 +32,7 @@ export default function HealthcareOffersPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-4">
           <div className="h-12 w-12 rounded-2xl bg-teal-50 flex items-center justify-center text-teal-600 shadow-inner">
             <TrendingUp className="h-6 w-6" />

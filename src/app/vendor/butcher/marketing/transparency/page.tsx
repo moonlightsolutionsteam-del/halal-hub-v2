@@ -36,7 +36,7 @@ export default function ButcherTransparencyPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-red-600 text-white p-10 text-center space-y-4">
           <div className="h-20 w-20 bg-card/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md">
             <ShieldCheck className="h-10 w-10 text-white" />

@@ -36,7 +36,7 @@ export default function HotelGuestsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
           <div className="h-14 w-14 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600 shadow-inner">
             <Users className="h-7 w-7" />

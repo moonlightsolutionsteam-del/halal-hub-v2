@@ -42,7 +42,7 @@ export default function EducationFinancePage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-10 space-y-10 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Banknote className="h-32 w-32 text-violet-600" />

@@ -120,7 +120,7 @@ export default function VendorCertificationHub() {
           <h2 className="text-xl font-black text-foreground">Available Certifications</h2>
           <Button variant="ghost" className="text-primary font-black text-xs uppercase tracking-widest">View Phase 2 <Plus className="ml-1 h-3 w-3" /></Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
           {availableCerts.map((cert) => (
             <Card key={cert.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden flex flex-col group hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/10">
               <div className="p-8 flex-1 space-y-6">

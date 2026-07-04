@@ -32,7 +32,7 @@ export default function FashionBlogPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {[
           { label: "Total Articles", value: "15", icon: Layout },
           { label: "Lifetime Reads", value: "42.8k", icon: Eye },

@@ -465,7 +465,7 @@ export default function ButcherProfilePage() {
             </Card>
           </section>
 
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <section className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             <div className="space-y-4">
               <div className="space-y-1">
                 <h3 className="font-black text-sm text-foreground">Shop Exterior</h3>

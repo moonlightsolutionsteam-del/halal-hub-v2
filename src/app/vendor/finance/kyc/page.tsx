@@ -45,7 +45,7 @@ export default function FinanceKYCPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {[
           { label: "Verified Users", value: "1,240", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
           { label: "Pending KYC", value: "15", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },

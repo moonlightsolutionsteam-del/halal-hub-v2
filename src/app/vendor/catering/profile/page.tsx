@@ -210,7 +210,7 @@ export default function CateringProfilePage() {
               </h2>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 space-y-10">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Min Guest Count</Label>
                   <Input type="number" placeholder="e.g., 50" className="h-12 rounded-2xl bg-muted border-none font-bold" />

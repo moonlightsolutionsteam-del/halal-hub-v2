@@ -148,7 +148,7 @@ export default function MediaProfilePage() {
               </h2>
               <p className="text-sm text-muted-foreground font-medium">Upload storefront photography, featured book covers, and brand assets.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
               {["Store Logo", "Storefront Banner", "Featured Collection", "Author Spotlights", "Event Photography", "Social Media Kit"].map((slot) => (
                 <Card key={slot} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-md transition-all">
                   <div className="aspect-video bg-muted flex flex-col items-center justify-center gap-3 border-2 border-dashed border-border group-hover:border-slate-400 transition-all m-4 rounded-2xl">

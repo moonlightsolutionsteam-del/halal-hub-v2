@@ -35,7 +35,7 @@ export default function MarketingCollaboratePage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 space-y-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5">
             <Zap className="h-24 w-24" />
