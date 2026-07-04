@@ -39,7 +39,7 @@ export default function DigitalTableOrderingPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Tables", value: "12/20", icon: Users, color: "text-blue-500" },
           { label: "Pending Orders", value: "5", icon: Bell, color: "text-amber-500" },

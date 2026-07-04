@@ -37,7 +37,7 @@ export default function FamilyDiscoveryPage() {
                 <Sparkles className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Family Discovery</h1>
+                <h1 className="text-3xl sm:text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Family Discovery</h1>
                 <p className="text-muted-foreground font-medium text-xl">Handpicked family-friendly halal venues for your shared board.</p>
               </div>
             </div>

@@ -44,7 +44,7 @@ export default function VendorOrdersPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "New Orders", value: "12", color: "text-blue-500", bg: "bg-blue-50" },
           { label: "Preparing", value: "5", color: "text-amber-500", bg: "bg-amber-50" },

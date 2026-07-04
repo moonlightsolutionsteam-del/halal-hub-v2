@@ -42,7 +42,7 @@ export default function CosmeticsOrdersPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "New Orders", value: "15", icon: ShoppingBag, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Packing Queue", value: "6", icon: Box, color: "text-rose-600", bg: "bg-rose-50" },

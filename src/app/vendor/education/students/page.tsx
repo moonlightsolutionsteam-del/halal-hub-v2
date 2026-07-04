@@ -45,7 +45,7 @@ export default function EducationStudentsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Students", value: "450", icon: Users, color: "text-violet-600", bg: "bg-violet-50" },
           { label: "Graduated", value: "124", icon: GraduationCap, color: "text-emerald-600", bg: "bg-emerald-50" },

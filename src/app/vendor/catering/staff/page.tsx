@@ -50,7 +50,7 @@ export default function CateringStaffPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Today", value: "8", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Uniform Check", value: "100%", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },

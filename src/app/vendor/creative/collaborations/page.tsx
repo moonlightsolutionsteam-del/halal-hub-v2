@@ -69,7 +69,7 @@ export default function CollaborationsHubPage() {
       </div>
 
       {/* KPI Stats Ribbon */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Collabs", value: "4", trend: "+2", sub: "Ongoing Projects", icon: HandHeart, color: "text-emerald-600", bg: "bg-emerald-50" },
           { label: "Pipeline Value", value: "₹1.2M", trend: "High", sub: "Potential Revenue", icon: Landmark, color: "text-blue-600", bg: "bg-blue-50" },

@@ -52,7 +52,7 @@ export default function FinancePortfolioPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Total AUM", value: "₹45.2M", icon: Landmark, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Portfolio Health", value: "AA+", icon: ShieldCheck, color: "text-emerald-600", bg: "bg-emerald-50" },

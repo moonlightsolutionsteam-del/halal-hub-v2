@@ -50,7 +50,7 @@ export default function CreativeAudiencePage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Total Community", value: "125k", trend: "+2.4k", sub: "New This Week", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Retention Rate", value: "92%", trend: "High", sub: "Last 30 Days", icon: UserCheck, color: "text-emerald-600", bg: "bg-emerald-50" },

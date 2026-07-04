@@ -49,7 +49,7 @@ export default function ButcherDeliveryPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Orders", value: "8", icon: PackageCheck, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Avg Delivery", value: "22m", icon: Timer, color: "text-emerald-600", bg: "bg-emerald-50" },

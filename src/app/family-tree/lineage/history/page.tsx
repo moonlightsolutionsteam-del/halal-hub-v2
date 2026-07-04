@@ -40,7 +40,7 @@ export default function HeritageLogsPage() {
                 <History className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Heritage Logs</h1>
+                <h1 className="text-3xl sm:text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Heritage Logs</h1>
                 <p className="text-muted-foreground font-medium text-xl">Full audit trail of family ecosystem changes and ancestral data edits.</p>
               </div>
             </div>

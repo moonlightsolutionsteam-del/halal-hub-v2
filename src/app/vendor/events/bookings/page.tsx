@@ -42,7 +42,7 @@ export default function EventBookingsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Bookings", value: "15", icon: CalendarDays, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Pending Signatures", value: "4", icon: Briefcase, color: "text-amber-600", bg: "bg-amber-50" },

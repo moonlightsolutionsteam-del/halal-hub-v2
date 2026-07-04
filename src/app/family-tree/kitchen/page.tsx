@@ -37,7 +37,7 @@ export default function HeritageKitchenPage() {
                 <Utensils className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Heritage Kitchen</h1>
+                <h1 className="text-3xl sm:text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Heritage Kitchen</h1>
                 <p className="text-muted-foreground font-medium text-xl">The private repository of our family's culinary legacy.</p>
               </div>
             </div>

@@ -35,7 +35,7 @@ export default function TravelPartnersPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Hotels", value: "12", icon: Hotel, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Transport Subs", value: "5", icon: Bus, color: "text-amber-600", bg: "bg-amber-50" },

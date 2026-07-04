@@ -41,7 +41,7 @@ export default function FamilyMembersPage() {
                 <Users className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Member Directory</h1>
+                <h1 className="text-3xl sm:text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Member Directory</h1>
                 <p className="text-muted-foreground font-medium text-xl">Manage family participants, roles, and collaboration permissions.</p>
               </div>
             </div>

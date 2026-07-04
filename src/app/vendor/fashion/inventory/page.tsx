@@ -42,7 +42,7 @@ export default function FashionInventoryPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Total SKUs", value: "86", icon: Layers, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Low Stock", value: "7", icon: AlertCircle, color: "text-pink-600", bg: "bg-pink-50" },

@@ -638,7 +638,7 @@ export default function SuperAdminHotelManagement() {
                 <Wallet className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
                 <div className="relative z-10 space-y-2">
                   <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Escrow Balance</p>
-                  <h2 className="text-5xl font-black tracking-tighter text-primary">₹12.4M</h2>
+                  <h2 className="text-3xl sm:text-5xl font-black tracking-tighter text-primary">₹12.4M</h2>
                   <p className="text-xs font-bold text-muted-foreground uppercase leading-relaxed">
                     Vertical liquidity reserve for partner payouts and refund mitigation.
                   </p>

@@ -189,7 +189,7 @@ export default function ButcherProfilePage() {
                   ))}
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Minimum Order (₹)</Label>
                   <Input placeholder="e.g., 300" className="h-12 rounded-2xl bg-muted border-none font-bold" />

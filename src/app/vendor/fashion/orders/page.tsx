@@ -42,7 +42,7 @@ export default function FashionOrdersPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "New Orders", value: "12", icon: ShoppingBag, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Ready to Dispatch", value: "8", icon: Box, color: "text-pink-600", bg: "bg-pink-50" },

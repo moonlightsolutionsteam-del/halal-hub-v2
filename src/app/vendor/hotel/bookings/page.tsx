@@ -41,7 +41,7 @@ export default function HotelBookingsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Check-ins Today", value: "8", icon: CalendarDays, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Active Stays", value: "42", icon: Bed, color: "text-sky-600", bg: "bg-sky-50" },

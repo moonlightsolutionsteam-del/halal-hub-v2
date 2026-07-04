@@ -140,8 +140,8 @@ export default function WelcomeHubPage() {
               <div className="relative z-10 space-y-10">
                 <div className="space-y-4">
                   <Badge className="bg-primary text-white border-none font-black text-xs uppercase tracking-[0.2em] px-6 py-2 rounded-full shadow-2xl">CREATOR STUDIO</Badge>
-                  <h2 className="text-5xl font-black tracking-tighter leading-tight">Elevate Your Voice</h2>
-                  <p className="text-xl text-muted-foreground font-medium leading-relaxed italic max-w-md">
+                  <h2 className="text-3xl sm:text-3xl sm:text-5xl font-black tracking-tighter leading-tight">Elevate Your Voice</h2>
+                  <p className="text-sm sm:text-xl text-muted-foreground font-medium leading-relaxed italic max-w-md">
                     "The high-fidelity workspace for scholars, influencers, and digital educators."
                   </p>
                 </div>
@@ -161,8 +161,8 @@ export default function WelcomeHubPage() {
               <div className="relative z-10 space-y-10">
                 <div className="space-y-4">
                   <Badge className="bg-card/20 text-white border-none font-black text-xs uppercase tracking-[0.2em] px-6 py-2 rounded-full backdrop-blur-md">FAMILY HUB</Badge>
-                  <h2 className="text-5xl font-black tracking-tighter leading-tight">Preserve Your Legacy</h2>
-                  <p className="text-xl text-emerald-100 font-medium leading-relaxed italic max-w-md">
+                  <h2 className="text-3xl sm:text-3xl sm:text-5xl font-black tracking-tighter leading-tight">Preserve Your Legacy</h2>
+                  <p className="text-sm sm:text-xl text-emerald-100 font-medium leading-relaxed italic max-w-md">
                     "Coordinate daily life and map your ancestral lineage in one secure, private ecosystem."
                   </p>
                 </div>
@@ -180,7 +180,7 @@ export default function WelcomeHubPage() {
         <section className="mt-32 bg-card rounded-[4rem] p-16 shadow-sm border space-y-12">
           <div className="text-center space-y-4 max-w-2xl mx-auto">
             <Badge variant="secondary" className="bg-primary/5 text-primary border-none font-black text-[10px] px-4 py-1.5 rounded-full uppercase tracking-widest">Global Community</Badge>
-            <h2 className="text-5xl font-black tracking-tighter text-foreground">Join the Conversation</h2>
+            <h2 className="text-3xl sm:text-3xl sm:text-5xl font-black tracking-tighter text-foreground">Join the Conversation</h2>
             <p className="text-sm sm:text-xl text-muted-foreground font-medium">Connect with millions of members in our moderated community forums.</p>
           </div>
           
@@ -212,8 +212,8 @@ export default function WelcomeHubPage() {
         <section className="mt-32 text-center space-y-10 pb-20">
           <Sparkles className="h-16 w-16 text-primary mx-auto animate-pulse" />
           <div className="space-y-4">
-            <h2 className="text-5xl font-black tracking-tight">Ready to join the Hub?</h2>
-            <p className="text-xl text-muted-foreground font-medium max-w-xl mx-auto leading-relaxed">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight">Ready to join the Hub?</h2>
+            <p className="text-sm sm:text-xl text-muted-foreground font-medium max-w-xl mx-auto leading-relaxed">
               Create your account today and start your journey towards an ethical, verified lifestyle.
             </p>
           </div>

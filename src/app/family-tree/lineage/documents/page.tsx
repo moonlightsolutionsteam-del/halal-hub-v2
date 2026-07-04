@@ -36,7 +36,7 @@ export default function DocumentVaultPage() {
                 <FileText className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Document Vault</h1>
+                <h1 className="text-3xl sm:text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Document Vault</h1>
                 <p className="text-muted-foreground font-medium text-xl">Securely store and manage historical family records and certifications.</p>
               </div>
             </div>

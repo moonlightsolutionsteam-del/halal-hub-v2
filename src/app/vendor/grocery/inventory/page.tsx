@@ -46,7 +46,7 @@ export default function GroceryInventoryPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Total SKUs", value: "1,240", icon: Layers, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Low Stock Items", value: "12", icon: AlertCircle, color: "text-amber-600", bg: "bg-amber-50" },
@@ -78,7 +78,7 @@ export default function GroceryInventoryPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {stockItems.map((item) => (
           <Card key={item.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-emerald-100">
             <div className="relative aspect-square">

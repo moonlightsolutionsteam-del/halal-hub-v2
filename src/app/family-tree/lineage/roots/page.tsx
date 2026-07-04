@@ -30,7 +30,7 @@ export default function AncestryRootsPage() {
                 <Network className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Ancestry Roots</h1>
+                <h1 className="text-3xl sm:text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Ancestry Roots</h1>
                 <p className="text-muted-foreground font-medium text-xl">Manage high-level root ancestors and unify global family branches.</p>
               </div>
             </div>
