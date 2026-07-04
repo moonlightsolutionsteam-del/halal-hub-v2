@@ -212,7 +212,7 @@ export default function HotelsListingPage() {
                   <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
                     <div className="space-y-2">
                       <p className="text-[10px] font-black uppercase tracking-widest text-sky-600">{hotel.type}</p>
-                      <CardTitle className="text-3xl font-black group-hover:text-sky-600 transition-colors leading-tight">{hotel.name}</CardTitle>
+                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-sky-600 transition-colors leading-tight">{hotel.name}</CardTitle>
                       <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
                         <MapPin className="h-4 w-4 text-sky-600" /> {hotel.loc} • {hotel.distance} away
                       </div>
@@ -255,7 +255,7 @@ export default function HotelsListingPage() {
               <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Results</p>
               <div className="h-1 w-12 bg-muted rounded-full" />
             </div>
-            <Button variant="outline" className="rounded-full px-16 font-black border-2 h-16 hover:bg-sky-600 hover:text-white hover:border-sky-600 transition-all text-lg shadow-sm">Explore Global Partners</Button>
+            <Button variant="outline" className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-sky-600 hover:text-white hover:border-sky-600 transition-all text-sm sm:text-lg shadow-sm">Explore Global Partners</Button>
           </div>
         </div>
       </div>

@@ -210,7 +210,7 @@ export default function CateringListingPage() {
                   <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
                     <div className="space-y-2">
                       <p className="text-[10px] font-black uppercase tracking-widest text-blue-600">{caterer.type}</p>
-                      <CardTitle className="text-3xl font-black group-hover:text-blue-600 transition-colors leading-tight">{caterer.name}</CardTitle>
+                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-blue-600 transition-colors leading-tight">{caterer.name}</CardTitle>
                       <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
                         <MapPin className="h-4 w-4 text-blue-600" /> {caterer.loc}
                       </div>
@@ -253,7 +253,7 @@ export default function CateringListingPage() {
               <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Caterer List</p>
               <div className="h-1 w-12 bg-muted rounded-full" />
             </div>
-            <Button variant="outline" className="rounded-full px-16 font-black border-2 h-16 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all text-lg shadow-sm">Show National Partners</Button>
+            <Button variant="outline" className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all text-sm sm:text-lg shadow-sm">Show National Partners</Button>
           </div>
         </div>
       </div>

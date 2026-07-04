@@ -34,7 +34,8 @@ import {
   PRAYER_NAMES, MAIN_PRAYERS,
 } from "@/lib/ummah-api"
 
-function formatTime(time24: string, format: "12h" | "24h"): string {
+function formatTime(time24: string | undefined, format: "12h" | "24h"): string {
+  if (!time24) return "--:--"
   if (format === "24h") return time24
   const [h, m] = time24.split(":").map(Number)
   const period = h >= 12 ? "PM" : "AM"

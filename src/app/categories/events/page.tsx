@@ -209,17 +209,17 @@ export default function EventServicesListingPage() {
                   </div>
                   
                   <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
-                    <div className="space-y-2">
+                    <div className="space-y-1 sm:space-y-2">
                       <p className="text-[10px] font-black uppercase tracking-widest text-purple-600">{service.type}</p>
-                      <CardTitle className="text-3xl font-black group-hover:text-purple-600 transition-colors leading-tight">{service.name}</CardTitle>
-                      <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
-                        <MapPin className="h-4 w-4 text-purple-600" /> {service.loc}
+                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-purple-600 transition-colors leading-tight line-clamp-2">{service.name}</CardTitle>
+                      <div className="flex items-center gap-1 sm:gap-2 text-[10px] sm:text-sm font-bold text-muted-foreground mt-1 sm:mt-2">
+                        <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600 shrink-0" /> <span className="line-clamp-1">{service.loc}</span>
                       </div>
                     </div>
                   </CardHeader>
 
-                  <CardContent className="px-3 pb-3 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
-                    <div className="space-y-3">
+                  <CardContent className="px-3 pb-2 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
+                    <div className="hidden sm:block space-y-3">
                       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Service Highlights</p>
                       <div className="flex flex-wrap gap-2">
                         {service.features.map(f => (
@@ -227,13 +227,13 @@ export default function EventServicesListingPage() {
                         ))}
                       </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 gap-2 sm:gap-4 pt-3 sm:pt-6 border-t border-border">
-                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
-                        <Users className="h-4 w-4 text-blue-500" /> {service.capacity}
+
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:pt-6 sm:border-t border-border">
+                      <div className="flex items-center gap-1 sm:gap-2 text-[10px] font-black uppercase text-muted-foreground">
+                        <Users className="h-3 w-3 sm:h-4 sm:w-4 text-blue-500 shrink-0" /> <span className="line-clamp-1">{service.capacity}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
-                        <Calendar className="h-4 w-4 text-amber-500" /> Instant Quote
+                      <div className="flex items-center gap-1 sm:gap-2 text-[10px] font-black uppercase text-muted-foreground">
+                        <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-amber-500 shrink-0" /> Instant Quote
                       </div>
                     </div>
                   </CardContent>
@@ -254,7 +254,7 @@ export default function EventServicesListingPage() {
               <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Partner List</p>
               <div className="h-1 w-12 bg-muted rounded-full" />
             </div>
-            <Button variant="outline" className="rounded-full px-16 font-black border-2 h-16 hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all text-lg shadow-sm">Show National Partners</Button>
+            <Button variant="outline" className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all text-sm sm:text-lg shadow-sm">Show National Partners</Button>
           </div>
         </div>
       </div>
