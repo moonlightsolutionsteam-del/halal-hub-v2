@@ -114,7 +114,7 @@ export default function SuperAdminRolesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Roles & Permissions</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Roles & Permissions</h1>
         <p className="text-muted-foreground">Define what different user types can see and do on the platform.</p>
       </div>
 

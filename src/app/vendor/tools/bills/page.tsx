@@ -29,7 +29,7 @@ export default function DigitalBillsPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <Receipt className="h-3 w-3" /> Financial Ops
           </div>
-          <h1 className="text-3xl font-black font-headline">Digital Bills</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline">Digital Bills</h1>
           <p className="text-muted-foreground font-medium">Manage invoicing, track payments, and access your billing history.</p>
         </div>
         <div className="flex gap-3">

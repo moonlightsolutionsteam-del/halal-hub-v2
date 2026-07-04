@@ -23,7 +23,7 @@ export default function OpsSettingsPage() {
   return (
     <form className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Operations Settings</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Operations Settings</h1>
         <p className="text-muted-foreground">Configure global settings for the operations module.</p>
       </div>
 

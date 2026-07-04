@@ -26,7 +26,7 @@ export default function DigitalTableOrderingPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <Smartphone className="h-3 w-3" /> Dining Ops
           </div>
-          <h1 className="text-3xl font-black font-headline">Table Ordering</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline">Table Ordering</h1>
           <p className="text-muted-foreground font-medium">Monitor active table sessions and direct orders from the dining hall.</p>
         </div>
         <div className="flex gap-3">

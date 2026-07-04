@@ -67,7 +67,7 @@ export default function SuperAdminDashboard() {
   if (!mounted) return null
 
   return (
-    <div className="p-8 space-y-8 bg-background min-h-screen pb-24 selection:bg-primary/10">
+    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen pb-24 selection:bg-primary/10">
       
       {/* System Integrity Ribbon */}
       <div className="flex flex-wrap items-center gap-6 px-6 py-3 bg-zinc-900 rounded-3xl shadow-2xl border border-white/10 overflow-hidden relative group">
@@ -103,34 +103,34 @@ export default function SuperAdminDashboard() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <Zap className="h-3 w-3 fill-current" /> Operational Command
           </div>
-          <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter">HALAL HUB GLOBAL</h1>
-          <p className="text-muted-foreground font-medium text-lg italic">Tactical oversight of the unified Shariah-compliant ecosystem.</p>
+          <h1 className="text-3xl sm:text-5xl font-black font-headline text-foreground tracking-tighter">HALAL HUB GLOBAL</h1>
+          <p className="text-muted-foreground font-medium text-sm sm:text-lg italic">Tactical oversight of the unified Shariah-compliant ecosystem.</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-12 gap-2 bg-card hover:bg-muted shadow-sm">
-            <History className="h-4 w-4" /> Operations Log
+        <div className="flex flex-wrap gap-3">
+          <Button variant="outline" className="rounded-2xl px-4 sm:px-6 font-black border-2 h-10 sm:h-12 gap-2 bg-card hover:bg-muted shadow-sm text-xs sm:text-sm">
+            <History className="h-4 w-4" /> <span className="hidden sm:inline">Operations Log</span><span className="sm:hidden">Logs</span>
           </Button>
-          <Button className="bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl px-8 font-black shadow-2xl h-12 gap-2">
-            <Settings className="h-4 w-4" /> System Config
+          <Button className="bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl px-4 sm:px-8 font-black shadow-2xl h-10 sm:h-12 gap-2 text-xs sm:text-sm">
+            <Settings className="h-4 w-4" /> <span className="hidden sm:inline">System Config</span><span className="sm:hidden">Config</span>
           </Button>
         </div>
       </div>
 
       {/* Global Mission KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Net Ecosystem GMV", value: "₹85.4M", trend: "+12.4%", sub: "MTD Growth", icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50", spark: [10, 40, 30, 50, 40, 60, 80] },
           { label: "Verified Identity Base", value: "45,892", trend: "94.2%", sub: "Audit Compliance", icon: ShieldCheck, color: "text-blue-600", bg: "bg-blue-50", spark: [80, 85, 88, 90, 92, 94, 94] },
           { label: "Global Node Registry", value: "1.24M", trend: "+2.4k", sub: "New Nodes Today", icon: Network, color: "text-purple-600", bg: "bg-purple-50", spark: [20, 30, 45, 40, 55, 70, 90] },
           { label: "Platform Trust Score", value: "A+", trend: "Optimum", sub: "System Integrity", icon: CheckCircle2, color: "text-primary", bg: "bg-primary/5", spark: [90, 92, 95, 94, 96, 98, 100] },
         ].map((stat, i) => (
-          <Card key={i} className="border-none shadow-sm rounded-[2.5rem] p-8 bg-card group hover:shadow-xl transition-all duration-500 overflow-hidden relative">
-            <div className="flex justify-between items-start mb-6">
+          <Card key={i} className="border-none shadow-sm rounded-[1.5rem] sm:rounded-[2.5rem] p-5 sm:p-8 bg-card group hover:shadow-xl transition-all duration-500 overflow-hidden relative">
+            <div className="flex justify-between items-start mb-4 sm:mb-6">
               <div className="space-y-1">
                 <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">{stat.label}</span>
-                <div className="text-4xl font-black text-foreground tracking-tighter">{stat.value}</div>
+                <div className="text-2xl sm:text-4xl font-black text-foreground tracking-tighter">{stat.value}</div>
               </div>
-              <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
+              <div className={cn("h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
                 <stat.icon className="h-6 w-6" />
               </div>
             </div>
@@ -150,13 +150,13 @@ export default function SuperAdminDashboard() {
       </div>
 
       {/* Analytics Command Center */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         {/* Tactical Revenue Growth */}
-        <Card className="lg:col-span-8 rounded-[3rem] border-none shadow-sm bg-card overflow-hidden">
-          <CardHeader className="p-10 border-b bg-muted/30 flex flex-row items-center justify-between">
+        <Card className="lg:col-span-8 rounded-2xl sm:rounded-[3rem] border-none shadow-sm bg-card overflow-hidden">
+          <CardHeader className="p-5 sm:p-10 border-b bg-muted/30 flex flex-row items-center justify-between flex-wrap gap-3">
             <div className="space-y-1">
-              <CardTitle className="text-2xl font-black text-foreground">Ecosystem Revenue Velocity</CardTitle>
-              <CardDescription className="font-medium italic text-base">Real-time performance tracking across all 13 business verticals vs targets.</CardDescription>
+              <CardTitle className="text-lg sm:text-2xl font-black text-foreground">Ecosystem Revenue Velocity</CardTitle>
+              <CardDescription className="font-medium italic text-sm sm:text-base hidden sm:block">Real-time performance tracking across all 13 business verticals vs targets.</CardDescription>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
@@ -170,8 +170,8 @@ export default function SuperAdminDashboard() {
               <Badge className="bg-primary text-white font-black text-[9px] px-4 py-1 rounded-full uppercase tracking-[0.2em] shadow-lg shadow-primary/20">LIVE OPS</Badge>
             </div>
           </CardHeader>
-          <CardContent className="p-10">
-            <ChartContainer config={chartConfig} className="h-[400px] w-full">
+          <CardContent className="p-4 sm:p-10">
+            <ChartContainer config={chartConfig} className="h-[200px] sm:h-[400px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={revenueData}>
                   <defs>

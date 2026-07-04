@@ -21,13 +21,13 @@ export default function TravelPartnersPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-amber-600 font-black uppercase tracking-widest text-[10px]">
             <Briefcase className="h-3 w-3" /> Supply Chain
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Partner Network</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Partner Network</h1>
           <p className="text-muted-foreground font-medium">Manage your relationships with verified hotels, transport fleets, and religious guides.</p>
         </div>
         <Button className="bg-amber-600 hover:bg-amber-700 rounded-full px-8 font-black shadow-lg shadow-amber-200 h-12 text-white">

@@ -11,7 +11,7 @@ export default function ProfessionalSupportPage() {
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Support Center</h1>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Support Center</h1>
         <p className="text-sm font-bold text-muted-foreground">Get help managing your practice&apos;s panel.</p>
       </div>
 

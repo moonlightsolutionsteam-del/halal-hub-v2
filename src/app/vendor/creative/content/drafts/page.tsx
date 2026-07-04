@@ -32,7 +32,7 @@ export default function CreativeDraftsPage() {
             <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground shadow-inner">
               <FileText className="h-6 w-6" />
             </div>
-            <h1 className="text-3xl font-black font-headline text-foreground">Drafts & Production</h1>
+            <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Drafts & Production</h1>
           </div>
           <p className="text-muted-foreground font-medium">Manage your ongoing works and production pipeline.</p>
         </div>

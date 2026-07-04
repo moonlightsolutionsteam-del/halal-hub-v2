@@ -27,7 +27,7 @@ export default function CateringLogisticsPage() {
           <div className="flex items-center gap-2 text-blue-600 font-black uppercase tracking-widest text-[10px]">
             <Truck className="h-3 w-3" /> Off-site Ops
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Catering Logistics</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Catering Logistics</h1>
           <p className="text-muted-foreground font-medium">Manage base kitchen dispatches, on-site setup deployments, and cold/warm chain compliance.</p>
         </div>
         <div className="flex gap-3">
@@ -59,7 +59,7 @@ export default function CateringLogisticsPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-8 space-y-8">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden h-[450px] relative">
             <Image src="https://placehold.co/1200x800/png?text=Interactive+Catering+Deployment+Map" alt="Map" fill className="object-cover opacity-40 grayscale" />

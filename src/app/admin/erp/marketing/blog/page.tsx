@@ -73,7 +73,7 @@ export default function SuperAdminBlogPage() {
     <Tabs defaultValue="all">
       <div className="flex items-center mb-4">
         <div>
-            <h1 className="text-3xl font-bold font-headline">Blog Management</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Blog Management</h1>
             <p className="text-muted-foreground">Create, edit, and manage all blog posts.</p>
         </div>
         <div className="ml-auto flex items-center gap-2">

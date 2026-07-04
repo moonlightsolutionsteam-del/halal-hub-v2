@@ -33,7 +33,7 @@ export default function CreativeBlogPage() {
             <div className="h-12 w-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-inner">
               <BookOpen className="h-6 w-6" />
             </div>
-            <h1 className="text-3xl font-black font-headline text-foreground">Blog & Scholarly Articles</h1>
+            <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Blog & Scholarly Articles</h1>
           </div>
           <p className="text-muted-foreground font-medium">Publish long-form thoughts, research, and life guides for your audience.</p>
         </div>

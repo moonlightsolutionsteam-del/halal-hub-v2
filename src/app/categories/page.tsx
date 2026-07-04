@@ -26,24 +26,24 @@ const CATEGORIES = [
 
 export default function CategoriesPage() {
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-black font-headline text-primary tracking-tight">Explore Categories</h1>
-        <p className="text-muted-foreground text-lg font-medium">Browse halal-certified services across all 13 premium verticals.</p>
+    <div className="px-4 sm:px-6 py-5 sm:py-8 space-y-6 max-w-6xl mx-auto">
+      <div className="space-y-1">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black font-headline text-primary tracking-tight">Explore Categories</h1>
+        <p className="text-muted-foreground text-sm sm:text-base font-medium">Browse halal-certified services across all 13 premium verticals.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         {CATEGORIES.map((cat) => (
           <Link key={cat.slug} href={`/categories/${cat.slug}`}>
-            <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-none shadow-sm rounded-[2rem] overflow-hidden group bg-card">
-              <CardHeader className="flex flex-row items-center gap-4 space-y-0 p-6">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${cat.color} group-hover:scale-110 transition-transform shadow-sm`}>
-                  <cat.icon className="h-7 w-7" />
+            <Card className="hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-none shadow-sm rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden group bg-card h-full">
+              <CardHeader className="flex flex-row items-center gap-3 sm:gap-4 space-y-0 p-4 sm:p-5 md:p-6">
+                <div className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 ${cat.color} group-hover:scale-110 transition-transform shadow-sm`}>
+                  <cat.icon className="h-5 w-5 sm:h-7 sm:w-7" />
                 </div>
-                <div className="space-y-1">
-                  <CardTitle className="text-lg font-black leading-tight group-hover:text-primary transition-colors">{cat.name}</CardTitle>
+                <div className="space-y-1 min-w-0">
+                  <CardTitle className="text-sm sm:text-base md:text-lg font-black leading-tight group-hover:text-primary transition-colors line-clamp-2">{cat.name}</CardTitle>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-black bg-muted px-2 py-0.5 rounded-full text-muted-foreground uppercase tracking-widest">{cat.count} Listings</span>
+                    <span className="text-[9px] sm:text-[10px] font-black bg-muted px-2 py-0.5 rounded-full text-muted-foreground uppercase tracking-widest">{cat.count}</span>
                   </div>
                 </div>
               </CardHeader>

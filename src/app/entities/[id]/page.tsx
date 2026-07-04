@@ -325,8 +325,8 @@ export default function EntityProfilePage() {
         </div>
       </div>
 
-      <section className="relative h-[55vh] min-h-[500px] w-full overflow-hidden">
-        <Image 
+      <section className="relative h-[45vh] sm:h-[55vh] min-h-[300px] sm:min-h-[500px] w-full overflow-hidden">
+        <Image
           src={`https://picsum.photos/seed/${id}-hero/1600/1000`}
           alt="Entity Cover"
           fill
@@ -334,32 +334,32 @@ export default function EntityProfilePage() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-12">
-          <div className="container mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-end gap-10">
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-center gap-3">
-                <Badge className={`${getAccentColor()} text-white border-none font-black px-5 py-1.5 rounded-full text-xs shadow-2xl uppercase tracking-[0.2em]`}>{entityData.category}</Badge>
-                <Badge variant="outline" className="bg-card/10 backdrop-blur-md text-emerald-400 border-emerald-500/30 font-black px-5 py-1.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2">
+        <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-12">
+          <div className="container mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-end gap-4 sm:gap-10">
+            <div className="space-y-3 sm:space-y-6">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <Badge className={`${getAccentColor()} text-white border-none font-black px-3 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs shadow-2xl uppercase tracking-[0.2em]`}>{entityData.category}</Badge>
+                <Badge variant="outline" className="bg-card/10 backdrop-blur-md text-emerald-400 border-emerald-500/30 font-black px-3 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs uppercase tracking-widest flex items-center gap-2">
                   <div className="h-2 w-2 bg-emerald-400 rounded-full animate-pulse" /> Fully Verified
                 </Badge>
               </div>
-              <h1 className="text-6xl md:text-7xl font-black text-white font-headline tracking-tighter drop-shadow-2xl">{entityData.name}</h1>
-              <div className="flex flex-wrap items-center gap-8 text-white font-bold">
-                <div className="flex items-center gap-3 bg-card/10 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/20 shadow-2xl">
-                  <Star className="h-6 w-6 fill-amber-400 text-amber-400" />
-                  <span className="text-3xl tracking-tight">{entityData.rating}</span>
-                  <span className="text-xs uppercase font-black opacity-60 tracking-widest">({entityData.reviews} Reviews)</span>
+              <h1 className="text-3xl sm:text-6xl md:text-7xl font-black text-white font-headline tracking-tighter drop-shadow-2xl">{entityData.name}</h1>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-8 text-white font-bold">
+                <div className="flex items-center gap-2 sm:gap-3 bg-card/10 backdrop-blur-xl px-4 sm:px-6 py-2 sm:py-3 rounded-2xl sm:rounded-3xl border border-white/20 shadow-2xl">
+                  <Star className="h-4 w-4 sm:h-6 sm:w-6 fill-amber-400 text-amber-400" />
+                  <span className="text-xl sm:text-3xl tracking-tight">{entityData.rating}</span>
+                  <span className="text-[10px] sm:text-xs uppercase font-black opacity-60 tracking-widest">({entityData.reviews})</span>
                 </div>
-                <div className="flex items-center gap-3 drop-shadow-lg">
-                  <div className={`h-10 w-10 ${getAccentColor()} rounded-2xl flex items-center justify-center shadow-lg`}>
-                    <MapPin className="h-5 w-5 text-white" />
+                <div className="flex items-center gap-2 sm:gap-3 drop-shadow-lg">
+                  <div className={`h-8 w-8 sm:h-10 sm:w-10 ${getAccentColor()} rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg`}>
+                    <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                   </div>
-                  <span className="text-xl">{entityData.location.split(',').length > 1 ? entityData.location.split(',')[1]?.trim() : entityData.location}</span>
+                  <span className="text-base sm:text-xl">{entityData.location.split(',').length > 1 ? entityData.location.split(',')[1]?.trim() : entityData.location}</span>
                 </div>
               </div>
             </div>
-            
-            <Card className="p-8 rounded-[3rem] bg-card border-none shadow-soft-lg ring-1 ring-white/40 dark:ring-white/5 w-full md:w-96 mb-[-4rem] z-10 relative before:absolute before:inset-0 before:-z-10 before:rounded-[3rem] before:bg-primary/20 before:blur-3xl before:opacity-40 before:scale-95">
+
+            <Card className="hidden sm:block p-8 rounded-[3rem] bg-card border-none shadow-soft-lg ring-1 ring-white/40 dark:ring-white/5 w-full md:w-96 mb-[-4rem] z-10 relative before:absolute before:inset-0 before:-z-10 before:rounded-[3rem] before:bg-primary/20 before:blur-3xl before:opacity-40 before:scale-95">
               <div className="space-y-6">
                 <div className="space-y-1">
                   <h3 className="text-xl font-black text-foreground">{getWidgetTitle()}</h3>
@@ -397,70 +397,70 @@ export default function EntityProfilePage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-6 pt-24 pb-12 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-8 space-y-16">
+      <div className="px-4 sm:px-6 pt-4 sm:pt-24 pb-12 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16">
+          <div className="lg:col-span-8 space-y-8 sm:space-y-16">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-4 rounded-[2.5rem] bg-card border shadow-sm h-20 p-2">
-                <TabsTrigger value="overview" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Overview</TabsTrigger>
-                <TabsTrigger value="items" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>
-                  {isEducation ? "Curriculum" : (isFinance ? "Products" : (isHealthcare ? "Medical Services" : (isCosmetics ? "Catalog" : (isMedia ? "Library" : "Specialties"))))}
+              <TabsList className="grid w-full grid-cols-4 rounded-2xl sm:rounded-[2.5rem] bg-card border shadow-sm h-14 sm:h-20 p-1.5 sm:p-2">
+                <TabsTrigger value="overview" className={`rounded-xl sm:rounded-[2rem] font-black text-[10px] sm:text-xs uppercase tracking-wide sm:tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Overview</TabsTrigger>
+                <TabsTrigger value="items" className={`rounded-xl sm:rounded-[2rem] font-black text-[10px] sm:text-xs uppercase tracking-wide sm:tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>
+                  {isEducation ? "Courses" : (isFinance ? "Products" : (isHealthcare ? "Services" : (isCosmetics ? "Catalog" : (isMedia ? "Library" : "Menu"))))}
                 </TabsTrigger>
-                <TabsTrigger value="gallery" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Gallery</TabsTrigger>
-                <TabsTrigger value="reviews" className={`rounded-[2rem] font-black text-xs uppercase tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Reviews</TabsTrigger>
+                <TabsTrigger value="gallery" className={`rounded-xl sm:rounded-[2rem] font-black text-[10px] sm:text-xs uppercase tracking-wide sm:tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Gallery</TabsTrigger>
+                <TabsTrigger value="reviews" className={`rounded-xl sm:rounded-[2rem] font-black text-[10px] sm:text-xs uppercase tracking-wide sm:tracking-widest transition-all data-[state=active]:text-white data-[state=active]:${getAccentColor()}`}>Reviews</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="overview" className="mt-12 space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <div className="space-y-8">
+              <TabsContent value="overview" className="mt-6 sm:mt-12 space-y-8 sm:space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="space-y-6 sm:space-y-8">
                   <div className="flex items-center gap-3">
                     <div className={`h-1 w-8 rounded-full ${getAccentColor()}`} />
-                    <h2 className="text-4xl font-black tracking-tight text-foreground">
+                    <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-foreground">
                       {isEducation ? "The Academy Vision" : (isFinance ? "The Amanah Story" : (isHealthcare ? "Our Care Philosophy" : (isMedia ? "Our Mission" : "About Us")))}
                     </h2>
                   </div>
-                  <p className="text-xl text-muted-foreground leading-relaxed font-medium">
+                  <p className="text-base sm:text-xl text-muted-foreground leading-relaxed font-medium">
                     {entityData.description}
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <div className="flex items-center gap-6 p-8 bg-card rounded-[2.5rem] shadow-sm border border-border group hover:shadow-xl transition-all">
-                      <div className={`h-16 w-16 ${getAccentLight()} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
-                        <ShieldCheck className="h-8 w-8" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+                    <div className="flex items-center gap-4 sm:gap-6 p-4 sm:p-8 bg-card rounded-[1.5rem] sm:rounded-[2.5rem] shadow-sm border border-border group hover:shadow-xl transition-all">
+                      <div className={`h-12 w-12 sm:h-16 sm:w-16 ${getAccentLight()} rounded-xl sm:rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner shrink-0`}>
+                        <ShieldCheck className="h-6 w-6 sm:h-8 sm:w-8" />
                       </div>
                       <div>
                         <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Audited By</p>
-                        <p className="text-xl font-black text-foreground">{entityData.verifiedBy}</p>
+                        <p className="text-base sm:text-xl font-black text-foreground">{entityData.verifiedBy}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-6 p-8 bg-card rounded-[2.5rem] shadow-sm border border-border group hover:shadow-xl transition-all">
-                      <div className={`h-16 w-16 ${getAccentLight()} rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner`}>
-                        <Calendar className="h-8 w-8" />
+                    <div className="flex items-center gap-4 sm:gap-6 p-4 sm:p-8 bg-card rounded-[1.5rem] sm:rounded-[2.5rem] shadow-sm border border-border group hover:shadow-xl transition-all">
+                      <div className={`h-12 w-12 sm:h-16 sm:w-16 ${getAccentLight()} rounded-xl sm:rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner shrink-0`}>
+                        <Calendar className="h-6 w-6 sm:h-8 sm:w-8" />
                       </div>
                       <div>
                         <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Hub Partner Since</p>
-                        <p className="text-xl font-black text-foreground">{entityData.joined}</p>
+                        <p className="text-base sm:text-xl font-black text-foreground">{entityData.joined}</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-6 sm:space-y-8">
                   <div className="flex items-center gap-3">
                     <div className="h-1 bg-primary w-8 rounded-full" />
-                    <h3 className="text-3xl font-black tracking-tight text-foreground">Compliance & Ethics</h3>
+                    <h3 className="text-xl sm:text-3xl font-black tracking-tight text-foreground">Compliance & Ethics</h3>
                   </div>
-                  <Card className="rounded-[3rem] border-none bg-primary/5 p-10 overflow-hidden group hover:bg-primary/[0.08] transition-all duration-250 border-2 border-primary/10 shadow-soft-md">
-                    <CardContent className="p-0 flex flex-col md:flex-row items-start gap-10">
-                      <div className="h-24 w-24 bg-primary rounded-[2.5rem] flex items-center justify-center text-primary-foreground shrink-0 shadow-glow-primary group-hover:scale-110 transition-transform duration-250">
-                        {isFinance ? <Scale className="h-14 w-14" /> : <CheckCircle2 className="h-14 w-14" />}
+                  <Card className="rounded-2xl sm:rounded-[3rem] border-none bg-primary/5 p-5 sm:p-10 overflow-hidden group hover:bg-primary/[0.08] transition-all duration-250 border-2 border-primary/10 shadow-soft-md">
+                    <CardContent className="p-0 flex flex-col md:flex-row items-start gap-5 sm:gap-10">
+                      <div className="h-16 w-16 sm:h-24 sm:w-24 bg-primary rounded-[1.5rem] sm:rounded-[2.5rem] flex items-center justify-center text-primary-foreground shrink-0 shadow-glow-primary group-hover:scale-110 transition-transform duration-250">
+                        {isFinance ? <Scale className="h-8 w-8 sm:h-14 sm:w-14" /> : <CheckCircle2 className="h-8 w-8 sm:h-14 sm:w-14" />}
                       </div>
-                      <div className="space-y-4">
-                        <h4 className="text-2xl font-black text-foreground">{getComplianceTitle()}</h4>
-                        <p className="text-foreground/70 font-medium text-lg leading-relaxed">
+                      <div className="space-y-3 sm:space-y-4">
+                        <h4 className="text-lg sm:text-2xl font-black text-foreground">{getComplianceTitle()}</h4>
+                        <p className="text-foreground/70 font-medium text-sm sm:text-lg leading-relaxed">
                           {getComplianceText()}
                         </p>
-                        <div className="pt-4 flex flex-wrap gap-4">
-                          <Link href={`/entities/${id}/verify`}><Button className="rounded-2xl font-black text-xs uppercase px-8 h-12">View Certificates</Button></Link>
-                          <Button variant="outline" className="rounded-2xl font-black text-xs uppercase px-8 h-12">Audit Report</Button>
+                        <div className="pt-2 sm:pt-4 flex flex-wrap gap-3 sm:gap-4">
+                          <Link href={`/entities/${id}/verify`}><Button className="rounded-2xl font-black text-xs uppercase px-5 sm:px-8 h-10 sm:h-12">View Certificates</Button></Link>
+                          <Button variant="outline" className="rounded-2xl font-black text-xs uppercase px-5 sm:px-8 h-10 sm:h-12">Audit Report</Button>
                         </div>
                       </div>
                     </CardContent>
@@ -468,19 +468,19 @@ export default function EntityProfilePage() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="items" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-3xl font-black tracking-tight text-foreground">
+              <TabsContent value="items" className="mt-6 sm:mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 sm:space-y-10">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl sm:text-3xl font-black tracking-tight text-foreground">
                     {isEducation ? "Program Catalog" : (isFinance ? "Banking Products" : (isHealthcare ? "Medical Catalog" : (isMedia ? "Latest Releases" : "Specialties")))}
                   </h3>
-                  <Button variant="outline" className="rounded-full font-black text-xs border-2 uppercase tracking-tighter h-10 px-6">
-                    <Download className="h-3.5 w-3.5 mr-2" /> Download Details
+                  <Button variant="outline" className="rounded-full font-black text-xs border-2 uppercase tracking-tighter h-10 px-4 sm:px-6 shrink-0">
+                    <Download className="h-3.5 w-3.5 sm:mr-2" /> <span className="hidden sm:inline">Download Details</span>
                   </Button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                   {entityData.items.map((item, i) => (
-                    <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-8 p-8 hover:shadow-2xl transition-all cursor-pointer group bg-card border-2 border-transparent hover:border-primary/10`}>
-                      <div className={`relative h-24 w-24 rounded-3xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-700`}>
+                    <Card key={i} className={`rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm overflow-hidden flex items-center gap-4 sm:gap-8 p-4 sm:p-8 hover:shadow-2xl transition-all cursor-pointer group bg-card border-2 border-transparent hover:border-primary/10`}>
+                      <div className={`relative h-16 w-16 sm:h-24 sm:w-24 rounded-2xl sm:rounded-3xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-700`}>
                         {isEducation ? <BookOpen className="h-10 w-10" /> : (isFinance ? <TrendingUp className="h-10 w-10" /> : (isHealthcare ? <HeartPulse className="h-10 w-10" /> : (isMedia ? <Newspaper className="h-10 w-10" /> : <Box className="h-10 w-10" />)))}
                       </div>
                       <div className="space-y-2.5 flex-1">
@@ -498,9 +498,9 @@ export default function EntityProfilePage() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="gallery" className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-10">
+              <TabsContent value="gallery" className="mt-6 sm:mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-6 sm:space-y-10">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-3xl font-black tracking-tight text-foreground">Photos & Videos</h3>
+                  <h3 className="text-xl sm:text-3xl font-black tracking-tight text-foreground">Photos & Videos</h3>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {[...Array(9)].map((_, i) => (
@@ -524,10 +524,10 @@ export default function EntityProfilePage() {
                 <p className="text-center text-xs text-muted-foreground font-bold uppercase tracking-widest pt-4">All photos are property of the listed business</p>
               </TabsContent>
 
-              <TabsContent value="reviews" className="mt-12 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <div className="flex flex-col md:flex-row gap-12 items-center bg-card p-12 rounded-[3rem] border border-border shadow-sm">
+              <TabsContent value="reviews" className="mt-6 sm:mt-12 space-y-6 sm:space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="flex flex-col md:flex-row gap-6 sm:gap-12 items-center bg-card p-5 sm:p-12 rounded-2xl sm:rounded-[3rem] border border-border shadow-sm">
                   <div className="text-center space-y-3 shrink-0 md:px-12 md:border-r border-border">
-                    <div className="text-8xl font-black text-foreground tracking-tighter">{entityData.rating}</div>
+                    <div className="text-6xl sm:text-8xl font-black text-foreground tracking-tighter">{entityData.rating}</div>
                     <div className="flex gap-1.5 justify-center">
                       {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-5 w-5 fill-amber-400 text-amber-400" />)}
                     </div>
@@ -546,27 +546,27 @@ export default function EntityProfilePage() {
                   </div>
                 </div>
 
-                <div className="space-y-8">
-                  <Card className={`rounded-[3rem] border-none shadow-sm p-10 bg-card border border-border group hover:shadow-xl transition-all hover:border-primary/10`}>
-                    <div className="flex justify-between items-start mb-8">
-                      <div className="flex items-center gap-6">
-                        <Avatar className="h-16 w-16 border-4 border-border shadow-md">
+                <div className="space-y-6 sm:space-y-8">
+                  <Card className={`rounded-2xl sm:rounded-[3rem] border-none shadow-sm p-5 sm:p-10 bg-card border border-border group hover:shadow-xl transition-all hover:border-primary/10`}>
+                    <div className="flex justify-between items-start mb-5 sm:mb-8 gap-3">
+                      <div className="flex items-center gap-4 sm:gap-6">
+                        <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-4 border-border shadow-md shrink-0">
                           <AvatarImage src={`https://picsum.photos/seed/reviewer/150/150`} />
                           <AvatarFallback>R</AvatarFallback>
                         </Avatar>
                         <div className="space-y-1">
-                          <p className="text-xl font-black text-foreground">Dr. Sarah Khalil</p>
-                          <div className="flex items-center gap-3">
+                          <p className="text-base sm:text-xl font-black text-foreground">Dr. Sarah Khalil</p>
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                             <Badge className={`${getAccentLight()} text-[10px] font-black border-none uppercase px-3 py-1 rounded-full`}>Verified Member</Badge>
-                            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Date: 3 weeks ago</span>
+                            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">3 weeks ago</span>
                           </div>
                         </div>
                       </div>
-                      <div className="flex gap-1 bg-muted p-2 rounded-2xl">
-                        {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
+                      <div className="flex gap-0.5 sm:gap-1 bg-muted p-1.5 sm:p-2 rounded-xl sm:rounded-2xl shrink-0">
+                        {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-amber-400 text-amber-400" />)}
                       </div>
                     </div>
-                    <p className="text-muted-foreground font-medium leading-relaxed italic text-xl">
+                    <p className="text-muted-foreground font-medium leading-relaxed italic text-base sm:text-xl">
                       "{getCategorySpecificReview()}"
                     </p>
                   </Card>
@@ -575,17 +575,17 @@ export default function EntityProfilePage() {
             </Tabs>
           </div>
 
-          <div className="lg:col-span-4 space-y-10">
-            <Card className="rounded-[3rem] border-none shadow-2xl overflow-hidden bg-card sticky top-28 border border-border">
-              <div className="h-64 bg-muted relative group overflow-hidden">
+          <div className="lg:col-span-4 space-y-6 sm:space-y-10">
+            <Card className="rounded-2xl sm:rounded-[3rem] border-none shadow-2xl overflow-hidden bg-card sticky top-28 border border-border">
+              <div className="h-48 sm:h-64 bg-muted relative group overflow-hidden">
                 <Image src={`https://placehold.co/800x600/png?text=Entity+Location`} alt="Map" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
                 <div className="absolute inset-0 bg-zinc-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <a href={mapsUrl} target="_blank" rel="noopener noreferrer"><Button variant="secondary" className="rounded-full font-black text-xs shadow-2xl px-8 h-12 uppercase tracking-widest"><MapPin className="h-4 w-4 mr-2" /> Get Directions</Button></a>
                 </div>
               </div>
-              <CardContent className="p-10 space-y-10">
-                <div className="space-y-8">
-                  <div className="flex items-start gap-6">
+              <CardContent className="p-5 sm:p-10 space-y-6 sm:space-y-10">
+                <div className="space-y-5 sm:space-y-8">
+                  <div className="flex items-start gap-4 sm:gap-6">
                     <div className={`h-12 w-12 rounded-2xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-inner`}>
                       <MapPin className="h-6 w-6" />
                     </div>
@@ -594,7 +594,7 @@ export default function EntityProfilePage() {
                       <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="text-base font-bold text-foreground leading-snug hover:text-primary transition-colors">{entityData.location}</a>
                     </div>
                   </div>
-                  <div className="flex items-start gap-6">
+                  <div className="flex items-start gap-4 sm:gap-6">
                     <div className={`h-12 w-12 rounded-2xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-inner`}>
                       <Clock className="h-6 w-6" />
                     </div>
@@ -603,7 +603,7 @@ export default function EntityProfilePage() {
                       <p className="text-base font-bold text-foreground leading-snug">{entityData.contact.hours}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-6">
+                  <div className="flex items-start gap-4 sm:gap-6">
                     <div className={`h-12 w-12 rounded-2xl ${getAccentLight()} flex items-center justify-center shrink-0 shadow-inner`}>
                       <Phone className="h-6 w-6" />
                     </div>
@@ -626,21 +626,21 @@ export default function EntityProfilePage() {
               </CardContent>
             </Card>
 
-            <Card className="rounded-[3rem] border-none bg-zinc-900 shadow-2xl p-12 text-center space-y-8 relative overflow-hidden">
+            <Card className="rounded-2xl sm:rounded-[3rem] border-none bg-zinc-900 shadow-2xl p-6 sm:p-12 text-center space-y-6 sm:space-y-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-6 opacity-5">
                 <ShieldAlert className="h-32 w-32 text-white" />
               </div>
-              <div className="relative z-10 space-y-6">
-                <div className={`h-20 w-20 bg-card/10 backdrop-blur-xl rounded-[2rem] flex items-center justify-center ${getAccentLight()} mx-auto shadow-2xl border border-white/10`}>
-                  {isMedia ? <Library className="h-10 w-10 text-white" /> : <ShieldCheck className="h-10 w-10 text-white" />}
+              <div className="relative z-10 space-y-4 sm:space-y-6">
+                <div className={`h-16 w-16 sm:h-20 sm:w-20 bg-card/10 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] flex items-center justify-center ${getAccentLight()} mx-auto shadow-2xl border border-white/10`}>
+                  {isMedia ? <Library className="h-8 w-8 sm:h-10 sm:w-10 text-white" /> : <ShieldCheck className="h-8 w-8 sm:h-10 sm:w-10 text-white" />}
                 </div>
-                <div className="space-y-3">
-                  <h4 className="text-3xl font-black text-white tracking-tight">{isMedia ? "Resource Aid" : "Verification Aid"}</h4>
+                <div className="space-y-2 sm:space-y-3">
+                  <h4 className="text-xl sm:text-3xl font-black text-white tracking-tight">{isMedia ? "Resource Aid" : "Verification Aid"}</h4>
                   <p className="text-sm text-muted-foreground font-medium leading-relaxed px-2">
                     {isMedia ? "Need help with finding specific literature or digital courses? Our concierge is here to guide you." : "Need help with audits or certification selection? Our trust support team is here to guide you."}
                   </p>
                 </div>
-                <Button className="w-full rounded-2xl font-black bg-card text-foreground hover:bg-muted h-16 shadow-2xl text-base tracking-tight transition-transform active:scale-95">
+                <Button className="w-full rounded-2xl font-black bg-card text-foreground hover:bg-muted h-12 sm:h-16 shadow-2xl text-sm sm:text-base tracking-tight transition-transform active:scale-95">
                   Chat with Support
                 </Button>
               </div>

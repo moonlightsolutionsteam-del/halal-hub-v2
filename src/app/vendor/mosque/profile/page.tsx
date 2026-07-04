@@ -52,13 +52,13 @@ export default function MosqueProfilePage() {
   const [activeTab, setActiveTab] = useState("basic")
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-5xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-teal-600 font-black uppercase tracking-widest text-[10px]">
             <Moon className="h-3 w-3" /> Masjid Management
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">About Masjid</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">About Masjid</h1>
           <p className="text-sm font-bold text-muted-foreground">Update your mosque's public profile, facilities, and services.</p>
         </div>
         <Button className="bg-teal-600 hover:bg-teal-700 rounded-2xl px-8 font-black shadow-lg shadow-teal-200 h-12 text-white">

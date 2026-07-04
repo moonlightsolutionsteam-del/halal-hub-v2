@@ -124,7 +124,7 @@ export default function OperationsTasksPage() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold font-headline">Task &amp; Project Management</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold font-headline">Task &amp; Project Management</h1>
                 <p className="text-muted-foreground">Manage and track all operational tasks.</p>
             </div>
 

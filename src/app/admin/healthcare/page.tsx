@@ -42,10 +42,10 @@ export default function SuperAdminHealthcareManagement() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground uppercase tracking-tighter text-teal-600">Healthcare & Wellness</h1>
-        <p className="text-muted-foreground font-medium text-lg italic">Manage clinical partners, ethical care standards, and wellness audits.</p>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground uppercase tracking-tighter text-teal-600">Healthcare & Wellness</h1>
+        <p className="text-muted-foreground font-medium text-sm sm:text-lg italic">Manage clinical partners, ethical care standards, and wellness audits.</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
@@ -75,7 +75,7 @@ export default function SuperAdminHealthcareManagement() {
         </div>
 
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
               <div className="flex justify-between items-start mb-4">
                 <span className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Certified Clinics</span>
@@ -163,7 +163,7 @@ export default function SuperAdminHealthcareManagement() {
             <div className="space-y-10">
               <div className="space-y-2 border-b pb-6">
                 <h3 className="text-3xl font-black text-foreground uppercase tracking-tight">Clinical & Ethical Standards</h3>
-                <p className="text-muted-foreground font-medium text-lg italic">Define the mandatory criteria for clinical and wellness partners.</p>
+                <p className="text-muted-foreground font-medium text-sm sm:text-lg italic">Define the mandatory criteria for clinical and wellness partners.</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-4">

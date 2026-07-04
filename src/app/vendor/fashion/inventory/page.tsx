@@ -23,13 +23,13 @@ export default function FashionInventoryPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-pink-600 font-black uppercase tracking-widest text-[10px]">
             <Package className="h-3 w-3" /> Stock Management
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Collection Inventory</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Collection Inventory</h1>
           <p className="text-muted-foreground font-medium">Track SKU levels, restock alerts, and season-end clearance for modest fashion.</p>
         </div>
         <div className="flex gap-3">

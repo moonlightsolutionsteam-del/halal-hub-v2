@@ -36,7 +36,7 @@ export default function PublishedContentPage() {
             <div className="h-12 w-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
               <CheckCircle className="h-6 w-6" />
             </div>
-            <h1 className="text-3xl font-black font-headline text-foreground">Published Archive</h1>
+            <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Published Archive</h1>
           </div>
           <p className="text-muted-foreground font-medium">Your live digital media and historical content feed.</p>
         </div>
@@ -106,7 +106,7 @@ export default function PublishedContentPage() {
           <BarChart3 className="h-48 w-48 text-primary" />
         </div>
         <div className="relative z-10 space-y-4 text-center md:text-left flex-1">
-          <h2 className="text-3xl font-black font-headline">Monthly Impact Summary</h2>
+          <h2 className="text-2xl sm:text-3xl font-black font-headline">Monthly Impact Summary</h2>
           <p className="text-muted-foreground font-medium text-lg leading-relaxed max-w-2xl">
             You've reached 1.2M people this month across all platforms. Your most successful content format is <span className="text-white font-black">Studio Reels</span>.
           </p>

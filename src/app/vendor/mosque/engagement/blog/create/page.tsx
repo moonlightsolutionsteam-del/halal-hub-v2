@@ -14,7 +14,7 @@ export default function CreateMosqueBlogPage() {
       <Link href="/vendor/mosque/engagement/blog" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
         <ArrowLeft className="h-4 w-4" />Back to Blog
       </Link>
-      <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">New Blog Post</h1>
+      <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">New Blog Post</h1>
 
       <Card className="rounded-[2rem] border-none shadow-soft">
         <CardHeader><CardTitle className="text-lg font-black">Post Content</CardTitle></CardHeader>

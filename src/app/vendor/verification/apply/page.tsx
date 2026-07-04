@@ -63,7 +63,7 @@ function CertificationApplyPage() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline text-foreground">Apply for {getTitle()}</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Apply for {getTitle()}</h1>
           <div className="flex gap-2">
             {[1, 2, 3].map(i => (
               <div key={i} className={`h-1.5 w-12 rounded-full transition-all ${step >= i ? 'bg-primary' : 'bg-muted'}`} />

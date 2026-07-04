@@ -83,7 +83,7 @@ export default function EngineeringDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Engineering Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Engineering Dashboard</h1>
         <p className="text-muted-foreground">Control panel for system health, delivery, and technical risks.</p>
       </div>
       

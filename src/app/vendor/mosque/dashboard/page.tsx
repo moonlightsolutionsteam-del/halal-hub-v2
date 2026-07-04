@@ -29,7 +29,7 @@ export default function MosqueDashboardPage() {
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Masjid Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Masjid Dashboard</h1>
         <p className="text-sm font-bold text-muted-foreground">Here&apos;s what&apos;s happening at your masjid today.</p>
       </div>
 

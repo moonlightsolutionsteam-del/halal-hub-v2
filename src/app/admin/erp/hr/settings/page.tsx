@@ -32,7 +32,7 @@ export default function HRSettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline">HR Settings</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">HR Settings</h1>
         <p className="text-muted-foreground">
           Configure global settings for the Human Resources module.
         </p>

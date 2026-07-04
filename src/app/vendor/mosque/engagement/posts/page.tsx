@@ -15,7 +15,7 @@ export default function MosquePostsPage() {
   return (
     <div className="p-4 md:p-8 max-w-2xl mx-auto space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Community Posts</h1>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Community Posts</h1>
         <p className="text-sm font-bold text-muted-foreground">Share updates and photos with your community.</p>
       </div>
 

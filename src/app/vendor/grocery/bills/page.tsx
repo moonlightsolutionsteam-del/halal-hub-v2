@@ -22,13 +22,13 @@ export default function GroceryBillsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-emerald-600 font-black uppercase tracking-widest text-[10px]">
             <Receipt className="h-3 w-3" /> Financial Ledger
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Digital Bills & POS</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Digital Bills & POS</h1>
           <p className="text-muted-foreground font-medium">Track all store transactions, digital payouts, and daily closing reports.</p>
         </div>
         <div className="flex gap-3">

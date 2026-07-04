@@ -77,11 +77,11 @@ export default function AssetManagementPage() {
   return (
     <div className="space-y-6">
         <div>
-            <h1 className="text-3xl font-bold font-headline">Asset Management</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Asset Management</h1>
             <p className="text-muted-foreground">Track and manage all physical and digital assets of the company.</p>
         </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Assets</CardTitle>

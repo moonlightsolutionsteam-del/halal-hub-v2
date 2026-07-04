@@ -31,7 +31,7 @@ export default function VendorOrdersPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <ShoppingBag className="h-3 w-3" /> Sales & Fulfillment
           </div>
-          <h1 className="text-3xl font-black font-headline">Order Management</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline">Order Management</h1>
           <p className="text-muted-foreground font-medium">Process incoming orders and track delivery statuses in real-time.</p>
         </div>
         <div className="flex gap-3">

@@ -81,7 +81,7 @@ export default function BusinessSubmissionsPage() {
     <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline text-foreground">Business Submissions</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Business Submissions</h1>
           <p className="text-sm font-bold text-muted-foreground">Review and approve new business listing applications.</p>
         </div>
         <div className="flex gap-3">

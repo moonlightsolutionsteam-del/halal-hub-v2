@@ -18,13 +18,13 @@ export default function HotelSupportPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-sky-600 font-black uppercase tracking-widest text-[10px]">
             <Headset className="h-3 w-3" /> Property Success
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Hotel Support Center</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Hotel Support Center</h1>
           <p className="text-muted-foreground font-medium">Get assistance with property audits, technical booking issues, or revenue growth.</p>
         </div>
         <Button className="bg-sky-600 rounded-full px-8 font-black shadow-lg shadow-sky-200 h-12 text-white">
@@ -32,7 +32,7 @@ export default function HotelSupportPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-8 space-y-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer border-2 border-transparent hover:border-sky-100">

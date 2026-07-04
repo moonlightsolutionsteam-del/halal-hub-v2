@@ -54,30 +54,30 @@ export default function UserDashboard() {
   return (
     <div className="min-h-screen bg-background selection:bg-primary/10">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b px-6 h-20 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-6">
+      <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-3 sm:gap-6">
           <Link href="/">
-            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-muted border shadow-sm h-12 w-12 transition-all active:scale-90">
-              <ArrowLeft className="h-5 w-5 text-muted-foreground" />
+            <Button variant="ghost" size="icon" className="rounded-2xl hover:bg-muted border shadow-sm h-10 w-10 sm:h-12 sm:w-12 transition-all active:scale-90">
+              <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
           </Link>
           <div className="space-y-0.5">
-            <h1 className="text-2xl font-black font-headline text-foreground tracking-tight">Profile Hub</h1>
-            <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Verified Identity</p>
+            <h1 className="text-lg sm:text-2xl font-black font-headline text-foreground tracking-tight">Profile Hub</h1>
+            <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] hidden sm:block">Verified Identity</p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-muted relative group">
-            <Bell className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-            <span className="absolute top-3.5 right-3.5 h-2.5 w-2.5 bg-red-500 rounded-full border-2 border-white" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <Button variant="ghost" size="icon" className="rounded-2xl h-10 w-10 sm:h-12 sm:w-12 border shadow-sm hover:bg-muted relative group">
+            <Bell className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+            <span className="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 h-2 w-2 sm:h-2.5 sm:w-2.5 bg-red-500 rounded-full border-2 border-white" />
           </Button>
           <Link href="/account/settings">
-            <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-muted">
-              <Settings className="h-5 w-5 text-muted-foreground" />
+            <Button variant="ghost" size="icon" className="rounded-2xl h-10 w-10 sm:h-12 sm:w-12 border shadow-sm hover:bg-muted">
+              <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
           </Link>
-          <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border shadow-sm hover:bg-muted">
-            <MoreVertical className="h-5 w-5 text-muted-foreground" />
+          <Button variant="ghost" size="icon" className="rounded-2xl h-10 w-10 sm:h-12 sm:w-12 border shadow-sm hover:bg-muted">
+            <MoreVertical className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
           </Button>
         </div>
       </header>
@@ -97,92 +97,92 @@ export default function UserDashboard() {
         </div>
 
         {/* Profile Info Overlay */}
-        <div className="container mx-auto max-w-5xl px-6 -mt-24 relative z-10">
-          <div className="flex flex-col md:flex-row items-end gap-10">
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6 -mt-20 sm:-mt-24 relative z-10">
+          <div className="flex flex-col md:flex-row items-end gap-6 sm:gap-10">
             <div className="relative shrink-0">
-              <div className="p-2 bg-card rounded-[3rem] shadow-2xl">
-                <Avatar className="h-40 w-48 rounded-[2.5rem] md:h-48 md:w-48">
+              <div className="p-1.5 sm:p-2 bg-card rounded-[2rem] sm:rounded-[3rem] shadow-2xl">
+                <Avatar className="h-28 w-28 sm:h-40 sm:w-48 rounded-[1.5rem] sm:rounded-[2.5rem] md:h-48 md:w-48">
                   <AvatarImage src="https://picsum.photos/seed/user-sa/400/400" />
                   <AvatarFallback className="text-4xl font-black bg-emerald-50 text-emerald-600">SA</AvatarFallback>
                 </Avatar>
               </div>
-              <div className="absolute bottom-4 right-4 h-10 w-10 bg-emerald-500 rounded-2xl flex items-center justify-center border-4 border-white shadow-xl">
-                <CheckCircle2 className="h-5 w-5 text-white" />
+              <div className="absolute bottom-3 right-3 h-8 w-8 sm:h-10 sm:w-10 bg-emerald-500 rounded-xl sm:rounded-2xl flex items-center justify-center border-4 border-white shadow-xl">
+                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
             </div>
-            
-            <div className="flex-1 flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-8 pb-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-4xl font-black text-foreground tracking-tighter">Super Admin</h2>
-                  <Badge className="bg-zinc-900 text-white border-none font-black text-[10px] uppercase tracking-widest px-4 h-7">ELITE MEMBER</Badge>
+
+            <div className="flex-1 flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-4 sm:gap-8 pb-4">
+              <div className="space-y-1.5 sm:space-y-2">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h2 className="text-2xl sm:text-4xl font-black text-foreground tracking-tighter">Super Admin</h2>
+                  <Badge className="bg-zinc-900 text-white border-none font-black text-[10px] uppercase tracking-widest px-3 h-6 sm:px-4 sm:h-7">ELITE MEMBER</Badge>
                 </div>
-                <div className="flex items-center gap-6 text-muted-foreground font-bold">
-                  <p className="text-base text-emerald-600 font-black">@admin</p>
-                  <p className="flex items-center gap-2 text-sm"><MapPin className="h-4 w-4" /> New York, NY</p>
-                  <p className="flex items-center gap-2 text-sm"><Calendar className="h-4 w-4" /> Joined May 2021</p>
+                <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-muted-foreground font-bold">
+                  <p className="text-sm sm:text-base text-emerald-600 font-black">@admin</p>
+                  <p className="flex items-center gap-1.5 text-xs sm:text-sm"><MapPin className="h-3.5 w-3.5" /> New York, NY</p>
+                  <p className="flex items-center gap-1.5 text-xs sm:text-sm hidden sm:flex"><Calendar className="h-3.5 w-3.5" /> Joined May 2021</p>
                 </div>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <Link href="/account/settings">
-                  <Button className="rounded-2xl bg-card border-2 border-border h-14 px-8 font-black text-xs uppercase tracking-widest text-emerald-600 hover:bg-muted shadow-sm transition-all active:scale-95">
-                    <Edit2 className="h-4 w-4 mr-2" /> Edit profile
+                  <Button className="rounded-2xl bg-card border-2 border-border h-11 sm:h-14 px-5 sm:px-8 font-black text-xs uppercase tracking-widest text-emerald-600 hover:bg-muted shadow-sm transition-all active:scale-95">
+                    <Edit2 className="h-4 w-4 mr-1.5 sm:mr-2" /> Edit
                   </Button>
                 </Link>
-                <Button variant="outline" size="icon" className="rounded-2xl bg-card border-2 border-border h-14 w-14 text-muted-foreground hover:text-primary hover:border-primary transition-all active:scale-95">
-                  <Share2 className="h-5 w-5" />
+                <Button variant="outline" size="icon" className="rounded-2xl bg-card border-2 border-border h-11 w-11 sm:h-14 sm:w-14 text-muted-foreground hover:text-primary hover:border-primary transition-all active:scale-95">
+                  <Share2 className="h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
               </div>
             </div>
           </div>
 
           {/* Social Stats Ribbon */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 border-y border-border mt-12 bg-card/50 backdrop-blur-sm rounded-[2.5rem] px-10 shadow-sm border border-white">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 py-6 sm:py-10 border-y border-border mt-8 sm:mt-12 bg-card/50 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2.5rem] px-5 sm:px-10 shadow-sm border border-white">
             {[
               { label: "Following", value: "12", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
               { label: "Followers", value: "5.4k", icon: Heart, color: "text-rose-600", bg: "bg-rose-50" },
               { label: "Family Circle", value: "4", icon: FamilyTreeIcon, color: "text-emerald-600", bg: "bg-emerald-50" },
               { label: "Hub Coins", value: "1,240", icon: Wallet, color: "text-amber-600", bg: "bg-amber-50" },
             ].map((stat, i) => (
-              <div key={i} className="flex items-center gap-5 group cursor-default">
-                <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
-                  <stat.icon className="h-7 w-7" />
+              <div key={i} className="flex items-center gap-3 sm:gap-5 group cursor-default">
+                <div className={cn("h-11 w-11 sm:h-14 sm:w-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
+                  <stat.icon className="h-5 w-5 sm:h-7 sm:w-7" />
                 </div>
                 <div>
-                  <p className="text-2xl font-black text-foreground tracking-tighter leading-none">{stat.value}</p>
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1">{stat.label}</p>
+                  <p className="text-xl sm:text-2xl font-black text-foreground tracking-tighter leading-none">{stat.value}</p>
+                  <p className="text-[9px] sm:text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-0.5 sm:mt-1">{stat.label}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Action Buttons Hub */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-10">
             <Link href="/family-tree">
-              <Card className="rounded-[2.5rem] border-none shadow-sm bg-emerald-600 text-white p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
+              <Card className="rounded-[2rem] sm:rounded-[2.5rem] border-none shadow-sm bg-emerald-600 text-white p-5 sm:p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
                 <FamilyTreeIcon className="absolute -top-4 -right-4 h-32 w-32 opacity-10 group-hover:scale-110 transition-transform" />
                 <div className="relative z-10 flex items-center justify-between">
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-black tracking-tight leading-none uppercase">Family Tree</h3>
-                    <p className="text-emerald-100 text-sm font-medium">Manage lineage & shared board</p>
+                  <div className="space-y-1 sm:space-y-2">
+                    <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none uppercase">Family Tree</h3>
+                    <p className="text-emerald-100 text-xs sm:text-sm font-medium">Manage lineage & shared board</p>
                   </div>
-                  <div className="h-14 w-14 rounded-3xl bg-card/20 flex items-center justify-center backdrop-blur-md shadow-xl group-hover:translate-x-2 transition-all">
-                    <ArrowRight className="h-6 w-6" />
+                  <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl sm:rounded-3xl bg-card/20 flex items-center justify-center backdrop-blur-md shadow-xl group-hover:translate-x-2 transition-all shrink-0">
+                    <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
                 </div>
               </Card>
             </Link>
             <Dialog>
               <DialogTrigger asChild>
-                <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
+                <Card className="rounded-[2rem] sm:rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-5 sm:p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
                   <Sparkles className="absolute -top-4 -right-4 h-32 w-32 opacity-10 group-hover:scale-110 transition-transform text-primary" />
                   <div className="relative z-10 flex items-center justify-between">
-                    <div className="space-y-2">
-                      <h3 className="text-2xl font-black tracking-tight leading-none uppercase">Go Pro</h3>
-                      <p className="text-muted-foreground text-sm font-medium">Unlock premium hub tools</p>
+                    <div className="space-y-1 sm:space-y-2">
+                      <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none uppercase">Go Pro</h3>
+                      <p className="text-muted-foreground text-xs sm:text-sm font-medium">Unlock premium hub tools</p>
                     </div>
-                    <div className="h-14 w-14 rounded-3xl bg-primary flex items-center justify-center shadow-xl group-hover:translate-x-2 transition-all">
-                      <Zap className="h-6 w-6 text-white" />
+                    <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl sm:rounded-3xl bg-primary flex items-center justify-center shadow-xl group-hover:translate-x-2 transition-all shrink-0">
+                      <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </div>
                   </div>
                 </Card>
@@ -237,46 +237,46 @@ export default function UserDashboard() {
           </div>
 
           {/* Unified My Activity Hub */}
-          <Tabs defaultValue="activity" className="w-full mt-20">
-            <TabsList className="bg-transparent h-14 w-full p-0 gap-12 justify-start border-b-2 rounded-none mb-12 overflow-x-auto no-scrollbar">
-              <TabsTrigger value="activity" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-muted-foreground data-[state=active]:text-foreground transition-all">My Activity Hub</TabsTrigger>
-              <TabsTrigger value="content" className="px-0 pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-sm font-black uppercase tracking-[0.2em] text-muted-foreground data-[state=active]:text-foreground transition-all">My Content</TabsTrigger>
+          <Tabs defaultValue="activity" className="w-full mt-10 sm:mt-20">
+            <TabsList className="bg-transparent h-12 sm:h-14 w-full p-0 gap-8 sm:gap-12 justify-start border-b-2 rounded-none mb-8 sm:mb-12 overflow-x-auto no-scrollbar">
+              <TabsTrigger value="activity" className="px-0 pb-3 sm:pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-xs sm:text-sm font-black uppercase tracking-[0.2em] text-muted-foreground data-[state=active]:text-foreground transition-all whitespace-nowrap">My Activity Hub</TabsTrigger>
+              <TabsTrigger value="content" className="px-0 pb-3 sm:pb-4 h-full rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent text-xs sm:text-sm font-black uppercase tracking-[0.2em] text-muted-foreground data-[state=active]:text-foreground transition-all whitespace-nowrap">My Content</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="activity" className="m-0 space-y-12 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
+            <TabsContent value="activity" className="m-0 space-y-8 sm:space-y-12 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
               {/* Stats Overview */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
-                  <CardHeader className="p-0 pb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-none shadow-sm bg-card p-5 sm:p-8 group hover:shadow-md transition-all">
+                  <CardHeader className="p-0 pb-3 sm:pb-4">
                     <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Current Level</CardTitle>
                   </CardHeader>
-                  <CardContent className="p-0 space-y-4">
-                    <div className="text-5xl font-black text-foreground tracking-tighter">12</div>
+                  <CardContent className="p-0 space-y-3 sm:space-y-4">
+                    <div className="text-4xl sm:text-5xl font-black text-foreground tracking-tighter">12</div>
                     <div className="space-y-2">
                       <Progress value={84.5} className="h-2" />
                       <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">8,450 / 10,000 XP to Level 13</p>
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
-                  <CardHeader className="p-0 pb-4">
+                <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-none shadow-sm bg-card p-5 sm:p-8 group hover:shadow-md transition-all">
+                  <CardHeader className="p-0 pb-3 sm:pb-4">
                     <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Prayer Streak</CardTitle>
                   </CardHeader>
-                  <CardContent className="p-0 space-y-4">
-                    <div className="text-5xl font-black text-orange-600 tracking-tighter">85 Days</div>
+                  <CardContent className="p-0 space-y-3 sm:space-y-4">
+                    <div className="text-4xl sm:text-5xl font-black text-orange-600 tracking-tighter">85 Days</div>
                     <div className="flex gap-1">
                       {['M','T','W','T','F','S','S'].map((d, i) => (
-                        <div key={i} className={cn("h-8 flex-1 rounded-xl flex items-center justify-center text-[10px] font-black shadow-inner", i < 5 ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground")}>{d}</div>
+                        <div key={i} className={cn("h-7 sm:h-8 flex-1 rounded-lg sm:rounded-xl flex items-center justify-center text-[10px] font-black shadow-inner", i < 5 ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground")}>{d}</div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8 group hover:shadow-md transition-all">
-                  <CardHeader className="p-0 pb-4">
+                <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-none shadow-sm bg-card p-5 sm:p-8 group hover:shadow-md transition-all">
+                  <CardHeader className="p-0 pb-3 sm:pb-4">
                     <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Hub Coins</CardTitle>
                   </CardHeader>
-                  <CardContent className="p-0 space-y-6">
-                    <div className="text-5xl font-black text-amber-600 tracking-tighter">1,240</div>
+                  <CardContent className="p-0 space-y-4 sm:space-y-6">
+                    <div className="text-4xl sm:text-5xl font-black text-amber-600 tracking-tighter">1,240</div>
                     <Button className="w-full h-11 rounded-xl bg-zinc-900 text-white font-black text-[10px] uppercase tracking-widest shadow-xl">Redeem Rewards</Button>
                   </CardContent>
                 </Card>
@@ -292,34 +292,34 @@ export default function UserDashboard() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[
-                    { 
-                      name: "The Halal Grill & Bistro", 
-                      status: "LIVE ON HUB", 
+                    {
+                      name: "The Halal Grill & Bistro",
+                      status: "LIVE ON HUB",
                       statusColor: "bg-emerald-50 text-emerald-600 border-emerald-100",
-                      date: "Oct 12, 2023", 
+                      date: "Oct 12, 2023",
                       points: "+50 Points Earned",
                       img: "food1"
                     },
-                    { 
-                      name: "Istanbul Spice Market", 
-                      status: "AUDIT IN PROGRESS", 
+                    {
+                      name: "Istanbul Spice Market",
+                      status: "AUDIT IN PROGRESS",
                       statusColor: "bg-blue-50 text-blue-600 border-blue-100",
-                      date: "Oct 24, 2023", 
+                      date: "Oct 24, 2023",
                       info: "Awaiting final certificates",
                       img: "grocery1"
                     }
                   ].map((suggestion, i) => (
-                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
-                      <div className="flex gap-8 items-start">
-                        <div className="relative h-24 w-24 rounded-[1.5rem] overflow-hidden shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500">
+                    <Card key={i} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-4 sm:p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
+                      <div className="flex gap-4 sm:gap-8 items-start">
+                        <div className="relative h-16 w-16 sm:h-24 sm:w-24 rounded-2xl sm:rounded-[1.5rem] overflow-hidden shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500">
                           <Image src={`https://picsum.photos/seed/${suggestion.img}/300/300`} alt={suggestion.name} fill className="object-cover" />
                         </div>
-                        <div className="flex-1 space-y-3 min-w-0">
+                        <div className="flex-1 space-y-2 sm:space-y-3 min-w-0">
                           <div className="flex justify-between items-start">
-                            <Badge className={`${suggestion.statusColor} border-2 font-black text-[8px] uppercase tracking-widest h-6 px-3 rounded-full`}>{suggestion.status}</Badge>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-xl bg-muted"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
+                            <Badge className={`${suggestion.statusColor} border-2 font-black text-[8px] uppercase tracking-widest h-6 px-2 sm:px-3 rounded-full`}>{suggestion.status}</Badge>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-xl bg-muted shrink-0"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                           </div>
-                          <h4 className="text-xl font-black text-foreground truncate leading-tight">{suggestion.name}</h4>
+                          <h4 className="text-base sm:text-xl font-black text-foreground truncate leading-tight">{suggestion.name}</h4>
                           <div className="flex flex-col gap-1">
                             <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Submitted: {suggestion.date}</p>
                             {suggestion.points && <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em]">{suggestion.points}</p>}
@@ -348,15 +348,15 @@ export default function UserDashboard() {
                     { title: "Legacy Keeper", desc: "Successfully linked 5 generations in the Al-Sayed Family Tree.", date: "Oct 12", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50" },
                     { title: "Hajj Spirit", desc: "Uploaded 10+ historical pilgrimage documents to the Archive.", date: "Sep 28", icon: Heart, color: "text-rose-500", bg: "bg-rose-50" },
                   ].map((milestone, i) => (
-                    <div key={i} className="flex items-center gap-8 p-8 bg-card rounded-[2.5rem] border border-transparent hover:border-border transition-all shadow-sm group">
-                      <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", milestone.bg, milestone.color)}>
-                        <milestone.icon className="h-6 w-6" />
+                    <div key={i} className="flex items-center gap-4 sm:gap-8 p-4 sm:p-8 bg-card rounded-[1.5rem] sm:rounded-[2.5rem] border border-transparent hover:border-border transition-all shadow-sm group">
+                      <div className={cn("h-11 w-11 sm:h-14 sm:w-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", milestone.bg, milestone.color)}>
+                        <milestone.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                       </div>
-                      <div className="flex-1 space-y-1">
-                        <h4 className="text-xl font-black text-foreground leading-tight">{milestone.title}</h4>
-                        <p className="text-sm font-medium text-muted-foreground italic">{milestone.desc}</p>
+                      <div className="flex-1 space-y-0.5 sm:space-y-1 min-w-0">
+                        <h4 className="text-base sm:text-xl font-black text-foreground leading-tight">{milestone.title}</h4>
+                        <p className="text-xs sm:text-sm font-medium text-muted-foreground italic line-clamp-2">{milestone.desc}</p>
                       </div>
-                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{milestone.date}</span>
+                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest shrink-0">{milestone.date}</span>
                     </div>
                   ))}
                 </div>
@@ -370,7 +370,7 @@ export default function UserDashboard() {
                     { business: "Karim's Restaurant", rating: 5, date: "2 days ago", text: "Authentic Mughlai taste! The kebabs were succulent and the biryani was flavorful. A must-visit for families." },
                     { business: "Al-Naseeb Meats", rating: 4, date: "1 week ago", text: "Fresh meat and very clean shop. The staff is helpful and knowledgeable about sourcing." }
                   ].map((review, i) => (
-                    <Card key={i} className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-6 border-2 border-transparent hover:border-emerald-100/50 transition-all group">
+                    <Card key={i} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card p-5 sm:p-10 space-y-4 sm:space-y-6 border-2 border-transparent hover:border-emerald-100/50 transition-all group">
                       <div className="flex justify-between items-center">
                         <div className="flex gap-1 bg-muted p-2 rounded-xl">
                           {Array.from({ length: 5 }).map((_, idx) => (

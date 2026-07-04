@@ -32,7 +32,7 @@ export default function SuperAdminFinanceSettingsPage() {
   return (
     <form className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Admin Finance Controls</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Admin Finance Controls</h1>
         <p className="text-muted-foreground">Manage global financial settings, tax rates, and credit costs.</p>
       </div>
 

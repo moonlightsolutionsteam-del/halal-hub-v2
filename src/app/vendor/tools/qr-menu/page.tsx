@@ -18,7 +18,7 @@ export default function QRMenuGeneratorPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <QrCode className="h-3 w-3" /> Digital Hospitality
           </div>
-          <h1 className="text-3xl font-black font-headline">QR Menu Generator</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline">QR Menu Generator</h1>
           <p className="text-muted-foreground font-medium">Create and customize contactless dining experiences for your guests.</p>
         </div>
         <div className="flex gap-3">
@@ -31,7 +31,7 @@ export default function QRMenuGeneratorPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-7 space-y-8">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 flex flex-col items-center text-center space-y-8">
             <div className="relative p-8 bg-muted rounded-[3rem] border-4 border-white shadow-inner">

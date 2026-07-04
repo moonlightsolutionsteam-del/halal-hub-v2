@@ -18,13 +18,13 @@ export default function FashionBlogPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-5xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-pink-600 font-black uppercase tracking-widest text-[10px]">
             <BookOpen className="h-3 w-3" /> Narrative Hub
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Fashion Blog & News</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Fashion Blog & News</h1>
           <p className="text-muted-foreground font-medium">Share your design philosophy, style guides, and brand updates with your audience.</p>
         </div>
         <Button className="bg-pink-600 hover:bg-pink-700 rounded-full px-8 font-black shadow-lg shadow-pink-200 h-12 text-white">

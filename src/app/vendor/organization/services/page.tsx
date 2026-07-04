@@ -19,7 +19,7 @@ export default function OrganizationServicesPage() {
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-8">
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Services & Programs</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Services & Programs</h1>
           <p className="text-sm font-bold text-muted-foreground">Toggle the programs your organization runs.</p>
         </div>
         <Button className="rounded-full"><PlusCircle className="h-4 w-4 mr-2" />Add Program</Button>

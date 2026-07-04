@@ -62,7 +62,7 @@ export default function SuperAdminCertificationsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Certification Bodies</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Certification Bodies</h1>
         <p className="text-muted-foreground">
           Manage the Halal certification bodies recognized on the platform.
         </p>

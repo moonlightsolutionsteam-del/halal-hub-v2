@@ -51,7 +51,7 @@ export default function SuperAdminCreatorsControlTower() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
       {/* Control Tower Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-1">
@@ -59,7 +59,7 @@ export default function SuperAdminCreatorsControlTower() {
             <Gauge className="h-3 w-3" /> System Control Tower
           </div>
           <h1 className="text-4xl font-black font-headline text-foreground uppercase tracking-tighter">Creator Ecosystem</h1>
-          <p className="text-muted-foreground font-medium text-lg italic max-w-2xl">Centralized oversight for quality control, campaigns, financial settlements, and platform health.</p>
+          <p className="text-muted-foreground font-medium text-sm sm:text-lg italic max-w-2xl">Centralized oversight for quality control, campaigns, financial settlements, and platform health.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-12 gap-2 bg-card">
@@ -99,7 +99,7 @@ export default function SuperAdminCreatorsControlTower() {
 
         {/* 3. SUPER ADMIN DASHBOARD */}
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
               { label: "Total Creators", value: "4,250", trend: "+12.4%", sub: "Growth Rate", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
               { label: "Active Content", value: "842", trend: "High", sub: "Daily Uploads", icon: Video, color: "text-purple-600", bg: "bg-purple-50" },
@@ -599,7 +599,7 @@ export default function SuperAdminCreatorsControlTower() {
             <div className="space-y-10">
               <div className="space-y-2 border-b pb-6">
                 <h3 className="text-3xl font-black text-foreground uppercase tracking-tighter">AI Scoring & Ranking Engine</h3>
-                <p className="text-muted-foreground font-medium text-lg italic">Adjust weights for creator rankings and platform visibility algorithms.</p>
+                <p className="text-muted-foreground font-medium text-sm sm:text-lg italic">Adjust weights for creator rankings and platform visibility algorithms.</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="space-y-8">

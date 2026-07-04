@@ -44,7 +44,7 @@ export default function ButcherProductsPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <ShieldCheck className="h-3 w-3" /> Inventory Control
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Meat Inventory</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Meat Inventory</h1>
           <p className="text-muted-foreground font-medium">Manage stock levels, sourcing logs, and pricing for your cuts.</p>
         </div>
         <div className="flex gap-3">

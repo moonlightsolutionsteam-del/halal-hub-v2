@@ -45,7 +45,7 @@ export default function SuperAdminEventManagement() {
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-background min-h-screen pb-24 selection:bg-primary/10">
+    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen pb-24 selection:bg-primary/10">
       
       {/* System Integrity Ribbon */}
       <div className="flex flex-wrap items-center gap-6 px-6 py-3 bg-zinc-900 rounded-3xl shadow-2xl border border-white/10 overflow-hidden relative group">
@@ -77,7 +77,7 @@ export default function SuperAdminEventManagement() {
             <Zap className="h-3 w-3 fill-current" /> Tactical Oversight
           </div>
           <h1 className="text-5xl font-black font-headline text-foreground tracking-tighter">EVENTS & CONFERENCES</h1>
-          <p className="text-muted-foreground font-medium text-lg italic">Platform oversight for halls, ticketing, and Shariah-compliant hosting.</p>
+          <p className="text-muted-foreground font-medium text-sm sm:text-lg italic">Platform oversight for halls, ticketing, and Shariah-compliant hosting.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-12 gap-2 bg-card hover:bg-muted shadow-sm">
@@ -114,7 +114,7 @@ export default function SuperAdminEventManagement() {
 
         {/* DASHBOARD TAB */}
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
               { label: "Active Listings", value: "210", trend: "+5.4%", sub: "Monthly Growth", icon: Building, color: "text-purple-600", bg: "bg-purple-50" },
               { label: "Live Bookings", value: "12.4k", trend: "High", sub: "This Quarter", icon: Ticket, color: "text-blue-600", bg: "bg-blue-50" },

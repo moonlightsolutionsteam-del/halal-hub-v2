@@ -33,13 +33,13 @@ export default function FinancePortfolioPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-[10px]">
             <Briefcase className="h-3 w-3" /> Asset Deployment
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Portfolio Hub</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Portfolio Hub</h1>
           <p className="text-muted-foreground font-medium">Manage your institution's active deployments, asset allocations, and risk scores.</p>
         </div>
         <div className="flex gap-3">
@@ -71,7 +71,7 @@ export default function FinancePortfolioPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-8 space-y-8">
           <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
             <CardHeader className="p-8 border-b flex flex-col md:flex-row items-center justify-between gap-4">

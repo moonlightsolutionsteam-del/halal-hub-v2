@@ -38,7 +38,7 @@ export default function CertificationBodyDashboard() {
             <Award className="h-3 w-3" /> Accredited Certification Body
           </div>
           <h1 className="text-4xl font-black font-headline text-foreground tracking-tight">Audit & Integrity Portal</h1>
-          <p className="text-muted-foreground font-medium text-lg italic max-w-2xl">Centralized management for business audits, certificate issuance, and compliance reporting.</p>
+          <p className="text-muted-foreground font-medium text-sm sm:text-lg italic max-w-2xl">Centralized management for business audits, certificate issuance, and compliance reporting.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="rounded-2xl px-6 font-black border-2 h-14 bg-card shadow-sm gap-2">
@@ -74,7 +74,7 @@ export default function CertificationBodyDashboard() {
         </div>
 
         <TabsContent value="dashboard" className="space-y-10 m-0 animate-in fade-in duration-500">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
               { label: "Active Clients", value: "142", trend: "+12.4%", sub: "Monthly Growth", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
               { label: "Pending Audits", value: "8", trend: "High", sub: "Scheduled Week", icon: Microscope, color: "text-amber-600", bg: "bg-amber-50" },

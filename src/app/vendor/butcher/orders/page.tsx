@@ -55,7 +55,7 @@ export default function ButcherOrdersPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <MeatIcon className="h-3 w-3" /> Shop Fulfillment
           </div>
-          <h1 className="text-3xl font-black font-headline">Butcher Orders</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline">Butcher Orders</h1>
           <p className="text-muted-foreground font-medium">Manage custom cuts, bulk orders, and home deliveries.</p>
         </div>
         <div className="flex gap-3">

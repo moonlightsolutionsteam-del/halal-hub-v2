@@ -71,7 +71,7 @@ export default function VendorProfilePage() {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight">Edit Restaurant</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline tracking-tight">Edit Restaurant</h1>
           <p className="text-muted-foreground font-medium">Manage your restaurant's profile, documents, and gallery.</p>
         </div>
         <div className="flex gap-3">

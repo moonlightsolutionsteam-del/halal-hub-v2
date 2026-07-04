@@ -43,7 +43,7 @@ export default function CreativeAnalyticsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-8 space-y-8">
           {/* Main Chart Placeholder */}
           <Card className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden h-[500px] flex items-center justify-center text-muted-foreground font-medium italic p-10 relative">

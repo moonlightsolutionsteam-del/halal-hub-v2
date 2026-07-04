@@ -59,7 +59,7 @@ export default function SuperAdminOrganizationsPage() {
   return (
     <div className="space-y-6">
         <div>
-            <h1 className="text-3xl font-bold font-headline">Organization Listings</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Organization Listings</h1>
             <p className="text-muted-foreground">View, manage, and verify all organizations on the platform.</p>
         </div>
 

@@ -395,7 +395,7 @@ export default function ProfessionalsPage() {
         </section>
 
         {/* CTA */}
-        <div className="rounded-[2rem] bg-violet-600 text-white p-8 space-y-4">
+        <div className="rounded-[2rem] bg-violet-600 text-white p-6 sm:p-8 space-y-4">
           <div className="space-y-1">
             <h3 className="text-xl font-black font-headline">Are you a professional?</h3>
             <p className="text-sm text-violet-100 font-medium">Join thousands of Muslim professionals connecting with the community through Halal Hub.</p>

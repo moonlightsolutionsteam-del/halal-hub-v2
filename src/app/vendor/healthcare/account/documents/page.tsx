@@ -21,13 +21,13 @@ export default function HealthcareDocumentsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-teal-600 font-black uppercase tracking-widest text-[10px]">
             <ShieldCheck className="h-3 w-3" /> Compliance Vault
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Facility Accreditation</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Facility Accreditation</h1>
           <p className="text-muted-foreground font-medium">Manage your clinical licenses, ethical care charters, and medical audit reports.</p>
         </div>
         <Button className="bg-teal-600 hover:bg-teal-700 rounded-full px-8 font-black shadow-lg shadow-teal-200 h-12 text-white">
@@ -43,7 +43,7 @@ export default function HealthcareDocumentsPage() {
         </AlertDescription>
       </Alert>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-8 space-y-6">
           <div className="grid grid-cols-1 gap-4">
             {documents.map((doc) => (

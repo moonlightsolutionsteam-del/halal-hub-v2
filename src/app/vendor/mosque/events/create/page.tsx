@@ -14,7 +14,7 @@ export default function CreateMosqueEventPage() {
       <Link href="/vendor/mosque/events" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
         <ArrowLeft className="h-4 w-4" />Back to Events
       </Link>
-      <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Create Event</h1>
+      <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Create Event</h1>
 
       <Card className="rounded-[2rem] border-none shadow-soft">
         <CardHeader><CardTitle className="text-lg font-black">Event Details</CardTitle></CardHeader>

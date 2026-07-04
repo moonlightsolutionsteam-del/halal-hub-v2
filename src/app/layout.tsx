@@ -99,6 +99,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#04A15A" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -112,56 +117,60 @@ export default function RootLayout({
         <SidebarProvider defaultOpen={false}>
           <div className="flex min-h-screen w-full bg-background">
             {getSidebar()}
-            
-            <div className="flex flex-1 flex-col overflow-hidden relative">
-              <header className="sticky top-0 z-20 glass px-4 sm:px-6 py-4 flex items-center justify-between border-b border-border/60 shadow-soft-sm">
-                <div className="flex items-center gap-4">
-                  <SidebarTrigger className="text-muted-foreground hover:text-primary transition-colors duration-200 h-10 w-10" />
-                  <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-glow-primary transition-transform duration-200 group-hover:scale-105">
-                      <MessageSquare className="h-5 w-5 fill-current" />
+
+            <div className="flex flex-1 flex-col overflow-hidden relative min-w-0">
+              {/* Header — compact on mobile, expanded on desktop */}
+              <header className="sticky top-0 z-20 glass px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between border-b border-border/60 shadow-soft-sm flex-shrink-0">
+                <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+                  <SidebarTrigger className="text-muted-foreground hover:text-primary transition-colors duration-200 h-10 w-10 shrink-0" />
+                  <Link href="/" className="flex items-center gap-2 group shrink-0">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-glow-primary transition-transform duration-200 group-hover:scale-105">
+                      <MessageSquare className="h-4 w-4 sm:h-5 sm:h-5 fill-current" />
                     </div>
-                    <span className="text-xl font-semibold text-primary font-headline tracking-tight whitespace-nowrap hidden sm:block">Halal Hub</span>
+                    <span className="text-base sm:text-xl font-semibold text-primary font-headline tracking-tight whitespace-nowrap hidden sm:block">Halal Hub</span>
                   </Link>
                 </div>
 
                 {!isAdminPath && !isVendorPath && !isFamilyTreePath && <HeaderSearch />}
 
-                <div className="flex items-center gap-4">
-                  <HeaderLocation />
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                  {/* Location hidden on smallest screens to save space */}
+                  <div className="hidden sm:block">
+                    <HeaderLocation />
+                  </div>
                   <Link href="/account/dashboard">
-                    <Avatar className="h-10 w-10 border-2 border-card shadow-soft hover:shadow-soft-md transition-shadow duration-200 ring-2 ring-primary/10">
+                    <Avatar className="h-8 w-8 sm:h-10 sm:w-10 border-2 border-card shadow-soft hover:shadow-soft-md transition-shadow duration-200 ring-2 ring-primary/10">
                       <AvatarImage src="https://picsum.photos/seed/user/100/100" />
-                      <AvatarFallback>JD</AvatarFallback>
+                      <AvatarFallback className="text-xs">JD</AvatarFallback>
                     </Avatar>
                   </Link>
                 </div>
               </header>
 
-              <main className="flex-1 overflow-y-auto relative bg-background">
-                <div className="max-w-[1440px] mx-auto pb-24 md:pb-8">
+              <main className="flex-1 overflow-y-auto overflow-x-hidden relative bg-background">
+                <div className="max-w-[1440px] mx-auto pb-28 md:pb-8">
                   {children}
                 </div>
               </main>
 
+              {/* Bottom navigation — mobile only, pill style with safe-area support */}
               {!isAdminPath && !isVendorPath && (
-                <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden w-[90%] max-w-[400px]">
-                  <div className="glass-strong border border-border/60 rounded-full h-16 shadow-soft-lg flex items-center justify-around px-2 ring-1 ring-black/5 dark:ring-white/10">
-                    <Link href="/" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname === '/' ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
-                      <Home className="h-6 w-6" />
-                    </Link>
-                    <Link href="/feed" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname === '/feed' ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
-                      <Newspaper className="h-6 w-6" />
-                    </Link>
-                    <Link href="/categories" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname?.startsWith('/categories') ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
-                      <List className="h-6 w-6" />
-                    </Link>
-                    <Link href="/community" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname === '/community' ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
-                      <Globe className="h-6 w-6" />
-                    </Link>
-                    <Link href="/account/dashboard" className={`press p-3 rounded-full transition-all duration-200 ${mounted && pathname?.startsWith('/account') ? 'text-primary bg-primary/10 scale-110' : 'text-muted-foreground'}`}>
-                      <User className="h-6 w-6" />
-                    </Link>
+                <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-4 pb-4"
+                  style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' }}>
+                  <div className="glass-strong border border-border/60 rounded-full h-16 shadow-soft-lg flex items-center justify-around px-1 ring-1 ring-black/5 dark:ring-white/10 max-w-[480px] mx-auto">
+                    {[
+                      { href: "/", icon: Home, label: "Home", active: mounted && pathname === '/' },
+                      { href: "/feed", icon: Newspaper, label: "Feed", active: mounted && pathname === '/feed' },
+                      { href: "/categories", icon: List, label: "Browse", active: mounted && pathname?.startsWith('/categories') },
+                      { href: "/community", icon: Globe, label: "Community", active: mounted && pathname === '/community' },
+                      { href: "/account/dashboard", icon: User, label: "Me", active: mounted && pathname?.startsWith('/account') },
+                    ].map(({ href, icon: Icon, label, active }) => (
+                      <Link key={href} href={href}
+                        className={`press flex flex-col items-center justify-center gap-0.5 flex-1 h-full rounded-full transition-all duration-200 ${active ? 'text-primary' : 'text-muted-foreground'}`}>
+                        <Icon className={`h-5 w-5 transition-transform duration-200 ${active ? 'scale-110' : ''}`} />
+                        <span className={`text-[9px] font-black uppercase tracking-wide leading-none ${active ? 'opacity-100' : 'opacity-60'}`}>{label}</span>
+                      </Link>
+                    ))}
                   </div>
                 </nav>
               )}

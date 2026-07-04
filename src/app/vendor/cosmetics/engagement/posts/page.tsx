@@ -18,13 +18,13 @@ export default function CosmeticsPostsPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-5xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-5xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-rose-600 font-black uppercase tracking-widest text-[10px]">
             <PenTool className="h-3 w-3" /> Community Feed
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Brand Social Updates</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Brand Social Updates</h1>
           <p className="text-muted-foreground font-medium">Publish tutorials, ingredient spotlights, and new arrival reels to your followers.</p>
         </div>
         <Button className="bg-rose-600 hover:bg-rose-700 rounded-full px-8 font-black shadow-lg shadow-rose-200 h-12 text-white">

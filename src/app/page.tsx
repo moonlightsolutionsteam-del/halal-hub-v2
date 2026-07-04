@@ -98,9 +98,9 @@ export default function Home() {
   const formattedDate = time ? time.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : "---";
 
   return (
-    <div className="space-y-12 py-4 px-2 max-w-6xl mx-auto">
+    <div className="space-y-8 sm:space-y-12 py-4 px-3 sm:px-4 max-w-6xl mx-auto">
       <div className="space-y-1 text-center sm:text-left">
-        <h1 className="text-3xl font-black text-foreground tracking-tight">Assalamualaikum, Super</h1>
+        <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">Assalamualaikum, Super</h1>
         <p className="text-sm font-bold text-muted-foreground">{formattedDate}</p>
       </div>
 
@@ -114,7 +114,7 @@ export default function Home() {
           <div className="absolute top-6 right-6 opacity-15">
             <Moon className="h-24 w-24" />
           </div>
-          <CardContent className="relative p-8 space-y-4">
+          <CardContent className="relative p-5 sm:p-8 space-y-3 sm:space-y-4">
             {prayerLoading ? (
               <div className="space-y-3">
                 <div className="h-4 w-40 bg-white/20 rounded-full animate-pulse" />
@@ -128,9 +128,9 @@ export default function Home() {
             ) : (
               <>
                 <div className="space-y-1">
-                  <p className="text-sm font-black uppercase tracking-widest opacity-80">Next Prayer: {nextPrayerName}</p>
+                  <p className="text-xs sm:text-sm font-black uppercase tracking-widest opacity-80">Next Prayer: {nextPrayerName}</p>
                   <div className="flex items-end gap-3">
-                    <span className="text-6xl font-black tabular-nums">
+                    <span className="text-4xl sm:text-6xl font-black tabular-nums">
                       {String(countdown.hours).padStart(2, "0")}:{String(countdown.minutes).padStart(2, "0")}:{String(countdown.seconds).padStart(2, "0")}
                     </span>
                   </div>

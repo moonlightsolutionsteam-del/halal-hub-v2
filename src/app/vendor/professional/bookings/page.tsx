@@ -15,7 +15,7 @@ export default function ProfessionalBookingsPage() {
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Appointments</h1>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Appointments</h1>
         <p className="text-sm font-bold text-muted-foreground">Manage your upcoming and past bookings.</p>
       </div>
 

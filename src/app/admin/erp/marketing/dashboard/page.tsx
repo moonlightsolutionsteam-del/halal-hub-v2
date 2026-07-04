@@ -83,11 +83,11 @@ export default function MarketingDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold font-headline">Marketing Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Marketing Dashboard</h1>
         <p className="text-muted-foreground">An overview of all marketing activities and performance.</p>
       </div>
 
-       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         {kpiData.map((kpi) => (
           <Card key={kpi.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

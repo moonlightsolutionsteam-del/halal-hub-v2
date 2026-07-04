@@ -27,7 +27,7 @@ export default function ConnectedAccountsPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <LinkIcon className="h-3 w-3" /> Sync Hub
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Connected Accounts</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Connected Accounts</h1>
           <p className="text-muted-foreground font-medium">Link your external platforms to Halal Hub for unified analytics and verification.</p>
         </div>
         <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12">
@@ -76,7 +76,7 @@ export default function ConnectedAccountsPage() {
           <ShieldCheck className="h-48 w-48" />
         </div>
         <div className="relative z-10 space-y-4 text-center md:text-left flex-1">
-          <h2 className="text-3xl font-black font-headline">Privacy & API Security</h2>
+          <h2 className="text-2xl sm:text-3xl font-black font-headline">Privacy & API Security</h2>
           <p className="text-muted-foreground font-medium text-lg leading-relaxed max-w-2xl italic">
             Linking accounts only pulls public analytics metadata. We never store your passwords or have access to your private direct messages on other platforms.
           </p>

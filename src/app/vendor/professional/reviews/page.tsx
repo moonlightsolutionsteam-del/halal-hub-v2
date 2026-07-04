@@ -16,7 +16,7 @@ export default function ProfessionalReviewsPage() {
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto space-y-8">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground tracking-tight">Reviews</h1>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Reviews</h1>
         <p className="text-sm font-bold text-muted-foreground">See what your clients are saying.</p>
       </div>
 

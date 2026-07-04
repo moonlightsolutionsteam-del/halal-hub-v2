@@ -42,7 +42,7 @@ export default function ContentUploadPage() {
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight text-foreground">Upload Content</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline tracking-tight text-foreground">Upload Content</h1>
           <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest opacity-60">New Media Production</p>
         </div>
       </div>
@@ -50,7 +50,7 @@ export default function ContentUploadPage() {
       <div className="grid grid-cols-1 gap-10">
         {/* Content Type Selector */}
         <section className="space-y-6">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-3 sm:gap-4">
             {[
               { id: "reel", label: "Studio Reel", icon: Video, color: "text-blue-600", bg: "bg-blue-50" },
               { id: "podcast", label: "Podcast Ep", icon: Mic, color: "text-purple-600", bg: "bg-purple-50" },

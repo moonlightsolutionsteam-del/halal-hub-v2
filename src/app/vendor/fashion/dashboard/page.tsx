@@ -40,13 +40,13 @@ export default function FashionDashboard() {
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-background min-h-screen">
+    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground">Fashion &amp; Modest Wear Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Fashion &amp; Modest Wear Dashboard</h1>
         <p className="text-muted-foreground font-medium opacity-60">Manage your collections, inventory, and online store.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi, i) => (
           <Card key={i} className="border-none shadow-sm rounded-3xl bg-card p-2">
             <CardHeader className="flex flex-row items-center justify-between pb-2">

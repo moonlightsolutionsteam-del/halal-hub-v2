@@ -35,7 +35,7 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Active Users", value: "1,142,502", color: "text-primary" },
           { label: "Banned", value: "1,240", color: "text-red-500" },

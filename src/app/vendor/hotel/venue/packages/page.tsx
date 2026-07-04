@@ -25,13 +25,13 @@ export default function VenuePackagesPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-6xl pb-24">
+    <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2 text-purple-600 font-black uppercase tracking-widest text-[10px]">
             <Sparkles className="h-3 w-3" /> Event Services
           </div>
-          <h1 className="text-3xl font-black font-headline text-foreground">Venue Packages</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Venue Packages</h1>
           <p className="text-muted-foreground font-medium">Create and manage your professional event spaces and tiered hosting packages.</p>
         </div>
         <Button className="bg-purple-600 hover:bg-purple-700 rounded-full px-8 font-black shadow-lg shadow-purple-200 h-12 text-white">

@@ -94,11 +94,11 @@ export default function InvoicesPage() {
   return (
     <div className="space-y-6">
         <div>
-            <h1 className="text-3xl font-bold font-headline">Invoice Management</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Invoice Management</h1>
             <p className="text-muted-foreground">Create, manage, and track all vendor invoices.</p>
         </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Total Invoiced (Month)</CardTitle>

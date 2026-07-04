@@ -93,7 +93,7 @@ export default function SuperAdminAuditLogsPage() {
   return (
     <div className="space-y-6">
         <div>
-            <h1 className="text-3xl font-bold font-headline">Financial Audit Logs</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Financial Audit Logs</h1>
             <p className="text-muted-foreground">Trace every financial action, manual override, and approval on the platform.</p>
         </div>
 

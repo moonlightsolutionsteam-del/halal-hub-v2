@@ -130,7 +130,7 @@ export default function CreatorsPage() {
             <h1 className="text-2xl md:text-3xl font-headline font-bold text-foreground mt-4">
                 Discover Creators
             </h1>
-            <p className="text-muted-foreground text-md max-w-xl mx-auto mt-2">
+            <p className="text-muted-foreground text-sm max-w-xl mx-auto mt-2">
                 Connect with influencers, scholars, and content creators in the community.
             </p>
         </div>

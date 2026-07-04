@@ -144,7 +144,7 @@ function StoryBubble({ story }: { story: typeof STORIES[0] }) {
       )}>
         <div className="bg-card rounded-full p-[2px]">
           <div className="relative">
-            <Avatar className="h-16 w-16 group-hover:scale-105 transition-transform">
+            <Avatar className="h-14 w-14 sm:h-16 sm:w-16 group-hover:scale-105 transition-transform">
               <AvatarImage src={story.avatar} />
               <AvatarFallback className="bg-primary/10 text-primary font-black text-sm">{story.name[0]}</AvatarFallback>
             </Avatar>
@@ -364,8 +364,8 @@ export default function FeedPage() {
           {/* Main Feed Column */}
           <div className="lg:col-span-7 space-y-0">
             {/* Stories Bar */}
-            <div className="bg-card border-b border-border p-4 overflow-x-auto no-scrollbar">
-              <div className="flex gap-4">
+            <div className="bg-card border-b border-border px-4 py-3 overflow-x-auto no-scrollbar">
+              <div className="flex gap-3 w-max">
                 {STORIES.map(story => (
                   <StoryBubble key={story.id} story={story} />
                 ))}
@@ -373,32 +373,32 @@ export default function FeedPage() {
             </div>
 
             {/* Create Post */}
-            <div className="bg-card border-b border-border p-4">
+            <div className="bg-card border-b border-border p-3 sm:p-4">
               <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10 shrink-0">
+                <Avatar className="h-9 w-9 sm:h-10 sm:w-10 shrink-0">
                   <AvatarImage src="https://picsum.photos/seed/user/100/100" />
                   <AvatarFallback className="bg-primary/10 text-primary font-black">U</AvatarFallback>
                 </Avatar>
-                <button className="flex-1 text-left bg-muted hover:bg-muted transition-colors rounded-full px-5 py-3 text-sm text-muted-foreground font-medium">
-                  Share something with the Ummah...
+                <button className="flex-1 text-left bg-muted hover:bg-muted transition-colors rounded-full px-4 sm:px-5 py-2.5 sm:py-3 text-sm text-muted-foreground font-medium">
+                  Share with the Ummah...
                 </button>
-                <button className="bg-primary/10 hover:bg-primary/20 text-primary rounded-full p-3 transition-colors">
-                  <Camera className="h-5 w-5" />
+                <button className="bg-primary/10 hover:bg-primary/20 text-primary rounded-full p-2.5 transition-colors shrink-0">
+                  <Camera className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
               </div>
-              <div className="flex items-center gap-2 mt-3 pl-[52px]">
-                <button className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-primary/5">
-                  <Camera className="h-3.5 w-3.5" /> Photo
-                </button>
-                <button className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-primary/5">
-                  <Play className="h-3.5 w-3.5" /> Video
-                </button>
-                <button className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-primary/5">
-                  <MapPin className="h-3.5 w-3.5" /> Location
-                </button>
-                <button className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-primary/5">
-                  <Star className="h-3.5 w-3.5" /> Review
-                </button>
+              <div className="overflow-x-auto no-scrollbar mt-2.5">
+                <div className="flex items-center gap-1 w-max pl-12 sm:pl-[52px]">
+                  {[
+                    { icon: Camera, label: "Photo" },
+                    { icon: Play, label: "Video" },
+                    { icon: MapPin, label: "Location" },
+                    { icon: Star, label: "Review" },
+                  ].map(({ icon: Icon, label }) => (
+                    <button key={label} className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-primary/5 whitespace-nowrap">
+                      <Icon className="h-3.5 w-3.5" /> {label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 

@@ -30,7 +30,7 @@ export default function VendorReservationsPage() {
           <div className="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[10px]">
             <ChefHat className="h-3 w-3" /> Dining Hall
           </div>
-          <h1 className="text-3xl font-black font-headline">Table Reservations</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline">Table Reservations</h1>
           <p className="text-muted-foreground font-medium">Manage floor capacity and specialized guest requirements.</p>
         </div>
         <div className="flex gap-3">

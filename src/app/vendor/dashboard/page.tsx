@@ -42,13 +42,13 @@ export default function VendorDashboard() {
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-background min-h-screen">
+    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen">
       <div className="space-y-1">
-        <h1 className="text-3xl font-black font-headline text-foreground">Restaurant Dashboard</h1>
-        <p className="text-muted-foreground font-medium opacity-60">Here's what's happening at your restaurant today.</p>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Restaurant Dashboard</h1>
+        <p className="text-muted-foreground font-medium opacity-60 text-sm">Here's what's happening at your restaurant today.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {kpis.map((kpi, i) => (
           <Card key={i} className="border-none shadow-sm rounded-3xl bg-card p-2">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -63,15 +63,15 @@ export default function VendorDashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-8 space-y-8">
-          <section className="space-y-4">
-            <h2 className="text-lg font-black text-foreground px-2">Quick Actions</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
+        <div className="lg:col-span-8 space-y-5 sm:space-y-8">
+          <section className="space-y-3 sm:space-y-4">
+            <h2 className="text-lg font-black text-foreground px-1">Quick Actions</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {quickActions.map((action, i) => (
-                <button key={i} className="group flex flex-col items-center justify-center p-6 bg-card rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-3 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
-                    <action.icon className="h-6 w-6" />
+                <button key={i} className="group flex flex-col items-center justify-center p-4 sm:p-6 bg-card rounded-[1.5rem] sm:rounded-[2rem] shadow-sm hover:shadow-md transition-all border border-transparent hover:border-primary/20">
+                  <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-2 sm:mb-3 ${action.bg} ${action.color} group-hover:scale-110 transition-transform`}>
+                    <action.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
                   <span className="text-xs font-black text-foreground">{action.label}</span>
                 </button>
@@ -79,29 +79,29 @@ export default function VendorDashboard() {
             </div>
           </section>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
-            <CardHeader className="p-8 flex flex-row items-center justify-between">
-              <div className="space-y-1">
-                <CardTitle className="text-xl font-black">Top Menu Items</CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Your best-selling dishes this month.</p>
+          <Card className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card">
+            <CardHeader className="p-4 sm:p-8 flex flex-row items-center justify-between">
+              <div className="space-y-0.5 sm:space-y-1 min-w-0">
+                <CardTitle className="text-base sm:text-xl font-black">Top Menu Items</CardTitle>
+                <p className="text-xs sm:text-sm text-muted-foreground font-medium hidden sm:block">Your best-selling dishes this month.</p>
               </div>
-              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full font-black text-xs px-6 h-10">
-                View Menu <ArrowUpRight className="ml-2 h-4 w-4" />
+              <Button size="sm" className="bg-primary hover:bg-primary/90 rounded-full font-black text-xs px-4 sm:px-6 h-9 sm:h-10 shrink-0">
+                View Menu <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
               </Button>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader className="bg-muted/50">
                   <TableRow className="border-none">
-                    <TableHead className="px-8 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Item</TableHead>
-                    <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Orders</TableHead>
+                    <TableHead className="px-4 sm:px-8 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Item</TableHead>
+                    <TableHead className="text-right px-4 sm:px-8 font-black uppercase text-[10px] tracking-widest text-muted-foreground">Orders</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {topItems.map((item, i) => (
                     <TableRow key={i} className="border-border hover:bg-muted/50 transition-colors">
-                      <TableCell className="px-8 py-5 font-bold text-foreground">{item.name}</TableCell>
-                      <TableCell className="text-right px-8 font-black text-muted-foreground">{item.orders}</TableCell>
+                      <TableCell className="px-4 sm:px-8 py-4 sm:py-5 font-bold text-foreground text-sm">{item.name}</TableCell>
+                      <TableCell className="text-right px-4 sm:px-8 font-black text-muted-foreground">{item.orders}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -110,8 +110,8 @@ export default function VendorDashboard() {
           </Card>
         </div>
 
-        <div className="lg:col-span-4 space-y-8">
-          <Card className="rounded-[2.5rem] border-none shadow-xl bg-zinc-900 text-white p-8 space-y-6 relative overflow-hidden">
+        <div className="lg:col-span-4 space-y-5 sm:space-y-8">
+          <Card className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-xl bg-zinc-900 text-white p-5 sm:p-8 space-y-4 sm:space-y-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <ShieldCheck className="h-24 w-24" />
             </div>
@@ -144,11 +144,11 @@ export default function VendorDashboard() {
             </div>
           </Card>
 
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
+          <Card className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card p-4 sm:p-8">
             <CardHeader className="px-0 pt-0">
-              <CardTitle className="text-xl font-black">Recent Activity</CardTitle>
+              <CardTitle className="text-base sm:text-xl font-black">Recent Activity</CardTitle>
             </CardHeader>
-            <CardContent className="px-0 space-y-6">
+            <CardContent className="px-0 space-y-3 sm:space-y-6">
               {recentActivity.map((activity, i) => (
                 <div key={i} className="flex items-start gap-4 p-4 rounded-3xl bg-muted/50 hover:bg-card hover:shadow-sm transition-all border border-transparent hover:border-border group">
                   <div className={`mt-1 h-8 w-8 rounded-xl flex items-center justify-center ${activity.color} bg-card shadow-sm shrink-0 group-hover:scale-110 transition-transform`}>

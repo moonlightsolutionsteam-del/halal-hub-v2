@@ -25,7 +25,7 @@ export default function HealthcareProfilePage() {
     <div className="container mx-auto p-6 space-y-8 max-w-7xl pb-20">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black font-headline tracking-tight text-foreground">Healthcare Profile</h1>
+          <h1 className="text-2xl sm:text-3xl font-black font-headline tracking-tight text-foreground">Healthcare Profile</h1>
           <p className="text-muted-foreground font-medium">Manage your clinic details, medical specialties, and ethical practice policies.</p>
         </div>
         <Button className="bg-teal-600 hover:bg-teal-700 rounded-2xl px-8 font-black shadow-lg shadow-teal-200 h-12 text-white">
