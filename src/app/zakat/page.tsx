@@ -86,7 +86,7 @@ export default function ZakatPage() {
             <CardTitle className="text-lg font-black">Your Wealth</CardTitle>
           </CardHeader>
           <CardContent className="space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-1.5">
                 <Label className="text-xs font-black uppercase text-muted-foreground">Cash & Savings</Label>
                 <Input type="number" placeholder="0" value={form.cash} onChange={handleChange("cash")} className="rounded-xl" />

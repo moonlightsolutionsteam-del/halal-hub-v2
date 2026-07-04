@@ -30,7 +30,7 @@ export default function MediaDigitalPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Total Items", value: "48", icon: Library, color: "bg-primary/10 text-primary" },
           { label: "eBooks", value: "21", icon: FileText, color: "bg-blue-50 text-blue-600" },

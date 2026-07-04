@@ -49,7 +49,7 @@ export default function DocumentVaultPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
           { label: "Total Files", value: "24", icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Verified Docs", value: "18", icon: ShieldCheck, color: "text-emerald-600", bg: "bg-emerald-50" },

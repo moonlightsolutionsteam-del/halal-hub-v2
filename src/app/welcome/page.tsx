@@ -107,7 +107,7 @@ export default function WelcomeHubPage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {VERTICALS.map((v, i) => (
               <Link key={i} href={`/categories/${v.slug}`}>
                 <Card className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-2xl transition-all duration-700 h-full border-2 border-transparent hover:border-primary/10">
@@ -184,7 +184,7 @@ export default function WelcomeHubPage() {
             <p className="text-sm sm:text-xl text-muted-foreground font-medium">Connect with millions of members in our moderated community forums.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {[
               { title: "Product Vetting", desc: "Is this gelatin halal? Ask the experts.", icon: ShieldCheck, color: "text-emerald-600" },
               { title: "Travel Guides", desc: "Best spots in Istanbul from real travelers.", icon: MapIcon, color: "text-amber-600" },

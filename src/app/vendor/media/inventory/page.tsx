@@ -37,7 +37,7 @@ export default function MediaInventoryPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Total Titles", value: "234", icon: BookOpen, color: "bg-primary/10 text-primary" },
           { label: "Low Stock", value: "12", icon: AlertTriangle, color: "bg-amber-50 text-amber-600" },

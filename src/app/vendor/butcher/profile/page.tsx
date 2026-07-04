@@ -503,7 +503,7 @@ export default function ButcherProfilePage() {
               <h2 className="text-xl font-black text-foreground">Optional Uploads</h2>
               <p className="text-sm text-muted-foreground font-medium">Providing these can increase customer trust and transparency.</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
               {[
                 { title: "Cutting Area", desc: "Show cleanliness" },
                 { title: "Cold Storage", desc: "Refrigeration photos" },

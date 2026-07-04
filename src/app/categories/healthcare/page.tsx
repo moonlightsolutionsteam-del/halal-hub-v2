@@ -105,7 +105,7 @@ export default function HealthcareListingPage() {
       </div>
 
       {/* Quick Stats Ribbon */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {[
           { label: "Verified Partners", value: "115+ Clinics", icon: ShieldCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
           { label: "Specialist Care", value: "24 Disciplines", icon: Microscope, color: "text-teal-600", bg: "bg-teal-50" },

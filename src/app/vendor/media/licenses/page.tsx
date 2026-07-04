@@ -29,7 +29,7 @@ export default function MediaLicensesPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Active Licenses", value: "48", icon: CheckCircle2, color: "bg-emerald-50 text-emerald-600" },
           { label: "Total Downloads", value: "1,428", icon: Download, color: "bg-primary/10 text-primary" },

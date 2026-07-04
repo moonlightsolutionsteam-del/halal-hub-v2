@@ -89,7 +89,7 @@ export default function FamilyTreePage() {
         {/* Tab 1: Family Hub (Coordination) */}
         <TabsContent value="hub" className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
           {/* Family Moments Highlight Layer */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10">
             {[
               { label: "Dinner planned tonight 🍽️", sub: "7:30 PM @ The Halal Grill", color: "bg-orange-50 text-orange-700", border: "border-orange-100", icon: Utensils, url: "/family-tree/events" },
               { label: "3 tasks pending", sub: "Assigned to Ibrahim & Fatima", color: "bg-blue-50 text-blue-700", border: "border-blue-100", icon: ClipboardList, url: "/family-tree/board" },
@@ -112,7 +112,7 @@ export default function FamilyTreePage() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {/* Quick Chat Preview */}
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
               <div className="flex items-center justify-between">
@@ -310,7 +310,7 @@ export default function FamilyTreePage() {
 
         {/* Tab 2: Legacy & Roots (Preservation) */}
         <TabsContent value="legacy" className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {/* Verified Lineage Overview */}
             <Card className="md:col-span-2 rounded-[3rem] border-none shadow-sm bg-zinc-900 text-white p-12 relative overflow-hidden flex flex-col justify-between min-h-[350px]">
               <FamilyTreeIcon className="absolute -top-4 -right-4 h-64 w-64 opacity-10 text-emerald-400" />

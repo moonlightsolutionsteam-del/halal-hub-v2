@@ -97,7 +97,7 @@ export default function CreditsPricingPage() {
       </div>
 
       {/* Pricing Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
         {PRICING_PLANS.map((plan) => (
           <Card 
             key={plan.name} 

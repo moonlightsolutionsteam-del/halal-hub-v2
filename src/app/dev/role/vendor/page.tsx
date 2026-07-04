@@ -45,7 +45,7 @@ export default function VendorRolePage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {kpis.map((kpi, i) => (
           <Card key={i} className="border-none shadow-sm rounded-3xl bg-card p-2 group hover:shadow-md transition-all">
             <CardHeader className="flex flex-row items-center justify-between pb-2">

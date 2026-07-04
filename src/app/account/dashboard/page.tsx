@@ -245,7 +245,7 @@ export default function UserDashboard() {
 
             <TabsContent value="activity" className="m-0 space-y-8 sm:space-y-12 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
               {/* Stats Overview */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
                 <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-none shadow-sm bg-card p-5 sm:p-8 group hover:shadow-md transition-all">
                   <CardHeader className="p-0 pb-3 sm:pb-4">
                     <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Current Level</CardTitle>

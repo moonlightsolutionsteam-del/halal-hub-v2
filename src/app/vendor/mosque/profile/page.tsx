@@ -132,7 +132,7 @@ export default function MosqueProfilePage() {
               <p className="text-sm text-muted-foreground font-medium">Select all facilities available at your mosque.</p>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 {facilities.map((facility) => (
                   <div key={facility.id} className="flex items-center space-x-3 p-4 bg-muted rounded-2xl border border-transparent hover:border-teal-200 transition-all cursor-pointer">
                     <Checkbox id={facility.id} className="border-teal-300" />
@@ -176,7 +176,7 @@ export default function MosqueProfilePage() {
               <p className="text-sm text-muted-foreground font-medium">Select all services and programmes your mosque offers.</p>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 {SERVICES.map((svc) => (
                   <div key={svc} className="flex items-center space-x-3 p-4 bg-muted rounded-2xl border border-transparent hover:border-teal-200 transition-all cursor-pointer">
                     <Checkbox id={`svc-${svc}`} className="border-teal-300" />

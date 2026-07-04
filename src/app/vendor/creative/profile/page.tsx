@@ -121,7 +121,7 @@ export default function CreativeProfilePage() {
               <p className="text-sm text-muted-foreground font-medium">Select all topics and themes your content covers. This helps brands and followers discover you.</p>
             </div>
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {CREATOR_CATEGORIES.map((cat) => (
                   <label key={cat} className="flex items-center gap-3 p-4 bg-muted rounded-2xl cursor-pointer hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all">
                     <input type="checkbox" className="accent-emerald-600 h-4 w-4" defaultChecked={cat === "Islamic Scholarship" || cat === "Muslim Lifestyle"} />
@@ -137,7 +137,7 @@ export default function CreativeProfilePage() {
               <Mic className="h-5 w-5 text-primary" /> Content Formats
             </h2>
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {["Long-form Video", "Short-form Reels", "Podcasts / Audio", "Blog / Written", "Live Streams", "Online Courses", "Social Posts", "Newsletters"].map((fmt) => (
                   <label key={fmt} className="flex items-center gap-3 p-4 bg-muted rounded-2xl cursor-pointer hover:bg-primary/5 border border-transparent hover:border-primary/20 transition-all">
                     <input type="checkbox" className="accent-emerald-600 h-4 w-4" />

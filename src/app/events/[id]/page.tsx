@@ -139,7 +139,7 @@ export default function EventDetailPage() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-3 sm:gap-6">
                   <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-4">
                     <h3 className="text-sm font-black uppercase text-muted-foreground tracking-widest">Target Audience</h3>
                     <div className="flex items-center gap-4">
@@ -194,7 +194,7 @@ export default function EventDetailPage() {
               </TabsContent>
 
               <TabsContent value="speakers" className="mt-12 animate-in fade-in duration-700">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="grid grid-cols-2 gap-4 sm:gap-8">
                   {[1, 2].map((i) => (
                     <Card key={i} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card p-8 space-y-6 hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
                       <div className="flex items-center gap-6">

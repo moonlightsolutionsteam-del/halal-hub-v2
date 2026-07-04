@@ -34,7 +34,7 @@ export default function MediaOrdersPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Total Orders", value: "1,284", icon: ShoppingCart, color: "bg-primary/10 text-primary" },
           { label: "Processing", value: "8", icon: Clock, color: "bg-amber-50 text-amber-600" },

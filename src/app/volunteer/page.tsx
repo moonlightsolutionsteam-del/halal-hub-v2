@@ -277,7 +277,7 @@ const CreateEventSection = () => (
                     </SelectContent>
                 </Select>
             </div>
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+             <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                     <Label htmlFor="event-date">Date</Label>
                     <Input id="event-date" type="date" />
@@ -291,7 +291,7 @@ const CreateEventSection = () => (
                 <Label htmlFor="event-location">Location</Label>
                 <Input id="event-location" placeholder="e.g., Al-Noor Islamic Center" />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                     <Label htmlFor="volunteers-needed">Volunteers Needed</Label>
                     <Input id="volunteers-needed" type="number" placeholder="e.g., 10" />

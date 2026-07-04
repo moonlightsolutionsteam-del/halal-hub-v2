@@ -421,7 +421,7 @@ export default function EntityProfilePage() {
                   <p className="text-base sm:text-xl text-muted-foreground leading-relaxed font-medium">
                     {entityData.description}
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-8">
                     <div className="flex items-center gap-4 sm:gap-6 p-4 sm:p-8 bg-card rounded-[1.5rem] sm:rounded-[2.5rem] shadow-sm border border-border group hover:shadow-xl transition-all">
                       <div className={`h-12 w-12 sm:h-16 sm:w-16 ${getAccentLight()} rounded-xl sm:rounded-[1.5rem] flex items-center justify-center group-hover:rotate-12 transition-transform shadow-inner shrink-0`}>
                         <ShieldCheck className="h-6 w-6 sm:h-8 sm:w-8" />

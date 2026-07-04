@@ -30,7 +30,7 @@ export default function MediaGalleryPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {GALLERY_SLOTS.map((slot) => (
           <Card key={slot.label} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden group">
             <div className="relative aspect-video bg-muted overflow-hidden">

@@ -105,7 +105,7 @@ export default function EducationListingPage() {
       </div>
 
       {/* Quick Stats Ribbon */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {[
           { label: "Accredited Partners", value: "85+ Institutions", icon: ShieldCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
           { label: "Active Students", value: "12k+ Community", icon: Users, color: "text-violet-600", bg: "bg-violet-50" },

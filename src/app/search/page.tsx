@@ -95,7 +95,7 @@ function SearchResults() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6">
           {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-32" />)}
         </div>
       ) : results.length === 0 ? (
@@ -110,7 +110,7 @@ function SearchResults() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6">
           {results.map((b) => (
             <Link key={b.id} href={`/entities/${b.id}`}>
               <Card className="group rounded-[2rem] border-none shadow-soft hover:shadow-soft-md transition-shadow duration-200 overflow-hidden h-full">

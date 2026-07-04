@@ -345,7 +345,7 @@ export default function ProductDevelopmentPage() {
                             <CardTitle>Product Roadmap</CardTitle>
                             <CardDescription>High-level goals organized by quarter.</CardDescription>
                         </CardHeader>
-                        <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <CardContent className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                             {['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025'].map(quarter => (
                                 <Card key={quarter}>
                                     <CardHeader><CardTitle>{quarter}</CardTitle></CardHeader>

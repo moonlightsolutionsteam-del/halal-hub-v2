@@ -105,7 +105,7 @@ export default function FinanceListingPage() {
       </div>
 
       {/* Stats Quick Ribbon */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {[
           { label: "Market Trust", value: "AA+ Average", icon: ShieldCheck, color: "text-emerald-600", bg: "bg-emerald-50" },
           { label: "Avg. ROI", value: "9.2% Growth", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50" },

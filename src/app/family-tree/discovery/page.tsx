@@ -54,7 +54,7 @@ export default function FamilyDiscoveryPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
         {suggestedPlaces.map((place) => (
           <Card key={place.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-emerald-100">
             <div className="relative aspect-square overflow-hidden">

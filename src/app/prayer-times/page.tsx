@@ -385,7 +385,7 @@ export default function PrayerTimesPage() {
               )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-black uppercase text-muted-foreground tracking-widest">Calculation Method</label>
                 <Select value={settings.method} onValueChange={(v) => updateSettings({ method: v })}>
@@ -815,7 +815,7 @@ export default function PrayerTimesPage() {
             </Card>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {islamicMonths.map((month) => {
               const isCurrent = hijriData?.hijri.month === month.number
               const monthEvents = eventsData?.events.filter((e) => e.month === month.number) || []

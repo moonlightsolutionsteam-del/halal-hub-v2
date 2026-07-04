@@ -65,7 +65,7 @@ export default function AsmaUlHusnaPage() {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {loading && Array.from({ length: 9 }).map((_, i) => <Skeleton key={i} className="h-40" />)}
         {!loading && filtered.map((name) => (
           <Card key={name.number} className="rounded-[2rem] border-none shadow-sm hover:shadow-md transition-shadow">

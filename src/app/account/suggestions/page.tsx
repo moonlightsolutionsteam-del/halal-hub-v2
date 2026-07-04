@@ -84,7 +84,7 @@ export default function MySuggestionsPage() {
 
       <div className="container mx-auto max-w-4xl px-6 py-10 space-y-10">
         {/* Stats Ribbon */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
           {[
             { label: "Total Submitted", value: "24", icon: MapPin, color: "text-blue-600", bg: "bg-blue-50" },
             { label: "Verified Hubs", value: "18", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },

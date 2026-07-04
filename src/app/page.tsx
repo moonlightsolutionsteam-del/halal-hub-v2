@@ -330,7 +330,7 @@ export default function Home() {
 
       <section className="space-y-4">
         <h2 className="text-xl font-black px-2">Features for You</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {[
             { icon: ShieldCheck, color: "text-primary", bg: "from-primary/20 to-emerald-100 dark:from-primary/10 dark:to-emerald-900/20", title: "Halal Verification", desc: "Instantly verify halal status of any product, restaurant, or supplier with our AI-powered scanner.", url: "/halal-check", cta: "Try Now" },
             { icon: MapPin, color: "text-blue-500", bg: "from-blue-100 to-sky-50 dark:from-blue-900/20 dark:to-sky-900/10", title: "Halal Map", desc: "Find halal businesses, mosques, prayer rooms, and Islamic centres near you on an interactive map.", url: "/map", cta: "Explore Map" },
