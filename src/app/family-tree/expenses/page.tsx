@@ -84,7 +84,7 @@ export default function FamilyExpensesPage() {
               <div className="space-y-2">
                 <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Total Spent This Month</p>
                 <div className="flex items-baseline gap-4">
-                  <h2 className="text-7xl font-black tracking-tighter">₹12,450</h2>
+                  <h2 className="text-4xl sm:text-7xl font-black tracking-tighter">₹12,450</h2>
                   <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-xs px-4 h-8 flex items-center shadow-lg">
                     <ArrowDownLeft className="h-4 w-4 mr-1" /> 12% vs LAST MO
                   </Badge>

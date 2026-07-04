@@ -88,7 +88,7 @@ export default function FamilyTreeAdminManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">4,250</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">4,250</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+12 new today</p>
               </div>
             </Card>
@@ -101,7 +101,7 @@ export default function FamilyTreeAdminManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">85.4k</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">85.4k</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">Avg 20 per tree</p>
               </div>
             </Card>
@@ -114,7 +114,7 @@ export default function FamilyTreeAdminManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">124</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">124</p>
                 <p className="text-[10px] font-bold text-red-500 uppercase">Action Required</p>
               </div>
             </Card>
@@ -472,7 +472,7 @@ export default function FamilyTreeAdminManagement() {
                 <div className="relative z-10 space-y-8">
                   <div className="space-y-2">
                     <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Legacy Coins Issued</p>
-                    <h2 className="text-7xl font-black tracking-tighter">1.24M</h2>
+                    <h2 className="text-4xl sm:text-7xl font-black tracking-tighter">1.24M</h2>
                     <div className="flex items-center gap-2 text-sm font-bold bg-card/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
                       <TrendingUp className="h-4 w-4" /> +15.4% Contribution Lift
                     </div>
@@ -588,7 +588,7 @@ export default function FamilyTreeAdminManagement() {
                     <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">Storage Utilization</p>
                     <div className="space-y-2">
                       <div className="flex justify-between items-end">
-                        <p className="text-4xl font-black text-foreground">4.2TB</p>
+                        <p className="text-2xl sm:text-4xl font-black text-foreground">4.2TB</p>
                         <p className="text-xs font-bold text-muted-foreground">/ 5.0TB Cap</p>
                       </div>
                       <Progress value={84} className="h-3 bg-muted" />
@@ -598,7 +598,7 @@ export default function FamilyTreeAdminManagement() {
                   <div className="p-8 bg-muted rounded-[2rem] space-y-4 border shadow-inner">
                     <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none">Premium MRR</p>
                     <div className="space-y-1">
-                      <p className="text-4xl font-black text-foreground">₹842k</p>
+                      <p className="text-2xl sm:text-4xl font-black text-foreground">₹842k</p>
                       <p className="text-xs font-bold text-emerald-600 uppercase">+15% Monthly Growth</p>
                     </div>
                     <p className="text-[10px] font-bold text-muted-foreground uppercase">From 1,240 Ancestry Plus users</p>
@@ -629,7 +629,7 @@ export default function FamilyTreeAdminManagement() {
                 <div className="relative z-10 space-y-6">
                   <div className="space-y-2">
                     <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Resource Reserve</p>
-                    <h2 className="text-6xl font-black tracking-tighter text-primary">₹1.2M</h2>
+                    <h2 className="text-3xl sm:text-6xl font-black tracking-tighter text-primary">₹1.2M</h2>
                     <p className="text-xs font-bold text-muted-foreground uppercase leading-relaxed">
                       Infrastructure budget allocated for ancestry media optimization.
                     </p>

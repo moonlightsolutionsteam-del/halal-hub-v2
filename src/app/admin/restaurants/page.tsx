@@ -86,7 +86,7 @@ export default function SuperAdminRestaurantManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">890</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">890</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+15 new this month</p>
               </div>
             </Card>
@@ -99,7 +99,7 @@ export default function SuperAdminRestaurantManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">750</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">750</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">84% of total</p>
               </div>
             </Card>
@@ -112,7 +112,7 @@ export default function SuperAdminRestaurantManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">12%</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">12%</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">Conversion Lift</p>
               </div>
             </Card>

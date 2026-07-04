@@ -78,7 +78,7 @@ export default function ExpenseDetailPage() {
                   <Badge variant="secondary" className="bg-blue-50 text-blue-600 border-none font-black text-[10px] uppercase px-4 h-8 flex items-center gap-2 w-fit">
                     <expense.categoryIcon className="h-3.5 w-3.5" /> {expense.category}
                   </Badge>
-                  <h2 className="text-4xl font-black leading-tight tracking-tight text-foreground">{expense.title}</h2>
+                  <h2 className="text-2xl sm:text-4xl font-black leading-tight tracking-tight text-foreground">{expense.title}</h2>
                   <div className="flex items-center gap-6 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                     <span className="flex items-center gap-1.5"><Calendar className="h-4 w-4 text-blue-500" /> {expense.date}</span>
                     <span className="flex items-center gap-1.5"><Clock className="h-4 w-4 text-blue-500" /> {expense.time}</span>
@@ -86,7 +86,7 @@ export default function ExpenseDetailPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Total Amount</p>
-                  <p className="text-6xl font-black text-foreground tracking-tighter">{expense.amount}</p>
+                  <p className="text-3xl sm:text-6xl font-black text-foreground tracking-tighter">{expense.amount}</p>
                 </div>
               </div>
 

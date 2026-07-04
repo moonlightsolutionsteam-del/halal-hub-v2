@@ -86,7 +86,7 @@ export default function SuperAdminMosqueManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">452</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">452</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+12 this month</p>
               </div>
             </Card>
@@ -99,7 +99,7 @@ export default function SuperAdminMosqueManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">98.2%</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">98.2%</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">Live timestamp sync</p>
               </div>
             </Card>
@@ -112,7 +112,7 @@ export default function SuperAdminMosqueManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">12.4k</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">12.4k</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">Across network</p>
               </div>
             </Card>
@@ -263,12 +263,12 @@ export default function SuperAdminMosqueManagement() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="p-8 bg-muted rounded-[2rem] space-y-2 border shadow-inner">
                     <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Platform Processing Fee</p>
-                    <p className="text-4xl font-black text-foreground">0.0% <span className="text-sm font-bold text-muted-foreground italic">charity-only</span></p>
+                    <p className="text-2xl sm:text-4xl font-black text-foreground">0.0% <span className="text-sm font-bold text-muted-foreground italic">charity-only</span></p>
                     <p className="text-xs font-bold text-emerald-600">On all digital Sadaqah contributions</p>
                   </div>
                   <div className="p-8 bg-muted rounded-[2rem] space-y-2 border shadow-inner">
                     <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Donation Volume (MTD)</p>
-                    <p className="text-4xl font-black text-foreground">₹18.4M</p>
+                    <p className="text-2xl sm:text-4xl font-black text-foreground">₹18.4M</p>
                     <p className="text-xs font-bold text-muted-foreground uppercase">Network-wide collections</p>
                   </div>
                 </div>

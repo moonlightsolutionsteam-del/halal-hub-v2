@@ -82,7 +82,7 @@ export default function RewardsPage() {
             <Card className="bg-primary/10 text-center border-primary/20">
                 <CardContent className="p-6">
                     <Wallet className="h-10 w-10 mx-auto mb-2 text-primary" />
-                    <p className="text-4xl font-bold text-primary">{balance.toLocaleString()}</p>
+                    <p className="text-2xl sm:text-4xl font-bold text-primary">{balance.toLocaleString()}</p>
                     <p className="font-medium text-primary">Available Coins</p>
                 </CardContent>
             </Card>

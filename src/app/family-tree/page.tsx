@@ -167,7 +167,7 @@ export default function FamilyTreePage() {
               <div className="space-y-2">
                 <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Spent This Month</p>
                 <div className="flex items-baseline gap-2">
-                  <p className="text-4xl font-black text-foreground tracking-tighter">₹12,450</p>
+                  <p className="text-2xl sm:text-4xl font-black text-foreground tracking-tighter">₹12,450</p>
                   <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-2">↓ 12%</Badge>
                 </div>
               </div>
@@ -317,7 +317,7 @@ export default function FamilyTreePage() {
               <div className="relative z-10 space-y-10">
                 <div className="space-y-3">
                   <Badge className="bg-emerald-500 text-white border-none font-black text-xs uppercase tracking-[0.2em] px-6 py-2 rounded-full shadow-2xl">OFFICIAL LINEAGE</Badge>
-                  <h2 className="text-7xl font-black tracking-tighter drop-shadow-2xl">Al-Sayed Family</h2>
+                  <h2 className="text-4xl sm:text-7xl font-black tracking-tighter drop-shadow-2xl">Al-Sayed Family</h2>
                   <Link href="/family-tree/lineage/roots" className="flex items-center gap-2 text-sm font-bold bg-card/10 backdrop-blur-xl w-fit px-6 py-2.5 rounded-full border border-white/10 hover:bg-card/20 transition-all shadow-2xl">
                     <MapPin className="h-4 w-4 text-emerald-400" /> Root Origin: Old Delhi, India <ArrowUpRight className="h-3 w-3 opacity-40" />
                   </Link>
@@ -325,15 +325,15 @@ export default function FamilyTreePage() {
                 <div className="grid grid-cols-3 gap-8 border-t border-white/10 pt-10">
                   <div className="space-y-1">
                     <p className="text-[10px] font-black uppercase opacity-40 tracking-widest mb-1">Total Nodes</p>
-                    <p className="text-4xl font-black tracking-tighter">124</p>
+                    <p className="text-2xl sm:text-4xl font-black tracking-tighter">124</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-black uppercase opacity-40 tracking-widest mb-1">Generations</p>
-                    <p className="text-4xl font-black tracking-tighter">5</p>
+                    <p className="text-2xl sm:text-4xl font-black tracking-tighter">5</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-black uppercase opacity-40 tracking-widest mb-1">Verified %</p>
-                    <p className="text-4xl font-black text-emerald-400 tracking-tighter">92%</p>
+                    <p className="text-2xl sm:text-4xl font-black text-emerald-400 tracking-tighter">92%</p>
                   </div>
                 </div>
               </div>

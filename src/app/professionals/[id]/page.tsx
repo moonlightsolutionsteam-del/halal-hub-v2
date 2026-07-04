@@ -441,7 +441,7 @@ export default function ProfessionalProfilePage() {
           <TabsContent value="reviews" className="space-y-5 animate-in fade-in duration-300">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 flex items-center gap-6">
               <div className="text-center shrink-0">
-                <p className="text-5xl font-black text-foreground">{pro.rating}</p>
+                <p className="text-3xl sm:text-5xl font-black text-foreground">{pro.rating}</p>
                 <div className="flex gap-0.5 justify-center mt-1">
                   {[1,2,3,4,5].map(s => <Star key={s} className={`h-4 w-4 ${s <= Math.floor(pro.rating) ? "fill-amber-400 text-amber-400" : "text-muted"}`} />)}
                 </div>

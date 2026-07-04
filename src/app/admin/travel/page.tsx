@@ -78,7 +78,7 @@ export default function SuperAdminTravelManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">156</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">156</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+8 this month</p>
               </div>
             </Card>
@@ -91,7 +91,7 @@ export default function SuperAdminTravelManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">42</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">42</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">Hajj & Umrah Vetted</p>
               </div>
             </Card>
@@ -104,7 +104,7 @@ export default function SuperAdminTravelManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">2.4k</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">2.4k</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">Active Itineraries</p>
               </div>
             </Card>
@@ -419,7 +419,7 @@ export default function SuperAdminTravelManagement() {
                 <div className="relative z-10 space-y-8">
                   <div className="space-y-2">
                     <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Vertical Redemption Rate</p>
-                    <h2 className="text-7xl font-black tracking-tighter">62.4%</h2>
+                    <h2 className="text-4xl sm:text-7xl font-black tracking-tighter">62.4%</h2>
                     <div className="flex items-center gap-2 text-sm font-bold bg-card/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
                       <TrendingUp className="h-4 w-4" /> +15.4% Contribution Lift
                     </div>

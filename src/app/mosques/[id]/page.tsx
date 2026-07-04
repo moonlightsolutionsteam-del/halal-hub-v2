@@ -387,7 +387,7 @@ export default function MosqueProfilePage() {
           <TabsContent value="reviews" className="space-y-6 animate-in fade-in duration-300">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 flex items-center gap-8">
               <div className="text-center shrink-0">
-                <p className="text-5xl font-black text-foreground">{mosque.rating}</p>
+                <p className="text-3xl sm:text-5xl font-black text-foreground">{mosque.rating}</p>
                 <div className="flex gap-0.5 justify-center mt-1">
                   {[1,2,3,4,5].map(s => <Star key={s} className="h-4 w-4 fill-amber-400 text-amber-400" />)}
                 </div>

@@ -87,7 +87,7 @@ export default function SuperAdminGroceryManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">890</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">890</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+15 new this month</p>
               </div>
             </Card>
@@ -100,7 +100,7 @@ export default function SuperAdminGroceryManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">750</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">750</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">84% audited</p>
               </div>
             </Card>
@@ -113,7 +113,7 @@ export default function SuperAdminGroceryManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">₹12.4M</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">₹12.4M</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">Vertical Gross Vol.</p>
               </div>
             </Card>
@@ -435,7 +435,7 @@ export default function SuperAdminGroceryManagement() {
                 <div className="relative z-10 space-y-8">
                   <div className="space-y-2">
                     <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Vertical Redemption Rate</p>
-                    <h2 className="text-7xl font-black tracking-tighter">74.2%</h2>
+                    <h2 className="text-4xl sm:text-7xl font-black tracking-tighter">74.2%</h2>
                     <div className="flex items-center gap-2 text-sm font-bold bg-card/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
                       <TrendingUp className="h-4 w-4" /> +15.4% Retention Lift
                     </div>
@@ -608,12 +608,12 @@ export default function SuperAdminGroceryManagement() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="p-8 bg-muted rounded-[2rem] space-y-2 border shadow-inner">
                     <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Platform Fee</p>
-                    <p className="text-4xl font-black text-foreground">2.5% <span className="text-sm font-bold text-muted-foreground italic">flat</span></p>
+                    <p className="text-2xl sm:text-4xl font-black text-foreground">2.5% <span className="text-sm font-bold text-muted-foreground italic">flat</span></p>
                     <p className="text-xs font-bold text-emerald-600">On digital marketplace orders</p>
                   </div>
                   <div className="p-8 bg-muted rounded-[2rem] space-y-2 border shadow-inner">
                     <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Gross Volume (MTD)</p>
-                    <p className="text-4xl font-black text-foreground">₹42.8M</p>
+                    <p className="text-2xl sm:text-4xl font-black text-foreground">₹42.8M</p>
                     <p className="text-xs font-bold text-muted-foreground uppercase">Supermarket vertical activity</p>
                   </div>
                 </div>
@@ -640,7 +640,7 @@ export default function SuperAdminGroceryManagement() {
                 <Wallet className="absolute -top-4 -right-4 h-32 w-32 opacity-10 text-primary" />
                 <div className="relative z-10 space-y-4">
                   <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Vertical Reserve</p>
-                  <h2 className="text-6xl font-black tracking-tighter text-primary">₹85.4M</h2>
+                  <h2 className="text-3xl sm:text-6xl font-black tracking-tighter text-primary">₹85.4M</h2>
                   <p className="text-xs font-bold text-muted-foreground uppercase leading-relaxed">
                     System-wide reserve for store payouts and refund mitigation across 890 merchants.
                   </p>

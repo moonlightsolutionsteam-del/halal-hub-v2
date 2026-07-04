@@ -80,18 +80,18 @@ export default function VendorCertificationHub() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {activeApplications.map((app) => (
             <Card key={app.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden group hover:shadow-md transition-all">
-              <div className="p-8 space-y-6">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center gap-4">
-                    <div className={`h-12 w-12 rounded-2xl ${app.bg} ${app.color} flex items-center justify-center`}>
-                      <Clock className="h-6 w-6" />
+              <div className="p-5 sm:p-8 space-y-4 sm:space-y-6">
+                <div className="flex justify-between items-start gap-2">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl ${app.bg} ${app.color} flex items-center justify-center shrink-0`}>
+                      <Clock className="h-5 w-5 sm:h-6 sm:w-6" />
                     </div>
-                    <div>
-                      <h3 className="text-xl font-black text-foreground">{app.name}</h3>
-                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Partner: {app.partner}</p>
+                    <div className="min-w-0">
+                      <h3 className="text-base sm:text-xl font-black text-foreground leading-tight">{app.name}</h3>
+                      <p className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-widest line-clamp-1">Partner: {app.partner}</p>
                     </div>
                   </div>
-                  <Badge variant="outline" className={`${app.color} border-current font-black text-[10px] uppercase px-3 h-7 flex items-center`}>
+                  <Badge variant="outline" className={`${app.color} border-current font-black text-[10px] uppercase px-2 sm:px-3 h-6 sm:h-7 flex items-center whitespace-nowrap shrink-0`}>
                     {app.status}
                   </Badge>
                 </div>

@@ -85,7 +85,7 @@ export default function SuperAdminCateringManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">120</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">120</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+2 since last month</p>
               </div>
             </Card>
@@ -98,7 +98,7 @@ export default function SuperAdminCateringManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">95</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">95</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">79% audited</p>
               </div>
             </Card>
@@ -111,7 +111,7 @@ export default function SuperAdminCateringManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-4xl font-black text-foreground">₹85k</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">₹85k</p>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase">per platform booking</p>
               </div>
             </Card>
@@ -425,7 +425,7 @@ export default function SuperAdminCateringManagement() {
                 <div className="relative z-10 space-y-8">
                   <div className="space-y-2">
                     <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Vertical Redemption Rate</p>
-                    <h2 className="text-7xl font-black tracking-tighter">64.2%</h2>
+                    <h2 className="text-4xl sm:text-7xl font-black tracking-tighter">64.2%</h2>
                     <div className="flex items-center gap-2 text-sm font-bold bg-card/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
                       <TrendingUp className="h-4 w-4" /> +12% Retention Lift
                     </div>
