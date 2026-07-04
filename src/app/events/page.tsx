@@ -38,48 +38,48 @@ const EVENTS = [
 
 export default function EventsPage() {
   return (
-    <div className="container mx-auto p-4 space-y-8 md:p-8 max-w-7xl">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-black font-headline text-primary tracking-tight">Halal Events</h1>
-        <p className="text-muted-foreground font-medium text-lg">Find seminars, festivals, and community gatherings near you.</p>
+    <div className="container mx-auto p-4 space-y-4 sm:space-y-8 md:p-8 max-w-7xl">
+      <div className="space-y-1">
+        <h1 className="text-2xl sm:text-4xl font-black font-headline text-primary tracking-tight">Halal Events</h1>
+        <p className="text-muted-foreground font-medium text-sm sm:text-lg">Find seminars, festivals, and community gatherings near you.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
         {EVENTS.map((event) => (
-          <Card key={event.id} className="overflow-hidden flex flex-col group rounded-[2.5rem] border-none shadow-sm hover:shadow-xl transition-all duration-500">
-            <div className="relative aspect-[16/9]">
-                <Image 
-                    src={event.image} 
-                    alt={event.title} 
-                    fill 
+          <Card key={event.id} className="overflow-hidden flex flex-col group rounded-xl sm:rounded-[2.5rem] border-none shadow-sm hover:shadow-xl transition-all duration-500">
+            <div className="relative aspect-square sm:aspect-[16/9]">
+                <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                     data-ai-hint="event poster"
                 />
-                <div className="absolute top-4 left-4">
-                    <Badge className="bg-card/90 backdrop-blur-md text-primary font-black shadow-lg border-none px-4 py-1 rounded-full text-[10px] uppercase tracking-widest">{event.type}</Badge>
+                <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
+                    <Badge className="bg-card/90 backdrop-blur-md text-primary font-black shadow-lg border-none px-2 py-0.5 sm:px-4 sm:py-1 rounded-full text-[9px] sm:text-[10px] uppercase tracking-widest">{event.type}</Badge>
                 </div>
             </div>
-            <CardHeader className="p-6 pb-2">
-              <CardTitle className="text-2xl font-black group-hover:text-primary transition-colors leading-tight">{event.title}</CardTitle>
-              <CardDescription className="flex items-center gap-1.5 pt-2 font-bold text-muted-foreground uppercase text-[10px] tracking-widest">
-                <CalendarDays className="h-3.5 w-3.5 text-primary" />
+            <CardHeader className="p-3 pb-1 sm:p-6 sm:pb-2">
+              <CardTitle className="text-xs sm:text-2xl font-black group-hover:text-primary transition-colors leading-tight line-clamp-2">{event.title}</CardTitle>
+              <CardDescription className="flex items-center gap-1 sm:gap-1.5 pt-1 sm:pt-2 font-bold text-muted-foreground uppercase text-[9px] sm:text-[10px] tracking-widest">
+                <CalendarDays className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary shrink-0" />
                 {event.date}
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-6 pt-0 flex-1 space-y-4">
-              <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground">
-                <MapPin className="h-4 w-4 shrink-0 text-primary" />
-                {event.location}
+            <CardContent className="px-3 pb-2 pt-0 sm:p-6 sm:pt-0 flex-1 space-y-1 sm:space-y-4">
+              <div className="flex items-center gap-1 sm:gap-2 text-[10px] sm:text-sm font-bold text-muted-foreground">
+                <MapPin className="h-3 w-3 sm:h-4 sm:w-4 shrink-0 text-primary" />
+                <span className="line-clamp-1">{event.location}</span>
               </div>
-              <div className="flex items-center gap-2 text-lg font-black text-primary tracking-tight">
-                <Ticket className="h-5 w-5" />
+              <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-lg font-black text-primary tracking-tight">
+                <Ticket className="h-3.5 w-3.5 sm:h-5 sm:w-5 shrink-0" />
                 {event.price}
               </div>
             </CardContent>
-            <CardFooter className="p-6 border-t bg-muted/50">
+            <CardFooter className="p-2 sm:p-6 border-t bg-muted/50">
               <Link href={`/events/${event.id}`} className="w-full">
-                <Button className="w-full bg-primary hover:bg-primary/90 rounded-2xl h-12 font-black uppercase text-xs tracking-widest shadow-lg shadow-primary/20 transition-all active:scale-95">
-                  Book Now <ArrowRight className="ml-2 h-4 w-4" />
+                <Button className="w-full bg-primary hover:bg-primary/90 rounded-lg sm:rounded-2xl h-8 sm:h-12 font-black uppercase text-[10px] sm:text-xs tracking-widest shadow-lg shadow-primary/20 transition-all active:scale-95">
+                  Book <ArrowRight className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                 </Button>
               </Link>
             </CardFooter>

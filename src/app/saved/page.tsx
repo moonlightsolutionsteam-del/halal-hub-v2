@@ -30,7 +30,7 @@ export default function SavedPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {saved.map((b) => (
             <Card key={b.id} className="group rounded-[2rem] border-none shadow-soft hover:shadow-soft-md transition-shadow duration-200 overflow-hidden">
               <CardContent className="p-0 flex">

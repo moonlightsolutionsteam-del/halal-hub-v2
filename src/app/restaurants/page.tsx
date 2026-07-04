@@ -76,44 +76,44 @@ export default function RestaurantsPage() {
         </AlertDescription>
       </Alert>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
         {RESTAURANTS.map((res) => (
           <Card key={res.id} className="group overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
-            <div className="relative aspect-video">
-                <Image 
-                    src={res.image} 
-                    alt={res.name} 
-                    fill 
+            <div className="relative aspect-[4/3] sm:aspect-video">
+                <Image
+                    src={res.image}
+                    alt={res.name}
+                    fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     data-ai-hint="restaurant interior"
                 />
-                <div className="absolute top-3 right-3">
-                    <Badge variant={res.status === "Verified" ? "default" : "secondary"} className="shadow-sm">
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                    <Badge variant={res.status === "Verified" ? "default" : "secondary"} className="shadow-sm text-[10px] px-1.5 py-0 sm:px-2 sm:py-0.5">
                         {res.status}
                     </Badge>
                 </div>
             </div>
-            <CardHeader className="p-4 space-y-1">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg line-clamp-1 group-hover:text-primary transition-colors">{res.name}</CardTitle>
-                <div className="flex items-center gap-1 text-sm font-bold text-accent">
-                    <Star className="h-4 w-4 fill-current" />
+            <CardHeader className="p-2 sm:p-4 space-y-0.5 sm:space-y-1">
+              <div className="flex items-center justify-between gap-1">
+                <CardTitle className="text-xs sm:text-lg line-clamp-1 group-hover:text-primary transition-colors">{res.name}</CardTitle>
+                <div className="flex items-center gap-0.5 text-xs sm:text-sm font-bold text-accent shrink-0">
+                    <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-current" />
                     {res.rating}
                 </div>
               </div>
               <CardDescription className="flex items-center gap-1">
-                <Badge variant="outline" className="text-[10px] uppercase">{res.cuisine}</Badge>
+                <Badge variant="outline" className="text-[9px] sm:text-[10px] uppercase px-1 sm:px-2">{res.cuisine}</Badge>
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 pt-0 flex-1">
-              <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 shrink-0" />
+            <CardContent className="px-2 pb-2 pt-0 sm:p-4 sm:pt-0 flex-1">
+              <div className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground">
+                <MapPin className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
                 <span className="line-clamp-1">{res.location}</span>
               </div>
             </CardContent>
-            <CardFooter className="p-4 border-t gap-2">
-                <Button size="sm" className="w-full bg-primary hover:bg-primary/90">Details</Button>
-                <Button variant="outline" size="sm" className="w-full">Claim Listing</Button>
+            <CardFooter className="p-2 sm:p-4 border-t gap-1 sm:gap-2">
+                <Button size="sm" className="w-full bg-primary hover:bg-primary/90 h-7 sm:h-9 text-[10px] sm:text-sm">Details</Button>
+                <Button variant="outline" size="sm" className="w-full h-7 sm:h-9 text-[10px] sm:text-sm hidden sm:flex">Claim Listing</Button>
             </CardFooter>
           </Card>
         ))}

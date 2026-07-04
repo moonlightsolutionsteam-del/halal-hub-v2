@@ -95,7 +95,7 @@ function SearchResults() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
           {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-32" />)}
         </div>
       ) : results.length === 0 ? (
@@ -110,15 +110,15 @@ function SearchResults() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
           {results.map((b) => (
             <Link key={b.id} href={`/entities/${b.id}`}>
               <Card className="group rounded-[2rem] border-none shadow-soft hover:shadow-soft-md transition-shadow duration-200 overflow-hidden h-full">
                 <CardContent className="p-0 flex">
-                  <div className="relative w-28 shrink-0">
+                  <div className="relative w-20 sm:w-28 shrink-0">
                     {b.imageUrl && <Image src={b.imageUrl} alt={b.name} fill className="object-cover" />}
                   </div>
-                  <div className="p-5 space-y-2 flex-1 min-w-0">
+                  <div className="p-3 sm:p-5 space-y-1.5 sm:space-y-2 flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-base font-black text-foreground truncate group-hover:text-primary transition-colors">{b.name}</p>
                       {(b.verifiedHalal || b.verified) && <Badge className="shrink-0 text-[10px]">Verified</Badge>}
