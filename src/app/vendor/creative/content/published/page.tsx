@@ -66,7 +66,7 @@ export default function PublishedContentPage() {
             <div className="p-6 flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="flex items-center gap-8 flex-1">
                 <div className="relative h-24 w-24 rounded-[2rem] overflow-hidden shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-700">
-                  <Image src={`https://picsum.photos/seed/${content.img}/300/300`} alt={content.title} fill className="object-cover" />
+                  <Image src={`https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=300/300`} alt={content.title} fill className="object-cover" />
                   <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <PlayCircle className="h-8 w-8 text-white fill-current" />
                   </div>

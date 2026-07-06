@@ -31,18 +31,19 @@ export default function EntityProfilePage() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("overview");
 
-  const isButcher = id === "1" || id === "meat-1"; 
-  const isGrocery = String(id).startsWith("g");
-  const isCatering = String(id).startsWith("c");
-  const isEvents = String(id).startsWith("e");
-  const isHotel = String(id).startsWith("h") && !String(id).startsWith("hW");
-  const isTravel = String(id).startsWith("t");
-  const isFashion = String(id).startsWith("f");
-  const isCosmetics = String(id).startsWith("co");
-  const isFinance = String(id).startsWith("fin");
+  // Declare specific prefixes first so general ones can exclude them
   const isHealthcare = String(id).startsWith("hW");
+  const isHotel = !isHealthcare && String(id).startsWith("h");
+  const isFinance = String(id).startsWith("fin");
+  const isFashion = !isFinance && String(id).startsWith("f");
   const isEducation = String(id).startsWith("edu");
+  const isEvents = !isEducation && String(id).startsWith("e");
   const isMedia = String(id).startsWith("med");
+  const isButcher = !isMedia && (id === "1" || id === "meat-1" || String(id).startsWith("m"));
+  const isCosmetics = String(id).startsWith("co");
+  const isCatering = !isCosmetics && String(id).startsWith("c");
+  const isGrocery = String(id).startsWith("g");
+  const isTravel = String(id).startsWith("t");
 
   const getAccentColor = () => {
     if (isCosmetics) return 'bg-rose-600';
@@ -274,11 +275,155 @@ export default function EntityProfilePage() {
     ]
   };
 
+  const butcherData = {
+    ...baseData,
+    name: "Al-Barakah Premium Meats",
+    category: "Meat & Butchers",
+    type: "Wholesale & Retail Butcher",
+    location: "5th Ave, Brooklyn, NY 11209",
+    rating: 4.9,
+    reviews: 187,
+    verifiedBy: "HMC Global",
+    description: "Al-Barakah Premium Meats is Brooklyn's leading HMC-certified butcher, sourcing only from traceable, ethical farms. We offer custom cuts, dry-aged beef, grass-fed lamb, and weekly subscription boxes — all 100% halal.",
+    items: [
+      { name: "Wagyu Beef (per kg)", desc: "Premium HMC-certified Wagyu, dry-aged 21 days.", price: "$48.00", popular: true },
+      { name: "Whole Free-Range Chicken", desc: "Antibiotic-free, HMC hand-slaughtered.", price: "$14.50", popular: true },
+      { name: "Family Lamb Box (5 kg)", desc: "Mixed cuts — chops, leg, shoulder. Grass-fed.", price: "$65.00", popular: false },
+    ]
+  };
+
+  const cateringData = {
+    ...baseData,
+    name: "Elite Halal Catering Co.",
+    category: "Catering Services",
+    type: "Full-Service Event Caterer",
+    location: "Midtown West, Manhattan, NY 10019",
+    rating: 4.8,
+    reviews: 143,
+    verifiedBy: "HMC Global",
+    description: "Elite Halal Catering delivers world-class cuisine for weddings, corporate events, and private gatherings. Every menu is HMC-certified, cross-contamination-free, and tailored to your guest count — from 20 to 2,000.",
+    items: [
+      { name: "Wedding Banquet Package", desc: "5-course plated dinner for up to 300 guests.", price: "From $8,500", popular: true },
+      { name: "Corporate Lunch Buffet", desc: "Hot buffet with 8 dishes, 50-person minimum.", price: "From $1,200", popular: true },
+      { name: "Live Grill Station", desc: "On-site BBQ chef with mixed grill spread.", price: "From $600", popular: false },
+    ]
+  };
+
+  const eventsData = {
+    ...baseData,
+    name: "Grand Halal Ballroom",
+    category: "Event Services",
+    type: "Premium Event Venue",
+    location: "Tribeca, Manhattan, NY 10013",
+    rating: 4.8,
+    reviews: 220,
+    verifiedBy: "Shariah Events Board",
+    description: "Grand Halal Ballroom is New York's premier Shariah-compliant event space. We host weddings, Aqeeqahs, corporate functions, and community events with full segregation options, alcohol-free bars, and dedicated Wudu facilities.",
+    items: [
+      { name: "Full Ballroom Hire (Day)", desc: "Capacity 500. Full AV, lighting, and catering kitchen.", price: "From $4,500", popular: true },
+      { name: "Wedding Photography", desc: "8-hour coverage with same-day highlight reel.", price: "From $2,200", popular: true },
+      { name: "Decor & Florals Package", desc: "Bespoke centrepieces, backdrops, and stage design.", price: "From $1,800", popular: false },
+    ]
+  };
+
+  const travelData = {
+    ...baseData,
+    name: "Saffron Halal Travels",
+    category: "Travel & Tourism",
+    type: "Halal Travel Agency",
+    location: "Midtown, New York, NY 10022",
+    rating: 4.9,
+    reviews: 312,
+    verifiedBy: "ATOL Certified",
+    description: "Saffron Halal Travels specialises in Hajj, Umrah, and halal holiday packages worldwide. Every itinerary is pre-vetted for prayer facility access, halal food, and modest environment standards. Trusted by 10,000+ families.",
+    items: [
+      { name: "Hajj Package 2027", desc: "21-day full-service Hajj including flights and 5-star Madinah.", price: "From $9,800/person", popular: true },
+      { name: "Umrah Premium", desc: "14-day Umrah with daily guided tours of sacred sites.", price: "From $3,400/person", popular: true },
+      { name: "Andalusia Family Tour", desc: "10-day halal Spain & Portugal tour for families.", price: "From $2,800/person", popular: false },
+    ]
+  };
+
+  const fashionData = {
+    ...baseData,
+    name: "Al-Hayat Modest Fashion",
+    category: "Fashion & Design",
+    type: "Modest Wear Designer",
+    location: "SoHo, New York, NY 10012",
+    rating: 4.7,
+    reviews: 198,
+    verifiedBy: "Ethical Trade Initiative",
+    description: "Al-Hayat is New York's leading modest fashion label, offering premium abayas, hijabs, and modest occasion wear. Ethically sourced, fully opaque fabrics, and cuts designed in consultation with Muslim women.",
+    items: [
+      { name: "Signature Silk Abaya", desc: "Floor-length, 100% mulberry silk. Available in 12 colours.", price: "$185.00", popular: true },
+      { name: "Occasion Hijab Set", desc: "Matching hijab and underscarves for weddings and events.", price: "$48.00", popular: true },
+      { name: "Modest Jumpsuit", desc: "Wide-leg, fully lined, professional modest wear.", price: "$110.00", popular: false },
+    ]
+  };
+
+  const cosmeticsData = {
+    ...baseData,
+    name: "Purity Beauty Lab",
+    category: "Cosmetics & Beauty",
+    type: "Halal Beauty Brand",
+    location: "Upper East Side, New York, NY 10075",
+    rating: 4.8,
+    reviews: 276,
+    verifiedBy: "Halal Cosmetics Authority",
+    description: "Purity Beauty Lab formulates 100% halal, vegan, and wudu-friendly skincare and cosmetics. Every product is independently lab-tested for zero non-permissible additives, pork derivatives, or alcohol. Cruelty-free certified.",
+    items: [
+      { name: "Halal Glow Serum", desc: "Vitamin C & hyaluronic acid. Wudu-friendly, no film residue.", price: "$42.00", popular: true },
+      { name: "Breathable Foundation", desc: "Allows wudu water to pass. 20 shades, SPF 25.", price: "$38.00", popular: true },
+      { name: "Botanical Lip Tint", desc: "Moisturising, pigmented. No carmine or non-halal dyes.", price: "$22.00", popular: false },
+    ]
+  };
+
+  const groceryData = {
+    ...baseData,
+    name: "Barakah Halal Supermarket",
+    category: "Grocery & Food Stores",
+    type: "Full-Service Halal Supermarket",
+    location: "Jackson Heights, Queens, NY 11372",
+    rating: 4.7,
+    reviews: 430,
+    verifiedBy: "HFA Approved",
+    description: "Barakah Halal Supermarket is your one-stop shop for HFA-certified meats, global halal grocery imports, fresh produce, and a certified halal bakery. Monthly halal audits ensure every product meets our strict standards.",
+    items: [
+      { name: "Weekly Halal Meat Box", desc: "HFA mixed cuts — chicken, lamb, beef. 5 kg family box.", price: "$55.00", popular: true },
+      { name: "World Grocery Bundle", desc: "Curated halal international pantry selection.", price: "$32.00", popular: true },
+      { name: "Halal Bakery Basket", desc: "Freshly baked bread, pastries, and sweets. Certified halal.", price: "$18.00", popular: false },
+    ]
+  };
+
+  const hotelData = {
+    ...baseData,
+    name: "The Madinah Suite Hotel",
+    category: "Hotels & Homestays",
+    type: "Halal Boutique Hotel",
+    location: "Midtown East, New York, NY 10017",
+    rating: 4.8,
+    reviews: 342,
+    verifiedBy: "Halal Hospitality Standard",
+    description: "The Madinah Suite Hotel is New York's premier halal-certified boutique hotel. Strictly alcohol-free, pork-free, with in-room prayer mats, Qibla direction, halal breakfast, and a private Muslim-friendly rooftop pool.",
+    items: [
+      { name: "Deluxe King Room", desc: "City view, halal minibar, prayer mat & Quran provided.", price: "From $320/night", popular: true },
+      { name: "Family Suite", desc: "2 bedrooms, living room, halal kitchen. Sleeps 4.", price: "From $580/night", popular: true },
+      { name: "Halal Breakfast Package", desc: "Daily certified halal buffet for all guests.", price: "+$28/person", popular: false },
+    ]
+  };
+
   const getEntityData = () => {
     if (isFinance) return financeData;
     if (isHealthcare) return healthcareData;
     if (isEducation) return educationData;
     if (isMedia) return mediaData;
+    if (isButcher) return butcherData;
+    if (isCatering) return cateringData;
+    if (isEvents) return eventsData;
+    if (isTravel) return travelData;
+    if (isCosmetics) return cosmeticsData;
+    if (isFashion) return fashionData;
+    if (isGrocery) return groceryData;
+    if (isHotel) return hotelData;
     return baseData;
   };
 
@@ -327,7 +472,21 @@ export default function EntityProfilePage() {
 
       <section className="relative h-[45vh] sm:h-[55vh] min-h-[300px] sm:min-h-[500px] w-full overflow-hidden">
         <Image
-          src={`https://picsum.photos/seed/${id}-hero/1600/1000`}
+          src={
+            isFinance ? "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isHealthcare ? "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isEducation ? "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isMedia ? "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isButcher ? "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isCatering ? "https://images.unsplash.com/photo-1555244162-803834f70033?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isEvents ? "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isTravel ? "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isCosmetics ? "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isFashion ? "https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isGrocery ? "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            isHotel ? "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600&h=1000&fit=crop&auto=format&q=80" :
+            "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&h=1000&fit=crop&auto=format&q=80"
+          }
           alt="Entity Cover"
           fill
           className="object-cover"
@@ -506,7 +665,26 @@ export default function EntityProfilePage() {
                   {[...Array(9)].map((_, i) => (
                     <div key={i} className={`relative rounded-[2rem] overflow-hidden bg-muted ${i === 0 ? "col-span-2 aspect-video" : "aspect-square"} group cursor-pointer hover:shadow-xl transition-all`}>
                       <Image
-                        src={`https://picsum.photos/seed/${id}-gallery-${i}/800/600`}
+                        src={(() => {
+                          const galleryImages: Record<string, string[]> = {
+                            food: ["1414235077428-338989a2e8c0","1504674900247-0877df9cc836","1567620905732-2d1ec7ab7445","1546069901-ba9599a7e63c","1555396273-367ea4eb4db5","1529543544282-ea669407fca3","1565299624946-b28f40a0ae38","1414235077428-338989a2e8c0","1529543544282-ea669407fca3"],
+                            meat: ["1558618666-fcd25c85cd64","1558618666-fcd25c85cd64","1558618666-fcd25c85cd64","1558618666-fcd25c85cd64","1558618666-fcd25c85cd64","1558618666-fcd25c85cd64","1558618666-fcd25c85cd64","1558618666-fcd25c85cd64","1558618666-fcd25c85cd64"],
+                            catering: ["1555244162-803834f70033","1505236858219-8359eb29e329","1497644083578-611b798c60f3","1592417817098-8fd3d9eb14a5","1555244162-803834f70033","1505236858219-8359eb29e329","1497644083578-611b798c60f3","1592417817098-8fd3d9eb14a5","1555244162-803834f70033"],
+                            events: ["1505236858219-8359eb29e329","1505236858219-8359eb29e329","1505236858219-8359eb29e329","1492684223066-81342ee5ff30","1505236858219-8359eb29e329","1505236858219-8359eb29e329","1505236858219-8359eb29e329","1492684223066-81342ee5ff30","1505236858219-8359eb29e329"],
+                            travel: ["1512453979798-5ea266f8880c","1512453979798-5ea266f8880c","1512453979798-5ea266f8880c","1436491865332-7a61a109cc05","1512453979798-5ea266f8880c","1512453979798-5ea266f8880c","1512453979798-5ea266f8880c","1436491865332-7a61a109cc05","1512453979798-5ea266f8880c"],
+                            fashion: ["1445205170230-053b83016050","1612307057748-b44842539a29","1445205170230-053b83016050","1612307057748-b44842539a29","1445205170230-053b83016050","1612307057748-b44842539a29","1445205170230-053b83016050","1612307057748-b44842539a29","1445205170230-053b83016050"],
+                            cosmetics: ["1596462502278-27bfdc403348","1557821552-17105176677c","1596462502278-27bfdc403348","1570172619644-dfd03ed5d881","1596462502278-27bfdc403348","1557821552-17105176677c","1596462502278-27bfdc403348","1570172619644-dfd03ed5d881","1596462502278-27bfdc403348"],
+                            grocery: ["1542838132-92c53300491e","1542838132-92c53300491e","1546069901-ba9599a7e63c","1609501676725-7186f017a4b7","1542838132-92c53300491e","1542838132-92c53300491e","1546069901-ba9599a7e63c","1609501676725-7186f017a4b7","1542838132-92c53300491e"],
+                            finance: ["1554224155-6726b3ff858f","1611974789855-9c2a0a7236a3","1556761175-4b46a572b786","1450101499163-c8848c66ca85","1554224155-6726b3ff858f","1611974789855-9c2a0a7236a3","1556761175-4b46a572b786","1450101499163-c8848c66ca85","1554224155-6726b3ff858f"],
+                            healthcare: ["1576091160399-112ba8d25d1d","1631217868264-e5b90bb7e133","1576091160399-112ba8d25d1d","1631217868264-e5b90bb7e133","1576091160399-112ba8d25d1d","1631217868264-e5b90bb7e133","1576091160399-112ba8d25d1d","1631217868264-e5b90bb7e133","1576091160399-112ba8d25d1d"],
+                            education: ["1580582932707-520aed937b7b","1580582932707-520aed937b7b","1434030216411-0b793f4b4173","1481627834876-b7833e8f5570","1580582932707-520aed937b7b","1580582932707-520aed937b7b","1434030216411-0b793f4b4173","1481627834876-b7833e8f5570","1580582932707-520aed937b7b"],
+                            media: ["1481627834876-b7833e8f5570","1481627834876-b7833e8f5570","1481627834876-b7833e8f5570","1481627834876-b7833e8f5570","1481627834876-b7833e8f5570","1481627834876-b7833e8f5570","1481627834876-b7833e8f5570","1481627834876-b7833e8f5570","1481627834876-b7833e8f5570"],
+                            hotel: ["1520250497591-112f2f40a3f4","1631049307264-da0ec9d70304","1520250497591-112f2f40a3f4","1631049307264-da0ec9d70304","1520250497591-112f2f40a3f4","1631049307264-da0ec9d70304","1520250497591-112f2f40a3f4","1631049307264-da0ec9d70304","1520250497591-112f2f40a3f4"],
+                          };
+                          const cat = isFinance ? "finance" : isHealthcare ? "healthcare" : isEducation ? "education" : isMedia ? "media" : isButcher ? "meat" : isCatering ? "catering" : isEvents ? "events" : isTravel ? "travel" : isCosmetics ? "cosmetics" : isFashion ? "fashion" : isGrocery ? "grocery" : isHotel ? "hotel" : "food";
+                          const photos = galleryImages[cat];
+                          return `https://images.unsplash.com/photo-${photos[i % photos.length]}?w=800&h=600&fit=crop&auto=format&q=80`;
+                        })()}
                         alt={`Gallery image ${i + 1}`}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -551,7 +729,7 @@ export default function EntityProfilePage() {
                     <div className="flex justify-between items-start mb-5 sm:mb-8 gap-3">
                       <div className="flex items-center gap-4 sm:gap-6">
                         <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-4 border-border shadow-md shrink-0">
-                          <AvatarImage src={`https://picsum.photos/seed/reviewer/150/150`} />
+                          <AvatarImage src={`https://randomuser.me/api/portraits/men/15.jpg`} />
                           <AvatarFallback>R</AvatarFallback>
                         </Avatar>
                         <div className="space-y-1">

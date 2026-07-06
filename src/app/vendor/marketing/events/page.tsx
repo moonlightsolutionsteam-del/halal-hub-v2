@@ -14,8 +14,8 @@ import Image from "next/image";
 
 export default function MarketingEventsPage() {
   const events = [
-    { id: 1, title: "Community Iftar Night", date: "Apr 12, 2024", guests: "85/100", status: "Active", type: "Community", img: "https://picsum.photos/seed/iftar/800/400" },
-    { id: 2, title: "Halal BBQ Workshop", date: "May 05, 2024", guests: "12/20", status: "Draft", type: "Workshop", img: "https://picsum.photos/seed/bbq/800/400" },
+    { id: 1, title: "Community Iftar Night", date: "Apr 12, 2024", guests: "85/100", status: "Active", type: "Community", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80" },
+    { id: 2, title: "Halal BBQ Workshop", date: "May 05, 2024", guests: "12/20", status: "Draft", type: "Workshop", img: "https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&h=600&fit=crop&auto=format&q=80" },
   ];
 
   return (

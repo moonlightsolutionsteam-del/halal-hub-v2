@@ -89,7 +89,7 @@ export default function EventAttendeesPage() {
               <div className="p-6 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-6">
                   <Avatar className="h-12 w-12 border-2 border-border shadow-sm">
-                    <AvatarImage src={`https://picsum.photos/seed/guest${a.id}/100/100`} />
+                    <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                     <AvatarFallback>{a.name[0]}</AvatarFallback>
                   </Avatar>
                   <div>

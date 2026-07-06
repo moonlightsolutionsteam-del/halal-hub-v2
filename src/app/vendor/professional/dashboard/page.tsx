@@ -68,7 +68,7 @@ export default function ProfessionalDashboardPage() {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
           <div className="flex items-center gap-4 flex-1">
             <Avatar className="h-16 w-16 ring-4 ring-white/30">
-              <AvatarImage src="https://picsum.photos/seed/pro-yusuf/100/100" />
+              <AvatarImage src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format&q=80" />
               <AvatarFallback className="bg-white/20 text-white font-black text-xl">YQ</AvatarFallback>
             </Avatar>
             <div className="space-y-2 flex-1">
@@ -190,7 +190,7 @@ export default function ProfessionalDashboardPage() {
               {CONNECTIONS.map((c, i) => (
                 <div key={i} className="p-4 flex items-center gap-3">
                   <Avatar className="h-10 w-10 shrink-0">
-                    <AvatarImage src={`https://picsum.photos/seed/conn-${c.avatar}/80/80`} />
+                    <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&auto=format&q=80`} />
                     <AvatarFallback className="bg-violet-50 text-violet-600 font-black text-xs">
                       {c.name.split(" ").map(n => n[0]).join("").slice(0,2)}
                     </AvatarFallback>

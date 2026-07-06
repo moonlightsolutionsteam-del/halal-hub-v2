@@ -64,7 +64,7 @@ export default function HotelRoomsPage() {
           <Card key={room.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-sky-100">
             <div className="p-8 flex gap-8">
               <div className="relative h-32 w-32 rounded-[2rem] overflow-hidden shrink-0 shadow-lg">
-                <Image src={`https://picsum.photos/seed/hotel-room-${room.id}/400/400`} alt={room.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
+                <Image src={`https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400/400`} alt={room.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700" />
               </div>
               <div className="flex-1 space-y-4">
                 <div className="space-y-1">

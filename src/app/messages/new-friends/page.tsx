@@ -15,8 +15,8 @@ const EmptyState = ({ title, imageUrl }: { title: string; imageUrl: string }) =>
 
 
 const friendRequests = [
-    { name: "Zoya Akhtar", mutual: 5, avatar: "https://picsum.photos/seed/creator3/100" },
-    { name: "Omar Abdullah", mutual: 2, avatar: "https://picsum.photos/seed/user4/100" },
+    { name: "Zoya Akhtar", mutual: 5, avatar: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80" },
+    { name: "Omar Abdullah", mutual: 2, avatar: "https://randomuser.me/api/portraits/men/4.jpg" },
 ];
 
 export default function NewFriendsPage() {
@@ -30,16 +30,16 @@ export default function NewFriendsPage() {
                     <TabsTrigger value="family">Family</TabsTrigger>
                 </TabsList>
                 <TabsContent value="followers">
-                    <EmptyState title="You have no followers" imageUrl="https://picsum.photos/seed/hot-air-balloon/200" />
+                    <EmptyState title="You have no followers" imageUrl="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format&q=80" />
                 </TabsContent>
                 <TabsContent value="friends">
-                     <EmptyState title="You have no friends yet" imageUrl="https://picsum.photos/seed/friends-icon/200" />
+                     <EmptyState title="You have no friends yet" imageUrl="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80" />
                 </TabsContent>
                 <TabsContent value="following">
-                     <EmptyState title="You are not following anyone" imageUrl="https://picsum.photos/seed/following-icon/200" />
+                     <EmptyState title="You are not following anyone" imageUrl="https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80" />
                 </TabsContent>
                 <TabsContent value="family">
-                     <EmptyState title="No family members added" imageUrl="https://picsum.photos/seed/family-icon/200" />
+                     <EmptyState title="No family members added" imageUrl="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format&q=80" />
                 </TabsContent>
             </Tabs>
             <div className="p-4 space-y-4 border-t">

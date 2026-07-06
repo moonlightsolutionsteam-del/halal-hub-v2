@@ -40,7 +40,7 @@ export default function WelcomeHubPage() {
       <section className="relative h-[70vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="https://picsum.photos/seed/hub-welcome/1600/900" 
+            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" 
             alt="Welcome Hero" 
             fill 
             className="object-cover brightness-[0.3]"

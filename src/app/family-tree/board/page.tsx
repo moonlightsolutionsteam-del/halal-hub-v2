@@ -87,7 +87,7 @@ export default function FamilyBoardPage() {
                 <div className="flex items-center gap-4 pt-4 border-t border-border">
                   <div className="flex items-center gap-2">
                     <Avatar className="h-6 w-6 border-2 border-white shadow-sm">
-                      <AvatarImage src={`https://picsum.photos/seed/${item.assigned}/100/100`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                       <AvatarFallback>{item.assigned[0]}</AvatarFallback>
                     </Avatar>
                     <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Assigned: {item.assigned}</span>

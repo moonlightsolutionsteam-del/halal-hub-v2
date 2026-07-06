@@ -35,7 +35,7 @@ export default function MediaGalleryPage() {
           <Card key={slot.label} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden group">
             <div className="relative aspect-video bg-muted overflow-hidden">
               <Image
-                src={`https://picsum.photos/seed/${slot.seed}/400/250`}
+                src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=250&fit=crop&auto=format&q=80`}
                 alt={slot.label}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"

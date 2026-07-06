@@ -121,7 +121,7 @@ export default function CreativeAudiencePage() {
                 <div key={fan.id} className="flex items-center justify-between group cursor-pointer">
                   <div className="flex items-center gap-4">
                     <Avatar className="h-12 w-12 border-2 border-border shadow-md group-hover:scale-105 transition-transform">
-                      <AvatarImage src={`https://picsum.photos/seed/fan-${fan.img}/100/100`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                       <AvatarFallback>{fan.name[0]}</AvatarFallback>
                     </Avatar>
                     <div>

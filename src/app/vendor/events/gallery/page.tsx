@@ -13,10 +13,10 @@ import Image from "next/image";
 
 export default function EventGalleryPage() {
   const photos = [
-    { id: 1, label: "Imperial Ballroom Setup", img: "https://picsum.photos/seed/hall-nikah/800/600", primary: true, category: "Wedding Layout" },
-    { id: 2, label: "Conference Theater Style", img: "https://picsum.photos/seed/hall-conf/800/600", primary: false, category: "Conference" },
-    { id: 3, label: "Exhibition Hall A", img: "https://picsum.photos/seed/hall-expo/800/600", primary: false, category: "Exhibition" },
-    { id: 4, label: "VIP Bridal Suite", img: "https://picsum.photos/seed/hall-suite/800/600", primary: false, category: "Amenities" },
+    { id: 1, label: "Imperial Ballroom Setup", img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Wedding Layout" },
+    { id: 2, label: "Conference Theater Style", img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Conference" },
+    { id: 3, label: "Exhibition Hall A", img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Exhibition" },
+    { id: 4, label: "VIP Bridal Suite", img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Amenities" },
   ];
 
   return (

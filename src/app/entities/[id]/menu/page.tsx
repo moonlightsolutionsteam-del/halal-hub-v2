@@ -32,19 +32,19 @@ const menuData = {
     {
       name: "Starters",
       items: [
-        { id: 1, name: "Chicken Seekh Kebab", price: 250, veg_nonveg: "non_veg", description: "Juicy minced chicken kebabs with spices, grilled to perfection.", image_url: "https://picsum.photos/seed/kebab/400", availability: true, tags: ["popular", "chef_special"] },
-        { id: 2, name: "Paneer Tikka", price: 220, veg_nonveg: "veg", description: "Cottage cheese cubes marinated in yogurt and spices, grilled in a tandoor.", image_url: "https://picsum.photos/seed/paneer/400", availability: true, tags: [] },
-        { id: 3, name: "Mutton Shammi Kebab", price: 300, veg_nonveg: "non_veg", description: "Soft, melt-in-the-mouth mutton patties with a blend of secret spices.", image_url: "https://picsum.photos/seed/shammi/400", availability: true, tags: ["popular"] },
+        { id: 1, name: "Chicken Seekh Kebab", price: 250, veg_nonveg: "non_veg", description: "Juicy minced chicken kebabs with spices, grilled to perfection.", image_url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: ["popular", "chef_special"] },
+        { id: 2, name: "Paneer Tikka", price: 220, veg_nonveg: "veg", description: "Cottage cheese cubes marinated in yogurt and spices, grilled in a tandoor.", image_url: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: [] },
+        { id: 3, name: "Mutton Shammi Kebab", price: 300, veg_nonveg: "non_veg", description: "Soft, melt-in-the-mouth mutton patties with a blend of secret spices.", image_url: "https://randomuser.me/api/portraits/men/9.jpg", availability: true, tags: ["popular"] },
         { id: 10, name: "Dahi Bhalla", price: 150, veg_nonveg: "veg", description: "Soft lentil dumplings soaked in creamy yogurt.", image_url: null, availability: false, tags: [] },
       ],
     },
     {
       name: "Main Course",
       items: [
-        { id: 4, name: "Mutton Biryani", price: 450, veg_nonveg: "non_veg", description: "Aromatic basmati rice cooked with tender mutton pieces and exotic spices.", image_url: "https://picsum.photos/seed/biryani/400", availability: true, tags: ["popular"] },
-        { id: 5, name: "Butter Chicken", price: 420, veg_nonveg: "non_veg", description: "Classic butter chicken in a rich, creamy tomato-based gravy.", image_url: "https://picsum.photos/seed/butter-chicken/400", availability: true, tags: ["chef_special"] },
+        { id: 4, name: "Mutton Biryani", price: 450, veg_nonveg: "non_veg", description: "Aromatic basmati rice cooked with tender mutton pieces and exotic spices.", image_url: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: ["popular"] },
+        { id: 5, name: "Butter Chicken", price: 420, veg_nonveg: "non_veg", description: "Classic butter chicken in a rich, creamy tomato-based gravy.", image_url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: ["chef_special"] },
         { id: 6, name: "Dal Makhani", price: 300, veg_nonveg: "veg", description: "Black lentils simmered overnight with butter and cream.", image_url: null, availability: true, tags: [] },
-        { id: 7, name: "Paneer Butter Masala", price: 350, veg_nonveg: "veg", description: "Soft paneer cubes in a rich and creamy tomato gravy.", image_url: "https://picsum.photos/seed/paneer-butter/400", availability: true, tags: [] },
+        { id: 7, name: "Paneer Butter Masala", price: 350, veg_nonveg: "veg", description: "Soft paneer cubes in a rich and creamy tomato gravy.", image_url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: [] },
       ],
     },
      {

@@ -64,7 +64,7 @@ export default function CosmeticsProductsPage() {
           <Card key={product.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-rose-100">
             <div className="relative aspect-square">
               <Image 
-                src={`https://picsum.photos/seed/cosmetic-item${product.id}/600/600`} 
+                src={`https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600/600`} 
                 alt={product.name} 
                 fill 
                 className="object-cover group-hover:scale-105 transition-transform duration-700"

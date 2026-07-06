@@ -24,14 +24,14 @@ const FEATURED_POST = {
   date: "Oct 24, 2024",
   readTime: "12 min",
   category: "Insight",
-  img: "https://picsum.photos/seed/blog-feat/1200/600"
+  img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80"
 };
 
 const BLOG_POSTS = [
-  { id: 1, title: "Sunnah Foods for Immunity", author: "Amina K.", date: "2h ago", read: "5 min", likes: "1.2k", img: "https://picsum.photos/seed/b1/600/400", cat: "Health" },
-  { id: 2, title: "Exploring Andalusia's Heritage", author: "Zaid Ali", date: "5h ago", read: "8 min", likes: "850", img: "https://picsum.photos/seed/b2/600/400", cat: "Travel" },
-  { id: 3, title: "Ethics in Islamic Finance", author: "Dr. Ibrahim", date: "Yesterday", read: "15 min", likes: "2.4k", img: "https://picsum.photos/seed/b3/600/400", cat: "Finance" },
-  { id: 4, title: "Modest Fashion Trends 2025", author: "Sarah S.", date: "2 days ago", read: "6 min", likes: "1.5k", img: "https://picsum.photos/seed/b4/600/400", cat: "Fashion" },
+  { id: 1, title: "Sunnah Foods for Immunity", author: "Amina K.", date: "2h ago", read: "5 min", likes: "1.2k", img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80", cat: "Health" },
+  { id: 2, title: "Exploring Andalusia's Heritage", author: "Zaid Ali", date: "5h ago", read: "8 min", likes: "850", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", cat: "Travel" },
+  { id: 3, title: "Ethics in Islamic Finance", author: "Dr. Ibrahim", date: "Yesterday", read: "15 min", likes: "2.4k", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80", cat: "Finance" },
+  { id: 4, title: "Modest Fashion Trends 2025", author: "Sarah S.", date: "2 days ago", read: "6 min", likes: "1.5k", img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", cat: "Fashion" },
 ];
 
 export default function BlogFeedPage() {
@@ -79,7 +79,7 @@ export default function BlogFeedPage() {
               <div className="flex items-center justify-between pt-10 border-t border-border">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-14 w-14 border-4 border-border shadow-md">
-                    <AvatarImage src="https://picsum.photos/seed/author/100/100" />
+                    <AvatarImage src="https://randomuser.me/api/portraits/men/25.jpg" />
                     <AvatarFallback>HA</AvatarFallback>
                   </Avatar>
                   <div>
@@ -119,7 +119,7 @@ export default function BlogFeedPage() {
                 <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
                   <div className="flex items-center gap-2">
                     <Avatar className="h-8 w-8 border-2 border-white shadow-sm">
-                      <AvatarImage src={`https://picsum.photos/seed/auth${post.id}/50/50`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&auto=format&q=80`} />
                       <AvatarFallback>{post.author[0]}</AvatarFallback>
                     </Avatar>
                     <span className="text-[10px] font-black uppercase text-muted-foreground tracking-tighter">{post.author}</span>

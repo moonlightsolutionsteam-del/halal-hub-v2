@@ -147,7 +147,7 @@ export default function WalletPage() {
                             <CardContent className="p-4 flex items-center justify-between">
                                 <div className="flex items-center gap-4">
                                     <div className="p-3 bg-background rounded-lg">
-                                        <Image src="https://picsum.photos/seed/amazon-logo/48" alt="Amazon" width={48} height={48} className="rounded-md" />
+                                        <Image src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&auto=format&q=80" alt="Amazon" width={48} height={48} className="rounded-md" />
                                     </div>
                                     <div>
                                         <p className="font-bold">₹{reward.value} Amazon Gift Card</p>

@@ -87,7 +87,7 @@ export default function UserDashboard() {
         {/* Banner */}
         <div className="h-[30vh] min-h-[300px] w-full relative overflow-hidden">
           <Image 
-            src="https://picsum.photos/seed/user-banner-sa/1600/600" 
+            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" 
             alt="Banner" 
             fill 
             className="object-cover"
@@ -102,7 +102,7 @@ export default function UserDashboard() {
             <div className="relative shrink-0">
               <div className="p-1.5 sm:p-2 bg-card rounded-[2rem] sm:rounded-[3rem] shadow-2xl">
                 <Avatar className="h-28 w-28 sm:h-40 sm:w-48 rounded-[1.5rem] sm:rounded-[2.5rem] md:h-48 md:w-48">
-                  <AvatarImage src="https://picsum.photos/seed/user-sa/400/400" />
+                  <AvatarImage src="https://randomuser.me/api/portraits/men/10.jpg" />
                   <AvatarFallback className="text-4xl font-black bg-emerald-50 text-emerald-600">SA</AvatarFallback>
                 </Avatar>
               </div>
@@ -312,7 +312,7 @@ export default function UserDashboard() {
                     <Card key={i} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-4 sm:p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
                       <div className="flex gap-4 sm:gap-8 items-start">
                         <div className="relative h-16 w-16 sm:h-24 sm:w-24 rounded-2xl sm:rounded-[1.5rem] overflow-hidden shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500">
-                          <Image src={`https://picsum.photos/seed/${suggestion.img}/300/300`} alt={suggestion.name} fill className="object-cover" />
+                          <Image src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&h=300&fit=crop&auto=format&q=80`} alt={suggestion.name} fill className="object-cover" />
                         </div>
                         <div className="flex-1 space-y-2 sm:space-y-3 min-w-0">
                           <div className="flex justify-between items-start">
@@ -428,7 +428,7 @@ export default function UserDashboard() {
                         {[1, 2, 3, 4].map(i => (
                           <div key={i} className="aspect-square relative rounded-2xl overflow-hidden shadow-md hover:scale-105 transition-transform cursor-pointer group">
                             <Image 
-                              src={`https://picsum.photos/seed/media-sa-${i}/400/400`} 
+                              src={`https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=400&fit=crop&auto=format&q=80`} 
                               alt="Media" 
                               fill 
                               className="object-cover group-hover:brightness-75 transition-all"
@@ -450,7 +450,7 @@ export default function UserDashboard() {
                       {[1, 2].map(i => (
                         <div key={i} className="aspect-[9/16] relative rounded-3xl overflow-hidden shadow-xl group cursor-pointer border-4 border-white ring-1 ring-slate-100">
                           <Image 
-                            src={`https://picsum.photos/seed/roll-sa-${i}/400/700`} 
+                            src={`https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=400&h=700&fit=crop&auto=format&q=80`} 
                             alt="Roll" 
                             fill 
                             className="object-cover group-hover:scale-110 transition-transform duration-700"

@@ -14,10 +14,10 @@ import Image from "next/image";
 
 export default function CosmeticsGalleryPage() {
   const photos = [
-    { id: 1, label: "Summer Glow Campaign", img: "https://picsum.photos/seed/cos-gal-1/800/1000", primary: true, category: "Main Campaign" },
-    { id: 2, label: "Rose Water Texture", img: "https://picsum.photos/seed/cos-gal-2/800/1000", primary: false, category: "Product Detail" },
-    { id: 3, label: "Lab Environment", img: "https://picsum.photos/seed/cos-gal-3/800/600", primary: false, category: "Behind the Scenes" },
-    { id: 4, label: "Foundation Swatches", img: "https://picsum.photos/seed/cos-gal-4/800/600", primary: false, category: "Product Demo" },
+    { id: 1, label: "Summer Glow Campaign", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Main Campaign" },
+    { id: 2, label: "Rose Water Texture", img: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Product Detail" },
+    { id: 3, label: "Lab Environment", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Behind the Scenes" },
+    { id: 4, label: "Foundation Swatches", img: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Product Demo" },
   ];
 
   return (

@@ -57,7 +57,7 @@ export default function MediaAuthorsPage() {
           {AUTHORS.map((author) => (
             <div key={author.id} className="p-6 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-muted/20 transition-colors group">
               <Avatar className="h-12 w-12 shrink-0">
-                <AvatarImage src={`https://picsum.photos/seed/author-${author.id}/100/100`} />
+                <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                 <AvatarFallback className="bg-primary/10 text-primary font-black text-sm">
                   {author.name.split(" ").map(n => n[0]).join("").slice(0,2)}
                 </AvatarFallback>

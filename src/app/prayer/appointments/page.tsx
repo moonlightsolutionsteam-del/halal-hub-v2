@@ -53,7 +53,7 @@ export default function AppointmentsPage() {
         <header className="text-center mb-8">
           <Avatar className="h-20 w-20 mx-auto mb-4 border-4 border-primary">
             <AvatarImage
-              src="https://picsum.photos/seed/imam/200"
+              src="https://randomuser.me/api/portraits/men/50.jpg"
               alt="Ask Your Imam"
             />
             <AvatarFallback>AYI</AvatarFallback>

@@ -45,7 +45,7 @@ export default function MusalliDashboardPage() {
                         <h2 className="text-lg font-semibold">Rizwan Masjid</h2>
                     </div>
                     <Avatar className="h-10 w-10 border-2 border-primary">
-                        <AvatarImage src="https://picsum.photos/seed/jama-masjid/200" alt="Jama Masjid" />
+                        <AvatarImage src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" alt="Jama Masjid" />
                         <AvatarFallback>JM</AvatarFallback>
                     </Avatar>
                 </div>

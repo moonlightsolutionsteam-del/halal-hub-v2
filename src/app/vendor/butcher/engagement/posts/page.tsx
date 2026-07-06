@@ -60,7 +60,7 @@ export default function ButcherPostsPage() {
           {posts.map((post) => (
             <Card key={post.id} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card flex flex-col md:flex-row hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-red-100">
               <div className="relative w-full md:w-64 aspect-video md:aspect-square overflow-hidden shrink-0">
-                <Image src={`https://picsum.photos/seed/butcher-post${post.id}/600/600`} alt="Post" fill className="object-cover" />
+                <Image src={`https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600/600`} alt="Post" fill className="object-cover" />
                 <Badge className="absolute top-4 left-4 bg-card/90 text-foreground font-black border-none uppercase text-[10px] tracking-widest">{post.type}</Badge>
               </div>
               <div className="p-8 flex-1 flex flex-col justify-between">

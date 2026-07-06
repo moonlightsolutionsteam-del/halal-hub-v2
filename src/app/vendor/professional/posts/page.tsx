@@ -12,7 +12,7 @@ import { PenTool, Plus, Heart, MessageCircle, Share2, Eye, Edit2, Trash2, Image,
 
 const POSTS = [
   { id: 1, content: "Just wrapped up a brand strategy workshop with 12 Halal entrepreneurs. The passion and vision in that room was incredible. Watch this space — some of these brands are going to change how the world sees the Muslim consumer. 🤝", likes: 284, comments: 47, shares: 31, views: 1840, date: "2 hours ago", img: null, status: "published" },
-  { id: 2, content: "Three years ago I took a bet on Halal branding when nobody was talking about it. Today it's a £2.4 trillion opportunity. The Muslim consumer is not a niche — they're a movement. Thread on what I've learned 👇", likes: 612, comments: 89, shares: 94, views: 4200, date: "Yesterday", img: "https://picsum.photos/seed/post-thread/800/400", status: "published" },
+  { id: 2, content: "Three years ago I took a bet on Halal branding when nobody was talking about it. Today it's a £2.4 trillion opportunity. The Muslim consumer is not a niche — they're a movement. Thread on what I've learned 👇", likes: 612, comments: 89, shares: 94, views: 4200, date: "Yesterday", img: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80", status: "published" },
   { id: 3, content: "Your brand is not your logo. It's not your colours. It's not even your tagline. It's the feeling someone gets when they think of you. Are you building a feeling worth remembering?", likes: 421, comments: 63, shares: 58, views: 3100, date: "3 days ago", img: null, status: "published" },
   { id: 4, content: "Draft: Ramadan marketing guide for Halal brands — coming soon...", likes: 0, comments: 0, shares: 0, views: 0, date: "Draft", img: null, status: "draft" },
 ]

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { UploadCloud } from "lucide-react"
 import Image from "next/image"
 
-const photos = Array.from({ length: 8 }, (_, i) => `https://picsum.photos/seed/orgphoto${i}/400/400`)
+const photos = Array.from({ length: 8 }, (_, i) => `https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400/400`)
 
 export default function OrganizationGalleryPage() {
   return (

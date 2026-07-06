@@ -67,7 +67,7 @@ export default function FamilyChatPage() {
                 <div key={name} className="flex items-center justify-between p-3 bg-muted rounded-2xl hover:bg-muted transition-colors cursor-pointer group">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 border-2 border-white shadow-sm group-hover:scale-105 transition-transform">
-                      <AvatarImage src={`https://picsum.photos/seed/av${i+1}/100/100`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                       <AvatarFallback>{name[0]}</AvatarFallback>
                     </Avatar>
                     <div>
@@ -98,7 +98,7 @@ export default function FamilyChatPage() {
                 msg.isMe ? "ml-auto flex-row-reverse" : "mr-auto"
               )}>
                 <Avatar className="h-10 w-10 border-2 border-white shadow-sm shrink-0">
-                  <AvatarImage src={`https://picsum.photos/seed/${msg.user}/100/100`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                   <AvatarFallback>{msg.user[0]}</AvatarFallback>
                 </Avatar>
                 <div className="space-y-1.5">

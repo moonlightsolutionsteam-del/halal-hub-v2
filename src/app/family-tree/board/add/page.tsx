@@ -86,7 +86,7 @@ export default function AddBoardItemPage() {
                     )}
                   >
                     <Avatar className="h-10 w-10 mb-2 border-2 border-white shadow-sm">
-                      <AvatarImage src={`https://picsum.photos/seed/${member.id}/100/100`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                       <AvatarFallback>{member.initials}</AvatarFallback>
                     </Avatar>
                     <span className="text-[10px] font-black uppercase tracking-tighter">{member.name}</span>

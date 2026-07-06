@@ -19,7 +19,7 @@ export default function ChatPage() {
     const { user } = useAuth();
     const recipient = {
         name: "Aisha Khan",
-        avatar: "https://picsum.photos/seed/creator1/100",
+        avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80",
     };
 
     const [messages, setMessages] = useState<Message[]>([

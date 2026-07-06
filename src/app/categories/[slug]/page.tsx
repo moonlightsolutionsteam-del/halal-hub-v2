@@ -98,10 +98,10 @@ const CATEGORY_CONFIG: Record<string, { title: string; features: string[]; icon:
 };
 
 const MOCK_DATA = [
-  { id: "1", name: "Premium Halal Entity", sub: "Verified Partner", loc: "New York, NY", rate: 4.8, ver: true, img: "https://picsum.photos/seed/cat1/600/400" },
-  { id: "2", name: "Modern Islamic Hub", sub: "Top Rated", loc: "Brooklyn, NY", rate: 4.5, ver: true, img: "https://picsum.photos/seed/cat2/600/400" },
-  { id: "3", name: "Traditional Specialty", sub: "New Listing", loc: "Jersey City, NJ", rate: 4.9, ver: true, img: "https://picsum.photos/seed/cat3/600/400" },
-  { id: "4", name: "Community Choice", sub: "Crowd Sourced", loc: "Queens, NY", rate: 4.7, ver: false, img: "https://picsum.photos/seed/cat4/600/400" },
+  { id: "1", name: "Premium Halal Entity", sub: "Verified Partner", loc: "New York, NY", rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80" },
+  { id: "2", name: "Modern Islamic Hub", sub: "Top Rated", loc: "Brooklyn, NY", rate: 4.5, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" },
+  { id: "3", name: "Traditional Specialty", sub: "New Listing", loc: "Jersey City, NJ", rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80" },
+  { id: "4", name: "Community Choice", sub: "Crowd Sourced", loc: "Queens, NY", rate: 4.7, ver: false, img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80" },
 ];
 
 export default function CategoryListingPage() {

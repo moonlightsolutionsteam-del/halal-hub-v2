@@ -93,7 +93,7 @@ export default function FashionReviewsPage() {
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-12 w-12 border-2 border-border shadow-sm">
-                        <AvatarImage src={`https://picsum.photos/seed/user-fsh-rev${rev.id}/100/100`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100/100`} />
                         <AvatarFallback>{rev.user[0]}</AvatarFallback>
                       </Avatar>
                       <div>

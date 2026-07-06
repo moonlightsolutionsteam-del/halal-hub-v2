@@ -49,7 +49,7 @@ export default function UserSettingsPage() {
                 <div className="flex flex-col sm:flex-row items-center gap-6">
                   <div className="relative group">
                     <Avatar className="h-24 w-24 border-4 border-white shadow-xl">
-                      <AvatarImage src="https://picsum.photos/seed/user/200/200" />
+                      <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
                       <AvatarFallback>JD</AvatarFallback>
                     </Avatar>
                     <button className="absolute bottom-0 right-0 h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white hover:scale-110 transition-transform">

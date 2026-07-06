@@ -8,10 +8,10 @@ import { PlusCircle, Network } from "lucide-react"
 import Link from "next/link"
 
 const leadership = [
-  { name: "Syed Shaban Bukhari", role: "Head Imam", years: "Since 2008", img: "https://picsum.photos/seed/imam1/200/200" },
-  { name: "Abdul Rahman", role: "Committee Chairman", years: "Since 2015", img: "https://picsum.photos/seed/committee1/200/200" },
-  { name: "Mohammed Yusuf", role: "Treasurer", years: "Since 2019", img: "https://picsum.photos/seed/committee2/200/200" },
-  { name: "Ibrahim Malik", role: "Secretary", years: "Since 2020", img: "https://picsum.photos/seed/committee3/200/200" },
+  { name: "Syed Shaban Bukhari", role: "Head Imam", years: "Since 2008", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format&q=80" },
+  { name: "Abdul Rahman", role: "Committee Chairman", years: "Since 2015", img: "https://randomuser.me/api/portraits/men/33.jpg" },
+  { name: "Mohammed Yusuf", role: "Treasurer", years: "Since 2019", img: "https://randomuser.me/api/portraits/women/33.jpg" },
+  { name: "Ibrahim Malik", role: "Secretary", years: "Since 2020", img: "https://randomuser.me/api/portraits/men/34.jpg" },
 ]
 
 export default function MosqueLeadershipPage() {

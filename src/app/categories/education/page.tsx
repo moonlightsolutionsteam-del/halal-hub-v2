@@ -26,7 +26,7 @@ const MOCK_INSTITUTIONS = [
     focus: "K-12 Holistic Education", 
     rate: 4.9, 
     ver: true, 
-    img: "https://picsum.photos/seed/edu1/800/600",
+    img: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Hifz Program", "Stem Curriculum", "Sports Facilities"],
     enrollment: "Open for 2025",
     location: "London, UK"
@@ -38,7 +38,7 @@ const MOCK_INSTITUTIONS = [
     focus: "Advanced Islamic Studies", 
     rate: 4.8, 
     ver: true, 
-    img: "https://picsum.photos/seed/edu2/800/600",
+    img: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Residential Facility", "Scholar-led", "Extensive Library"],
     enrollment: "Interviews Active",
     location: "New York, USA"
@@ -50,7 +50,7 @@ const MOCK_INSTITUTIONS = [
     focus: "Quranic Excellence", 
     rate: 4.7, 
     ver: true, 
-    img: "https://picsum.photos/seed/edu3/800/600",
+    img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["1-on-1 Coaching", "Flexible Hours", "Digital Materials"],
     enrollment: "Rolling Admission",
     location: "Global / Remote"
@@ -62,7 +62,7 @@ const MOCK_INSTITUTIONS = [
     focus: "Islamic Finance & Ethics", 
     rate: 4.5, 
     ver: false, 
-    img: "https://picsum.photos/seed/edu4/800/600",
+    img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Industry Certs", "Expert Mentors", "Job Placement"],
     enrollment: "Closing Soon",
     location: "Dubai, UAE"

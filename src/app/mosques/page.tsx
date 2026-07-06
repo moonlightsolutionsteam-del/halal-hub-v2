@@ -1,504 +1,208 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import {
-  Search, MapPin, Clock, ShieldCheck, ChevronRight,
-  Moon, Filter, LocateFixed, Phone, Globe, Calendar,
-  BookOpen, Users, Heart, Star, Navigation
+  Search, MapPin, Star, ArrowLeft,
+  Building2, Clock, ChevronRight,
+  CheckCircle2, Sparkles, Zap, Navigation
 } from "lucide-react"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
+import { useState } from "react"
 
-const SERVICES = ["All", "Jummah", "Quran Classes", "Nikah", "Eid Prayers", "Iftar", "Dawah", "Hajj Prep"]
+const TABS = ["All", "Jumu'ah Service", "Wudu Facilities", "Islamic Classes", "Sisters' Section", "Prayer Timings"]
 
-const MOSQUES = [
+const MOCK_MOSQUES = [
   {
-    id: "m1",
-    name: "Masjid Al-Noor",
-    area: "Bandra West, Mumbai",
-    city: "Mumbai",
-    country: "India",
-    distance: "0.4 km",
-    nextPrayer: { name: "Maghrib", time: "7:15 PM" },
-    capacity: 500,
-    services: ["Jummah", "Quran Classes", "Iftar", "Nikah"],
-    phone: "+91 98765 43210",
-    website: "masjidalnoor.in",
-    verified: true,
-    rating: 4.9,
-    reviews: 214,
-    imam: "Mufti Abdullah Qasmi",
-    languages: ["Urdu", "Hindi", "Arabic"],
-    established: "1987",
-    img: "https://picsum.photos/seed/mosque1/600/300",
-    featured: true,
+    id: "mq1", name: "Masjid Al-Noor", type: "Full-Service Mosque", loc: "Manhattan, NY",
+    rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
+    features: ["5 Daily Prayers", "Quran Classes", "Sisters' Section"], prayerTime: "Fajr: 5:12 AM", parking: true
   },
   {
-    id: "m2",
-    name: "Jama Masjid Central",
-    area: "Old Delhi",
-    city: "Delhi",
-    country: "India",
-    distance: "1.2 km",
-    nextPrayer: { name: "Maghrib", time: "7:17 PM" },
-    capacity: 2000,
-    services: ["Jummah", "Eid Prayers", "Nikah", "Hajj Prep"],
-    phone: "+91 11 2326 0000",
-    website: "jamamasjid.in",
-    verified: true,
-    rating: 4.8,
-    reviews: 1042,
-    imam: "Imam Syed Ahmed Bukhari",
-    languages: ["Urdu", "Hindi", "Arabic", "English"],
-    established: "1656",
-    img: "https://picsum.photos/seed/mosque2/600/300",
-    featured: true,
+    id: "mq2", name: "Al-Rahman Islamic Centre", type: "Islamic Centre", loc: "Brooklyn, NY",
+    rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
+    features: ["Weekend School", "Funeral Services", "Youth Programme"], prayerTime: "Fajr: 5:14 AM", parking: true
   },
   {
-    id: "m3",
-    name: "Masjid Ibrahim",
-    area: "Andheri East, Mumbai",
-    city: "Mumbai",
-    country: "India",
-    distance: "2.1 km",
-    nextPrayer: { name: "Maghrib", time: "7:14 PM" },
-    capacity: 300,
-    services: ["Jummah", "Quran Classes", "Dawah"],
-    phone: "+91 98100 00000",
-    website: "",
-    verified: false,
-    rating: 4.6,
-    reviews: 58,
-    imam: "Maulana Haroon Rashid",
-    languages: ["Urdu", "Hindi"],
-    established: "2002",
-    img: "https://picsum.photos/seed/mosque3/600/300",
-    featured: false,
+    id: "mq3", name: "Masjid Al-Furqan", type: "Community Mosque", loc: "Queens, NY",
+    rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
+    features: ["Arabic Classes", "Food Bank", "Nikah Services"], prayerTime: "Fajr: 5:10 AM", parking: false
   },
   {
-    id: "m4",
-    name: "Islamic Centre of London",
-    area: "Regent's Park",
-    city: "London",
-    country: "United Kingdom",
-    distance: "4.5 km",
-    nextPrayer: { name: "Isha", time: "10:30 PM" },
-    capacity: 1800,
-    services: ["Jummah", "Eid Prayers", "Quran Classes", "Nikah", "Iftar", "Dawah"],
-    phone: "+44 20 7724 3363",
-    website: "iclondon.net",
-    verified: true,
-    rating: 4.9,
-    reviews: 3210,
-    imam: "Dr. Ahmad Al-Dubayan",
-    languages: ["Arabic", "English", "Urdu", "French"],
-    established: "1977",
-    img: "https://picsum.photos/seed/mosque4/600/300",
-    featured: true,
-  },
-  {
-    id: "m5",
-    name: "Masjid Al-Falah",
-    area: "Deira",
-    city: "Dubai",
-    country: "UAE",
-    distance: "0.8 km",
-    nextPrayer: { name: "Isha", time: "9:45 PM" },
-    capacity: 800,
-    services: ["Jummah", "Quran Classes", "Eid Prayers", "Hajj Prep"],
-    phone: "+971 4 295 0000",
-    website: "",
-    verified: true,
-    rating: 4.7,
-    reviews: 432,
-    imam: "Sheikh Mohammed Al-Rashid",
-    languages: ["Arabic", "English", "Urdu"],
-    established: "1995",
-    img: "https://picsum.photos/seed/mosque5/600/300",
-    featured: false,
-  },
-  {
-    id: "m6",
-    name: "Blue Mosque (Sultan Ahmed)",
-    area: "Fatih",
-    city: "Istanbul",
-    country: "Turkey",
-    distance: "8.3 km",
-    nextPrayer: { name: "Isha", time: "10:00 PM" },
-    capacity: 10000,
-    services: ["Jummah", "Eid Prayers", "Dawah"],
-    phone: "+90 212 518 1319",
-    website: "sultanahmetcamii.org",
-    verified: true,
-    rating: 5.0,
-    reviews: 8921,
-    imam: "Sheikh Mustafa Cagrici",
-    languages: ["Turkish", "Arabic", "English"],
-    established: "1616",
-    img: "https://picsum.photos/seed/mosque6/600/300",
-    featured: true,
-  },
-  {
-    id: "m7",
-    name: "Masjid Wilayah Persekutuan",
-    area: "Jalan Duta",
-    city: "Kuala Lumpur",
-    country: "Malaysia",
-    distance: "3.2 km",
-    nextPrayer: { name: "Isha", time: "9:30 PM" },
-    capacity: 17000,
-    services: ["Jummah", "Eid Prayers", "Quran Classes", "Nikah", "Hajj Prep"],
-    phone: "+60 3 6203 3333",
-    website: "masjidwilayah.gov.my",
-    verified: true,
-    rating: 4.8,
-    reviews: 2105,
-    imam: "Datuk Seri Nooh Gadot",
-    languages: ["Malay", "Arabic", "English"],
-    established: "1997",
-    img: "https://picsum.photos/seed/mosque7/600/300",
-    featured: false,
-  },
-  {
-    id: "m8",
-    name: "Dar al-Hijrah Islamic Centre",
-    area: "Falls Church",
-    city: "Virginia",
-    country: "United States",
-    distance: "12.4 km",
-    nextPrayer: { name: "Isha", time: "10:15 PM" },
-    capacity: 3000,
-    services: ["Jummah", "Eid Prayers", "Quran Classes", "Nikah", "Iftar", "Dawah"],
-    phone: "+1 703 536 1694",
-    website: "daralhijrah.net",
-    verified: true,
-    rating: 4.7,
-    reviews: 1876,
-    imam: "Imam Mahmoud Sulaiman",
-    languages: ["Arabic", "English", "Urdu", "Somali"],
-    established: "1983",
-    img: "https://picsum.photos/seed/mosque8/600/300",
-    featured: false,
+    id: "mq4", name: "Downtown Islamic Hub", type: "Urban Prayer Space", loc: "Jersey City, NJ",
+    rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
+    features: ["Accessible Entrance", "Multi-lingual Khutbah", "Café On-site"], prayerTime: "Fajr: 5:13 AM", parking: false
   },
 ]
 
-const SERVICE_ICONS: Record<string, React.ReactNode> = {
-  "Jummah": <Moon className="h-3 w-3" />,
-  "Quran Classes": <BookOpen className="h-3 w-3" />,
-  "Eid Prayers": <Star className="h-3 w-3" />,
-  "Nikah": <Heart className="h-3 w-3" />,
-  "Iftar": <Users className="h-3 w-3" />,
-  "Dawah": <Globe className="h-3 w-3" />,
-  "Hajj Prep": <Navigation className="h-3 w-3" />,
-}
-
 export default function MosquesPage() {
-  const [search, setSearch] = useState("")
-  const [activeService, setActiveService] = useState("All")
-  const [expandedId, setExpandedId] = useState<string | null>(null)
-
-  const filtered = MOSQUES.filter(m => {
-    const matchSearch = !search ||
-      m.name.toLowerCase().includes(search.toLowerCase()) ||
-      m.area.toLowerCase().includes(search.toLowerCase()) ||
-      m.city.toLowerCase().includes(search.toLowerCase())
-    const matchService = activeService === "All" || m.services.includes(activeService)
-    return matchSearch && matchService
-  })
-
-  const featured = filtered.filter(m => m.featured)
-  const nearby = filtered.slice(0, 3)
-  const all = filtered
+  const [selectedTab, setSelectedTab] = useState("All")
 
   return (
-    <div className="max-w-3xl mx-auto py-6 px-4 space-y-8 pb-24">
+    <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
+      <div className="flex flex-col gap-3 sm:gap-6">
+        <Link href="/" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-primary transition-colors w-fit">
+          <ArrowLeft className="h-4 w-4" /> Back to Home
+        </Link>
 
-      {/* Header */}
-      <div className="space-y-1">
-        <h1 className="text-xl sm:text-3xl font-black font-headline text-foreground flex items-center gap-3">
-          <div className="h-10 w-10 rounded-2xl bg-primary/10 flex items-center justify-center">
-            <Moon className="h-5 w-5 text-primary" />
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-8">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="h-9 w-9 sm:h-14 sm:w-14 rounded-xl sm:rounded-2xl flex items-center justify-center bg-teal-100 text-teal-600 shadow-inner">
+              <Building2 className="h-8 w-8" />
+            </div>
+            <div className="space-y-1">
+              <h1 className="text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Mosques & Centres</h1>
+              <p className="text-muted-foreground font-medium text-xs sm:text-xl">Find your nearest verified mosque, Islamic centre, and prayer space in your community.</p>
+            </div>
           </div>
-          Mosques
-        </h1>
-        <p className="text-sm font-medium text-muted-foreground pl-1">Discover mosques nearby and across the globe.</p>
-      </div>
-
-      {/* Search + Locate */}
-      <div className="flex gap-3">
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Search by name, area or city..."
-            className="pl-11 h-12 rounded-2xl border-none shadow-soft bg-card font-medium"
-          />
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <Button variant="outline" className="h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm gap-2 font-bold px-4 sm:px-6 hover:bg-muted">
+              <Navigation className="h-5 w-5 text-teal-600" /> Near Me
+            </Button>
+            <div className="relative flex-1 md:w-96">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input placeholder="Search by name, area, or facility..." className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg" />
+            </div>
+          </div>
         </div>
-        <Button variant="outline" className="h-12 px-4 rounded-2xl border-2 font-bold gap-2 shrink-0">
-          <LocateFixed className="h-4 w-4 text-primary" /> Nearby
-        </Button>
       </div>
 
-      {/* Service filters */}
-      <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-        {SERVICES.map(s => (
-          <button
-            key={s}
-            onClick={() => setActiveService(s)}
-            className={cn(
-              "shrink-0 px-4 py-2 rounded-2xl text-xs font-black transition-all",
-              activeService === s
-                ? "bg-primary text-white shadow-lg shadow-primary/20"
-                : "bg-card text-muted-foreground shadow-soft hover:bg-muted"
-            )}
-          >
-            {s}
-          </button>
+      <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar -mx-2 px-2">
+        {TABS.map(tab => (
+          <button key={tab} onClick={() => setSelectedTab(tab)}
+            className={`px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all whitespace-nowrap shadow-sm border-2 ${
+              selectedTab === tab
+                ? "bg-teal-600 text-white border-teal-600 shadow-lg shadow-teal-600/20 scale-105"
+                : "bg-card text-muted-foreground border-transparent hover:border-teal-200"
+            }`}
+          >{tab}</button>
         ))}
       </div>
 
-      {/* Nearby section */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-black text-foreground flex items-center gap-2">
-            <LocateFixed className="h-4 w-4 text-primary" /> Nearby
-          </h2>
-          <span className="text-xs font-bold text-muted-foreground">{nearby.length} found</span>
-        </div>
-        <div className="space-y-3">
-          {nearby.map(mosque => (
-            <NearbyCard
-              key={mosque.id}
-              mosque={mosque}
-              expanded={expandedId === mosque.id}
-              onToggle={() => setExpandedId(expandedId === mosque.id ? null : mosque.id)}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* Featured mosques */}
-      {featured.length > 0 && (
-        <section className="space-y-4">
-          <h2 className="text-lg font-black text-foreground flex items-center gap-2">
-            <Star className="h-4 w-4 text-amber-500 fill-amber-500" /> Featured
-          </h2>
-          <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
-            {featured.map(mosque => (
-              <FeaturedCard key={mosque.id} mosque={mosque} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* All mosques */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-black text-foreground">All Mosques</h2>
-          <span className="text-xs font-bold text-muted-foreground">{all.length} listed</span>
-        </div>
-        {all.length === 0 ? (
-          <Card className="rounded-[2rem] border-none shadow-soft">
-            <CardContent className="p-6 sm:p-12 text-center">
-              <Moon className="h-10 w-10 mx-auto text-muted-foreground opacity-30 mb-3" />
-              <p className="font-black text-foreground">No mosques found</p>
-              <p className="text-xs text-muted-foreground font-medium mt-1">Try a different search or filter.</p>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="space-y-3">
-            {all.map(mosque => (
-              <AllCard key={mosque.id} mosque={mosque} />
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* List your mosque CTA */}
-      <Card className="rounded-[2.5rem] border-none shadow-xl bg-gradient-to-br from-primary to-emerald-500 text-white overflow-hidden">
-        <CardContent className="p-8 space-y-4">
-          <Moon className="h-8 w-8 text-white/80" />
-          <h3 className="text-xl font-black">Is your Masjid listed?</h3>
-          <p className="text-sm text-white/80 font-medium leading-relaxed">
-            Register your mosque on Halal Hub to reach your community, share prayer times, and manage donations all in one place.
-          </p>
-          <Link href="/partner/onboarding/business/category">
-            <Button className="h-12 px-8 rounded-2xl bg-white text-primary hover:bg-white/90 font-black text-sm shadow-lg">
-              List Your Mosque
-            </Button>
-          </Link>
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
-
-type Mosque = typeof MOSQUES[number]
-
-function NearbyCard({ mosque, expanded, onToggle }: { mosque: Mosque; expanded: boolean; onToggle: () => void }) {
-  return (
-    <Card className={cn(
-      "rounded-[2rem] border-2 shadow-soft transition-all",
-      expanded ? "border-primary/20" : "border-transparent"
-    )}>
-      <CardContent className="p-0">
-        <button className="w-full text-left p-5 flex items-start gap-4" onClick={onToggle}>
-          <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-            <Moon className="h-6 w-6 text-primary" />
-          </div>
-          <div className="flex-1 min-w-0 space-y-1.5">
-            <div className="flex items-center gap-2 flex-wrap">
-              <p className="font-black text-foreground text-sm">{mosque.name}</p>
-              {mosque.verified && <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" />}
-            </div>
-            <div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground flex-wrap">
-              <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{mosque.area}</span>
-              <span className="font-black text-primary">{mosque.distance}</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[10px] font-bold text-amber-600 dark:text-amber-400">
-              <Clock className="h-3 w-3" /> Next: {mosque.nextPrayer.name} at {mosque.nextPrayer.time}
-            </div>
-            <div className="flex flex-wrap gap-1.5 pt-0.5">
-              {mosque.services.slice(0, 3).map(s => (
-                <span key={s} className="flex items-center gap-1 text-[9px] font-black px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
-                  {SERVICE_ICONS[s]} {s}
-                </span>
-              ))}
-              {mosque.services.length > 3 && (
-                <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-muted text-muted-foreground">+{mosque.services.length - 3}</span>
-              )}
-            </div>
-          </div>
-          <ChevronRight className={cn("h-4 w-4 text-muted-foreground shrink-0 mt-1 transition-transform", expanded && "rotate-90")} />
-        </button>
-
-        {expanded && (
-          <div className="border-t px-5 pb-5 pt-4 space-y-4 bg-muted/20 rounded-b-[2rem] animate-in fade-in duration-200">
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div><p className="font-black text-muted-foreground uppercase tracking-wider text-[9px] mb-0.5">Imam</p><p className="font-bold text-foreground">{mosque.imam}</p></div>
-              <div><p className="font-black text-muted-foreground uppercase tracking-wider text-[9px] mb-0.5">Capacity</p><p className="font-bold text-foreground">{mosque.capacity.toLocaleString()} people</p></div>
-              <div><p className="font-black text-muted-foreground uppercase tracking-wider text-[9px] mb-0.5">Languages</p><p className="font-bold text-foreground">{mosque.languages.join(", ")}</p></div>
-              <div><p className="font-black text-muted-foreground uppercase tracking-wider text-[9px] mb-0.5">Est.</p><p className="font-bold text-foreground">{mosque.established}</p></div>
-            </div>
-            <div className="flex items-center gap-1 text-xs">
-              <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
-              <span className="font-black text-foreground">{mosque.rating}</span>
-              <span className="text-muted-foreground font-medium">({mosque.reviews} reviews)</span>
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              {mosque.phone && (
-                <a href={`tel:${mosque.phone}`}>
-                  <Button size="sm" className="rounded-xl h-9 px-4 bg-primary hover:bg-primary/90 text-white font-black text-xs gap-1.5">
-                    <Phone className="h-3.5 w-3.5" /> Call
-                  </Button>
-                </a>
-              )}
-              <Button size="sm" variant="outline" className="rounded-xl h-9 px-4 border-2 font-black text-xs gap-1.5">
-                <MapPin className="h-3.5 w-3.5" /> Directions
-              </Button>
-              {mosque.website && (
-                <a href={`https://${mosque.website}`} target="_blank" rel="noopener noreferrer">
-                  <Button size="sm" variant="outline" className="rounded-xl h-9 px-4 border-2 font-black text-xs gap-1.5">
-                    <Globe className="h-3.5 w-3.5" /> Website
-                  </Button>
-                </a>
-              )}
-              <Link href={`/mosques/${mosque.id}`}>
-                <Button size="sm" variant="outline" className="rounded-xl h-9 px-4 border-2 font-black text-xs gap-1.5">
-                  <ChevronRight className="h-3.5 w-3.5" /> View Profile
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  )
-}
-
-function FeaturedCard({ mosque }: { mosque: Mosque }) {
-  return (
-    <Link href={`/mosques/${mosque.id}`} className="min-w-[280px] shrink-0 block">
-      <Card className="rounded-[2rem] border-none shadow-soft hover:shadow-soft-md transition-all overflow-hidden">
-        <CardContent className="p-0">
-          <div className="relative h-36 w-full bg-gradient-to-br from-primary/30 to-emerald-200 dark:from-primary/20 dark:to-emerald-900/30 flex items-center justify-center overflow-hidden">
-            <Moon className="h-20 w-20 text-primary/20" />
-            <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-amber-400 rounded-full">
-              <Star className="h-3 w-3 text-white fill-white" />
-              <span className="text-[10px] font-black text-white">Featured</span>
-            </div>
-            {mosque.verified && (
-              <div className="absolute top-3 right-3 h-7 w-7 bg-primary rounded-full flex items-center justify-center shadow-lg">
-                <ShieldCheck className="h-3.5 w-3.5 text-white" />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <aside className="hidden lg:block lg:col-span-3 space-y-8">
+          <Card className="rounded-[2.5rem] border-none shadow-md p-8 bg-card space-y-8 sticky top-24">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="font-black text-sm uppercase tracking-widest text-muted-foreground">Refine Search</h3>
+                <Button variant="ghost" size="sm" className="text-[10px] font-black text-teal-600 p-0 h-auto uppercase tracking-tighter">Reset</Button>
               </div>
-            )}
-          </div>
-          <div className="p-4 space-y-2">
-            <p className="font-black text-foreground text-sm leading-tight">{mosque.name}</p>
-            <p className="text-[10px] font-bold text-muted-foreground flex items-center gap-1">
-              <MapPin className="h-3 w-3" />{mosque.city}, {mosque.country}
-            </p>
-            <div className="flex items-center gap-1.5">
-              <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
-              <span className="text-xs font-black text-foreground">{mosque.rating}</span>
-              <span className="text-[10px] text-muted-foreground font-medium">({mosque.reviews})</span>
+              <div className="space-y-4">
+                <p className="text-xs font-black uppercase text-foreground tracking-widest">Facilities</p>
+                <div className="space-y-3">
+                  {["Full Wudu Facilities", "Sisters' Section", "Quran Classes", "Parking Available"].map(f => (
+                    <label key={f} className="flex items-center gap-3 cursor-pointer group">
+                      <div className="h-5 w-5 border-2 rounded-lg border-border group-hover:border-teal-600 transition-colors flex items-center justify-center">
+                        <div className="h-2.5 w-2.5 rounded-sm bg-teal-600 scale-0 group-hover:scale-100 transition-transform" />
+                      </div>
+                      <span className="text-sm font-bold text-muted-foreground group-hover:text-foreground">{f}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div className="h-px bg-muted w-full" />
+              <div className="space-y-4">
+                <p className="text-xs font-black uppercase text-foreground tracking-widest">Services</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {["Jumu'ah", "Islamic School", "Nikah", "Janazah"].map(p => (
+                    <button key={p} className="py-2 rounded-xl bg-muted text-muted-foreground font-black text-xs hover:bg-teal-50 hover:text-teal-600 transition-colors border border-transparent hover:border-teal-100">{p}</button>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-1 pt-1">
-              {mosque.services.slice(0, 2).map(s => (
-                <span key={s} className="text-[9px] font-black px-2 py-0.5 rounded-full bg-primary/10 text-primary">{s}</span>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
-  )
-}
+            <Card className="rounded-3xl border-none bg-teal-900 text-white p-8 space-y-4 relative overflow-hidden">
+              <div className="absolute -top-4 -right-4 opacity-20"><Sparkles className="h-24 w-24" /></div>
+              <h3 className="font-black text-lg leading-tight relative z-10">Register Your Mosque</h3>
+              <p className="text-xs text-white/80 leading-relaxed relative z-10">Help your community find your prayer space, classes, and events on Halal Hub.</p>
+              <Button variant="secondary" className="w-full rounded-2xl font-black text-xs h-12 shadow-xl bg-card text-teal-900 hover:bg-teal-50">Register Free</Button>
+            </Card>
+          </Card>
+        </aside>
 
-function AllCard({ mosque }: { mosque: Mosque }) {
-  return (
-    <Link href={`/mosques/${mosque.id}`} className="block">
-    <Card className="rounded-[2rem] border-none shadow-soft hover:shadow-soft-md transition-all">
-      <CardContent className="p-5 flex items-start gap-4">
-        <div className="h-11 w-11 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-          <Moon className="h-5 w-5 text-primary" />
-        </div>
-        <div className="flex-1 min-w-0 space-y-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-black text-foreground text-sm">{mosque.name}</p>
-            {mosque.verified && <ShieldCheck className="h-3 w-3 text-primary shrink-0" />}
+        <div className="lg:col-span-9 space-y-8">
+          <div className="flex items-center justify-between px-2">
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{MOCK_MOSQUES.length}</span> verified mosques</p>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
+              <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
+                <option>Nearest First</option>
+                <option>Most Active</option>
+                <option>Top Rated</option>
+              </select>
+            </div>
           </div>
-          <p className="text-[10px] font-bold text-muted-foreground flex items-center gap-1">
-            <MapPin className="h-3 w-3" />{mosque.area}, {mosque.country}
-          </p>
-          <div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground flex-wrap">
-            <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400">
-              <Clock className="h-3 w-3" />{mosque.nextPrayer.name} {mosque.nextPrayer.time}
-            </span>
-            <span className="text-primary font-black">{mosque.distance}</span>
-          </div>
-          <div className="flex flex-wrap gap-1.5 pt-0.5">
-            {mosque.services.map(s => (
-              <span key={s} className="flex items-center gap-1 text-[9px] font-black px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
-                {SERVICE_ICONS[s]} {s}
-              </span>
+
+          <div className="grid grid-cols-2 gap-3 sm:gap-8">
+            {MOCK_MOSQUES.map(item => (
+              <Link key={item.id} href={`/mosques/${item.id}`}>
+                <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-teal-100/50">
+                  <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
+                    <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                    <div className="absolute top-2 left-2 sm:top-6 sm:left-6">
+                      <Badge className="bg-card/90 backdrop-blur-md text-teal-600 font-black border-none shadow-xl px-4 py-1.5 rounded-full flex items-center gap-1.5">
+                        <Star className="h-3.5 w-3.5 fill-teal-600 text-teal-600" /> {item.rate}
+                      </Badge>
+                    </div>
+                    <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 flex gap-2">
+                      {item.ver && (
+                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
+                          <CheckCircle2 className="h-3 w-3" /> Verified
+                        </Badge>
+                      )}
+                      <Badge className="bg-card text-teal-600 font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
+                        <Clock className="h-3 w-3" /> {item.prayerTime}
+                      </Badge>
+                    </div>
+                  </div>
+                  <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
+                    <div className="space-y-2">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-teal-600">{item.type}</p>
+                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-teal-600 transition-colors leading-tight">{item.name}</CardTitle>
+                      <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
+                        <MapPin className="h-4 w-4 text-teal-600" /> {item.loc}
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="px-3 pb-3 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
+                    <div className="hidden sm:block space-y-3">
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Services & Facilities</p>
+                      <div className="flex flex-wrap gap-2">
+                        {item.features.map(f => (
+                          <span key={f} className="text-[10px] font-bold bg-muted text-muted-foreground px-3 py-1 rounded-lg border border-border">{f}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:pt-6 sm:border-t border-border">
+                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
+                        <Building2 className="h-4 w-4 text-teal-500" /> Community Hub
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
+                        <Zap className="h-4 w-4 text-amber-500" /> {item.parking ? "Parking Avail." : "Street Access"}
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="px-3 pb-3 pt-0 sm:px-8 sm:pb-8 mt-auto">
+                    <Button className="w-full bg-zinc-900 hover:bg-teal-600 text-white rounded-xl sm:rounded-[1.5rem] font-black text-[10px] sm:text-sm uppercase tracking-widest h-9 sm:h-16 shadow-lg sm:shadow-2xl transition-all group-hover:scale-[1.02]">
+                      Get Directions <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </Link>
             ))}
           </div>
-        </div>
-        <div className="shrink-0 text-right space-y-1">
-          <div className="flex items-center gap-1 justify-end">
-            <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
-            <span className="text-xs font-black text-foreground">{mosque.rating}</span>
+
+          <div className="flex flex-col items-center justify-center py-6 sm:py-16 gap-4 sm:gap-6">
+            <div className="flex items-center gap-2">
+              <div className="h-1 w-12 bg-muted rounded-full" />
+              <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Mosque List</p>
+              <div className="h-1 w-12 bg-muted rounded-full" />
+            </div>
+            <Button variant="outline" className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-teal-600 hover:text-white hover:border-teal-600 transition-all text-sm sm:text-lg shadow-sm">Load More Mosques</Button>
           </div>
-          <p className="text-[9px] text-muted-foreground font-medium">{mosque.reviews} reviews</p>
         </div>
-      </CardContent>
-    </Card>
-    </Link>
+      </div>
+    </div>
   )
 }

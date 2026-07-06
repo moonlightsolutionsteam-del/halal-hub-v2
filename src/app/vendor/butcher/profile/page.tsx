@@ -440,9 +440,9 @@ export default function ButcherProfilePage() {
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-8">
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {[
-                  { id: 1, label: "Fresh mutton cuts", img: "https://picsum.photos/seed/meat1/400/400" },
-                  { id: 2, label: "Clean shop interior", img: "https://picsum.photos/seed/meat2/400/400" },
-                  { id: 3, label: "Chicken selection", img: "https://picsum.photos/seed/meat3/400/400" },
+                  { id: 1, label: "Fresh mutton cuts", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80" },
+                  { id: 2, label: "Clean shop interior", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80" },
+                  { id: 3, label: "Chicken selection", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80" },
                 ].map((item) => (
                   <div key={item.id} className="relative aspect-square rounded-2xl overflow-hidden group cursor-grab active:cursor-grabbing border border-border shadow-sm">
                     <img src={item.img} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />

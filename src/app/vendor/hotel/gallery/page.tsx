@@ -12,10 +12,10 @@ import Image from "next/image";
 
 export default function HotelGalleryPage() {
   const photos = [
-    { id: 1, label: "Presidential Suite Lounge", img: "https://picsum.photos/seed/hotel-lounge/800/600", primary: true, category: "Rooms" },
-    { id: 2, label: "Property Exterior", img: "https://picsum.photos/seed/hotel-ext/800/600", primary: false, category: "Exterior" },
-    { id: 3, label: "Halal Breakfast Buffet", img: "https://picsum.photos/seed/hotel-buffet/800/600", primary: false, category: "Dining" },
-    { id: 4, label: "Community Prayer Hall", img: "https://picsum.photos/seed/hotel-prayer/800/600", primary: false, category: "Amenities" },
+    { id: 1, label: "Presidential Suite Lounge", img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Rooms" },
+    { id: 2, label: "Property Exterior", img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Exterior" },
+    { id: 3, label: "Halal Breakfast Buffet", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Dining" },
+    { id: 4, label: "Community Prayer Hall", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Amenities" },
   ];
 
   return (

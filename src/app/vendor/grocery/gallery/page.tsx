@@ -13,10 +13,10 @@ import Image from "next/image";
 
 export default function GroceryGalleryPage() {
   const photos = [
-    { id: 1, label: "Supermarket Exterior", img: "https://picsum.photos/seed/gro-ext/800/600", primary: true, category: "Shop Front" },
-    { id: 2, label: "Fresh Produce Aisle", img: "https://picsum.photos/seed/gro-aisle/800/600", primary: false, category: "Produce" },
-    { id: 3, label: "Bakery Counter", img: "https://picsum.photos/seed/gro-bake/800/600", primary: false, category: "Bakery" },
-    { id: 4, label: "Meat & Deli", img: "https://picsum.photos/seed/gro-meat/800/600", primary: false, category: "Meat Counter" },
+    { id: 1, label: "Supermarket Exterior", img: "https://images.unsplash.com/photo-1609501676725-7186f017a4b7?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Shop Front" },
+    { id: 2, label: "Fresh Produce Aisle", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Produce" },
+    { id: 3, label: "Bakery Counter", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Bakery" },
+    { id: 4, label: "Meat & Deli", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Meat Counter" },
   ];
 
   return (

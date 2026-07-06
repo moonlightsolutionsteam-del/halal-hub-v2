@@ -73,7 +73,7 @@ export default function PrivacyRolesPage() {
                   <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                     <div className="flex items-center gap-6">
                       <Avatar className="h-14 w-14 border-2 border-white shadow-md">
-                        <AvatarImage src={`https://picsum.photos/seed/${member.img}/150/150`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150/150`} />
                         <AvatarFallback>{member.name[0]}</AvatarFallback>
                       </Avatar>
                       <div>

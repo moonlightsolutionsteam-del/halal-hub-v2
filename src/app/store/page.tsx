@@ -20,7 +20,7 @@ const mockFeatures = [
     name: "Tasbeeh Background",
     category: "Backgrounds",
     price: 4200,
-    imageUrl: 'https://picsum.photos/seed/tasbeeh-bg/600/400',
+    imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'tasbeeh on prayer mat',
   },
   {
@@ -28,7 +28,7 @@ const mockFeatures = [
     name: 'Islamic Frame',
     category: 'Frames',
     price: 1872,
-    imageUrl: 'https://picsum.photos/seed/islamic-frame-1/600/400',
+    imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'islamic art frame',
   },
    {
@@ -36,7 +36,7 @@ const mockFeatures = [
     name: "Theme Color: Green",
     category: "Themes",
     price: 2500,
-    imageUrl: "https://picsum.photos/seed/theme-green/600/400",
+    imageUrl: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     imageHint: "green abstract color",
   },
   {
@@ -44,7 +44,7 @@ const mockFeatures = [
     name: 'Avatar Frame: Gold',
     category: 'Frames',
     price: 3000,
-    imageUrl: 'https://picsum.photos/seed/avatar-frame-gold/600/400',
+    imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'gold avatar frame',
   },
     {
@@ -52,7 +52,7 @@ const mockFeatures = [
     name: "Theme Color: Red",
     category: "Themes",
     price: 2500,
-    imageUrl: "https://picsum.photos/seed/theme-red/600/400",
+    imageUrl: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     imageHint: "red abstract color",
   },
     {
@@ -60,7 +60,7 @@ const mockFeatures = [
     name: "Special Message Effect",
     category: "Effects",
     price: 1500,
-    imageUrl: "https://picsum.photos/seed/message-effect/600/400",
+    imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&auto=format&q=80",
     imageHint: "chat message effect",
   },
     {
@@ -68,7 +68,7 @@ const mockFeatures = [
     name: "Prayer Background",
     category: "Backgrounds",
     price: 5000,
-    imageUrl: "https://picsum.photos/seed/prayer-background/600/400",
+    imageUrl: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     imageHint: "mosque at night",
   },
     {
@@ -76,7 +76,7 @@ const mockFeatures = [
     name: "7-Day Ad Removal",
     category: "Utilities",
     price: 1000,
-    imageUrl: "https://picsum.photos/seed/ad-removal/600/400",
+    imageUrl: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=600&fit=crop&auto=format&q=80",
     imageHint: "no ads icon",
   },
 ];

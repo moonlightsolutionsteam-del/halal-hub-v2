@@ -25,7 +25,7 @@ const MOCK_GROCERIES = [
     loc: "Queens, NY", 
     rate: 4.8, 
     ver: true, 
-    img: "https://picsum.photos/seed/grocery1/800/600",
+    img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Meat Counter", "Fresh Bakery", "Organic Section"],
     delivery: "30-45 mins",
     minOrder: "$20"
@@ -37,7 +37,7 @@ const MOCK_GROCERIES = [
     loc: "Brooklyn, NY", 
     rate: 4.9, 
     ver: true, 
-    img: "https://picsum.photos/seed/grocery2/800/600",
+    img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Farm-to-Table", "Bulk Bin", "Cold Pressed Juice"],
     delivery: "15-30 mins",
     minOrder: "$15"
@@ -49,7 +49,7 @@ const MOCK_GROCERIES = [
     loc: "Manhattan, NY", 
     rate: 4.5, 
     ver: true, 
-    img: "https://picsum.photos/seed/grocery3/800/600",
+    img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Wholesale Packs", "Global Imports", "Prayer Area"],
     delivery: "1 hour",
     minOrder: "$50"
@@ -61,7 +61,7 @@ const MOCK_GROCERIES = [
     loc: "Jersey City, NJ", 
     rate: 4.2, 
     ver: false, 
-    img: "https://picsum.photos/seed/grocery4/800/600",
+    img: "https://images.unsplash.com/photo-1609501676725-7186f017a4b7?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["24/7 Service", "Snacks & Drinks", "Essential Items"],
     delivery: "Not Available",
     minOrder: "N/A"

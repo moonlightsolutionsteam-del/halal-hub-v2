@@ -136,7 +136,7 @@ export default function FamilyTreePage() {
                 ].map((msg, i) => (
                   <div key={i} className="flex gap-3 items-start p-3 bg-muted/50 rounded-2xl">
                     <Avatar className="h-8 w-8 border-2 border-white">
-                      <AvatarImage src={`https://picsum.photos/seed/${msg.name}/50/50`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&auto=format&q=80`} />
                       <AvatarFallback>{msg.name[0]}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -268,7 +268,7 @@ export default function FamilyTreePage() {
               <div className="grid grid-cols-2 gap-4">
                 {[1, 2].map(i => (
                   <div key={i} className="aspect-video relative rounded-2xl overflow-hidden shadow-sm group/media cursor-pointer">
-                    <Image src={`https://picsum.photos/seed/moment-${i}/400/300`} alt="Moment" fill className="object-cover group-hover/media:scale-110 transition-transform duration-700" />
+                    <Image src={`https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=300&fit=crop&auto=format&q=80`} alt="Moment" fill className="object-cover group-hover/media:scale-110 transition-transform duration-700" />
                   </div>
                 ))}
               </div>
@@ -296,7 +296,7 @@ export default function FamilyTreePage() {
                   { img: "recipe-2", label: "Friday Kunafa" }
                 ].map((recipe, i) => (
                   <div key={i} className="aspect-square relative rounded-2xl overflow-hidden group/recipe cursor-pointer shadow-md">
-                    <Image src={`https://picsum.photos/seed/${recipe.img}/400/400`} alt={recipe.label} fill className="object-cover group-hover/recipe:scale-110 transition-transform duration-700" />
+                    <Image src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=400&fit=crop&auto=format&q=80`} alt={recipe.label} fill className="object-cover group-hover/recipe:scale-110 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover/recipe:opacity-90 transition-opacity" />
                     <div className="absolute bottom-4 left-4 right-4">
                       <p className="text-[10px] font-black text-white uppercase tracking-tighter leading-tight line-clamp-1">{recipe.label}</p>
@@ -357,7 +357,7 @@ export default function FamilyTreePage() {
                     <div key={i} className="flex items-center justify-between p-5 bg-muted rounded-[2rem] border border-transparent hover:border-emerald-100 hover:bg-card hover:shadow-lg transition-all duration-500 cursor-pointer group/conn">
                       <div className="flex items-center gap-4">
                         <Avatar className="h-12 w-12 border-2 border-white shadow-md group-hover/conn:scale-105 transition-transform">
-                          <AvatarImage src={`https://picsum.photos/seed/${conn.img}/100/100`} />
+                          <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                           <AvatarFallback>U</AvatarFallback>
                         </Avatar>
                         <div>
@@ -395,7 +395,7 @@ export default function FamilyTreePage() {
                 <div className="flex flex-col items-center gap-6">
                   <div className="relative">
                     <Avatar className="h-28 w-28 border-8 border-white shadow-2xl ring-4 ring-emerald-500/20">
-                      <AvatarImage src="https://picsum.photos/seed/root/200/200" />
+                      <AvatarImage src="https://randomuser.me/api/portraits/men/20.jpg" />
                       <AvatarFallback>RA</AvatarFallback>
                     </Avatar>
                     <div className="absolute -bottom-2 -right-2 h-10 w-10 bg-emerald-500 rounded-2xl flex items-center justify-center border-4 border-white shadow-xl">
@@ -415,7 +415,7 @@ export default function FamilyTreePage() {
                     <div key={i} className="flex flex-col items-center gap-4 relative">
                       <div className="h-20 w-px bg-muted absolute -top-20" />
                       <Avatar className="h-20 w-20 border-4 border-white shadow-2xl ring-2 ring-slate-50 group-hover:scale-110 transition-transform duration-500">
-                        <AvatarImage src={`https://picsum.photos/seed/child${i}/150/150`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&auto=format&q=80`} />
                         <AvatarFallback>C</AvatarFallback>
                       </Avatar>
                       <div className="text-center">

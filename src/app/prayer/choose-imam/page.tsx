@@ -17,7 +17,7 @@ const imams = [
         status: "Available",
         responseTime: "Usually responds within 1 hour",
         rating: 4.9,
-        avatar: "https://picsum.photos/seed/imam1/200"
+        avatar: "https://randomuser.me/api/portraits/men/51.jpg"
     },
     {
         id: "omar-hassan",
@@ -27,7 +27,7 @@ const imams = [
         status: "Busy",
         responseTime: "Usually responds within 3 hours",
         rating: 4.8,
-        avatar: "https://picsum.photos/seed/imam2/200"
+        avatar: "https://randomuser.me/api/portraits/men/52.jpg"
     },
     {
         id: "abdullah-al-faisal",
@@ -37,7 +37,7 @@ const imams = [
         status: "Available",
         responseTime: "Usually responds within 30 minutes",
         rating: 4.9,
-        avatar: "https://picsum.photos/seed/imam3/200"
+        avatar: "https://randomuser.me/api/portraits/men/53.jpg"
     }
 ]
 
@@ -47,7 +47,7 @@ export default function ChooseImamPage() {
             <div className="p-4 md:p-8">
                 <header className="text-center mb-8">
                     <Avatar className="h-20 w-20 mx-auto mb-4 border-4 border-primary">
-                        <AvatarImage src="https://picsum.photos/seed/imam/200" alt="Ask Your Imam" />
+                        <AvatarImage src="https://randomuser.me/api/portraits/men/50.jpg" alt="Ask Your Imam" />
                         <AvatarFallback>AYI</AvatarFallback>
                     </Avatar>
                     <h1 className="text-3xl font-headline font-bold">Ask Your Imam</h1>

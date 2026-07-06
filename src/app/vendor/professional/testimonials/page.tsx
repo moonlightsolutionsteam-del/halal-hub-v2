@@ -73,7 +73,7 @@ export default function ProfessionalTestimonialsPage() {
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12 shrink-0">
-                  <AvatarImage src={`https://picsum.photos/seed/${t.avatar}/100/100`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100/100`} />
                   <AvatarFallback className="bg-violet-50 text-violet-600 font-black">{t.name.split(" ").map(n=>n[0]).join("").slice(0,2)}</AvatarFallback>
                 </Avatar>
                 <div>

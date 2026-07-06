@@ -94,7 +94,7 @@ export default function ProfessionalNetworkPage() {
             <Card key={c.id} className="rounded-[2rem] border-none shadow-sm bg-card p-5">
               <div className="flex items-center gap-4">
                 <Avatar className="h-12 w-12 shrink-0">
-                  <AvatarImage src={`https://picsum.photos/seed/${c.avatar}/100/100`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                   <AvatarFallback className="bg-violet-50 text-violet-600 font-black">{c.name.split(" ").map(n=>n[0]).join("").slice(0,2)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
@@ -123,7 +123,7 @@ export default function ProfessionalNetworkPage() {
             <Card key={r.id} className="rounded-[2rem] border-none shadow-sm bg-card p-5">
               <div className="flex items-center gap-4">
                 <Avatar className="h-12 w-12 shrink-0">
-                  <AvatarImage src={`https://picsum.photos/seed/${r.avatar}/100/100`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                   <AvatarFallback className="bg-violet-50 text-violet-600 font-black">{r.name.split(" ").map(n=>n[0]).join("").slice(0,2)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
@@ -152,7 +152,7 @@ export default function ProfessionalNetworkPage() {
             <Card key={s.id} className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-4">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12 shrink-0">
-                  <AvatarImage src={`https://picsum.photos/seed/${s.avatar}/100/100`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                   <AvatarFallback className="bg-violet-50 text-violet-600 font-black">{s.name.split(" ").map(n=>n[0]).join("").slice(0,2)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">

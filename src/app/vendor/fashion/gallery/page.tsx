@@ -14,10 +14,10 @@ import Image from "next/image";
 
 export default function FashionGalleryPage() {
   const photos = [
-    { id: 1, label: "Winter Silk Collection", img: "https://picsum.photos/seed/look-1/800/1000", primary: true, category: "Main Lookbook" },
-    { id: 2, label: "Silk Abaya Detail", img: "https://picsum.photos/seed/look-2/800/1000", primary: false, category: "Product Shot" },
-    { id: 3, label: "Modest Fit Guide", img: "https://picsum.photos/seed/look-3/800/1000", primary: false, category: "Informational" },
-    { id: 4, label: "Brand Editorial #4", img: "https://picsum.photos/seed/look-4/800/1000", primary: false, category: "Editorial" },
+    { id: 1, label: "Winter Silk Collection", img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Main Lookbook" },
+    { id: 2, label: "Silk Abaya Detail", img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Product Shot" },
+    { id: 3, label: "Modest Fit Guide", img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Informational" },
+    { id: 4, label: "Brand Editorial #4", img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Editorial" },
   ];
 
   return (

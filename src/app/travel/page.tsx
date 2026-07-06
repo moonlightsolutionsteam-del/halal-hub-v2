@@ -25,19 +25,19 @@ const DESTINATIONS = [
   {
     name: "Istanbul, Turkey",
     description: "The meeting point of East and West, with countless mosques and delicious halal cuisine.",
-    image: "https://picsum.photos/seed/istanbul/800/600",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     tags: ["Historic", "Gourmet", "Mosques"]
   },
   {
     name: "Kuala Lumpur, Malaysia",
     description: "A modern metropolis with world-class halal infrastructure and shopping.",
-    image: "https://picsum.photos/seed/kl/800/600",
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop&auto=format&q=80",
     tags: ["Urban", "Shopping", "Kid-Friendly"]
   },
   {
     name: "London, UK",
     description: "Home to a vibrant Muslim community and an endless array of halal food from around the globe.",
-    image: "https://picsum.photos/seed/london/800/600",
+    image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop&auto=format&q=80",
     tags: ["Multicultural", "Museums", "Parks"]
   }
 ];
@@ -47,7 +47,7 @@ export default function TravelPage() {
     <div className="container mx-auto p-4 space-y-8 md:p-8">
       <section className="relative h-[300px] rounded-2xl overflow-hidden mb-8">
         <Image 
-          src="https://picsum.photos/seed/travel-hero/1200/400" 
+          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" 
           alt="Halal Travel" 
           fill 
           className="object-cover brightness-50"

@@ -111,7 +111,7 @@ export default function ExpenseDetailPage() {
                     <div key={i} className="flex items-center justify-between p-5 bg-card rounded-3xl border border-border shadow-sm group hover:border-blue-200 transition-all">
                       <div className="flex items-center gap-4">
                         <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                          <AvatarImage src={`https://picsum.photos/seed/${member}/100/100`} />
+                          <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                           <AvatarFallback>{member[0]}</AvatarFallback>
                         </Avatar>
                         <span className="text-sm font-black text-foreground">{member}</span>

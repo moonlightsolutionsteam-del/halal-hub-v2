@@ -62,7 +62,7 @@ export default function ProfessionalMessagesPage() {
                 className={`w-full flex items-center gap-3 p-4 text-left hover:bg-muted transition-colors border-b border-border/50 ${selected.id === conv.id ? "bg-violet-50" : ""}`}>
                 <div className="relative shrink-0">
                   <Avatar className="h-11 w-11">
-                    <AvatarImage src={`https://picsum.photos/seed/${conv.avatar}/100/100`} />
+                    <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                     <AvatarFallback className="bg-violet-50 text-violet-600 font-black text-sm">{conv.name[0]}</AvatarFallback>
                   </Avatar>
                   {conv.online && <div className="absolute bottom-0 right-0 h-3 w-3 bg-emerald-400 rounded-full border-2 border-card" />}
@@ -88,7 +88,7 @@ export default function ProfessionalMessagesPage() {
           <div className="p-5 border-b border-border flex items-center gap-3">
             <div className="relative shrink-0">
               <Avatar className="h-10 w-10">
-                <AvatarImage src={`https://picsum.photos/seed/${selected.avatar}/100/100`} />
+                <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                 <AvatarFallback className="bg-violet-50 text-violet-600 font-black text-sm">{selected.name[0]}</AvatarFallback>
               </Avatar>
               {selected.online && <div className="absolute bottom-0 right-0 h-2.5 w-2.5 bg-emerald-400 rounded-full border-2 border-card" />}

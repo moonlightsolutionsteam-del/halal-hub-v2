@@ -113,7 +113,7 @@ const BusinessCard = ({ business }: { business: Business }) => {
       <div className="flex">
         <div className="relative w-1/3">
           <Image
-            src={business.imageUrl || 'https://picsum.photos/seed/placeholder/400'}
+            src={business.imageUrl || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80'}
             alt={business.name}
             fill
             className="object-cover"
@@ -439,7 +439,7 @@ export default function MapPage() {
                 </SheetHeader>
                 <Card className="border-none shadow-none">
                     <Image
-                    src={selectedBusiness.imageUrl || 'https://picsum.photos/seed/placeholder/600'}
+                    src={selectedBusiness.imageUrl || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80'}
                     alt={selectedBusiness.name}
                     width={600}
                     height={400}

@@ -210,7 +210,7 @@ export default function SuperAdminCreatorsControlTower() {
                       <TableCell className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                            <AvatarImage src={`https://picsum.photos/seed/${crt.id}/100/100`} />
+                            <AvatarImage src={`https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=100/100`} />
                             <AvatarFallback>{crt.name[0]}</AvatarFallback>
                           </Avatar>
                           <div>

@@ -35,7 +35,7 @@ export default function SavedPage() {
             <Card key={b.id} className="group rounded-[2rem] border-none shadow-soft hover:shadow-soft-md transition-shadow duration-200 overflow-hidden">
               <CardContent className="p-0 flex">
                 <div className="relative w-24 shrink-0">
-                  <Image src={`https://picsum.photos/seed/${b.id}-hero/200/200`} alt={b.name} fill className="object-cover" />
+                  <Image src={`https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=200&h=200&fit=crop&auto=format&q=80`} alt={b.name} fill className="object-cover" />
                 </div>
                 <div className="p-4 flex-1 min-w-0 space-y-1.5">
                   <div className="flex items-start justify-between gap-2">

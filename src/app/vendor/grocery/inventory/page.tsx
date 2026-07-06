@@ -83,7 +83,7 @@ export default function GroceryInventoryPage() {
           <Card key={item.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-emerald-100">
             <div className="relative aspect-square">
               <Image 
-                src={`https://picsum.photos/seed/grocery-sku-${item.id}/400/400`} 
+                src={`https://images.unsplash.com/photo-1542838132-92c53300491e?w=400/400`} 
                 alt={item.name} 
                 fill 
                 className="object-cover group-hover:scale-105 transition-transform duration-700"

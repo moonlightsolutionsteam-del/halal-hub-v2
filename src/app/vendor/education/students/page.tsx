@@ -92,7 +92,7 @@ export default function EducationStudentsPage() {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                        <AvatarImage src={`https://picsum.photos/seed/stu-${student.id}/100/100`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                         <AvatarFallback>{student.name[0]}</AvatarFallback>
                       </Avatar>
                       <div>

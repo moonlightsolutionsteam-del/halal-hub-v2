@@ -118,7 +118,7 @@ export default function CollaborationsHubPage() {
                 <Card key={req.id} className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-primary/10 transition-all duration-500 group">
                   <div className="p-8 flex flex-col md:flex-row gap-10">
                     <div className="relative w-full md:w-48 aspect-square rounded-[2.5rem] overflow-hidden shrink-0 shadow-2xl group-hover:scale-[1.02] transition-transform">
-                      <Image src={`https://picsum.photos/seed/collab-brand-${req.id}/400/400`} alt="Brand" fill className="object-cover" />
+                      <Image src={`https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=400/400`} alt="Brand" fill className="object-cover" />
                       <div className="absolute inset-0 bg-zinc-900/20 group-hover:bg-transparent transition-colors" />
                       <div className="absolute bottom-4 left-4 right-4">
                         <Badge className="bg-card/90 backdrop-blur-md text-primary border-none font-black text-[9px] uppercase px-3 h-6 w-full flex items-center justify-center gap-1.5 shadow-xl">

@@ -6,9 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Heart, MessageSquare, Repeat } from "lucide-react";
 
 const activities = [
-    { type: "like", user: { name: "Yusuf Ibrahim", avatar: "https://picsum.photos/seed/creator2/100"}, content: "liked your photo of Karim's.", time: "1h ago" },
-    { type: "comment", user: { name: "Zoya Akhtar", avatar: "https://picsum.photos/seed/creator3/100"}, content: "commented: 'Looks amazing, mashallah!'", time: "3h ago" },
-    { type: "repost", user: { name: "Aisha Khan", avatar: "https://picsum.photos/seed/creator1/100"}, content: "reposted your article on Halal dining.", time: "Yesterday" },
+    { type: "like", user: { name: "Yusuf Ibrahim", avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80"}, content: "liked your photo of Karim's.", time: "1h ago" },
+    { type: "comment", user: { name: "Zoya Akhtar", avatar: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80"}, content: "commented: 'Looks amazing, mashallah!'", time: "3h ago" },
+    { type: "repost", user: { name: "Aisha Khan", avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80"}, content: "reposted your article on Halal dining.", time: "Yesterday" },
 ];
 
 const ActivityItem = ({ activity }: { activity: any }) => {

@@ -58,7 +58,7 @@ export default function HeritageKitchenPage() {
         {recipes.map((recipe) => (
           <Card key={recipe.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-amber-100">
             <div className="relative aspect-square overflow-hidden">
-              <Image src={`https://picsum.photos/seed/recipe-${recipe.img}/600/600`} alt={recipe.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+              <Image src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=600&fit=crop&auto=format&q=80`} alt={recipe.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute top-4 left-4">
                 <Badge className="bg-card/90 backdrop-blur-md text-amber-600 font-black border-none shadow-xl px-3 py-1 rounded-full flex items-center gap-1.5 text-[10px]">
                   <Star className="h-3 w-3 fill-amber-400 text-amber-400" /> {recipe.rating}

@@ -47,7 +47,7 @@ export default function CreativeBlogPage() {
           <Card key={art.id} className="rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-primary/10 group">
             <div className="flex flex-col md:flex-row">
               <div className="relative w-full md:w-72 aspect-video md:aspect-square overflow-hidden shrink-0">
-                <Image src={`https://picsum.photos/seed/art-bg-${art.img}/600/600`} alt={art.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                <Image src={`https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=600&fit=crop&auto=format&q=80`} alt={art.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
               </div>
               <div className="p-8 flex-1 flex flex-col justify-between">

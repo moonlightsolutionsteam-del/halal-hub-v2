@@ -14,10 +14,10 @@ import Image from "next/image";
 
 export default function TravelGalleryPage() {
   const photos = [
-    { id: 1, label: "Istanbul Bosphorus View", img: "https://picsum.photos/seed/trv-gal-1/800/600", primary: true, category: "Destinations" },
-    { id: 2, label: "Hajj Group Manifest", img: "https://picsum.photos/seed/trv-gal-2/800/600", primary: false, category: "Pilgrimage" },
-    { id: 3, label: "VIP Transport Fleet", img: "https://picsum.photos/seed/trv-gal-3/800/600", primary: false, category: "Logistics" },
-    { id: 4, label: "Partner Hotel Lounge", img: "https://picsum.photos/seed/trv-gal-4/800/600", primary: false, category: "Accommodations" },
+    { id: 1, label: "Istanbul Bosphorus View", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Destinations" },
+    { id: 2, label: "Hajj Group Manifest", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Pilgrimage" },
+    { id: 3, label: "VIP Transport Fleet", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Logistics" },
+    { id: 4, label: "Partner Hotel Lounge", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Accommodations" },
   ];
 
   return (

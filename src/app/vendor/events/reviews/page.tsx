@@ -84,7 +84,7 @@ export default function EventReviewsPage() {
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-12 w-12 border-2 border-border shadow-sm">
-                        <AvatarImage src={`https://picsum.photos/seed/rev-evt${rev.id}/100/100`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                         <AvatarFallback>{rev.user[0]}</AvatarFallback>
                       </Avatar>
                       <div>

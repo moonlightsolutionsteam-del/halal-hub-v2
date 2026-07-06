@@ -110,7 +110,7 @@ export default function CreativeFeedbackPage() {
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-6">
                       <Avatar className="h-16 w-16 border-4 border-border shadow-md group-hover:scale-105 transition-transform">
-                        <AvatarImage src={`https://picsum.photos/seed/user-com-${rev.id}/150/150`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&auto=format&q=80`} />
                         <AvatarFallback>{rev.user[0]}</AvatarFallback>
                       </Avatar>
                       <div className="space-y-1">

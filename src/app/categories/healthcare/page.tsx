@@ -26,7 +26,7 @@ const MOCK_HEALTHCARE = [
     focus: "General & Family Medicine", 
     rate: 4.9, 
     ver: true, 
-    img: "https://picsum.photos/seed/health1/800/600",
+    img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Female Doctors", "Gender Segregated", "Prayer Room"],
     specialty: "Family Health",
     status: "Open Now"
@@ -38,7 +38,7 @@ const MOCK_HEALTHCARE = [
     focus: "Hijama & Nutrition", 
     rate: 4.8, 
     ver: true, 
-    img: "https://picsum.photos/seed/health2/800/600",
+    img: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Sunnah Based", "Certified Hijama", "Organic Supplements"],
     specialty: "Holistic Healing",
     status: "By Appt Only"
@@ -50,7 +50,7 @@ const MOCK_HEALTHCARE = [
     focus: "Certified Halal Meds", 
     rate: 4.7, 
     ver: true, 
-    img: "https://picsum.photos/seed/health3/800/600",
+    img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Home Delivery", "Halal Supplements", "Pharmacist Chat"],
     specialty: "Prescription Care",
     status: "24/7 Open"
@@ -62,7 +62,7 @@ const MOCK_HEALTHCARE = [
     focus: "Cosmetic & General", 
     rate: 4.5, 
     ver: false, 
-    img: "https://picsum.photos/seed/health4/800/600",
+    img: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Modern Tech", "Painless Treatment", "Affordable"],
     specialty: "Oral Health",
     status: "Closing Soon"

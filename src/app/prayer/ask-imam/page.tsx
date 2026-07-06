@@ -77,7 +77,7 @@ export default function AskImamPage() {
       <div className="p-4 md:p-8">
         <header className="text-center mb-8">
           <Avatar className="h-20 w-20 mx-auto mb-4 border-4 border-primary">
-            <AvatarImage src="https://picsum.photos/seed/imam/200" alt="Imam Ahmad Rahman" />
+            <AvatarImage src="https://randomuser.me/api/portraits/men/50.jpg" alt="Imam Ahmad Rahman" />
             <AvatarFallback>IR</AvatarFallback>
           </Avatar>
           <h1 className="text-3xl font-headline font-bold">Ask Your Imam</h1>
@@ -114,7 +114,7 @@ export default function AskImamPage() {
                 <CardHeader className="flex flex-row items-center justify-between">
                     <div className="flex items-center gap-3">
                         <Avatar className="h-10 w-10">
-                             <AvatarImage src="https://picsum.photos/seed/imam/200" alt="Imam Ahmad Rahman" />
+                             <AvatarImage src="https://randomuser.me/api/portraits/men/50.jpg" alt="Imam Ahmad Rahman" />
                              <AvatarFallback>IR</AvatarFallback>
                         </Avatar>
                         <div>

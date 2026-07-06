@@ -78,7 +78,7 @@ export default function ProfessionalRecommendationsPage() {
             <Card key={r.id} className="rounded-[2rem] border-none shadow-sm bg-amber-50/50 p-6">
               <div className="flex items-center gap-4">
                 <Avatar className="h-11 w-11 shrink-0">
-                  <AvatarImage src={`https://picsum.photos/seed/${r.avatar}/100/100`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                   <AvatarFallback className="bg-amber-100 text-amber-600 font-black">{r.from.split(" ").map(n=>n[0]).join("").slice(0,2)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
@@ -108,7 +108,7 @@ export default function ProfessionalRecommendationsPage() {
             <p className="text-base font-medium text-foreground leading-relaxed italic">"{r.text}"</p>
             <div className="flex items-center gap-3 pt-2">
               <Avatar className="h-10 w-10 shrink-0">
-                <AvatarImage src={`https://picsum.photos/seed/${r.avatar}/100/100`} />
+                <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                 <AvatarFallback className="bg-violet-50 text-violet-600 font-black">{r.from.split(" ").map(n=>n[0]).join("").slice(0,2)}</AvatarFallback>
               </Avatar>
               <div>

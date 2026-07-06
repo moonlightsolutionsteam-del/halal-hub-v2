@@ -131,7 +131,7 @@ export default function MySuggestionsPage() {
               <div className="p-8 flex flex-col md:flex-row gap-8 items-start">
                 <div className="relative h-32 w-full md:w-32 rounded-[2rem] overflow-hidden shrink-0 shadow-lg">
                   <Image 
-                    src={`https://picsum.photos/seed/${suggestion.img}/400/400`} 
+                    src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400/400`} 
                     alt={suggestion.name} 
                     fill 
                     className="object-cover group-hover:scale-110 transition-transform duration-700" 

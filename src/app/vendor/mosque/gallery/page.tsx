@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { UploadCloud } from "lucide-react"
 import Image from "next/image"
 
-const photos = Array.from({ length: 8 }, (_, i) => `https://picsum.photos/seed/masjid${i}/400/400`)
+const photos = Array.from({ length: 8 }, (_, i) => `https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400/400`)
 
 export default function MosqueGalleryPage() {
   return (

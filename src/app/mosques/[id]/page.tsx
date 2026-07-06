@@ -22,6 +22,206 @@ import { useToast } from "@/hooks/use-toast"
 import { useSavedBusinesses } from "@/lib/saved-businesses-context"
 
 const MOSQUES: Record<string, any> = {
+  "mq1": {
+    name: "Masjid Al-Noor",
+    tagline: "A beacon of light for the Manhattan Muslim community.",
+    area: "Midtown Manhattan",
+    city: "New York",
+    country: "USA",
+    fullAddress: "250 W 55th St, New York, NY 10019",
+    phone: "+1 212 555 0101",
+    website: "https://masjidalnoor-nyc.org",
+    established: "1991",
+    capacity: "1,200",
+    verified: true,
+    rating: 4.9,
+    reviews: [
+      { user: "Zainab K.", rating: 5, text: "Masjid Al-Noor feels like home. The Jumu'ah Khutbah is always relevant and inspiring. The facilities are well-maintained and the community is incredibly welcoming." },
+      { user: "Omar M.", rating: 5, text: "Enrolled my kids in the Quran school — the teachers are patient and knowledgeable. Highly recommend this masjid for families." },
+    ],
+    imam: "Sheikh Ibrahim Al-Farouqi",
+    about: "Masjid Al-Noor has served the midtown Manhattan Muslim community for over three decades. Our vibrant center offers five daily prayers, Quranic education, community events, and a robust social welfare program. We are a welcoming space for Muslims of all backgrounds.",
+    services: ["Jumu'ah", "Quran Classes", "Nikah", "Eid Prayers", "Iftar Events", "Dawah"],
+    facilities: [
+      { label: "Wudu Areas", icon: Droplets },
+      { label: "Sisters' Section", icon: Users },
+      { label: "Children's Area", icon: Baby },
+      { label: "Free Wifi", icon: Wifi },
+      { label: "Parking", icon: ParkingSquare },
+      { label: "Accessible", icon: Accessibility },
+      { label: "Library", icon: BookOpen },
+      { label: "Café", icon: Coffee },
+    ],
+    prayerTimes: [
+      { name: "Fajr", time: "05:12 AM", icon: Sunrise },
+      { name: "Dhuhr", time: "12:35 PM", icon: Sun },
+      { name: "Asr", time: "04:05 PM", icon: Sunset },
+      { name: "Maghrib", time: "07:20 PM", icon: Moon },
+      { name: "Isha", time: "08:35 PM", icon: Moon },
+      { name: "Jumu'ah", time: "01:15 PM", icon: Mic2 },
+    ],
+    events: [
+      { title: "Monthly Family Iftar", date: "Every 1st Friday", time: "7:00 PM", tag: "Community" },
+      { title: "Quran Hifz Graduation", date: "July 20, 2026", time: "5:00 PM", tag: "Ceremony" },
+      { title: "Islamic Finance Workshop", date: "July 27, 2026", time: "2:00 PM", tag: "Education" },
+      { title: "Youth Sports Day", date: "August 3, 2026", time: "10:00 AM", tag: "Youth" },
+    ],
+    programs: [
+      { title: "Weekend Quran School", desc: "Ages 5–16. Tajweed, memorization and Arabic language.", timing: "Sat & Sun 9–11 AM" },
+      { title: "Adult Islamic Studies", desc: "Weekly circle on Fiqh, Hadith and Seerah with Sheikh Ibrahim.", timing: "Wed 7:30 PM" },
+      { title: "Marriage Preparation", desc: "Pre-Nikah counselling sessions for couples.", timing: "By appointment" },
+      { title: "Social Welfare Fund", desc: "Monthly zakat distribution and food bank.", timing: "Last Saturday" },
+    ],
+    imamBio: "Sheikh Ibrahim Al-Farouqi is a graduate of Madinah Islamic University with 18 years of service. He specializes in Tafsir and community leadership and delivers Khutbahs in English and Arabic.",
+    color: "bg-teal-600",
+    accent: "bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400",
+  },
+  "mq2": {
+    name: "Al-Rahman Islamic Centre",
+    tagline: "Education, worship, and community — all under one roof in Brooklyn.",
+    area: "Bay Ridge",
+    city: "Brooklyn, NY",
+    country: "USA",
+    fullAddress: "7612 5th Ave, Brooklyn, NY 11209",
+    phone: "+1 718 555 0202",
+    website: "https://alrahman-brooklyn.org",
+    established: "1985",
+    capacity: "2,000",
+    verified: true,
+    rating: 4.8,
+    reviews: [
+      { user: "Fatima H.", rating: 5, text: "The weekend Islamic school here is excellent. My children have flourished both academically and spiritually." },
+      { user: "Yusuf T.", rating: 5, text: "Al-Rahman is more than a mosque — it's a full community centre. The youth program is outstanding." },
+    ],
+    imam: "Imam Musa Al-Siddiqui",
+    about: "Al-Rahman Islamic Centre is one of Brooklyn's most established mosques, serving the Bay Ridge community for four decades. Our comprehensive programs span formal education, social welfare, interfaith outreach, and community events year-round.",
+    services: ["Jumu'ah", "Weekend School", "Funeral Services", "Nikah", "Youth Programme", "Eid Prayers"],
+    facilities: [
+      { label: "Wudu Areas", icon: Droplets },
+      { label: "Sisters' Section", icon: Users },
+      { label: "Children's Area", icon: Baby },
+      { label: "Free Wifi", icon: Wifi },
+      { label: "Parking", icon: ParkingSquare },
+      { label: "Accessible", icon: Accessibility },
+      { label: "Library", icon: BookOpen },
+    ],
+    prayerTimes: [
+      { name: "Fajr", time: "05:14 AM", icon: Sunrise },
+      { name: "Dhuhr", time: "12:38 PM", icon: Sun },
+      { name: "Asr", time: "04:08 PM", icon: Sunset },
+      { name: "Maghrib", time: "07:22 PM", icon: Moon },
+      { name: "Isha", time: "08:38 PM", icon: Moon },
+      { name: "Jumu'ah", time: "01:30 PM", icon: Mic2 },
+    ],
+    events: [
+      { title: "Annual Fundraising Dinner", date: "August 15, 2026", time: "7:00 PM", tag: "Community" },
+      { title: "Sisters' Retreat Day", date: "July 26, 2026", time: "10:00 AM", tag: "Women" },
+      { title: "Youth Leadership Workshop", date: "August 9, 2026", time: "2:00 PM", tag: "Youth" },
+    ],
+    programs: [
+      { title: "Full-Time Islamic School", desc: "K–12 curriculum integrating Islamic studies and state academics.", timing: "Mon–Fri 8 AM" },
+      { title: "Funeral & Janazah Services", desc: "Coordinating Ghusl, Janazah prayers, and burial arrangements.", timing: "On request" },
+      { title: "Youth Leadership Programme", desc: "Monthly workshops, sports, and mentoring for ages 13–21.", timing: "Every other Sat" },
+    ],
+    imamBio: "Imam Musa Al-Siddiqui graduated from Al-Azhar University and has served Al-Rahman Islamic Centre for 16 years. He is renowned for his accessible Khutbahs and pastoral care.",
+    color: "bg-teal-600",
+    accent: "bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400",
+  },
+  "mq3": {
+    name: "Masjid Al-Furqan",
+    tagline: "Serving the Queens community with open doors and open hearts.",
+    area: "Jackson Heights",
+    city: "Queens, NY",
+    country: "USA",
+    fullAddress: "37-47 74th St, Jackson Heights, NY 11372",
+    phone: "+1 718 555 0303",
+    website: "https://masjidelfurqan.com",
+    established: "1998",
+    capacity: "800",
+    verified: true,
+    rating: 4.7,
+    reviews: [
+      { user: "Hassan A.", rating: 5, text: "Beautiful masjid with a very welcoming community. The Arabic classes here transformed my connection with the Quran." },
+      { user: "Amina S.", rating: 4, text: "The food bank they run every month is a wonderful service. This masjid truly gives back to the neighbourhood." },
+    ],
+    imam: "Sheikh Khalid Al-Rashid",
+    about: "Masjid Al-Furqan sits at the heart of Jackson Heights and serves one of New York's most diverse Muslim communities. We offer Arabic language classes, Nikah services, a monthly food bank, and active social welfare programs.",
+    services: ["Jumu'ah", "Arabic Classes", "Food Bank", "Nikah Services", "Eid Prayers"],
+    facilities: [
+      { label: "Wudu Areas", icon: Droplets },
+      { label: "Sisters' Section", icon: Users },
+      { label: "Accessible", icon: Accessibility },
+      { label: "Library", icon: BookOpen },
+    ],
+    prayerTimes: [
+      { name: "Fajr", time: "05:10 AM", icon: Sunrise },
+      { name: "Dhuhr", time: "12:32 PM", icon: Sun },
+      { name: "Asr", time: "04:02 PM", icon: Sunset },
+      { name: "Maghrib", time: "07:18 PM", icon: Moon },
+      { name: "Isha", time: "08:32 PM", icon: Moon },
+      { name: "Jumu'ah", time: "01:15 PM", icon: Mic2 },
+    ],
+    events: [
+      { title: "Monthly Food Bank Distribution", date: "Last Saturday", time: "10:00 AM", tag: "Welfare" },
+      { title: "Arabic Intensive Bootcamp", date: "August 1–5, 2026", time: "9:00 AM", tag: "Education" },
+      { title: "Nikah Workshop", date: "July 19, 2026", time: "3:00 PM", tag: "Marriage" },
+    ],
+    programs: [
+      { title: "Arabic Language Classes", desc: "Beginner to advanced levels. Modern Standard Arabic and Quranic Arabic.", timing: "Tue & Thu 7 PM" },
+      { title: "Community Food Bank", desc: "Monthly halal food distribution for families in need.", timing: "Last Saturday" },
+      { title: "Nikah Services", desc: "Full Nikah ceremony services including documentation and counselling.", timing: "By appointment" },
+    ],
+    imamBio: "Sheikh Khalid Al-Rashid holds an Ijazah in Quran from Medina and specialises in Arabic language teaching. He has led Masjid Al-Furqan for 12 years.",
+    color: "bg-teal-600",
+    accent: "bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400",
+  },
+  "mq4": {
+    name: "Downtown Islamic Hub",
+    tagline: "An accessible, modern urban prayer space for the busy Muslim.",
+    area: "Journal Square",
+    city: "Jersey City, NJ",
+    country: "USA",
+    fullAddress: "520 Newark Ave, Jersey City, NJ 07306",
+    phone: "+1 201 555 0404",
+    website: "https://downtownislamichub.org",
+    established: "2009",
+    capacity: "500",
+    verified: false,
+    rating: 4.5,
+    reviews: [
+      { user: "Bilal R.", rating: 5, text: "Perfect for commuters. The café on-site means I can come after work, pray, have a coffee, and attend the Isha circle." },
+      { user: "Noor J.", rating: 4, text: "A modern take on a mosque. Multi-lingual Khutbah is very much appreciated in our diverse neighbourhood." },
+    ],
+    imam: "Imam Daoud Hassan",
+    about: "Downtown Islamic Hub is a modern urban prayer space designed for busy professionals and commuters. We offer multilingual Khutbahs, a welcoming café, and a fully accessible facility in the heart of Jersey City's vibrant Journal Square.",
+    services: ["Jumu'ah", "Multi-lingual Khutbah", "Eid Prayers", "Community Circles"],
+    facilities: [
+      { label: "Wudu Areas", icon: Droplets },
+      { label: "Sisters' Section", icon: Users },
+      { label: "Accessible", icon: Accessibility },
+      { label: "Free Wifi", icon: Wifi },
+      { label: "Café", icon: Coffee },
+    ],
+    prayerTimes: [
+      { name: "Fajr", time: "05:13 AM", icon: Sunrise },
+      { name: "Dhuhr", time: "12:36 PM", icon: Sun },
+      { name: "Asr", time: "04:06 PM", icon: Sunset },
+      { name: "Maghrib", time: "07:21 PM", icon: Moon },
+      { name: "Isha", time: "08:36 PM", icon: Moon },
+      { name: "Jumu'ah", time: "01:00 PM", icon: Mic2 },
+    ],
+    events: [
+      { title: "Professionals' Isha Circle", date: "Every Thursday", time: "9:00 PM", tag: "Community" },
+      { title: "New Muslim Support Group", date: "First Sunday", time: "3:00 PM", tag: "Support" },
+    ],
+    programs: [
+      { title: "Isha Study Circles", desc: "Weekly post-Isha knowledge circles covering Hadith and Seerah.", timing: "Every Thursday" },
+      { title: "New Muslim Support", desc: "A welcoming group for those who have recently embraced Islam.", timing: "First Sunday" },
+    ],
+    imamBio: "Imam Daoud Hassan is a community-focused leader with a background in social work and Islamic counselling. He joined Downtown Islamic Hub in 2015.",
+    color: "bg-teal-600",
+    accent: "bg-teal-50 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400",
+  },
   "1": {
     name: "Masjid Al-Noor",
     tagline: "A sanctuary of light and learning in the heart of Mumbai.",
@@ -172,7 +372,7 @@ export default function MosqueProfilePage() {
 
       {/* Hero */}
       <div className="relative h-64 md:h-80 w-full overflow-hidden">
-        <Image src={`https://picsum.photos/seed/mosque-${id}/1200/600`} alt={mosque.name} fill className="object-cover" priority />
+        <Image src={{"mq1":"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=600&fit=crop&auto=format&q=80","mq2":"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=600&fit=crop&auto=format&q=80","mq3":"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=600&fit=crop&auto=format&q=80","mq4":"https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=600&fit=crop&auto=format&q=80"}[String(id)] ?? "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1200&h=600&fit=crop&auto=format&q=80"} alt={mosque.name} fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 container mx-auto max-w-5xl">
           <div className="flex items-end justify-between gap-4">
@@ -306,6 +506,73 @@ export default function MosqueProfilePage() {
                     </div>
                     <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
                   </a>
+                ))}
+              </div>
+            </Card>
+
+            {/* Cross-linking: Nearby Restaurants */}
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="font-black text-lg flex items-center gap-2">
+                  <HeartHandshake className="h-4 w-4 text-primary" /> Nearby Halal Restaurants
+                </h2>
+                <Link href="/categories/food" className="text-xs font-black text-primary hover:underline">View All →</Link>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { name: "Istanbul Grill House", type: "Turkish · Fine Dining", rating: 4.9, open: true, id: "r1" },
+                  { name: "Al-Madina Feast", type: "Arabic & Levantine", rating: 4.8, open: true, id: "r2" },
+                  { name: "Spice of Punjab", type: "Indian & Pakistani", rating: 4.7, open: false, id: "r3" },
+                ].map(r => (
+                  <Link key={r.id} href={`/entities/${r.id}`}>
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-2xl hover:bg-primary/5 transition-colors group cursor-pointer">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
+                          <BookOpen className="h-4 w-4 text-emerald-600" />
+                        </div>
+                        <div>
+                          <p className="font-black text-sm text-foreground group-hover:text-primary transition-colors">{r.name}</p>
+                          <p className="text-[11px] text-muted-foreground font-medium">{r.type}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${r.open ? "bg-emerald-100 text-emerald-700" : "bg-muted text-muted-foreground"}`}>{r.open ? "Open" : "Closed"}</span>
+                        <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                        <span className="text-xs font-black text-foreground">{r.rating}</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </Card>
+
+            {/* Cross-linking: Related Professionals */}
+            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="font-black text-lg flex items-center gap-2">
+                  <Users className="h-4 w-4 text-primary" /> Muslim Professionals Nearby
+                </h2>
+                <Link href="/professionals" className="text-xs font-black text-primary hover:underline">View All →</Link>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { name: "Br. Tariq Osman", title: "Solicitor & Barrister", avail: "Available", id: "p1" },
+                  { name: "Dr. Amira Hossain", title: "General Practitioner", avail: "Available", id: "p2" },
+                ].map(p => (
+                  <Link key={p.id} href={`/professionals/${p.id}`}>
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-2xl hover:bg-primary/5 transition-colors group cursor-pointer">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 bg-violet-100 rounded-xl flex items-center justify-center shrink-0 font-black text-sm text-violet-600">
+                          {p.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                        </div>
+                        <div>
+                          <p className="font-black text-sm text-foreground group-hover:text-primary transition-colors">{p.name}</p>
+                          <p className="text-[11px] text-muted-foreground font-medium">{p.title}</p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-violet-100 text-violet-700">{p.avail}</span>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </Card>

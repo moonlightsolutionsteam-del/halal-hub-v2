@@ -86,7 +86,7 @@ export default function FamilyMembersPage() {
                   <TableCell className="px-10 py-6">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-12 w-12 border-2 border-white shadow-sm">
-                        <AvatarImage src={`https://picsum.photos/seed/${m.img}/150/150`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&auto=format&q=80`} />
                         <AvatarFallback>{m.name[0]}</AvatarFallback>
                       </Avatar>
                       <div>

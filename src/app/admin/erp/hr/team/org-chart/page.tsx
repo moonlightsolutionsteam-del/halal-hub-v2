@@ -8,22 +8,22 @@ import { cn } from "@/lib/utils";
 const orgData = {
   name: "Super Admin",
   role: "Platform Owner",
-  avatar: "https://picsum.photos/seed/superadmin/100",
+  avatar: "https://randomuser.me/api/portraits/men/10.jpg",
   children: [
     {
       name: "Vinayak kainthla",
       role: "Sales Head",
-      avatar: "https://picsum.photos/seed/vinayak/100",
+      avatar: "https://randomuser.me/api/portraits/men/11.jpg",
       children: [
-        { name: "Yasar Khan", role: "Sales Executive", avatar: "https://picsum.photos/seed/yasar/100", children: [] },
-        { name: "MOHAMMED HUZAIFA", role: "Sales Executive", avatar: "https://picsum.photos/seed/huzaifa/100", children: [] },
-        { name: "Sheikh", role: "Content Creator", avatar: "https://picsum.photos/seed/sheikh/100", children: [] },
+        { name: "Yasar Khan", role: "Sales Executive", avatar: "https://randomuser.me/api/portraits/men/7.jpg", children: [] },
+        { name: "MOHAMMED HUZAIFA", role: "Sales Executive", avatar: "https://randomuser.me/api/portraits/men/4.jpg", children: [] },
+        { name: "Sheikh", role: "Content Creator", avatar: "https://randomuser.me/api/portraits/men/55.jpg", children: [] },
       ],
     },
     {
       name: "Ovais",
       role: "Lead Developer",
-      avatar: "https://picsum.photos/seed/ovais/100",
+      avatar: "https://randomuser.me/api/portraits/men/8.jpg",
       children: [],
     },
   ],

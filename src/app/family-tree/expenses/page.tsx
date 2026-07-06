@@ -120,7 +120,7 @@ export default function FamilyExpensesPage() {
                     <div className="p-6 flex items-center justify-between gap-6">
                       <div className="flex items-center gap-6">
                         <Avatar className="h-14 w-14 border-4 border-border shadow-md group-hover:scale-105 transition-transform">
-                          <AvatarImage src={`https://picsum.photos/seed/${act.name}/150/150`} />
+                          <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&auto=format&q=80`} />
                           <AvatarFallback>{act.name[0]}</AvatarFallback>
                         </Avatar>
                         <div>
@@ -184,7 +184,7 @@ export default function FamilyExpensesPage() {
                 <div key={i} className="flex items-center justify-between group cursor-default">
                   <div className="flex items-center gap-4">
                     <Avatar className="h-10 w-10 border-2 border-white shadow-sm group-hover:scale-110 transition-transform">
-                      <AvatarImage src={`https://picsum.photos/seed/${mem.img}/100/100`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                       <AvatarFallback>{mem.name[0]}</AvatarFallback>
                     </Avatar>
                     <span className="text-sm font-black text-foreground">{mem.name}</span>

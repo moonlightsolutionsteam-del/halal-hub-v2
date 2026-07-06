@@ -6,10 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from 'next/image';
 
 const ownedItems = [
-    { id: 1, name: "Gold Supporter Frame", category: "Frames", imageUrl: "https://picsum.photos/seed/avatar-frame-gold/600/400" },
-    { id: 2, name: "Green Theme", category: "Themes", imageUrl: "https://picsum.photos/seed/theme-green/600/400" },
-    { id: 3, name: "Night Mosque Background", category: "Backgrounds", imageUrl: "https://picsum.photos/seed/prayer-background/600/400" },
-    { id: 4, name: "Star Message Effect", category: "Effects", imageUrl: "https://picsum.photos/seed/message-effect/600/400" },
+    { id: 1, name: "Gold Supporter Frame", category: "Frames", imageUrl: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" },
+    { id: 2, name: "Green Theme", category: "Themes", imageUrl: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" },
+    { id: 3, name: "Night Mosque Background", category: "Backgrounds", imageUrl: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80" },
+    { id: 4, name: "Star Message Effect", category: "Effects", imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&auto=format&q=80" },
 ];
 
 const ItemCard = ({ item }: { item: any }) => (

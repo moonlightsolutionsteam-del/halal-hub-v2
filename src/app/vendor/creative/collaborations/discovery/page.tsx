@@ -147,7 +147,7 @@ export default function DiscoveryHubPage() {
             {OPEN_DEALS.map((deal) => (
               <Card key={deal.id} className="group rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-primary/10">
                 <div className="relative aspect-video overflow-hidden">
-                  <Image src={`https://picsum.photos/seed/deal-bg-${deal.img}/800/600`} alt={deal.brand} fill className="object-cover group-hover:scale-110 transition-transform duration-[2s]" />
+                  <Image src={`https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80`} alt={deal.brand} fill className="object-cover group-hover:scale-110 transition-transform duration-[2s]" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   <div className="absolute top-6 left-6">
                     <Badge className="bg-card/90 backdrop-blur-md text-primary font-black border-none shadow-xl px-4 py-1.5 rounded-full flex items-center gap-1.5">

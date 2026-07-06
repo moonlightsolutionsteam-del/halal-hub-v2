@@ -14,10 +14,10 @@ import Image from "next/image";
 
 export default function HealthcareGalleryPage() {
   const photos = [
-    { id: 1, label: "Modern Clinical Wing", img: "https://picsum.photos/seed/hc-gal-1/800/600", primary: true, category: "Facility" },
-    { id: 2, label: "Hijama Therapy Suite", img: "https://picsum.photos/seed/hc-gal-2/800/600", primary: false, category: "Wellness Rooms" },
-    { id: 3, label: "Gender-Segregated Waiting", img: "https://picsum.photos/seed/hc-gal-3/800/600", primary: false, category: "Privacy" },
-    { id: 4, label: "Certified Pharmacy Counter", img: "https://picsum.photos/seed/hc-gal-4/800/600", primary: false, category: "Pharmacy" },
+    { id: 1, label: "Modern Clinical Wing", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Facility" },
+    { id: 2, label: "Hijama Therapy Suite", img: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Wellness Rooms" },
+    { id: 3, label: "Gender-Segregated Waiting", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Privacy" },
+    { id: 4, label: "Certified Pharmacy Counter", img: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Pharmacy" },
   ];
 
   return (

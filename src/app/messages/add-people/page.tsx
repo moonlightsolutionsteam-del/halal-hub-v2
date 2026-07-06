@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
 const suggestedUsers = [
-    { name: "Yusuf Ibrahim", mutual: 8, avatar: "https://picsum.photos/seed/creator2/100" },
-    { name: "Halal Food Reviews", mutual: 3, avatar: "https://picsum.photos/seed/creator4/100" },
-    { name: "Imam Ahmad Rahman", mutual: 1, avatar: "https://picsum.photos/seed/imam1/100" },
+    { name: "Yusuf Ibrahim", mutual: 8, avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80" },
+    { name: "Halal Food Reviews", mutual: 3, avatar: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80" },
+    { name: "Imam Ahmad Rahman", mutual: 1, avatar: "https://randomuser.me/api/portraits/men/51.jpg" },
 ];
 
 export default function AddPeoplePage() {

@@ -26,7 +26,7 @@ const MOCK_FINANCE = [
     focus: "Personal & Business", 
     rate: "99.8% Compliance", 
     ver: true, 
-    img: "https://picsum.photos/seed/finance1/800/600",
+    img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Shariah Audited", "Mudarabah Funds", "Zakat Tools"],
     rating: "AA+ Rated",
     avgReturn: "8.4% - 12.5%"
@@ -38,7 +38,7 @@ const MOCK_FINANCE = [
     focus: "Ethical Portfolio", 
     rate: "Verified Assets", 
     ver: true, 
-    img: "https://picsum.photos/seed/finance2/800/600",
+    img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Global Reach", "Halal Stocks Only", "Expert Advisors"],
     rating: "AAA Rated",
     avgReturn: "10.2% - 15.8%"
@@ -50,7 +50,7 @@ const MOCK_FINANCE = [
     focus: "Family & Property", 
     rate: "Cooperative Model", 
     ver: true, 
-    img: "https://picsum.photos/seed/finance3/800/600",
+    img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Surplus Sharing", "No Interest", "Global Cover"],
     rating: "A Rated",
     avgReturn: "N/A"
@@ -62,7 +62,7 @@ const MOCK_FINANCE = [
     focus: "SME Halal Startups", 
     rate: "Growth Focused", 
     ver: false, 
-    img: "https://picsum.photos/seed/finance4/800/600",
+    img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Equity Financing", "Hands-on Support", "Halal Hub Partner"],
     rating: "Unrated",
     avgReturn: "Variable"

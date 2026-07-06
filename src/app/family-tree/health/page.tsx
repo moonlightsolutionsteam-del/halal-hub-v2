@@ -58,7 +58,7 @@ export default function FamilyHealthPage() {
                 <div className="flex justify-between items-start">
                   <div className="flex items-center gap-4">
                     <Avatar className="h-14 w-14 border-4 border-border shadow-md group-hover:scale-105 transition-transform">
-                      <AvatarImage src={`https://picsum.photos/seed/child${i+1}/150/150`} />
+                      <AvatarImage src={`https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&auto=format&q=80`} />
                       <AvatarFallback>C</AvatarFallback>
                     </Avatar>
                     <div>

@@ -25,7 +25,7 @@ const MOCK_EVENT_DETAILS: Record<string, any> = {
     type: "Exhibition",
     price: 25,
     currency: "£",
-    image: "https://picsum.photos/seed/event1-hero/1600/800",
+    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
     attendees: "2,000+",
     about: "The Global Halal Expo is the premier international trade fair for the halal industry. Bringing together thousands of professionals, exhibitors, and visitors from across the globe, it showcases the latest trends in food, finance, fashion, and lifestyle. This three-day event features keynote speeches from industry leaders, specialized workshops, and unparalleled networking opportunities.",
     schedule: [
@@ -199,7 +199,7 @@ export default function EventDetailPage() {
                     <Card key={i} className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card p-8 space-y-6 hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
                       <div className="flex items-center gap-6">
                         <div className="relative h-20 w-20 rounded-3xl overflow-hidden shadow-lg border-2 border-white">
-                          <Image src={`https://picsum.photos/seed/speaker${i}/200/200`} alt="Speaker" fill className="object-cover" />
+                          <Image src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&auto=format&q=80`} alt="Speaker" fill className="object-cover" />
                         </div>
                         <div>
                           <h4 className="text-xl font-black text-foreground">Dr. Abdullah {i === 1 ? "Hussain" : "Ali"}</h4>

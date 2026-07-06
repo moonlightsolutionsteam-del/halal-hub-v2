@@ -6,9 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const notifications = [
-    { type: "follow", user: { name: "Yusuf Ibrahim", avatar: "https://picsum.photos/seed/creator2/100"}, time: "2h ago" },
-    { type: "comment", user: { name: "Aisha Khan", avatar: "https://picsum.photos/seed/creator1/100"}, post: "your post about Karim's", time: "5h ago" },
-    { type: "like", user: { name: "Zoya Akhtar", avatar: "https://picsum.photos/seed/creator3/100"}, post: "your reel on Hijab styles", time: "1d ago" },
+    { type: "follow", user: { name: "Yusuf Ibrahim", avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80"}, time: "2h ago" },
+    { type: "comment", user: { name: "Aisha Khan", avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80"}, post: "your post about Karim's", time: "5h ago" },
+    { type: "like", user: { name: "Zoya Akhtar", avatar: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80"}, post: "your reel on Hijab styles", time: "1d ago" },
 ];
 
 const NotificationItem = ({ notification }: { notification: any }) => {

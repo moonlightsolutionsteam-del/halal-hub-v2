@@ -16,7 +16,7 @@ const RESTAURANTS = [
     rating: 4.8,
     reviews: 124,
     status: "Verified",
-    image: "https://picsum.photos/seed/restaurant1/600/400"
+    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&auto=format&q=80"
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const RESTAURANTS = [
     rating: 4.5,
     reviews: 89,
     status: "User Submitted",
-    image: "https://picsum.photos/seed/restaurant2/600/400"
+    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80"
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const RESTAURANTS = [
     rating: 4.2,
     reviews: 56,
     status: "Verified",
-    image: "https://picsum.photos/seed/restaurant3/600/400"
+    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80"
   },
   {
     id: 4,
@@ -46,7 +46,7 @@ const RESTAURANTS = [
     rating: 4.9,
     reviews: 210,
     status: "User Submitted",
-    image: "https://picsum.photos/seed/restaurant4/600/400"
+    image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop&auto=format&q=80"
   }
 ];
 

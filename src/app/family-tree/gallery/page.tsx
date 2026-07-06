@@ -62,7 +62,7 @@ export default function FamilyGalleryPage() {
           {ALBUMS.map((album) => (
             <Card key={album.id} className="group rounded-[2rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 cursor-pointer">
               <div className="relative aspect-square">
-                <Image src={`https://picsum.photos/seed/album-${album.img}/400/400`} alt={album.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+                <Image src={`https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=400&fit=crop&auto=format&q=80`} alt={album.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <p className="text-white font-black text-sm leading-tight drop-shadow-md">{album.name}</p>
@@ -90,7 +90,7 @@ export default function FamilyGalleryPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <div key={i} className="relative aspect-[4/5] rounded-[2rem] overflow-hidden group shadow-md hover:shadow-2xl transition-all duration-700 cursor-pointer border-2 border-transparent hover:border-emerald-100">
-              <Image src={`https://picsum.photos/seed/moment-${i}/600/800`} alt="Moment" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+              <Image src={`https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600/800`} alt="Moment" fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button size="icon" variant="secondary" className="h-8 w-8 rounded-lg bg-card/20 backdrop-blur-md border-none text-white hover:bg-card/40"><Heart className="h-4 w-4" /></Button>

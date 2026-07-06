@@ -79,7 +79,7 @@ export default function AdminUsersPage() {
                   <TableCell className="px-8 py-4">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                        <AvatarImage src={`https://picsum.photos/seed/user${user.id}/100/100`} />
+                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
                         <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <div>

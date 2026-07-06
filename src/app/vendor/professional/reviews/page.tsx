@@ -37,7 +37,7 @@ export default function ProfessionalReviewsPage() {
           <Card key={i} className="rounded-[2rem] border-none shadow-soft">
             <CardContent className="p-5 flex items-start gap-4">
               <Avatar className="h-10 w-10 shrink-0">
-                <AvatarImage src={`https://picsum.photos/seed/reviewer${i}/100/100`} />
+                <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                 <AvatarFallback>{r.name[0]}</AvatarFallback>
               </Avatar>
               <div className="flex-1">

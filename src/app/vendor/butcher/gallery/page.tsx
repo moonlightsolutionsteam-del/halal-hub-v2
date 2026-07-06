@@ -24,10 +24,10 @@ export default function ButcherGalleryPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<{ label: string; category: string } | null>(null)
 
   const photos = [
-    { id: 1, label: "Main Storefront", img: "https://picsum.photos/seed/butcher-ext/800/600", primary: true, category: "Shop Exterior" },
-    { id: 2, label: "Fresh Cuts Display", img: "https://picsum.photos/seed/butcher-disp/800/600", primary: false, category: "Meat Display" },
-    { id: 3, label: "Uniformed Staff", img: "https://picsum.photos/seed/butcher-staff/800/600", primary: false, category: "Team" },
-    { id: 4, label: "Clean Cutting Area", img: "https://picsum.photos/seed/butcher-clean/800/600", primary: false, category: "Internal" },
+    { id: 1, label: "Main Storefront", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80", primary: true, category: "Shop Exterior" },
+    { id: 2, label: "Fresh Cuts Display", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Meat Display" },
+    { id: 3, label: "Uniformed Staff", img: "https://images.unsplash.com/photo-1607631568010-a87245c0daf8?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Team" },
+    { id: 4, label: "Clean Cutting Area", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80", primary: false, category: "Internal" },
   ];
 
   return (

@@ -59,7 +59,7 @@ export default function HealthcareStaffPage() {
             <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-10">
               <div className="flex items-center gap-6">
                 <Avatar className="h-16 w-16 border-4 border-border shadow-md">
-                  <AvatarImage src={`https://picsum.photos/seed/doc-${s.id}/150/150`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=150/150`} />
                   <AvatarFallback>{s.name[0]}</AvatarFallback>
                 </Avatar>
                 <div>

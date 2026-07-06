@@ -334,7 +334,7 @@ export default function CateringProfilePage() {
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="relative aspect-square rounded-2xl overflow-hidden group border border-border shadow-sm">
-                    <img src={`https://picsum.photos/seed/catering-setup-${i}/400/400`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <img src={`https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=400&fit=crop&auto=format&q=80`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <Button size="icon" variant="destructive" className="h-8 w-8 rounded-xl"><Trash2 className="h-4 w-4" /></Button>
                     </div>

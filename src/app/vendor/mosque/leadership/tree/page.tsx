@@ -8,17 +8,17 @@ import { cn } from "@/lib/utils";
 const leadershipData = {
   name: "Jama Masjid Committee",
   isCommittee: true,
-  avatar: "https://picsum.photos/seed/committee/100",
+  avatar: "https://randomuser.me/api/portraits/men/32.jpg",
   children: [
     {
       name: "Syed Ahmed Bukhari",
       role: "Shahi Imam",
-      avatar: "https://picsum.photos/seed/imam1/100",
+      avatar: "https://randomuser.me/api/portraits/men/51.jpg",
       children: [
         {
           name: "Syed Shaban Bukhari",
           role: "Naib Shahi Imam",
-          avatar: "https://picsum.photos/seed/imam2/100",
+          avatar: "https://randomuser.me/api/portraits/men/52.jpg",
         },
       ],
     },
@@ -26,10 +26,10 @@ const leadershipData = {
       name: "Management Staff",
       role: "Operations",
       isGroup: true,
-      avatar: "https://picsum.photos/seed/staff/100",
+      avatar: "https://randomuser.me/api/portraits/men/30.jpg",
       children: [
-        { name: "Yusuf Khan", role: "Administrator", avatar: "https://picsum.photos/seed/staff1/100" },
-        { name: "Omar Farooq", role: "Treasurer", avatar: "https://picsum.photos/seed/staff2/100" },
+        { name: "Yusuf Khan", role: "Administrator", avatar: "https://randomuser.me/api/portraits/men/31.jpg" },
+        { name: "Omar Farooq", role: "Treasurer", avatar: "https://randomuser.me/api/portraits/women/31.jpg" },
       ],
     },
   ],

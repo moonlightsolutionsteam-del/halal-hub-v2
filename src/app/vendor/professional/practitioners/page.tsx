@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { PlusCircle } from "lucide-react"
 
 const practitioners = [
-  { name: "Dr. Aisha Rahman", role: "General Physician", specialty: "Family Medicine", img: "https://picsum.photos/seed/doctor1/200/200" },
-  { name: "Dr. Omar Farooq", role: "Associate", specialty: "Pediatrics", img: "https://picsum.photos/seed/doctor2/200/200" },
-  { name: "Nadia Hussain", role: "Nurse Practitioner", specialty: "General Care", img: "https://picsum.photos/seed/nurse1/200/200" },
+  { name: "Dr. Aisha Rahman", role: "General Physician", specialty: "Family Medicine", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&auto=format&q=80" },
+  { name: "Dr. Omar Farooq", role: "Associate", specialty: "Pediatrics", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&auto=format&q=80" },
+  { name: "Nadia Hussain", role: "Nurse Practitioner", specialty: "General Care", img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop&auto=format&q=80" },
 ]
 
 export default function ProfessionalPractitionersPage() {

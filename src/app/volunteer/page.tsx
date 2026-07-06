@@ -401,7 +401,7 @@ export default function VolunteerPage() {
         <div className="container mx-auto px-4 py-8 md:py-12 space-y-8">
             <header className="text-center space-y-4">
                 <Avatar className="h-20 w-20 mx-auto mb-4 border-4 border-background ring-2 ring-primary">
-                    <AvatarImage src="https://picsum.photos/seed/volunteer-hub/200" alt="Volunteer Hub" />
+                    <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format&q=80" alt="Volunteer Hub" />
                     <AvatarFallback>VH</AvatarFallback>
                 </Avatar>
                 <h1 className="text-3xl md:text-4xl font-headline font-bold text-foreground">

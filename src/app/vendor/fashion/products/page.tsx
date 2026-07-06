@@ -65,7 +65,7 @@ export default function FashionProductsPage() {
           <Card key={product.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 border-2 border-transparent hover:border-pink-100">
             <div className="relative aspect-[3/4]">
               <Image 
-                src={`https://picsum.photos/seed/fashion-item${product.id}/600/800`} 
+                src={`https://images.unsplash.com/photo-1445205170230-053b83016050?w=600/800`} 
                 alt={product.name} 
                 fill 
                 className="object-cover group-hover:scale-105 transition-transform duration-700"

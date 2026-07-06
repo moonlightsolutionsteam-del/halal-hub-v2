@@ -11,9 +11,9 @@ import { Card, CardContent } from "@/components/ui/card"
 const conversations = [
   { id: "good-deeds", name: "Good Deeds Tree", avatar: "🌴", isEmoji: true, lastMessage: "👉You have 100 points to claim", time: "6:27 PM", unread: 1 },
   { id: "team", name: "Halal Hub Team", avatar: "☪️", isEmoji: true, lastMessage: "Congratulations for winning First Sign-in, go and check👉", time: "01/12/2025", unread: 1 },
-  { id: "1", name: "Aisha Khan", avatar: "https://picsum.photos/seed/creator1/100", lastMessage: "You're welcome! Enjoy your meal.", time: "10:38 AM", unread: 0 },
-  { id: "2", name: "Karim's Restaurant", avatar: "https://picsum.photos/seed/resto1/100", lastMessage: "Your table for 4 is confirmed for 7:30 PM.", time: "Yesterday", unread: 1 },
-  { id: "3", name: "Yusuf Ibrahim", avatar: "https://picsum.photos/seed/creator2/100", lastMessage: "Sounds great, let's collaborate.", time: "2 days ago", unread: 0 },
+  { id: "1", name: "Aisha Khan", avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80", lastMessage: "You're welcome! Enjoy your meal.", time: "10:38 AM", unread: 0 },
+  { id: "2", name: "Karim's Restaurant", avatar: "https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&h=600&fit=crop&auto=format&q=80", lastMessage: "Your table for 4 is confirmed for 7:30 PM.", time: "Yesterday", unread: 1 },
+  { id: "3", name: "Yusuf Ibrahim", avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", lastMessage: "Sounds great, let's collaborate.", time: "2 days ago", unread: 0 },
 ]
 
 const ActionCard = ({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) => (

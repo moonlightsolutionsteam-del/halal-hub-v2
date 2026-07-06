@@ -39,19 +39,19 @@ import Image from "next/image"
 const certificationBodies = [
   {
     name: "Jamiat Ulama-i-Hind Halal Trust",
-    logoUrl: "https://picsum.photos/seed/jamiat/100",
+    logoUrl: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     businessesCertified: 250,
     status: "Active",
   },
   {
     name: "Halal India Pvt. Ltd.",
-    logoUrl: "https://picsum.photos/seed/halal-india/100",
+    logoUrl: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80",
     businessesCertified: 180,
     status: "Active",
   },
   {
     name: "Halal Council of India",
-    logoUrl: "https://picsum.photos/seed/hci/100",
+    logoUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&auto=format&q=80",
     businessesCertified: 0,
     status: "Pending Review",
   },

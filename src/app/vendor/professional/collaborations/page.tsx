@@ -96,7 +96,7 @@ export default function ProfessionalCollaborationsPage() {
             <div className="flex items-start justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-3">
                 <Avatar className="h-11 w-11 shrink-0">
-                  <AvatarImage src={`https://picsum.photos/seed/${opp.avatar}/100/100`} />
+                  <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&auto=format&q=80`} />
                   <AvatarFallback className="bg-violet-50 text-violet-600 font-black">{opp.postedBy[0]}</AvatarFallback>
                 </Avatar>
                 <div>

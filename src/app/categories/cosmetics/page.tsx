@@ -25,7 +25,7 @@ const MOCK_COSMETICS_BRANDS = [
     loc: "Dubai, UAE", 
     rate: 4.9, 
     ver: true, 
-    img: "https://picsum.photos/seed/beauty1/800/600",
+    img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Lab Verified", "Vegan Formula", "Alcohol Free"],
     startingPrice: "$45",
     focus: "Organic Serums"
@@ -37,7 +37,7 @@ const MOCK_COSMETICS_BRANDS = [
     loc: "London, UK", 
     rate: 4.8, 
     ver: true, 
-    img: "https://picsum.photos/seed/beauty2/800/600",
+    img: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Cruelty Free", "Wudu Friendly", "Eco-friendly"],
     startingPrice: "$25",
     focus: "Mineral Foundations"
@@ -49,7 +49,7 @@ const MOCK_COSMETICS_BRANDS = [
     loc: "Istanbul, TR", 
     rate: 4.7, 
     ver: true, 
-    img: "https://picsum.photos/seed/beauty3/800/600",
+    img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Paraben Free", "Halal Lab Certified", "Handmade"],
     startingPrice: "$18",
     focus: "Essential Oils"
@@ -61,7 +61,7 @@ const MOCK_COSMETICS_BRANDS = [
     loc: "Paris, FR", 
     rate: 4.5, 
     ver: false, 
-    img: "https://picsum.photos/seed/beauty4/800/600",
+    img: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Non-Alcoholic", "Oil Based", "Long Lasting"],
     startingPrice: "$120",
     focus: "Attar & Oud"

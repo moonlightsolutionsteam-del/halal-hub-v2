@@ -70,7 +70,7 @@ export default function CreatorProfilePage() {
         {/* Banner */}
         <div className="h-[45vh] min-h-[400px] w-full relative overflow-hidden">
           <Image 
-            src="https://picsum.photos/seed/creator-banner/1600/800" 
+            src="https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80" 
             alt="Creator Banner" 
             fill 
             className="object-cover transition-transform duration-[10s] group-hover:scale-110"
@@ -86,7 +86,7 @@ export default function CreatorProfilePage() {
             <div className="relative shrink-0">
               <div className="p-2 bg-card rounded-[3.5rem] shadow-2xl">
                 <Avatar className="h-48 w-48 rounded-[3rem]">
-                  <AvatarImage src="https://picsum.photos/seed/creator-main/400/400" />
+                  <AvatarImage src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format&q=80" />
                   <AvatarFallback className="text-4xl font-black bg-blue-50 text-blue-600">HA</AvatarFallback>
                 </Avatar>
               </div>
@@ -159,7 +159,7 @@ export default function CreatorProfilePage() {
                 {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
                   <Card key={i} className="group rounded-[3rem] border-none shadow-sm overflow-hidden aspect-[9/16] relative cursor-pointer hover:shadow-2xl transition-all duration-700">
                     <Image 
-                      src={`https://picsum.photos/seed/reel-media-${i}/400/700`} 
+                      src={`https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=400&h=700&fit=crop&auto=format&q=80`} 
                       alt="Reel" 
                       fill 
                       className="object-cover group-hover:scale-110 transition-transform duration-1000"
@@ -187,7 +187,7 @@ export default function CreatorProfilePage() {
                 {[1, 2].map(i => (
                   <Card key={i} className="rounded-[3.5rem] border-none shadow-sm bg-card overflow-hidden p-12 flex flex-col md:flex-row gap-12 hover:shadow-2xl transition-all duration-700 border border-transparent hover:border-blue-100 group/post">
                     <div className="relative w-full md:w-96 aspect-square rounded-[2.5rem] overflow-hidden shrink-0 shadow-2xl">
-                      <Image src={`https://picsum.photos/seed/post-hub-${i}/800/800`} alt="Post" fill className="object-cover group-hover/post:scale-105 transition-transform duration-1000" />
+                      <Image src={`https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=800&fit=crop&auto=format&q=80`} alt="Post" fill className="object-cover group-hover/post:scale-105 transition-transform duration-1000" />
                     </div>
                     <div className="flex-1 flex flex-col justify-between py-4">
                       <div className="space-y-8">
@@ -225,7 +225,7 @@ export default function CreatorProfilePage() {
                   <Card key={i} className="rounded-[3rem] border-none shadow-sm bg-card p-10 group hover:shadow-2xl transition-all border border-transparent hover:border-blue-100">
                     <div className="flex items-center gap-10">
                       <div className="h-32 w-32 rounded-[2.5rem] bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-700">
-                        <Image src={`https://picsum.photos/seed/pod-media-${i}/300/300`} alt="Pod" fill className="object-cover opacity-20" />
+                        <Image src={`https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=300&h=300&fit=crop&auto=format&q=80`} alt="Pod" fill className="object-cover opacity-20" />
                         <Mic className="h-12 w-12 relative z-10 drop-shadow-lg" />
                       </div>
                       <div className="flex-1 min-w-0 space-y-4">
@@ -273,7 +273,7 @@ export default function CreatorProfilePage() {
                       <Card key={i} className="rounded-[3rem] border-none shadow-sm bg-card overflow-hidden group border border-transparent hover:border-emerald-100 hover:shadow-xl transition-all duration-500 cursor-pointer">
                         <div className="p-8 flex items-center gap-8">
                           <div className="relative h-20 w-20 rounded-[1.5rem] overflow-hidden shadow-2xl shrink-0 border-2 border-white ring-4 ring-slate-50">
-                            <Image src={`https://picsum.photos/seed/collab-logo-${collab.img}/200/200`} alt="Collab" fill className="object-cover" />
+                            <Image src={`https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=200&h=200&fit=crop&auto=format&q=80`} alt="Collab" fill className="object-cover" />
                           </div>
                           <div className="space-y-1">
                             <p className="text-xl font-black text-foreground tracking-tight">{collab.name}</p>

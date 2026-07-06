@@ -83,7 +83,7 @@ export default function ProfessionalProfilePage() {
               <div className="absolute -top-10 left-8">
                 <div className="relative group cursor-pointer">
                   <Avatar className="h-20 w-20 ring-4 ring-card">
-                    <AvatarImage src="https://picsum.photos/seed/pro-yusuf/200/200" />
+                    <AvatarImage src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format&q=80" />
                     <AvatarFallback className="bg-violet-100 text-violet-700 font-black text-2xl">YQ</AvatarFallback>
                   </Avatar>
                   <div className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

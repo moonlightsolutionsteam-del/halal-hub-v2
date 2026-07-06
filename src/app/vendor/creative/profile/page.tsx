@@ -67,7 +67,7 @@ export default function CreativeProfilePage() {
               <div className="flex flex-col sm:flex-row gap-8 items-end -mt-14 mb-10">
                 <div className="relative shrink-0">
                   <Avatar className="h-28 w-28 border-8 border-card shadow-2xl">
-                    <AvatarImage src="https://picsum.photos/seed/creator-main/400/400" />
+                    <AvatarImage src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format&q=80" />
                     <AvatarFallback className="bg-primary/10 text-primary text-2xl font-black">HA</AvatarFallback>
                   </Avatar>
                   <button className="absolute bottom-1 right-1 h-10 w-10 bg-primary text-white rounded-2xl flex items-center justify-center border-4 border-card shadow-xl hover:scale-110 transition-transform">

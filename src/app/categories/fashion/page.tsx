@@ -25,7 +25,7 @@ const MOCK_FASHION_BRANDS = [
     loc: "London, UK", 
     rate: 4.9, 
     ver: true, 
-    img: "https://picsum.photos/seed/fashion1/800/600",
+    img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Global Shipping", "Sizing Guide", "Silk Fabrics"],
     startingPrice: "£120",
     shipping: "Worldwide"
@@ -37,7 +37,7 @@ const MOCK_FASHION_BRANDS = [
     loc: "Dubai, UAE", 
     rate: 4.8, 
     ver: true, 
-    img: "https://picsum.photos/seed/fashion2/800/600",
+    img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Handmade", "Organic Cotton", "Custom Tailoring"],
     startingPrice: "$85",
     shipping: "Express Available"
@@ -49,7 +49,7 @@ const MOCK_FASHION_BRANDS = [
     loc: "New York, NY", 
     rate: 4.7, 
     ver: true, 
-    img: "https://picsum.photos/seed/fashion3/800/600",
+    img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Next Day Delivery", "Ethical Labor", "Student Discount"],
     startingPrice: "$45",
     shipping: "Domestic US"
@@ -61,7 +61,7 @@ const MOCK_FASHION_BRANDS = [
     loc: "Istanbul, TR", 
     rate: 4.5, 
     ver: false, 
-    img: "https://picsum.photos/seed/fashion4/800/600",
+    img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Embroidery", "Gift Wrapping", "VIP Service"],
     startingPrice: "$250",
     shipping: "International"

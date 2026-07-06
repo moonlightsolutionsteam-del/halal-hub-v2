@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { UploadCloud } from "lucide-react"
 import Image from "next/image"
 
-const photos = Array.from({ length: 8 }, (_, i) => `https://picsum.photos/seed/clinic${i}/400/400`)
+const photos = Array.from({ length: 8 }, (_, i) => `https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=400&fit=crop&auto=format&q=80`)
 
 export default function ProfessionalGalleryPage() {
   return (

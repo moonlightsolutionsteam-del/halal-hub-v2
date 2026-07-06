@@ -14,7 +14,7 @@ const EVENTS = [
     location: "ExCel London",
     type: "Exhibition",
     price: "From £25",
-    image: "https://picsum.photos/seed/event1/800/400"
+    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80"
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const EVENTS = [
     location: "Online / Global",
     type: "Seminar",
     price: "Free",
-    image: "https://picsum.photos/seed/event2/800/400"
+    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80"
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ const EVENTS = [
     location: "Central Park, NYC",
     type: "Celebration",
     price: "Free",
-    image: "https://picsum.photos/seed/event3/800/400"
+    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80"
   }
 ];
 

@@ -169,7 +169,7 @@ export default function MediaDashboard() {
               <div className="p-4 bg-muted/30 rounded-2xl space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 bg-card rounded-xl overflow-hidden shadow-sm">
-                    <img src="https://picsum.photos/seed/book/100/100" className="w-full h-full object-cover" />
+                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <p className="text-xs font-black text-foreground">The Prophet's Prayer</p>

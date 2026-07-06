@@ -77,7 +77,7 @@ export default function ProfessionalPortfolioPage() {
           <Card key={work.id} className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden group">
             <div className="relative aspect-video bg-muted overflow-hidden">
               <Image
-                src={`https://picsum.photos/seed/${work.img}/600/340`}
+                src={`https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600/340`}
                 alt={work.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"

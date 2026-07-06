@@ -58,7 +58,7 @@ export default function FamilyDiscoveryPage() {
         {suggestedPlaces.map((place) => (
           <Card key={place.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-emerald-100">
             <div className="relative aspect-square overflow-hidden">
-              <Image src={`https://picsum.photos/seed/${place.img}/600/600`} alt={place.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
+              <Image src={`https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=600&fit=crop&auto=format&q=80`} alt={place.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
               <div className="absolute top-4 left-4 flex flex-col gap-2">
                 <Badge className="bg-card/90 backdrop-blur-md text-emerald-600 font-black border-none shadow-xl px-3 py-1 rounded-full flex items-center gap-1.5 text-[10px]">
                   <Star className="h-3 w-3 fill-amber-400 text-amber-400" /> {place.rate}

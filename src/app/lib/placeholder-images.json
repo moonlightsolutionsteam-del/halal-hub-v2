@@ -4,55 +4,55 @@
     {
       "id": "restaurant-1",
       "description": "A cozy halal steakhouse",
-      "imageUrl": "https://picsum.photos/seed/halal1/800/600",
+      "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80",
       "imageHint": "halal steakhouse"
     },
     {
       "id": "restaurant-2",
       "description": "Modern Turkish restaurant",
-      "imageUrl": "https://picsum.photos/seed/halal2/800/600",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
       "imageHint": "turkish food"
     },
     {
       "id": "mosque-1",
       "description": "Beautiful modern mosque architecture",
-      "imageUrl": "https://picsum.photos/seed/mosque1/800/600",
+      "imageUrl": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
       "imageHint": "modern mosque"
     },
     {
       "id": "travel-1",
       "description": "Scenic halal-friendly resort",
-      "imageUrl": "https://picsum.photos/seed/travel1/800/600",
+      "imageUrl": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
       "imageHint": "halal resort"
     },
     {
       "id": "product-1",
       "description": "Generic food package ingredients",
-      "imageUrl": "https://picsum.photos/seed/food1/800/600",
+      "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80",
       "imageHint": "food ingredients"
     },
     {
       "id": "art-1",
       "description": "Islamic calligraphy art",
-      "imageUrl": "https://picsum.photos/seed/art1/600/800",
+      "imageUrl": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=800&fit=crop&auto=format&q=80",
       "imageHint": "islamic calligraphy"
     },
     {
       "id": "reels-1",
       "description": "Halal cooking video thumbnail",
-      "imageUrl": "https://picsum.photos/seed/reel1/400/700",
+      "imageUrl": "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=400&h=700&fit=crop&auto=format&q=80",
       "imageHint": "cooking video"
     },
     {
       "id": "reels-2",
       "description": "Modest fashion influencer",
-      "imageUrl": "https://picsum.photos/seed/reel2/400/700",
+      "imageUrl": "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=400&h=700&fit=crop&auto=format&q=80",
       "imageHint": "modest fashion"
     },
     {
       "id": "event-1",
       "description": "Community outdoor picnic",
-      "imageUrl": "https://picsum.photos/seed/eventpic1/800/400",
+      "imageUrl": "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=400&fit=crop&auto=format&q=80",
       "imageHint": "outdoor picnic"
     }
   ]

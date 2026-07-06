@@ -26,7 +26,7 @@ const MOCK_MEDIA_OUTLETS = [
     loc: "London, UK", 
     rate: 4.9, 
     ver: true, 
-    img: "https://picsum.photos/seed/media1/800/600",
+    img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Classic Editions", "Author Signings", "Digital App"],
     startingPrice: "£12.00",
     specialty: "Authentic Literature"
@@ -38,7 +38,7 @@ const MOCK_MEDIA_OUTLETS = [
     loc: "Dubai, UAE", 
     rate: 4.8, 
     ver: true, 
-    img: "https://picsum.photos/seed/media2/800/600",
+    img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Interactive Courses", "Scholarly Oversight", "LMS Access"],
     startingPrice: "$25.00",
     specialty: "Online Education"
@@ -50,7 +50,7 @@ const MOCK_MEDIA_OUTLETS = [
     loc: "Istanbul, TR", 
     rate: 4.7, 
     ver: true, 
-    img: "https://picsum.photos/seed/media3/800/600",
+    img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["High-Fidelity Audio", "Exclusive Podcasts", "Subscription Model"],
     startingPrice: "$9.99/mo",
     specialty: "Audio Content"
@@ -62,7 +62,7 @@ const MOCK_MEDIA_OUTLETS = [
     loc: "New York, USA", 
     rate: 4.5, 
     ver: false, 
-    img: "https://picsum.photos/seed/media4/800/600",
+    img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Illustrated Sets", "Ethical Themes", "Workshops"],
     startingPrice: "$15.00",
     specialty: "Children's Media"

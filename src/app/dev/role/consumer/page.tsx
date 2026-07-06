@@ -82,7 +82,7 @@ export default function ConsumerRolePage() {
           ].map((item, i) => (
             <Card key={i} className="group rounded-[2rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500 cursor-pointer border-2 border-transparent hover:border-primary/10">
               <div className="relative aspect-video">
-                <Image src={`https://picsum.photos/seed/${item.img}/600/400`} alt={item.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                <Image src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&auto=format&q=80`} alt={item.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                 <Badge className="absolute top-4 left-4 bg-card/90 backdrop-blur-md text-primary font-black border-none px-3 shadow-lg">Verified</Badge>
               </div>
               <CardContent className="p-6 space-y-3">

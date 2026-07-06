@@ -37,7 +37,7 @@ const TreeNode = ({ name, img, label, isUser, hasSpouse, className }: TreeNodePr
     )}>
       <div className="relative">
         <Avatar className="h-20 w-20 border-2 border-white shadow-md">
-          <AvatarImage src={`https://picsum.photos/seed/${img}/200/200`} />
+          <AvatarImage src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop&auto=format&q=80`} />
           <AvatarFallback className="font-black text-xl">{name[0]}</AvatarFallback>
         </Avatar>
         {hasSpouse && (
@@ -70,7 +70,7 @@ export default function LineageMapPage() {
         </div>
         <div className="flex items-center gap-4">
           <Avatar className="h-10 w-10 border-2 border-white shadow-md">
-            <AvatarImage src="https://picsum.photos/seed/sa/150/150" />
+            <AvatarImage src="https://randomuser.me/api/portraits/men/10.jpg" />
             <AvatarFallback>SA</AvatarFallback>
           </Avatar>
           <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 hover:bg-muted border shadow-sm">

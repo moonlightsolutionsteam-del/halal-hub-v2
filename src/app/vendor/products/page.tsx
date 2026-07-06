@@ -60,7 +60,7 @@ export default function VendorProductsPage() {
           <Card key={product.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-xl transition-all duration-500">
             <div className="relative aspect-square">
               <Image 
-                src={`https://picsum.photos/seed/product${product.id}/400/400`} 
+                src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400/400`} 
                 alt={product.name} 
                 fill 
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
