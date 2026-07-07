@@ -162,3 +162,36 @@
   /* Stat grids — 2×2 on mobile, 4-col on desktop */
   .grid-stats      { @apply grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4; }
 }
+
+/* ================================================================
+   MOBILE REFINEMENT LAYER
+   Safety net that tames desktop-first sizing on small screens
+   (≤639px) without touching tablet/desktop. Any per-component
+   `sm:`/`md:` responsive class lives in a min-640 media query and
+   therefore always overrides these caps at larger widths.
+   ================================================================ */
+@media (max-width: 639px) {
+  /* Oversized all-side padding → sane mobile padding */
+  .p-10 { padding: 1.25rem !important; }
+  .p-11, .p-12, .p-14, .p-16, .p-20, .p-24 { padding: 1.5rem !important; }
+  /* Oversized axis padding */
+  .px-10 { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+  .px-12, .px-14, .px-16, .px-20 { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+  .py-10 { padding-top: 1.25rem !important; padding-bottom: 1.25rem !important; }
+  .py-12, .py-14, .py-16, .py-20 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+  /* Oversized flex/grid gaps */
+  .gap-10, .gap-11, .gap-12 { gap: 1rem !important; }
+  .gap-14, .gap-16, .gap-20, .gap-24, .gap-32 { gap: 1.25rem !important; }
+  /* Oversized top/bottom margins between sections */
+  .mt-24, .mt-28, .mt-32 { margin-top: 3rem !important; }
+  .mb-20, .mb-24 { margin-bottom: 2.5rem !important; }
+}
+
+/* Dialogs / sheets must never exceed the viewport on any device */
+[role="dialog"] {
+  max-width: min(100vw - 1.5rem, 42rem);
+  max-height: calc(100dvh - 1.5rem);
+  overflow-y: auto;
+}
+[data-sidebar="sidebar"] [role="dialog"],
+[role="dialog"][data-sidebar] { max-width: none; }
