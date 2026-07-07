@@ -161,7 +161,7 @@ export default function RootLayout({
                     {[
                       { href: "/", icon: Home, label: "Home", active: mounted && pathname === '/' },
                       { href: "/feed", icon: Newspaper, label: "Feed", active: mounted && pathname === '/feed' },
-                      { href: "/categories", icon: LayoutGrid, label: "Explore", active: mounted && pathname?.startsWith('/categories') },
+                      { href: "/explore", icon: LayoutGrid, label: "Explore", active: mounted && pathname === '/explore' },
                       { href: "/prayer-times", icon: Moon, label: "Prayer", active: mounted && (pathname === '/prayer-times' || pathname?.startsWith('/prayer')) },
                       { href: "/account/dashboard", icon: User, label: "Me", active: mounted && pathname?.startsWith('/account') },
                     ].map(({ href, icon: Icon, label, active }) => (
