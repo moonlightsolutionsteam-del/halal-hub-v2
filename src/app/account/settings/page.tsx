@@ -17,38 +17,39 @@ import { Badge } from "@/components/ui/badge";
 
 export default function UserSettingsPage() {
   return (
-    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-4xl">
+    <div className="container mx-auto px-4 pt-4 pb-32 sm:p-6 sm:pb-8 space-y-6 max-w-4xl">
       <div className="space-y-1">
         <h1 className="text-xl sm:text-3xl font-black font-headline text-primary">Account Settings</h1>
-        <p className="text-muted-foreground font-medium">Manage your personal profile, security, and preferences.</p>
+        <p className="text-sm text-muted-foreground font-medium">Manage your personal profile, security, and preferences.</p>
       </div>
 
-      <Tabs defaultValue="profile" className="flex flex-col md:flex-row gap-8">
-        <TabsList className="flex md:flex-col h-auto w-full md:w-64 bg-transparent gap-2 p-0 justify-start">
+      <Tabs defaultValue="profile" className="flex flex-col md:flex-row gap-6 md:gap-8">
+        {/* Tab nav — horizontal scrollable pill row on mobile, vertical sidebar on md+ */}
+        <TabsList className="flex md:flex-col h-auto w-full md:w-64 bg-transparent gap-2 p-0 justify-start overflow-x-auto no-scrollbar md:overflow-x-visible shrink-0">
           {[
             { id: "profile", label: "Profile Info", icon: User },
             { id: "security", label: "Security", icon: Lock },
             { id: "notifications", label: "Notifications", icon: Bell },
             { id: "privacy", label: "Privacy", icon: Shield },
           ].map(tab => (
-            <TabsTrigger 
-              key={tab.id} 
-              value={tab.id} 
-              className="flex items-center gap-3 w-full justify-start px-6 py-4 rounded-2xl data-[state=active]:bg-primary data-[state=active]:text-white font-bold transition-all border-none"
+            <TabsTrigger
+              key={tab.id}
+              value={tab.id}
+              className="flex items-center gap-2 shrink-0 md:w-full md:justify-start px-4 md:px-6 py-3 md:py-4 rounded-2xl data-[state=active]:bg-primary data-[state=active]:text-white font-bold transition-all border-none text-sm whitespace-nowrap"
             >
-              <tab.icon className="h-5 w-5" />
+              <tab.icon className="h-4 w-4 md:h-5 md:w-5" />
               {tab.label}
             </TabsTrigger>
           ))}
         </TabsList>
 
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <TabsContent value="profile" className="m-0 space-y-6">
-            <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden">
-              <CardHeader className="p-8 border-b bg-muted/20">
-                <div className="flex flex-col sm:flex-row items-center gap-6">
+            <Card className="rounded-2xl sm:rounded-[2.5rem] border-none shadow-sm overflow-hidden">
+              <CardHeader className="p-4 sm:p-8 border-b bg-muted/20">
+                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                   <div className="relative group">
-                    <Avatar className="h-24 w-24 border-4 border-white shadow-xl">
+                    <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-4 border-white shadow-xl">
                       <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
                       <AvatarFallback>JD</AvatarFallback>
                     </Avatar>
@@ -57,14 +58,14 @@ export default function UserSettingsPage() {
                     </button>
                   </div>
                   <div className="text-center sm:text-left space-y-1">
-                    <CardTitle className="text-2xl font-black">John Doe</CardTitle>
+                    <CardTitle className="text-xl sm:text-2xl font-black">John Doe</CardTitle>
                     <CardDescription className="font-medium">Universal Hub Member since 2023</CardDescription>
                     <Badge className="bg-primary/10 text-primary border-none font-bold">Premium Tier</Badge>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-8 space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <CardContent className="p-4 sm:p-8 space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="firstName" className="font-bold ml-1 text-xs uppercase tracking-widest text-muted-foreground">First Name</Label>
                     <Input id="firstName" defaultValue="John" className="h-12 rounded-xl bg-muted/30 border-none px-4 font-bold" />
@@ -79,23 +80,23 @@ export default function UserSettingsPage() {
                   </div>
                   <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="bio" className="font-bold ml-1 text-xs uppercase tracking-widest text-muted-foreground">Short Bio</Label>
-                    <textarea 
-                      id="bio" 
-                      className="w-full h-24 rounded-xl bg-muted/30 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20 outline-none text-sm" 
+                    <textarea
+                      id="bio"
+                      className="w-full h-24 rounded-xl bg-muted/30 border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20 outline-none text-sm"
                       placeholder="Tell the community a bit about yourself..."
                     />
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="p-8 border-t bg-muted/10 flex justify-end gap-3">
+              <CardFooter className="p-4 sm:p-8 border-t bg-muted/10 flex justify-end gap-3">
                 <Button variant="ghost" className="rounded-xl font-bold">Cancel</Button>
-                <Button className="rounded-xl bg-primary px-8 font-bold shadow-lg shadow-primary/20">Save Changes</Button>
+                <Button className="rounded-xl bg-primary px-6 sm:px-8 font-bold shadow-lg shadow-primary/20">Save Changes</Button>
               </CardFooter>
             </Card>
           </TabsContent>
 
           <TabsContent value="security" className="m-0">
-            <Card className="rounded-[2.5rem] border-none shadow-sm p-8 space-y-8">
+            <Card className="rounded-2xl sm:rounded-[2.5rem] border-none shadow-sm p-4 sm:p-8 space-y-8">
               <div className="space-y-6">
                 <h3 className="text-xl font-black">Change Password</h3>
                 <div className="space-y-4">
