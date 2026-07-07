@@ -107,7 +107,7 @@ export default function SocialMediaPage() {
                 <div className="flex justify-between items-center">
                     <CardTitle>Connected Accounts</CardTitle>
                      <Button asChild size="sm">
-                        <Link href="/SKIP_ADMIN_ERP/marketing/social/connect">
+                        <Link href="/admin/erp/marketing/social/connect">
                             <Link2 className="mr-2 h-4 w-4" />
                             Connect Account
                         </Link>
@@ -144,7 +144,7 @@ export default function SocialMediaPage() {
                     <div className="flex justify-between items-center">
                          <CardTitle>Recent Posts</CardTitle>
                         <Button asChild variant="outline" size="sm">
-                            <Link href="/SKIP_ADMIN_ERP/marketing/social/posts">View All</Link>
+                            <Link href="/admin/erp/marketing/social/posts">View All</Link>
                         </Button>
                     </div>
                 </CardHeader>
@@ -185,7 +185,7 @@ export default function SocialMediaPage() {
                      <div className="flex justify-between items-center">
                         <CardTitle>Content Calendar</CardTitle>
                         <Button asChild size="sm">
-                            <Link href="/SKIP_ADMIN_ERP/marketing/social/schedule">Schedule Post</Link>
+                            <Link href="/admin/erp/marketing/social/schedule">Schedule Post</Link>
                         </Button>
                     </div>
                     <CardDescription>View and manage your upcoming social media posts.</CardDescription>

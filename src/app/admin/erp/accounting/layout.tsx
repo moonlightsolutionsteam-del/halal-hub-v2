@@ -38,17 +38,17 @@ export default function AccountingLayout({
           </p>
         </div>
         <div className="flex items-center border-b overflow-x-auto no-scrollbar">
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/revenue-dashboard">Revenue Dashboard</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/vendor-billing">Vendor Billing</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/credits-ledger">Credits Ledger</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/invoices">Invoices</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/receivables-dues">Receivables & Dues</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/expenses">Expenses</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/payouts">Payouts</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/taxes-gst">Taxes & GST</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/reports">Reports</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/audit-logs">Audit Logs</NavLink>
-            <NavLink href="/SKIP_ADMIN_ERP/accounting/settings">Settings</NavLink>
+            <NavLink href="/admin/erp/accounting/revenue-dashboard">Revenue Dashboard</NavLink>
+            <NavLink href="/admin/erp/accounting/vendor-billing">Vendor Billing</NavLink>
+            <NavLink href="/admin/erp/accounting/credits-ledger">Credits Ledger</NavLink>
+            <NavLink href="/admin/erp/accounting/invoices">Invoices</NavLink>
+            <NavLink href="/admin/erp/accounting/receivables-dues">Receivables & Dues</NavLink>
+            <NavLink href="/admin/erp/accounting/expenses">Expenses</NavLink>
+            <NavLink href="/admin/erp/accounting/payouts">Payouts</NavLink>
+            <NavLink href="/admin/erp/accounting/taxes-gst">Taxes & GST</NavLink>
+            <NavLink href="/admin/erp/accounting/reports">Reports</NavLink>
+            <NavLink href="/admin/erp/accounting/audit-logs">Audit Logs</NavLink>
+            <NavLink href="/admin/erp/accounting/settings">Settings</NavLink>
         </div>
         <div className="mt-4">
             {children}

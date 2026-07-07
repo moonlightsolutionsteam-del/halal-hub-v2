@@ -30,13 +30,13 @@ export default function HRLayout({
 }) {
 
   const hrNav = [
-    { href: "/SKIP_ADMIN_ERP/hr/dashboard", icon: <LayoutDashboard className="h-4 w-4" />, label: "Dashboard" },
-    { href: "/SKIP_ADMIN_ERP/hr/team", icon: <Users className="h-4 w-4" />, label: "Team Directory" },
-    { href: "/SKIP_ADMIN_ERP/hr/attendance", icon: <ClipboardCheck className="h-4 w-4" />, label: "Attendance" },
-    { href: "/SKIP_ADMIN_ERP/hr/leaves", icon: <CalendarCheck className="h-4 w-4" />, label: "Leaves" },
-    { href: "/SKIP_ADMIN_ERP/hr/recruitment", icon: <UserPlus className="h-4 w-4" />, label: "Recruitment" },
-    { href: "/SKIP_ADMIN_ERP/hr/performance", icon: <BarChart2 className="h-4 w-4" />, label: "Performance" },
-    { href: "/SKIP_ADMIN_ERP/hr/settings", icon: <Settings className="h-4 w-4" />, label: "Settings" },
+    { href: "/admin/erp/hr/dashboard", icon: <LayoutDashboard className="h-4 w-4" />, label: "Dashboard" },
+    { href: "/admin/erp/hr/team", icon: <Users className="h-4 w-4" />, label: "Team Directory" },
+    { href: "/admin/erp/hr/attendance", icon: <ClipboardCheck className="h-4 w-4" />, label: "Attendance" },
+    { href: "/admin/erp/hr/leaves", icon: <CalendarCheck className="h-4 w-4" />, label: "Leaves" },
+    { href: "/admin/erp/hr/recruitment", icon: <UserPlus className="h-4 w-4" />, label: "Recruitment" },
+    { href: "/admin/erp/hr/performance", icon: <BarChart2 className="h-4 w-4" />, label: "Performance" },
+    { href: "/admin/erp/hr/settings", icon: <Settings className="h-4 w-4" />, label: "Settings" },
   ];
 
   return (

@@ -1,11 +1,6 @@
+import { redirect } from "next/navigation";
 
-import PageHeader from "@/components/shared/PageHeader";
-
-export default function ReportsPage() {
-  return (
-    <PageHeader
-      title="Reports"
-      description="This is a placeholder for the Reports screen. Feature to be built."
-    />
-  );
+export default function CrmReportsPage() {
+  // No standalone reports view yet — send to the CRM dashboard.
+  redirect("/admin/erp/crm");
 }
