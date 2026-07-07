@@ -112,9 +112,9 @@ export default function FamilyTreePage() {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {/* Quick Chat Preview */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -149,7 +149,7 @@ export default function FamilyTreePage() {
             </Card>
 
             {/* Expenses Summary Widget */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -184,7 +184,7 @@ export default function FamilyTreePage() {
             </Card>
 
             {/* Shared Board Preview */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -219,7 +219,7 @@ export default function FamilyTreePage() {
             </Card>
 
             {/* Health & Wellness Tracker */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-teal-50 flex items-center justify-center text-teal-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -250,7 +250,7 @@ export default function FamilyTreePage() {
             </Card>
 
             {/* Moments Gallery Preview */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-purple-50 flex items-center justify-center text-purple-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -275,7 +275,7 @@ export default function FamilyTreePage() {
             </Card>
 
             {/* Heritage Kitchen Preview */}
-            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8 group">
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-8 group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="h-14 w-14 rounded-3xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-inner group-hover:scale-110 transition-transform">
@@ -340,7 +340,7 @@ export default function FamilyTreePage() {
             </Card>
 
             {/* Pending Connections */}
-            <Card className="rounded-[3rem] border-none shadow-sm bg-card p-10 space-y-10 flex flex-col justify-between group">
+            <Card className="rounded-[3rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-10 flex flex-col justify-between group">
               <div className="space-y-8">
                 <div className="flex items-center justify-between px-2">
                   <div className="space-y-1">
@@ -473,7 +473,7 @@ export default function FamilyTreePage() {
             </div>
 
             <div className="lg:col-span-4 space-y-8">
-              <Card className="rounded-[3rem] border-none shadow-sm bg-card p-10 space-y-8 group">
+              <Card className="rounded-[3rem] border-none shadow-sm bg-card p-6 sm:p-10 space-y-8 group">
                 <div className="flex items-center justify-between">
                   <h3 className="text-2xl font-black text-foreground">Legacy Records</h3>
                   <Link href="/family-tree/lineage/documents">
@@ -508,7 +508,7 @@ export default function FamilyTreePage() {
               </Card>
 
               {/* Security Badge */}
-              <Card className="rounded-[3rem] border-none bg-emerald-50 p-10 space-y-6 relative overflow-hidden border-2 border-emerald-100 shadow-inner">
+              <Card className="rounded-[3rem] border-none bg-emerald-50 p-6 sm:p-10 space-y-6 relative overflow-hidden border-2 border-emerald-100 shadow-inner">
                 <Lock className="absolute -top-4 -right-4 h-24 w-24 opacity-10 text-emerald-600" />
                 <div className="flex items-center gap-4 relative z-10">
                   <div className="h-12 w-12 rounded-2xl bg-card flex items-center justify-center shadow-md">

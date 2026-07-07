@@ -193,13 +193,13 @@ export default function MediaListingPage() {
                         <Star className="h-3.5 w-3.5 fill-slate-600 text-muted-foreground" /> {item.rate}
                       </Badge>
                     </div>
-                    <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 flex gap-2">
+                    <div className="absolute bottom-2 left-2 right-2 sm:bottom-6 sm:left-6 flex flex-col sm:flex-row items-start gap-1.5 sm:gap-2">
                       {item.ver && (
-                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
-                          <CheckCircle2 className="h-3 w-3" /> Integrity Audited
+                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2 whitespace-nowrap">
+                          <CheckCircle2 className="h-3 w-3 shrink-0" /> Integrity Audited
                         </Badge>
                       )}
-                      <Badge className="bg-card text-muted-foreground font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
+                      <Badge className="bg-card text-muted-foreground font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2 whitespace-nowrap">
                         {item.startingPrice}
                       </Badge>
                     </div>

@@ -54,9 +54,9 @@ export default function WelcomeHubPage() {
             <Badge variant="outline" className="px-6 py-2 rounded-full border-white/20 text-white font-black uppercase text-xs tracking-[0.3em] bg-card/5 backdrop-blur-md">
               THE UNIFIED UMMAH NETWORK
             </Badge>
-            <h1 className="text-6xl md:text-8xl font-black font-headline text-white tracking-tighter leading-none">
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-black font-headline text-white tracking-tighter leading-none">
               One Hub. <br />
-              <span className="text-primary italic">Infinite</span> Connections.
+              <span className="text-primary italic">Infinite</span><br className="sm:hidden" /> Connections.
             </h1>
             <p className="text-xl md:text-2xl text-white/70 font-medium max-w-3xl mx-auto leading-relaxed">
               Explore the world's most trusted ecosystem for halal lifestyle, ethical trade, and family lineage preservation.
@@ -64,12 +64,12 @@ export default function WelcomeHubPage() {
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
             <Link href="/categories">
-              <Button size="lg" className="h-16 px-12 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black uppercase text-sm tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95">
+              <Button size="lg" className="h-14 px-8 sm:h-16 sm:px-12 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black uppercase text-sm tracking-widest shadow-2xl transition-all hover:scale-105 active:scale-95">
                 Start Exploring
               </Button>
             </Link>
             <Link href="/partner/portal">
-              <Button size="lg" variant="outline" className="h-16 px-12 rounded-2xl border-white/20 text-white hover:bg-card/10 font-black uppercase text-sm tracking-widest backdrop-blur-md">
+              <Button size="lg" variant="outline" className="h-14 px-8 sm:h-16 sm:px-12 rounded-2xl border-white/20 text-white hover:bg-card/10 font-black uppercase text-sm tracking-widest backdrop-blur-md">
                 Join as Partner
               </Button>
             </Link>
@@ -116,7 +116,7 @@ export default function WelcomeHubPage() {
                       <v.icon className="h-10 w-10" />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-black text-foreground tracking-tight">{v.name}</h3>
+                      <h3 className="text-lg sm:text-2xl font-black text-foreground tracking-tight">{v.name}</h3>
                       <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{v.desc}</p>
                     </div>
                     <div className="h-12 w-12 rounded-full border-2 border-border flex items-center justify-center text-muted-foreground group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all">
@@ -130,10 +130,10 @@ export default function WelcomeHubPage() {
         </section>
 
         {/* Feature Hubs */}
-        <section className="mt-32 space-y-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <section className="mt-16 sm:mt-32 space-y-10 sm:space-y-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-12">
             {/* Creator Studio Hub */}
-            <Card className="rounded-[4rem] border-none bg-zinc-900 text-white p-16 relative overflow-hidden group hover:shadow-2xl transition-all duration-700">
+            <Card className="rounded-3xl sm:rounded-[4rem] border-none bg-zinc-900 text-white p-6 sm:p-16 relative overflow-hidden group hover:shadow-2xl transition-all duration-700">
               <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:scale-110 transition-transform duration-[10s]">
                 <PenTool className="h-64 w-64 text-primary" />
               </div>
@@ -146,7 +146,7 @@ export default function WelcomeHubPage() {
                   </p>
                 </div>
                 <Link href="/vendor/creative/dashboard" className="block">
-                  <Button className="h-16 px-12 rounded-2xl bg-card text-foreground hover:bg-muted font-black uppercase text-sm tracking-widest shadow-2xl transition-all active:scale-95">
+                  <Button className="h-14 px-8 sm:h-16 sm:px-12 rounded-2xl bg-card text-foreground hover:bg-muted font-black uppercase text-sm tracking-widest shadow-2xl transition-all active:scale-95">
                     Launch Studio
                   </Button>
                 </Link>
@@ -154,7 +154,7 @@ export default function WelcomeHubPage() {
             </Card>
 
             {/* Family Hub */}
-            <Card className="rounded-[4rem] border-none bg-emerald-600 text-white p-16 relative overflow-hidden group hover:shadow-2xl transition-all duration-700">
+            <Card className="rounded-3xl sm:rounded-[4rem] border-none bg-emerald-600 text-white p-6 sm:p-16 relative overflow-hidden group hover:shadow-2xl transition-all duration-700">
               <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:scale-110 transition-transform duration-[10s]">
                 <Network className="h-64 w-64 text-white" />
               </div>
@@ -167,7 +167,7 @@ export default function WelcomeHubPage() {
                   </p>
                 </div>
                 <Link href="/family-tree" className="block">
-                  <Button className="h-16 px-12 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 font-black uppercase text-sm tracking-widest shadow-2xl transition-all active:scale-95">
+                  <Button className="h-14 px-8 sm:h-16 sm:px-12 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 font-black uppercase text-sm tracking-widest shadow-2xl transition-all active:scale-95">
                     Enter Family Hub
                   </Button>
                 </Link>
@@ -177,14 +177,14 @@ export default function WelcomeHubPage() {
         </section>
 
         {/* Community Section */}
-        <section className="mt-32 bg-card rounded-[4rem] p-16 shadow-sm border space-y-12">
+        <section className="mt-16 sm:mt-32 bg-card rounded-3xl sm:rounded-[4rem] p-6 sm:p-16 shadow-sm border space-y-12">
           <div className="text-center space-y-4 max-w-2xl mx-auto">
             <Badge variant="secondary" className="bg-primary/5 text-primary border-none font-black text-[10px] px-4 py-1.5 rounded-full uppercase tracking-widest">Global Community</Badge>
             <h2 className="text-3xl sm:text-3xl sm:text-5xl font-black tracking-tighter text-foreground">Join the Conversation</h2>
             <p className="text-sm sm:text-xl text-muted-foreground font-medium">Connect with millions of members in our moderated community forums.</p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8">
             {[
               { title: "Product Vetting", desc: "Is this gelatin halal? Ask the experts.", icon: ShieldCheck, color: "text-emerald-600" },
               { title: "Travel Guides", desc: "Best spots in Istanbul from real travelers.", icon: MapIcon, color: "text-amber-600" },
@@ -201,7 +201,7 @@ export default function WelcomeHubPage() {
           
           <div className="text-center pt-8">
             <Link href="/community">
-              <Button className="h-16 px-16 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 font-black uppercase text-sm tracking-widest shadow-2xl transition-all">
+              <Button className="h-14 px-8 sm:h-16 sm:px-16 rounded-2xl bg-zinc-900 text-white hover:bg-zinc-800 font-black uppercase text-sm tracking-widest shadow-2xl transition-all">
                 Enter Community Hub
               </Button>
             </Link>
@@ -209,7 +209,7 @@ export default function WelcomeHubPage() {
         </section>
 
         {/* Final CTA */}
-        <section className="mt-32 text-center space-y-10 pb-20">
+        <section className="mt-16 sm:mt-32 text-center space-y-10 pb-20">
           <Sparkles className="h-16 w-16 text-primary mx-auto animate-pulse" />
           <div className="space-y-4">
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight">Ready to join the Hub?</h2>
@@ -218,8 +218,8 @@ export default function WelcomeHubPage() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button className="h-16 px-12 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black uppercase text-sm tracking-widest shadow-2xl">Create Free Account</Button>
-            <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-border bg-card font-black uppercase text-sm tracking-widest shadow-sm">Merchant Sign Up</Button>
+            <Button className="h-14 px-8 sm:h-16 sm:px-12 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black uppercase text-sm tracking-widest shadow-2xl">Create Free Account</Button>
+            <Button variant="outline" className="h-14 px-8 sm:h-16 sm:px-12 rounded-2xl border-2 border-border bg-card font-black uppercase text-sm tracking-widest shadow-sm">Merchant Sign Up</Button>
           </div>
         </section>
       </div>

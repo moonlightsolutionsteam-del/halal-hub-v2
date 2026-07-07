@@ -222,24 +222,24 @@ export default function CreatorProfilePage() {
             <TabsContent value="podcasts" className="m-0 space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-24">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {[1, 2, 3, 4].map(i => (
-                  <Card key={i} className="rounded-[3rem] border-none shadow-sm bg-card p-10 group hover:shadow-2xl transition-all border border-transparent hover:border-blue-100">
-                    <div className="flex items-center gap-10">
-                      <div className="h-32 w-32 rounded-[2.5rem] bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-700">
+                  <Card key={i} className="rounded-3xl sm:rounded-[3rem] border-none shadow-sm bg-card p-5 sm:p-10 group hover:shadow-2xl transition-all border border-transparent hover:border-blue-100">
+                    <div className="flex items-center gap-4 sm:gap-10">
+                      <div className="h-16 w-16 sm:h-32 sm:w-32 rounded-2xl sm:rounded-[2.5rem] bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-700">
                         <Image src={`https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=300&h=300&fit=crop&auto=format&q=80`} alt="Pod" fill className="object-cover opacity-20" />
-                        <Mic className="h-12 w-12 relative z-10 drop-shadow-lg" />
+                        <Mic className="h-7 w-7 sm:h-12 sm:w-12 relative z-10 drop-shadow-lg" />
                       </div>
-                      <div className="flex-1 min-w-0 space-y-4">
+                      <div className="flex-1 min-w-0 space-y-2 sm:space-y-4">
                         <div className="space-y-1">
                           <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Episode {i}</p>
-                          <h3 className="text-2xl font-black text-foreground truncate leading-tight tracking-tight">Faith in the Modern Age</h3>
+                          <h3 className="text-base sm:text-2xl font-black text-foreground truncate leading-tight tracking-tight">Faith in the Modern Age</h3>
                         </div>
-                        <div className="flex items-center gap-6 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                          <span className="flex items-center gap-2"><Clock className="h-4 w-4 text-blue-500" /> 45:00</span>
-                          <span className="h-1 w-1 bg-muted rounded-full" />
-                          <span>12.4k Listens</span>
+                        <div className="flex items-center gap-3 sm:gap-6 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+                          <span className="flex items-center gap-1.5 sm:gap-2 shrink-0"><Clock className="h-4 w-4 text-blue-500" /> 45:00</span>
+                          <span className="h-1 w-1 bg-muted rounded-full shrink-0" />
+                          <span className="truncate">12.4k Listens</span>
                         </div>
                       </div>
-                      <Button size="icon" className="h-16 w-16 rounded-full bg-zinc-900 text-white shadow-2xl hover:bg-blue-600 hover:scale-110 transition-all shrink-0">
+                      <Button size="icon" className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-zinc-900 text-white shadow-2xl hover:bg-blue-600 hover:scale-110 transition-all shrink-0">
                         <Play className="h-7 w-7 fill-current ml-1" />
                       </Button>
                     </div>
