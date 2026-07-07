@@ -708,7 +708,7 @@ export default function Home() {
               Business Directory · Professionals · Creators · Community · Prayer & Faith · Marketplace · Events · Blogs · Rewards · Wallet · Family
             </p>
           </div>
-          <Link href="/categories" className="block">
+          <Link href="/explore" className="block">
             <div className="inline-flex items-center gap-2 bg-primary text-white text-sm font-black px-6 py-3 rounded-2xl hover:opacity-90 transition-opacity">
               Browse Everything <ArrowRight className="h-4 w-4" />
             </div>
