@@ -936,105 +936,363 @@ export default function PrayerTimesPage() {
             </div>
           </section>
 
-          {/* ── QUICK LINKS STRIP ── */}
-          <Card className="rounded-2xl border-none shadow-sm bg-muted/40">
-            <CardContent className="p-4 space-y-2">
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Quick Access</p>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { label: "Prayer Times", href: "/prayer-times" },
-                  { label: "Qibla", href: "/prayer-times" },
-                  { label: "Monthly Calendar", href: "/prayer-times" },
-                  { label: "Hijri Dates", href: "/prayer-times" },
-                  { label: "Islamic Events", href: "/prayer-times" },
-                  { label: "Ramadan / Fasting", href: "/prayer-times" },
-                  { label: "Mosques Near Me", href: "/mosques" },
-                  { label: "Halal Check", href: "/halal-check" },
-                ].map((l) => (
-                  <Link
-                    key={l.label}
-                    href={l.href}
-                    className="text-xs font-bold px-3 py-1.5 rounded-full bg-background border border-border hover:border-primary/40 hover:text-primary transition-colors"
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* ─── DUAS TAB ─── */}
-        <TabsContent value="duas" className="mt-6 space-y-6">
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant={showFavorites ? "default" : "outline"}
-              size="sm"
-              className="rounded-full text-xs"
-              onClick={() => setShowFavorites((v) => !v)}
-            >
-              <Heart className={cn("h-3.5 w-3.5 mr-1", showFavorites && "fill-current")} />Favorites
-              <Badge variant="secondary" className="ml-1 text-[9px] px-1 py-0">{favorites.length}</Badge>
-            </Button>
-            {!showFavorites && duaCategories.slice(0, 12).map((cat) => (
-              <Button
-                key={cat.id}
-                variant={selectedDuaCategory === cat.id ? "default" : "outline"}
-                size="sm"
-                className="rounded-full text-xs"
-                onClick={() => setSelectedDuaCategory(cat.id)}
-              >
-                {cat.name}
-                <Badge variant="secondary" className="ml-1 text-[9px] px-1 py-0">{cat.count}</Badge>
-              </Button>
-            ))}
-            {!showFavorites && duaCategories.length > 12 && (
-              <Select value={selectedDuaCategory} onValueChange={setSelectedDuaCategory}>
-                <SelectTrigger className="w-36 rounded-full h-8 text-xs"><SelectValue placeholder="More..." /></SelectTrigger>
-                <SelectContent>
-                  {duaCategories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>{cat.name} ({cat.count})</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          </div>
-
-          <div className="space-y-4">
-            {(showFavorites ? favorites : duas).map((dua) => (
-              <Card key={dua.id} className="rounded-[2rem] border-none shadow-sm">
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <h4 className="text-sm font-black text-foreground">{dua.title}</h4>
-                    <div className="flex items-center gap-2 shrink-0">
-                      {dua.repeat > 1 && (
-                        <Badge variant="secondary" className="text-[10px]">×{dua.repeat}</Badge>
-                      )}
-                      <button onClick={() => toggleFavorite(dua)}>
-                        <Heart className={cn("h-4 w-4", isFavorite(dua.id) ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
-                      </button>
+          {/* ── QIBLA DIRECTION ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <div className="h-4 w-1 rounded-full bg-sky-500" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Qibla Direction</p>
+            </div>
+            <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden">
+              <CardContent className="p-6 flex flex-col items-center space-y-6">
+                {qiblaData && (
+                  <>
+                    <div className="relative w-48 h-48 sm:w-64 sm:h-64">
+                      <div className="absolute inset-0 rounded-full border-[6px] border-primary/10" />
+                      <div className="absolute inset-3 rounded-full border border-dashed border-muted-foreground/20" />
+                      {["N", "E", "S", "W"].map((dir, i) => {
+                        const angle = i * 90
+                        const rad = (angle * Math.PI) / 180
+                        const r = 46
+                        const x = 50 + r * Math.sin(rad)
+                        const y = 50 - r * Math.cos(rad)
+                        return (
+                          <div key={dir} className="absolute text-xs font-black text-muted-foreground" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
+                            {dir}
+                          </div>
+                        )
+                      })}
+                      <div className="absolute inset-0 flex items-start justify-center transition-transform duration-700 ease-out" style={{ transform: `rotate(${qiblaData.qibla_direction}deg)` }}>
+                        <div className="flex flex-col items-center -mt-3">
+                          <Navigation className="h-7 w-7 text-primary fill-primary" />
+                          <span className="text-[9px] font-black text-primary bg-primary/10 px-2 py-0.5 rounded-full mt-0.5">QIBLA</span>
+                        </div>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-4xl font-black text-primary">{qiblaData.qibla_direction}°</div>
+                          <div className="text-xs font-bold text-muted-foreground">{qiblaData.compass_bearing}</div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-right text-xl leading-[2.5] font-bold text-foreground" dir="rtl">{dua.arabic}</p>
-                  <p className="text-sm text-primary/80 italic">{dua.transliteration}</p>
-                  <p className="text-sm text-muted-foreground">{dua.translation}</p>
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase">{dua.source}</p>
+                    <div className="grid grid-cols-2 gap-4 w-full">
+                      <div className="bg-muted/50 p-4 rounded-2xl text-center">
+                        <p className="text-[10px] font-black text-muted-foreground uppercase mb-1">Distance to Kaaba</p>
+                        <p className="text-base font-black text-foreground">{qiblaData.distance_km.toLocaleString()} km</p>
+                        <p className="text-xs text-muted-foreground">{qiblaData.distance_miles.toLocaleString()} mi</p>
+                      </div>
+                      <div className="bg-muted/50 p-4 rounded-2xl text-center">
+                        <p className="text-[10px] font-black text-muted-foreground uppercase mb-1">Your Location</p>
+                        <p className="text-sm font-bold text-foreground">{settings.locationName}</p>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* ── MONTHLY PRAYER TIMES ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <div className="h-4 w-1 rounded-full bg-violet-500" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Monthly Prayer Times</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setCalendarMonth((p) => { const d = new Date(p.year, p.month - 1, 1); return { year: d.getFullYear(), month: d.getMonth() } })}>
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
+              <h3 className="text-base font-black text-foreground">
+                {new Date(calendarMonth.year, calendarMonth.month).toLocaleDateString(undefined, { month: "long", year: "numeric" })}
+              </h3>
+              <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setCalendarMonth((p) => { const d = new Date(p.year, p.month + 1, 1); return { year: d.getFullYear(), month: d.getMonth() } })}>
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </div>
+            <Button variant="outline" size="sm" className="rounded-full" onClick={loadCalendar} disabled={calendarLoading}>
+              {calendarLoading ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <RefreshCw className="h-4 w-4 mr-1" />}
+              Load Times
+            </Button>
+            {calendarLoading && (
+              <div className="space-y-2">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-12" />)}</div>
+            )}
+            {!calendarLoading && calendarDays.length > 0 && (
+              <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-muted/50">
+                        <th className="text-left p-3 font-black text-xs text-muted-foreground uppercase">Date</th>
+                        <th className="p-3 font-black text-xs text-muted-foreground uppercase">Fajr</th>
+                        <th className="p-3 font-black text-xs text-muted-foreground uppercase hidden sm:table-cell">Sunrise</th>
+                        <th className="p-3 font-black text-xs text-muted-foreground uppercase">Dhuhr</th>
+                        <th className="p-3 font-black text-xs text-muted-foreground uppercase">Asr</th>
+                        <th className="p-3 font-black text-xs text-muted-foreground uppercase">Maghrib</th>
+                        <th className="p-3 font-black text-xs text-muted-foreground uppercase">Isha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {calendarDays.map((day, i) => {
+                        const isToday = day.date === new Date().toISOString().split("T")[0]
+                        return (
+                          <tr key={i} className={cn("border-t border-border/50 hover:bg-muted/30", isToday && "bg-primary/5")}>
+                            <td className="p-3 font-bold text-foreground whitespace-nowrap">
+                              {new Date(day.date + "T12:00:00").toLocaleDateString(undefined, { weekday: "short", day: "numeric" })}
+                              {isToday && <Badge variant="default" className="ml-1 text-[8px] px-1 py-0 bg-primary">TODAY</Badge>}
+                            </td>
+                            <td className="p-3 text-center font-mono text-xs text-foreground">{formatTime(day.prayer_times.fajr, settings.timeFormat)}</td>
+                            <td className="p-3 text-center font-mono text-xs text-muted-foreground hidden sm:table-cell">{formatTime(day.prayer_times.sunrise, settings.timeFormat)}</td>
+                            <td className="p-3 text-center font-mono text-xs text-foreground">{formatTime(day.prayer_times.dhuhr, settings.timeFormat)}</td>
+                            <td className="p-3 text-center font-mono text-xs text-foreground">{formatTime(day.prayer_times.asr, settings.timeFormat)}</td>
+                            <td className="p-3 text-center font-mono text-xs text-foreground">{formatTime(day.prayer_times.maghrib, settings.timeFormat)}</td>
+                            <td className="p-3 text-center font-mono text-xs text-foreground">{formatTime(day.prayer_times.isha, settings.timeFormat)}</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            )}
+          </section>
+
+          {/* ── HIJRI CALENDAR ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <div className="h-4 w-1 rounded-full bg-teal-500" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Hijri Calendar</p>
+            </div>
+            {hijriData && (
+              <Card className="relative overflow-hidden rounded-[2rem] border-none shadow-soft-md bg-gradient-to-br from-primary to-emerald-400 text-white">
+                <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
+                <CardContent className="relative p-6 text-center">
+                  <p className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-2">Current Islamic Date</p>
+                  <p className="text-3xl font-black">{hijriData.hijri.day} {hijriData.hijri.month_name} {hijriData.hijri.year} AH</p>
+                  <p className="text-lg font-bold opacity-80 mt-1" dir="rtl">{hijriData.hijri.month_name_arabic}</p>
                 </CardContent>
               </Card>
-            ))}
-            {!showFavorites && duas.length === 0 && (
-              <div className="text-center py-12 text-muted-foreground">
-                <BookOpen className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                <p className="font-bold">Select a category to view duas</p>
-              </div>
             )}
-            {showFavorites && favorites.length === 0 && (
-              <div className="text-center py-12 text-muted-foreground">
-                <BookMarked className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                <p className="font-bold">No favorite duas yet. Tap the heart icon to save one.</p>
-              </div>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+              {islamicMonths.map((month) => {
+                const isCurrent = hijriData?.hijri.month === month.number
+                const monthEvents = eventsData?.events.filter((e) => e.month === month.number) || []
+                return (
+                  <Card key={month.number} className={cn("rounded-[2rem] border-none shadow-soft transition-all duration-250 hover:shadow-soft-md hover:-translate-y-0.5", isCurrent && "ring-2 ring-primary bg-primary/5")}>
+                    <CardContent className="p-4 space-y-2">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="text-[10px] font-black text-muted-foreground uppercase">Month {month.number}</p>
+                          <p className="text-sm font-black text-foreground">{month.name_english}</p>
+                        </div>
+                        <span className="text-base font-bold text-primary" dir="rtl">{month.name_arabic}</span>
+                      </div>
+                      {isCurrent && <Badge variant="default" className="bg-primary text-[9px]">CURRENT</Badge>}
+                      <p className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">{month.significance}</p>
+                      {monthEvents.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {monthEvents.map((e, i) => <Badge key={i} variant="secondary" className="text-[9px]">{e.day}: {e.name}</Badge>)}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          </section>
+
+          {/* ── ISLAMIC EVENTS ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <div className="h-4 w-1 rounded-full bg-amber-500" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Islamic Events</p>
+            </div>
+            {eventsData && (
+              <>
+                <Card className="rounded-[2rem] border-none shadow-sm bg-gradient-to-br from-amber-500/10 to-orange-500/10">
+                  <CardContent className="p-5">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400 mb-2">Next Event</p>
+                    <h3 className="text-xl font-black text-foreground">{eventsData.next_event.name}</h3>
+                    <p className="text-sm font-bold text-muted-foreground mt-1">{eventsData.next_event.hijri_date}</p>
+                  </CardContent>
+                </Card>
+                <Card className="rounded-[2rem] border-none shadow-sm">
+                  <CardHeader className="pb-2"><CardTitle className="text-base font-black">Full Calendar</CardTitle></CardHeader>
+                  <CardContent className="p-4 space-y-1">
+                    {eventsData.events.map((event, i) => {
+                      const monthNames = ["", "Muharram", "Safar", "Rabi' al-Awwal", "Rabi' al-Thani", "Jumada al-Awwal", "Jumada al-Thani", "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"]
+                      return (
+                        <div key={i} className="flex items-start gap-3 p-3 rounded-2xl hover:bg-muted/30 transition-colors">
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex flex-col items-center justify-center shrink-0">
+                            <span className="text-xs font-black text-primary leading-none">{event.day}</span>
+                            <span className="text-[8px] font-bold text-primary/70 uppercase leading-none mt-0.5">{(monthNames[event.month] || "").substring(0, 3)}</span>
+                          </div>
+                          <div>
+                            <p className="text-sm font-black text-foreground">{event.name}</p>
+                            <p className="text-xs text-muted-foreground">{event.description}</p>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </CardContent>
+                </Card>
+              </>
             )}
-          </div>
+          </section>
+
+          {/* ── FASTING & RAMADAN ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <div className="h-4 w-1 rounded-full bg-orange-500" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Fasting &amp; Ramadan</p>
+            </div>
+            {!ramadanData && !ramadanLoading && !ramadanError && (
+              <Button variant="outline" className="rounded-full" onClick={loadRamadan}>
+                <RefreshCw className="h-4 w-4 mr-2" />Load Ramadan Calendar
+              </Button>
+            )}
+            {ramadanLoading && (
+              <div className="space-y-3"><Skeleton className="h-32" /><Skeleton className="h-48" /></div>
+            )}
+            {ramadanError && (
+              <Card className="border-destructive/50">
+                <CardContent className="p-6 text-center space-y-3">
+                  <AlertCircle className="h-8 w-8 text-destructive mx-auto" />
+                  <p className="text-sm text-muted-foreground">{ramadanError}</p>
+                  <Button onClick={loadRamadan} variant="outline" size="sm"><RefreshCw className="h-4 w-4 mr-2" />Try Again</Button>
+                </CardContent>
+              </Card>
+            )}
+            {!ramadanLoading && ramadanData && (() => {
+              const today = new Date().toISOString().split("T")[0]
+              const todayEntry = ramadanData.days.find((d) => d.date === today)
+              const isRamadanNow = !!todayEntry
+              const ramadanStart = new Date(ramadanData.ramadan_start)
+              const isUpcoming = ramadanStart.getTime() > Date.now()
+              const daysUntil = Math.ceil((ramadanStart.getTime() - Date.now()) / 86400000)
+              return (
+                <>
+                  <Card className="relative overflow-hidden border-none rounded-[2.5rem] bg-gradient-to-br from-amber-500 to-orange-400 text-white shadow-2xl shadow-amber-500/20">
+                    <div className="absolute top-0 right-0 p-6 opacity-15"><Utensils className="h-28 w-28" /></div>
+                    <CardContent className="p-7 space-y-3">
+                      <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest opacity-80">
+                        <Sparkles className="h-4 w-4" />
+                        {isRamadanNow ? `Ramadan Day ${todayEntry!.day} of ${ramadanData.ramadan_days}` : isUpcoming ? "Upcoming Ramadan" : "Most Recent Ramadan"}
+                      </div>
+                      {isRamadanNow ? (
+                        <>
+                          <p className="text-2xl font-black">{todayEntry!.hijri_date}</p>
+                          <div className="flex flex-wrap gap-3 pt-1">
+                            <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-2xl">
+                              <p className="text-[10px] font-black uppercase opacity-80">Suhoor Ends</p>
+                              <p className="text-lg font-black">{formatTime(todayEntry!.suhoor_ends, settings.timeFormat)}</p>
+                            </div>
+                            <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-2xl">
+                              <p className="text-[10px] font-black uppercase opacity-80">Iftar</p>
+                              <p className="text-lg font-black">{formatTime(todayEntry!.iftar, settings.timeFormat)}</p>
+                            </div>
+                          </div>
+                        </>
+                      ) : isUpcoming ? (
+                        <p className="text-4xl font-black">{daysUntil} days to go</p>
+                      ) : (
+                        <p className="text-lg font-bold opacity-90">{ramadanData.ramadan_start} – {ramadanData.ramadan_end} ({ramadanData.hijri_year} AH)</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                  <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden">
+                    <CardHeader className="pb-2"><CardTitle className="text-base font-black">Ramadan Calendar</CardTitle></CardHeader>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-muted/50">
+                            <th className="text-left p-3 font-black text-xs text-muted-foreground uppercase">Day</th>
+                            <th className="p-3 font-black text-xs text-muted-foreground uppercase">Suhoor Ends</th>
+                            <th className="p-3 font-black text-xs text-muted-foreground uppercase">Iftar</th>
+                            <th className="p-3 font-black text-xs text-muted-foreground uppercase hidden sm:table-cell">Third</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {ramadanData.days.map((day) => {
+                            const isToday = day.date === today
+                            return (
+                              <tr key={day.day} className={cn("border-t border-border/50 hover:bg-muted/30", isToday && "bg-primary/5")}>
+                                <td className="p-3 font-bold text-foreground whitespace-nowrap">
+                                  {day.day}{isToday && <Badge variant="default" className="ml-1 text-[8px] px-1 py-0 bg-primary">TODAY</Badge>}
+                                </td>
+                                <td className="p-3 text-center font-mono text-xs">{formatTime(day.suhoor_ends, settings.timeFormat)}</td>
+                                <td className="p-3 text-center font-mono text-xs">{formatTime(day.iftar, settings.timeFormat)}</td>
+                                <td className="p-3 text-center text-xs text-muted-foreground hidden sm:table-cell">{day.third}</td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </Card>
+                </>
+              )
+            })()}
+          </section>
+
+          {/* ── DUAS LIBRARY ── */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2 px-1">
+              <div className="h-4 w-1 rounded-full bg-rose-500" />
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Duas Library</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button variant={showFavorites ? "default" : "outline"} size="sm" className="rounded-full text-xs" onClick={() => setShowFavorites((v) => !v)}>
+                <Heart className={cn("h-3.5 w-3.5 mr-1", showFavorites && "fill-current")} />Favorites
+                <Badge variant="secondary" className="ml-1 text-[9px] px-1 py-0">{favorites.length}</Badge>
+              </Button>
+              {!showFavorites && duaCategories.slice(0, 12).map((cat) => (
+                <Button key={cat.id} variant={selectedDuaCategory === cat.id ? "default" : "outline"} size="sm" className="rounded-full text-xs" onClick={() => setSelectedDuaCategory(cat.id)}>
+                  {cat.name}
+                  <Badge variant="secondary" className="ml-1 text-[9px] px-1 py-0">{cat.count}</Badge>
+                </Button>
+              ))}
+              {!showFavorites && duaCategories.length > 12 && (
+                <Select value={selectedDuaCategory} onValueChange={setSelectedDuaCategory}>
+                  <SelectTrigger className="w-36 rounded-full h-8 text-xs"><SelectValue placeholder="More..." /></SelectTrigger>
+                  <SelectContent>
+                    {duaCategories.map((cat) => <SelectItem key={cat.id} value={cat.id}>{cat.name} ({cat.count})</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
+            <div className="space-y-4">
+              {(showFavorites ? favorites : duas).map((dua) => (
+                <Card key={dua.id} className="rounded-[2rem] border-none shadow-sm">
+                  <CardContent className="p-6 space-y-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="text-sm font-black text-foreground">{dua.title}</h4>
+                      <div className="flex items-center gap-2 shrink-0">
+                        {dua.repeat > 1 && <Badge variant="secondary" className="text-[10px]">×{dua.repeat}</Badge>}
+                        <button onClick={() => toggleFavorite(dua)}>
+                          <Heart className={cn("h-4 w-4", isFavorite(dua.id) ? "fill-red-500 text-red-500" : "text-muted-foreground")} />
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-right text-xl leading-[2.5] font-bold text-foreground" dir="rtl">{dua.arabic}</p>
+                    <p className="text-sm text-primary/80 italic">{dua.transliteration}</p>
+                    <p className="text-sm text-muted-foreground">{dua.translation}</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase">{dua.source}</p>
+                  </CardContent>
+                </Card>
+              ))}
+              {!showFavorites && duas.length === 0 && (
+                <div className="text-center py-10 text-muted-foreground">
+                  <BookOpen className="h-10 w-10 mx-auto mb-3 opacity-50" />
+                  <p className="font-bold">Select a category to view duas</p>
+                </div>
+              )}
+              {showFavorites && favorites.length === 0 && (
+                <div className="text-center py-10 text-muted-foreground">
+                  <BookMarked className="h-10 w-10 mx-auto mb-3 opacity-50" />
+                  <p className="font-bold">No favourite duas yet — tap the heart to save one.</p>
+                </div>
+              )}
+            </div>
+          </section>
         </TabsContent>
       </Tabs>
     </div>
