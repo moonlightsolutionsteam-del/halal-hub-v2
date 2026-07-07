@@ -95,7 +95,7 @@ export default function DonationPage() {
                 !custom && amount === amt ? "border-primary ring-2 ring-primary/20 bg-primary/5 text-primary" : "border-border/50 bg-card text-foreground hover:bg-muted/30"
               )}
             >
-              ${amt.toLocaleString("en-US")}
+              ${amt.toLocaleString("en-IN")}
             </button>
           ))}
         </div>
@@ -126,7 +126,7 @@ export default function DonationPage() {
         className="w-full h-14 rounded-2xl bg-primary text-white font-black text-sm hover:bg-primary/90 disabled:opacity-40 transition-colors flex items-center justify-center gap-2"
       >
         <Heart className="h-4 w-4 fill-current" />
-        Donate ${activeAmount.toLocaleString("en-US")} to {selectedCause.name}
+        Donate ${activeAmount.toLocaleString("en-IN")} to {selectedCause.name}
       </button>
 
       {/* Zakat cross-link */}

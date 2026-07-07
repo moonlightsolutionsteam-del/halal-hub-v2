@@ -80,7 +80,7 @@ export default function CharityPage() {
                         <HandHelping className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">$1,250</div>
+                        <div className="text-2xl font-bold">₹1,250</div>
                         <p className="text-xs text-muted-foreground">+20% from last month</p>
                     </CardContent>
                 </Card>
@@ -129,7 +129,7 @@ export default function CharityPage() {
                         <p className="text-sm text-muted-foreground">Support an orphan's education and well-being for a year.</p>
                         <Progress value={75} className="my-3 h-2" />
                         <div className="flex justify-between items-center text-sm">
-                            <span className="font-semibold">$15,000 / $20,000 Raised</span>
+                            <span className="font-semibold">₹15,000 / ₹20,000 Raised</span>
                             <span className="text-muted-foreground">25 days left</span>
                         </div>
                         <div className="flex gap-2 mt-4">
@@ -145,7 +145,7 @@ export default function CharityPage() {
                         <p className="text-sm text-muted-foreground">Provide essential aid to families affected by the crisis in Gaza.</p>
                         <Progress value={90} className="my-3 h-2" />
                         <div className="flex justify-between items-center text-sm">
-                            <span className="font-semibold">$45,000 / $50,000 Raised</span>
+                            <span className="font-semibold">₹45,000 / ₹50,000 Raised</span>
                              <span className="text-muted-foreground">15 days left</span>
                         </div>
                          <div className="flex gap-2 mt-4">
@@ -244,9 +244,9 @@ export default function CharityPage() {
                         <Input placeholder="Enter amount" type="number" />
                     </div>
                      <div className="flex gap-2">
-                        <Button variant="outline" className="flex-1">$100</Button>
-                        <Button variant="outline" className="flex-1">$250</Button>
-                        <Button variant="outline" className="flex-1">$500</Button>
+                        <Button variant="outline" className="flex-1">₹100</Button>
+                        <Button variant="outline" className="flex-1">₹250</Button>
+                        <Button variant="outline" className="flex-1">₹500</Button>
                     </div>
                     <Button className="w-full bg-rose-600 hover:bg-rose-700">Donate Now</Button>
                 </CardContent>

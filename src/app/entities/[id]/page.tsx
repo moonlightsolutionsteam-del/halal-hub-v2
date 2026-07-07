@@ -202,8 +202,8 @@ export default function EntityProfilePage() {
     description: "Bringing authentic flavors to the community with high-fidelity service and 100% certified halal standards.",
     contact: { phone: "+1 (212) 555-0198", website: "https://halal-hub.com", hours: "Mon - Sat: 11:00 AM - 11:00 PM" },
     items: [
-      { name: "Premium Offering A", desc: "A best-selling verified item.", price: "$24.00", popular: true },
-      { name: "Signature Dish B", desc: "Crafted with ethcial ingredients.", price: "$18.50", popular: true },
+      { name: "Premium Offering A", desc: "A best-selling verified item.", price: "₹24.00", popular: true },
+      { name: "Signature Dish B", desc: "Crafted with ethcial ingredients.", price: "₹18.50", popular: true },
     ]
   };
 
@@ -235,8 +235,8 @@ export default function EntityProfilePage() {
     verifiedBy: "Shariah Supervisory Board",
     description: "Amanah Islamic Bank is a leader in Shariah-compliant retail and investment banking. We provide ethical financial solutions that empower individuals and businesses while strictly adhering to Islamic principles of finance.",
     items: [
-      { name: "Real Estate Sukuk", desc: "Asset-backed investment with quarterly profit distribution.", price: "From $10k", popular: true },
-      { name: "SME Mudarabah Fund", desc: "Profit-sharing investment in local halal businesses.", price: "From $5k", popular: true },
+      { name: "Real Estate Sukuk", desc: "Asset-backed investment with quarterly profit distribution.", price: "From ₹10k", popular: true },
+      { name: "SME Mudarabah Fund", desc: "Profit-sharing investment in local halal businesses.", price: "From ₹5k", popular: true },
       { name: "Shariah Savings Account", desc: "Zero-interest, fee-free account with competitive profit sharing.", price: "No Min.", popular: false },
     ]
   };
@@ -252,9 +252,9 @@ export default function EntityProfilePage() {
     verifiedBy: "Medical Ethics Board",
     description: "Safe Care Medical Hub provides high-quality clinical services with a focus on patient dignity and Shariah-compliant care. We offer general medicine, pediatrics, and specialized Sunnah-based wellness treatments.",
     items: [
-      { name: "Family GP Consult", desc: "Comprehensive health check for adults and children.", price: "$120", popular: true },
-      { name: "Hijama Therapy Session", desc: "Traditional wet cupping performed by certified practitioners.", price: "$85", popular: true },
-      { name: "Nutrition Coaching", desc: "Sunnah-based diet plans for weight management and chronic health.", price: "$60", popular: false },
+      { name: "Family GP Consult", desc: "Comprehensive health check for adults and children.", price: "₹120", popular: true },
+      { name: "Hijama Therapy Session", desc: "Traditional wet cupping performed by certified practitioners.", price: "₹85", popular: true },
+      { name: "Nutrition Coaching", desc: "Sunnah-based diet plans for weight management and chronic health.", price: "₹60", popular: false },
     ]
   };
 
@@ -286,9 +286,9 @@ export default function EntityProfilePage() {
     verifiedBy: "HMC Global",
     description: "Al-Barakah Premium Meats is Brooklyn's leading HMC-certified butcher, sourcing only from traceable, ethical farms. We offer custom cuts, dry-aged beef, grass-fed lamb, and weekly subscription boxes — all 100% halal.",
     items: [
-      { name: "Wagyu Beef (per kg)", desc: "Premium HMC-certified Wagyu, dry-aged 21 days.", price: "$48.00", popular: true },
-      { name: "Whole Free-Range Chicken", desc: "Antibiotic-free, HMC hand-slaughtered.", price: "$14.50", popular: true },
-      { name: "Family Lamb Box (5 kg)", desc: "Mixed cuts — chops, leg, shoulder. Grass-fed.", price: "$65.00", popular: false },
+      { name: "Wagyu Beef (per kg)", desc: "Premium HMC-certified Wagyu, dry-aged 21 days.", price: "₹48.00", popular: true },
+      { name: "Whole Free-Range Chicken", desc: "Antibiotic-free, HMC hand-slaughtered.", price: "₹14.50", popular: true },
+      { name: "Family Lamb Box (5 kg)", desc: "Mixed cuts — chops, leg, shoulder. Grass-fed.", price: "₹65.00", popular: false },
     ]
   };
 
@@ -303,9 +303,9 @@ export default function EntityProfilePage() {
     verifiedBy: "HMC Global",
     description: "Elite Halal Catering delivers world-class cuisine for weddings, corporate events, and private gatherings. Every menu is HMC-certified, cross-contamination-free, and tailored to your guest count — from 20 to 2,000.",
     items: [
-      { name: "Wedding Banquet Package", desc: "5-course plated dinner for up to 300 guests.", price: "From $8,500", popular: true },
-      { name: "Corporate Lunch Buffet", desc: "Hot buffet with 8 dishes, 50-person minimum.", price: "From $1,200", popular: true },
-      { name: "Live Grill Station", desc: "On-site BBQ chef with mixed grill spread.", price: "From $600", popular: false },
+      { name: "Wedding Banquet Package", desc: "5-course plated dinner for up to 300 guests.", price: "From ₹8,500", popular: true },
+      { name: "Corporate Lunch Buffet", desc: "Hot buffet with 8 dishes, 50-person minimum.", price: "From ₹1,200", popular: true },
+      { name: "Live Grill Station", desc: "On-site BBQ chef with mixed grill spread.", price: "From ₹600", popular: false },
     ]
   };
 
@@ -320,9 +320,9 @@ export default function EntityProfilePage() {
     verifiedBy: "Shariah Events Board",
     description: "Grand Halal Ballroom is New York's premier Shariah-compliant event space. We host weddings, Aqeeqahs, corporate functions, and community events with full segregation options, alcohol-free bars, and dedicated Wudu facilities.",
     items: [
-      { name: "Full Ballroom Hire (Day)", desc: "Capacity 500. Full AV, lighting, and catering kitchen.", price: "From $4,500", popular: true },
-      { name: "Wedding Photography", desc: "8-hour coverage with same-day highlight reel.", price: "From $2,200", popular: true },
-      { name: "Decor & Florals Package", desc: "Bespoke centrepieces, backdrops, and stage design.", price: "From $1,800", popular: false },
+      { name: "Full Ballroom Hire (Day)", desc: "Capacity 500. Full AV, lighting, and catering kitchen.", price: "From ₹4,500", popular: true },
+      { name: "Wedding Photography", desc: "8-hour coverage with same-day highlight reel.", price: "From ₹2,200", popular: true },
+      { name: "Decor & Florals Package", desc: "Bespoke centrepieces, backdrops, and stage design.", price: "From ₹1,800", popular: false },
     ]
   };
 
@@ -337,9 +337,9 @@ export default function EntityProfilePage() {
     verifiedBy: "ATOL Certified",
     description: "Saffron Halal Travels specialises in Hajj, Umrah, and halal holiday packages worldwide. Every itinerary is pre-vetted for prayer facility access, halal food, and modest environment standards. Trusted by 10,000+ families.",
     items: [
-      { name: "Hajj Package 2027", desc: "21-day full-service Hajj including flights and 5-star Madinah.", price: "From $9,800/person", popular: true },
-      { name: "Umrah Premium", desc: "14-day Umrah with daily guided tours of sacred sites.", price: "From $3,400/person", popular: true },
-      { name: "Andalusia Family Tour", desc: "10-day halal Spain & Portugal tour for families.", price: "From $2,800/person", popular: false },
+      { name: "Hajj Package 2027", desc: "21-day full-service Hajj including flights and 5-star Madinah.", price: "From ₹9,800/person", popular: true },
+      { name: "Umrah Premium", desc: "14-day Umrah with daily guided tours of sacred sites.", price: "From ₹3,400/person", popular: true },
+      { name: "Andalusia Family Tour", desc: "10-day halal Spain & Portugal tour for families.", price: "From ₹2,800/person", popular: false },
     ]
   };
 
@@ -354,9 +354,9 @@ export default function EntityProfilePage() {
     verifiedBy: "Ethical Trade Initiative",
     description: "Al-Hayat is New York's leading modest fashion label, offering premium abayas, hijabs, and modest occasion wear. Ethically sourced, fully opaque fabrics, and cuts designed in consultation with Muslim women.",
     items: [
-      { name: "Signature Silk Abaya", desc: "Floor-length, 100% mulberry silk. Available in 12 colours.", price: "$185.00", popular: true },
-      { name: "Occasion Hijab Set", desc: "Matching hijab and underscarves for weddings and events.", price: "$48.00", popular: true },
-      { name: "Modest Jumpsuit", desc: "Wide-leg, fully lined, professional modest wear.", price: "$110.00", popular: false },
+      { name: "Signature Silk Abaya", desc: "Floor-length, 100% mulberry silk. Available in 12 colours.", price: "₹185.00", popular: true },
+      { name: "Occasion Hijab Set", desc: "Matching hijab and underscarves for weddings and events.", price: "₹48.00", popular: true },
+      { name: "Modest Jumpsuit", desc: "Wide-leg, fully lined, professional modest wear.", price: "₹110.00", popular: false },
     ]
   };
 
@@ -371,9 +371,9 @@ export default function EntityProfilePage() {
     verifiedBy: "Halal Cosmetics Authority",
     description: "Purity Beauty Lab formulates 100% halal, vegan, and wudu-friendly skincare and cosmetics. Every product is independently lab-tested for zero non-permissible additives, pork derivatives, or alcohol. Cruelty-free certified.",
     items: [
-      { name: "Halal Glow Serum", desc: "Vitamin C & hyaluronic acid. Wudu-friendly, no film residue.", price: "$42.00", popular: true },
-      { name: "Breathable Foundation", desc: "Allows wudu water to pass. 20 shades, SPF 25.", price: "$38.00", popular: true },
-      { name: "Botanical Lip Tint", desc: "Moisturising, pigmented. No carmine or non-halal dyes.", price: "$22.00", popular: false },
+      { name: "Halal Glow Serum", desc: "Vitamin C & hyaluronic acid. Wudu-friendly, no film residue.", price: "₹42.00", popular: true },
+      { name: "Breathable Foundation", desc: "Allows wudu water to pass. 20 shades, SPF 25.", price: "₹38.00", popular: true },
+      { name: "Botanical Lip Tint", desc: "Moisturising, pigmented. No carmine or non-halal dyes.", price: "₹22.00", popular: false },
     ]
   };
 
@@ -388,9 +388,9 @@ export default function EntityProfilePage() {
     verifiedBy: "HFA Approved",
     description: "Barakah Halal Supermarket is your one-stop shop for HFA-certified meats, global halal grocery imports, fresh produce, and a certified halal bakery. Monthly halal audits ensure every product meets our strict standards.",
     items: [
-      { name: "Weekly Halal Meat Box", desc: "HFA mixed cuts — chicken, lamb, beef. 5 kg family box.", price: "$55.00", popular: true },
-      { name: "World Grocery Bundle", desc: "Curated halal international pantry selection.", price: "$32.00", popular: true },
-      { name: "Halal Bakery Basket", desc: "Freshly baked bread, pastries, and sweets. Certified halal.", price: "$18.00", popular: false },
+      { name: "Weekly Halal Meat Box", desc: "HFA mixed cuts — chicken, lamb, beef. 5 kg family box.", price: "₹55.00", popular: true },
+      { name: "World Grocery Bundle", desc: "Curated halal international pantry selection.", price: "₹32.00", popular: true },
+      { name: "Halal Bakery Basket", desc: "Freshly baked bread, pastries, and sweets. Certified halal.", price: "₹18.00", popular: false },
     ]
   };
 
@@ -405,9 +405,9 @@ export default function EntityProfilePage() {
     verifiedBy: "Halal Hospitality Standard",
     description: "The Madinah Suite Hotel is New York's premier halal-certified boutique hotel. Strictly alcohol-free, pork-free, with in-room prayer mats, Qibla direction, halal breakfast, and a private Muslim-friendly rooftop pool.",
     items: [
-      { name: "Deluxe King Room", desc: "City view, halal minibar, prayer mat & Quran provided.", price: "From $320/night", popular: true },
-      { name: "Family Suite", desc: "2 bedrooms, living room, halal kitchen. Sleeps 4.", price: "From $580/night", popular: true },
-      { name: "Halal Breakfast Package", desc: "Daily certified halal buffet for all guests.", price: "+$28/person", popular: false },
+      { name: "Deluxe King Room", desc: "City view, halal minibar, prayer mat & Quran provided.", price: "From ₹320/night", popular: true },
+      { name: "Family Suite", desc: "2 bedrooms, living room, halal kitchen. Sleeps 4.", price: "From ₹580/night", popular: true },
+      { name: "Halal Breakfast Package", desc: "Daily certified halal buffet for all guests.", price: "+₹28/person", popular: false },
     ]
   };
 

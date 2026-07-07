@@ -21,7 +21,7 @@ const allRewards = [
     {
         icon: <Utensils className="h-8 w-8 text-primary" />,
         title: "Family Iftar Voucher",
-        description: "$50 voucher for local halal restaurant",
+        description: "₹50 voucher for local halal restaurant",
         category: "Dining",
         points: 2000,
     },

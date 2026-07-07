@@ -167,18 +167,18 @@ export default function FamilyTreePage() {
               <div className="space-y-2">
                 <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Spent This Month</p>
                 <div className="flex items-baseline gap-2">
-                  <p className="text-2xl sm:text-4xl font-black text-foreground tracking-tighter">$12,450</p>
+                  <p className="text-2xl sm:text-4xl font-black text-foreground tracking-tighter">₹12,450</p>
                   <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] px-2">↓ 12%</Badge>
                 </div>
               </div>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
                   <span className="text-muted-foreground">Recent: Groceries 🛒</span>
-                  <span className="text-foreground">$850</span>
+                  <span className="text-foreground">₹850</span>
                 </div>
                 <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
                   <span className="text-muted-foreground">Recent: Dinner 🍽️</span>
-                  <span className="text-foreground">$1,200</span>
+                  <span className="text-foreground">₹1,200</span>
                 </div>
               </div>
             </Card>

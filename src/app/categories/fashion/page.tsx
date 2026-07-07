@@ -39,7 +39,7 @@ const MOCK_FASHION_BRANDS = [
     ver: true, 
     img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Handmade", "Organic Cotton", "Custom Tailoring"],
-    startingPrice: "$85",
+    startingPrice: "₹85",
     shipping: "Express Available"
   },
   { 
@@ -51,7 +51,7 @@ const MOCK_FASHION_BRANDS = [
     ver: true, 
     img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Next Day Delivery", "Ethical Labor", "Student Discount"],
-    startingPrice: "$45",
+    startingPrice: "₹45",
     shipping: "Domestic US"
   },
   { 
@@ -63,7 +63,7 @@ const MOCK_FASHION_BRANDS = [
     ver: false, 
     img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Embroidery", "Gift Wrapping", "VIP Service"],
-    startingPrice: "$250",
+    startingPrice: "₹250",
     shipping: "International"
   },
 ];

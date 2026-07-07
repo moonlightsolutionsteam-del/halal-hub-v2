@@ -167,7 +167,7 @@ const FEED_ITEMS: Array<{ id: number; type: FeedItemType; [k: string]: any }> = 
     location: "Central Park, New York",
     going: 3241, interested: 8920, timeAgo: "5h",
     tags: ["#HalalFood", "#NYC", "#Festival"],
-    price: "$15",
+    price: "₹15",
   },
   // 11 — Post (travel)
   {

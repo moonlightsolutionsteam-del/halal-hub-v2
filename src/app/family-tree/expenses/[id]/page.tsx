@@ -33,7 +33,7 @@ export default function ExpenseDetailPage() {
   const expense = {
     id: id,
     title: "Weekend Dinner at The Halal Grill",
-    amount: "$1,200",
+    amount: "₹1,200",
     category: "Food / Dining",
     categoryIcon: Utensils,
     paidBy: "Ibrahim",
@@ -116,7 +116,7 @@ export default function ExpenseDetailPage() {
                         </Avatar>
                         <span className="text-sm font-black text-foreground">{member}</span>
                       </div>
-                      <span className="text-base font-black text-foreground">$300</span>
+                      <span className="text-base font-black text-foreground">₹300</span>
                     </div>
                   ))}
                 </div>
@@ -175,7 +175,7 @@ export default function ExpenseDetailPage() {
             <div className="space-y-2">
               <h4 className="text-2xl font-black tracking-tight leading-tight">Sync Discovery?</h4>
               <p className="text-xs text-blue-100 leading-relaxed font-medium">
-                You spent $1,200 on {expense.category}. Check out other certified halal venues in this category.
+                You spent ₹1,200 on {expense.category}. Check out other certified halal venues in this category.
               </p>
             </div>
             <Link href="/family-tree/discovery">

@@ -166,7 +166,7 @@ const CREATORS: Record<string, any> = {
       { type: "video", thumb: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", title: "5 Days in Istanbul: The Ultimate Halal Guide", views: "78K" },
       { type: "video", thumb: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", title: "Umrah 2026: Complete Vlog Series", views: "112K" },
       { type: "article", thumb: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", title: "Top 10 Halal Resorts in the Maldives", views: "44K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop&auto=format&q=80", title: "Budget Halal Travel: Morocco for $500", views: "56K" },
+      { type: "video", thumb: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop&auto=format&q=80", title: "Budget Halal Travel: Morocco for ₹500", views: "56K" },
       { type: "article", thumb: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80", title: "How to Find Prayer Rooms at Airports", views: "33K" },
     ],
     reviews: [

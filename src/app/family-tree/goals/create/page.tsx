@@ -122,8 +122,8 @@ export default function CreateFamilyGoalPage() {
                   className="py-4"
                 />
                 <div className="flex justify-between text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                  <span>$500</span>
-                  <span>$50,000+</span>
+                  <span>₹500</span>
+                  <span>₹50,000+</span>
                 </div>
               </div>
             </div>

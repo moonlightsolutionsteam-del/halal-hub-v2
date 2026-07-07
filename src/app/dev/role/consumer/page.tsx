@@ -55,7 +55,7 @@ export default function ConsumerRolePage() {
           <h3 className="text-xl font-black text-foreground">Personal Goals</h3>
           <div className="space-y-6">
             {[
-              { label: "Charity Target", val: 65, color: "bg-red-400", sub: "$420 / $1000" },
+              { label: "Charity Target", val: 65, color: "bg-red-400", sub: "₹420 / ₹1000" },
               { label: "Quran Reading", val: 42, color: "bg-blue-400", sub: "Para 12 of 30" },
               { label: "Daily Steps", val: 88, color: "bg-emerald-400", sub: "8.2k / 10k" },
             ].map((goal, i) => (

@@ -28,7 +28,7 @@ const MOCK_GROCERIES = [
     img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Meat Counter", "Fresh Bakery", "Organic Section"],
     delivery: "30-45 mins",
-    minOrder: "$20"
+    minOrder: "₹20"
   },
   { 
     id: "g2", 
@@ -40,7 +40,7 @@ const MOCK_GROCERIES = [
     img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Farm-to-Table", "Bulk Bin", "Cold Pressed Juice"],
     delivery: "15-30 mins",
-    minOrder: "$15"
+    minOrder: "₹15"
   },
   { 
     id: "g3", 
@@ -52,7 +52,7 @@ const MOCK_GROCERIES = [
     img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Wholesale Packs", "Global Imports", "Prayer Area"],
     delivery: "1 hour",
-    minOrder: "$50"
+    minOrder: "₹50"
   },
   { 
     id: "g4", 

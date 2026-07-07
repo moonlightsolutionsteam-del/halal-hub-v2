@@ -40,7 +40,7 @@ const MOCK_MEDIA_OUTLETS = [
     ver: true, 
     img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Interactive Courses", "Scholarly Oversight", "LMS Access"],
-    startingPrice: "$25.00",
+    startingPrice: "₹25.00",
     specialty: "Online Education"
   },
   { 
@@ -52,7 +52,7 @@ const MOCK_MEDIA_OUTLETS = [
     ver: true, 
     img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["High-Fidelity Audio", "Exclusive Podcasts", "Subscription Model"],
-    startingPrice: "$9.99/mo",
+    startingPrice: "₹9.99/mo",
     specialty: "Audio Content"
   },
   { 
@@ -64,7 +64,7 @@ const MOCK_MEDIA_OUTLETS = [
     ver: false, 
     img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Illustrated Sets", "Ethical Themes", "Workshops"],
-    startingPrice: "$15.00",
+    startingPrice: "₹15.00",
     specialty: "Children's Media"
   },
 ];
