@@ -156,7 +156,7 @@ export default function MenuPage() {
                                                 </div>
                                                 <h3 className="font-semibold">{item.name}</h3>
                                             </div>
-                                            <p className="text-sm text-muted-foreground">₹{item.price}</p>
+                                            <p className="text-sm text-muted-foreground">${item.price}</p>
                                         </div>
                                          {cartItem ? (
                                             <div className="flex items-center gap-2 shrink-0">
@@ -196,7 +196,7 @@ export default function MenuPage() {
                   <div key={item.id} className="flex justify-between items-center text-sm">
                     <div>
                         <p className="font-semibold">{item.name}</p>
-                        <p className="text-muted-foreground">₹{item.price} x {item.quantity}</p>
+                        <p className="text-muted-foreground">${item.price} x {item.quantity}</p>
                     </div>
                      <div className="flex items-center gap-2">
                       <Button
@@ -242,14 +242,14 @@ export default function MenuPage() {
                                 {cart.map(item => (
                                     <div key={item.id} className="flex justify-between items-center text-sm">
                                         <span>{item.quantity} x {item.name}</span>
-                                        <span className="font-medium">₹{(item.price * item.quantity).toLocaleString()}</span>
+                                        <span className="font-medium">${(item.price * item.quantity).toLocaleString()}</span>
                                     </div>
                                 ))}
                             </div>
                             <Separator />
                             <div className="flex justify-between font-bold text-lg">
                                 <span>Estimated Total</span>
-                                <span>₹{total.toLocaleString()}</span>
+                                <span>${total.toLocaleString()}</span>
                             </div>
                              <p className="text-xs text-muted-foreground text-center">This is an estimate. Final bill may vary. This is not an online order.</p>
                             <DialogFooter className="sm:justify-between gap-2 pt-4">

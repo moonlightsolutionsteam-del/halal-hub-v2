@@ -92,7 +92,7 @@ export default function AddFamilyExpensePage() {
             <div className="space-y-4 text-center">
               <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Amount Spent</Label>
               <div className="relative max-w-[240px] mx-auto">
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 text-4xl font-black text-muted-foreground">₹</span>
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 text-4xl font-black text-muted-foreground">$</span>
                 <Input 
                   type="number" 
                   placeholder="0" 
@@ -192,7 +192,7 @@ export default function AddFamilyExpensePage() {
                     </div>
                     <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Share Per Person</span>
                   </div>
-                  <span className="text-lg font-black text-foreground tracking-tight">₹{perPersonAmount}</span>
+                  <span className="text-lg font-black text-foreground tracking-tight">${perPersonAmount}</span>
                 </div>
               )}
             </div>

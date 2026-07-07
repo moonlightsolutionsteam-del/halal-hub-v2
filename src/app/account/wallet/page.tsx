@@ -150,7 +150,7 @@ export default function WalletPage() {
                                         <Image src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&auto=format&q=80" alt="Amazon" width={48} height={48} className="rounded-md" />
                                     </div>
                                     <div>
-                                        <p className="font-bold">₹{reward.value} Amazon Gift Card</p>
+                                        <p className="font-bold">${reward.value} Amazon Gift Card</p>
                                         <div className="flex items-center gap-1 text-yellow-400 font-semibold">
                                             <Coins className="h-4 w-4" />
                                             <span>{reward.coins.toLocaleString()} Coins</span>

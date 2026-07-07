@@ -32,9 +32,9 @@ const CONTRIBUTIONS = [
 ];
 
 const ACTIVITY = [
-  { id: 1, name: "Fatima", action: "paid", amount: "₹850", item: "Groceries", icon: ShoppingCart, color: "text-emerald-600", time: "2h ago", split: 3 },
-  { id: 2, name: "Ibrahim", action: "paid", amount: "₹1,200", item: "Dinner", icon: Utensils, color: "text-orange-600", time: "5h ago", split: 4 },
-  { id: 3, name: "Zaid", action: "paid", amount: "₹450", item: "Transport", icon: Car, color: "text-blue-600", time: "Yesterday", split: 0 },
+  { id: 1, name: "Fatima", action: "paid", amount: "$850", item: "Groceries", icon: ShoppingCart, color: "text-emerald-600", time: "2h ago", split: 3 },
+  { id: 2, name: "Ibrahim", action: "paid", amount: "$1,200", item: "Dinner", icon: Utensils, color: "text-orange-600", time: "5h ago", split: 4 },
+  { id: 3, name: "Zaid", action: "paid", amount: "$450", item: "Transport", icon: Car, color: "text-blue-600", time: "Yesterday", split: 0 },
 ];
 
 export default function FamilyExpensesPage() {
@@ -84,7 +84,7 @@ export default function FamilyExpensesPage() {
               <div className="space-y-2">
                 <p className="text-xs font-black uppercase tracking-[0.2em] opacity-60">Total Spent This Month</p>
                 <div className="flex items-baseline gap-4">
-                  <h2 className="text-4xl sm:text-7xl font-black tracking-tighter">₹12,450</h2>
+                  <h2 className="text-4xl sm:text-7xl font-black tracking-tighter">$12,450</h2>
                   <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-xs px-4 h-8 flex items-center shadow-lg">
                     <ArrowDownLeft className="h-4 w-4 mr-1" /> 12% vs LAST MO
                   </Badge>
@@ -166,7 +166,7 @@ export default function FamilyExpensesPage() {
                       <cat.icon className={cn("h-4 w-4", cat.color)} />
                       <span className="text-muted-foreground">{cat.name}</span>
                     </div>
-                    <span className="text-foreground">₹{cat.spend.toLocaleString()}</span>
+                    <span className="text-foreground">${cat.spend.toLocaleString()}</span>
                   </div>
                   <div className="h-3 bg-muted rounded-full overflow-hidden shadow-inner">
                     <div className={cn("h-full rounded-full transition-all duration-1000", cat.color.replace('text-', 'bg-'))} style={{ width: `${cat.percentage}%` }} />
@@ -190,7 +190,7 @@ export default function FamilyExpensesPage() {
                     <span className="text-sm font-black text-foreground">{mem.name}</span>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-black text-foreground">₹{mem.spend.toLocaleString()}</p>
+                    <p className="text-sm font-black text-foreground">${mem.spend.toLocaleString()}</p>
                     <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">Contribution</p>
                   </div>
                 </div>
@@ -208,7 +208,7 @@ export default function FamilyExpensesPage() {
               <h4 className="text-lg font-black text-emerald-900 uppercase tracking-tighter">Dining Discovery</h4>
             </div>
             <p className="text-xs font-medium text-emerald-800 leading-relaxed relative z-10">
-              You spent ₹5,000 on Food this month. Explore similar high-rated halal restaurants in your area.
+              You spent $5,000 on Food this month. Explore similar high-rated halal restaurants in your area.
             </p>
             <Link href="/family-tree/discovery">
               <Button variant="outline" className="w-full rounded-2xl font-black text-[10px] uppercase tracking-widest border-2 border-emerald-200 h-12 bg-card text-emerald-700 relative z-10 hover:bg-emerald-50">Explore Nearby</Button>

@@ -54,9 +54,9 @@ export default function FamilyGoalsPage() {
               <div className="flex justify-between items-end">
                 <div className="space-y-1">
                   <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Raised So Far</p>
-                  <p className="text-2xl sm:text-4xl font-black text-emerald-600 tracking-tighter">₹8,500</p>
+                  <p className="text-2xl sm:text-4xl font-black text-emerald-600 tracking-tighter">$8,500</p>
                 </div>
-                <p className="text-sm font-bold text-muted-foreground">of ₹10,000</p>
+                <p className="text-sm font-bold text-muted-foreground">of $10,000</p>
               </div>
               <Progress value={85} className="h-3 bg-muted" />
             </div>

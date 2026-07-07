@@ -259,11 +259,11 @@ const PROFESSIONALS: Record<string, any> = {
       { degree: "Fellowship in Preventive Medicine", institution: "AIIMS New Delhi", year: "2017" },
     ],
     services: [
-      { name: "General Consultation", duration: "30 min", price: "₹800", popular: true },
-      { name: "Preventive Health Check", duration: "60 min", price: "₹1,500", popular: true },
-      { name: "Child Health Review", duration: "30 min", price: "₹700", popular: false },
-      { name: "Follow-up Consultation", duration: "15 min", price: "₹400", popular: false },
-      { name: "Nutrition & Wellness Plan", duration: "45 min", price: "₹1,200", popular: false },
+      { name: "General Consultation", duration: "30 min", price: "$800", popular: true },
+      { name: "Preventive Health Check", duration: "60 min", price: "$1,500", popular: true },
+      { name: "Child Health Review", duration: "30 min", price: "$700", popular: false },
+      { name: "Follow-up Consultation", duration: "15 min", price: "$400", popular: false },
+      { name: "Nutrition & Wellness Plan", duration: "45 min", price: "$1,200", popular: false },
     ],
     availability: [
       { day: "Monday", slots: ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM"] },
@@ -313,11 +313,11 @@ const PROFESSIONALS: Record<string, any> = {
       { degree: "LLM (Family Law)", institution: "National Law University, Delhi", year: "2011" },
     ],
     services: [
-      { name: "Initial Legal Consultation", duration: "60 min", price: "₹2,000", popular: true },
-      { name: "Nikah Contract Review", duration: "90 min", price: "₹5,000", popular: true },
-      { name: "Divorce & Separation", duration: "Ongoing", price: "From ₹15,000", popular: false },
-      { name: "Child Custody Case", duration: "Ongoing", price: "From ₹20,000", popular: false },
-      { name: "Islamic Will (Wasiyyah)", duration: "2 sessions", price: "₹8,000", popular: false },
+      { name: "Initial Legal Consultation", duration: "60 min", price: "$2,000", popular: true },
+      { name: "Nikah Contract Review", duration: "90 min", price: "$5,000", popular: true },
+      { name: "Divorce & Separation", duration: "Ongoing", price: "From $15,000", popular: false },
+      { name: "Child Custody Case", duration: "Ongoing", price: "From $20,000", popular: false },
+      { name: "Islamic Will (Wasiyyah)", duration: "2 sessions", price: "$8,000", popular: false },
     ],
     availability: [
       { day: "Tuesday", slots: ["10:00 AM", "11:00 AM", "3:00 PM"] },
