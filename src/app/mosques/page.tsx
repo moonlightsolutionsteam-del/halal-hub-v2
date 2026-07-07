@@ -16,12 +16,12 @@ const TABS = ["All", "Jumu'ah Service", "Wudu Facilities", "Islamic Classes", "S
 
 const MOCK_MOSQUES = [
   {
-    id: "mq1", name: "Masjid Al-Noor", type: "Full-Service Mosque", loc: "Manhattan, NY",
+    id: "mq1", name: "Masjid Al-Noor", type: "Full-Service Mosque", loc: "Bandra, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["5 Daily Prayers", "Quran Classes", "Sisters' Section"], prayerTime: "Fajr: 5:12 AM", parking: true
   },
   {
-    id: "mq2", name: "Al-Rahman Islamic Centre", type: "Islamic Centre", loc: "Brooklyn, NY",
+    id: "mq2", name: "Al-Rahman Islamic Centre", type: "Islamic Centre", loc: "Andheri, Mumbai",
     rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Weekend School", "Funeral Services", "Youth Programme"], prayerTime: "Fajr: 5:14 AM", parking: true
   },

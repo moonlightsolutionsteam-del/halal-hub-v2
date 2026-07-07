@@ -115,7 +115,7 @@ export default function TravelPage() {
                             </div>
                             <div>
                                 <h4 className="text-sm font-bold">Local Mosque #{i}</h4>
-                                <p className="text-xs text-muted-foreground">0.8 miles away</p>
+                                <p className="text-xs text-muted-foreground">0.8 km away</p>
                             </div>
                         </div>
                     ))}

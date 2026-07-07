@@ -16,12 +16,12 @@ const TABS = ["All", "Legal", "Medical", "Finance", "IT & Tech", "Consultancy", 
 
 const MOCK_PROFESSIONALS = [
   {
-    id: "p1", name: "Br. Tariq Osman", type: "Solicitor & Barrister", loc: "Manhattan, NY",
+    id: "p1", name: "Br. Tariq Osman", type: "Solicitor & Barrister", loc: "Colaba, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Family Law", "Islamic Finance", "Contract Review"], specialty: "Legal", avail: "Available"
   },
   {
-    id: "p2", name: "Dr. Amira Hossain", type: "General Practitioner", loc: "Brooklyn, NY",
+    id: "p2", name: "Dr. Amira Hossain", type: "General Practitioner", loc: "Powai, Mumbai",
     rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Female GP", "Home Visits", "Arabic Speaking"], specialty: "Medical", avail: "Available"
   },

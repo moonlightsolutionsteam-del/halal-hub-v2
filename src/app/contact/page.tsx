@@ -102,7 +102,7 @@ export default function ContactPage() {
               {[
                 { city: "London, UK", addr: "124 Baker Street, Marylebone" },
                 { city: "Dubai, UAE", addr: "Downtown Business Bay, Level 42" },
-                { city: "New York, USA", addr: "Broadway Manhattan, Hub Tower" },
+                { city: "Mumbai, India", addr: "Bandra Kurla Complex, Hub Tower" },
               ].map((loc, i) => (
                 <div key={i} className="flex gap-4 items-start group">
                   <div className="h-2 w-2 rounded-full bg-muted mt-2 group-hover:bg-primary transition-colors" />

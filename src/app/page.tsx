@@ -37,8 +37,8 @@ const FEATURED_BANNERS = [
   {
     id: 0,
     tag: "Top Pick · Restaurants",
-    title: "Discover NYC's\nBest Halal Dining",
-    sub: "50+ verified restaurants near you",
+    title: "Discover Mumbai's\nBest Halal Dining",
+    sub: "50+ verified halal restaurants near you",
     cta: "Explore Restaurants",
     url: "/categories/food",
     img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop&auto=format&q=80",
@@ -110,10 +110,10 @@ const PROFESSIONALS = [
 ];
 
 const MARKETPLACE = [
-  { name: "Pure Argan Oil", price: "$28", orig: "$45", tag: "38% off", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=300&fit=crop&auto=format&q=80" },
-  { name: "Medjool Dates Box", price: "$19", orig: "$24", tag: "Popular", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=300&fit=crop&auto=format&q=80" },
-  { name: "Halal Protein Blend", price: "$42", orig: "$55", tag: "New", img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=300&h=300&fit=crop&auto=format&q=80" },
-  { name: "Oud Bakhoor Set", price: "$35", orig: "$50", tag: "Top Seller", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&h=300&fit=crop&auto=format&q=80" },
+  { name: "Pure Argan Oil", price: "₹28", orig: "₹45", tag: "38% off", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=300&fit=crop&auto=format&q=80" },
+  { name: "Medjool Dates Box", price: "₹19", orig: "₹24", tag: "Popular", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=300&fit=crop&auto=format&q=80" },
+  { name: "Halal Protein Blend", price: "₹42", orig: "₹55", tag: "New", img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=300&h=300&fit=crop&auto=format&q=80" },
+  { name: "Oud Bakhoor Set", price: "₹35", orig: "₹50", tag: "Top Seller", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&h=300&fit=crop&auto=format&q=80" },
 ];
 
 const CREATORS = [
@@ -127,7 +127,7 @@ const CREATORS = [
 
 const BLOGS = [
   { title: "The Complete Guide to Halal Investing in 2026", category: "Finance", readTime: "8 min", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=700&h=400&fit=crop&auto=format&q=80", hot: true },
-  { title: "Top 10 Halal Restaurants in New York", category: "Food", readTime: "5 min", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=250&fit=crop&auto=format&q=80", hot: false },
+  { title: "Top 10 Halal Restaurants in Mumbai", category: "Food", readTime: "5 min", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=250&fit=crop&auto=format&q=80", hot: false },
   { title: "How to Plan a Halal-Friendly Family Trip", category: "Travel", readTime: "6 min", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=250&fit=crop&auto=format&q=80", hot: false },
 ];
 
