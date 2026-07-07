@@ -171,7 +171,7 @@ export default function Home() {
   const banner = FEATURED_BANNERS[bannerIdx];
 
   return (
-    <div className="pb-8 max-w-2xl mx-auto overflow-x-hidden">
+    <div className="pb-8 max-w-2xl lg:max-w-6xl mx-auto overflow-x-hidden">
 
       {/* ── 1. GREETING + SEARCH ─────────────────────────────────────────── */}
       <div className="px-4 pt-5 pb-3 space-y-4">
@@ -230,7 +230,7 @@ export default function Home() {
 
       {/* ── 3. QUICK ACTIONS ──────────────────────────────────────────────── */}
       <div className="px-4 pb-5">
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1">
+        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1 lg:justify-between lg:overflow-x-visible">
           {QUICK_ACTIONS.map((action) => (
             <Link key={action.name} href={action.url} className="flex flex-col items-center gap-2 min-w-[56px] group">
               <div className={cn(
@@ -323,9 +323,9 @@ export default function Home() {
         </div>
 
         {/* Business cards */}
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1">
+        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-x-visible">
           {filteredRecs.map((biz, i) => (
-            <Link key={i} href={biz.url} className="shrink-0 w-48 group">
+            <Link key={i} href={biz.url} className="shrink-0 w-48 lg:w-auto group">
               <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
                 <div className="relative h-28 overflow-hidden">
                   <Image src={biz.img} alt={biz.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -356,7 +356,7 @@ export default function Home() {
             </Link>
           ))}
           {/* See all card */}
-          <Link href="/categories" className="shrink-0 w-24 flex flex-col items-center justify-center gap-2 text-primary group">
+          <Link href="/categories" className="shrink-0 w-24 lg:hidden flex flex-col items-center justify-center gap-2 text-primary group">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
               <ChevronRight className="h-5 w-5" />
             </div>
@@ -378,9 +378,9 @@ export default function Home() {
             </div>
           </Link>
         </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1">
+        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-x-visible">
           {EVENTS.map((ev, i) => (
-            <Link key={i} href="/events" className="shrink-0 w-64 group">
+            <Link key={i} href="/events" className="shrink-0 w-64 lg:w-auto group">
               <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
                 <div className="relative h-32 overflow-hidden">
                   <Image src={ev.img} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -432,7 +432,7 @@ export default function Home() {
             </div>
           </Link>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-3 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
           {COMMUNITY_POSTS.map((post, i) => (
             <Link key={i} href="/feed" className="block group">
               <div className="rounded-2xl bg-card border border-border/50 p-4 hover:shadow-md transition-shadow space-y-3">
@@ -462,7 +462,7 @@ export default function Home() {
               </div>
             </Link>
           ))}
-          <Link href="/feed" className="block">
+          <Link href="/feed" className="block lg:col-span-2">
             <div className="rounded-2xl border border-dashed border-border text-center py-4 text-xs font-black text-primary hover:bg-primary/5 transition-colors">
               Join the conversation →
             </div>
@@ -483,7 +483,7 @@ export default function Home() {
             </div>
           </Link>
         </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1">
+        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:flex-wrap lg:gap-6 lg:overflow-x-visible">
           {CREATORS.map((creator, i) => (
             <Link key={i} href="/creators" className="flex flex-col items-center gap-2 min-w-[72px] group">
               <div className="relative p-0.5 rounded-full bg-gradient-to-br from-primary via-emerald-400 to-teal-300">
@@ -516,9 +516,9 @@ export default function Home() {
             </div>
           </Link>
         </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1">
+        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-5 lg:gap-4 lg:overflow-x-visible">
           {PROFESSIONALS.map((pro, i) => (
-            <Link key={i} href="/professionals" className="shrink-0 w-44 group">
+            <Link key={i} href="/professionals" className="shrink-0 w-44 lg:w-auto group">
               <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
                 <div className="relative h-28 bg-gradient-to-br from-primary/10 to-emerald-50 dark:to-emerald-950/20 flex items-center justify-center">
                   <div className="h-16 w-16 rounded-full overflow-hidden border-4 border-background shadow-md relative">
@@ -569,7 +569,7 @@ export default function Home() {
             </div>
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {MARKETPLACE.map((item, i) => (
             <Link key={i} href="/marketplace" className="group">
               <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
@@ -631,7 +631,7 @@ export default function Home() {
             </div>
           </Link>
           {/* Two smaller articles */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {BLOGS.slice(1).map((blog, i) => (
               <Link key={i} href="/blog" className="group">
                 <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
@@ -657,7 +657,7 @@ export default function Home() {
           <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Spiritual Tools</p>
           <h2 className="text-lg font-black">Faith & Giving</h2>
         </div>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-4 lg:grid-cols-8 gap-3">
           {[
             { icon: BookOpen, label: "Quran",   url: "/quran",     color: "text-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/30" },
             { icon: Coins,    label: "Zakat",   url: "/zakat",     color: "text-amber-600",   bg: "bg-amber-50 dark:bg-amber-950/30" },
