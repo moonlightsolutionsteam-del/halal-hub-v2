@@ -33,7 +33,7 @@ import { PrayerSettingsProvider } from "@/lib/prayer-context";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { SavedBusinessesProvider } from "@/lib/saved-businesses-context";
 import { AuthProvider } from "@/context/AuthContext";
-import { MessageSquare, Home, Moon, User, List, Newspaper } from "lucide-react";
+import { MessageSquare, Home, Moon, User, LayoutGrid, Newspaper } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -161,7 +161,7 @@ export default function RootLayout({
                     {[
                       { href: "/", icon: Home, label: "Home", active: mounted && pathname === '/' },
                       { href: "/feed", icon: Newspaper, label: "Feed", active: mounted && pathname === '/feed' },
-                      { href: "/categories", icon: List, label: "Browse", active: mounted && pathname?.startsWith('/categories') },
+                      { href: "/categories", icon: LayoutGrid, label: "Explore", active: mounted && pathname?.startsWith('/categories') },
                       { href: "/prayer-times", icon: Moon, label: "Prayer", active: mounted && (pathname === '/prayer-times' || pathname?.startsWith('/prayer')) },
                       { href: "/account/dashboard", icon: User, label: "Me", active: mounted && pathname?.startsWith('/account') },
                     ].map(({ href, icon: Icon, label, active }) => (
