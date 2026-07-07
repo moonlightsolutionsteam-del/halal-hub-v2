@@ -213,7 +213,7 @@ export default function ExplorePage() {
   const isSearching = query.trim().length > 0
 
   return (
-    <div className="max-w-2xl mx-auto pb-32">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto pb-32">
 
       {/* ── Sticky header + search ── */}
       <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-md border-b border-border/40 px-4 pt-4 pb-3 space-y-3">
@@ -256,7 +256,7 @@ export default function ExplorePage() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
                 {searchResults.map(f => (
                   <FeatureCard key={f.href + f.name} feature={f} showCategory />
                 ))}
@@ -268,7 +268,7 @@ export default function ExplorePage() {
             {/* ── Quick actions ── */}
             <section className="space-y-3">
               <Label>Quick Actions</Label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 lg:grid-cols-6 gap-2">
                 {QUICK_ACTIONS.map(action => (
                   <Link key={action.href} href={action.href} className="group block">
                     <div className={cn(
@@ -355,7 +355,7 @@ export default function ExplorePage() {
                     </div>
                   </button>
                   {!collapsed[cat.id] && (
-                    <div className="px-3 pb-3 grid grid-cols-2 gap-2 border-t border-border/30 pt-3">
+                    <div className="px-3 pb-3 grid grid-cols-2 lg:grid-cols-3 gap-2 border-t border-border/30 pt-3">
                       {cat.features.map(f => (
                         <FeatureCard key={f.href + f.name} feature={f} />
                       ))}

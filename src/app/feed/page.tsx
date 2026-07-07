@@ -405,7 +405,7 @@ function ReelCard({ item }: { item: any }) {
 
   return (
     <Card className="rounded-none sm:rounded-2xl border-x-0 sm:border-x border-none shadow-sm bg-black overflow-hidden">
-      <div className="relative aspect-[9/16] w-full max-w-sm mx-auto">
+      <div className="relative aspect-[9/16] w-full max-w-sm lg:max-w-5xl mx-auto">
         <img src={item.thumbnail} alt={item.caption} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
 

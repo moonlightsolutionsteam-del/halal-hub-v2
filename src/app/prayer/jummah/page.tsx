@@ -25,7 +25,7 @@ const ETIQUETTE = [
 
 export default function JummahPage() {
   return (
-    <div className="max-w-2xl mx-auto pb-28 px-4 py-5 space-y-6">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto pb-28 px-4 py-5 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link href="/prayer-times" className="w-9 h-9 rounded-xl border border-border/50 flex items-center justify-center hover:bg-muted transition-colors">
@@ -68,7 +68,7 @@ export default function JummahPage() {
       {/* Sunnah acts */}
       <section className="space-y-3">
         <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Sunnah Acts of Friday</p>
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {SUNNAH_ACTS.map((act) => (
             <div key={act.title} className="flex items-start gap-3 rounded-2xl border border-border/50 bg-card px-4 py-3">
               <div className="w-9 h-9 rounded-xl bg-indigo-100 dark:bg-indigo-950/40 flex items-center justify-center shrink-0">

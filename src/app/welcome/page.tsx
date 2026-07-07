@@ -178,7 +178,7 @@ export default function WelcomeHubPage() {
 
         {/* Community Section */}
         <section className="mt-16 sm:mt-32 bg-card rounded-3xl sm:rounded-[4rem] p-6 sm:p-16 shadow-sm border space-y-12">
-          <div className="text-center space-y-4 max-w-2xl mx-auto">
+          <div className="text-center space-y-4 max-w-2xl lg:max-w-5xl mx-auto">
             <Badge variant="secondary" className="bg-primary/5 text-primary border-none font-black text-[10px] px-4 py-1.5 rounded-full uppercase tracking-widest">Global Community</Badge>
             <h2 className="text-3xl sm:text-3xl sm:text-5xl font-black tracking-tighter text-foreground">Join the Conversation</h2>
             <p className="text-sm sm:text-xl text-muted-foreground font-medium">Connect with millions of members in our moderated community forums.</p>

@@ -34,7 +34,7 @@ export default function SavedProductsPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto pb-32">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto pb-32">
       <div className="flex items-center gap-3 px-4 py-4 border-b border-border/40">
         <Link href="/halal-check" className="w-9 h-9 rounded-xl border border-border/50 flex items-center justify-center hover:bg-muted transition-colors">
           <ArrowLeft className="h-4 w-4" />

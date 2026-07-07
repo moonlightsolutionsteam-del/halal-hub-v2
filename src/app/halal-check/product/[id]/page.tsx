@@ -83,7 +83,7 @@ export default function ProductDetailPage() {
 
   if (product === null) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8 text-center space-y-4">
+      <div className="max-w-2xl lg:max-w-5xl mx-auto px-4 py-8 text-center space-y-4">
         <div className="w-16 h-16 rounded-3xl bg-muted flex items-center justify-center mx-auto">
           <Package className="h-8 w-8 text-muted-foreground" />
         </div>
@@ -102,7 +102,7 @@ export default function ProductDetailPage() {
   const mashboohCount = product.ingredientAnalysis.filter(i => i.status === "Mashbooh").length
 
   return (
-    <div className="max-w-2xl mx-auto pb-32">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto pb-32">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-border/40">
         <Link href="/halal-check" className="w-9 h-9 rounded-xl border border-border/50 flex items-center justify-center hover:bg-muted transition-colors">

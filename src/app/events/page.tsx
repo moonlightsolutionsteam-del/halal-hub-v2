@@ -91,7 +91,7 @@ export default function EventsPage() {
         <div className="absolute top-0 right-0 p-12 opacity-10">
           <Ticket className="h-64 w-64 text-primary" />
         </div>
-        <div className="max-w-2xl mx-auto space-y-4 relative z-10">
+        <div className="max-w-2xl lg:max-w-5xl mx-auto space-y-4 relative z-10">
             <h2 className="text-2xl sm:text-4xl font-black font-headline text-white tracking-tight">Hosting an Event?</h2>
             <p className="text-muted-foreground font-medium text-lg leading-relaxed">Get your event listed on Halal Hub and reach thousands of interested community members. Manage ticketing, check-ins, and analytics from a single dashboard.</p>
             <div className="flex flex-wrap justify-center gap-4 pt-4">

@@ -65,7 +65,7 @@ export default function AppointmentsPage() {
           </p>
         </header>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl lg:max-w-5xl mx-auto">
           {/* Tabs */}
           <div className="flex items-center justify-center space-x-2 mb-6 p-1 bg-secondary rounded-full">
             <Button

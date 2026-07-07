@@ -110,7 +110,7 @@ export default function ScanPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto min-h-screen pb-28 flex flex-col">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto min-h-screen pb-28 flex flex-col">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-4 border-b border-border/40">
         <Link href="/halal-check" className="w-9 h-9 rounded-xl border border-border/50 flex items-center justify-center hover:bg-muted transition-colors">

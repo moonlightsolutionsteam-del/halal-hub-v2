@@ -29,7 +29,7 @@ export default function DonationPage() {
   const selectedCause = CAUSES.find(c => c.id === cause)!
 
   return (
-    <div className="max-w-2xl mx-auto pb-28 px-4 py-5 space-y-6">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto pb-28 px-4 py-5 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link href="/prayer-times" className="w-9 h-9 rounded-xl border border-border/50 flex items-center justify-center hover:bg-muted transition-colors">
@@ -60,7 +60,7 @@ export default function DonationPage() {
       {/* Cause selection */}
       <section className="space-y-3">
         <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Choose a Cause</p>
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5">
           {CAUSES.map((c) => (
             <button
               key={c.id}
@@ -85,7 +85,7 @@ export default function DonationPage() {
       {/* Amount selection */}
       <section className="space-y-3">
         <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Select Amount</p>
-        <div className="grid grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-3 lg:grid-cols-6 gap-2.5">
           {AMOUNTS.map((amt) => (
             <button
               key={amt}

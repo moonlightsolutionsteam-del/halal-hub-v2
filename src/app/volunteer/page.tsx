@@ -407,7 +407,7 @@ export default function VolunteerPage() {
                 <h1 className="text-3xl md:text-4xl font-headline font-bold text-foreground">
                     Volunteer Coordination Hub
                 </h1>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                <p className="text-muted-foreground text-lg max-w-2xl lg:max-w-5xl mx-auto">
                     Discover local volunteer opportunities, sign up for events, and track your contributions with real-time analytics.
                 </p>
             </header>

@@ -135,7 +135,7 @@ export default function BlogFeedPage() {
       {/* CTA Bottom */}
       <Card className="rounded-[4rem] border-none bg-zinc-900 text-white p-16 text-center space-y-10 relative overflow-hidden shadow-2xl">
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:32px_32px] opacity-5" />
-        <div className="max-w-2xl mx-auto space-y-6 relative z-10">
+        <div className="max-w-2xl lg:max-w-5xl mx-auto space-y-6 relative z-10">
           <Sparkles className="h-16 w-16 text-primary mx-auto animate-pulse" />
           <div className="space-y-4">
             <h2 className="text-3xl sm:text-5xl font-black font-headline tracking-tight">Become a Hub Writer</h2>

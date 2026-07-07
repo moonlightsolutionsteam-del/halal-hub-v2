@@ -55,7 +55,7 @@ export default function HalalCheckPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto pb-32 px-4 py-5 space-y-7">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto pb-32 px-4 py-5 space-y-7">
 
       {/* ── Hero ── */}
       <div className="rounded-3xl bg-gradient-to-br from-primary/10 via-emerald-500/5 to-transparent border border-primary/10 p-5 space-y-3">
@@ -123,7 +123,7 @@ export default function HalalCheckPage() {
       {/* ── Status legend ── */}
       <section className="space-y-3">
         <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Halal Status Guide</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           {[
             { status: "Halal" as HalalStatus, icon: ShieldCheck, desc: "Permissible. Safe to consume." },
             { status: "Haram" as HalalStatus, icon: XCircle, desc: "Forbidden. Do not consume." },
@@ -147,7 +147,7 @@ export default function HalalCheckPage() {
       {/* ── Quick tools ── */}
       <section className="space-y-3">
         <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tools</p>
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
           {QUICK_TOOLS.map(tool => (
             <Link key={tool.href} href={tool.href} className="group block">
               <div className="rounded-2xl border border-border/50 bg-card p-3.5 space-y-2.5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">

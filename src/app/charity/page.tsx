@@ -68,7 +68,7 @@ export default function CharityPage() {
                 <h1 className="text-3xl md:text-4xl font-headline font-bold text-foreground">
                     Charity & Donation Tracker
                 </h1>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                <p className="text-muted-foreground text-lg max-w-2xl lg:max-w-5xl mx-auto">
                     "Those who in charity spend of their goods by night and by day, in secret and in public, have their reward with their Lord." - Quran 2:274
                 </p>
             </header>

@@ -118,7 +118,7 @@ export default function StorePage() {
             <h1 className="text-2xl md:text-3xl font-headline font-bold text-foreground mt-4">
                 Features of Halal Hub
             </h1>
-            <p className="text-muted-foreground text-md max-w-xl mx-auto mt-2">
+            <p className="text-muted-foreground text-md max-w-xl lg:max-w-6xl mx-auto mt-2">
                 Customize your experience with exclusive features.
             </p>
         </div>

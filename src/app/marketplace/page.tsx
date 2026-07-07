@@ -164,7 +164,7 @@ export default function MarketplacePage() {
             <h1 className="text-2xl md:text-3xl font-headline font-bold text-foreground mt-4">
                 Halal Hub Marketplace
             </h1>
-            <p className="text-muted-foreground text-md max-w-xl mx-auto mt-2">
+            <p className="text-muted-foreground text-md max-w-xl lg:max-w-6xl mx-auto mt-2">
                 Discover products and services from trusted businesses in our community.
             </p>
         </div>
