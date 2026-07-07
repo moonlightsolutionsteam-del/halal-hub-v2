@@ -35,6 +35,7 @@ import { Home, Moon, User, LayoutGrid, Newspaper } from "lucide-react";
 import { HalalHubMark } from "@/components/brand";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import { ThemeToggleButton } from "@/components/theme-toggle-button";
 
 export default function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -115,6 +116,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
               <div className="hidden sm:block">
                 <HeaderLocation />
               </div>
+              <ThemeToggleButton />
               <Link href="/account/dashboard">
                 <Avatar className="h-8 w-8 sm:h-10 sm:w-10 border-2 border-card shadow-soft hover:shadow-soft-md transition-shadow duration-200 ring-2 ring-primary/10">
                   <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
