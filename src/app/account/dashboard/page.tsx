@@ -119,7 +119,7 @@ export default function UserDashboard() {
                 </div>
                 <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-muted-foreground font-bold">
                   <p className="text-sm sm:text-base text-emerald-600 font-black">@admin</p>
-                  <p className="flex items-center gap-1.5 text-xs sm:text-sm"><MapPin className="h-3.5 w-3.5" /> New York, NY</p>
+                  <p className="flex items-center gap-1.5 text-xs sm:text-sm"><MapPin className="h-3.5 w-3.5" /> Mumbai, MH</p>
                   <p className="flex items-center gap-1.5 text-xs sm:text-sm hidden sm:flex"><Calendar className="h-3.5 w-3.5" /> Joined May 2021</p>
                 </div>
               </div>

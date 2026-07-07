@@ -26,12 +26,12 @@ const MOCK_MOSQUES = [
     features: ["Weekend School", "Funeral Services", "Youth Programme"], prayerTime: "Fajr: 5:14 AM", parking: true
   },
   {
-    id: "mq3", name: "Masjid Al-Furqan", type: "Community Mosque", loc: "Queens, NY",
+    id: "mq3", name: "Masjid Al-Furqan", type: "Community Mosque", loc: "Kurla, Mumbai",
     rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Arabic Classes", "Food Bank", "Nikah Services"], prayerTime: "Fajr: 5:10 AM", parking: false
   },
   {
-    id: "mq4", name: "Downtown Islamic Hub", type: "Urban Prayer Space", loc: "Jersey City, NJ",
+    id: "mq4", name: "Downtown Islamic Hub", type: "Urban Prayer Space", loc: "Thane, Mumbai",
     rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Accessible Entrance", "Multi-lingual Khutbah", "Café On-site"], prayerTime: "Fajr: 5:13 AM", parking: false
   },

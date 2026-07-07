@@ -19,8 +19,8 @@ export default function FamilyDiscoveryPage() {
   const suggestedPlaces = [
     { id: "p1", name: "The Halal Grill & Bistro", type: "Restaurant", loc: "Andheri, Mumbai", rate: 4.9, img: "food1", tag: "Highly Rated" },
     { id: "p2", name: "Heritage Islamic Arts Museum", type: "Cultural", loc: "Bandra, Mumbai", rate: 4.8, img: "art1", tag: "Education" },
-    { id: "p3", name: "Garden of Paradise Park", type: "Outdoor", loc: "Queens, NY", rate: 4.7, img: "nature1", tag: "Nature" },
-    { id: "p4", name: "Sunnah Fresh Organic Mart", type: "Grocery", loc: "Jersey City, NJ", rate: 4.5, img: "grocery1", tag: "Organic" },
+    { id: "p3", name: "Garden of Paradise Park", type: "Outdoor", loc: "Kurla, Mumbai", rate: 4.7, img: "nature1", tag: "Nature" },
+    { id: "p4", name: "Sunnah Fresh Organic Mart", type: "Grocery", loc: "Thane, Mumbai", rate: 4.5, img: "grocery1", tag: "Organic" },
   ];
 
   return (

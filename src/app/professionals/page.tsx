@@ -26,12 +26,12 @@ const MOCK_PROFESSIONALS = [
     features: ["Female GP", "Home Visits", "Arabic Speaking"], specialty: "Medical", avail: "Available"
   },
   {
-    id: "p3", name: "Br. Yusuf Karim", type: "Chartered Accountant", loc: "Queens, NY",
+    id: "p3", name: "Br. Yusuf Karim", type: "Chartered Accountant", loc: "Kurla, Mumbai",
     rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Halal Investments", "Zakat Calculation", "Tax Planning"], specialty: "Finance", avail: "Fully Booked"
   },
   {
-    id: "p4", name: "Sr. Nadia Al-Sheikh", type: "IT Consultant & Developer", loc: "Jersey City, NJ",
+    id: "p4", name: "Sr. Nadia Al-Sheikh", type: "IT Consultant & Developer", loc: "Thane, Mumbai",
     rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["SaaS Architecture", "Data Privacy", "Muslim Startups"], specialty: "IT & Tech", avail: "Available"
   },

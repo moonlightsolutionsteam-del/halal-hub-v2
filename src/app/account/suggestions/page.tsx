@@ -23,7 +23,7 @@ const SUGGESTIONS = [
     date: "Oct 12, 2023", 
     points: "+50 Points",
     img: "food1",
-    location: "Brooklyn, NY",
+    location: "Andheri West, Mumbai",
     type: "Restaurant"
   },
   { 
@@ -34,7 +34,7 @@ const SUGGESTIONS = [
     date: "Oct 24, 2023", 
     info: "Our team is verifying certificates",
     img: "cat2",
-    location: "Manhattan, NY",
+    location: "Bandra, Mumbai",
     type: "Grocery"
   },
   { 
@@ -45,7 +45,7 @@ const SUGGESTIONS = [
     date: "Sept 15, 2023", 
     info: "Insufficient documentation provided",
     img: "mosque1",
-    location: "Queens, NY",
+    location: "Kurla, Mumbai",
     type: "Mosque"
   },
   { 
@@ -56,7 +56,7 @@ const SUGGESTIONS = [
     date: "Jan 10, 2024", 
     points: "+100 Points",
     img: "event1",
-    location: "Jersey City, NJ",
+    location: "Thane, Mumbai",
     type: "Event"
   }
 ];

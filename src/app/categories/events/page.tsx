@@ -16,22 +16,22 @@ const TABS = ["All Services", "Venues", "Decor & Design", "Photography", "Audio/
 
 const MOCK_EVENTS = [
   {
-    id: "e1", name: "The Grand Halal Ballroom", type: "Premium Venue", loc: "Manhattan, NY",
+    id: "e1", name: "The Grand Halal Ballroom", type: "Premium Venue", loc: "Bandra, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Prayer Room", "Female-Only Staff Option", "Internal Halal Catering"], capacity: "Up to 500 guests", price: "From ₹2,500"
   },
   {
-    id: "e2", name: "Modest Moments Photography", type: "Photography & Cinema", loc: "Brooklyn, NY",
+    id: "e2", name: "Modest Moments Photography", type: "Photography & Cinema", loc: "Andheri West, Mumbai",
     rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Female Photographer", "Privacy Guaranteed", "Same-day Previews"], capacity: "Any size", price: "From ₹1,200"
   },
   {
-    id: "e3", name: "Sunnah Decor Co.", type: "Floral & Decor", loc: "Queens, NY",
+    id: "e3", name: "Sunnah Decor Co.", type: "Floral & Decor", loc: "Kurla, Mumbai",
     rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Custom Arches", "Sustainable Materials", "Themed Setups"], capacity: "All Sizes", price: "From ₹800"
   },
   {
-    id: "e4", name: "Echo Islamic A/V", type: "Sound & Lighting", loc: "Jersey City, NJ",
+    id: "e4", name: "Echo Islamic A/V", type: "Sound & Lighting", loc: "Thane, Mumbai",
     rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Nasheed Support", "Live Streaming", "Privacy Screens"], capacity: "Any size", price: "From ₹500"
   },

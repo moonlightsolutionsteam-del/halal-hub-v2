@@ -16,22 +16,22 @@ const TABS = ["All Packages", "Hajj & Umrah", "Guided Tours", "Adventure", "Fami
 
 const MOCK_AGENCIES = [
   {
-    id: "t1", name: "Saffron Travels", type: "Premium Agency", loc: "Manhattan, NY",
+    id: "t1", name: "Saffron Travels", type: "Premium Agency", loc: "Bandra, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Certified Guides", "Halal Board Included", "Visa Support"], price: "From ₹1,200", destinations: "Turkey · UAE · Jordan"
   },
   {
-    id: "t2", name: "Al-Huda Pilgrimages", type: "Hajj & Umrah Specialist", loc: "Brooklyn, NY",
+    id: "t2", name: "Al-Huda Pilgrimages", type: "Hajj & Umrah Specialist", loc: "Andheri West, Mumbai",
     rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["5-Star Hotels", "Religious Scholars", "Medical Support"], price: "From ₹4,500", destinations: "Makkah · Madinah"
   },
   {
-    id: "t3", name: "Nomad Modest Tours", type: "Adventure & Cultural", loc: "Queens, NY",
+    id: "t3", name: "Nomad Modest Tours", type: "Adventure & Cultural", loc: "Kurla, Mumbai",
     rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Private Transport", "Organic Halal Meals", "Hidden Gems"], price: "From ₹850", destinations: "Morocco · Spain"
   },
   {
-    id: "t4", name: "Sky Halal Holidays", type: "Family & Resort", loc: "Jersey City, NJ",
+    id: "t4", name: "Sky Halal Holidays", type: "Family & Resort", loc: "Thane, Mumbai",
     rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Kids Club", "Women-Only Spa", "Prayer Facilities"], price: "From ₹1,500", destinations: "Malaysia · Indonesia"
   },

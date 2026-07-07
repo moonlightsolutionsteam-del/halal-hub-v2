@@ -66,12 +66,12 @@ const FEED_ITEMS: Array<{ id: number; type: FeedItemType; [k: string]: any }> = 
   {
     id: 1, type: "post",
     author: { name: "The Bosphorus Kitchen", handle: "@bosphoruskitchen", avatar: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", verified: true },
-    location: "Brooklyn, New York",
+    location: "Bandra West, Mumbai",
     images: ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80"],
     mediaType: "image",
     caption: "Our signature Ottoman lamb shank is back on the menu! 🍖 Slow-cooked for 8 hours with traditional spices, served with saffron rice. 100% Halal certified.",
     likes: 1247, comments: 89, shares: 34, timeAgo: "2h",
-    tags: ["#HalalFood", "#Ottoman", "#Brooklyn"],
+    tags: ["#HalalFood", "#Ottoman", "#Bandra"],
     category: "Food & Dining",
   },
   // 2 — Community
@@ -164,9 +164,9 @@ const FEED_ITEMS: Array<{ id: number; type: FeedItemType; [k: string]: any }> = 
     description: "Join 5,000+ attendees for the largest halal food festival in North America — 200+ vendors, live cooking shows, and family activities.",
     image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
     date: "Sat, Jul 19, 2026", time: "11:00 AM – 9:00 PM",
-    location: "Central Park, New York",
+    location: "Azad Maidan, Mumbai",
     going: 3241, interested: 8920, timeAgo: "5h",
-    tags: ["#HalalFood", "#NYC", "#Festival"],
+    tags: ["#HalalFood", "#Mumbai", "#Festival"],
     price: "₹15",
   },
   // 11 — Post (travel)

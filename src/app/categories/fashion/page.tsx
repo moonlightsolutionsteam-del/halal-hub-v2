@@ -46,7 +46,7 @@ const MOCK_FASHION_BRANDS = [
     id: "f3", 
     name: "Urban Hijab Hub", 
     type: "Modern Streetwear", 
-    loc: "New York, NY", 
+    loc: "Bandra West, Mumbai", 
     rate: 4.7, 
     ver: true, 
     img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80",

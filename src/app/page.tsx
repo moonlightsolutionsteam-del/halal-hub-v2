@@ -90,9 +90,9 @@ const RECOMMENDED = [
 ];
 
 const EVENTS = [
-  { title: "Islamic Finance Summit 2026", date: "Sat 12 Jul", time: "10:00 AM", location: "Manhattan, NY", type: "Networking", going: 234, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=250&fit=crop&auto=format&q=80" },
-  { title: "Quran & Seerah Intensive", date: "Sun 13 Jul", time: "9:00 AM", location: "Brooklyn, NY", type: "Education", going: 158, img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=250&fit=crop&auto=format&q=80" },
-  { title: "Community Iftar Gathering", date: "Fri 18 Jul", time: "7:30 PM", location: "Queens, NY", type: "Community", going: 412, img: "https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=250&fit=crop&auto=format&q=80" },
+  { title: "Islamic Finance Summit 2026", date: "Sat 12 Jul", time: "10:00 AM", location: "Bandra, Mumbai", type: "Networking", going: 234, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=250&fit=crop&auto=format&q=80" },
+  { title: "Quran & Seerah Intensive", date: "Sun 13 Jul", time: "9:00 AM", location: "Andheri West, Mumbai", type: "Education", going: 158, img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=250&fit=crop&auto=format&q=80" },
+  { title: "Community Iftar Gathering", date: "Fri 18 Jul", time: "7:30 PM", location: "Kurla, Mumbai", type: "Community", going: 412, img: "https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=250&fit=crop&auto=format&q=80" },
 ];
 
 const COMMUNITY_POSTS = [

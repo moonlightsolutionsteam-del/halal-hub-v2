@@ -41,7 +41,7 @@ const MOCK_INSTITUTIONS = [
     img: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Residential Facility", "Scholar-led", "Extensive Library"],
     enrollment: "Interviews Active",
-    location: "New York, USA"
+    location: "Mumbai, India"
   },
   { 
     id: "edu3", 

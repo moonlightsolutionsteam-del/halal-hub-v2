@@ -16,7 +16,7 @@ const TABS = ["All", "Video", "Podcast", "Writing", "Photography", "Design", "Ed
 
 const MOCK_CREATORS = [
   {
-    id: "cr1", name: "The Muslim Money Guy", type: "Finance Creator", loc: "New York, NY",
+    id: "cr1", name: "The Muslim Money Guy", type: "Finance Creator", loc: "Mumbai, MH",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Islamic Finance", "Halal Investing", "Debt-Free Journey"], platform: "YouTube · Podcast", followers: "180K+"
   },

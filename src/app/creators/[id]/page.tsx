@@ -24,7 +24,7 @@ const CREATORS: Record<string, any> = {
     name: "The Muslim Money Guy",
     handle: "@muslimmoneyguy",
     title: "Islamic Finance Creator & Halal Investing Coach",
-    location: "New York, NY",
+    location: "Mumbai, MH",
     avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80",
     cover: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80",
     color: "bg-orange-600",

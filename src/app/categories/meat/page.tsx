@@ -16,22 +16,22 @@ const TABS = ["All", "HMC Certified", "HFA Approved", "Organic", "Grass-fed", "L
 
 const MOCK_BUTCHERS = [
   {
-    id: "m1", name: "Al-Barakah Premium Meats", type: "Wholesale & Retail", loc: "Brooklyn, NY",
+    id: "m1", name: "Al-Barakah Premium Meats", type: "Wholesale & Retail", loc: "Andheri West, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Wagyu Beef", "Dry-aged Lamb", "Custom Cuts"], cert: "HMC Certified", delivery: true
   },
   {
-    id: "m2", name: "Tayyib Butchers", type: "Family Butcher", loc: "Queens, NY",
+    id: "m2", name: "Tayyib Butchers", type: "Family Butcher", loc: "Kurla, Mumbai",
     rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Free-range Chicken", "Custom Orders", "Weekly Boxes"], cert: "HFA Approved", delivery: false
   },
   {
-    id: "m3", name: "Organic Halal Farm", type: "Farm-to-Door", loc: "New Jersey",
+    id: "m3", name: "Organic Halal Farm", type: "Farm-to-Door", loc: "Maharashtra",
     rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["100% Grass-fed", "Traceability Logs", "Subscription Box"], cert: "Organic Certified", delivery: true
   },
   {
-    id: "m4", name: "Quick Halal Cuts", type: "Quick Service Butcher", loc: "Bronx, NY",
+    id: "m4", name: "Quick Halal Cuts", type: "Quick Service Butcher", loc: "Dharavi, Mumbai",
     rate: 4.4, ver: false, img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Walk-in", "Affordable Bulk", "Same-day Ready"], cert: "Self-Certified", delivery: false
   },

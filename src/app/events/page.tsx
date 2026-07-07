@@ -29,7 +29,7 @@ const EVENTS = [
     id: 3,
     title: "Eid in the Park Celebrations",
     date: "April 10",
-    location: "Central Park, NYC",
+    location: "Azad Maidan, Mumbai",
     type: "Celebration",
     price: "Free",
     image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80"

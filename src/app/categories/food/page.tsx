@@ -16,27 +16,27 @@ const TABS = ["All", "Turkish", "Arabic", "Indian", "Malay", "Western", "Chinese
 
 const RESTAURANTS = [
   {
-    id: "r1", name: "Istanbul Grill House", type: "Turkish Restaurant", loc: "Manhattan, NY",
+    id: "r1", name: "Istanbul Grill House", type: "Turkish Restaurant", loc: "Bandra, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Open Kitchen", "Prayer Mats Available", "Private Dining"], openNow: true, price: "££"
   },
   {
-    id: "r2", name: "Al-Madina Feast", type: "Arabic & Levantine", loc: "Brooklyn, NY",
+    id: "r2", name: "Al-Madina Feast", type: "Arabic & Levantine", loc: "Andheri West, Mumbai",
     rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Family Sections", "Shisha Lounge", "Authentic Recipes"], openNow: true, price: "£"
   },
   {
-    id: "r3", name: "Spice of Punjab", type: "Indian & Pakistani", loc: "Queens, NY",
+    id: "r3", name: "Spice of Punjab", type: "Indian & Pakistani", loc: "Kurla, Mumbai",
     rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Tandoor Oven", "Jumu'ah Special", "Vegan Options"], openNow: false, price: "£"
   },
   {
-    id: "r4", name: "The Halal Bistro", type: "Modern Western", loc: "Jersey City, NJ",
+    id: "r4", name: "The Halal Bistro", type: "Modern Western", loc: "Thane, Mumbai",
     rate: 4.6, ver: true, img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Craft Burgers", "Alcohol-Free Cocktails", "Drive-Thru"], openNow: true, price: "££"
   },
   {
-    id: "r5", name: "Nasi Padang Corner", type: "Malay & Indonesian", loc: "Bronx, NY",
+    id: "r5", name: "Nasi Padang Corner", type: "Malay & Indonesian", loc: "Dharavi, Mumbai",
     rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Buffet Style", "Home-style Cooking", "Group Meals"], openNow: true, price: "£"
   },

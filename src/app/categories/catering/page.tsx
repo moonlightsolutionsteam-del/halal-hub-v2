@@ -16,22 +16,22 @@ const TABS = ["All Events", "Weddings", "Corporate", "Religious", "Private Parti
 
 const MOCK_CATERERS = [
   {
-    id: "c1", name: "Elite Halal Catering", type: "Full-Service Events", loc: "Manhattan, NY",
+    id: "c1", name: "Elite Halal Catering", type: "Full-Service Events", loc: "Bandra, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Live Stations", "Uniformed Staff", "Cutlery Rental"], capacity: "50–1000 guests", minOrder: "£500"
   },
   {
-    id: "c2", name: "Sunnah Saffron Catering", type: "Boutique & Private", loc: "Brooklyn, NY",
+    id: "c2", name: "Sunnah Saffron Catering", type: "Boutique & Private", loc: "Andheri West, Mumbai",
     rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Organic Ingredients", "Custom Menus", "Small Gatherings"], capacity: "10–100 guests", minOrder: "£250"
   },
   {
-    id: "c3", name: "Grand Dastarkhwan", type: "Traditional & Bulk", loc: "Queens, NY",
+    id: "c3", name: "Grand Dastarkhwan", type: "Traditional & Bulk", loc: "Kurla, Mumbai",
     rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1497644083578-611b798c60f3?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Deg Cooking", "Home Delivery", "Budget Friendly"], capacity: "100–5000 guests", minOrder: "£200"
   },
   {
-    id: "c4", name: "Modern Mezze Co.", type: "Corporate & Finger Food", loc: "Jersey City, NJ",
+    id: "c4", name: "Modern Mezze Co.", type: "Corporate & Finger Food", loc: "Thane, Mumbai",
     rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Boxed Lunches", "VIP Service", "Quick Turnaround"], capacity: "20–500 guests", minOrder: "£150"
   },

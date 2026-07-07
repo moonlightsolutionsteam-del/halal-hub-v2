@@ -35,7 +35,7 @@ export default function ConsumerRolePage() {
               <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80">Next Prayer in 42m</p>
               <h2 className="text-6xl font-black tracking-tighter">Asr Prayer</h2>
               <div className="flex items-center gap-2 text-sm font-bold bg-card/20 w-fit px-4 py-1.5 rounded-full backdrop-blur-md">
-                <MapPin className="h-4 w-4" /> New York, NY
+                <MapPin className="h-4 w-4" /> Mumbai, MH
               </div>
             </div>
             <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/10">
@@ -115,7 +115,7 @@ export default function ConsumerRolePage() {
               <div key={i} className="flex gap-4 p-4 rounded-2xl bg-muted hover:bg-muted transition-colors cursor-pointer group">
                 <div className="h-10 w-10 rounded-xl bg-card flex items-center justify-center text-primary font-black text-xs shadow-sm group-hover:scale-110 transition-transform">U{i}</div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-sm font-bold text-foreground line-clamp-1">New halal steakhouse just opened in Brooklyn! 🥩</p>
+                  <p className="text-sm font-bold text-foreground line-clamp-1">New halal steakhouse just opened in Bandra! 🥩</p>
                   <div className="flex items-center gap-3 text-[10px] font-black text-muted-foreground uppercase tracking-tighter">
                     <span>@user_{i}</span>
                     <span>•</span>

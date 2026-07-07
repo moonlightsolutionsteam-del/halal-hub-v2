@@ -59,7 +59,7 @@ const MOCK_MEDIA_OUTLETS = [
     id: "med4", 
     name: "Sunnah Kids Press", 
     type: "Boutique Publisher", 
-    loc: "New York, USA", 
+    loc: "Mumbai, India", 
     rate: 4.5, 
     ver: false, 
     img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop&auto=format&q=80",
