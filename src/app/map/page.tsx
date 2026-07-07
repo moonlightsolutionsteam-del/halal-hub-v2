@@ -283,18 +283,18 @@ export default function MapPage() {
             
             {/* Floating Action Buttons */}
             <div className="absolute top-4 left-4 z-10 flex gap-2">
-                <Button onClick={() => console.log('Halal Icon clicked')} variant="secondary" size="icon" className="rounded-full h-14 w-14 shadow-lg bg-white hover:bg-gray-100 text-black">
+                <Button onClick={() => {}} variant="secondary" size="icon" className="rounded-full h-14 w-14 shadow-lg bg-white hover:bg-gray-100 text-black">
                     <HalalIcon />
                 </Button>
-                <Button onClick={() => console.log('Drum Icon clicked')} variant="secondary" size="icon" className="rounded-full h-14 w-14 shadow-lg bg-white hover:bg-gray-100 text-black">
+                <Button onClick={() => {}} variant="secondary" size="icon" className="rounded-full h-14 w-14 shadow-lg bg-white hover:bg-gray-100 text-black">
                     <DrumIcon />
                 </Button>
             </div>
             <div className="absolute top-4 right-4 space-y-2 z-10">
-                <Button onClick={() => console.log('Zoom in clicked')} variant="secondary" size="icon" className="rounded-full h-12 w-12 shadow-lg bg-white hover:bg-gray-100 text-black">
+                <Button onClick={() => {}} variant="secondary" size="icon" className="rounded-full h-12 w-12 shadow-lg bg-white hover:bg-gray-100 text-black">
                     <Plus className="h-6 w-6"/>
                 </Button>
-                <Button onClick={() => console.log('Zoom out clicked')} variant="secondary" size="icon" className="rounded-full h-12 w-12 shadow-lg bg-white hover:bg-gray-100 text-black">
+                <Button onClick={() => {}} variant="secondary" size="icon" className="rounded-full h-12 w-12 shadow-lg bg-white hover:bg-gray-100 text-black">
                     <Minus className="h-6 w-6"/>
                 </Button>
             </div>

@@ -9,7 +9,6 @@ export default function ShahadahPage() {
 
     const playAudio = () => {
         // In a real app, you would implement audio playback here
-        console.log("Playing Shahadah audio...");
     }
 
     return (

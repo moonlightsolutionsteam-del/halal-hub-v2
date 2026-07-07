@@ -84,9 +84,6 @@ export default function VerifyPage() {
     }
 
     setIsSubmitting(true);
-    console.log("Survey submitted for restaurant:", id);
-    console.log("Selected Status:", halalStatus);
-    console.log("Answers:", answers);
 
     // In a real app, you would send this data to your backend/Firestore
     setTimeout(() => {

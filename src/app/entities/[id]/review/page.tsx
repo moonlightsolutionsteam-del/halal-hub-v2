@@ -32,10 +32,6 @@ export default function ReviewPage() {
       return;
     }
     setIsSubmitting(true);
-    console.log("Review submitted for restaurant:", id);
-    console.log("Rating:", rating);
-    console.log("Comment:", comment);
-    console.log("Photos:", photos);
 
     // In a real app, you would send this data to your backend/Firestore
     setTimeout(() => {

@@ -36,9 +36,6 @@ export default function ReportPage() {
       return;
     }
     setIsSubmitting(true);
-    console.log("Issue report submitted for restaurant:", id);
-    console.log("Issue Type:", issueType);
-    console.log("Comment:", comment);
 
     setTimeout(() => {
       setIsSubmitting(false);
