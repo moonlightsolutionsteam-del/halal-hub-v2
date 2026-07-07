@@ -18,7 +18,6 @@ import {
   Sun,
   LogOut,
   X,
-  MessageSquare,
   Globe,
   PlusCircle,
   BookOpen,
@@ -29,6 +28,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { HalalHubMark } from "@/components/brand"
 
 import {
   Sidebar,
@@ -88,7 +88,7 @@ export function UserSidebar() {
       <SidebarHeader className="p-6 flex flex-row items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
-            <MessageSquare className="h-5 w-5 fill-current" />
+            <HalalHubMark className="h-5 w-5" />
           </div>
           <span className="font-black text-xl text-primary font-headline tracking-tight">Halal Hub</span>
         </Link>

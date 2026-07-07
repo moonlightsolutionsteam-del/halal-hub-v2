@@ -33,7 +33,8 @@ import { PrayerSettingsProvider } from "@/lib/prayer-context";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { SavedBusinessesProvider } from "@/lib/saved-businesses-context";
 import { AuthProvider } from "@/context/AuthContext";
-import { MessageSquare, Home, Moon, User, LayoutGrid, Newspaper } from "lucide-react";
+import { Home, Moon, User, LayoutGrid, Newspaper } from "lucide-react";
+import { HalalHubMark } from "@/components/brand";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -125,7 +126,7 @@ export default function RootLayout({
                   <SidebarTrigger className="text-muted-foreground hover:text-primary transition-colors duration-200 h-10 w-10 shrink-0" />
                   <Link href="/" className="flex items-center gap-2 group shrink-0">
                     <div className="w-8 h-8 sm:w-9 sm:h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-glow-primary transition-transform duration-200 group-hover:scale-105">
-                      <MessageSquare className="h-4 w-4 sm:h-5 sm:h-5 fill-current" />
+                      <HalalHubMark className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <span className="text-base sm:text-xl font-semibold text-primary font-headline tracking-tight whitespace-nowrap hidden sm:block">Halal Hub</span>
                   </Link>
