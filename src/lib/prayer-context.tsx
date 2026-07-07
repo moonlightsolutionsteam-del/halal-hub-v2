@@ -13,12 +13,12 @@ export interface PrayerSettings {
 }
 
 const DEFAULT_SETTINGS: PrayerSettings = {
-  method: "NorthAmerica",
-  madhab: "Shafi",
+  method: "Karachi",
+  madhab: "Hanafi",
   timeFormat: "12h",
-  latitude: 40.7128,
-  longitude: -74.006,
-  locationName: "New York, USA",
+  latitude: 19.076,
+  longitude: 72.8777,
+  locationName: "Mumbai, India",
   notifications: false,
 }
 

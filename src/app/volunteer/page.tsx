@@ -182,7 +182,7 @@ const MyActivitySection = () => (
             </CardContent>
         </Card>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
                 <CardHeader>
                     <CardTitle className="font-headline text-xl">Personal Stats</CardTitle>

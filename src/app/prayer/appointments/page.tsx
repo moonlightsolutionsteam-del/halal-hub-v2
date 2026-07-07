@@ -107,6 +107,7 @@ export default function AppointmentsPage() {
             <h2 className="font-bold font-headline text-xl">
               Upcoming Appointments
             </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {upcomingAppointments.map((appt, index) => (
               <Card key={index}>
                 <CardContent className="p-4">
@@ -142,6 +143,7 @@ export default function AppointmentsPage() {
                 </CardContent>
               </Card>
             ))}
+            </div>
           </div>
 
           {/* Schedule New Appointment Section */}

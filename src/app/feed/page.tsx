@@ -856,9 +856,9 @@ function NearbyCard({ item }: { item: any }) {
         </div>
         <button className="text-xs font-black text-primary">See All</button>
       </div>
-      <div className="flex gap-3 px-4 pb-4 overflow-x-auto no-scrollbar">
+      <div className="flex gap-3 px-4 pb-4 overflow-x-auto no-scrollbar lg:grid lg:grid-cols-4 lg:overflow-x-visible">
         {item.places.map((place: any, i: number) => (
-          <div key={i} className="shrink-0 w-40 rounded-xl overflow-hidden bg-muted cursor-pointer group border border-border/50">
+          <div key={i} className="shrink-0 w-40 lg:w-auto rounded-xl overflow-hidden bg-muted cursor-pointer group border border-border/50">
             <div className="relative h-24 overflow-hidden">
               <img src={place.image} alt={place.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div className={cn(
