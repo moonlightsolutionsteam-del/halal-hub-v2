@@ -1,5 +1,6 @@
 
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -56,4 +57,21 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "moonlight-soluyions",
+  project: "halal-hub-v2",
+  // Suppress non-error output during builds
+  silent: !process.env.CI,
+  // Upload wider set of source files for better stack traces
+  widenClientFileUpload: true,
+  // Annotate React components with display names for Sentry traces
+  reactComponentAnnotation: { enabled: true },
+  // Proxy Sentry traffic through Next.js to bypass ad blockers
+  tunnelRoute: "/monitoring",
+  // Hide Sentry source maps from browser DevTools
+  hideSourceMaps: true,
+  // Remove Sentry debug logging from production bundle
+  disableLogger: true,
+  // Auto-instrument Vercel Cron Monitors
+  automaticVercelMonitors: true,
+})
