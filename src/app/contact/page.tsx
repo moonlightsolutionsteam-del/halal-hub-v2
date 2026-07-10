@@ -8,16 +8,47 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { 
-  Mail, Phone, MapPin, Globe, 
+import {
+  Mail, Phone, MapPin, Globe,
   Send, MessageSquare, Clock, ShieldCheck,
   Zap, ArrowRight, Share2, Twitter,
-  Instagram, Github, Linkedin, HelpCircle
+  Instagram, Github, Linkedin, HelpCircle, Loader2, CheckCircle2
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ContactPage() {
+  const { toast } = useToast()
+  const [name, setName] = React.useState("")
+  const [email, setEmail] = React.useState("")
+  const [subject, setSubject] = React.useState("")
+  const [message, setMessage] = React.useState("")
+  const [loading, setLoading] = React.useState(false)
+  const [sent, setSent] = React.useState(false)
+
+  async function handleSend() {
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      toast({ title: "Missing fields", description: "Please fill in your name, email and message.", variant: "destructive" })
+      return
+    }
+    setLoading(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setSent(true)
+      toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." })
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message ?? "Something went wrong.", variant: "destructive" })
+    } finally {
+      setLoading(false)
+    }
+  }
   return (
     <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-12 max-w-6xl pb-32 text-foreground">
       {/* Header */}
@@ -42,28 +73,40 @@ export default function ContactPage() {
               <p className="text-sm text-muted-foreground font-medium italic">Our team usually responds within 24 hours.</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Full Name</Label>
-                <Input placeholder="Enter your name" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+            {sent ? (
+              <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
+                <CheckCircle2 className="h-16 w-16 text-primary" />
+                <h3 className="text-2xl font-black">Message Sent!</h3>
+                <p className="text-muted-foreground font-medium">Our team will get back to you within 24 hours.</p>
+                <Button variant="outline" className="rounded-2xl mt-4" onClick={() => { setSent(false); setName(""); setEmail(""); setSubject(""); setMessage("") }}>
+                  Send another message
+                </Button>
               </div>
-              <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Email Address</Label>
-                <Input type="email" placeholder="name@example.com" className="h-12 rounded-2xl bg-muted border-none font-bold" />
-              </div>
-              <div className="md:col-span-2 space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Subject</Label>
-                <Input placeholder="How can we help?" className="h-12 rounded-2xl bg-muted border-none font-bold" />
-              </div>
-              <div className="md:col-span-2 space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Message</Label>
-                <Textarea placeholder="Tell us more..." className="min-h-[150px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" />
-              </div>
-            </div>
-
-            <Button className="w-full h-16 rounded-[1.5rem] bg-primary hover:bg-primary/90 text-white font-black text-lg shadow-2xl transition-all active:scale-[0.98] group">
-              Send Message <Send className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </Button>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Full Name</Label>
+                    <Input value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Email Address</Label>
+                    <Input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="name@example.com" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                  </div>
+                  <div className="md:col-span-2 space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Subject</Label>
+                    <Input value={subject} onChange={e => setSubject(e.target.value)} placeholder="How can we help?" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                  </div>
+                  <div className="md:col-span-2 space-y-2">
+                    <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Message</Label>
+                    <Textarea value={message} onChange={e => setMessage(e.target.value)} placeholder="Tell us more..." className="min-h-[150px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" />
+                  </div>
+                </div>
+                <Button onClick={handleSend} disabled={loading} className="w-full h-16 rounded-[1.5rem] bg-primary hover:bg-primary/90 text-white font-black text-lg shadow-2xl transition-all active:scale-[0.98] group">
+                  {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <> Send Message <Send className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /></>}
+                </Button>
+              </>
+            )}
           </Card>
         </div>
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -6,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Loader2 } from "lucide-react";
-import { ConfirmationResult } from "firebase/auth";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +20,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRouter } from "next/navigation";
 
 const emailSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -44,31 +41,19 @@ const GoogleIcon = () => (
   </svg>
 );
 
-
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [phoneLoading, setPhoneLoading] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
-  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
+  const [pendingPhone, setPendingPhone] = useState<string | null>(null);
   const { toast } = useToast();
-  const { signInWithGoogle, setupRecaptcha, signInWithPhone, verifyOtp } = useAuth();
-  const router = useRouter();
+  const { signInWithGoogle, signInWithPhone, verifyOtp } = useAuth();
 
-  const handleRedirect = () => {
-    toast({
-        title: "Welcome to Halal Hub!",
-        description: "You've earned 5 coins as a sign-up bonus.",
-    });
-    setTimeout(() => {
-        router.push('/dashboard');
-    }, 1000);
-  }
-  
   const emailForm = useForm<z.infer<typeof emailSchema>>({
     resolver: zodResolver(emailSchema),
     defaultValues: { email: "", password: "" },
   });
-  
+
   const phoneForm = useForm<z.infer<typeof phoneSchema>>({
     resolver: zodResolver(phoneSchema),
     defaultValues: { phone: "+91" },
@@ -80,17 +65,49 @@ export default function LoginForm() {
   });
 
   async function onEmailSubmit(values: z.infer<typeof emailSchema>) {
-    handleRedirect();
+    setLoading(true);
+    try {
+      toast({ title: "Email sign-in coming soon!", description: "Use Phone OTP or Google for now." });
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function onPhoneSubmit(values: z.infer<typeof phoneSchema>) {
-    handleRedirect();
+    setPhoneLoading(true);
+    try {
+      await signInWithPhone(values.phone);
+      setPendingPhone(values.phone);
+      toast({ title: "OTP Sent!", description: `Check your SMS at ${values.phone}` });
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message ?? "Failed to send OTP.", variant: "destructive" });
+    } finally {
+      setPhoneLoading(false);
+    }
   }
 
   async function onOtpSubmit(values: z.infer<typeof otpSchema>) {
-    handleRedirect();
+    if (!pendingPhone) return;
+    setOtpLoading(true);
+    try {
+      await verifyOtp(pendingPhone, values.otp);
+      toast({ title: "Welcome to Halal Hub!", description: "You've earned 5 coins as a sign-up bonus." });
+    } catch (err: any) {
+      toast({ title: "Invalid OTP", description: err?.message ?? "Please check your code and try again.", variant: "destructive" });
+    } finally {
+      setOtpLoading(false);
+    }
   }
 
+  async function onGoogleSignIn() {
+    setLoading(true);
+    try {
+      await signInWithGoogle();
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message ?? "Google sign-in failed.", variant: "destructive" });
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
@@ -99,8 +116,9 @@ export default function LoginForm() {
           <TabsTrigger value="phone">Phone OTP</TabsTrigger>
           <TabsTrigger value="email">Email</TabsTrigger>
         </TabsList>
+
         <TabsContent value="phone">
-          {!confirmationResult ? (
+          {!pendingPhone ? (
             <Form {...phoneForm}>
               <form onSubmit={phoneForm.handleSubmit(onPhoneSubmit)} className="space-y-4 pt-4">
                 <FormField
@@ -125,6 +143,7 @@ export default function LoginForm() {
           ) : (
             <Form {...otpForm}>
               <form onSubmit={otpForm.handleSubmit(onOtpSubmit)} className="space-y-4 pt-4">
+                <p className="text-sm text-muted-foreground">OTP sent to <span className="font-bold">{pendingPhone}</span></p>
                 <FormField
                   control={otpForm.control}
                   name="otp"
@@ -142,15 +161,16 @@ export default function LoginForm() {
                   {otpLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Verify OTP
                 </Button>
-                <Button variant="link" size="sm" className="w-full" onClick={() => setConfirmationResult(null)}>
+                <Button variant="link" size="sm" className="w-full" onClick={() => setPendingPhone(null)}>
                   Use a different phone number
                 </Button>
               </form>
             </Form>
           )}
         </TabsContent>
+
         <TabsContent value="email">
-           <Form {...emailForm}>
+          <Form {...emailForm}>
             <form onSubmit={emailForm.handleSubmit(onEmailSubmit)} className="space-y-4 pt-4">
               <FormField
                 control={emailForm.control}
@@ -186,9 +206,7 @@ export default function LoginForm() {
           </Form>
         </TabsContent>
       </Tabs>
-      
-      <div id="recaptcha-container"></div>
-      
+
       <div className="relative my-4">
         <Separator />
         <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
@@ -199,7 +217,7 @@ export default function LoginForm() {
       <Button
         variant="outline"
         className="w-full"
-        onClick={handleRedirect}
+        onClick={onGoogleSignIn}
         disabled={loading}
       >
         <GoogleIcon />

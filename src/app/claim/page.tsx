@@ -50,10 +50,21 @@ export default function ClaimBusinessPage() {
     const e = validate()
     if (Object.keys(e).length) { setErrors(e); return }
     setLoading(true)
-    await new Promise(r => setTimeout(r, 2000))
-    setLoading(false)
-    toast({ title: "Claim Submitted!", description: "We'll review your documents and get back within 48 hours." })
-    router.push("/")
+    try {
+      const res = await fetch('/api/claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName: form.fullName, mobile: form.mobile, role: form.role, businessName: form.businessName }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      toast({ title: "Claim Submitted!", description: "We'll review your documents and get back within 48 hours." })
+      router.push("/")
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message ?? "Failed to submit. Please try again.", variant: "destructive" })
+    } finally {
+      setLoading(false)
+    }
   }
 
   function ErrorMsg({ field }: { field: keyof FormState }) {

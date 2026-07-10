@@ -16,18 +16,35 @@ import {
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { useToast } from "@/hooks/use-toast"
 
 export default function SuggestPlacePage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [step, setStep] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
   const [category, setCategory] = React.useState("dining");
+  const [placeName, setPlaceName] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [reason, setReason] = React.useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/suggest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category, placeName, address, reason }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      toast({ title: "Suggestion Submitted!", description: "You'll earn 50 Hub Coins once verified." });
       router.push('/account/suggestions');
-    }, 2000);
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message ?? "Failed to submit.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,18 +109,18 @@ export default function SuggestPlacePage() {
             <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 space-y-8">
               <div className="space-y-2">
                 <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Place Name</Label>
-                <Input placeholder="e.g., The Halal Grill" className="h-14 rounded-2xl bg-muted border-none font-black text-xl" />
+                <Input value={placeName} onChange={e => setPlaceName(e.target.value)} placeholder="e.g., The Halal Grill" className="h-14 rounded-2xl bg-muted border-none font-black text-xl" />
               </div>
               <div className="space-y-2">
                 <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Street Address</Label>
                 <div className="relative">
                   <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search address..." className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
+                  <Input value={address} onChange={e => setAddress(e.target.value)} placeholder="Search address..." className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Why are you suggesting this?</Label>
-                <Textarea placeholder="e.g., They serve hand-slaughtered beef and have a clean prayer area..." className="min-h-[120px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" />
+                <Textarea value={reason} onChange={e => setReason(e.target.value)} placeholder="e.g., They serve hand-slaughtered beef and have a clean prayer area..." className="min-h-[120px] rounded-2xl bg-muted border-none p-4 font-medium resize-none" />
               </div>
             </Card>
           </div>

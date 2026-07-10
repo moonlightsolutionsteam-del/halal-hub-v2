@@ -1,5 +1,5 @@
 const BASE_URL = "https://ummahapi.com/api"
-const API_KEY = "umh_b81d36d6266967a7b85bb185f7884fc64ea8e33f"
+const API_KEY = process.env.NEXT_PUBLIC_UMMAH_API_KEY ?? "umh_b81d36d6266967a7b85bb185f7884fc64ea8e33f"
 
 const cache = new Map<string, { data: unknown; expiry: number }>()
 
