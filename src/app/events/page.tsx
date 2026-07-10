@@ -23,7 +23,7 @@ const EVENTS = [
     location: "Online / Global",
     type: "Seminar",
     price: "Free",
-    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80"
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop&auto=format&q=80"
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ const EVENTS = [
     location: "Azad Maidan, Mumbai",
     type: "Celebration",
     price: "Free",
-    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80"
+    image: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=800&h=600&fit=crop&auto=format&q=80"
   }
 ];
 

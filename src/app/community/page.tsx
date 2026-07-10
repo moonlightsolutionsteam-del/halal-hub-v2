@@ -18,6 +18,15 @@ const POSTS = [
 
 export default function CommunityPage() {
   const [activeCategory, setActiveCategory] = useState("All Topics");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredPosts = POSTS.filter(post => {
+    const matchesCategory = activeCategory === "All Topics" || post.category === activeCategory;
+    const matchesSearch = searchQuery === "" ||
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.preview.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="px-4 sm:px-6 py-5 sm:py-8 space-y-5 max-w-5xl mx-auto">
@@ -27,7 +36,7 @@ export default function CommunityPage() {
           <h1 className="text-2xl sm:text-3xl font-black font-headline text-primary tracking-tight">Community</h1>
           <p className="text-muted-foreground text-sm font-medium hidden sm:block">Join thousands of members worldwide.</p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90 rounded-2xl h-11 px-4 sm:px-6 font-bold shrink-0">
+        <Button className="bg-primary hover:bg-primary/90 rounded-2xl h-11 px-4 sm:px-6 font-bold shrink-0" onClick={() => alert("Discussion creation coming soon!")}>
           <Plus className="h-4 w-4 sm:mr-2" />
           <span className="hidden sm:inline">Start Discussion</span>
         </Button>
@@ -90,12 +99,22 @@ export default function CommunityPage() {
           {/* Search */}
           <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search discussions..." className="pl-10 h-12 rounded-2xl border-none bg-card shadow-sm font-medium" />
+            <Input
+              placeholder="Search discussions..."
+              className="pl-10 h-12 rounded-2xl border-none bg-card shadow-sm font-medium"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
           </div>
 
           {/* Posts */}
           <div className="space-y-3">
-            {POSTS.map((post) => (
+            {filteredPosts.length === 0 && (
+              <div className="text-center py-12 text-muted-foreground font-medium">
+                No discussions found for this filter.
+              </div>
+            )}
+            {filteredPosts.map((post) => (
               <Card key={post.id} className="hover:shadow-md transition-all duration-200 cursor-pointer rounded-[1.5rem] sm:rounded-[2rem] border-none shadow-sm bg-card">
                 <CardHeader className="flex-row gap-3 sm:gap-4 space-y-0 p-4 sm:p-6 pb-3">
                   <Avatar className="h-10 w-10 shrink-0">

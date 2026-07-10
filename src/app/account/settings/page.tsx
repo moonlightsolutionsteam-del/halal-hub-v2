@@ -124,6 +124,81 @@ export default function UserSettingsPage() {
               </div>
             </Card>
           </TabsContent>
+
+          <TabsContent value="notifications" className="m-0">
+            <Card className="rounded-2xl sm:rounded-[2.5rem] border-none shadow-sm p-4 sm:p-8 space-y-8">
+              <div className="space-y-6">
+                <h3 className="text-xl font-black">Notification Preferences</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: "Community Replies", desc: "When someone replies to your post or comment." },
+                    { label: "New Listings Nearby", desc: "New halal restaurants and businesses in your area." },
+                    { label: "Prayer Time Reminders", desc: "Reminders before each prayer time." },
+                    { label: "Event Announcements", desc: "Upcoming halal events and community gatherings." },
+                    { label: "Promotional Offers", desc: "Deals and discounts from partner businesses." },
+                  ].map(({ label, desc }) => (
+                    <div key={label} className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl">
+                      <div className="space-y-0.5">
+                        <p className="font-bold text-sm text-foreground">{label}</p>
+                        <p className="text-xs text-muted-foreground">{desc}</p>
+                      </div>
+                      <Switch defaultChecked={label !== "Promotional Offers"} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="h-px bg-muted w-full" />
+              <div className="space-y-4">
+                <h3 className="text-xl font-black">Email Digest</h3>
+                <div className="flex items-center justify-between p-4 bg-primary/5 rounded-2xl border-2 border-primary/10">
+                  <div className="space-y-1">
+                    <p className="font-bold text-foreground">Weekly Summary</p>
+                    <p className="text-xs text-muted-foreground">A roundup of top community posts every Friday.</p>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Button className="bg-primary rounded-xl px-8 font-bold shadow-lg shadow-primary/20">Save Preferences</Button>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="privacy" className="m-0">
+            <Card className="rounded-2xl sm:rounded-[2.5rem] border-none shadow-sm p-4 sm:p-8 space-y-8">
+              <div className="space-y-6">
+                <h3 className="text-xl font-black">Privacy Controls</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: "Public Profile", desc: "Allow other members to view your profile page." },
+                    { label: "Show Activity Status", desc: "Let others see when you were last active." },
+                    { label: "Personalised Recommendations", desc: "Use your activity to improve suggestions." },
+                    { label: "Data for Analytics", desc: "Share anonymised usage data to help improve Halal Hub." },
+                  ].map(({ label, desc }) => (
+                    <div key={label} className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl">
+                      <div className="space-y-0.5">
+                        <p className="font-bold text-sm text-foreground">{label}</p>
+                        <p className="text-xs text-muted-foreground">{desc}</p>
+                      </div>
+                      <Switch defaultChecked={label !== "Data for Analytics"} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="h-px bg-muted w-full" />
+              <div className="space-y-4">
+                <h3 className="text-xl font-black text-red-600">Danger Zone</h3>
+                <div className="p-4 rounded-2xl border-2 border-red-200 dark:border-red-900/50 space-y-3">
+                  <p className="font-bold text-sm text-foreground">Delete Account</p>
+                  <p className="text-xs text-muted-foreground">Permanently delete your Halal Hub account and all associated data. This action cannot be undone.</p>
+                  <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl font-bold">Request Account Deletion</Button>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Button className="bg-primary rounded-xl px-8 font-bold shadow-lg shadow-primary/20">Save Privacy Settings</Button>
+              </div>
+            </Card>
+          </TabsContent>
         </div>
       </Tabs>
     </div>

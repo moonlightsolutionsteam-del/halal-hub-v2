@@ -22,17 +22,17 @@ const MOCK_MOSQUES = [
   },
   {
     id: "mq2", name: "Al-Rahman Islamic Centre", type: "Islamic Centre", loc: "Andheri, Mumbai",
-    rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
+    rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Weekend School", "Funeral Services", "Youth Programme"], prayerTime: "Fajr: 5:14 AM", parking: true
   },
   {
     id: "mq3", name: "Masjid Al-Furqan", type: "Community Mosque", loc: "Kurla, Mumbai",
-    rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
+    rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1564769662533-4f00a87b4056?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Arabic Classes", "Food Bank", "Nikah Services"], prayerTime: "Fajr: 5:10 AM", parking: false
   },
   {
     id: "mq4", name: "Downtown Islamic Hub", type: "Urban Prayer Space", loc: "Thane, Mumbai",
-    rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
+    rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1597430144718-5f2ea2e21153?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Accessible Entrance", "Multi-lingual Khutbah", "Café On-site"], prayerTime: "Fajr: 5:13 AM", parking: false
   },
 ]
