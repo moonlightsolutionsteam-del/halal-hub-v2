@@ -1,10 +1,16 @@
 
+import type { Metadata } from 'next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, MapPin, Clock, Users, Ticket, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: 'Halal Events in Mumbai',
+  description: 'Browse Islamic and halal-friendly events happening in Mumbai — exhibitions, seminars, Eid celebrations and community gatherings.',
+};
 
 const EVENTS = [
   {

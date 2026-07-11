@@ -23,7 +23,7 @@ const mockProducts = [
     price: "₹450",
     imageUrl: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'plate of mutton biryani',
-    businessUrl: '/food-dining/1',
+    businessUrl: '/categories/food',
   },
   {
     id: 'prod-2',
@@ -33,7 +33,7 @@ const mockProducts = [
     price: '₹3,500',
     imageUrl: 'https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'elegant black abaya',
-    businessUrl: '/fashion/1',
+    businessUrl: '/categories/fashion',
   },
    {
     id: 'prod-3',
@@ -43,7 +43,7 @@ const mockProducts = [
     price: "₹800/kg",
     imageUrl: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80",
     imageHint: "raw mutton pieces",
-    businessUrl: '/meat/1',
+    businessUrl: '/categories/meat',
   },
   {
     id: 'prod-4',
@@ -53,7 +53,7 @@ const mockProducts = [
     price: '₹1,200',
     imageUrl: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'stack of islamic books',
-    businessUrl: '/bookstores/1',
+    businessUrl: '/marketplace',
   },
   {
     id: 'prod-5',
@@ -63,7 +63,7 @@ const mockProducts = [
     price: '₹2,200',
     imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'traditional leather shoes',
-    businessUrl: '#',
+    businessUrl: '/categories/fashion',
   },
   {
     id: 'prod-6',
@@ -73,7 +73,7 @@ const mockProducts = [
     price: '₹1,500',
     imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'luxury perfume bottle',
-    businessUrl: '#',
+    businessUrl: '/marketplace',
   },
   {
     id: 'prod-7',
@@ -83,7 +83,7 @@ const mockProducts = [
     price: '₹600',
     imageUrl: 'https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'jar of organic honey',
-    businessUrl: '#',
+    businessUrl: '/categories/food',
   },
   {
     id: 'prod-8',
@@ -93,7 +93,7 @@ const mockProducts = [
     price: '₹2,800',
     imageUrl: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80',
     imageHint: 'islamic calligraphy art',
-    businessUrl: '#',
+    businessUrl: '/marketplace',
   },
 ];
 

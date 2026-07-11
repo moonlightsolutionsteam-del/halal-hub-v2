@@ -1,4 +1,5 @@
 
+import type { Metadata } from 'next';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Search, MapPin, Star, Filter, Info } from "lucide-react";
 import Image from "next/image";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+
+export const metadata: Metadata = {
+  title: 'Halal Restaurants in Mumbai',
+  description: 'Discover verified halal restaurants in Mumbai. From Mughlai to Middle Eastern, find certified halal dining near you on Halal Hub.',
+};
 
 const RESTAURANTS = [
   {
