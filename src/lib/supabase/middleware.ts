@@ -1,6 +1,17 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+function getRoles(user: any): string[] {
+  return user?.app_metadata?.roles ?? []
+}
+
+function redirect(request: NextRequest, pathname: string) {
+  const url = request.nextUrl.clone()
+  url.pathname = pathname
+  url.search = ''
+  return NextResponse.redirect(url)
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -21,18 +32,35 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // Refresh session so it doesn't expire
   const { data: { user } } = await supabase.auth.getUser()
+  const path = request.nextUrl.pathname
+  const roles = getRoles(user)
 
-  // Protect authenticated routes
-  const protectedPaths = ['/account', '/messages', '/family-tree']
-  const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
+  // ── Unauthenticated guard ─────────────────────────────────────────
+  const authRequiredPaths = ['/account', '/messages', '/family-tree', '/vendor', '/partner', '/admin']
+  const needsAuth = authRequiredPaths.some(p => path.startsWith(p))
 
-  if (isProtected && !user) {
+  if (needsAuth && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    url.searchParams.set('redirectTo', request.nextUrl.pathname)
+    url.searchParams.set('redirectTo', path)
     return NextResponse.redirect(url)
+  }
+
+  // ── Role guards (only checked when user is authenticated) ─────────
+  if (user) {
+    const isAdmin = roles.includes('admin') || roles.includes('super_admin')
+    const isBusinessOwner = roles.includes('business_owner')
+
+    // Admin portal — admin / super_admin only
+    if (path.startsWith('/admin') && !isAdmin) {
+      return redirect(request, '/account/dashboard')
+    }
+
+    // Vendor / partner portal — business_owner (or admin) only
+    if ((path.startsWith('/vendor') || path.startsWith('/partner')) && !isBusinessOwner && !isAdmin) {
+      return redirect(request, '/account/dashboard')
+    }
   }
 
   return supabaseResponse
