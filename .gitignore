@@ -46,3 +46,9 @@ next-env.d.ts
 # firebase
 firebase-debug.log
 firestore-debug.log
+
+# migration — credentials and exported data (never commit)
+scripts/migration/serviceAccount.json
+scripts/migration/firebase-auth-users.json
+scripts/migration/data-*.json
+scripts/migration/sql-*.sql
