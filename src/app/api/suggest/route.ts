@@ -4,10 +4,10 @@ import { createClient } from '@/lib/supabase/server'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { category, placeName, address, reason } = body
+    const { category, placeName, address, reason, link } = body
 
     if (!category?.trim() || !placeName?.trim()) {
-      return NextResponse.json({ error: 'Category and place name are required.' }, { status: 400 })
+      return NextResponse.json({ error: 'Category and name are required.' }, { status: 400 })
     }
 
     const supabase = await createClient()
@@ -18,6 +18,7 @@ export async function POST(request: Request) {
       place_name: placeName.trim(),
       address: address?.trim() || null,
       reason: reason?.trim() || null,
+      link: link?.trim() || null,
       user_id: user?.id ?? null,
     })
 
