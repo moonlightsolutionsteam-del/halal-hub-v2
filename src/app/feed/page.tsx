@@ -323,18 +323,24 @@ function PostCard({ item }: { item: any }) {
         </button>
       </div>
 
-      <div className="relative bg-muted aspect-square overflow-hidden">
+      <div className="relative bg-black w-full overflow-hidden">
         {item.mediaType === "video" ? (
           <video
             src={item.images[imgIndex]}
-            className="w-full h-full object-cover"
+            className="w-full h-auto block"
+            style={{ maxHeight: "640px", objectFit: "contain" }}
             autoPlay
             muted
             loop
             playsInline
           />
         ) : (
-          <img src={item.images[imgIndex]} alt={item.caption} className="w-full h-full object-cover" />
+          <img
+            src={item.images[imgIndex]}
+            alt={item.caption}
+            className="w-full h-auto block"
+            style={{ maxHeight: "640px", objectFit: "contain" }}
+          />
         )}
         {item.images.length > 1 && (
           <>

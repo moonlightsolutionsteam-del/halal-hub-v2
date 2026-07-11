@@ -112,7 +112,7 @@ export default function CreateFamilyGoalPage() {
               <div className="p-6 bg-muted rounded-3xl space-y-6 border border-border">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-bold text-muted-foreground">Set Amount / Count</span>
-                  <span className="text-2xl font-black text-rose-600">${targetAmount[0].toLocaleString()}</span>
+                  <span className="text-2xl font-black text-rose-600">₹{targetAmount[0].toLocaleString("en-IN")}</span>
                 </div>
                 <Slider 
                   defaultValue={targetAmount} 

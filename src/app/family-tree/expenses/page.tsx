@@ -166,7 +166,7 @@ export default function FamilyExpensesPage() {
                       <cat.icon className={cn("h-4 w-4", cat.color)} />
                       <span className="text-muted-foreground">{cat.name}</span>
                     </div>
-                    <span className="text-foreground">${cat.spend.toLocaleString()}</span>
+                    <span className="text-foreground">₹{cat.spend.toLocaleString("en-IN")}</span>
                   </div>
                   <div className="h-3 bg-muted rounded-full overflow-hidden shadow-inner">
                     <div className={cn("h-full rounded-full transition-all duration-1000", cat.color.replace('text-', 'bg-'))} style={{ width: `${cat.percentage}%` }} />
@@ -190,7 +190,7 @@ export default function FamilyExpensesPage() {
                     <span className="text-sm font-black text-foreground">{mem.name}</span>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-black text-foreground">${mem.spend.toLocaleString()}</p>
+                    <p className="text-sm font-black text-foreground">₹{mem.spend.toLocaleString("en-IN")}</p>
                     <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">Contribution</p>
                   </div>
                 </div>

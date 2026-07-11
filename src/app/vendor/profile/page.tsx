@@ -1,7 +1,10 @@
 
 "use client"
 
-import { useState } from "react";
+import * as React from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,8 +64,62 @@ const PAYMENT_METHODS = [
 ];
 
 export default function VendorProfilePage() {
-  const [activeTab, setActiveTab] = useState("details");
-  const [searchCuisine, setSearchCuisine] = useState("");
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [activeTab, setActiveTab] = React.useState("details");
+  const [searchCuisine, setSearchCuisine] = React.useState("");
+
+  // Core business fields — pre-populated from Supabase
+  const [bizId, setBizId] = React.useState<string | null>(null)
+  const [bizName, setBizName] = React.useState("")
+  const [bizPhone, setBizPhone] = React.useState("")
+  const [bizTagline, setBizTagline] = React.useState("")
+  const [bizDescription, setBizDescription] = React.useState("")
+  const [bizCuisine, setBizCuisine] = React.useState("")
+  const [saving, setSaving] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!user?.id) return
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("businesses")
+      .select("id, name, phone, description, primary_cuisine")
+      .eq("owner_id", user.id)
+      .limit(1)
+      .then(({ data }: { data: any[] | null }) => {
+        const biz = data?.[0]
+        if (!biz) return
+        setBizId(biz.id)
+        setBizName(biz.name ?? "")
+        setBizPhone(biz.phone ?? "")
+        setBizDescription(biz.description ?? "")
+        setBizCuisine(biz.primary_cuisine ?? "")
+      })
+  }, [user?.id])
+
+  const handleSave = async () => {
+    if (!bizId) {
+      toast({ title: "No business found", description: "Register your business first.", variant: "destructive" })
+      return
+    }
+    setSaving(true)
+    const supabase = createClient()
+    const { error } = await (supabase as any)
+      .from("businesses")
+      .update({
+        name: bizName || undefined,
+        phone: bizPhone || undefined,
+        description: bizDescription || undefined,
+        primary_cuisine: bizCuisine || undefined,
+      })
+      .eq("id", bizId)
+    setSaving(false)
+    if (error) {
+      toast({ title: "Save failed", description: error.message, variant: "destructive" })
+    } else {
+      toast({ title: "Profile saved!", description: "Your business listing has been updated." })
+    }
+  }
 
   const filteredCuisines = CUISINES.filter(c => c.toLowerCase().includes(searchCuisine.toLowerCase()));
 
@@ -75,8 +132,12 @@ export default function VendorProfilePage() {
           <p className="text-muted-foreground font-medium">Manage your restaurant's profile, documents, and gallery.</p>
         </div>
         <div className="flex gap-3">
-          <Button className="bg-primary hover:bg-primary/90 rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
-            <Save className="mr-2 h-4 w-4" /> Save Changes
+          <Button
+            className="bg-primary hover:bg-primary/90 rounded-2xl px-8 font-black shadow-lg shadow-primary/20 h-12 text-white"
+            onClick={handleSave}
+            disabled={saving}
+          >
+            <Save className="mr-2 h-4 w-4" /> {saving ? "Saving…" : "Save Changes"}
           </Button>
         </div>
       </div>
@@ -101,8 +162,8 @@ export default function VendorProfilePage() {
             <Card className="rounded-[2rem] border-none shadow-sm bg-card overflow-hidden p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Restaurant Name</Label>
-                  <Input placeholder="e.g., Karim's Restaurant" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Business Name</Label>
+                  <Input value={bizName} onChange={e => setBizName(e.target.value)} placeholder="e.g., Karim's Restaurant" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Alternate / Brand Name (Optional)</Label>
@@ -110,7 +171,7 @@ export default function VendorProfilePage() {
                 </div>
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Contact Number</Label>
-                  <Input placeholder="+91 11 2326 9880" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                  <Input value={bizPhone} onChange={e => setBizPhone(e.target.value)} placeholder="+91 11 2326 9880" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">WhatsApp Number</Label>
@@ -118,11 +179,11 @@ export default function VendorProfilePage() {
                 </div>
                 <div className="md:col-span-2 space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Short Description (Tagline)</Label>
-                  <Input placeholder="e.g., The Original from Old Delhi since 1913" className="h-12 rounded-2xl bg-muted border-none font-medium" />
+                  <Input value={bizTagline} onChange={e => setBizTagline(e.target.value)} placeholder="e.g., The Original from Old Delhi since 1913" className="h-12 rounded-2xl bg-muted border-none font-medium" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">About Restaurant (Long Description)</Label>
-                  <Textarea placeholder="Tell customers what makes your business special..." className="min-h-[150px] rounded-2xl bg-muted border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20" />
+                  <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">About Your Business</Label>
+                  <Textarea value={bizDescription} onChange={e => setBizDescription(e.target.value)} placeholder="Tell customers what makes your business special..." className="min-h-[150px] rounded-2xl bg-muted border-none p-4 font-medium resize-none focus:ring-2 focus:ring-primary/20" />
                 </div>
               </div>
             </Card>
@@ -153,7 +214,7 @@ export default function VendorProfilePage() {
                 </div>
                 <div className="space-y-2">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Primary Cuisine</Label>
-                  <Input placeholder="e.g., Mughlai" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+                  <Input value={bizCuisine} onChange={e => setBizCuisine(e.target.value)} placeholder="e.g., Mughlai" className="h-12 rounded-2xl bg-muted border-none font-bold" />
                 </div>
                 <div className="md:col-span-2 space-y-4">
                   <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">What types of meat do you serve?</Label>

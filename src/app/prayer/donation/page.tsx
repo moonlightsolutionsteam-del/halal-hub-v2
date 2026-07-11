@@ -95,12 +95,12 @@ export default function DonationPage() {
                 !custom && amount === amt ? "border-primary ring-2 ring-primary/20 bg-primary/5 text-primary" : "border-border/50 bg-card text-foreground hover:bg-muted/30"
               )}
             >
-              ${amt.toLocaleString("en-IN")}
+              ₹{amt.toLocaleString("en-IN")}
             </button>
           ))}
         </div>
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground">$</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-black text-muted-foreground">₹</span>
           <input
             type="number"
             inputMode="numeric"
