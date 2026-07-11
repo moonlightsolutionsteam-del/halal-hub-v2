@@ -6,9 +6,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useOnboarding } from "@/lib/onboarding-context"
+import { useToast } from "@/hooks/use-toast"
+import { createClient } from "@/lib/supabase/client"
 import {
   CheckCircle2, Building2, MapPin, Clock, Phone, ShieldCheck,
-  Camera, Edit2, Loader2, AlertCircle, ChevronRight
+  Camera, Edit2, Loader2, AlertCircle,
 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -53,9 +55,9 @@ function Row({ label, value }: { label: string; value: string }) {
 
 export default function ReviewPage() {
   const router = useRouter()
-  const { draft, update, reset } = useOnboarding()
+  const { draft, reset } = useOnboarding()
+  const { toast } = useToast()
   const [submitting, setSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
 
   const halalLabel = {
     "certified": "Halal Certified",
@@ -67,13 +69,70 @@ export default function ReviewPage() {
   const openDays = DAYS.filter(d => !draft.hours[d]?.closed)
   const closedDays = DAYS.filter(d => draft.hours[d]?.closed)
 
-  function handleSubmit() {
+  async function handleSubmit() {
     setSubmitting(true)
-    update({ submittedAt: new Date().toISOString(), status: "submitted" })
-    setTimeout(() => {
-      setSubmitting(false)
+    try {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push("/login?redirectTo=/partner/onboarding/business/review")
+        return
+      }
+
+      const address = [draft.addressLine1, draft.addressLine2].filter(Boolean).join(", ") || null
+
+      const socialLinks: Record<string, string> = {}
+      if (draft.instagram) socialLinks.instagram = draft.instagram
+      if (draft.facebook) socialLinks.facebook = draft.facebook
+      if (draft.youtube) socialLinks.youtube = draft.youtube
+      if (draft.tiktok) socialLinks.tiktok = draft.tiktok
+
+      const complianceDocs: Record<string, string> = {}
+      if (draft.certificationBody) complianceDocs.body = draft.certificationBody
+      if (draft.certificationNumber) complianceDocs.number = draft.certificationNumber
+      if (draft.certificationExpiry) complianceDocs.expiry = draft.certificationExpiry
+
+      const { error } = await supabase.from("businesses").insert({
+        name: draft.businessName,
+        category: draft.category,
+        subcategory: draft.subcategory || null,
+        description: draft.description || null,
+        address,
+        city: draft.city || null,
+        state: draft.state || null,
+        country: draft.country || null,
+        latitude: draft.latitude ? parseFloat(draft.latitude) : null,
+        longitude: draft.longitude ? parseFloat(draft.longitude) : null,
+        phone: draft.phone || null,
+        whatsapp: draft.whatsapp || null,
+        email: draft.email || null,
+        website: draft.website || null,
+        logo_url: draft.logoUrl || null,
+        cover_url: draft.coverUrl || null,
+        images: draft.galleryUrls.length > 0 ? draft.galleryUrls : null,
+        opening_hours: draft.hours,
+        halal_verified: draft.halalStatus === "certified",
+        under_no_cert: draft.halalStatus === "self-declared",
+        full_responsibility: draft.halalDeclarationAgreed,
+        social_links: Object.keys(socialLinks).length > 0 ? socialLinks : null,
+        compliance_docs: Object.keys(complianceDocs).length > 0 ? complianceDocs : null,
+        status: "pending",
+        owner_id: user.id,
+      })
+
+      if (error) throw error
+
+      reset()
       router.push("/partner/onboarding/business/success")
-    }, 2000)
+    } catch (err: any) {
+      toast({
+        title: "Submission failed",
+        description: err?.message ?? "Something went wrong. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const incomplete: string[] = []
