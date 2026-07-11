@@ -10,40 +10,61 @@ import {
   CheckCircle2, Sparkles, Zap, BookOpen
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { createClient } from "@/lib/supabase/client"
 
 const TABS = ["All", "Turkish", "Arabic", "Indian", "Malay", "Western", "Chinese", "Mediterranean"]
 
-const RESTAURANTS = [
-  {
-    id: "r1", name: "Istanbul Grill House", type: "Turkish Restaurant", loc: "Bandra, Mumbai",
-    rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Open Kitchen", "Prayer Mats Available", "Private Dining"], openNow: true, price: "££"
-  },
-  {
-    id: "r2", name: "Al-Madina Feast", type: "Arabic & Levantine", loc: "Andheri West, Mumbai",
-    rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Family Sections", "Shisha Lounge", "Authentic Recipes"], openNow: true, price: "£"
-  },
-  {
-    id: "r3", name: "Spice of Punjab", type: "Indian & Pakistani", loc: "Kurla, Mumbai",
-    rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Tandoor Oven", "Jumu'ah Special", "Vegan Options"], openNow: false, price: "£"
-  },
-  {
-    id: "r4", name: "The Halal Bistro", type: "Modern Western", loc: "Thane, Mumbai",
-    rate: 4.6, ver: true, img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Craft Burgers", "Alcohol-Free Cocktails", "Drive-Thru"], openNow: true, price: "££"
-  },
-  {
-    id: "r5", name: "Nasi Padang Corner", type: "Malay & Indonesian", loc: "Dharavi, Mumbai",
-    rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Buffet Style", "Home-style Cooking", "Group Meals"], openNow: true, price: "£"
-  },
+type Restaurant = {
+  id: string; name: string; type: string; loc: string
+  rate: number; ver: boolean; img: string
+  features: string[]; openNow: boolean; price: string
+}
+
+const FALLBACK: Restaurant[] = [
+  { id: "r1", name: "Istanbul Grill House", type: "Turkish Restaurant", loc: "Bandra, Mumbai", rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", features: ["Open Kitchen", "Prayer Mats Available", "Private Dining"], openNow: true, price: "££" },
+  { id: "r2", name: "Al-Madina Feast", type: "Arabic & Levantine", loc: "Andheri West, Mumbai", rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80", features: ["Family Sections", "Shisha Lounge", "Authentic Recipes"], openNow: true, price: "£" },
+  { id: "r3", name: "Spice of Punjab", type: "Indian & Pakistani", loc: "Kurla, Mumbai", rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80", features: ["Tandoor Oven", "Jumu'ah Special", "Vegan Options"], openNow: false, price: "£" },
+  { id: "r4", name: "The Halal Bistro", type: "Modern Western", loc: "Thane, Mumbai", rate: 4.6, ver: true, img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop&auto=format&q=80", features: ["Craft Burgers", "Alcohol-Free Cocktails", "Drive-Thru"], openNow: true, price: "££" },
+  { id: "r5", name: "Nasi Padang Corner", type: "Malay & Indonesian", loc: "Dharavi, Mumbai", rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", features: ["Buffet Style", "Home-style Cooking", "Group Meals"], openNow: true, price: "£" },
 ]
+
+function priceLabel(range: string | null) {
+  if (!range) return "£"
+  if (range.includes("budget") || range === "low") return "£"
+  if (range.includes("mid") || range === "moderate") return "££"
+  return "£££"
+}
 
 export default function FoodPage() {
   const [selectedTab, setSelectedTab] = useState("All")
+  const [restaurants, setRestaurants] = useState<Restaurant[]>(FALLBACK)
+
+  useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("businesses")
+      .select("id, name, primary_cuisine, city, country, rating, halal_verified, image_url, selected_dining, price_range, hours_open, opening_hours")
+      .in("category", ["Food & Dining", "restaurant"])
+      .eq("status", "active")
+      .order("rating", { ascending: false })
+      .limit(50)
+      .then(({ data }: { data: any[] | null }) => {
+        if (!data || data.length === 0) return
+        setRestaurants(data.map(b => ({
+          id: b.id,
+          name: b.name,
+          type: b.primary_cuisine || "Halal Restaurant",
+          loc: [b.city, b.country].filter(Boolean).join(", ") || "Mumbai",
+          rate: b.rating ?? 4.5,
+          ver: b.halal_verified ?? false,
+          img: b.image_url || "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
+          features: Array.isArray(b.selected_dining) ? b.selected_dining.slice(0, 3) : [],
+          openNow: b.hours_open ?? true,
+          price: priceLabel(b.price_range),
+        })))
+      })
+  }, [])
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -128,7 +149,7 @@ export default function FoodPage() {
 
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{RESTAURANTS.length}</span> verified restaurants</p>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{restaurants.length}</span> verified restaurants</p>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
               <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
@@ -140,7 +161,7 @@ export default function FoodPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {RESTAURANTS.map(item => (
+            {restaurants.map(item => (
               <Link key={item.id} href={`/entities/${item.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-emerald-100/50">
                   <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
