@@ -256,11 +256,13 @@ const MuteCtx = React.createContext<{
   activeId: string | null
   audioOn: boolean
   setActiveId: (id: string | null) => void
+  clearActiveId: (id: string) => void
   toggleAudio: () => void
 }>({
   activeId: null,
   audioOn: false,
   setActiveId: () => {},
+  clearActiveId: () => {},
   toggleAudio: () => {},
 })
 const MuteCtxProvider = MuteCtx.Provider
@@ -307,7 +309,7 @@ function PostCard({ item }: { item: any }) {
   const [imgIndex,  setImgIndex]  = React.useState(0)
   const [showFull,  setShowFull]  = React.useState(false)
   const [likeCount, setLikeCount] = React.useState<number>(item.likes)
-  const { activeId, audioOn, setActiveId, toggleAudio } = React.useContext(MuteCtx)
+  const { activeId, audioOn, setActiveId, clearActiveId, toggleAudio } = React.useContext(MuteCtx)
   const muted = !audioOn || activeId !== item.id
   const videoRef = React.useRef<HTMLVideoElement>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
@@ -321,12 +323,15 @@ function PostCard({ item }: { item: any }) {
     const el = containerRef.current
     if (!el) return
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setActiveId(item.id) },
+      ([entry]) => {
+        if (entry.isIntersecting) setActiveId(item.id)
+        else clearActiveId(item.id)
+      },
       { threshold: 0.5 }
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [item.id, item.mediaType, setActiveId])
+  }, [item.id, item.mediaType, setActiveId, clearActiveId])
 
   const handleLike = () => { setLiked(l => !l); setLikeCount(c => liked ? c - 1 : c + 1) }
   const isLong = item.caption.length > 120
@@ -475,7 +480,7 @@ function ReelCard({ item }: { item: any }) {
   const [liked,     setLiked]     = React.useState(false)
   const [saved,     setSaved]     = React.useState(false)
   const [likeCount, setLikeCount] = React.useState<number>(item.likes)
-  const { activeId, audioOn, setActiveId, toggleAudio } = React.useContext(MuteCtx)
+  const { activeId, audioOn, setActiveId, clearActiveId, toggleAudio } = React.useContext(MuteCtx)
   const muted = !audioOn || activeId !== item.id
   const videoRef = React.useRef<HTMLVideoElement>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
@@ -490,12 +495,15 @@ function ReelCard({ item }: { item: any }) {
     const el = containerRef.current
     if (!el) return
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setActiveId(item.id) },
+      ([entry]) => {
+        if (entry.isIntersecting) setActiveId(item.id)
+        else clearActiveId(item.id)
+      },
       { threshold: 0.5 }
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [item.id, hasVideo, setActiveId])
+  }, [item.id, hasVideo, setActiveId, clearActiveId])
 
   const handleLike = () => { setLiked(l => !l); setLikeCount(c => liked ? c - 1 : c + 1) }
 
@@ -1124,6 +1132,7 @@ export default function FeedPage() {
   const [activeId, setActiveId] = React.useState<string | null>(null)
   const [audioOn, setAudioOn] = React.useState(false)
   const toggleAudio = React.useCallback(() => setAudioOn(a => !a), [])
+  const clearActiveId = React.useCallback((id: string) => setActiveId(prev => prev === id ? null : prev), [])
   const [sidebarBizs, setSidebarBizs] = React.useState<Array<{ id: string; name: string; category: string | null; image_url: string | null; logo_url: string | null; city: string | null }>>([])
   const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
 
@@ -1207,7 +1216,7 @@ export default function FeedPage() {
   [sidebarBizs])
 
   return (
-    <MuteCtxProvider value={{ activeId, audioOn, setActiveId, toggleAudio }}>
+    <MuteCtxProvider value={{ activeId, audioOn, setActiveId, clearActiveId, toggleAudio }}>
     <div className="min-h-screen bg-background">
       <div className="max-w-[1024px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
