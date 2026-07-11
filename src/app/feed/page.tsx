@@ -252,9 +252,9 @@ function TagRow({ tags }: { tags: string[] }) {
 
 // ─── Mute Context ─────────────────────────────────────────────────────────────
 
-const MuteCtx = React.createContext<{ muted: boolean; toggleMute: () => void }>({
-  muted: true,
-  toggleMute: () => {},
+const MuteCtx = React.createContext<{ activeId: string | null; setActiveId: (id: string | null) => void }>({
+  activeId: null,
+  setActiveId: () => {},
 })
 const MuteCtxProvider = MuteCtx.Provider
 
@@ -300,7 +300,8 @@ function PostCard({ item }: { item: any }) {
   const [imgIndex,  setImgIndex]  = React.useState(0)
   const [showFull,  setShowFull]  = React.useState(false)
   const [likeCount, setLikeCount] = React.useState<number>(item.likes)
-  const { muted, toggleMute } = React.useContext(MuteCtx)
+  const { activeId, setActiveId } = React.useContext(MuteCtx)
+  const muted = activeId !== item.id
   const videoRef = React.useRef<HTMLVideoElement>(null)
 
   React.useEffect(() => {
@@ -368,7 +369,7 @@ function PostCard({ item }: { item: any }) {
         {/* Sound toggle (video posts only) */}
         {item.mediaType === "video" && (
           <button
-            onClick={e => { e.stopPropagation(); toggleMute() }}
+            onClick={e => { e.stopPropagation(); setActiveId(muted ? item.id : null) }}
             className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm rounded-full p-2 text-white hover:bg-black/80 transition-colors z-10"
           >
             {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
@@ -454,7 +455,8 @@ function ReelCard({ item }: { item: any }) {
   const [liked,     setLiked]     = React.useState(false)
   const [saved,     setSaved]     = React.useState(false)
   const [likeCount, setLikeCount] = React.useState<number>(item.likes)
-  const { muted, toggleMute } = React.useContext(MuteCtx)
+  const { activeId, setActiveId } = React.useContext(MuteCtx)
+  const muted = activeId !== item.id
   const videoRef = React.useRef<HTMLVideoElement>(null)
   const hasVideo = Boolean(item.videoUrl)
 
@@ -526,7 +528,7 @@ function ReelCard({ item }: { item: any }) {
           </button>
           {/* Mute/unmute (video reels only) */}
           {hasVideo && (
-            <button onClick={toggleMute} className="flex flex-col items-center gap-1">
+            <button onClick={() => setActiveId(muted ? item.id : null)} className="flex flex-col items-center gap-1">
               {muted ? <VolumeX className="h-6 w-6 text-white" /> : <Volume2 className="h-6 w-6 text-white" />}
             </button>
           )}
@@ -1086,11 +1088,9 @@ function FeedCard({ item }: { item: typeof FEED_ITEMS[0] }) {
 export default function FeedPage() {
   const [activeFilter, setActiveFilter] = React.useState("all")
   const [livePosts, setLivePosts] = React.useState<typeof FEED_ITEMS>([])
-  const [globalMuted, setGlobalMuted] = React.useState(true)
+  const [activeId, setActiveId] = React.useState<string | null>(null)
   const [sidebarBizs, setSidebarBizs] = React.useState<Array<{ id: string; name: string; category: string | null; image_url: string | null; logo_url: string | null; city: string | null }>>([])
   const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
-
-  const toggleMute = React.useCallback(() => setGlobalMuted(m => !m), [])
 
   React.useEffect(() => {
     const supabase = createClient()
@@ -1172,7 +1172,7 @@ export default function FeedPage() {
   [sidebarBizs])
 
   return (
-    <MuteCtxProvider value={{ muted: globalMuted, toggleMute }}>
+    <MuteCtxProvider value={{ activeId, setActiveId }}>
     <div className="min-h-screen bg-background">
       <div className="max-w-[1024px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
