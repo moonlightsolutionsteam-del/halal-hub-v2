@@ -24,6 +24,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
 
 const FamilyTreeIcon = (props: any) => (
   <svg
@@ -56,13 +57,32 @@ function formatJoinDate(date: any): string {
   } catch { return '' }
 }
 
+type SuggestionRow = { id: string; place_name: string; category: string | null; status: string | null; created_at: string }
+
 export default function UserDashboard() {
   const [mounted, setMounted] = React.useState(false)
   const { user, loading } = useAuth()
+  const [suggestions, setSuggestions] = React.useState<SuggestionRow[]>([])
+  const [checkInCount, setCheckInCount] = React.useState<number | null>(null)
+  const [savedCount, setSavedCount] = React.useState<number | null>(null)
 
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
+  React.useEffect(() => {
+    if (!user?.id) return
+    const supabase = createClient()
+    ;(supabase as any).from("suggestions").select("id, place_name, category, status, created_at")
+      .eq("user_id", user.id).order("created_at", { ascending: false }).limit(4)
+      .then(({ data }: { data: SuggestionRow[] | null }) => { if (data) setSuggestions(data) })
+    ;(supabase as any).from("check_ins").select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .then(({ count }: { count: number | null }) => setCheckInCount(count ?? 0))
+    ;(supabase as any).from("saved_businesses").select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .then(({ count }: { count: number | null }) => setSavedCount(count ?? 0))
+  }, [user?.id])
 
   if (!mounted || loading) return null
 
@@ -305,50 +325,43 @@ export default function UserDashboard() {
                     <Button variant="ghost" size="sm" className="font-black text-[10px] uppercase text-muted-foreground hover:text-primary tracking-widest">Manage All <ArrowRight className="h-3 w-3 ml-1" /></Button>
                   </Link>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    {
-                      name: "The Halal Grill & Bistro",
-                      status: "LIVE ON HUB",
-                      statusColor: "bg-emerald-50 text-emerald-600 border-emerald-100",
-                      date: "Oct 12, 2023",
-                      points: "+50 Points Earned",
-                      img: "food1"
-                    },
-                    {
-                      name: "Istanbul Spice Market",
-                      status: "AUDIT IN PROGRESS",
-                      statusColor: "bg-blue-50 text-blue-600 border-blue-100",
-                      date: "Oct 24, 2023",
-                      info: "Awaiting final certificates",
-                      img: "grocery1"
-                    }
-                  ].map((suggestion, i) => (
-                    <Card key={i} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-4 sm:p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
-                      <div className="flex gap-4 sm:gap-8 items-start">
-                        <div className="relative h-16 w-16 sm:h-24 sm:w-24 rounded-2xl sm:rounded-[1.5rem] overflow-hidden shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500">
-                          <Image src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&h=300&fit=crop&auto=format&q=80`} alt={suggestion.name} fill className="object-cover" />
-                        </div>
-                        <div className="flex-1 space-y-2 sm:space-y-3 min-w-0">
-                          <div className="flex justify-between items-start">
-                            <Badge className={`${suggestion.statusColor} border-2 font-black text-[8px] uppercase tracking-widest h-6 px-2 sm:px-3 rounded-full`}>{suggestion.status}</Badge>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-xl bg-muted shrink-0"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
-                          </div>
-                          <h4 className="text-base sm:text-xl font-black text-foreground truncate leading-tight">{suggestion.name}</h4>
-                          <div className="flex flex-col gap-1">
-                            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Submitted: {suggestion.date}</p>
-                            {suggestion.points && <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em]">{suggestion.points}</p>}
-                            {suggestion.info && (
-                              <div className="flex items-center gap-1.5 text-[10px] font-bold text-blue-500 italic mt-1">
-                                <Info className="h-3 w-3" /> {suggestion.info}
+                {suggestions.length === 0 ? (
+                  <Card className="rounded-[2rem] border-none shadow-sm bg-card p-10 flex flex-col items-center gap-4 text-center">
+                    <MapPin className="h-8 w-8 text-muted-foreground" />
+                    <p className="text-sm font-bold text-muted-foreground">No suggestions yet</p>
+                    <Link href="/suggest"><Button className="rounded-xl h-11 px-8 font-black text-xs bg-primary text-white">Suggest a Place</Button></Link>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {suggestions.map((s) => {
+                      const statusMap: Record<string, { label: string; color: string }> = {
+                        pending:  { label: "AUDIT IN PROGRESS", color: "bg-blue-50 text-blue-600 border-blue-100" },
+                        approved: { label: "LIVE ON HUB",       color: "bg-emerald-50 text-emerald-600 border-emerald-100" },
+                        rejected: { label: "NOT LISTED",        color: "bg-red-50 text-red-600 border-red-100" },
+                      }
+                      const st = statusMap[s.status ?? "pending"] ?? statusMap["pending"]
+                      const date = new Date(s.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })
+                      return (
+                        <Card key={s.id} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-4 sm:p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
+                          <div className="flex gap-4 sm:gap-8 items-start">
+                            <div className="h-14 w-14 sm:h-20 sm:w-20 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 shadow-inner">
+                              <MapPin className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+                            </div>
+                            <div className="flex-1 space-y-2 sm:space-y-3 min-w-0">
+                              <Badge className={`${st.color} border-2 font-black text-[8px] uppercase tracking-widest h-6 px-2 sm:px-3 rounded-full`}>{st.label}</Badge>
+                              <h4 className="text-base sm:text-xl font-black text-foreground truncate leading-tight">{s.place_name}</h4>
+                              <div className="flex flex-col gap-1">
+                                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Submitted: {date}</p>
+                                {s.category && <p className="text-[10px] font-bold text-muted-foreground capitalize">{s.category}</p>}
+                                {s.status === "approved" && <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em]">+50 Points Earned</p>}
                               </div>
-                            )}
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
+                        </Card>
+                      )
+                    })}
+                  </div>
+                )}
               </section>
 
               {/* Achievements Timeline */}
