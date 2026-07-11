@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { createClient } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -230,6 +231,15 @@ function fmt(n: number): string {
   return String(n)
 }
 
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 60) return `${mins}m`
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return `${hrs}h`
+  return `${Math.floor(hrs / 24)}d`
+}
+
 function TagRow({ tags }: { tags: string[] }) {
   return (
     <div className="flex flex-wrap gap-1.5 mt-2">
@@ -314,13 +324,17 @@ function PostCard({ item }: { item: any }) {
       </div>
 
       <div className="relative bg-muted aspect-square overflow-hidden">
-        <img src={item.images[imgIndex]} alt={item.caption} className="w-full h-full object-cover" />
-        {item.mediaType === "video" && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-black/30 backdrop-blur-sm rounded-full h-16 w-16 flex items-center justify-center">
-              <Play className="h-8 w-8 text-white fill-white ml-1" />
-            </div>
-          </div>
+        {item.mediaType === "video" ? (
+          <video
+            src={item.images[imgIndex]}
+            className="w-full h-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : (
+          <img src={item.images[imgIndex]} alt={item.caption} className="w-full h-full object-cover" />
         )}
         {item.images.length > 1 && (
           <>
@@ -340,11 +354,13 @@ function PostCard({ item }: { item: any }) {
             )}
           </>
         )}
-        <div className="absolute top-4 left-4">
-          <Badge className="bg-card/90 backdrop-blur text-foreground border-none font-bold text-[10px] uppercase tracking-wider shadow-sm px-3 py-1">
-            {item.category}
-          </Badge>
-        </div>
+        {item.category && (
+          <div className="absolute top-4 left-4">
+            <Badge className="bg-card/90 backdrop-blur text-foreground border-none font-bold text-[10px] uppercase tracking-wider shadow-sm px-3 py-1">
+              {item.category}
+            </Badge>
+          </div>
+        )}
       </div>
 
       <div className="px-4 pt-3 flex items-center justify-between">
@@ -1003,10 +1019,47 @@ function FeedCard({ item }: { item: typeof FEED_ITEMS[0] }) {
 
 export default function FeedPage() {
   const [activeFilter, setActiveFilter] = React.useState("all")
+  const [livePosts, setLivePosts] = React.useState<typeof FEED_ITEMS>([])
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("feed_posts")
+      .select("id, display_name, description, media_url, firebase_media_url, business_name, place_name, created_at")
+      .order("created_at", { ascending: false })
+      .limit(30)
+      .then(({ data }: { data: any[] | null }) => {
+        if (!data || data.length === 0) return
+        setLivePosts(data.map((b, i) => {
+          const url = b.media_url || b.firebase_media_url || ""
+          const isVideo = url.includes(".mp4") || url.includes(".mov") || url.includes(".webm")
+          return {
+            id: i + 1000,
+            type: "post" as const,
+            author: {
+              name: b.display_name || "Halal Hub",
+              handle: "@" + (b.display_name || "halalhub").toLowerCase().replace(/\s+/g, ""),
+              avatar: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80",
+              verified: true,
+            },
+            location: b.place_name || null,
+            images: [url],
+            mediaType: isVideo ? "video" : "image",
+            caption: b.description || "",
+            likes: 0, comments: 0, shares: 0,
+            timeAgo: timeAgo(b.created_at),
+            tags: [] as string[],
+            category: b.business_name || null,
+          }
+        }))
+      })
+  }, [])
+
+  const allItems = [...livePosts, ...FEED_ITEMS]
 
   const filteredItems = activeFilter === "all"
-    ? FEED_ITEMS
-    : FEED_ITEMS.filter(item => FILTER_TYPE_MAP[activeFilter]?.includes(item.type))
+    ? allItems
+    : allItems.filter(item => FILTER_TYPE_MAP[activeFilter]?.includes(item.type))
 
   return (
     <div className="min-h-screen bg-background">
