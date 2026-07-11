@@ -23,6 +23,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useAuth } from "@/hooks/use-auth"
 
 const FamilyTreeIcon = (props: any) => (
   <svg
@@ -42,14 +43,28 @@ const FamilyTreeIcon = (props: any) => (
   </svg>
 );
 
+function getInitials(name: string | null | undefined): string {
+  if (!name) return '?'
+  return name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase()
+}
+
+function formatJoinDate(date: any): string {
+  try {
+    const d = new Date(date)
+    if (isNaN(d.getTime())) return ''
+    return d.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
+  } catch { return '' }
+}
+
 export default function UserDashboard() {
   const [mounted, setMounted] = React.useState(false)
+  const { user, loading } = useAuth()
 
   React.useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  if (!mounted || loading) return null
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/10">
@@ -102,8 +117,8 @@ export default function UserDashboard() {
             <div className="relative shrink-0">
               <div className="p-1.5 sm:p-2 bg-card rounded-[2rem] sm:rounded-[3rem] shadow-2xl">
                 <Avatar className="h-28 w-28 sm:h-40 sm:w-48 rounded-[1.5rem] sm:rounded-[2.5rem] md:h-48 md:w-48">
-                  <AvatarImage src="https://randomuser.me/api/portraits/men/10.jpg" />
-                  <AvatarFallback className="text-4xl font-black bg-emerald-50 text-emerald-600">SA</AvatarFallback>
+                  {user?.photoURL && <AvatarImage src={user.photoURL} />}
+                  <AvatarFallback className="text-4xl font-black bg-emerald-50 text-emerald-600">{getInitials(user?.name)}</AvatarFallback>
                 </Avatar>
               </div>
               <div className="absolute bottom-3 right-3 h-8 w-8 sm:h-10 sm:w-10 bg-emerald-500 rounded-xl sm:rounded-2xl flex items-center justify-center border-4 border-white shadow-xl">
@@ -114,13 +129,13 @@ export default function UserDashboard() {
             <div className="flex-1 flex flex-col md:flex-row justify-between items-start md:items-end w-full gap-4 sm:gap-8 pb-4">
               <div className="space-y-1.5 sm:space-y-2">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h2 className="text-2xl sm:text-4xl font-black text-foreground tracking-tighter">Super Admin</h2>
+                  <h2 className="text-2xl sm:text-4xl font-black text-foreground tracking-tighter">{user?.name ?? 'My Profile'}</h2>
                   <Badge className="bg-zinc-900 text-white border-none font-black text-[10px] uppercase tracking-widest px-3 h-6 sm:px-4 sm:h-7">ELITE MEMBER</Badge>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-muted-foreground font-bold">
-                  <p className="text-sm sm:text-base text-emerald-600 font-black">@admin</p>
-                  <p className="flex items-center gap-1.5 text-xs sm:text-sm"><MapPin className="h-3.5 w-3.5" /> Mumbai, MH</p>
-                  <p className="flex items-center gap-1.5 text-xs sm:text-sm hidden sm:flex"><Calendar className="h-3.5 w-3.5" /> Joined May 2021</p>
+                  <p className="text-sm sm:text-base text-emerald-600 font-black">@{user?.name?.split(' ')[0].toLowerCase() ?? 'user'}</p>
+                  {user?.city && <p className="flex items-center gap-1.5 text-xs sm:text-sm"><MapPin className="h-3.5 w-3.5" /> {user.city}</p>}
+                  {user?.createdAt && <p className="flex items-center gap-1.5 text-xs sm:text-sm hidden sm:flex"><Calendar className="h-3.5 w-3.5" /> Joined {formatJoinDate(user.createdAt)}</p>}
                 </div>
               </div>
               <div className="flex gap-2 sm:gap-3">
@@ -142,7 +157,7 @@ export default function UserDashboard() {
               { label: "Following", value: "12", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
               { label: "Followers", value: "5.4k", icon: Heart, color: "text-rose-600", bg: "bg-rose-50" },
               { label: "Family Circle", value: "4", icon: FamilyTreeIcon, color: "text-emerald-600", bg: "bg-emerald-50" },
-              { label: "Hub Coins", value: "1,240", icon: Wallet, color: "text-amber-600", bg: "bg-amber-50" },
+              { label: "Hub Coins", value: (user?.halalCoinsBalance ?? 0).toLocaleString(), icon: Wallet, color: "text-amber-600", bg: "bg-amber-50" },
             ].map((stat, i) => (
               <div key={i} className="flex items-center gap-3 sm:gap-5 group cursor-default">
                 <div className={cn("h-11 w-11 sm:h-14 sm:w-14 rounded-xl sm:rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform", stat.bg, stat.color)}>
@@ -276,7 +291,7 @@ export default function UserDashboard() {
                     <CardTitle className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Hub Coins</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0 space-y-4 sm:space-y-6">
-                    <div className="text-4xl sm:text-5xl font-black text-amber-600 tracking-tighter">1,240</div>
+                    <div className="text-4xl sm:text-5xl font-black text-amber-600 tracking-tighter">{(user?.halalCoinsBalance ?? 0).toLocaleString()}</div>
                     <Button className="w-full h-11 rounded-xl bg-zinc-900 text-white font-black text-[10px] uppercase tracking-widest shadow-xl">Redeem Rewards</Button>
                   </CardContent>
                 </Card>

@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const verifyOtp = async (phone: string, otp: string) => {
     const { error } = await supabase.auth.verifyOtp({ phone, token: otp, type: 'sms' });
     if (error) throw error;
-    router.push('/dashboard');
+    router.push('/account/dashboard');
   };
 
   const signOut = async () => {
