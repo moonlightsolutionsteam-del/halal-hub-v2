@@ -14,7 +14,7 @@ import {
   Calendar, Clock, Users, BookOpen,
   MessageSquare, Navigation, Quote,
   ThumbsUp, UserPlus, Eye, ArrowRight,
-  CheckCircle2,
+  CheckCircle2, Volume2, VolumeX,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -212,9 +212,9 @@ const TRENDING_TOPICS = [
 ]
 
 const SUGGESTED_ACCOUNTS = [
-  { name: "Pure Glow Beauty", handle: "@pureglowbeauty", avatar: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&auto=format&q=80", verified: true,  followers: "24K" },
-  { name: "Ummah Fitness",    handle: "@ummahfitness",   avatar: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&h=600&fit=crop&auto=format&q=80", verified: false, followers: "18K" },
-  { name: "Barakah Finance",  handle: "@barakahfin",     avatar: "https://randomuser.me/api/portraits/men/22.jpg", verified: true,  followers: "31K" },
+  { name: "Pure Glow Beauty", handle: "@pureglowbeauty", avatar: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&auto=format&q=80", verified: true,  followers: "24K followers" },
+  { name: "Ummah Fitness",    handle: "@ummahfitness",   avatar: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&h=600&fit=crop&auto=format&q=80", verified: false, followers: "18K followers" },
+  { name: "Barakah Finance",  handle: "@barakahfin",     avatar: "https://randomuser.me/api/portraits/men/22.jpg", verified: true,  followers: "31K followers" },
 ]
 
 const PEOPLE_NEARBY = [
@@ -249,6 +249,14 @@ function TagRow({ tags }: { tags: string[] }) {
     </div>
   )
 }
+
+// ─── Mute Context ─────────────────────────────────────────────────────────────
+
+const MuteCtx = React.createContext<{ muted: boolean; toggleMute: () => void }>({
+  muted: true,
+  toggleMute: () => {},
+})
+const MuteCtxProvider = MuteCtx.Provider
 
 // ─── Story Bubble ─────────────────────────────────────────────────────────────
 
@@ -292,6 +300,12 @@ function PostCard({ item }: { item: any }) {
   const [imgIndex,  setImgIndex]  = React.useState(0)
   const [showFull,  setShowFull]  = React.useState(false)
   const [likeCount, setLikeCount] = React.useState<number>(item.likes)
+  const { muted, toggleMute } = React.useContext(MuteCtx)
+  const videoRef = React.useRef<HTMLVideoElement>(null)
+
+  React.useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted
+  }, [muted])
 
   const handleLike = () => { setLiked(l => !l); setLikeCount(c => liked ? c - 1 : c + 1) }
   const isLong = item.caption.length > 120
@@ -323,14 +337,23 @@ function PostCard({ item }: { item: any }) {
         </button>
       </div>
 
-      <div className="relative bg-black w-full overflow-hidden">
+      <div className="relative w-full overflow-hidden bg-black">
+        {/* Blurred ambient background — fills gap around portrait content */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <img
+            src={item.images[imgIndex]}
+            aria-hidden
+            className="w-full h-full object-cover scale-110 blur-2xl opacity-50"
+          />
+        </div>
         {item.mediaType === "video" ? (
           <video
+            ref={videoRef}
             src={item.images[imgIndex]}
-            className="w-full h-auto block"
+            className="relative w-full h-auto block"
             style={{ maxHeight: "640px", objectFit: "contain" }}
             autoPlay
-            muted
+            muted={muted}
             loop
             playsInline
           />
@@ -338,9 +361,18 @@ function PostCard({ item }: { item: any }) {
           <img
             src={item.images[imgIndex]}
             alt={item.caption}
-            className="w-full h-auto block"
+            className="relative w-full h-auto block"
             style={{ maxHeight: "640px", objectFit: "contain" }}
           />
+        )}
+        {/* Sound toggle (video posts only) */}
+        {item.mediaType === "video" && (
+          <button
+            onClick={e => { e.stopPropagation(); toggleMute() }}
+            className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm rounded-full p-2 text-white hover:bg-black/80 transition-colors z-10"
+          >
+            {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+          </button>
         )}
         {item.images.length > 1 && (
           <>
@@ -422,13 +454,33 @@ function ReelCard({ item }: { item: any }) {
   const [liked,     setLiked]     = React.useState(false)
   const [saved,     setSaved]     = React.useState(false)
   const [likeCount, setLikeCount] = React.useState<number>(item.likes)
+  const { muted, toggleMute } = React.useContext(MuteCtx)
+  const videoRef = React.useRef<HTMLVideoElement>(null)
+  const hasVideo = Boolean(item.videoUrl)
+
+  React.useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted
+  }, [muted])
 
   const handleLike = () => { setLiked(l => !l); setLikeCount(c => liked ? c - 1 : c + 1) }
 
   return (
     <Card className="rounded-none sm:rounded-2xl border-x-0 sm:border-x border-none shadow-sm bg-black overflow-hidden">
       <div className="relative aspect-[9/16] w-full max-w-sm lg:max-w-5xl mx-auto">
-        <img src={item.thumbnail} alt={item.caption} className="w-full h-full object-cover" />
+        {hasVideo ? (
+          <video
+            ref={videoRef}
+            src={item.videoUrl}
+            poster={item.thumbnail}
+            className="w-full h-full object-cover"
+            autoPlay
+            muted={muted}
+            loop
+            playsInline
+          />
+        ) : (
+          <img src={item.thumbnail} alt={item.caption} className="w-full h-full object-cover" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40" />
 
         {/* Author row */}
@@ -446,12 +498,14 @@ function ReelCard({ item }: { item: any }) {
           </button>
         </div>
 
-        {/* Play button overlay */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="bg-black/20 rounded-full h-14 w-14 flex items-center justify-center">
-            <Play className="h-7 w-7 text-white fill-white ml-0.5" />
+        {/* Play button overlay (only for static thumbnails) */}
+        {!hasVideo && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="bg-black/20 rounded-full h-14 w-14 flex items-center justify-center">
+              <Play className="h-7 w-7 text-white fill-white ml-0.5" />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Right-side action buttons */}
         <div className="absolute right-3 bottom-28 flex flex-col items-center gap-6">
@@ -470,6 +524,12 @@ function ReelCard({ item }: { item: any }) {
           <button onClick={() => setSaved(s => !s)}>
             <Bookmark className={cn("h-7 w-7", saved ? "text-white fill-white" : "text-white")} />
           </button>
+          {/* Mute/unmute (video reels only) */}
+          {hasVideo && (
+            <button onClick={toggleMute} className="flex flex-col items-center gap-1">
+              {muted ? <VolumeX className="h-6 w-6 text-white" /> : <Volume2 className="h-6 w-6 text-white" />}
+            </button>
+          )}
           <button>
             <MoreHorizontal className="h-7 w-7 text-white" />
           </button>
@@ -1026,6 +1086,11 @@ function FeedCard({ item }: { item: typeof FEED_ITEMS[0] }) {
 export default function FeedPage() {
   const [activeFilter, setActiveFilter] = React.useState("all")
   const [livePosts, setLivePosts] = React.useState<typeof FEED_ITEMS>([])
+  const [globalMuted, setGlobalMuted] = React.useState(true)
+  const [sidebarBizs, setSidebarBizs] = React.useState<Array<{ id: string; name: string; category: string | null; image_url: string | null; logo_url: string | null; city: string | null }>>([])
+  const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
+
+  const toggleMute = React.useCallback(() => setGlobalMuted(m => !m), [])
 
   React.useEffect(() => {
     const supabase = createClient()
@@ -1059,6 +1124,18 @@ export default function FeedPage() {
           }
         }))
       })
+    ;(supabase as any)
+      .from("businesses")
+      .select("id, name, category, image_url, logo_url, city")
+      .eq("status", "active")
+      .limit(5)
+      .then(({ data }: { data: any[] | null }) => { if (data?.length) setSidebarBizs(data) })
+    ;(supabase as any)
+      .from("profiles")
+      .select("id, name, photo_url, city")
+      .not("name", "is", null)
+      .limit(5)
+      .then(({ data }: { data: any[] | null }) => { if (data?.length) setSidebarProfiles(data) })
   }, [])
 
   const allItems = [...livePosts, ...FEED_ITEMS]
@@ -1067,7 +1144,35 @@ export default function FeedPage() {
     ? allItems
     : allItems.filter(item => FILTER_TYPE_MAP[activeFilter]?.includes(item.type))
 
+  const nearbyPeople = React.useMemo(() =>
+    sidebarProfiles.length > 0
+      ? sidebarProfiles.map(p => ({
+          name: p.name || "HalalHub User",
+          handle: "@" + (p.name || "user").toLowerCase().replace(/\s+/g, "").slice(0, 20),
+          avatar: p.photo_url || "",
+          distance: p.city || "Nearby",
+          mutual: 0,
+          verified: false,
+        }))
+      : PEOPLE_NEARBY,
+  [sidebarProfiles])
+
+  const suggestedAccounts = React.useMemo(() =>
+    sidebarBizs.length > 0
+      ? sidebarBizs.map(b => ({
+          name: b.name,
+          handle: "@" + b.name.toLowerCase().replace(/\s+/g, "").slice(0, 20),
+          avatar: b.logo_url || b.image_url || "",
+          verified: true,
+          followers: b.city
+            ? `${b.category || "Business"} · ${b.city}`
+            : (b.category || "Verified Business"),
+        }))
+      : SUGGESTED_ACCOUNTS,
+  [sidebarBizs])
+
   return (
+    <MuteCtxProvider value={{ muted: globalMuted, toggleMute }}>
     <div className="min-h-screen bg-background">
       <div className="max-w-[1024px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -1178,7 +1283,7 @@ export default function FeedPage() {
                 <button className="text-xs text-primary font-bold">See All</button>
               </div>
               <div className="space-y-4">
-                {PEOPLE_NEARBY.map(person => (
+                {nearbyPeople.map(person => (
                   <div key={person.handle} className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 shrink-0">
                       <AvatarImage src={person.avatar} />
@@ -1232,7 +1337,7 @@ export default function FeedPage() {
                 <button className="text-xs text-primary font-bold">See All</button>
               </div>
               <div className="space-y-4">
-                {SUGGESTED_ACCOUNTS.map(account => (
+                {suggestedAccounts.map(account => (
                   <div key={account.handle} className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 shrink-0">
                       <AvatarImage src={account.avatar} />
@@ -1243,7 +1348,7 @@ export default function FeedPage() {
                         <p className="text-sm font-bold text-foreground truncate">{account.name}</p>
                         {account.verified && <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" />}
                       </div>
-                      <p className="text-[11px] text-muted-foreground font-medium">{account.followers} followers</p>
+                      <p className="text-[11px] text-muted-foreground font-medium">{account.followers}</p>
                     </div>
                     <Button size="sm" className="bg-primary hover:bg-primary/90 text-white rounded-full px-4 h-8 text-xs font-black shadow-sm shrink-0">
                       Follow
@@ -1267,5 +1372,6 @@ export default function FeedPage() {
         </div>
       </div>
     </div>
+    </MuteCtxProvider>
   )
 }
