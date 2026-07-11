@@ -29,43 +29,43 @@ const MOCK_HOTELS = [
     img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Prayer Hall", "Gourmet Breakfast", "Strictly Alcohol-Free"],
     price: "₹350/night",
-    distance: ""0.5 km""
+    distance: "0.5 km"
   },
-  { 
-    id: "h2", 
-    name: "Amanah Homestay", 
-    type: "Serviced Apartment", 
-    loc: "Andheri West, Mumbai", 
-    rate: 4.8, 
-    ver: true, 
+  {
+    id: "h2",
+    name: "Amanah Homestay",
+    type: "Serviced Apartment",
+    loc: "Andheri West, Mumbai",
+    rate: 4.8,
+    ver: true,
     img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Private Kitchen", "Prayer Mats", "Kid-Friendly"],
     price: "₹180/night",
-    distance: ""1.2 km""
+    distance: "1.2 km"
   },
-  { 
-    id: "h3", 
-    name: "Crescent Grand Hotel", 
-    type: "Luxury Resort", 
-    loc: "Kurla, Mumbai", 
-    rate: 4.7, 
-    ver: true, 
+  {
+    id: "h3",
+    name: "Crescent Grand Hotel",
+    type: "Luxury Resort",
+    loc: "Kurla, Mumbai",
+    rate: 4.7,
+    ver: true,
     img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Modest Spa", "Certified Buffet", "Large Suites"],
     price: "₹420/night",
-    distance: ""3.5 km""
+    distance: "3.5 km"
   },
-  { 
-    id: "h4", 
-    name: "Urban Muslim Lodge", 
-    type: "Hostel & Co-living", 
-    loc: "Thane, Mumbai", 
-    rate: 4.5, 
-    ver: false, 
+  {
+    id: "h4",
+    name: "Urban Muslim Lodge",
+    type: "Hostel & Co-living",
+    loc: "Thane, Mumbai",
+    rate: 4.5,
+    ver: false,
     img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop&auto=format&q=80",
     features: ["Budget Friendly", "Communal Prayer", "Halal Snacks"],
     price: "₹65/night",
-    distance: ""0.8 km""
+    distance: "0.8 km"
   },
 ];
 

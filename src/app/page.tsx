@@ -18,6 +18,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePrayerSnapshot } from "@/lib/use-prayer-snapshot";
+import { createClient } from "@/lib/supabase/client";
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
@@ -140,10 +141,25 @@ const STATS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+type LiveBiz = { id: string; name: string; category: string; rating: number; image_url: string | null; city: string | null; halal_verified: boolean }
+
+function mapCategory(category: string): string {
+  const c = category.toLowerCase()
+  if (c.includes("food") || c.includes("dining") || c.includes("restaurant")) return "Food"
+  if (c.includes("health")) return "Healthcare"
+  if (c.includes("fashion") || c.includes("modest")) return "Fashion"
+  if (c.includes("finance") || c.includes("banking")) return "Finance"
+  if (c.includes("travel") || c.includes("tourism")) return "Travel"
+  if (c.includes("grocery")) return "Grocery"
+  if (c.includes("event")) return "Events"
+  return "Food"
+}
+
 export default function Home() {
   const [time, setTime] = useState<Date | null>(null);
   const [bannerIdx, setBannerIdx] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [liveBizList, setLiveBizList] = useState<LiveBiz[]>([]);
   const { prayerData, loading: prayerLoading, countdown, nextPrayerName, nextPrayerTime, locationName, timeFormat } = usePrayerSnapshot();
   const bannerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -160,13 +176,40 @@ export default function Home() {
     return () => { if (bannerRef.current) clearInterval(bannerRef.current); };
   }, []);
 
+  useEffect(() => {
+    const supabase = createClient()
+    supabase
+      .from("businesses")
+      .select("id, name, category, rating, image_url, city, halal_verified")
+      .eq("status", "active")
+      .order("rating", { ascending: false })
+      .limit(16)
+      .then(({ data }) => {
+        if (data && data.length > 0) setLiveBizList(data as LiveBiz[])
+      })
+  }, []);
+
   const formattedDate = time
     ? time.toLocaleDateString([], { weekday: "short", day: "numeric", month: "long" })
     : "---";
 
+  const baseRecs = liveBizList.length > 0
+    ? liveBizList.map(b => ({
+        name: b.name,
+        cat: b.category,
+        rating: b.rating ?? 4.5,
+        dist: "",
+        open: true,
+        badge: b.halal_verified ? "Halal Certified" : "Verified",
+        img: b.image_url || "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format&q=80",
+        url: `/entities/${b.id}`,
+        category: mapCategory(b.category ?? ""),
+      }))
+    : RECOMMENDED
+
   const filteredRecs = activeCategory === "All"
-    ? RECOMMENDED
-    : RECOMMENDED.filter(r => r.category === activeCategory);
+    ? baseRecs
+    : baseRecs.filter(r => r.category === activeCategory);
 
   const banner = FEATURED_BANNERS[bannerIdx];
 
