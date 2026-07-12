@@ -10,18 +10,21 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ReviewPage() {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
   const { toast } = useToast();
+  const { user } = useAuth();
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (rating === 0) {
       toast({
@@ -31,18 +34,53 @@ export default function ReviewPage() {
       });
       return;
     }
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Sign in required",
+        description: "Please sign in to leave a review.",
+      });
+      return;
+    }
     setIsSubmitting(true);
 
-    // In a real app, you would send this data to your backend/Firestore
-    setTimeout(() => {
-      setIsSubmitting(false);
-      const points = 25 + (photos.length > 0 ? 25 : 0);
+    const supabase = createClient()
+
+    const imageUrls: string[] = []
+    for (const photo of photos) {
+      const path = `${user.uid}/${id}-${Date.now()}-${photo.name}`
+      const { error: uploadError } = await supabase.storage.from("review-photos").upload(path, photo)
+      if (!uploadError) {
+        const { data } = supabase.storage.from("review-photos").getPublicUrl(path)
+        imageUrls.push(data.publicUrl)
+      }
+    }
+
+    const { error } = await (supabase as any).from("business_reviews").insert({
+      business_id: id,
+      user_id: user.uid,
+      rating,
+      body: comment || null,
+      images: imageUrls,
+    })
+
+    setIsSubmitting(false);
+
+    if (error) {
       toast({
-        title: "Review Submitted!",
-        description: `Thank you for your feedback! You've earned ${points} loyalty coins.`,
+        variant: "destructive",
+        title: "Couldn't submit review",
+        description: error.code === "23505" ? "You've already reviewed this business." : error.message,
       });
-      router.back();
-    }, 1000);
+      return;
+    }
+
+    const points = 25 + (imageUrls.length > 0 ? 25 : 0);
+    toast({
+      title: "Review Submitted!",
+      description: `Thank you for your feedback! You've earned ${points} loyalty coins.`,
+    });
+    router.back();
   };
 
   return (

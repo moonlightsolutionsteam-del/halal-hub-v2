@@ -1,20 +1,31 @@
 "use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { AlertCircle, Bell, UserPlus, PartyPopper, X } from "lucide-react"
+import { Bell, UserPlus, PartyPopper } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
 
-const conversations = [
-  { id: "good-deeds", name: "Good Deeds Tree", avatar: "🌴", isEmoji: true, lastMessage: "👉You have 100 points to claim", time: "6:27 PM", unread: 1 },
-  { id: "team", name: "Halal Hub Team", avatar: "☪️", isEmoji: true, lastMessage: "Congratulations for winning First Sign-in, go and check👉", time: "01/12/2025", unread: 1 },
-  { id: "1", name: "Aisha Khan", avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80", lastMessage: "You're welcome! Enjoy your meal.", time: "10:38 AM", unread: 0 },
-  { id: "2", name: "Karim's Restaurant", avatar: "https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&h=600&fit=crop&auto=format&q=80", lastMessage: "Your table for 4 is confirmed for 7:30 PM.", time: "Yesterday", unread: 1 },
-  { id: "3", name: "Yusuf Ibrahim", avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", lastMessage: "Sounds great, let's collaborate.", time: "2 days ago", unread: 0 },
-]
+type RawMessage = {
+  sender_id: string
+  receiver_id: string
+  content: string
+  read: boolean
+  created_at: string
+  sender: { name: string | null; photo_url: string | null } | null
+  receiver: { name: string | null; photo_url: string | null } | null
+}
+
+type Conversation = {
+  otherId: string
+  name: string
+  avatar: string | null
+  lastMessage: string
+  time: string
+  unread: number
+}
 
 const ActionCard = ({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) => (
   <Link href={href}>
@@ -28,7 +39,60 @@ const ActionCard = ({ icon, label, href }: { icon: React.ReactNode; label: strin
 )
 
 export default function MessagesPage() {
-  const [isAlertVisible, setIsAlertVisible] = useState(true)
+  const { user } = useAuth()
+  const [conversations, setConversations] = useState<Conversation[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!user?.uid) { setLoading(false); return }
+    const supabase = createClient()
+
+    async function load() {
+      const { data } = await (supabase as any)
+        .from("messages")
+        .select(
+          "sender_id, receiver_id, content, read, created_at, sender:profiles!messages_sender_id_fkey(name, photo_url), receiver:profiles!messages_receiver_id_fkey(name, photo_url)"
+        )
+        .or(`sender_id.eq.${user!.uid},receiver_id.eq.${user!.uid}`)
+        .order("created_at", { ascending: false })
+
+      const rows: RawMessage[] = data ?? []
+      const byOther = new Map<string, Conversation>()
+      for (const row of rows) {
+        const isMine = row.sender_id === user!.uid
+        const otherId = isMine ? row.receiver_id : row.sender_id
+        const otherProfile = isMine ? row.receiver : row.sender
+        if (!byOther.has(otherId)) {
+          byOther.set(otherId, {
+            otherId,
+            name: otherProfile?.name ?? "Halal Hub User",
+            avatar: otherProfile?.photo_url ?? null,
+            lastMessage: row.content,
+            time: new Date(row.created_at).toLocaleString([], { hour: "2-digit", minute: "2-digit" }),
+            unread: 0,
+          })
+        }
+        if (!isMine && !row.read) {
+          byOther.get(otherId)!.unread += 1
+        }
+      }
+      setConversations(Array.from(byOther.values()))
+      setLoading(false)
+    }
+
+    load()
+
+    const channel = supabase
+      .channel("messages-list")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        () => load()
+      )
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
+  }, [user?.uid])
 
   return (
     <div className="p-4 md:p-8 max-w-3xl mx-auto space-y-6">
@@ -37,20 +101,6 @@ export default function MessagesPage() {
         <p className="text-sm font-bold text-muted-foreground">Chats with friends, businesses, and the community.</p>
       </div>
 
-      {isAlertVisible && (
-        <Alert className="rounded-2xl border-border/60 text-muted-foreground">
-          <AlertCircle className="h-4 w-4" />
-          <div className="flex justify-between items-center w-full">
-            <AlertDescription>
-              Unable to receive message notifications from friends. <Link href="/account/settings" className="font-semibold text-primary underline">Set</Link>
-            </AlertDescription>
-            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setIsAlertVisible(false)}>
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-        </Alert>
-      )}
-
       <div className="grid grid-cols-3 gap-4">
         <ActionCard icon={<Bell className="h-6 w-6 text-primary" />} label="Notifications" href="/messages/notifications" />
         <ActionCard icon={<UserPlus className="h-6 w-6 text-primary" />} label="New Friends" href="/messages/new-friends" />
@@ -58,38 +108,40 @@ export default function MessagesPage() {
       </div>
 
       <Card className="rounded-[2rem] border-none shadow-soft overflow-hidden">
-        <div className="flex flex-col divide-y divide-border/60">
-          {conversations.map((convo) => (
-            <Link href={`/messages/${convo.id}`} key={convo.id} className="block">
-              <div className="flex items-center gap-4 p-4 hover:bg-muted/40 transition-colors">
-                <Avatar className="h-12 w-12">
-                  {convo.isEmoji ? (
-                    <AvatarFallback className="text-2xl bg-primary/10">{convo.avatar}</AvatarFallback>
-                  ) : (
-                    <>
-                      <AvatarImage src={convo.avatar} />
-                      <AvatarFallback>{convo.name.charAt(0)}</AvatarFallback>
-                    </>
-                  )}
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-center">
-                    <p className="font-bold text-foreground">{convo.name}</p>
-                    <p className="text-xs text-muted-foreground">{convo.time}</p>
-                  </div>
-                  <div className="flex justify-between items-center mt-1">
-                    <p className="text-sm text-muted-foreground truncate">{convo.lastMessage}</p>
-                    {convo.unread > 0 && (
-                      <div className="h-5 w-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs shrink-0">
-                        {convo.unread}
-                      </div>
-                    )}
+        {loading ? (
+          <div className="p-8 text-center text-muted-foreground text-sm">Loading conversations…</div>
+        ) : conversations.length === 0 ? (
+          <div className="p-10 text-center text-muted-foreground text-sm">
+            No conversations yet. Message a business or creator to start chatting.
+          </div>
+        ) : (
+          <div className="flex flex-col divide-y divide-border/60">
+            {conversations.map((convo) => (
+              <Link href={`/messages/${convo.otherId}`} key={convo.otherId} className="block">
+                <div className="flex items-center gap-4 p-4 hover:bg-muted/40 transition-colors">
+                  <Avatar className="h-12 w-12">
+                    {convo.avatar && <AvatarImage src={convo.avatar} />}
+                    <AvatarFallback>{convo.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-center">
+                      <p className="font-bold text-foreground">{convo.name}</p>
+                      <p className="text-xs text-muted-foreground">{convo.time}</p>
+                    </div>
+                    <div className="flex justify-between items-center mt-1">
+                      <p className="text-sm text-muted-foreground truncate">{convo.lastMessage}</p>
+                      {convo.unread > 0 && (
+                        <div className="h-5 w-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs shrink-0">
+                          {convo.unread}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </Card>
     </div>
   )

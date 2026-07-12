@@ -1,92 +1,67 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
   Plus,
   Minus,
-  Trash2,
   Utensils,
   ShoppingBasket,
   Calendar,
-  Leaf,
-  Flame,
-  Star,
-  Award,
   Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { createClient } from "@/lib/supabase/client";
 
-
-// Mock data, in a real app this would be fetched
-const menuData = {
-  categories: [
-    {
-      name: "Starters",
-      items: [
-        { id: 1, name: "Chicken Seekh Kebab", price: 250, veg_nonveg: "non_veg", description: "Juicy minced chicken kebabs with spices, grilled to perfection.", image_url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: ["popular", "chef_special"] },
-        { id: 2, name: "Paneer Tikka", price: 220, veg_nonveg: "veg", description: "Cottage cheese cubes marinated in yogurt and spices, grilled in a tandoor.", image_url: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: [] },
-        { id: 3, name: "Mutton Shammi Kebab", price: 300, veg_nonveg: "non_veg", description: "Soft, melt-in-the-mouth mutton patties with a blend of secret spices.", image_url: "https://randomuser.me/api/portraits/men/9.jpg", availability: true, tags: ["popular"] },
-        { id: 10, name: "Dahi Bhalla", price: 150, veg_nonveg: "veg", description: "Soft lentil dumplings soaked in creamy yogurt.", image_url: null, availability: false, tags: [] },
-      ],
-    },
-    {
-      name: "Main Course",
-      items: [
-        { id: 4, name: "Mutton Biryani", price: 450, veg_nonveg: "non_veg", description: "Aromatic basmati rice cooked with tender mutton pieces and exotic spices.", image_url: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: ["popular"] },
-        { id: 5, name: "Butter Chicken", price: 420, veg_nonveg: "non_veg", description: "Classic butter chicken in a rich, creamy tomato-based gravy.", image_url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: ["chef_special"] },
-        { id: 6, name: "Dal Makhani", price: 300, veg_nonveg: "veg", description: "Black lentils simmered overnight with butter and cream.", image_url: null, availability: true, tags: [] },
-        { id: 7, name: "Paneer Butter Masala", price: 350, veg_nonveg: "veg", description: "Soft paneer cubes in a rich and creamy tomato gravy.", image_url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", availability: true, tags: [] },
-      ],
-    },
-     {
-      name: "Breads",
-      items: [
-        { id: 8, name: "Rumali Roti", price: 30, veg_nonveg: "veg", description: "Thin, soft, and handkerchief-like bread.", image_url: null, availability: true, tags: [] },
-        { id: 9, name: "Butter Naan", price: 50, veg_nonveg: "veg", description: "Soft, fluffy leavened bread with a generous spread of butter.", image_url: null, availability: true, tags: ["popular"] },
-      ],
-    },
-  ],
+type MenuItem = {
+  id: string;
+  title: string | null;
+  description: string | null;
+  image_url: string | null;
+  price: number | null;
 };
 
-const restaurantPhoneNumber = "+911123269880";
-
 type CartItem = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;
 };
 
-const TagBadge = ({ tag }: { tag: string }) => {
-    let icon;
-    switch(tag) {
-        case 'popular': icon = <Star className="h-3 w-3 mr-1" />; break;
-        case 'spicy': icon = <Flame className="h-3 w-3 mr-1" />; break;
-        case 'chef_special': icon = <Award className="h-3 w-3 mr-1" />; break;
-        default: return null;
-    }
-
-    return <Badge variant="secondary" className="capitalize">{icon} {tag.replace('_', ' ')}</Badge>;
-}
-
 export default function MenuPage() {
-  const router = useRouter();
   const params = useParams();
   const id = params.id as string;
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [filter, setFilter] = useState<'all' | 'veg' | 'non_veg'>('all');
   const [isConfirming, setIsConfirming] = useState(false);
+  const [items, setItems] = useState<MenuItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [business, setBusiness] = useState<{ name: string; phone: string | null } | null>(null);
 
-  const updateQuantity = (item: any, amount: number) => {
+  useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("business_catalog_items")
+      .select("id, title, description, image_url, price")
+      .eq("business_id", id)
+      .then(({ data }: { data: MenuItem[] | null }) => {
+        setItems(data ?? [])
+        setLoading(false)
+      })
+    ;(supabase as any)
+      .from("businesses")
+      .select("name, phone")
+      .eq("id", id)
+      .single()
+      .then(({ data }: { data: { name: string; phone: string | null } | null }) => setBusiness(data))
+  }, [id]);
+
+  const updateQuantity = (item: MenuItem, amount: number) => {
     setCart((prevCart) => {
         const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
         if (existingItem) {
@@ -100,86 +75,67 @@ export default function MenuPage() {
                     : cartItem
             );
         } else if (amount > 0) {
-             return [...prevCart, { id: item.id, name: item.name, price: item.price, quantity: 1 }];
+             return [...prevCart, { id: item.id, name: item.title ?? "Item", price: item.price ?? 0, quantity: 1 }];
         }
         return prevCart;
     });
   };
-  
-  const getCartItem = (itemId: number) => cart.find(item => item.id === itemId);
+
+  const getCartItem = (itemId: string) => cart.find(item => item.id === itemId);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  const filteredMenu = menuData.categories.map(category => ({
-      ...category,
-      items: category.items.filter(item => {
-          if (filter === 'all') return true;
-          return item.veg_nonveg === filter;
-      })
-  })).filter(category => category.items.length > 0);
 
   return (
     <div className="p-4 md:p-6 space-y-6">
       <div className="flex items-center gap-2 text-muted-foreground">
         <Utensils className="h-5 w-5" />
-        <h1 className="text-xl font-semibold">Grills and Rolls Menu</h1>
+        <h1 className="text-xl font-semibold">{business?.name ? `${business.name} Menu` : "Menu"}</h1>
       </div>
-      
-      <div className="flex gap-2">
-            <Button variant={filter === 'all' ? 'default' : 'outline'} onClick={() => setFilter('all')}>All</Button>
-            <Button variant={filter === 'veg' ? 'default' : 'outline'} onClick={() => setFilter('veg')}><Leaf className="mr-2 h-4 w-4"/>Veg</Button>
-            <Button variant={filter === 'non_veg' ? 'default' : 'outline'} onClick={() => setFilter('non_veg')}><Flame className="mr-2 h-4 w-4"/>Non-Veg</Button>
-       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        <div className="lg:col-span-2 space-y-6">
-          {filteredMenu.map((category) => (
-            <div key={category.name}>
-              <h2 className="text-2xl font-headline font-bold mb-4">{category.name}</h2>
-              <div className="space-y-4">
-                {category.items.map((item) => {
-                    const cartItem = getCartItem(item.id);
-                    return (
-                        <Card key={item.id} className={cn("overflow-hidden transition-all", !item.availability && "opacity-50")}>
-                            <div className="flex items-start">
-                                {item.image_url && (
-                                    <div className="relative w-24 h-24 sm:w-32 sm:h-32 shrink-0">
-                                        <Image src={item.image_url} alt={item.name} fill className="object-cover" />
-                                    </div>
-                                )}
-                                <div className="p-4 flex-1">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                <div className={`w-4 h-4 border-2 rounded-sm flex items-center justify-center ${item.veg_nonveg === 'veg' ? 'border-green-500' : 'border-red-500'}`}>
-                                                    <div className={`w-2 h-2 rounded-full ${item.veg_nonveg === 'veg' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                                                </div>
-                                                <h3 className="font-semibold">{item.name}</h3>
-                                            </div>
-                                            <p className="text-sm text-muted-foreground">${item.price}</p>
-                                        </div>
-                                         {cartItem ? (
-                                            <div className="flex items-center gap-2 shrink-0">
-                                                <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item, -1)}><Minus className="h-4 w-4" /></Button>
-                                                <span className="font-bold text-lg w-8 text-center">{cartItem.quantity}</span>
-                                                <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item, 1)}><Plus className="h-4 w-4" /></Button>
-                                            </div>
-                                        ) : (
-                                            <Button onClick={() => updateQuantity(item, 1)} disabled={!item.availability}>
-                                                {item.availability ? 'Add' : 'Unavailable'}
-                                            </Button>
-                                        )}
-                                    </div>
-                                    {item.description && <p className="text-sm text-muted-foreground mt-2">{item.description}</p>}
-                                    {item.tags.length > 0 && <div className="mt-2 flex gap-2 flex-wrap">{item.tags.map(tag => <TagBadge key={tag} tag={tag} />)}</div>}
+        <div className="lg:col-span-2 space-y-4">
+          {loading ? (
+            <p className="text-muted-foreground text-center py-12">Loading menu…</p>
+          ) : items.length === 0 ? (
+            <Card>
+              <CardContent className="text-center py-12 text-muted-foreground">
+                This business hasn't added a menu yet. Check back soon.
+              </CardContent>
+            </Card>
+          ) : (
+            items.map((item) => {
+                const cartItem = getCartItem(item.id);
+                return (
+                    <Card key={item.id} className="overflow-hidden">
+                        <div className="flex items-start">
+                            {item.image_url && (
+                                <div className="relative w-24 h-24 sm:w-32 sm:h-32 shrink-0">
+                                    <Image src={item.image_url} alt={item.title ?? "Menu item"} fill className="object-cover" />
                                 </div>
+                            )}
+                            <div className="p-4 flex-1">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <h3 className="font-semibold">{item.title}</h3>
+                                        {item.price != null && <p className="text-sm text-muted-foreground">₹{item.price}</p>}
+                                    </div>
+                                     {cartItem ? (
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item, -1)}><Minus className="h-4 w-4" /></Button>
+                                            <span className="font-bold text-lg w-8 text-center">{cartItem.quantity}</span>
+                                            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item, 1)}><Plus className="h-4 w-4" /></Button>
+                                        </div>
+                                    ) : (
+                                        <Button onClick={() => updateQuantity(item, 1)}>Add</Button>
+                                    )}
+                                </div>
+                                {item.description && <p className="text-sm text-muted-foreground mt-2">{item.description}</p>}
                             </div>
-                        </Card>
-                    );
-                })}
-              </div>
-            </div>
-          ))}
+                        </div>
+                    </Card>
+                );
+            })
+          )}
         </div>
 
         <div className="lg:col-span-1 sticky top-20">
@@ -196,14 +152,14 @@ export default function MenuPage() {
                   <div key={item.id} className="flex justify-between items-center text-sm">
                     <div>
                         <p className="font-semibold">{item.name}</p>
-                        <p className="text-muted-foreground">${item.price} x {item.quantity}</p>
+                        <p className="text-muted-foreground">₹{item.price} x {item.quantity}</p>
                     </div>
                      <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
                         size="icon"
                         className="h-7 w-7"
-                        onClick={() => updateQuantity(item, -1)}
+                        onClick={() => updateQuantity({ id: item.id, title: item.name, price: item.price, description: null, image_url: null }, -1)}
                       >
                         <Minus className="h-3 w-3" />
                       </Button>
@@ -212,7 +168,7 @@ export default function MenuPage() {
                         variant="outline"
                         size="icon"
                         className="h-7 w-7"
-                        onClick={() => updateQuantity(item, 1)}
+                        onClick={() => updateQuantity({ id: item.id, title: item.name, price: item.price, description: null, image_url: null }, 1)}
                       >
                         <Plus className="h-3 w-3" />
                       </Button>
@@ -242,21 +198,25 @@ export default function MenuPage() {
                                 {cart.map(item => (
                                     <div key={item.id} className="flex justify-between items-center text-sm">
                                         <span>{item.quantity} x {item.name}</span>
-                                        <span className="font-medium">${(item.price * item.quantity).toLocaleString()}</span>
+                                        <span className="font-medium">₹{(item.price * item.quantity).toLocaleString()}</span>
                                     </div>
                                 ))}
                             </div>
                             <Separator />
                             <div className="flex justify-between font-bold text-lg">
                                 <span>Estimated Total</span>
-                                <span>${total.toLocaleString()}</span>
+                                <span>₹{total.toLocaleString()}</span>
                             </div>
                              <p className="text-xs text-muted-foreground text-center">This is an estimate. Final bill may vary. This is not an online order.</p>
                             <DialogFooter className="sm:justify-between gap-2 pt-4">
-                                <Button variant="outline" className="w-full" asChild>
-                                    <a href={`tel:${restaurantPhoneNumber}`}>
-                                        <Phone className="mr-2 h-4 w-4" /> Call Restaurant
-                                    </a>
+                                <Button variant="outline" className="w-full" disabled={!business?.phone} asChild={!!business?.phone}>
+                                    {business?.phone ? (
+                                        <a href={`tel:${business.phone}`}>
+                                            <Phone className="mr-2 h-4 w-4" /> Call Restaurant
+                                        </a>
+                                    ) : (
+                                        <span><Phone className="mr-2 h-4 w-4" /> No phone on file</span>
+                                    )}
                                 </Button>
                                 <Button className="w-full" asChild>
                                     <Link href={`/entities/${id}/reserve`}>

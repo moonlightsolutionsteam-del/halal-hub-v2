@@ -23,14 +23,15 @@ type BizRow = {
 }
 
 export default function VendorDashboard() {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [business, setBusiness] = React.useState<BizRow | null>(null)
   const [checkIns, setCheckIns] = React.useState<number | null>(null)
   const [saves, setSaves] = React.useState<number | null>(null)
   const [loading, setLoading] = React.useState(true)
 
   React.useEffect(() => {
-    if (!user?.id) return
+    if (authLoading) return
+    if (!user?.id) { setLoading(false); return }
     const supabase = createClient()
 
     ;(supabase as any)
@@ -52,7 +53,7 @@ export default function VendorDashboard() {
           .eq("business_id", biz.id)
           .then(({ count }: { count: number | null }) => setSaves(count ?? 0))
       })
-  }, [user?.id])
+  }, [user?.id, authLoading])
 
   const quickActions = [
     { label: "Add Menu Item", icon: PlusCircle, color: "text-emerald-500", bg: "bg-emerald-50", href: "/vendor/products" },

@@ -87,10 +87,16 @@ export default function ReviewPage() {
       if (draft.youtube) socialLinks.youtube = draft.youtube
       if (draft.tiktok) socialLinks.tiktok = draft.tiktok
 
-      const complianceDocs: Record<string, string> = {}
+      const complianceDocs: Record<string, any> = {}
       if (draft.certificationBody) complianceDocs.body = draft.certificationBody
       if (draft.certificationNumber) complianceDocs.number = draft.certificationNumber
       if (draft.certificationExpiry) complianceDocs.expiry = draft.certificationExpiry
+      if (draft.documentUrls.length > 0) {
+        complianceDocs.documents = draft.documentUrls.map(d => {
+          const [name, path] = d.split("::")
+          return { name, path }
+        })
+      }
 
       const { error } = await supabase.from("businesses").insert({
         name: draft.businessName,

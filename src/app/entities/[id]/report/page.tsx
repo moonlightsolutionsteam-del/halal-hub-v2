@@ -15,17 +15,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
+
+const ISSUE_LABELS: Record<string, string> = {
+  "incorrect-info": "Incorrect Information",
+  "halal-concern": "Halal Concern",
+  "closed-down": "Permanently Closed",
+  "spam-or-scam": "Spam or Scam",
+  other: "Other",
+}
 
 export default function ReportPage() {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
   const { toast } = useToast();
+  const { user } = useAuth();
   const [issueType, setIssueType] = useState("");
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!issueType) {
       toast({
@@ -37,14 +48,28 @@ export default function ReportPage() {
     }
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast({
-        title: "Report Submitted",
-        description: "Thank you for your report. Our team will review the issue.",
-      });
-      router.back();
-    }, 1000);
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("contacts").insert({
+      business_id: id,
+      user_id: user?.uid ?? null,
+      name: user?.name ?? "Anonymous",
+      email: user?.email ?? "unknown@halalhub.app",
+      subject: `Business Report: ${ISSUE_LABELS[issueType] ?? issueType}`,
+      message: comment || "(No additional details provided)",
+    })
+
+    setIsSubmitting(false);
+
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't submit report", description: error.message });
+      return;
+    }
+
+    toast({
+      title: "Report Submitted",
+      description: "Thank you for your report. Our team will review the issue.",
+    });
+    router.back();
   };
 
   return (

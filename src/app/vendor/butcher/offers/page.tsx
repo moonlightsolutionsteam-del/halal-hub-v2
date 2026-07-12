@@ -1,30 +1,125 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react"
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import {
-  Tag, Plus, Trash2, Edit2,
-  TrendingUp, Users, Percent, Gift,
-  Zap, ArrowRight, Beef, Star,
-  Smartphone
+  Tag, Plus, Trash2, Edit2, Gift, Beef,
 } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+type Offer = {
+  id: string; title: string; description: string | null; discount_type: string
+  discount_value: number | null; code: string | null; valid_until: string | null; status: string
+}
+
+const EMPTY_FORM = { title: "", code: "", discount_type: "percentage", discount_value: "", valid_until: "" }
 
 export default function ButcherOffersPage() {
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [businessId, setBusinessId] = useState<string | null>(null)
+  const [offers, setOffers] = useState<Offer[]>([])
   const [showCreateOfferModal, setShowCreateOfferModal] = useState(false)
-  const [showEditOfferModal, setShowEditOfferModal] = useState(false)
-  const [showDeleteOfferModal, setShowDeleteOfferModal] = useState(false)
-  const [selectedOffer, setSelectedOffer] = useState<{ title: string; code: string } | null>(null)
+  const [editingOffer, setEditingOffer] = useState<Offer | null>(null)
+  const [deletingOffer, setDeletingOffer] = useState<Offer | null>(null)
+  const [form, setForm] = useState(EMPTY_FORM)
+  const [saving, setSaving] = useState(false)
 
-  const activeOffers = [
-    { id: 1, title: "Weekend Lamb Special", code: "LAMB20", discount: "20% OFF", type: "Specific Cut", status: "Active", used: 45 },
-    { id: 2, title: "Bulk BBQ Pack", code: "BBQSEASON", discount: "₹500 OFF", type: "Bundle", status: "Active", used: 120 },
-    { id: 3, title: "First Visit Coupon", code: "MEAT10", discount: "10% OFF", type: "New User", status: "Active", used: 850 },
-  ];
+  useEffect(() => {
+    if (!user?.id) return
+    const supabase = createClient()
+    ;(supabase as any).from("businesses").select("id").eq("owner_id", user.id).limit(1)
+      .then(({ data }: { data: { id: string }[] | null }) => {
+        const biz = data?.[0]
+        setBusinessId(biz?.id ?? null)
+        if (biz) loadOffers(biz.id)
+      })
+  }, [user?.id])
+
+  function loadOffers(bizId: string) {
+    const supabase = createClient()
+    ;(supabase as any).from("business_offers").select("*").eq("business_id", bizId)
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: Offer[] | null }) => setOffers(data ?? []))
+  }
+
+  async function createOffer() {
+    if (!businessId || !form.title.trim()) return
+    setSaving(true)
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("business_offers").insert({
+      business_id: businessId,
+      title: form.title,
+      code: form.code || null,
+      discount_type: form.discount_type,
+      discount_value: form.discount_value ? parseFloat(form.discount_value) : null,
+      valid_until: form.valid_until || null,
+    })
+    setSaving(false)
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't create offer", description: error.message })
+      return
+    }
+    setForm(EMPTY_FORM)
+    setShowCreateOfferModal(false)
+    loadOffers(businessId)
+  }
+
+  async function saveEdit() {
+    if (!editingOffer || !businessId) return
+    setSaving(true)
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("business_offers").update({
+      title: form.title, code: form.code || null,
+      discount_type: form.discount_type,
+      discount_value: form.discount_value ? parseFloat(form.discount_value) : null,
+      valid_until: form.valid_until || null,
+    }).eq("id", editingOffer.id)
+    setSaving(false)
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't update offer", description: error.message })
+      return
+    }
+    setEditingOffer(null)
+    loadOffers(businessId)
+  }
+
+  async function deleteOffer() {
+    if (!deletingOffer || !businessId) return
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("business_offers").delete().eq("id", deletingOffer.id)
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't delete offer", description: error.message })
+      return
+    }
+    setDeletingOffer(null)
+    loadOffers(businessId)
+  }
+
+  function openEdit(offer: Offer) {
+    setForm({
+      title: offer.title, code: offer.code ?? "", discount_type: offer.discount_type,
+      discount_value: offer.discount_value?.toString() ?? "", valid_until: offer.valid_until ?? "",
+    })
+    setEditingOffer(offer)
+  }
+
+  function discountLabel(o: Offer) {
+    if (o.discount_type === "percentage") return `${o.discount_value ?? 0}% OFF`
+    if (o.discount_type === "flat") return `₹${o.discount_value ?? 0} OFF`
+    return "BOGO"
+  }
+
+  if (!businessId) {
+    return <div className="p-8 text-center text-muted-foreground">Register your shop to manage offers.</div>
+  }
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-5xl mx-auto pb-24">
@@ -36,82 +131,55 @@ export default function ButcherOffersPage() {
           <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Offers & Coupons</h1>
           <p className="text-muted-foreground font-medium">Drive traffic to your shop with specialized discounts on premium cuts.</p>
         </div>
-        <Button onClick={() => setShowCreateOfferModal(true)} className="bg-red-600 hover:bg-red-700 rounded-full px-8 font-black shadow-lg shadow-red-200 h-12 text-white">
+        <Button onClick={() => { setForm(EMPTY_FORM); setShowCreateOfferModal(true) }} className="bg-red-600 hover:bg-red-700 rounded-full px-8 font-black shadow-lg shadow-red-200 h-12 text-white">
           <Plus className="mr-2 h-4 w-4" /> Create New Offer
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
-          <div className="h-14 w-14 rounded-2xl bg-red-50 flex items-center justify-center text-red-600 shadow-inner">
-            <TrendingUp className="h-7 w-7" />
-          </div>
-          <div>
-            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Promo Impact</p>
-            <p className="text-3xl font-black text-foreground">₹18.4k</p>
-          </div>
-        </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 flex items-center gap-6">
-          <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-inner">
-            <Users className="h-7 w-7" />
-          </div>
-          <div>
-            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Redemptions</p>
-            <p className="text-3xl font-black text-foreground">1,015</p>
-          </div>
-        </Card>
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-8 flex items-center gap-6 relative overflow-hidden">
-          <div className="h-14 w-14 rounded-2xl bg-card/10 flex items-center justify-center text-red-600 relative z-10">
-            <Zap className="h-7 w-7" />
-          </div>
-          <div className="relative z-10">
-            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest leading-none mb-1">Active Boosts</p>
-            <p className="text-3xl font-black text-white">2 Live</p>
-          </div>
-          <div className="absolute -top-4 -right-4 h-24 w-24 bg-red-600/10 rounded-full blur-2xl" />
-        </Card>
-      </div>
-
       <div className="space-y-6">
-        <h2 className="text-xl font-black px-2">Active Campaigns</h2>
-        <div className="grid grid-cols-1 gap-4">
-          {activeOffers.map((offer) => (
-            <Card key={offer.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-red-100 transition-all group">
-              <div className="p-8 flex flex-col md:flex-row md:items-center justify-between gap-10">
-                <div className="flex items-center gap-8">
-                  <div className="h-20 w-20 rounded-3xl bg-muted flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform shadow-inner">
-                    {offer.type === 'Specific Cut' ? <Beef className="h-10 w-10" /> : <Gift className="h-10 w-10" />}
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3">
-                      <h3 className="text-2xl font-black text-foreground">{offer.title}</h3>
-                      <Badge className="bg-emerald-50 text-emerald-600 border-none px-3 text-[9px] font-black uppercase">ACTIVE</Badge>
+        <h2 className="text-xl font-black px-2">{offers.length} Offer{offers.length !== 1 ? "s" : ""}</h2>
+        {offers.length === 0 ? (
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-16 text-center text-muted-foreground">
+            No offers yet. Create one to attract customers.
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 gap-4">
+            {offers.map((offer) => (
+              <Card key={offer.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-red-100 transition-all group">
+                <div className="p-8 flex flex-col md:flex-row md:items-center justify-between gap-10">
+                  <div className="flex items-center gap-8">
+                    <div className="h-20 w-20 rounded-3xl bg-muted flex items-center justify-center text-red-600 group-hover:scale-110 transition-transform shadow-inner">
+                      {offer.discount_type === "bogo" ? <Gift className="h-10 w-10" /> : <Beef className="h-10 w-10" />}
                     </div>
-                    <div className="flex items-center gap-4">
-                      <span className="text-xs font-black text-red-600 bg-red-50 px-3 py-1 rounded-full uppercase tracking-tighter">{offer.code}</span>
-                      <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{offer.type}</span>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-3">
+                        <h3 className="text-2xl font-black text-foreground">{offer.title}</h3>
+                        <Badge className={offer.status === "active" ? "bg-emerald-50 text-emerald-600 border-none px-3 text-[9px] font-black uppercase" : "bg-muted text-muted-foreground border-none px-3 text-[9px] font-black uppercase"}>
+                          {offer.status.toUpperCase()}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        {offer.code && <span className="text-xs font-black text-red-600 bg-red-50 px-3 py-1 rounded-full uppercase tracking-tighter">{offer.code}</span>}
+                        {offer.valid_until && <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Until {offer.valid_until}</span>}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-12 text-center md:text-right">
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Discount</p>
-                    <p className="text-2xl font-black text-foreground">{offer.discount}</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Used</p>
-                    <p className="text-2xl font-black text-foreground">{offer.used}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => { setSelectedOffer(offer); setShowEditOfferModal(true); }} className="rounded-xl"><Edit2 className="h-4 w-4 text-muted-foreground" /></Button>
-                    <Button variant="ghost" size="icon" onClick={() => { setSelectedOffer(offer); setShowDeleteOfferModal(true); }} className="rounded-xl hover:text-red-600"><Trash2 className="h-4 w-4 text-muted-foreground" /></Button>
+                  <div className="flex items-center gap-12 text-center md:text-right">
+                    <div>
+                      <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Discount</p>
+                      <p className="text-2xl font-black text-foreground">{discountLabel(offer)}</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="icon" onClick={() => openEdit(offer)} className="rounded-xl"><Edit2 className="h-4 w-4 text-muted-foreground" /></Button>
+                      <Button variant="ghost" size="icon" onClick={() => setDeletingOffer(offer)} className="rounded-xl hover:text-red-600"><Trash2 className="h-4 w-4 text-muted-foreground" /></Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Create New Offer Modal */}
@@ -124,68 +192,68 @@ export default function ButcherOffersPage() {
           <div className="space-y-4 pt-2">
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Offer Title</Label>
-              <Input placeholder="e.g. Weekend Lamb Special" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="e.g. Weekend Lamb Special" className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Coupon Code</Label>
-              <Input placeholder="e.g. LAMB20" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} placeholder="e.g. LAMB20" className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Discount Value</Label>
-              <Input placeholder="e.g. 20% OFF or ₹500 OFF" className="h-12 rounded-2xl bg-muted border-none font-bold" />
-            </div>
-            <div className="space-y-2">
-              <Label className="font-black text-xs uppercase tracking-widest">Offer Type</Label>
-              <Input placeholder="e.g. Specific Cut, Bundle, New User" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.discount_value} onChange={e => setForm(f => ({ ...f, discount_value: e.target.value }))} type="number" placeholder="e.g. 20 (percent) or 500 (flat)" className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Expiry Date</Label>
-              <Input placeholder="e.g. 31 July 2026" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.valid_until} onChange={e => setForm(f => ({ ...f, valid_until: e.target.value }))} type="date" className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
-            <Button className="w-full h-12 rounded-2xl font-black bg-red-600 hover:bg-red-700 text-white" onClick={() => setShowCreateOfferModal(false)}>Create Offer</Button>
+            <Button disabled={saving || !form.title.trim()} className="w-full h-12 rounded-2xl font-black bg-red-600 hover:bg-red-700 text-white" onClick={createOffer}>
+              {saving ? "Creating..." : "Create Offer"}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* Edit Offer Modal */}
-      <Dialog open={showEditOfferModal} onOpenChange={setShowEditOfferModal}>
+      <Dialog open={!!editingOffer} onOpenChange={(open) => !open && setEditingOffer(null)}>
         <DialogContent className="rounded-[2rem] max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-xl font-black">Edit Offer</DialogTitle>
-            <DialogDescription>Update details for the "{selectedOffer?.title}" campaign.</DialogDescription>
+            <DialogDescription>Update details for the "{editingOffer?.title}" campaign.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 pt-2">
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Offer Title</Label>
-              <Input defaultValue={selectedOffer?.title} className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Coupon Code</Label>
-              <Input defaultValue={selectedOffer?.code} className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Discount Value</Label>
-              <Input placeholder="e.g. 20% OFF or ₹500 OFF" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.discount_value} onChange={e => setForm(f => ({ ...f, discount_value: e.target.value }))} type="number" className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
             <div className="space-y-2">
               <Label className="font-black text-xs uppercase tracking-widest">Expiry Date</Label>
-              <Input placeholder="e.g. 31 July 2026" className="h-12 rounded-2xl bg-muted border-none font-bold" />
+              <Input value={form.valid_until} onChange={e => setForm(f => ({ ...f, valid_until: e.target.value }))} type="date" className="h-12 rounded-2xl bg-muted border-none font-bold" />
             </div>
-            <Button className="w-full h-12 rounded-2xl font-black bg-red-600 hover:bg-red-700 text-white" onClick={() => setShowEditOfferModal(false)}>Save Changes</Button>
+            <Button disabled={saving} className="w-full h-12 rounded-2xl font-black bg-red-600 hover:bg-red-700 text-white" onClick={saveEdit}>
+              {saving ? "Saving..." : "Save Changes"}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* Delete Offer Confirmation Modal */}
-      <Dialog open={showDeleteOfferModal} onOpenChange={setShowDeleteOfferModal}>
+      <Dialog open={!!deletingOffer} onOpenChange={(open) => !open && setDeletingOffer(null)}>
         <DialogContent className="rounded-[2rem] max-w-sm">
           <DialogHeader>
             <DialogTitle className="text-xl font-black">Delete Offer</DialogTitle>
-            <DialogDescription>Are you sure you want to delete the "<strong>{selectedOffer?.title}</strong>" campaign? This cannot be undone.</DialogDescription>
+            <DialogDescription>Are you sure you want to delete the "<strong>{deletingOffer?.title}</strong>" campaign? This cannot be undone.</DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 pt-2">
-            <Button variant="outline" className="flex-1 h-12 rounded-2xl font-black" onClick={() => setShowDeleteOfferModal(false)}>Cancel</Button>
-            <Button className="flex-1 h-12 rounded-2xl font-black bg-red-600 hover:bg-red-700 text-white" onClick={() => setShowDeleteOfferModal(false)}>Delete</Button>
+            <Button variant="outline" className="flex-1 h-12 rounded-2xl font-black" onClick={() => setDeletingOffer(null)}>Cancel</Button>
+            <Button className="flex-1 h-12 rounded-2xl font-black bg-red-600 hover:bg-red-700 text-white" onClick={deleteOffer}>Delete</Button>
           </div>
         </DialogContent>
       </Dialog>

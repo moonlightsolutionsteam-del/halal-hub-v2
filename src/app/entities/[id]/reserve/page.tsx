@@ -33,6 +33,8 @@ import { cn } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
 
 const lunchSlots = ["12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM"];
 const dinnerSlots = ["07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM", "09:30 PM"];
@@ -42,13 +44,16 @@ export default function ReservePage() {
   const params = useParams();
   const id = params.id as string;
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [guestCount, setGuestCount] = useState(2);
   const [selectedTime, setSelectedTime] = useState("");
+  const [reservationDate, setReservationDate] = useState(new Date().toISOString().split('T')[0]);
   const [isScanning, setIsScanning] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isCodeDialogOpen, setIsCodeDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
 
    useEffect(() => {
@@ -84,30 +89,71 @@ export default function ReservePage() {
   }, [isScanning, toast]);
 
 
-  const handleGpsCheckIn = () => {
+  const doCheckIn = async () => {
+    if (!user) {
+      toast({ variant: "destructive", title: "Sign in required", description: "Please sign in to check in." });
+      return false;
+    }
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("check_ins").insert({
+      business_id: id,
+      user_id: user.uid,
+    })
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Couldn't check in",
+        description: error.code === "23505" ? "You've already checked in here today." : error.message,
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleGpsCheckIn = async () => {
+    if (!(await doCheckIn())) return;
     toast({
       title: "Checked In!",
-      description: "You've successfully checked in and earned 10 loyalty coins.",
+      description: "You've successfully checked in and earned loyalty coins.",
     });
     router.back();
   };
-  
-  const handleCodeCheckIn = () => {
+
+  const handleCodeCheckIn = async () => {
+    if (!(await doCheckIn())) return;
     toast({
       title: "Checked In!",
-      description: "You've successfully checked in via code and earned 10 loyalty coins.",
+      description: "You've successfully checked in via code and earned loyalty coins.",
     });
     setIsCodeDialogOpen(false);
     router.back();
   };
 
-  const findTable = () => {
+  const findTable = async () => {
      if (!selectedTime) {
       toast({
         variant: "destructive",
         title: "No Time Selected",
         description: "Please select a time slot for your reservation.",
       });
+      return;
+    }
+    if (!user) {
+      toast({ variant: "destructive", title: "Sign in required", description: "Please sign in to reserve a table." });
+      return;
+    }
+    setIsSubmitting(true);
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("business_reservations").insert({
+      business_id: id,
+      user_id: user.uid,
+      guest_count: guestCount,
+      reservation_date: reservationDate,
+      time_slot: selectedTime,
+    })
+    setIsSubmitting(false);
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't reserve table", description: error.message });
       return;
     }
     toast({
@@ -228,7 +274,7 @@ export default function ReservePage() {
               <Calendar className="h-5 w-5 text-primary" />
               Select Date
             </Label>
-            <Input type="date" defaultValue={new Date().toISOString().split('T')[0]} />
+            <Input type="date" value={reservationDate} onChange={(e) => setReservationDate(e.target.value)} />
           </div>
 
           <div className="space-y-2">
@@ -272,8 +318,8 @@ export default function ReservePage() {
         </CardContent>
       </Card>
       
-      <Button size="lg" className="w-full h-12" onClick={findTable}>
-        Find a Table
+      <Button size="lg" className="w-full h-12" onClick={findTable} disabled={isSubmitting}>
+        {isSubmitting ? "Booking..." : "Find a Table"}
       </Button>
     </div>
   );

@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useMemo, Suspense } from "react"
+import { useState, useEffect, useMemo, Suspense } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -10,7 +10,10 @@ import {
   ArrowLeft, Search, ShieldCheck, XCircle, AlertTriangle,
   HelpCircle, ChevronRight, X
 } from "lucide-react"
-import { searchProducts, analyseIngredients, STATUS_CONFIG, PRODUCTS, type HalalStatus } from "../data"
+import { analyseIngredients, STATUS_CONFIG, type HalalStatus } from "../data"
+import { createClient } from "@/lib/supabase/client"
+
+type ProductRow = { id: string; name: string; brand: string | null; category: string | null; halal_status: HalalStatus }
 
 function StatusBadge({ status }: { status: HalalStatus }) {
   const cfg = STATUS_CONFIG[status]
@@ -33,11 +36,22 @@ function ProductCheckerContent() {
   const [ingredientText, setIngredientText] = useState("")
   const [ingredientResults, setIngredientResults] = useState<ReturnType<typeof analyseIngredients>>([])
   const [analysed, setAnalysed] = useState(false)
+  const [productResults, setProductResults] = useState<ProductRow[]>([])
+  const [loadingProducts, setLoadingProducts] = useState(true)
 
-  const productResults = useMemo(() => {
+  useEffect(() => {
+    const supabase = createClient()
     const q = productQuery.trim()
-    if (!q) return PRODUCTS
-    return searchProducts(q)
+    setLoadingProducts(true)
+    const handle = setTimeout(() => {
+      let query = (supabase as any).from("halal_products").select("id, name, brand, category, halal_status").order("name")
+      if (q) query = query.or(`name.ilike.%${q}%,brand.ilike.%${q}%,category.ilike.%${q}%,ingredients.ilike.%${q}%`)
+      query.then(({ data }: { data: ProductRow[] | null }) => {
+        setProductResults(data ?? [])
+        setLoadingProducts(false)
+      })
+    }, 250)
+    return () => clearTimeout(handle)
   }, [productQuery])
 
   function runIngredientCheck() {
@@ -101,27 +115,29 @@ function ProductCheckerContent() {
             )}
           </div>
 
-          <p className="text-[10px] text-muted-foreground">{productResults.length} result{productResults.length !== 1 ? "s" : ""}</p>
+          <p className="text-[10px] text-muted-foreground">
+            {loadingProducts ? "Searching…" : <>{productResults.length} result{productResults.length !== 1 ? "s" : ""}</>}
+          </p>
 
           <div className="space-y-2">
             {productResults.map(p => (
               <Link key={p.id} href={`/halal-check/product/${p.id}`} className="group block">
                 <div className="flex items-center gap-3 rounded-2xl border border-border/50 bg-card px-4 py-3 hover:shadow-soft hover:bg-muted/20 transition-all">
-                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-sm", STATUS_CONFIG[p.halalStatus].bg, STATUS_CONFIG[p.halalStatus].color)}>
-                    {STATUS_CONFIG[p.halalStatus].icon}
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-sm", STATUS_CONFIG[p.halal_status].bg, STATUS_CONFIG[p.halal_status].color)}>
+                    {STATUS_CONFIG[p.halal_status].icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-black truncate">{p.name}</p>
                     <p className="text-[10px] text-muted-foreground">{p.brand} · {p.category}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <StatusBadge status={p.halalStatus} />
+                    <StatusBadge status={p.halal_status} />
                     <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
                 </div>
               </Link>
             ))}
-            {productResults.length === 0 && (
+            {!loadingProducts && productResults.length === 0 && (
               <div className="text-center py-12 space-y-2">
                 <Search className="h-8 w-8 text-muted-foreground mx-auto" />
                 <p className="text-sm font-black text-muted-foreground">No products found</p>

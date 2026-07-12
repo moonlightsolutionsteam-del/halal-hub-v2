@@ -5,10 +5,12 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ArrowLeft, History, Trash2, ScanLine, Eye, Package } from "lucide-react"
-import { findProductById, STATUS_CONFIG, type HalalStatus } from "../data"
+import { STATUS_CONFIG, type HalalStatus } from "../data"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
 
-interface ScanHistoryEntry { barcode: string; productId?: string; ts: number }
-interface ViewHistoryEntry { id: string; name: string; brand: string; status: HalalStatus; ts: number }
+interface ScanHistoryEntry { id: string; barcode: string; productId?: string; productName?: string; productStatus?: HalalStatus; ts: number }
+interface ViewHistoryEntry { id: string; productId: string; name: string; brand: string | null; status: HalalStatus; ts: number }
 
 function timeAgo(ts: number) {
   const diff = Date.now() - ts
@@ -24,24 +26,52 @@ function timeAgo(ts: number) {
 type Tab = "scans" | "views"
 
 export default function HistoryPage() {
+  const { user } = useAuth()
   const [tab, setTab] = useState<Tab>("views")
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>([])
   const [viewHistory, setViewHistory] = useState<ViewHistoryEntry[]>([])
 
   useEffect(() => {
-    try {
-      setScanHistory(JSON.parse(localStorage.getItem("hh_scan_history") || "[]"))
-      setViewHistory(JSON.parse(localStorage.getItem("hh_view_history") || "[]"))
-    } catch {}
-  }, [])
+    if (!user?.uid) return
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("product_scans")
+      .select("id, barcode, product_id, created_at, product:halal_products(id, name, halal_status)")
+      .eq("user_id", user.uid)
+      .order("created_at", { ascending: false })
+      .limit(50)
+      .then(({ data }: { data: any[] | null }) => {
+        setScanHistory((data ?? []).map(r => ({
+          id: r.id, barcode: r.barcode, productId: r.product?.id ?? undefined,
+          productName: r.product?.name, productStatus: r.product?.halal_status,
+          ts: new Date(r.created_at).getTime(),
+        })))
+      })
+    ;(supabase as any)
+      .from("product_views")
+      .select("id, created_at, product:halal_products(id, name, brand, halal_status)")
+      .eq("user_id", user.uid)
+      .order("created_at", { ascending: false })
+      .limit(50)
+      .then(({ data }: { data: any[] | null }) => {
+        setViewHistory((data ?? []).filter(r => r.product).map(r => ({
+          id: r.id, productId: r.product.id, name: r.product.name, brand: r.product.brand,
+          status: r.product.halal_status, ts: new Date(r.created_at).getTime(),
+        })))
+      })
+  }, [user?.uid])
 
-  function clearScans() {
-    localStorage.removeItem("hh_scan_history")
+  async function clearScans() {
+    if (!user?.uid) return
+    const supabase = createClient()
+    await (supabase as any).from("product_scans").delete().eq("user_id", user.uid)
     setScanHistory([])
   }
 
-  function clearViews() {
-    localStorage.removeItem("hh_view_history")
+  async function clearViews() {
+    if (!user?.uid) return
+    const supabase = createClient()
+    await (supabase as any).from("product_views").delete().eq("user_id", user.uid)
     setViewHistory([])
   }
 
@@ -91,7 +121,7 @@ export default function HistoryPage() {
         {tab === "views" && viewHistory.length > 0 && viewHistory.map((entry, i) => {
           const cfg = STATUS_CONFIG[entry.status]
           return (
-            <Link key={i} href={`/halal-check/product/${entry.id}`} className="group block">
+            <Link key={i} href={`/halal-check/product/${entry.productId}`} className="group block">
               <div className="flex items-center gap-3 rounded-2xl border border-border/50 bg-card px-4 py-3 hover:shadow-soft hover:bg-muted/20 transition-all">
                 <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm", cfg.bg, cfg.color)}>
                   {cfg.icon}
@@ -110,20 +140,20 @@ export default function HistoryPage() {
         })}
 
         {tab === "scans" && scanHistory.length > 0 && scanHistory.map((entry, i) => {
-          const product = entry.productId ? findProductById(entry.productId) : undefined
+          const hasProduct = Boolean(entry.productId && entry.productStatus)
           return (
             <div key={i} className="group">
-              {product ? (
-                <Link href={`/halal-check/product/${product.id}`} className="flex items-center gap-3 rounded-2xl border border-border/50 bg-card px-4 py-3 hover:shadow-soft hover:bg-muted/20 transition-all">
-                  <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm", STATUS_CONFIG[product.halalStatus].bg, STATUS_CONFIG[product.halalStatus].color)}>
-                    {STATUS_CONFIG[product.halalStatus].icon}
+              {hasProduct ? (
+                <Link href={`/halal-check/product/${entry.productId}`} className="flex items-center gap-3 rounded-2xl border border-border/50 bg-card px-4 py-3 hover:shadow-soft hover:bg-muted/20 transition-all">
+                  <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm", STATUS_CONFIG[entry.productStatus!].bg, STATUS_CONFIG[entry.productStatus!].color)}>
+                    {STATUS_CONFIG[entry.productStatus!].icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-black truncate">{product.name}</p>
+                    <p className="text-sm font-black truncate">{entry.productName}</p>
                     <p className="text-[10px] font-mono text-muted-foreground">{entry.barcode}</p>
                   </div>
                   <div className="text-right shrink-0">
-                    <span className={cn("text-[10px] font-black", STATUS_CONFIG[product.halalStatus].color)}>{STATUS_CONFIG[product.halalStatus].label}</span>
+                    <span className={cn("text-[10px] font-black", STATUS_CONFIG[entry.productStatus!].color)}>{STATUS_CONFIG[entry.productStatus!].label}</span>
                     <p className="text-[9px] text-muted-foreground">{timeAgo(entry.ts)}</p>
                   </div>
                 </Link>

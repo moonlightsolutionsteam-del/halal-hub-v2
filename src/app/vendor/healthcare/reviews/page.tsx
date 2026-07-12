@@ -1,22 +1,90 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react"
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-  Star, MessageSquare, Reply, ThumbsUp,
-  Search, Filter, TrendingUp, CheckCircle2,
-  MoreHorizontal, ShieldCheck
+  Star, Reply, MoreHorizontal, CheckCircle2, ShieldCheck
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+type Review = {
+  id: string; rating: number; body: string | null; created_at: string
+  business_response: string | null
+  profiles: { name: string | null } | null
+}
+
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime()
+  const d = Math.floor(diff / 86400000)
+  if (d > 0) return `${d}d ago`
+  const h = Math.floor(diff / 3600000)
+  if (h > 0) return `${h}h ago`
+  return "Just now"
+}
 
 export default function HealthcareReviewsPage() {
-  const reviews = [
-    { id: 1, user: "Fatima Zahra", rating: 5, date: "3 hours ago", comment: "Exceptional care from Dr. Hassan. The clinic felt calm, clean, and truly halal-conscious. I felt completely at ease.", response: "JazakAllah Fatima! We strive to make every patient feel respected and cared for." },
-    { id: 2, user: "Yusuf Ali", rating: 4, date: "1 day ago", comment: "Good consultation, but the wait time could be improved. Staff were courteous and the facilities were clean.", response: null },
-    { id: 3, user: "Maryam Hussain", rating: 5, date: "4 days ago", comment: "The hijama session was professional and effective. Very knowledgeable practitioners with Islamic ethics at the forefront.", response: "Alhamdulillah Maryam! Our Sunnah health services are close to our heart." },
-  ];
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [businessId, setBusinessId] = useState<string | null>(null)
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [avgRating, setAvgRating] = useState<number | null>(null)
+  const [distribution, setDistribution] = useState<Record<number, number>>({})
+  const [replyDrafts, setReplyDrafts] = useState<Record<string, string>>({})
+  const [replyingTo, setReplyingTo] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!user?.id) return
+    const supabase = createClient()
+    ;(supabase as any).from("businesses").select("id, rating").eq("owner_id", user.id).limit(1)
+      .then(({ data }: { data: { id: string; rating: number | null }[] | null }) => {
+        const biz = data?.[0]
+        if (!biz) return
+        setBusinessId(biz.id)
+        setAvgRating(biz.rating)
+        loadReviews(biz.id)
+      })
+  }, [user?.id])
+
+  function loadReviews(bizId: string) {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("business_reviews")
+      .select("id, rating, body, created_at, business_response, profiles(name)")
+      .eq("business_id", bizId)
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: Review[] | null }) => {
+        const rows = data ?? []
+        setReviews(rows)
+        const dist: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
+        rows.forEach(r => { dist[r.rating] = (dist[r.rating] ?? 0) + 1 })
+        setDistribution(dist)
+      })
+  }
+
+  async function submitReply(reviewId: string) {
+    const text = replyDrafts[reviewId]?.trim()
+    if (!text || !businessId) return
+    const supabase = createClient()
+    const { error } = await (supabase as any)
+      .from("business_reviews")
+      .update({ business_response: text, business_response_at: new Date().toISOString() })
+      .eq("id", reviewId)
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't send reply", description: error.message })
+      return
+    }
+    setReplyingTo(null)
+    loadReviews(businessId)
+  }
+
+  const total = reviews.length
+  const maxCount = Math.max(1, ...Object.values(distribution))
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-5xl mx-auto pb-24">
@@ -28,34 +96,28 @@ export default function HealthcareReviewsPage() {
           <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Patient Feedback</h1>
           <p className="text-muted-foreground font-medium">Monitor ratings for care quality, wait times, and ethical standards.</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="rounded-full px-6 font-bold border-2 h-12">
-            Satisfaction Reports
-          </Button>
-          <Button className="bg-teal-600 hover:bg-teal-700 rounded-full px-8 font-black shadow-lg shadow-teal-200 h-12 text-white">
-            Auto-Reply AI
-          </Button>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-4 space-y-6">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 text-center space-y-6">
             <div className="space-y-2">
-              <h2 className="text-7xl font-black text-foreground tracking-tighter">4.8</h2>
+              <h2 className="text-7xl font-black text-foreground tracking-tighter">{avgRating ? avgRating.toFixed(1) : "—"}</h2>
               <div className="flex justify-center gap-1.5">
-                {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-6 w-6 fill-amber-400 text-amber-400" />)}
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className={`h-6 w-6 ${avgRating && i < Math.round(avgRating) ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
+                ))}
               </div>
-              <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">Overall Care Score</p>
+              <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">{total} Review{total !== 1 ? "s" : ""}</p>
             </div>
             <div className="pt-6 border-t border-border space-y-4">
               {[5, 4, 3, 2, 1].map((star) => (
                 <div key={star} className="flex items-center gap-4">
                   <span className="text-xs font-black text-muted-foreground w-2">{star}</span>
                   <div className="h-2 bg-muted rounded-full flex-1 overflow-hidden">
-                    <div className="h-full bg-teal-600 rounded-full" style={{ width: star === 5 ? '85%' : star === 4 ? '12%' : '3%' }} />
+                    <div className="h-full bg-teal-600 rounded-full" style={{ width: `${((distribution[star] ?? 0) / maxCount) * 100}%` }} />
                   </div>
-                  <span className="text-[10px] font-bold text-muted-foreground w-8">{star === 5 ? '85%' : star === 4 ? '12%' : '3%'}</span>
+                  <span className="text-[10px] font-bold text-muted-foreground w-8">{distribution[star] ?? 0}</span>
                 </div>
               ))}
             </div>
@@ -69,62 +131,68 @@ export default function HealthcareReviewsPage() {
               <h3 className="text-lg font-black tracking-tight">Trust Badge</h3>
             </div>
             <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-              Your verified halal care practices boosted new patient trust by 42% this month.
+              Your verified halal care practices are reflected in your Halal Hub listing.
             </p>
-            <Button variant="secondary" className="w-full rounded-2xl h-12 font-black text-xs uppercase tracking-widest">View Trust Reports</Button>
           </Card>
         </div>
 
         <div className="lg:col-span-8 space-y-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between px-2">
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search reviews..." className="pl-9 h-11 rounded-2xl bg-card border-none shadow-sm font-medium" />
-            </div>
-            <Button variant="outline" size="icon" className="h-11 w-11 rounded-2xl bg-card border-none shadow-sm"><Filter className="h-4 w-4" /></Button>
-          </div>
-
           <div className="grid grid-cols-1 gap-6">
-            {reviews.map((rev) => (
+            {reviews.length === 0 ? (
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-16 text-center text-muted-foreground">
+                No reviews yet.
+              </Card>
+            ) : reviews.map((rev) => (
               <Card key={rev.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-teal-100 transition-all group">
                 <div className="p-8 space-y-6">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-12 w-12 border-2 border-border shadow-sm">
-                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
-                        <AvatarFallback>{rev.user[0]}</AvatarFallback>
+                        <AvatarFallback>{(rev.profiles?.name ?? "P")[0]}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="text-base font-black text-foreground">{rev.user}</p>
+                        <p className="text-base font-black text-foreground">{rev.profiles?.name ?? "Patient"}</p>
                         <div className="flex items-center gap-3">
                           <div className="flex gap-0.5">
                             {Array.from({ length: rev.rating }).map((_, i) => <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />)}
                           </div>
-                          <span className="text-[10px] font-bold text-muted-foreground uppercase">{rev.date}</span>
+                          <span className="text-[10px] font-bold text-muted-foreground uppercase">{timeAgo(rev.created_at)}</span>
                         </div>
                       </div>
                     </div>
                     <Button variant="ghost" size="icon" className="rounded-full opacity-0 group-hover:opacity-100 transition-opacity"><MoreHorizontal className="h-5 w-5 text-muted-foreground" /></Button>
                   </div>
 
-                  <p className="text-muted-foreground font-medium leading-relaxed italic text-base">
-                    "{rev.comment}"
-                  </p>
+                  {rev.body && (
+                    <p className="text-muted-foreground font-medium leading-relaxed italic text-base">
+                      "{rev.body}"
+                    </p>
+                  )}
 
-                  {rev.response ? (
+                  {rev.business_response ? (
                     <div className="p-6 bg-muted rounded-3xl border-l-4 border-teal-600 space-y-2">
                       <div className="flex items-center gap-2 text-xs font-black text-teal-600 uppercase tracking-widest">
                         <CheckCircle2 className="h-3.5 w-3.5" /> Clinic Response
                       </div>
-                      <p className="text-sm font-bold text-foreground">{rev.response}</p>
+                      <p className="text-sm font-bold text-foreground">{rev.business_response}</p>
+                    </div>
+                  ) : replyingTo === rev.id ? (
+                    <div className="space-y-3">
+                      <Textarea
+                        value={replyDrafts[rev.id] ?? ""}
+                        onChange={(e) => setReplyDrafts(d => ({ ...d, [rev.id]: e.target.value }))}
+                        placeholder="Write a reply to this patient..."
+                        className="rounded-2xl"
+                      />
+                      <div className="flex gap-2">
+                        <Button onClick={() => submitReply(rev.id)} className="rounded-2xl h-10 px-6 font-black text-xs bg-teal-600 text-white">Send Reply</Button>
+                        <Button variant="outline" onClick={() => setReplyingTo(null)} className="rounded-2xl h-10 px-6 font-black text-xs">Cancel</Button>
+                      </div>
                     </div>
                   ) : (
                     <div className="pt-4 flex gap-3">
-                      <Button className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest bg-teal-600 text-white shadow-lg shadow-teal-200">
+                      <Button onClick={() => setReplyingTo(rev.id)} className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest bg-teal-600 text-white shadow-lg shadow-teal-200">
                         <Reply className="mr-2 h-4 w-4" /> Reply to Patient
-                      </Button>
-                      <Button variant="outline" className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest border-2">
-                        <ThumbsUp className="mr-2 h-4 w-4" /> Thank Patient
                       </Button>
                     </div>
                   )}

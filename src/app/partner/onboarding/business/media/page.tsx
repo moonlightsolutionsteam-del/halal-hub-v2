@@ -5,22 +5,25 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useOnboarding } from "@/lib/onboarding-context"
-import { ArrowRight, Camera, Upload, ImageIcon, FileText, X, Star, Info } from "lucide-react"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
+import { useToast } from "@/hooks/use-toast"
+import { ArrowRight, Camera, Upload, ImageIcon, FileText, X, Star, Info, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-function UploadZone({ icon, title, subtitle, accept, onSelect, preview }: {
+function UploadZone({ icon, title, subtitle, accept, onSelect, preview, uploading }: {
   icon: React.ReactNode
   title: string
   subtitle: string
   accept: string
-  onSelect: (url: string) => void
+  onSelect: (file: File) => void
   preview?: string
+  uploading?: boolean
 }) {
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    const url = URL.createObjectURL(file)
-    onSelect(url)
+    onSelect(file)
   }
 
   return (
@@ -29,7 +32,12 @@ function UploadZone({ icon, title, subtitle, accept, onSelect, preview }: {
         "flex flex-col items-center justify-center gap-3 p-8 rounded-[2rem] border-2 border-dashed cursor-pointer transition-all",
         preview ? "border-primary/30 bg-primary/5" : "border-border hover:border-primary/30 hover:bg-muted/50"
       )}>
-        {preview ? (
+        {uploading ? (
+          <div className="flex flex-col items-center gap-2 py-6">
+            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+            <p className="text-xs font-bold text-muted-foreground">Uploading…</p>
+          </div>
+        ) : preview ? (
           <div className="relative w-full h-36 rounded-2xl overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={preview} alt="preview" className="w-full h-full object-cover" />
@@ -46,7 +54,7 @@ function UploadZone({ icon, title, subtitle, accept, onSelect, preview }: {
             </div>
           </>
         )}
-        <input type="file" accept={accept} className="hidden" onChange={handleFile} />
+        <input type="file" accept={accept} className="hidden" onChange={handleFile} disabled={uploading} />
       </label>
     </div>
   )
@@ -55,23 +63,65 @@ function UploadZone({ icon, title, subtitle, accept, onSelect, preview }: {
 export default function MediaPage() {
   const router = useRouter()
   const { draft, update } = useOnboarding()
-  const [docName, setDocName] = useState("")
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [uploadingKey, setUploadingKey] = useState<string | null>(null)
 
-  function addGallery(url: string) {
-    if (draft.galleryUrls.length < 10) {
-      update({ galleryUrls: [...draft.galleryUrls, url] })
+  async function uploadFile(file: File, prefix: string): Promise<string | null> {
+    if (!user) {
+      toast({ variant: "destructive", title: "Sign in required", description: "Please sign in to upload files." })
+      return null
     }
+    const supabase = createClient()
+    const path = `${user.uid}/${prefix}-${Date.now()}-${file.name}`
+    const { error } = await supabase.storage.from("business-media").upload(path, file)
+    if (error) {
+      toast({ variant: "destructive", title: "Upload failed", description: error.message })
+      return null
+    }
+    const { data } = supabase.storage.from("business-media").getPublicUrl(path)
+    return data.publicUrl
+  }
+
+  async function handleLogo(file: File) {
+    setUploadingKey("logo")
+    const url = await uploadFile(file, "logo")
+    if (url) update({ logoUrl: url })
+    setUploadingKey(null)
+  }
+
+  async function handleCover(file: File) {
+    setUploadingKey("cover")
+    const url = await uploadFile(file, "cover")
+    if (url) update({ coverUrl: url })
+    setUploadingKey(null)
+  }
+
+  async function addGallery(file: File) {
+    if (draft.galleryUrls.length >= 10) return
+    setUploadingKey("gallery")
+    const url = await uploadFile(file, "gallery")
+    if (url) update({ galleryUrls: [...draft.galleryUrls, url] })
+    setUploadingKey(null)
   }
 
   function removeGallery(i: number) {
     update({ galleryUrls: draft.galleryUrls.filter((_, idx) => idx !== i) })
   }
 
-  function handleDocUpload(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleDocUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
-    if (!file) return
-    const url = URL.createObjectURL(file)
-    update({ documentUrls: [...draft.documentUrls, `${file.name}::${url}`] })
+    if (!file || !user) return
+    setUploadingKey("document")
+    const supabase = createClient()
+    const path = `${user.uid}/${Date.now()}-${file.name}`
+    const { error } = await supabase.storage.from("proofs").upload(path, file)
+    setUploadingKey(null)
+    if (error) {
+      toast({ variant: "destructive", title: "Upload failed", description: error.message })
+      return
+    }
+    update({ documentUrls: [...draft.documentUrls, `${file.name}::${path}`] })
   }
 
   function removeDoc(i: number) {
@@ -100,8 +150,9 @@ export default function MediaPage() {
           title="Upload Your Logo"
           subtitle="Square image — PNG with transparent background preferred. Min 200×200px."
           accept="image/*"
-          onSelect={(url) => update({ logoUrl: url })}
+          onSelect={handleLogo}
           preview={draft.logoUrl}
+          uploading={uploadingKey === "logo"}
         />
       </div>
 
@@ -112,8 +163,9 @@ export default function MediaPage() {
           title="Upload a Cover Photo"
           subtitle="Landscape image — shown at the top of your listing. Min 1200×400px recommended."
           accept="image/*"
-          onSelect={(url) => update({ coverUrl: url })}
+          onSelect={handleCover}
           preview={draft.coverUrl}
+          uploading={uploadingKey === "cover"}
         />
       </div>
 
@@ -134,9 +186,15 @@ export default function MediaPage() {
           ))}
           {draft.galleryUrls.length < 10 && (
             <label className="aspect-square rounded-2xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-primary/30 hover:bg-muted/50 transition-all">
-              <Upload className="h-5 w-5 text-muted-foreground" />
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">Add Photo</p>
-              <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) addGallery(URL.createObjectURL(f)) }} />
+              {uploadingKey === "gallery" ? (
+                <Loader2 className="h-5 w-5 animate-spin text-primary" />
+              ) : (
+                <>
+                  <Upload className="h-5 w-5 text-muted-foreground" />
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-wider">Add Photo</p>
+                </>
+              )}
+              <input type="file" accept="image/*" className="hidden" disabled={uploadingKey === "gallery"} onChange={(e) => { const f = e.target.files?.[0]; if (f) addGallery(f) }} />
             </label>
           )}
         </div>
@@ -161,13 +219,13 @@ export default function MediaPage() {
 
         <label className="flex items-center gap-4 p-5 rounded-2xl border-2 border-dashed border-border cursor-pointer hover:border-primary/30 hover:bg-muted/50 transition-all">
           <div className="h-10 w-10 bg-muted rounded-2xl flex items-center justify-center text-muted-foreground shrink-0">
-            <Upload className="h-5 w-5" />
+            {uploadingKey === "document" ? <Loader2 className="h-5 w-5 animate-spin text-primary" /> : <Upload className="h-5 w-5" />}
           </div>
           <div className="space-y-0.5">
             <p className="text-sm font-black text-foreground">Upload Document</p>
             <p className="text-xs font-medium text-muted-foreground">PDF, JPG, PNG — max 10MB</p>
           </div>
-          <input type="file" accept=".pdf,image/*" className="hidden" onChange={handleDocUpload} />
+          <input type="file" accept=".pdf,image/*" className="hidden" disabled={uploadingKey === "document"} onChange={handleDocUpload} />
         </label>
       </div>
 

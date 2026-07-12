@@ -17,6 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
 
 const surveyQuestions = [
   {
@@ -64,6 +66,7 @@ export default function VerifyPage() {
   const params = useParams();
   const id = params.id as string;
   const { toast } = useToast();
+  const { user } = useAuth();
   const [answers, setAnswers] = useState<SurveyAnswers>({});
   const [halalStatus, setHalalStatus] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,7 +75,7 @@ export default function VerifyPage() {
     setAnswers((prev) => ({ ...prev, [questionId]: value as any }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!halalStatus) {
       toast({
@@ -82,18 +85,33 @@ export default function VerifyPage() {
       });
       return;
     }
+    if (!user) {
+      toast({ variant: "destructive", title: "Sign in required", description: "Please sign in to submit a verification." });
+      return;
+    }
 
     setIsSubmitting(true);
 
-    // In a real app, you would send this data to your backend/Firestore
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast({
-        title: "Verification Submitted!",
-        description: "Thank you for helping our community! You've earned 30 loyalty coins.",
-      });
-      router.back();
-    }, 1000);
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("business_verifications").insert({
+      business_id: id,
+      user_id: user.uid,
+      halal_status: halalStatus,
+      answers,
+    })
+
+    setIsSubmitting(false);
+
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't submit verification", description: error.message });
+      return;
+    }
+
+    toast({
+      title: "Verification Submitted!",
+      description: "Thank you for helping our community! You've earned 30 loyalty coins.",
+    });
+    router.back();
   };
 
   return (

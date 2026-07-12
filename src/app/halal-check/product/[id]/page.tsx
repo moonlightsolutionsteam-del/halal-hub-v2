@@ -10,7 +10,28 @@ import {
   AlertTriangle, HelpCircle, ChevronDown, ChevronUp, CheckCircle2,
   Package, Globe, Building2, Calendar, ExternalLink
 } from "lucide-react"
-import { findProductById, STATUS_CONFIG, type HalalStatus, type Product } from "../../data"
+import { STATUS_CONFIG, type HalalStatus } from "../../data"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
+import { useToast } from "@/hooks/use-toast"
+
+type Product = {
+  id: string
+  barcode: string | null
+  name: string
+  brand: string | null
+  category: string | null
+  halal_status: HalalStatus
+  certifications?: { body: string; country: string }[]
+  country: string | null
+  ingredients: string | null
+  ingredient_analysis: { name: string; status: HalalStatus; reason: string }[]
+  description: string | null
+  manufacturer: string | null
+  last_verified: string | null
+  verification_source: string | null
+  alternatives?: string[]
+}
 
 function StatusBadge({ status, large }: { status: HalalStatus; large?: boolean }) {
   const cfg = STATUS_CONFIG[status]
@@ -38,35 +59,61 @@ function IngredientBadge({ status }: { status: HalalStatus }) {
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const { user } = useAuth()
+  const { toast } = useToast()
   const [product, setProduct] = useState<Product | null | undefined>(undefined)
   const [saved, setSaved] = useState(false)
   const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+  const [reporting, setReporting] = useState(false)
 
   useEffect(() => {
-    const p = findProductById(id)
-    setProduct(p ?? null)
-    if (p) {
-      try {
-        const savedList = JSON.parse(localStorage.getItem("hh_saved_products") || "[]")
-        setSaved(savedList.includes(p.id))
-        // Add to history
-        const history = JSON.parse(localStorage.getItem("hh_view_history") || "[]")
-        const filtered = history.filter((h: any) => h.id !== p.id)
-        filtered.unshift({ id: p.id, name: p.name, brand: p.brand, status: p.halalStatus, ts: Date.now() })
-        localStorage.setItem("hh_view_history", JSON.stringify(filtered.slice(0, 50)))
-      } catch {}
-    }
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("halal_products")
+      .select("id, barcode, name, brand, category, halal_status, certifications, country, ingredients, ingredient_analysis, description, manufacturer, last_verified, verification_source, alternatives")
+      .eq("id", id)
+      .single()
+      .then(({ data }: { data: Product | null }) => setProduct(data ?? null))
   }, [id])
 
-  function toggleSave() {
+  useEffect(() => {
+    if (!product || !user?.uid) return
+    const supabase = createClient()
+    ;(supabase as any).from("saved_products").select("id").eq("user_id", user.uid).eq("product_id", product.id).maybeSingle()
+      .then(({ data }: { data: { id: string } | null }) => setSaved(!!data))
+    ;(supabase as any).from("product_views").insert({ user_id: user.uid, product_id: product.id }).then(() => {})
+  }, [product, user?.uid])
+
+  async function toggleSave() {
+    if (!product || !user?.uid) {
+      toast({ variant: "destructive", title: "Sign in required", description: "Please sign in to save products." })
+      return
+    }
+    const supabase = createClient()
+    if (saved) {
+      await (supabase as any).from("saved_products").delete().eq("user_id", user.uid).eq("product_id", product.id)
+      setSaved(false)
+    } else {
+      await (supabase as any).from("saved_products").insert({ user_id: user.uid, product_id: product.id })
+      setSaved(true)
+    }
+  }
+
+  async function reportIncorrect() {
     if (!product) return
-    try {
-      const saved_list = JSON.parse(localStorage.getItem("hh_saved_products") || "[]")
-      const isSaved = saved_list.includes(product.id)
-      const updated = isSaved ? saved_list.filter((i: string) => i !== product.id) : [product.id, ...saved_list]
-      localStorage.setItem("hh_saved_products", JSON.stringify(updated))
-      setSaved(!isSaved)
-    } catch {}
+    setReporting(true)
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("contacts").insert({
+      user_id: user?.uid ?? null,
+      name: user?.name ?? "Anonymous",
+      email: user?.email ?? "unknown@halalhub.app",
+      subject: `Halal Check Report: ${product.name}`,
+      message: `Product: ${product.name} (${product.brand ?? "unknown brand"})\nBarcode: ${product.barcode ?? "n/a"}\nCurrent status: ${product.halal_status}\n\nReported as possibly incorrect.`,
+    })
+    setReporting(false)
+    toast(error
+      ? { variant: "destructive", title: "Couldn't submit report", description: error.message }
+      : { title: "Report submitted", description: "Thank you — our team will review this product." })
   }
 
   function toggle(key: string) {
@@ -96,10 +143,11 @@ export default function ProductDetailPage() {
     )
   }
 
-  const cfg = STATUS_CONFIG[product.halalStatus]
-  const halalCount = product.ingredientAnalysis.filter(i => i.status === "Halal").length
-  const haramCount = product.ingredientAnalysis.filter(i => i.status === "Haram").length
-  const mashboohCount = product.ingredientAnalysis.filter(i => i.status === "Mashbooh").length
+  const cfg = STATUS_CONFIG[product.halal_status]
+  const ingredientAnalysis = product.ingredient_analysis ?? []
+  const halalCount = ingredientAnalysis.filter(i => i.status === "Halal").length
+  const haramCount = ingredientAnalysis.filter(i => i.status === "Haram").length
+  const mashboohCount = ingredientAnalysis.filter(i => i.status === "Mashbooh").length
 
   return (
     <div className="max-w-2xl lg:max-w-5xl mx-auto pb-32">
@@ -121,7 +169,7 @@ export default function ProductDetailPage() {
       {/* Hero status banner */}
       <div className={cn("px-4 py-6 border-b", cfg.bg, cfg.border.replace("border", "border-b"))}>
         <div className="space-y-4">
-          <StatusBadge status={product.halalStatus} large />
+          <StatusBadge status={product.halal_status} large />
           <div>
             <h1 className="text-xl font-black text-foreground leading-tight">{product.name}</h1>
             <p className="text-sm text-muted-foreground mt-0.5">{product.brand} · {product.category}</p>
@@ -137,8 +185,8 @@ export default function ProductDetailPage() {
           {[
             { icon: Globe, label: "Country", value: product.country },
             { icon: Building2, label: "Manufacturer", value: product.manufacturer },
-            { icon: Calendar, label: "Last Verified", value: product.lastVerified },
-            { icon: ExternalLink, label: "Source", value: product.verificationSource },
+            { icon: Calendar, label: "Last Verified", value: product.last_verified },
+            { icon: ExternalLink, label: "Source", value: product.verification_source },
           ].map(fact => (
             <div key={fact.label} className="rounded-2xl border border-border/50 bg-card px-3.5 py-3 space-y-0.5">
               <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -171,7 +219,7 @@ export default function ProductDetailPage() {
           <button onClick={() => toggle("ingredients")} className="w-full flex items-center justify-between">
             <div className="flex items-center gap-2">
               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Ingredient Analysis</p>
-              <span className="text-[9px] text-muted-foreground">({product.ingredientAnalysis.length} found)</span>
+              <span className="text-[9px] text-muted-foreground">({ingredientAnalysis.length} found)</span>
             </div>
             {expanded.ingredients ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
           </button>
@@ -183,9 +231,9 @@ export default function ProductDetailPage() {
             {halalCount > 0 && <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-lg font-black">{halalCount} Halal</span>}
           </div>
 
-          {(expanded.ingredients || product.ingredientAnalysis.length <= 4) && (
+          {(expanded.ingredients || ingredientAnalysis.length <= 4) && (
             <div className="space-y-1.5">
-              {product.ingredientAnalysis.map((ing, i) => (
+              {ingredientAnalysis.map((ing, i) => (
                 <div key={i} className="flex items-start justify-between gap-3 rounded-xl border border-border/40 bg-card px-3.5 py-2.5">
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-black">{ing.name}</p>
@@ -239,8 +287,12 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Report button */}
-        <button className="w-full flex items-center justify-center gap-2 border border-border/50 rounded-2xl h-11 text-xs font-black text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
-          <Flag className="h-3.5 w-3.5" /> Report Incorrect Information
+        <button
+          onClick={reportIncorrect}
+          disabled={reporting}
+          className="w-full flex items-center justify-center gap-2 border border-border/50 rounded-2xl h-11 text-xs font-black text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50"
+        >
+          <Flag className="h-3.5 w-3.5" /> {reporting ? "Submitting…" : "Report Incorrect Information"}
         </button>
       </div>
     </div>

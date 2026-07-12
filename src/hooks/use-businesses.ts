@@ -21,7 +21,7 @@ export function useBusinesses(category?: string) {
       try {
         let query = supabase
           .from('businesses')
-          .select('id, name, category, description, address, city, latitude, longitude, image_url, rating, halal_verified, status')
+          .select('id, name, category, subcategory, description, address, city, latitude, longitude, image_url, rating, review_count, halal_verified, status, is_open, price_range, selected_cuisines, selected_amenities')
           .eq('status', 'active')
           .order('rating', { ascending: false });
 
@@ -38,11 +38,18 @@ export function useBusinesses(category?: string) {
           latitude: row.latitude ?? 19.076,
           longitude: row.longitude ?? 72.8777,
           categoryId: row.category,
-          type: row.category,
+          type: row.subcategory ?? row.category,
           category: row.category,
+          cuisines: row.selected_cuisines ?? [],
+          amenities: row.selected_amenities ?? [],
+          specialties: [],
           rating: row.rating ?? undefined,
+          reviews: row.review_count ?? undefined,
           verifiedHalal: row.halal_verified ?? false,
+          verified: row.halal_verified ?? false,
+          isOpen: row.is_open ?? undefined,
           imageUrl: row.image_url ?? undefined,
+          priceRange: row.price_range ?? undefined,
         }));
 
         setBusinesses(mapped);

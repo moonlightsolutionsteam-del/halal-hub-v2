@@ -1,35 +1,90 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CircleDollarSign, Users, CalendarDays, Activity, ArrowUpRight, Megaphone } from "lucide-react"
-import Link from "next/link"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
 
-const kpis = [
-  { label: "Total Donations", value: "₹45,231", trend: "+20.1% from last month", icon: CircleDollarSign },
-  { label: "Community Members", value: "+2,350", trend: "+180 from last month", icon: Users },
-  { label: "Active Events", value: "+5", trend: "+2 this week", icon: CalendarDays },
-  { label: "Engagement", value: "+1,234", trend: "+19% from last month", icon: Activity },
-]
+type Business = { id: string; name: string }
+type DonationRow = { id: string; amount: number; purpose: string | null; created_at: string; profiles: { name: string | null } | null }
+type AnnouncementRow = { id: string; title: string; created_at: string }
 
-const recentDonations = [
-  { name: "Ahmed Khan", email: "ahmed.k@example.com", campaign: "Renovation", amount: "₹5,000" },
-  { name: "Fatima Al-Sayed", email: "fatima.s@example.com", campaign: "Education", amount: "₹1,000" },
-  { name: "Yusuf Ibrahim", email: "yusuf.i@example.com", campaign: "Renovation", amount: "₹2,500" },
-]
-
-const announcements = [
-  { title: "Eid Prayer Timings", time: "1 day ago" },
-  { title: "Weekly Tafsir Session Cancelled", time: "3 days ago" },
-  { title: "Ramadan Iftar Drive Starting Soon", time: "1 week ago" },
-]
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime()
+  const d = Math.floor(diff / 86400000)
+  if (d > 0) return `${d}d ago`
+  const h = Math.floor(diff / 3600000)
+  if (h > 0) return `${h}h ago`
+  return "Just now"
+}
 
 export default function MosqueDashboardPage() {
+  const { user, loading: authLoading } = useAuth()
+  const [business, setBusiness] = useState<Business | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [donations, setDonations] = useState<DonationRow[]>([])
+  const [totalDonations, setTotalDonations] = useState(0)
+  const [checkInCount, setCheckInCount] = useState(0)
+  const [announcements, setAnnouncements] = useState<AnnouncementRow[]>([])
+
+  useEffect(() => {
+    if (authLoading) return
+    if (!user?.id) { setLoading(false); return }
+    const supabase = createClient()
+    ;(supabase as any).from("businesses").select("id, name").eq("owner_id", user.id).limit(1)
+      .then(({ data }: { data: Business[] | null }) => {
+        const biz = data?.[0] ?? null
+        setBusiness(biz)
+        setLoading(false)
+        if (!biz) return
+
+        ;(supabase as any).from("business_donations").select("id, amount, purpose, created_at, profiles(name)")
+          .eq("business_id", biz.id).order("created_at", { ascending: false }).limit(5)
+          .then(({ data }: { data: DonationRow[] | null }) => setDonations(data ?? []))
+
+        ;(supabase as any).from("business_donations").select("amount").eq("business_id", biz.id).eq("status", "completed")
+          .then(({ data }: { data: { amount: number }[] | null }) => setTotalDonations((data ?? []).reduce((s, r) => s + Number(r.amount), 0)))
+
+        ;(supabase as any).from("check_ins").select("id", { count: "exact", head: true }).eq("business_id", biz.id)
+          .then(({ count }: { count: number | null }) => setCheckInCount(count ?? 0))
+
+        ;(supabase as any).from("business_announcements").select("id, title, created_at")
+          .eq("business_id", biz.id).order("created_at", { ascending: false }).limit(3)
+          .then(({ data }: { data: AnnouncementRow[] | null }) => setAnnouncements(data ?? []))
+      })
+  }, [user?.id, authLoading])
+
+  if (loading) {
+    return <div className="p-8 flex items-center justify-center min-h-screen"><div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
+  }
+
+  if (!business) {
+    return (
+      <div className="p-8 flex flex-col items-center justify-center min-h-screen gap-6 text-center">
+        <h1 className="text-2xl font-black text-foreground">No Masjid Listed Yet</h1>
+        <p className="text-muted-foreground font-medium max-w-sm">Register your masjid to access this dashboard.</p>
+        <Link href="/partner/onboarding/business/category">
+          <Button className="rounded-2xl h-14 px-10 font-black bg-primary text-white shadow-lg">Register Your Masjid</Button>
+        </Link>
+      </div>
+    )
+  }
+
+  const kpis = [
+    { label: "Total Donations", value: `₹${totalDonations.toLocaleString("en-IN")}`, trend: "All-time contributions", icon: CircleDollarSign },
+    { label: "Check-ins", value: String(checkInCount), trend: "Community visits", icon: Users },
+    { label: "Announcements", value: String(announcements.length), trend: "Recent posts", icon: CalendarDays },
+    { label: "Engagement", value: String(donations.length + checkInCount), trend: "Total activity", icon: Activity },
+  ]
+
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-8">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">Masjid Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground tracking-tight">{business.name}</h1>
         <p className="text-sm font-bold text-muted-foreground">Here&apos;s what&apos;s happening at your masjid today.</p>
       </div>
 
@@ -60,14 +115,16 @@ export default function MosqueDashboardPage() {
             </Link>
           </CardHeader>
           <CardContent className="space-y-1">
-            {recentDonations.map((d, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-2xl hover:bg-muted/50 transition-colors">
+            {donations.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-8">No donations yet.</p>
+            ) : donations.map((d) => (
+              <div key={d.id} className="flex items-center justify-between p-3 rounded-2xl hover:bg-muted/50 transition-colors">
                 <div>
-                  <p className="text-sm font-bold text-foreground">{d.name}</p>
-                  <p className="text-xs text-muted-foreground hidden sm:block">{d.email}</p>
+                  <p className="text-sm font-bold text-foreground">{d.profiles?.name ?? "Anonymous"}</p>
+                  <p className="text-xs text-muted-foreground hidden sm:block">{timeAgo(d.created_at)}</p>
                 </div>
-                <Badge variant="secondary" className="hidden sm:inline-flex">{d.campaign}</Badge>
-                <span className="text-sm font-black text-foreground">{d.amount}</span>
+                {d.purpose && <Badge variant="secondary" className="hidden sm:inline-flex">{d.purpose}</Badge>}
+                <span className="text-sm font-black text-foreground">₹{Number(d.amount).toLocaleString("en-IN")}</span>
               </div>
             ))}
           </CardContent>
@@ -78,14 +135,16 @@ export default function MosqueDashboardPage() {
             <CardTitle className="text-lg font-black">Recent Announcements</CardTitle>
           </CardHeader>
           <CardContent className="space-y-5">
-            {announcements.map((a, i) => (
-              <div key={i} className="flex items-center gap-4">
+            {announcements.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No announcements yet.</p>
+            ) : announcements.map((a) => (
+              <div key={a.id} className="flex items-center gap-4">
                 <div className="h-10 w-10 rounded-xl bg-teal-50 dark:bg-teal-950/40 flex items-center justify-center shrink-0">
                   <Megaphone className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-foreground leading-tight">{a.title}</p>
-                  <p className="text-xs text-muted-foreground">{a.time}</p>
+                  <p className="text-xs text-muted-foreground">{timeAgo(a.created_at)}</p>
                 </div>
               </div>
             ))}

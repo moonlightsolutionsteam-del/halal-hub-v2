@@ -5,31 +5,42 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ArrowLeft, Bookmark, Trash2, ChevronRight } from "lucide-react"
-import { findProductById, STATUS_CONFIG, type Product } from "../data"
+import { STATUS_CONFIG, type HalalStatus } from "../data"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
+
+type Product = { id: string; name: string; brand: string | null; category: string | null; halal_status: HalalStatus }
 
 export default function SavedProductsPage() {
+  const { user } = useAuth()
   const [products, setProducts] = useState<Product[]>([])
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    try {
-      const ids: string[] = JSON.parse(localStorage.getItem("hh_saved_products") || "[]")
-      setProducts(ids.map(id => findProductById(id)).filter(Boolean) as Product[])
-    } catch {}
-    setLoaded(true)
-  }, [])
+    if (!user?.uid) { setLoaded(true); return }
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("saved_products")
+      .select("product:halal_products(id, name, brand, category, halal_status)")
+      .eq("user_id", user.uid)
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: { product: Product }[] | null }) => {
+        setProducts((data ?? []).map(row => row.product).filter(Boolean))
+        setLoaded(true)
+      })
+  }, [user?.uid])
 
-  function remove(id: string) {
-    try {
-      const ids: string[] = JSON.parse(localStorage.getItem("hh_saved_products") || "[]")
-      const updated = ids.filter(i => i !== id)
-      localStorage.setItem("hh_saved_products", JSON.stringify(updated))
-      setProducts(p => p.filter(pr => pr.id !== id))
-    } catch {}
+  async function remove(id: string) {
+    if (!user?.uid) return
+    const supabase = createClient()
+    await (supabase as any).from("saved_products").delete().eq("user_id", user.uid).eq("product_id", id)
+    setProducts(p => p.filter(pr => pr.id !== id))
   }
 
-  function clearAll() {
-    localStorage.removeItem("hh_saved_products")
+  async function clearAll() {
+    if (!user?.uid) return
+    const supabase = createClient()
+    await (supabase as any).from("saved_products").delete().eq("user_id", user.uid)
     setProducts([])
   }
 
@@ -52,7 +63,7 @@ export default function SavedProductsPage() {
 
       <div className="px-4 pt-4 space-y-2">
         {loaded && products.length > 0 && products.map(p => {
-          const cfg = STATUS_CONFIG[p.halalStatus]
+          const cfg = STATUS_CONFIG[p.halal_status]
           return (
             <div key={p.id} className="group flex items-center gap-2">
               <Link href={`/halal-check/product/${p.id}`} className="flex-1">

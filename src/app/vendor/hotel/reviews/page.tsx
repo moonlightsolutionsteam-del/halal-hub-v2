@@ -1,22 +1,91 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { 
-  Star, MessageSquare, Reply, ThumbsUp, 
-  MoreVertical, Search, Filter, ArrowUpRight,
-  TrendingUp, CheckCircle2, Award
+import {
+  Star, Reply, ThumbsUp,
+  MoreVertical, CheckCircle2, Award
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+type Review = {
+  id: string; rating: number; body: string | null; created_at: string
+  business_response: string | null
+  profiles: { name: string | null } | null
+}
+
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime()
+  const d = Math.floor(diff / 86400000)
+  if (d > 0) return `${d}d ago`
+  const h = Math.floor(diff / 3600000)
+  if (h > 0) return `${h}h ago`
+  return "Just now"
+}
 
 export default function HotelReviewsPage() {
-  const reviews = [
-    { id: 1, user: "Ahmed Siddiqui", rating: 5, date: "2 days ago", comment: "The Presidential Suite was impeccable. More importantly, the prayer facilities were excellent and the staff was extremely respectful of our privacy.", response: "Thank you Ahmed! We strive to provide a perfectly compliant stay." },
-    { id: 2, user: "Sara Malik", rating: 4, date: "1 week ago", comment: "Lovely property. The halal breakfast options were quite extensive. Wish the pool's private hours were a bit longer.", response: null },
-    { id: 3, user: "Zaid Farooq", rating: 5, date: "2 weeks ago", comment: "Best halal hotel in the city. Truly alcohol-free and very peaceful environment. Highly recommended for families.", response: "JazakAllah Zaid, glad you enjoyed the family-friendly atmosphere!" },
-  ];
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [businessId, setBusinessId] = useState<string | null>(null)
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [avgRating, setAvgRating] = useState<number | null>(null)
+  const [distribution, setDistribution] = useState<Record<number, number>>({})
+  const [replyDrafts, setReplyDrafts] = useState<Record<string, string>>({})
+  const [replyingTo, setReplyingTo] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!user?.id) return
+    const supabase = createClient()
+    ;(supabase as any).from("businesses").select("id, rating").eq("owner_id", user.id).limit(1)
+      .then(({ data }: { data: { id: string; rating: number | null }[] | null }) => {
+        const biz = data?.[0]
+        if (!biz) return
+        setBusinessId(biz.id)
+        setAvgRating(biz.rating)
+        loadReviews(biz.id)
+      })
+  }, [user?.id])
+
+  function loadReviews(bizId: string) {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("business_reviews")
+      .select("id, rating, body, created_at, business_response, profiles(name)")
+      .eq("business_id", bizId)
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .then(({ data }: { data: Review[] | null }) => {
+        const rows = data ?? []
+        setReviews(rows)
+        const dist: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
+        rows.forEach(r => { dist[r.rating] = (dist[r.rating] ?? 0) + 1 })
+        setDistribution(dist)
+      })
+  }
+
+  async function submitReply(reviewId: string) {
+    const text = replyDrafts[reviewId]?.trim()
+    if (!text || !businessId) return
+    const supabase = createClient()
+    const { error } = await (supabase as any)
+      .from("business_reviews")
+      .update({ business_response: text, business_response_at: new Date().toISOString() })
+      .eq("id", reviewId)
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't send reply", description: error.message })
+      return
+    }
+    setReplyingTo(null)
+    loadReviews(businessId)
+  }
+
+  const total = reviews.length
+  const maxCount = Math.max(1, ...Object.values(distribution))
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-5xl mx-auto pb-24">
@@ -28,34 +97,28 @@ export default function HotelReviewsPage() {
           <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Guest Feedback</h1>
           <p className="text-muted-foreground font-medium">Monitor ratings for hospitality, cleanliness, and halal standard compliance.</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="rounded-full px-6 font-bold border-2 h-12">
-            Sentiment Analysis
-          </Button>
-          <Button className="bg-sky-600 rounded-full px-8 font-black shadow-lg shadow-sky-200 h-12 text-white">
-            Auto-Reply AI
-          </Button>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8">
         <div className="lg:col-span-4 space-y-6">
           <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-10 text-center space-y-6">
             <div className="space-y-2">
-              <h2 className="text-7xl font-black text-foreground tracking-tighter">4.9</h2>
+              <h2 className="text-7xl font-black text-foreground tracking-tighter">{avgRating ? avgRating.toFixed(1) : "—"}</h2>
               <div className="flex justify-center gap-1.5">
-                {[1, 2, 3, 4, 5].map(s => <Star key={s} className="h-6 w-6 fill-amber-400 text-amber-400" />)}
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className={`h-6 w-6 ${avgRating && i < Math.round(avgRating) ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
+                ))}
               </div>
-              <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">Global Guest Score</p>
+              <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">{total} Guest Review{total !== 1 ? "s" : ""}</p>
             </div>
             <div className="pt-6 border-t border-border space-y-4">
               {[5, 4, 3, 2, 1].map((star) => (
                 <div key={star} className="flex items-center gap-4">
                   <span className="text-xs font-black text-muted-foreground w-2">{star}</span>
                   <div className="h-2 bg-muted rounded-full flex-1 overflow-hidden shadow-inner">
-                    <div className="h-full bg-sky-600 rounded-full" style={{ width: star === 5 ? '92%' : star === 4 ? '6%' : '2%' }} />
+                    <div className="h-full bg-sky-600 rounded-full" style={{ width: `${((distribution[star] ?? 0) / maxCount) * 100}%` }} />
                   </div>
-                  <span className="text-[10px] font-bold text-muted-foreground w-8 text-right">{star === 5 ? '92%' : star === 4 ? '6%' : '2%'}</span>
+                  <span className="text-[10px] font-bold text-muted-foreground w-8 text-right">{distribution[star] ?? 0}</span>
                 </div>
               ))}
             </div>
@@ -69,54 +132,68 @@ export default function HotelReviewsPage() {
               <h3 className="text-lg font-black tracking-tight">Trust Badge</h3>
             </div>
             <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-              Your "Halal Hospitality Standard" badge is active and helping drive international bookings.
+              Your "Halal Hospitality Standard" badge reflects your verified Halal Hub listing status.
             </p>
-            <Button variant="secondary" className="w-full rounded-2xl h-12 font-black text-xs uppercase tracking-widest">Reputation Reports</Button>
           </Card>
         </div>
 
         <div className="lg:col-span-8 space-y-6">
           <div className="grid grid-cols-1 gap-6">
-            {reviews.map((rev) => (
+            {reviews.length === 0 ? (
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-16 text-center text-muted-foreground">
+                No reviews yet.
+              </Card>
+            ) : reviews.map((rev) => (
               <Card key={rev.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-sky-100 transition-all group">
                 <div className="p-8 space-y-6">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-12 w-12 border-2 border-border shadow-sm">
-                        <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100/100`} />
-                        <AvatarFallback>{rev.user[0]}</AvatarFallback>
+                        <AvatarFallback>{(rev.profiles?.name ?? "G")[0]}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="text-base font-black text-foreground">{rev.user}</p>
+                        <p className="text-base font-black text-foreground">{rev.profiles?.name ?? "Guest"}</p>
                         <div className="flex items-center gap-3">
                           <div className="flex gap-0.5">
                             {Array.from({ length: rev.rating }).map((_, i) => <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />)}
                           </div>
-                          <span className="text-[10px] font-bold text-muted-foreground uppercase">{rev.date}</span>
+                          <span className="text-[10px] font-bold text-muted-foreground uppercase">{timeAgo(rev.created_at)}</span>
                         </div>
                       </div>
                     </div>
                     <Button variant="ghost" size="icon" className="rounded-full"><MoreVertical className="h-5 w-5 text-muted-foreground" /></Button>
                   </div>
-                  
-                  <p className="text-muted-foreground font-medium leading-relaxed italic text-base">
-                    "{rev.comment}"
-                  </p>
 
-                  {rev.response ? (
+                  {rev.body && (
+                    <p className="text-muted-foreground font-medium leading-relaxed italic text-base">
+                      "{rev.body}"
+                    </p>
+                  )}
+
+                  {rev.business_response ? (
                     <div className="p-6 bg-muted rounded-3xl border-l-4 border-sky-600 space-y-2">
                       <div className="flex items-center gap-2 text-xs font-black text-sky-600 uppercase tracking-widest">
                         <CheckCircle2 className="h-3.5 w-3.5" /> Property Response
                       </div>
-                      <p className="text-sm font-bold text-foreground">{rev.response}</p>
+                      <p className="text-sm font-bold text-foreground">{rev.business_response}</p>
+                    </div>
+                  ) : replyingTo === rev.id ? (
+                    <div className="space-y-3">
+                      <Textarea
+                        value={replyDrafts[rev.id] ?? ""}
+                        onChange={(e) => setReplyDrafts(d => ({ ...d, [rev.id]: e.target.value }))}
+                        placeholder="Write a reply to this guest..."
+                        className="rounded-2xl"
+                      />
+                      <div className="flex gap-2">
+                        <Button onClick={() => submitReply(rev.id)} className="rounded-2xl h-10 px-6 font-black text-xs bg-sky-600 text-white">Send Reply</Button>
+                        <Button variant="outline" onClick={() => setReplyingTo(null)} className="rounded-2xl h-10 px-6 font-black text-xs">Cancel</Button>
+                      </div>
                     </div>
                   ) : (
                     <div className="pt-4 flex gap-3">
-                      <Button className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest bg-sky-600 text-white shadow-lg shadow-sky-200">
+                      <Button onClick={() => setReplyingTo(rev.id)} className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest bg-sky-600 text-white shadow-lg shadow-sky-200">
                         <Reply className="mr-2 h-4 w-4" /> Reply to Guest
-                      </Button>
-                      <Button variant="outline" className="rounded-2xl h-11 px-6 font-black uppercase text-[10px] tracking-widest border-2">
-                        <ThumbsUp className="mr-2 h-4 w-4" /> Thank Guest
                       </Button>
                     </div>
                   )}

@@ -7,13 +7,16 @@ import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { ArrowLeft, ScanLine, Keyboard, Camera, AlertCircle, Loader2, CheckCircle2, XCircle } from "lucide-react"
-import { findProductByBarcode, STATUS_CONFIG } from "../data"
+import { STATUS_CONFIG } from "../data"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
 
 type ScanMode = "camera" | "manual"
 type ScanState = "idle" | "scanning" | "found" | "not_found" | "error"
 
 export default function ScanPage() {
   const router = useRouter()
+  const { user } = useAuth()
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const detectorRef = useRef<any>(null)
@@ -82,25 +85,30 @@ export default function ScanPage() {
     }
   }
 
-  function handleBarcode(code: string) {
+  async function handleBarcode(code: string) {
     stopCamera()
     setScannedCode(code)
-    const product = findProductByBarcode(code)
+    const supabase = createClient()
+    const { data: product } = await (supabase as any)
+      .from("halal_products")
+      .select("id")
+      .eq("barcode", code)
+      .maybeSingle()
+
+    if (user?.uid) {
+      await (supabase as any).from("product_scans").insert({
+        user_id: user.uid,
+        barcode: code,
+        product_id: product?.id ?? null,
+      })
+    }
+
     if (product) {
-      addToHistory(code, product.id)
       setState("found")
       setTimeout(() => router.push(`/halal-check/product/${product.id}`), 800)
     } else {
       setState("not_found")
     }
-  }
-
-  function addToHistory(barcode: string, productId?: string) {
-    try {
-      const history = JSON.parse(localStorage.getItem("hh_scan_history") || "[]")
-      history.unshift({ barcode, productId, ts: Date.now() })
-      localStorage.setItem("hh_scan_history", JSON.stringify(history.slice(0, 50)))
-    } catch {}
   }
 
   function handleManualSubmit(e: React.FormEvent) {

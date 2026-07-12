@@ -10,35 +10,40 @@ import {
   CheckCircle2, Sparkles, Zap, PenLine
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { createClient } from "@/lib/supabase/client"
 
 const TABS = ["All", "Video", "Podcast", "Writing", "Photography", "Design", "Education"]
 
-const MOCK_CREATORS = [
-  {
-    id: "cr1", name: "The Muslim Money Guy", type: "Finance Creator", loc: "Mumbai, MH",
-    rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Islamic Finance", "Halal Investing", "Debt-Free Journey"], platform: "YouTube · Podcast", followers: "180K+"
-  },
-  {
-    id: "cr2", name: "Modest Fashion Diaries", type: "Lifestyle & Fashion", loc: "London, UK",
-    rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Modest Outfits", "Hijab Tutorials", "Family-Friendly"], platform: "Instagram · TikTok", followers: "240K+"
-  },
-  {
-    id: "cr3", name: "Sunnah Science Podcast", type: "Islamic Education", loc: "Toronto, CA",
-    rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Islamic Science", "Weekly Episodes", "Scholars Hosted"], platform: "Podcast · YouTube", followers: "75K+"
-  },
-  {
-    id: "cr4", name: "Muslim Travel Diaries", type: "Travel & Adventure", loc: "Dubai, UAE",
-    rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Halal Travel", "Destination Reviews", "Umrah Vlogs"], platform: "YouTube · Blog", followers: "90K+"
-  },
-]
+type CreatorRow = {
+  id: string
+  display_name: string | null
+  bio: string | null
+  avatar_url: string | null
+  cover_url: string | null
+  category: string | null
+  follower_count: number | null
+}
 
 export default function CreatorsPage() {
   const [selectedTab, setSelectedTab] = useState("All")
+  const [creators, setCreators] = useState<CreatorRow[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("creators")
+      .select("id, display_name, bio, avatar_url, cover_url, category, follower_count")
+      .eq("status", "active")
+      .order("follower_count", { ascending: false })
+      .then(({ data }: { data: CreatorRow[] | null }) => {
+        setCreators(data ?? [])
+        setLoading(false)
+      })
+  }, [])
+
+  const filtered = selectedTab === "All" ? creators : creators.filter(c => c.category === selectedTab)
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -123,65 +128,42 @@ export default function CreatorsPage() {
 
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{MOCK_CREATORS.length}</span> verified creators</p>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
-              <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
-                <option>Most Followed</option>
-                <option>Newest</option>
-                <option>Top Rated</option>
-              </select>
-            </div>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">
+              {loading ? "Loading…" : <>Found <span className="text-foreground">{filtered.length}</span> creators</>}
+            </p>
           </div>
 
+          {loading ? (
+            <p className="text-center text-muted-foreground py-16">Loading creators…</p>
+          ) : filtered.length === 0 ? (
+            <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-16 text-center space-y-4">
+              <Video className="h-10 w-10 mx-auto text-muted-foreground opacity-50" />
+              <p className="text-lg font-black text-foreground">No creators listed yet</p>
+              <p className="text-sm text-muted-foreground">Check back soon, or apply to be the first creator on Halal Hub.</p>
+            </Card>
+          ) : (
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {MOCK_CREATORS.map(item => (
+            {filtered.map(item => (
               <Link key={item.id} href={`/creators/${item.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-orange-100/50">
-                  <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
-                    <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                    <div className="absolute top-2 left-2 sm:top-6 sm:left-6">
-                      <Badge className="bg-card/90 backdrop-blur-md text-orange-600 font-black border-none shadow-xl px-4 py-1.5 rounded-full flex items-center gap-1.5">
-                        <Star className="h-3.5 w-3.5 fill-orange-600 text-orange-600" /> {item.rate}
-                      </Badge>
-                    </div>
+                  <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden bg-muted">
+                    {(item.cover_url || item.avatar_url) && (
+                      <img src={item.cover_url ?? item.avatar_url ?? ""} alt={item.display_name ?? "Creator"} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                    )}
                     <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 flex gap-2">
-                      {item.ver && (
-                        <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
-                          <CheckCircle2 className="h-3 w-3" /> Verified
-                        </Badge>
-                      )}
                       <Badge className="bg-card text-orange-600 font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
-                        <Users className="h-3 w-3" /> {item.followers}
+                        <Users className="h-3 w-3" /> {(item.follower_count ?? 0).toLocaleString()}
                       </Badge>
                     </div>
                   </div>
                   <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
                     <div className="space-y-2">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-orange-600">{item.type}</p>
-                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-orange-600 transition-colors leading-tight">{item.name}</CardTitle>
-                      <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
-                        <MapPin className="h-4 w-4 text-orange-600" /> {item.loc}
-                      </div>
+                      {item.category && <p className="text-[10px] font-black uppercase tracking-widest text-orange-600">{item.category}</p>}
+                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-orange-600 transition-colors leading-tight">{item.display_name ?? "Creator"}</CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent className="px-3 pb-3 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
-                    <div className="hidden sm:block space-y-3">
-                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Content Focus</p>
-                      <div className="flex flex-wrap gap-2">
-                        {item.features.map(f => (
-                          <span key={f} className="text-[10px] font-bold bg-muted text-muted-foreground px-3 py-1 rounded-lg border border-border">{f}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:pt-6 sm:border-t border-border">
-                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
-                        <Video className="h-4 w-4 text-orange-500" /> {item.platform.split(" · ")[0]}
-                      </div>
-                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
-                        <Zap className="h-4 w-4 text-amber-500" /> Collab Ready
-                      </div>
-                    </div>
+                    {item.bio && <p className="hidden sm:block text-sm text-muted-foreground line-clamp-2">{item.bio}</p>}
                   </CardContent>
                   <CardFooter className="px-3 pb-3 pt-0 sm:px-8 sm:pb-8 mt-auto">
                     <Button className="w-full bg-zinc-900 hover:bg-orange-600 text-white rounded-xl sm:rounded-[1.5rem] font-black text-[10px] sm:text-sm uppercase tracking-widest h-9 sm:h-16 shadow-lg sm:shadow-2xl transition-all group-hover:scale-[1.02]">
@@ -192,15 +174,7 @@ export default function CreatorsPage() {
               </Link>
             ))}
           </div>
-
-          <div className="flex flex-col items-center justify-center py-6 sm:py-16 gap-4 sm:gap-6">
-            <div className="flex items-center gap-2">
-              <div className="h-1 w-12 bg-muted rounded-full" />
-              <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Creator List</p>
-              <div className="h-1 w-12 bg-muted rounded-full" />
-            </div>
-            <Button variant="outline" className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all text-sm sm:text-lg shadow-sm">Load More Creators</Button>
-          </div>
+          )}
         </div>
       </div>
     </div>

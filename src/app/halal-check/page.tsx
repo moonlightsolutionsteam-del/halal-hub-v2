@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
@@ -12,7 +12,10 @@ import {
   GraduationCap, ChevronRight, ShieldCheck, AlertTriangle,
   XCircle, HelpCircle, Sparkles, ArrowRight,
 } from "lucide-react"
-import { searchProducts, PRODUCTS, PRODUCT_CATEGORIES, STATUS_CONFIG, type HalalStatus } from "./data"
+import { PRODUCT_CATEGORIES, STATUS_CONFIG, type HalalStatus } from "./data"
+import { createClient } from "@/lib/supabase/client"
+
+type ProductRow = { id: string; name: string; brand: string | null; category: string | null; halal_status: HalalStatus }
 
 const QUICK_TOOLS = [
   { label: "Scan Barcode",    href: "/halal-check/scan",           icon: ScanLine,      bg: "bg-primary/10",         color: "text-primary",      desc: "Camera scanner" },
@@ -43,10 +46,36 @@ function StatusBadge({ status }: { status: HalalStatus }) {
 export default function HalalCheckPage() {
   const router = useRouter()
   const [query, setQuery] = useState("")
+  const [results, setResults] = useState<ProductRow[]>([])
+  const [recentProducts, setRecentProducts] = useState<ProductRow[]>([])
+  const [productCount, setProductCount] = useState<number | null>(null)
 
-  const results = useMemo(() => {
-    if (query.trim().length < 2) return []
-    return searchProducts(query).slice(0, 6)
+  useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("halal_products")
+      .select("id, name, brand, category, halal_status", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .limit(5)
+      .then(({ data, count }: { data: ProductRow[] | null; count: number | null }) => {
+        setRecentProducts(data ?? [])
+        setProductCount(count ?? 0)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (query.trim().length < 2) { setResults([]); return }
+    const supabase = createClient()
+    const q = query.trim()
+    const handle = setTimeout(() => {
+      ;(supabase as any)
+        .from("halal_products")
+        .select("id, name, brand, category, halal_status")
+        .or(`name.ilike.%${q}%,brand.ilike.%${q}%`)
+        .limit(6)
+        .then(({ data }: { data: ProductRow[] | null }) => setResults(data ?? []))
+    }, 250)
+    return () => clearTimeout(handle)
   }, [query])
 
   function handleSearch(e: React.FormEvent) {
@@ -102,7 +131,7 @@ export default function HalalCheckPage() {
                     <p className="text-sm font-black truncate">{p.name}</p>
                     <p className="text-[10px] text-muted-foreground">{p.brand} · {p.category}</p>
                   </div>
-                  <StatusBadge status={p.halalStatus} />
+                  <StatusBadge status={p.halal_status} />
                 </Link>
               ))}
             </div>
@@ -171,20 +200,22 @@ export default function HalalCheckPage() {
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Product Database</p>
-          <span className="text-[10px] text-muted-foreground/60">{PRODUCTS.length} products</span>
+          <span className="text-[10px] text-muted-foreground/60">{productCount ?? "…"} products</span>
         </div>
         <div className="space-y-2">
-          {PRODUCTS.slice(0, 5).map(p => (
+          {recentProducts.length === 0 ? (
+            <p className="text-center text-xs text-muted-foreground py-6">No products in the database yet.</p>
+          ) : recentProducts.map(p => (
             <Link key={p.id} href={`/halal-check/product/${p.id}`} className="group block">
               <div className="flex items-center gap-3 rounded-2xl border border-border/50 bg-card px-4 py-3 hover:shadow-soft hover:bg-muted/20 transition-all duration-200">
-                <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm font-black", STATUS_CONFIG[p.halalStatus].bg, STATUS_CONFIG[p.halalStatus].color)}>
-                  {STATUS_CONFIG[p.halalStatus].icon}
+                <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-sm font-black", STATUS_CONFIG[p.halal_status].bg, STATUS_CONFIG[p.halal_status].color)}>
+                  {STATUS_CONFIG[p.halal_status].icon}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-black truncate">{p.name}</p>
                   <p className="text-[10px] text-muted-foreground">{p.brand} · {p.category}</p>
                 </div>
-                <StatusBadge status={p.halalStatus} />
+                <StatusBadge status={p.halal_status} />
               </div>
             </Link>
           ))}

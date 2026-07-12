@@ -58,6 +58,7 @@ function formatJoinDate(date: any): string {
 }
 
 type SuggestionRow = { id: string; place_name: string; category: string | null; status: string | null; created_at: string }
+type MyReviewRow = { id: string; rating: number; body: string | null; created_at: string; businesses: { name: string } | null }
 
 export default function UserDashboard() {
   const [mounted, setMounted] = React.useState(false)
@@ -65,6 +66,8 @@ export default function UserDashboard() {
   const [suggestions, setSuggestions] = React.useState<SuggestionRow[]>([])
   const [checkInCount, setCheckInCount] = React.useState<number | null>(null)
   const [savedCount, setSavedCount] = React.useState<number | null>(null)
+  const [suggestionCount, setSuggestionCount] = React.useState<number | null>(null)
+  const [myReviews, setMyReviews] = React.useState<MyReviewRow[]>([])
 
   React.useEffect(() => {
     setMounted(true)
@@ -76,12 +79,18 @@ export default function UserDashboard() {
     ;(supabase as any).from("suggestions").select("id, place_name, category, status, created_at")
       .eq("user_id", user.id).order("created_at", { ascending: false }).limit(4)
       .then(({ data }: { data: SuggestionRow[] | null }) => { if (data) setSuggestions(data) })
+    ;(supabase as any).from("suggestions").select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .then(({ count }: { count: number | null }) => setSuggestionCount(count ?? 0))
     ;(supabase as any).from("check_ins").select("id", { count: "exact", head: true })
       .eq("user_id", user.id)
       .then(({ count }: { count: number | null }) => setCheckInCount(count ?? 0))
     ;(supabase as any).from("saved_businesses").select("id", { count: "exact", head: true })
       .eq("user_id", user.id)
       .then(({ count }: { count: number | null }) => setSavedCount(count ?? 0))
+    ;(supabase as any).from("business_reviews").select("id, rating, body, created_at, businesses(name)")
+      .eq("user_id", user.id).order("created_at", { ascending: false }).limit(4)
+      .then(({ data }: { data: MyReviewRow[] | null }) => { if (data) setMyReviews(data) })
   }, [user?.id])
 
   if (!mounted || loading) return null
@@ -174,9 +183,9 @@ export default function UserDashboard() {
           {/* Social Stats Ribbon */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 py-6 sm:py-10 border-y border-border mt-8 sm:mt-12 bg-card/50 backdrop-blur-sm rounded-[1.5rem] sm:rounded-[2.5rem] px-5 sm:px-10 shadow-sm border border-white">
             {[
-              { label: "Following", value: "12", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
-              { label: "Followers", value: "5.4k", icon: Heart, color: "text-rose-600", bg: "bg-rose-50" },
-              { label: "Family Circle", value: "4", icon: FamilyTreeIcon, color: "text-emerald-600", bg: "bg-emerald-50" },
+              { label: "Check-ins", value: (checkInCount ?? 0).toLocaleString(), icon: MapPin, color: "text-blue-600", bg: "bg-blue-50" },
+              { label: "Saved Places", value: (savedCount ?? 0).toLocaleString(), icon: Heart, color: "text-rose-600", bg: "bg-rose-50" },
+              { label: "Suggestions", value: (suggestionCount ?? 0).toLocaleString(), icon: Sparkles, color: "text-emerald-600", bg: "bg-emerald-50" },
               { label: "Hub Coins", value: (user?.halalCoinsBalance ?? 0).toLocaleString(), icon: Wallet, color: "text-amber-600", bg: "bg-amber-50" },
             ].map((stat, i) => (
               <div key={i} className="flex items-center gap-3 sm:gap-5 group cursor-default">
@@ -393,28 +402,33 @@ export default function UserDashboard() {
               {/* My Reviews Summary */}
               <section className="space-y-6">
                 <h3 className="text-2xl font-black text-foreground px-2 tracking-tight">Community Feedback</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    { business: "Karim's Restaurant", rating: 5, date: "2 days ago", text: "Authentic Mughlai taste! The kebabs were succulent and the biryani was flavorful. A must-visit for families." },
-                    { business: "Al-Naseeb Meats", rating: 4, date: "1 week ago", text: "Fresh meat and very clean shop. The staff is helpful and knowledgeable about sourcing." }
-                  ].map((review, i) => (
-                    <Card key={i} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card p-5 sm:p-10 space-y-4 sm:space-y-6 border-2 border-transparent hover:border-emerald-100/50 transition-all group">
-                      <div className="flex justify-between items-center">
-                        <div className="flex gap-1 bg-muted p-2 rounded-xl">
-                          {Array.from({ length: 5 }).map((_, idx) => (
-                            <Star key={idx} className={`h-3.5 w-3.5 ${idx < review.rating ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground'}`} />
-                          ))}
+                {myReviews.length === 0 ? (
+                  <Card className="rounded-[2rem] border-none shadow-sm bg-card p-10 flex flex-col items-center gap-4 text-center">
+                    <Star className="h-8 w-8 text-muted-foreground" />
+                    <p className="text-sm font-bold text-muted-foreground">You haven't reviewed any businesses yet</p>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {myReviews.map((review) => (
+                      <Card key={review.id} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card p-5 sm:p-10 space-y-4 sm:space-y-6 border-2 border-transparent hover:border-emerald-100/50 transition-all group">
+                        <div className="flex justify-between items-center">
+                          <div className="flex gap-1 bg-muted p-2 rounded-xl">
+                            {Array.from({ length: 5 }).map((_, idx) => (
+                              <Star key={idx} className={`h-3.5 w-3.5 ${idx < review.rating ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground'}`} />
+                            ))}
+                          </div>
+                          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+                            {new Date(review.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric" })}
+                          </span>
                         </div>
-                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{review.date}</span>
-                      </div>
-                      <p className="text-lg font-medium text-muted-foreground leading-relaxed italic border-l-4 border-emerald-50 pl-6 group-hover:border-emerald-200 transition-all">"{review.text}"</p>
-                      <div className="flex justify-between items-center pt-4">
-                        <span className="text-xs font-black text-foreground uppercase tracking-tighter bg-muted px-4 py-1.5 rounded-full">{review.business}</span>
-                        <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase text-emerald-600 p-0 h-auto hover:bg-transparent hover:underline">Edit Feedback</Button>
-                      </div>
-                    </Card>
-                  ))}
-                </div>
+                        {review.body && <p className="text-lg font-medium text-muted-foreground leading-relaxed italic border-l-4 border-emerald-50 pl-6 group-hover:border-emerald-200 transition-all">"{review.body}"</p>}
+                        <div className="flex justify-between items-center pt-4">
+                          <span className="text-xs font-black text-foreground uppercase tracking-tighter bg-muted px-4 py-1.5 rounded-full">{review.businesses?.name ?? "Business"}</span>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                )}
               </section>
             </TabsContent>
 
