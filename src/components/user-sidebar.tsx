@@ -24,7 +24,8 @@ import {
   Newspaper,
   Moon,
   Coins,
-  Bookmark
+  Bookmark,
+  Trophy
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -73,6 +74,7 @@ export function UserSidebar() {
   ];
 
   const generalItems = [
+    { title: "My Journey", icon: Trophy, url: "/account/journey" },
     { title: "Saved Places", icon: Bookmark, url: "/saved" },
     { title: "Suggest a Place", icon: PlusCircle, url: "/suggest" },
     { title: "My Suggestions", icon: List, url: "/account/suggestions" },

@@ -20,6 +20,8 @@ import Image from "next/image";
 import { usePrayerSnapshot } from "@/lib/use-prayer-snapshot";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useSmartGreeting } from "@/hooks/use-smart-greeting";
+import { FaithMomentCard } from "@/components/faith-moment-card";
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
@@ -162,6 +164,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [liveBizList, setLiveBizList] = useState<LiveBiz[]>([]);
   const { user } = useAuth();
+  const { text: greetingText, subtext: greetingSubtext } = useSmartGreeting(user?.name, user?.uid);
   const { prayerData, loading: prayerLoading, countdown, nextPrayerName, nextPrayerTime, locationName, timeFormat } = usePrayerSnapshot();
   const bannerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -177,6 +180,12 @@ export default function Home() {
     }, 5000);
     return () => { if (bannerRef.current) clearInterval(bannerRef.current); };
   }, []);
+
+  useEffect(() => {
+    if (!user?.uid) return
+    const supabase = createClient()
+    ;(supabase as any).rpc("bump_streak", { p_streak_type: "daily_checkin" })
+  }, [user?.uid]);
 
   useEffect(() => {
     const supabase = createClient()
@@ -222,9 +231,10 @@ export default function Home() {
       <div className="px-4 pt-5 pb-3 space-y-4">
         <div className="space-y-0.5">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{formattedDate}</p>
-          <h1 className="text-2xl font-black text-foreground tracking-tight">
-            Assalamualaikum{user?.name ? `, ${user.name.split(" ")[0]}` : ""} ✨
-          </h1>
+          <h1 className="text-2xl font-black text-foreground tracking-tight">{greetingText} ✨</h1>
+          {greetingSubtext && (
+            <p className="text-xs font-bold text-primary">{greetingSubtext}</p>
+          )}
         </div>
 
         <Link href="/search" className="block">
@@ -274,6 +284,9 @@ export default function Home() {
           </div>
         </Link>
       </div>
+
+      {/* ── 2b. FAITH MOMENT ──────────────────────────────────────────────── */}
+      <FaithMomentCard />
 
       {/* ── 3. QUICK ACTIONS ──────────────────────────────────────────────── */}
       <div className="px-4 pb-5">

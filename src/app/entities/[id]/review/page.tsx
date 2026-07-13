@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/use-auth";
 import { createClient } from "@/lib/supabase/client";
+import { announceNewAchievements } from "@/lib/engagement/announce-achievements";
 
 export default function ReviewPage() {
   const router = useRouter();
@@ -80,6 +81,7 @@ export default function ReviewPage() {
       title: "Review Submitted!",
       description: `Thank you for your feedback! You've earned ${points} loyalty coins.`,
     });
+    await announceNewAchievements(user.uid, toast);
     router.back();
   };
 

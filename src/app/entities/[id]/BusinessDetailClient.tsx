@@ -14,8 +14,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/hooks/use-auth"
-import { useSavedBusinesses } from "@/lib/saved-businesses-context"
+import { useSavedBusiness } from "@/hooks/use-saved-business"
 import { createClient } from "@/lib/supabase/client"
+import { announceNewAchievements } from "@/lib/engagement/announce-achievements"
 import { cn } from "@/lib/utils"
 
 interface Business {
@@ -99,13 +100,12 @@ function allImages(b: Business): string[] {
 
 export default function BusinessDetailClient({ business }: { business: Business }) {
   const { user } = useAuth()
-  const { isSaved, toggleSaved } = useSavedBusinesses()
+  const { saved, toggle: toggleSaved } = useSavedBusiness(business.id)
   const { toast } = useToast()
   const router = useRouter()
   const [checkingIn, setCheckingIn] = useState(false)
   const [checkedIn, setCheckedIn] = useState(false)
 
-  const saved = isSaved(business.id)
   const images = allImages(business)
   const heroImg = business.cover_url ?? business.image_url
 
@@ -136,6 +136,7 @@ export default function BusinessDetailClient({ business }: { business: Business 
       } else {
         setCheckedIn(true)
         toast({ title: "Checked in! +5 Halal Coins", description: `Welcome to ${business.name}` })
+        announceNewAchievements(user.uid, toast)
       }
     } catch (err: any) {
       toast({ title: "Check-in failed", description: err?.message, variant: "destructive" })
@@ -195,14 +196,14 @@ export default function BusinessDetailClient({ business }: { business: Business 
               "rounded-2xl bg-background/80 backdrop-blur-sm border shadow-sm h-10 w-10",
               saved && "text-rose-500 border-rose-200"
             )}
-            onClick={() =>
-              toggleSaved({
-                id: business.id,
-                name: business.name ?? "",
-                category: categoryLabel(business.category),
-                location: business.city ?? "",
-              })
-            }
+            onClick={async () => {
+              if (!user) {
+                router.push(`/login?redirectTo=/entities/${business.id}`)
+                return
+              }
+              const result = await toggleSaved()
+              if (result.saved) announceNewAchievements(user.uid, toast)
+            }}
           >
             <Heart className={cn("h-4 w-4", saved && "fill-rose-500 text-rose-500")} />
           </Button>
