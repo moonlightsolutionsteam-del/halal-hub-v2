@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePrayerSnapshot } from "@/lib/use-prayer-snapshot";
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
@@ -160,6 +161,7 @@ export default function Home() {
   const [bannerIdx, setBannerIdx] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
   const [liveBizList, setLiveBizList] = useState<LiveBiz[]>([]);
+  const { user } = useAuth();
   const { prayerData, loading: prayerLoading, countdown, nextPrayerName, nextPrayerTime, locationName, timeFormat } = usePrayerSnapshot();
   const bannerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -220,7 +222,9 @@ export default function Home() {
       <div className="px-4 pt-5 pb-3 space-y-4">
         <div className="space-y-0.5">
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{formattedDate}</p>
-          <h1 className="text-2xl font-black text-foreground tracking-tight">Assalamualaikum, Super ✨</h1>
+          <h1 className="text-2xl font-black text-foreground tracking-tight">
+            Assalamualaikum{user?.name ? `, ${user.name.split(" ")[0]}` : ""} ✨
+          </h1>
         </div>
 
         <Link href="/search" className="block">

@@ -19,16 +19,16 @@ export default function HotelGalleryPage() {
   const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
-    if (!user?.id) { setLoading(false); return }
+    if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id, images").eq("owner_id", user.id).limit(1)
+    ;(supabase as any).from("businesses").select("id, images").eq("owner_id", user.uid).limit(1)
       .then(({ data }: { data: { id: string; images: string[] | null }[] | null }) => {
         const biz = data?.[0]
         setBusinessId(biz?.id ?? null)
         setImages(biz?.images ?? [])
         setLoading(false)
       })
-  }, [user?.id])
+  }, [user?.uid])
 
   async function saveImages(next: string[]) {
     if (!businessId) return
@@ -43,10 +43,10 @@ export default function HotelGalleryPage() {
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
-    if (!file || !user?.id) return
+    if (!file || !user?.uid) return
     setUploading(true)
     const supabase = createClient()
-    const path = `${user.id}/gallery-${Date.now()}-${file.name}`
+    const path = `${user.uid}/gallery-${Date.now()}-${file.name}`
     const { error: uploadError } = await supabase.storage.from("business-media").upload(path, file)
     if (uploadError) {
       toast({ variant: "destructive", title: "Upload failed", description: uploadError.message })

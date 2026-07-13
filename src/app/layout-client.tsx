@@ -31,11 +31,29 @@ import { PrayerSettingsProvider } from "@/lib/prayer-context";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { SavedBusinessesProvider } from "@/lib/saved-businesses-context";
 import { AuthProvider } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/use-auth";
 import { Home, Moon, User, LayoutGrid, Newspaper } from "lucide-react";
 import { HalalHubMark } from "@/components/brand";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { ThemeToggleButton } from "@/components/theme-toggle-button";
+
+function getInitials(name: string | null | undefined): string {
+  if (!name) return "?";
+  return name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+}
+
+function HeaderAvatar() {
+  const { user } = useAuth();
+  return (
+    <Link href={user ? "/account/dashboard" : "/login"}>
+      <Avatar className="h-8 w-8 sm:h-10 sm:w-10 border-2 border-card shadow-soft hover:shadow-soft-md transition-shadow duration-200 ring-2 ring-primary/10">
+        {user?.photoURL && <AvatarImage src={user.photoURL} />}
+        <AvatarFallback className="text-xs">{getInitials(user?.name)}</AvatarFallback>
+      </Avatar>
+    </Link>
+  );
+}
 
 export default function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -117,12 +135,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
                 <HeaderLocation />
               </div>
               <ThemeToggleButton />
-              <Link href="/account/dashboard">
-                <Avatar className="h-8 w-8 sm:h-10 sm:w-10 border-2 border-card shadow-soft hover:shadow-soft-md transition-shadow duration-200 ring-2 ring-primary/10">
-                  <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
-                  <AvatarFallback className="text-xs">JD</AvatarFallback>
-                </Avatar>
-              </Link>
+              <HeaderAvatar />
             </div>
           </header>
 

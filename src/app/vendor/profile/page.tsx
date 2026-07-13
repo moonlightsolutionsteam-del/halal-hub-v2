@@ -79,12 +79,12 @@ export default function VendorProfilePage() {
   const [saving, setSaving] = React.useState(false)
 
   React.useEffect(() => {
-    if (!user?.id) return
+    if (!user?.uid) return
     const supabase = createClient()
     ;(supabase as any)
       .from("businesses")
       .select("id, name, phone, description, primary_cuisine")
-      .eq("owner_id", user.id)
+      .eq("owner_id", user.uid)
       .limit(1)
       .then(({ data }: { data: any[] | null }) => {
         const biz = data?.[0]
@@ -95,7 +95,7 @@ export default function VendorProfilePage() {
         setBizDescription(biz.description ?? "")
         setBizCuisine(biz.primary_cuisine ?? "")
       })
-  }, [user?.id])
+  }, [user?.uid])
 
   const handleSave = async () => {
     if (!bizId) {

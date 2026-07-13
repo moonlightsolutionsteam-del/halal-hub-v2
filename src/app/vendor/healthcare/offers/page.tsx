@@ -31,15 +31,15 @@ export default function HealthcareOffersPage() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    if (!user?.id) return
+    if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id").eq("owner_id", user.id).limit(1)
+    ;(supabase as any).from("businesses").select("id").eq("owner_id", user.uid).limit(1)
       .then(({ data }: { data: { id: string }[] | null }) => {
         const biz = data?.[0]
         setBusinessId(biz?.id ?? null)
         if (biz) loadOffers(biz.id)
       })
-  }, [user?.id])
+  }, [user?.uid])
 
   function loadOffers(bizId: string) {
     const supabase = createClient()

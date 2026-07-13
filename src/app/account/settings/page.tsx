@@ -1,21 +1,68 @@
 
 "use client"
 
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { 
-  User, Lock, Bell, Shield, 
+import {
+  User, Lock, Bell, Shield,
   CreditCard, Globe, Camera,
   CheckCircle2
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/use-auth";
+import { createClient } from "@/lib/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+
+function getInitials(name: string | null | undefined): string {
+  if (!name) return "?";
+  return name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+}
+
+function formatJoinDate(date: any): string {
+  try {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "";
+    return d.getFullYear().toString();
+  } catch { return ""; }
+}
 
 export default function UserSettingsPage() {
+  const { user, loading: authLoading } = useAuth();
+  const { toast } = useToast();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!user?.name) return;
+    const parts = user.name.trim().split(/\s+/);
+    setFirstName(parts[0] ?? "");
+    setLastName(parts.slice(1).join(" "));
+  }, [user?.name]);
+
+  async function saveProfile() {
+    if (!user?.uid) return;
+    setSaving(true);
+    const supabase = createClient();
+    const fullName = [firstName.trim(), lastName.trim()].filter(Boolean).join(" ");
+    const { error } = await (supabase as any)
+      .from("profiles")
+      .update({ name: fullName })
+      .eq("id", user.uid);
+    setSaving(false);
+    if (error) {
+      toast({ variant: "destructive", title: "Couldn't save changes", description: error.message });
+      return;
+    }
+    toast({ title: "Profile updated" });
+  }
+
   return (
     <div className="container mx-auto px-4 pt-4 pb-32 sm:p-6 sm:pb-8 space-y-6 max-w-4xl">
       <div className="space-y-1">
@@ -50,17 +97,21 @@ export default function UserSettingsPage() {
                 <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                   <div className="relative group">
                     <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-4 border-white shadow-xl">
-                      <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
-                      <AvatarFallback>JD</AvatarFallback>
+                      {user?.photoURL && <AvatarImage src={user.photoURL} />}
+                      <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
                     </Avatar>
                     <button className="absolute bottom-0 right-0 h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white hover:scale-110 transition-transform">
                       <Camera className="h-4 w-4" />
                     </button>
                   </div>
                   <div className="text-center sm:text-left space-y-1">
-                    <CardTitle className="text-xl sm:text-2xl font-black">John Doe</CardTitle>
-                    <CardDescription className="font-medium">Universal Hub Member since 2023</CardDescription>
-                    <Badge className="bg-primary/10 text-primary border-none font-bold">Premium Tier</Badge>
+                    <CardTitle className="text-xl sm:text-2xl font-black">{user?.name ?? "My Profile"}</CardTitle>
+                    <CardDescription className="font-medium">
+                      {user?.createdAt ? `Halal Hub Member since ${formatJoinDate(user.createdAt)}` : "Halal Hub Member"}
+                    </CardDescription>
+                    <Badge className="bg-primary/10 text-primary border-none font-bold">
+                      {user?.roles?.includes("super_admin") ? "Admin" : user?.roles?.[0] ?? "Member"}
+                    </Badge>
                   </div>
                 </div>
               </CardHeader>
@@ -68,15 +119,15 @@ export default function UserSettingsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="firstName" className="font-bold ml-1 text-xs uppercase tracking-widest text-muted-foreground">First Name</Label>
-                    <Input id="firstName" defaultValue="John" className="h-12 rounded-xl bg-muted/30 border-none px-4 font-bold" />
+                    <Input id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="h-12 rounded-xl bg-muted/30 border-none px-4 font-bold" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName" className="font-bold ml-1 text-xs uppercase tracking-widest text-muted-foreground">Last Name</Label>
-                    <Input id="lastName" defaultValue="Doe" className="h-12 rounded-xl bg-muted/30 border-none px-4 font-bold" />
+                    <Input id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} className="h-12 rounded-xl bg-muted/30 border-none px-4 font-bold" />
                   </div>
                   <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="email" className="font-bold ml-1 text-xs uppercase tracking-widest text-muted-foreground">Email Address</Label>
-                    <Input id="email" type="email" defaultValue="john.doe@example.com" className="h-12 rounded-xl bg-muted/30 border-none px-4 font-bold" />
+                    <Input id="email" type="email" value={user?.email ?? ""} disabled className="h-12 rounded-xl bg-muted/30 border-none px-4 font-bold opacity-70" />
                   </div>
                   <div className="space-y-2 sm:col-span-2">
                     <Label htmlFor="bio" className="font-bold ml-1 text-xs uppercase tracking-widest text-muted-foreground">Short Bio</Label>
@@ -90,7 +141,9 @@ export default function UserSettingsPage() {
               </CardContent>
               <CardFooter className="p-4 sm:p-8 border-t bg-muted/10 flex justify-end gap-3">
                 <Button variant="ghost" className="rounded-xl font-bold">Cancel</Button>
-                <Button className="rounded-xl bg-primary px-6 sm:px-8 font-bold shadow-lg shadow-primary/20">Save Changes</Button>
+                <Button onClick={saveProfile} disabled={saving || authLoading} className="rounded-xl bg-primary px-6 sm:px-8 font-bold shadow-lg shadow-primary/20">
+                  {saving ? "Saving…" : "Save Changes"}
+                </Button>
               </CardFooter>
             </Card>
           </TabsContent>

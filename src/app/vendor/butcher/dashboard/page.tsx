@@ -44,12 +44,12 @@ export default function ButcherDashboard() {
 
   useEffect(() => {
     if (authLoading) return
-    if (!user?.id) { setLoading(false); return }
+    if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
     ;(supabase as any)
       .from("businesses")
       .select("id, name, rating, review_count")
-      .eq("owner_id", user.id)
+      .eq("owner_id", user.uid)
       .limit(1)
       .then(({ data }: { data: Business[] | null }) => {
         const biz = data?.[0] ?? null
@@ -58,7 +58,7 @@ export default function ButcherDashboard() {
         if (!biz) return
         loadDashboard(biz.id)
       })
-  }, [user?.id, authLoading])
+  }, [user?.uid, authLoading])
 
   function loadDashboard(businessId: string) {
     const supabase = createClient()

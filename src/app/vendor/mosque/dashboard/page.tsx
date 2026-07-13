@@ -33,9 +33,9 @@ export default function MosqueDashboardPage() {
 
   useEffect(() => {
     if (authLoading) return
-    if (!user?.id) { setLoading(false); return }
+    if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id, name").eq("owner_id", user.id).limit(1)
+    ;(supabase as any).from("businesses").select("id, name").eq("owner_id", user.uid).limit(1)
       .then(({ data }: { data: Business[] | null }) => {
         const biz = data?.[0] ?? null
         setBusiness(biz)
@@ -56,7 +56,7 @@ export default function MosqueDashboardPage() {
           .eq("business_id", biz.id).order("created_at", { ascending: false }).limit(3)
           .then(({ data }: { data: AnnouncementRow[] | null }) => setAnnouncements(data ?? []))
       })
-  }, [user?.id, authLoading])
+  }, [user?.uid, authLoading])
 
   if (loading) {
     return <div className="p-8 flex items-center justify-center min-h-screen"><div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>

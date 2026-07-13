@@ -30,9 +30,9 @@ export default function HotelDashboard() {
 
   useEffect(() => {
     if (authLoading) return
-    if (!user?.id) { setLoading(false); return }
+    if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id, name, rating, review_count").eq("owner_id", user.id).limit(1)
+    ;(supabase as any).from("businesses").select("id, name, rating, review_count").eq("owner_id", user.uid).limit(1)
       .then(({ data }: { data: Business[] | null }) => {
         const biz = data?.[0] ?? null
         setBusiness(biz)
@@ -59,7 +59,7 @@ export default function HotelDashboard() {
           .eq("business_id", biz.id).eq("status", "published").order("created_at", { ascending: false }).limit(1).maybeSingle()
           .then(({ data }: { data: ReviewRow | null }) => setLatestReview(data))
       })
-  }, [user?.id, authLoading])
+  }, [user?.uid, authLoading])
 
   if (loading) {
     return <div className="p-8 flex items-center justify-center min-h-screen"><div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>

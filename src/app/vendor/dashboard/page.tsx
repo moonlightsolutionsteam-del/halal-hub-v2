@@ -31,13 +31,13 @@ export default function VendorDashboard() {
 
   React.useEffect(() => {
     if (authLoading) return
-    if (!user?.id) { setLoading(false); return }
+    if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
 
     ;(supabase as any)
       .from("businesses")
       .select("id, name, category, city, country, rating, halal_verified, status")
-      .eq("owner_id", user.id)
+      .eq("owner_id", user.uid)
       .limit(1)
       .then(({ data }: { data: BizRow[] | null }) => {
         const biz = data?.[0] ?? null
@@ -53,7 +53,7 @@ export default function VendorDashboard() {
           .eq("business_id", biz.id)
           .then(({ count }: { count: number | null }) => setSaves(count ?? 0))
       })
-  }, [user?.id, authLoading])
+  }, [user?.uid, authLoading])
 
   const quickActions = [
     { label: "Add Menu Item", icon: PlusCircle, color: "text-emerald-500", bg: "bg-emerald-50", href: "/vendor/products" },

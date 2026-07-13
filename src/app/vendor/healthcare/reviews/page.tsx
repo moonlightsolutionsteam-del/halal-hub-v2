@@ -38,9 +38,9 @@ export default function HealthcareReviewsPage() {
   const [replyingTo, setReplyingTo] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!user?.id) return
+    if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id, rating").eq("owner_id", user.id).limit(1)
+    ;(supabase as any).from("businesses").select("id, rating").eq("owner_id", user.uid).limit(1)
       .then(({ data }: { data: { id: string; rating: number | null }[] | null }) => {
         const biz = data?.[0]
         if (!biz) return
@@ -48,7 +48,7 @@ export default function HealthcareReviewsPage() {
         setAvgRating(biz.rating)
         loadReviews(biz.id)
       })
-  }, [user?.id])
+  }, [user?.uid])
 
   function loadReviews(bizId: string) {
     const supabase = createClient()
