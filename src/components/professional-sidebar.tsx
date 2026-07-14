@@ -117,7 +117,7 @@ export function ProfessionalSidebar() {
       items: [
         { title: "Verification", icon: Award, url: "/vendor/professional/verification" },
         { title: "Privacy Settings", icon: Lock, url: "/vendor/professional/settings" },
-        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/professional/account/wallet" },
         { title: "Support", icon: Headset, url: "/vendor/professional/support" },
       ]
     }

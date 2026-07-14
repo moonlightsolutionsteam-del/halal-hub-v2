@@ -96,7 +96,7 @@ export function CateringSidebar() {
       icon: Settings,
       items: [
         { title: "Catering Profile", icon: UserCircle, url: "/vendor/catering/profile" },
-        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/catering/account/wallet" },
         { title: "Support Center", icon: Headset, url: "/vendor/catering/support" },
       ]
     }

@@ -2,6 +2,6 @@
 
 import { VendorWalletPage } from "@/components/vendor-wallet-page";
 
-export default function AccountWalletPage() {
+export default function WalletPage() {
   return <VendorWalletPage />;
 }

@@ -68,7 +68,7 @@ export function MediaSidebar() {
       title: "Account",
       icon: ShieldCheck,
       items: [
-        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/media/account/wallet" },
         { title: "Media Gallery", icon: ImageIcon, url: "/vendor/media/gallery" },
         { title: "Certifications", icon: ShieldCheck, url: "/vendor/verification" },
         { title: "Support", icon: Headset, url: "/vendor/account/support" },

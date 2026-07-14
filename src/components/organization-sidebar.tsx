@@ -84,7 +84,7 @@ export function OrganizationSidebar() {
       title: "Account",
       icon: ImageIcon,
       items: [
-        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/organization/account/wallet" },
         { title: "Media Gallery", icon: ImageIcon, url: "/vendor/organization/gallery" },
         { title: "Documents", icon: FileText, url: "/vendor/organization/documents" },
         { title: "Support Center", icon: Headset, url: "/vendor/organization/support" },

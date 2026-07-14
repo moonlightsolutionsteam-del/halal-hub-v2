@@ -84,7 +84,7 @@ export function CreativeSidebar() {
       title: "Account",
       icon: Settings,
       items: [
-        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/creative/account/wallet" },
         { title: "Certifications", icon: CheckCircle, url: "/vendor/verification" },
         { title: "Support Center", icon: Headset, url: "/vendor/account/support" },
       ]

@@ -61,7 +61,7 @@ export function EducationSidebar() {
       title: "Account",
       icon: ShieldCheck,
       items: [
-        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/education/account/wallet" },
         { title: "Certifications", icon: ShieldCheck, url: "/vendor/verification" },
         { title: "Media Gallery", icon: ImageIcon, url: "/vendor/engagement/check-ins" },
         { title: "Support Center", icon: Headset, url: "/vendor/education/support" },

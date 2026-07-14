@@ -63,7 +63,7 @@ export function EventsSidebar() {
       title: "Account",
       icon: ShieldCheck,
       items: [
-        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet, url: "/vendor/events/account/wallet" },
         { title: "Certifications", icon: ShieldCheck, url: "/vendor/verification" },
         { title: "Support", icon: Headset, url: "/vendor/events/support" },
       ]

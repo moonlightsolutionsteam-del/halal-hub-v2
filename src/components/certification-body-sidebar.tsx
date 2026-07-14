@@ -51,7 +51,7 @@ export function CertificationBodySidebar() {
       title: "Administration",
       icon: Settings,
       items: [
-        { title: "Wallet & Billing", icon: Wallet,   url: "/vendor/account/wallet" },
+        { title: "Wallet & Billing", icon: Wallet,   url: "/vendor/certification-body/account/wallet" },
         { title: "Settings",         icon: Settings, url: "/vendor/certification-body/settings" },
         { title: "Support Center",   icon: Headset,  url: "/vendor/certification-body/support" },
       ]
