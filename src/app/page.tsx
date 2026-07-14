@@ -5,14 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Map, List, Store, Moon, MessageSquare,
+  Map, List, Store, Moon, MessageSquare, MessageCircle,
   Heart, Calendar, ChevronRight,
   Building2, Clock, Star, MapPin, Coins,
   PenTool, ShoppingCart, ArrowRight,
   Search, BookOpen, ShieldCheck, Mic,
   Users, Briefcase, Sparkles, Flame,
   Play, TrendingUp, Zap, Globe, HandHelping,
+  Camera, Play as PlayIcon, Tag, Megaphone, HelpCircle, ThumbsUp,
 } from "lucide-react";
+import { CreatePostModal } from "@/components/create-post-modal";
 import { formatPrayerTime } from "@/lib/ummah-api";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -90,6 +92,18 @@ const FEATURED_BANNERS = [
 
 const CATEGORIES = ["All", "Food", "Healthcare", "Fashion", "Finance", "Travel", "Grocery", "Events"];
 
+const HOME_COMPOSER_ACTIONS = [
+  { icon: Camera,        label: "Photo",      type: "photo",          tint: "bg-blue-50 dark:bg-blue-950/30",    iconColor: "text-blue-600 dark:text-blue-400" },
+  { icon: PlayIcon,      label: "Video",      type: "video",          tint: "bg-purple-50 dark:bg-purple-950/30",iconColor: "text-purple-600 dark:text-purple-400" },
+  { icon: MessageCircle, label: "Discussion", type: "discussion",      tint: "bg-sky-50 dark:bg-sky-950/30",      iconColor: "text-sky-600 dark:text-sky-400" },
+  { icon: Star,          label: "Review",     type: "review",          tint: "bg-amber-50 dark:bg-amber-950/30",  iconColor: "text-amber-600 dark:text-amber-400" },
+  { icon: Calendar,      label: "Event",      type: "event",           tint: "bg-violet-50 dark:bg-violet-950/30",iconColor: "text-violet-600 dark:text-violet-400" },
+  { icon: ThumbsUp,      label: "Recommend",  type: "recommendation",  tint: "bg-teal-50 dark:bg-teal-950/30",    iconColor: "text-teal-600 dark:text-teal-400" },
+  { icon: Tag,           label: "Offer",      type: "offer",           tint: "bg-orange-50 dark:bg-orange-950/30",iconColor: "text-orange-600 dark:text-orange-400" },
+  { icon: Megaphone,     label: "Update",     type: "business_update", tint: "bg-emerald-50 dark:bg-emerald-950/30",iconColor: "text-emerald-600 dark:text-emerald-400" },
+  { icon: HelpCircle,    label: "Question",   type: "question",        tint: "bg-indigo-50 dark:bg-indigo-950/30",iconColor: "text-indigo-600 dark:text-indigo-400" },
+];
+
 const FAITH_TOOLS = [
   { icon: BookOpen, label: "Quran", desc: "Read & recite daily", url: "/quran", gradient: "from-emerald-600 to-emerald-800" },
   { icon: Coins, label: "Zakat", desc: "Calculate your obligation", url: "/zakat", gradient: "from-amber-500 to-amber-700" },
@@ -159,6 +173,10 @@ export default function Home() {
   const [professionals, setProfessionals] = useState<ProfessionalRow[]>([]);
   const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
   const [liveStats, setLiveStats] = useState<{ businesses: number; members: number; posts: number; creators: number } | null>(null);
+
+  const [composerOpen, setComposerOpen] = useState(false);
+  const [composerType, setComposerType] = useState<string | null>(null);
+  const openComposer = (type?: string) => { setComposerType(type ?? null); setComposerOpen(true); };
 
   const { user } = useAuth();
   const { hasCapability } = useCapabilities();
@@ -284,6 +302,7 @@ export default function Home() {
   ];
 
   return (
+    <>
     <div className="pb-12 overflow-x-hidden">
 
       {/* ── 1. HERO COMMAND CENTER ─────────────────────────────────────────── */}
@@ -391,7 +410,43 @@ export default function Home() {
         </div>
       )}
 
-      {/* ── 3. FEATURED EDITORIAL BANNER ──────────────────────────────────── */}
+      {/* ── 3. POST COMPOSER ──────────────────────────────────────────────── */}
+      <div className="mx-4 mt-4 bg-card rounded-2xl shadow-sm border border-border/50 overflow-hidden">
+        <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+          <button onClick={() => openComposer()}>
+            <Avatar className="h-10 w-10 shrink-0 border-2 border-card shadow-sm ring-1 ring-primary/20">
+              {user?.photoURL && <AvatarImage src={user.photoURL} />}
+              <AvatarFallback className="bg-primary/10 text-primary font-black text-sm">
+                {getInitials(user?.name)}
+              </AvatarFallback>
+            </Avatar>
+          </button>
+          <button
+            onClick={() => openComposer()}
+            className="flex-1 text-left bg-muted hover:bg-muted/80 transition-colors rounded-2xl px-4 py-2.5 text-sm text-muted-foreground font-medium"
+          >
+            Share something with the Ummah…
+          </button>
+        </div>
+        <div className="overflow-x-auto no-scrollbar px-4 pb-4">
+          <div className="flex items-center gap-2 w-max">
+            {HOME_COMPOSER_ACTIONS.map(({ icon: Icon, label, type, tint, iconColor }) => (
+              <button
+                key={label}
+                onClick={() => openComposer(type)}
+                className={cn(
+                  "flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-full whitespace-nowrap border border-transparent transition-all duration-150 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0",
+                  tint, iconColor
+                )}
+              >
+                <Icon className="h-3.5 w-3.5" /> {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── 4. FEATURED EDITORIAL BANNER ──────────────────────────────────── */}
       <div className="px-4 pt-5 pb-1">
         <div
           className="relative rounded-3xl overflow-hidden h-64 lg:h-72 cursor-pointer shadow-lg"
@@ -882,5 +937,13 @@ export default function Home() {
       </div>
 
     </div>
+
+    <CreatePostModal
+      open={composerOpen}
+      initialType={composerType as any}
+      onClose={() => setComposerOpen(false)}
+      onPosted={() => setComposerOpen(false)}
+    />
+    </>
   );
 }
