@@ -1088,7 +1088,6 @@ export default function FeedPage() {
   const clearActiveId = React.useCallback((id: string) => setActiveId(prev => prev === id ? null : prev), [])
   const [sidebarBizs, setSidebarBizs] = React.useState<Array<{ id: string; name: string; category: string | null; image_url: string | null; logo_url: string | null; city: string | null }>>([])
   const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
-  const [liveStories, setLiveStories] = React.useState<StoryItem[]>([])
   const [userStories, setUserStories] = React.useState<Array<StoryItem & { mediaUrl: string; mediaType: "image" | "video" }>>([])
   const [viewedStories, setViewedStories] = React.useState<Set<string>>(new Set())
 
@@ -1192,17 +1191,7 @@ export default function FeedPage() {
       .limit(12)
       .then(({ data }: { data: any[] | null }) => {
         if (!data?.length) return
-        // First 5 go to sidebar suggested accounts
         setSidebarBizs(data.slice(0, 5))
-        // Build story bubbles from businesses that have an image
-        const storyBizs = data.filter(b => b.logo_url || b.image_url).slice(0, 7)
-        setLiveStories(storyBizs.map(b => ({
-          id: b.id,
-          name: b.name,
-          avatar: b.logo_url || b.image_url || "",
-          verified: true,
-          kind: "business" as StoryKind,
-        })))
       })
     ;(supabase as any)
       .from("profiles")
@@ -1313,9 +1302,6 @@ export default function FeedPage() {
                   onOpen={handleOpenStory}
                 />
                 {userStories.map(story => (
-                  <StoryBubble key={story.id} story={story} viewed={viewedStories.has(story.id)} onOpen={handleOpenStory} />
-                ))}
-                {liveStories.map(story => (
                   <StoryBubble key={story.id} story={story} viewed={viewedStories.has(story.id)} onOpen={handleOpenStory} />
                 ))}
               </div>
