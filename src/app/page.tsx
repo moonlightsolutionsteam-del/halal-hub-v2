@@ -866,13 +866,13 @@ export default function Home() {
             <div className="space-y-1.5">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">The Complete Muslim Life App</p>
               <h3 className="text-2xl font-black text-white leading-tight tracking-tight">
-                Mumbai's Halal<br />Super-App
+                India's Halal<br />Super-App
               </h3>
             </div>
             <p className="text-[11px] text-zinc-500 font-medium leading-relaxed max-w-xs mx-auto">
               Directory · Prayer · Community · Events · Creators · Professionals · Marketplace · Family · Faith
             </p>
-            <Link href="/categories">
+            <Link href="/explore">
               <div className="inline-flex items-center gap-2 bg-primary text-white text-sm font-black px-7 py-3 rounded-2xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
                 Explore Everything <ArrowRight className="h-4 w-4" />
               </div>
