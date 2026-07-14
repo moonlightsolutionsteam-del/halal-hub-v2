@@ -53,6 +53,9 @@ export interface OnboardingDraft {
   slaughterMethod: string
   halalDeclarationAgreed: boolean
 
+  // Step 1b — Category Specifications (stored alongside details)
+  categorySpecs: Record<string, string | string[]>
+
   // Step 6 — Media
   logoUrl: string
   coverUrl: string
@@ -84,6 +87,7 @@ const EMPTY_DRAFT: OnboardingDraft = {
   tagline: "",
   businessType: "",
   subcategory: "",
+  categorySpecs: {},
   addressLine1: "",
   addressLine2: "",
   city: "",
