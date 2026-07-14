@@ -15,10 +15,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useCategoryBusinesses } from "@/hooks/use-category-businesses";
 
 const EDUCATION_TYPES = ["All Programs", "Madrasas", "Academic Schools", "Quranic Centers", "Pro Training", "Online Classes"];
 
-const MOCK_INSTITUTIONS = [
+const FALLBACK = [
   { 
     id: "edu1", 
     name: "Iman Knowledge Academy", 
@@ -71,6 +72,11 @@ const MOCK_INSTITUTIONS = [
 
 export default function EducationListingPage() {
   const [selectedType, setSelectedType] = useState("All Programs");
+  const items = useCategoryBusinesses("Education & Learning", FALLBACK, (b) => ({
+    id: b.id, name: b.name, type: b.subcategory, focus: b.subcategory,
+    rate: b.rating, ver: b.halal_verified, img: b.image_url, features: b.features,
+    enrollment: "Enquire Now", location: b.city,
+  }))
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -194,7 +200,7 @@ export default function EducationListingPage() {
         {/* Listings Grid */}
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{MOCK_INSTITUTIONS.length}</span> verified entities</p>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{items.length}</span> verified entities</p>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
               <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
@@ -206,7 +212,7 @@ export default function EducationListingPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {MOCK_INSTITUTIONS.map((item) => (
+            {items.map((item) => (
               <Link key={item.id} href={`/entities/${item.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-violet-100/50">
                   <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">

@@ -11,10 +11,11 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { useCategoryBusinesses } from "@/hooks/use-category-businesses"
 
 const TABS = ["All Services", "Venues", "Decor & Design", "Photography", "Audio/Visual", "Wedding Planning"]
 
-const MOCK_EVENTS = [
+const FALLBACK = [
   {
     id: "e1", name: "The Grand Halal Ballroom", type: "Premium Venue", loc: "Bandra, Mumbai",
     rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
@@ -39,6 +40,11 @@ const MOCK_EVENTS = [
 
 export default function EventServicesPage() {
   const [selectedTab, setSelectedTab] = useState("All Services")
+  const items = useCategoryBusinesses("Events & Venues", FALLBACK, (b) => ({
+    id: b.id, name: b.name, type: b.subcategory, loc: b.city,
+    rate: b.rating, ver: b.halal_verified, img: b.image_url, features: b.features,
+    capacity: "All Sizes", price: b.price_range ?? "Contact",
+  }))
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -123,7 +129,7 @@ export default function EventServicesPage() {
 
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{MOCK_EVENTS.length}</span> verified services</p>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{items.length}</span> verified services</p>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
               <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
@@ -135,7 +141,7 @@ export default function EventServicesPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {MOCK_EVENTS.map(item => (
+            {items.map(item => (
               <Link key={item.id} href={`/entities/${item.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-amber-100/50">
                   <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">

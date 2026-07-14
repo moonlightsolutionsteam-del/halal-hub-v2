@@ -14,10 +14,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useCategoryBusinesses } from "@/hooks/use-category-businesses";
 
 const FASHION_CATEGORIES = ["All Styles", "Abayas & Kimonos", "Hijabs & Wraps", "Occasion Wear", "Modest Activewear", "Designer Brands"];
 
-const MOCK_FASHION_BRANDS = [
+const FALLBACK = [
   { 
     id: "f1", 
     name: "Modest Attire Co.", 
@@ -70,6 +71,11 @@ const MOCK_FASHION_BRANDS = [
 
 export default function FashionListingPage() {
   const [selectedStyle, setSelectedStyle] = useState("All Styles");
+  const items = useCategoryBusinesses("Fashion & Modest Wear", FALLBACK, (b) => ({
+    id: b.id, name: b.name, type: b.subcategory, loc: b.city,
+    rate: b.rating, ver: b.halal_verified, img: b.image_url, features: b.features,
+    startingPrice: b.price_range ?? "Contact", shipping: "Worldwide",
+  }))
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -174,7 +180,7 @@ export default function FashionListingPage() {
         {/* Listings Grid */}
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{MOCK_FASHION_BRANDS.length}</span> verified designers</p>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{items.length}</span> verified designers</p>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
               <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
@@ -186,7 +192,7 @@ export default function FashionListingPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {MOCK_FASHION_BRANDS.map((brand) => (
+            {items.map((brand) => (
               <Link key={brand.id} href={`/entities/${brand.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-pink-100/50">
                   <div className="relative aspect-[4/5] overflow-hidden">

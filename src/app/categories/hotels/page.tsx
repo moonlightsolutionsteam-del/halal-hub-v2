@@ -15,10 +15,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useCategoryBusinesses } from "@/hooks/use-category-businesses";
 
 const AMENITIES = ["All Amenities", "Prayer Room", "Halal Breakfast", "Alcohol-Free", "Family Suites", "Modest Pool Hours"];
 
-const MOCK_HOTELS = [
+const FALLBACK = [
   { 
     id: "h1", 
     name: "Royal Halal Suites", 
@@ -71,6 +72,11 @@ const MOCK_HOTELS = [
 
 export default function HotelsListingPage() {
   const [selectedAmenity, setSelectedAmenity] = useState("All Amenities");
+  const items = useCategoryBusinesses("Hotels & Accommodation", FALLBACK, (b) => ({
+    id: b.id, name: b.name, type: b.subcategory, loc: b.city,
+    rate: b.rating, ver: b.halal_verified, img: b.image_url, features: b.features,
+    price: b.price_range ?? "Contact", distance: "Nearby",
+  }))
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -175,7 +181,7 @@ export default function HotelsListingPage() {
         {/* Listings Grid */}
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{MOCK_HOTELS.length}</span> verified properties</p>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{items.length}</span> verified properties</p>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
               <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
@@ -187,7 +193,7 @@ export default function HotelsListingPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {MOCK_HOTELS.map((hotel) => (
+            {items.map((hotel) => (
               <Link key={hotel.id} href={`/entities/${hotel.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-sky-100/50">
                   <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
