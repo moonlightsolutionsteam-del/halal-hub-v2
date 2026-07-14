@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,11 +36,7 @@ import Link from "next/link"
 export default function SuperAdminFinanceManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_FINANCE = [
-    { id: "FIN-001", name: "Amanah Islamic Bank", type: "Retail Banking", status: "Verified", aum: "₹12.4M", yield: "8.4%" },
-    { id: "FIN-002", name: "Sunnah Wealth", type: "Investment", status: "Verified", aum: "₹8.5M", yield: "10.2%" },
-    { id: "FIN-003", name: "Crescent Takaful", type: "Insurance", status: "Audit Needed", aum: "₹5.2M", yield: "N/A" },
-  ];
+  const cat = useAdminCategory("Islamic Finance")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -84,8 +81,8 @@ export default function SuperAdminFinanceManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">42</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+2 this month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 

@@ -1,24 +1,62 @@
-
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { 
-  ShieldCheck, Eye, CheckCircle, XCircle, 
-  ExternalLink, Calendar, Building2, AlertTriangle
-} from "lucide-react";
-import { 
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
-} from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { ShieldCheck, Search, CheckCircle, XCircle, Loader2, Building2 } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState, useEffect } from "react"
+import { createClient } from "@/lib/supabase/client"
+
+interface PendingBusiness {
+  id: string
+  name: string
+  category: string | null
+  subcategory: string | null
+  city: string | null
+  country: string | null
+  created_at: string | null
+  halal_verified: boolean | null
+}
 
 export default function AdminVerificationCenter() {
-  const pending = [
-    { id: 1, business: "Premium Meat Hub", type: "Halal Audit", date: "2 mins ago", country: "UK" },
-    { id: 2, business: "Al-Zaeem Sweets", type: "Hygiene Cert", date: "45 mins ago", country: "UAE" },
-    { id: 3, business: "Sunnah Organic Farm", type: "Organic Seal", date: "3 hours ago", country: "USA" },
-    { id: 4, business: "Istanbul Bistro", type: "Renewal", date: "Yesterday", country: "TR" },
-  ];
+  const [pending, setPending] = useState<PendingBusiness[]>([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState("")
+  const [actioning, setActioning] = useState<string | null>(null)
+
+  async function load() {
+    setLoading(true)
+    const supabase = createClient()
+    const { data } = await (supabase as any)
+      .from("businesses")
+      .select("id, name, category, subcategory, city, country, created_at, halal_verified")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false })
+    setPending(data ?? [])
+    setLoading(false)
+  }
+
+  useEffect(() => { load() }, [])
+
+  async function updateStatus(id: string, status: "active" | "rejected") {
+    setActioning(id)
+    const supabase = createClient()
+    await (supabase as any).from("businesses").update({ status }).eq("id", id)
+    await load()
+    setActioning(null)
+  }
+
+  const filtered = pending.filter((b) => {
+    if (!search) return true
+    const q = search.toLowerCase()
+    return (
+      b.name.toLowerCase().includes(q) ||
+      b.category?.toLowerCase().includes(q) ||
+      b.city?.toLowerCase().includes(q)
+    )
+  })
 
   return (
     <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-6xl">
@@ -31,95 +69,126 @@ export default function AdminVerificationCenter() {
           <p className="text-muted-foreground font-medium">Review submitted business credentials for platform certification.</p>
         </div>
         <div className="flex gap-3">
-          <Badge className="bg-amber-500 rounded-full px-4 h-10 flex items-center font-bold">124 PENDING</Badge>
-          <Button variant="outline" className="rounded-full px-6 font-bold border-2">Audit Guidelines</Button>
+          {loading ? (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm font-bold">Loading...</span>
+            </div>
+          ) : (
+            <Badge className={`${pending.length > 0 ? "bg-amber-500" : "bg-emerald-500"} rounded-full px-4 h-10 flex items-center font-bold`}>
+              {pending.length} PENDING
+            </Badge>
+          )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 rounded-[2.5rem] border-none shadow-sm overflow-hidden">
-          <CardHeader className="bg-muted/10 p-8">
+      <div className="grid grid-cols-3 gap-3 sm:gap-6">
+        {[
+          { label: "Pending Review", value: loading ? "—" : pending.length, color: "text-amber-500" },
+          { label: "Categories", value: loading ? "—" : new Set(pending.map(b => b.category)).size, color: "text-blue-500" },
+          { label: "Showing", value: loading ? "—" : filtered.length, color: "text-primary" },
+        ].map((s, i) => (
+          <Card key={i} className="border-none shadow-sm rounded-3xl p-4">
+            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">{s.label}</p>
+            <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden">
+        <CardHeader className="p-6 border-b">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <CardTitle>Queue (Newest First)</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
+            <div className="relative w-full md:w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search businesses..."
+                className="pl-9 h-10 rounded-2xl bg-muted/30 border-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          {loading ? (
+            <div className="flex items-center justify-center py-20 gap-3 text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span className="text-sm font-bold">Loading queue...</span>
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-4 text-muted-foreground">
+              <CheckCircle className="h-10 w-10 text-emerald-500" />
+              <div className="text-center">
+                <p className="font-black text-foreground">
+                  {search ? "No results match your search." : "Verification Queue is Empty"}
+                </p>
+                <p className="text-sm font-medium">
+                  {search ? "" : "All submitted businesses have been reviewed."}
+                </p>
+              </div>
+            </div>
+          ) : (
             <Table>
               <TableHeader>
                 <TableRow className="border-none bg-muted/5">
                   <TableHead className="px-8 font-black uppercase text-[10px] tracking-widest">Business</TableHead>
-                  <TableHead className="font-black uppercase text-[10px] tracking-widest">Type</TableHead>
+                  <TableHead className="font-black uppercase text-[10px] tracking-widest">Category</TableHead>
+                  <TableHead className="font-black uppercase text-[10px] tracking-widest">Location</TableHead>
                   <TableHead className="font-black uppercase text-[10px] tracking-widest">Submitted</TableHead>
                   <TableHead className="text-right px-8 font-black uppercase text-[10px] tracking-widest">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {pending.map((item) => (
-                  <TableRow key={item.id} className="border-muted/20 hover:bg-muted/5">
-                    <TableCell className="px-8 py-5">
+                {filtered.map((biz) => (
+                  <TableRow key={biz.id} className="hover:bg-muted/5 border-muted/20">
+                    <TableCell className="px-8 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                          <Building2 className="h-5 w-5" />
+                        <div className="h-9 w-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 font-black shadow-sm">
+                          <Building2 className="h-4 w-4" />
                         </div>
                         <div>
-                          <p className="font-black text-foreground">{item.business}</p>
-                          <p className="text-[10px] font-bold text-muted-foreground uppercase">{item.country}</p>
+                          <p className="font-black text-foreground text-sm">{biz.name}</p>
+                          <p className="text-[10px] text-muted-foreground">{biz.subcategory ?? "—"}</p>
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest border-primary/20 text-primary">
-                        {item.type}
-                      </Badge>
+                    <TableCell className="text-sm font-medium text-muted-foreground">{biz.category ?? "—"}</TableCell>
+                    <TableCell className="text-sm font-medium text-muted-foreground">
+                      {[biz.city, biz.country].filter(Boolean).join(", ") || "—"}
                     </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
-                        <Calendar className="h-3 w-3" /> {item.date}
-                      </div>
+                    <TableCell className="text-xs font-medium text-muted-foreground">
+                      {biz.created_at ? new Date(biz.created_at).toLocaleDateString() : "—"}
                     </TableCell>
                     <TableCell className="text-right px-8">
                       <div className="flex items-center justify-end gap-2">
-                        <Button size="icon" variant="ghost" className="rounded-xl text-emerald-600 hover:bg-emerald-50"><CheckCircle className="h-5 w-5" /></Button>
-                        <Button size="icon" variant="ghost" className="rounded-xl text-red-600 hover:bg-red-50"><XCircle className="h-5 w-5" /></Button>
-                        <Button size="icon" variant="ghost" className="rounded-xl"><ExternalLink className="h-5 w-5" /></Button>
+                        <Button
+                          size="sm"
+                          className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] uppercase tracking-wider gap-1.5 h-8"
+                          disabled={actioning === biz.id}
+                          onClick={() => updateStatus(biz.id, "active")}
+                        >
+                          {actioning === biz.id ? <Loader2 className="h-3 w-3 animate-spin" /> : <CheckCircle className="h-3 w-3" />}
+                          Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="rounded-xl hover:bg-red-50 hover:text-red-600 font-black text-[10px] uppercase tracking-wider gap-1.5 h-8"
+                          disabled={actioning === biz.id}
+                          onClick={() => updateStatus(biz.id, "rejected")}
+                        >
+                          <XCircle className="h-3 w-3" /> Reject
+                        </Button>
                       </div>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-          </CardContent>
-        </Card>
-
-        <div className="space-y-6">
-          <Card className="rounded-[2.5rem] border-none shadow-sm p-8 bg-amber-50 border-2 border-amber-100">
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="h-16 w-16 bg-amber-500 rounded-3xl flex items-center justify-center text-white shadow-xl shadow-amber-200">
-                <AlertTriangle className="h-8 w-8" />
-              </div>
-              <div className="space-y-1">
-                <h3 className="font-black text-xl text-amber-900">SLA Warning</h3>
-                <p className="text-sm text-amber-800 font-medium">12 verifications have been pending for more than 48 hours.</p>
-              </div>
-              <Button className="w-full bg-amber-600 hover:bg-amber-700 font-black rounded-2xl">Prioritize Queue</Button>
-            </div>
-          </Card>
-
-          <Card className="rounded-[2.5rem] border-none shadow-sm p-8 space-y-6">
-            <h3 className="font-black text-xl">Audit Stats</h3>
-            <div className="space-y-4">
-              {[
-                { label: "Approval Rate", val: "92%" },
-                { label: "Avg. Review Time", val: "4.2h" },
-                { label: "Rejections", val: "142" },
-              ].map((s, i) => (
-                <div key={i} className="flex justify-between items-center border-b border-muted pb-3 last:border-none">
-                  <span className="text-sm font-bold text-muted-foreground uppercase">{s.label}</span>
-                  <span className="text-lg font-black text-primary">{s.val}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
-      </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
-  );
+  )
 }

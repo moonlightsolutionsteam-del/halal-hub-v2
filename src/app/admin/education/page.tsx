@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,11 +36,7 @@ import Link from "next/link"
 export default function SuperAdminEducationManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_SCHOOLS = [
-    { id: "EDU-001", name: "Iman Knowledge Academy", city: "London, UK", type: "School", status: "Verified", rating: 4.9, students: "450" },
-    { id: "EDU-002", name: "Darul Uloom Central", city: "New York, USA", type: "Madrasa", status: "Verified", rating: 4.8, students: "120" },
-    { id: "EDU-003", name: "Global Tajweed Hub", city: "Online", type: "Digital", status: "Audit Needed", rating: 4.7, students: "8.5k" },
-  ];
+  const cat = useAdminCategory("Education & Learning")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -84,8 +81,8 @@ export default function SuperAdminEducationManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">64</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+2 since last month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 

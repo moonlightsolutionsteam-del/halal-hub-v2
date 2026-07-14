@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,12 +36,7 @@ import Link from "next/link"
 export default function SuperAdminCateringManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_CATERERS = [
-    { id: "CAT-001", name: "Elite Halal Catering", city: "Manhattan, NY", type: "Full Service", status: "Verified", rating: 4.9, events: 124 },
-    { id: "CAT-002", name: "Sunnah Sun-Sets", city: "Brooklyn, NY", type: "Boutique", status: "Verified", rating: 4.8, events: 85 },
-    { id: "CAT-003", name: "Grand Dastarkhwan", city: "Queens, NY", type: "Traditional", status: "Audit Needed", rating: 4.7, events: 210 },
-    { id: "CAT-004", name: "Modern Mezze Co.", city: "Jersey City, NJ", type: "Corporate", status: "Verified", rating: 4.5, events: 45 },
-  ];
+  const cateringData = useAdminCategory("Catering Services")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -85,8 +81,8 @@ export default function SuperAdminCateringManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">120</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+2 since last month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cateringData.loading ? "—" : cateringData.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cateringData.active} active</p>
               </div>
             </Card>
 
@@ -187,25 +183,27 @@ export default function SuperAdminCateringManagement() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {MOCK_CATERERS.map((cat) => (
-                    <TableRow key={cat.id} className="border-border hover:bg-muted/50 transition-colors group">
+                  {cateringData.loading ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading...</TableCell></TableRow>
+                  ) : cateringData.businesses.length === 0 ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No caterers found.</TableCell></TableRow>
+                  ) : cateringData.businesses.map((biz) => (
+                    <TableRow key={biz.id} className="border-border hover:bg-muted/50 transition-colors group">
                       <TableCell className="px-8 py-5">
-                        <p className="font-black text-foreground text-base">{cat.name}</p>
-                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{cat.id} • {cat.type}</p>
+                        <p className="font-black text-foreground text-base">{biz.name}</p>
+                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{biz.id.slice(0, 8).toUpperCase()} • {biz.subcategory ?? "—"}</p>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center justify-center gap-1.5 font-black text-sm text-amber-500">
-                          <Star className="h-3.5 w-3.5 fill-current border-none" /> {cat.rating}
+                          <Star className="h-3.5 w-3.5 fill-current border-none" /> {biz.rating ?? "—"}
                         </div>
                       </TableCell>
-                      <TableCell className="text-center font-black text-foreground text-sm">
-                        {cat.events}
-                      </TableCell>
+                      <TableCell className="text-center font-black text-foreground text-sm">—</TableCell>
                       <TableCell>
                         <Badge variant="outline" className={
-                          cat.status === 'Verified' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
+                          biz.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : biz.status === 'rejected' ? 'bg-red-50 text-red-600 border-red-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
                         }>
-                          {cat.status}
+                          {biz.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right px-8">

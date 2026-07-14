@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,11 +36,7 @@ import Link from "next/link"
 export default function SuperAdminHealthcareManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_CLINICS = [
-    { id: "HC-001", name: "Safe Care Medical Hub", city: "New York, USA", type: "Clinic", status: "Verified", rating: 4.9, staff: 15 },
-    { id: "HC-002", name: "Sunnah Wellness", city: "London, UK", type: "Wellness", status: "Verified", rating: 4.8, staff: 8 },
-    { id: "HC-003", name: "Amanah Pharmacy", city: "Dubai, UAE", type: "Pharmacy", status: "Audit Needed", rating: 4.7, staff: 5 },
-  ];
+  const cat = useAdminCategory("Healthcare & Wellness")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -84,8 +81,8 @@ export default function SuperAdminHealthcareManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">115</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+4 since last month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 

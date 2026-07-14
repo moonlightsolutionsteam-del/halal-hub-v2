@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -28,11 +29,7 @@ import Link from "next/link"
 export default function SuperAdminMediaManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_OUTLETS = [
-    { id: "MED-001", name: "Noor Islamic Media", city: "London, UK", type: "Publisher", status: "Verified", rating: 4.9, titles: "1.2k" },
-    { id: "MED-002", name: "Crescent Digital", city: "Dubai, UAE", type: "Platform", status: "Verified", rating: 4.8, titles: "450" },
-    { id: "MED-003", name: "Heritage Records", city: "Istanbul, TR", type: "Audio", status: "Audit Needed", rating: 4.7, titles: "120" },
-  ];
+  const cat = useAdminCategory("Media & Publishing")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -77,8 +74,8 @@ export default function SuperAdminMediaManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">1,240</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+45 since last month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 

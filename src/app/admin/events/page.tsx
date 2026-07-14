@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -37,12 +38,7 @@ export default function SuperAdminEventManagement() {
 
   if (!mounted) return null
 
-  const MOCK_VENUES = [
-    { id: "VEN-001", name: "The Grand Halal Ballroom", city: "Manhattan, NY", type: "Banquet Hall", status: "Verified", rating: 4.9, capacity: 500 },
-    { id: "VEN-002", name: "Heritage Garden Spaces", city: "Brooklyn, NY", type: "Outdoor", status: "Verified", rating: 4.7, capacity: 250 },
-    { id: "VEN-003", name: "Royal Plaza Suites", city: "Queens, NY", type: "Hotel Ballroom", status: "Pending", rating: 4.8, capacity: 1000 },
-    { id: "VEN-004", name: "Crescent Community Center", city: "Jersey City, NJ", type: "Civic Space", status: "Verified", rating: 4.5, capacity: 150 },
-  ];
+  const cat = useAdminCategory("Events & Venues")
 
   return (
     <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen pb-24 selection:bg-primary/10">
@@ -116,7 +112,7 @@ export default function SuperAdminEventManagement() {
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
-              { label: "Active Listings", value: "210", trend: "+5.4%", sub: "Monthly Growth", icon: Building, color: "text-purple-600", bg: "bg-purple-50" },
+              { label: "Active Listings", value: cat.loading ? "—" : String(cat.total), trend: `${cat.active} active`, sub: "Monthly Growth", icon: Building, color: "text-purple-600", bg: "bg-purple-50" },
               { label: "Live Bookings", value: "12.4k", trend: "High", sub: "This Quarter", icon: Ticket, color: "text-blue-600", bg: "bg-blue-50" },
               { label: "Escrow Balance", value: "₹42.8M", trend: "Secured", sub: "Platform Reserve", icon: Wallet, color: "text-emerald-600", bg: "bg-emerald-50" },
               { label: "Compliance Rate", value: "98%", trend: "Optimum", sub: "Audit Accuracy", icon: ShieldCheck, color: "text-amber-600", bg: "bg-amber-50" },

@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -28,11 +29,7 @@ import Link from "next/link"
 export default function SuperAdminCosmeticsManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_LABS = [
-    { id: "COS-L01", name: "Pure Glow Cosmetics", type: "Skincare", status: "Verified", rating: 4.9, scanner: "1.2k" },
-    { id: "COS-L02", name: "Noor Beauty Labs", type: "Makeup", status: "Pending", rating: 4.8, scanner: "850" },
-    { id: "COS-L03", name: "Velvet Veil", type: "Fragrance", status: "Verified", rating: 4.7, scanner: "2.1k" },
-  ];
+  const cat = useAdminCategory("Beauty & Cosmetics")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -77,8 +74,8 @@ export default function SuperAdminCosmeticsManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">92</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+5 this month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 

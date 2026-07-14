@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,12 +36,7 @@ import Link from "next/link"
 export default function SuperAdminHotelManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_PROPERTIES = [
-    { id: "HTL-001", name: "Royal Halal Suites", city: "Manhattan, NY", type: "Boutique Hotel", status: "Verified", rating: 4.9, bookings: 1240 },
-    { id: "HTL-002", name: "Amanah Homestay", city: "Brooklyn, NY", type: "Serviced Apt", status: "Verified", rating: 4.8, bookings: 850 },
-    { id: "HTL-003", name: "Crescent Grand Hotel", city: "Queens, NY", type: "Luxury Resort", status: "Renewal Due", rating: 4.7, bookings: 2100 },
-    { id: "HTL-004", name: "Urban Muslim Lodge", city: "Jersey City, NJ", type: "Co-living", status: "Verified", rating: 4.5, bookings: 450 },
-  ];
+  const cat = useAdminCategory("Hotels & Accommodation")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -86,7 +82,7 @@ export default function SuperAdminHotelManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">85</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">+3 since last month</p>
               </div>
             </Card>
@@ -189,30 +185,32 @@ export default function SuperAdminHotelManagement() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {MOCK_PROPERTIES.map((prop) => (
-                    <TableRow key={prop.id} className="border-border hover:bg-muted/50 transition-colors group">
+                  {cat.loading ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading...</TableCell></TableRow>
+                  ) : cat.businesses.length === 0 ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No properties found.</TableCell></TableRow>
+                  ) : cat.businesses.map((biz) => (
+                    <TableRow key={biz.id} className="border-border hover:bg-muted/50 transition-colors group">
                       <TableCell className="px-8 py-5">
-                        <p className="font-black text-foreground text-base">{prop.name}</p>
-                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{prop.id} • {prop.type}</p>
+                        <p className="font-black text-foreground text-base">{biz.name}</p>
+                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{biz.id.slice(0, 8).toUpperCase()} • {biz.subcategory ?? "—"}</p>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
-                          <MapPin className="h-3.5 w-3.5" /> {prop.city}
+                          <MapPin className="h-3.5 w-3.5" /> {[biz.city, biz.country].filter(Boolean).join(", ") || "—"}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center justify-center gap-1.5 font-black text-sm text-amber-500">
-                          <Star className="h-3.5 w-3.5 fill-current border-none" /> {prop.rating}
+                          <Star className="h-3.5 w-3.5 fill-current border-none" /> {biz.rating ?? "—"}
                         </div>
                       </TableCell>
-                      <TableCell className="text-center font-black text-foreground text-sm">
-                        {prop.bookings.toLocaleString()}
-                      </TableCell>
+                      <TableCell className="text-center font-black text-foreground text-sm">—</TableCell>
                       <TableCell className="text-right px-8">
                         <Badge variant="outline" className={
-                          prop.status === 'Verified' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
+                          biz.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : biz.status === 'rejected' ? 'bg-red-50 text-red-600 border-red-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
                         }>
-                          {prop.status}
+                          {biz.status}
                         </Badge>
                       </TableCell>
                     </TableRow>

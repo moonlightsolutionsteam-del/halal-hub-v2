@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -52,12 +53,7 @@ const BeefIcon = (props: any) => (
 export default function SuperAdminMeatManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_SHOPS = [
-    { id: "MT-001", name: "Punjab Meats", city: "London", type: "Retail", source: "Local Organic Farm", status: "Verified", rating: 4.9, joined: "Oct 2023" },
-    { id: "MT-002", name: "Quality Halal Meat", city: "Birmingham", type: "Wholesale", source: "HMC Central", status: "Verified", rating: 4.8, joined: "Nov 2023" },
-    { id: "MT-003", name: "Al-Noor Butchers", city: "Manchester", type: "Retail", source: "HFA Vetted", status: "Pending Docs", rating: 4.7, joined: "Jan 2024" },
-    { id: "MT-004", name: "City Halal Supplies", city: "London", type: "Wholesale", source: "Direct Slaughter", status: "Verified", rating: 4.6, joined: "Sept 2023" },
-  ];
+  const cat = useAdminCategory("Meat & Butchers")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -103,8 +99,8 @@ export default function SuperAdminMeatManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">450</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+12 since last month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 
@@ -200,27 +196,31 @@ export default function SuperAdminMeatManagement() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {MOCK_SHOPS.map((shop) => (
-                    <TableRow key={shop.id} className="border-border hover:bg-muted/50 transition-colors group">
+                  {cat.loading ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading...</TableCell></TableRow>
+                  ) : cat.businesses.length === 0 ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No shops found.</TableCell></TableRow>
+                  ) : cat.businesses.map((biz) => (
+                    <TableRow key={biz.id} className="border-border hover:bg-muted/50 transition-colors group">
                       <TableCell className="px-8 py-5">
-                        <p className="font-black text-foreground text-base">{shop.name}</p>
-                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{shop.id} • {shop.type}</p>
+                        <p className="font-black text-foreground text-base">{biz.name}</p>
+                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{biz.id.slice(0, 8).toUpperCase()} • {biz.subcategory ?? "—"}</p>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
-                          <Landmark className="h-3.5 w-3.5" /> {shop.source}
+                          <Landmark className="h-3.5 w-3.5" /> {biz.city ?? "—"}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center justify-center gap-1.5 font-black text-sm">
-                          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400 border-none" /> {shop.rating}
+                          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400 border-none" /> {biz.rating ?? "—"}
                         </div>
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className={
-                          shop.status === 'Verified' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
+                          biz.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : biz.status === 'rejected' ? 'bg-red-50 text-red-600 border-red-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
                         }>
-                          {shop.status}
+                          {biz.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right px-8">

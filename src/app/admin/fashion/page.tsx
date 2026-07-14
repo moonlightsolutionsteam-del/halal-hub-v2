@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -28,12 +29,7 @@ import Link from "next/link"
 export default function SuperAdminFashionManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_BRANDS = [
-    { id: "FSH-001", name: "Modest Attire Co.", city: "London, UK", type: "Designer", status: "Verified", rating: 4.9, sales: "1.2k" },
-    { id: "FSH-002", name: "Noor Collective", city: "Dubai, UAE", type: "Boutique", status: "Verified", rating: 4.8, sales: "850" },
-    { id: "FSH-003", name: "Urban Hijab Hub", city: "New York, USA", type: "Streetwear", status: "Audit Needed", rating: 4.7, sales: "2.1k" },
-    { id: "FSH-004", name: "Saffron Silk", city: "Istanbul, TR", type: "Luxury", status: "Verified", rating: 4.5, sales: "450" },
-  ];
+  const cat = useAdminCategory("Fashion & Modest Wear")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -78,8 +74,8 @@ export default function SuperAdminFashionManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">340</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+12 since last month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 

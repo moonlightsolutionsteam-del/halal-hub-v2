@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -36,12 +37,7 @@ import Link from "next/link"
 export default function SuperAdminGroceryManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
 
-  const MOCK_STORES = [
-    { id: "GRO-001", name: "Green Garden Hypermarket", city: "Mumbai", type: "Hypermarket", status: "Verified", rating: 4.8, joined: "Oct 2023" },
-    { id: "GRO-002", name: "Sunnah Fresh Mart", city: "Bangalore", type: "Specialty", status: "Verified", rating: 4.9, joined: "Nov 2023" },
-    { id: "GRO-003", name: "Al-Barakah Grocery", city: "Delhi", type: "Supermarket", status: "Pending Docs", rating: 4.5, joined: "Jan 2024" },
-    { id: "GRO-004", name: "Local Halal Corner", city: "Lucknow", type: "Mini-Mart", status: "Verified", rating: 4.2, joined: "Sept 2023" },
-  ];
+  const cat = useAdminCategory("Grocery & Supermarkets")
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -87,8 +83,8 @@ export default function SuperAdminGroceryManagement() {
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-2xl sm:text-4xl font-black text-foreground">890</p>
-                <p className="text-[10px] font-bold text-emerald-600 uppercase">+15 new this month</p>
+                <p className="text-2xl sm:text-4xl font-black text-foreground">{cat.loading ? "—" : cat.total}</p>
+                <p className="text-[10px] font-bold text-emerald-600 uppercase">{cat.active} active</p>
               </div>
             </Card>
 
@@ -190,27 +186,31 @@ export default function SuperAdminGroceryManagement() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {MOCK_STORES.map((store) => (
-                    <TableRow key={store.id} className="border-border hover:bg-muted/50 transition-colors group">
+                  {cat.loading ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading...</TableCell></TableRow>
+                  ) : cat.businesses.length === 0 ? (
+                    <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No stores found.</TableCell></TableRow>
+                  ) : cat.businesses.map((biz) => (
+                    <TableRow key={biz.id} className="border-border hover:bg-muted/50 transition-colors group">
                       <TableCell className="px-8 py-5">
-                        <p className="font-black text-foreground text-base">{store.name}</p>
-                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{store.id} • {store.type}</p>
+                        <p className="font-black text-foreground text-base">{biz.name}</p>
+                        <p className="text-[10px] font-bold text-primary uppercase tracking-tighter">{biz.id.slice(0, 8).toUpperCase()} • {biz.subcategory ?? "—"}</p>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground">
-                          <MapPin className="h-3.5 w-3.5" /> {store.city}
+                          <MapPin className="h-3.5 w-3.5" /> {[biz.city, biz.country].filter(Boolean).join(", ") || "—"}
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center justify-center gap-1.5 font-black text-sm">
-                          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400 border-none" /> {store.rating}
+                          <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400 border-none" /> {biz.rating ?? "—"}
                         </div>
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className={
-                          store.status === 'Verified' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
+                          biz.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-200 font-black text-[9px] px-3' : biz.status === 'rejected' ? 'bg-red-50 text-red-600 border-red-200 font-black text-[9px] px-3' : 'bg-amber-50 text-amber-600 border-amber-200 font-black text-[9px] px-3'
                         }>
-                          {store.status}
+                          {biz.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right px-8">
