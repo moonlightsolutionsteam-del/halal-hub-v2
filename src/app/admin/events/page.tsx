@@ -31,14 +31,13 @@ import { cn } from "@/lib/utils"
 export default function SuperAdminEventManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
   const [mounted, setMounted] = React.useState(false)
+  const cat = useAdminCategory("Events & Venues")
 
   React.useEffect(() => {
     setMounted(true)
   }, [])
 
   if (!mounted) return null
-
-  const cat = useAdminCategory("Events & Venues")
 
   return (
     <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen pb-24 selection:bg-primary/10">
