@@ -23,6 +23,7 @@ import { usePrayerSnapshot } from "@/lib/use-prayer-snapshot"
 import { useFaithMoment } from "@/hooks/use-faith-moment"
 import { formatPrayerTime } from "@/lib/ummah-api"
 import { CreatePostModal } from "@/components/create-post-modal"
+import { CommentSheet } from "@/components/comment-sheet"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -203,11 +204,14 @@ function StoryBubble({ story, viewed, onOpen }: { story: StoryItem; viewed: bool
 // ─── Post Card ────────────────────────────────────────────────────────────────
 
 function PostCard({ item }: { item: any }) {
-  const [liked,     setLiked]     = React.useState(false)
-  const [saved,     setSaved]     = React.useState(false)
-  const [imgIndex,  setImgIndex]  = React.useState(0)
-  const [showFull,  setShowFull]  = React.useState(false)
-  const [likeCount, setLikeCount] = React.useState<number>(item.likes)
+  const { user } = useAuth()
+  const [liked,          setLiked]          = React.useState(false)
+  const [saved,          setSaved]          = React.useState(false)
+  const [imgIndex,       setImgIndex]       = React.useState(0)
+  const [showFull,       setShowFull]       = React.useState(false)
+  const [likeCount,      setLikeCount]      = React.useState<number>(item.likes ?? 0)
+  const [commentCount,   setCommentCount]   = React.useState<number>(item.comments ?? 0)
+  const [commentSheetOpen, setCommentSheetOpen] = React.useState(false)
   const { activeId, audioOn, setActiveId, clearActiveId, toggleAudio } = React.useContext(MuteCtx)
   const muted = !audioOn || activeId !== item.id
   const videoRef = React.useRef<HTMLVideoElement>(null)
@@ -232,8 +236,19 @@ function PostCard({ item }: { item: any }) {
     return () => observer.disconnect()
   }, [item.id, item.mediaType, setActiveId, clearActiveId])
 
-  const handleLike = () => { setLiked(l => !l); setLikeCount(c => liked ? c - 1 : c + 1) }
-  const isLong = item.caption.length > 120
+  const handleLike = () => {
+    if (!user) return
+    const next = !liked
+    setLiked(next)
+    setLikeCount(c => next ? c + 1 : c - 1)
+    const supabase = createClient()
+    if (next) {
+      ;(supabase as any).from("post_reactions").upsert({ post_id: item.id, user_id: user.uid, emoji: "❤️" })
+    } else {
+      ;(supabase as any).from("post_reactions").delete().eq("post_id", item.id).eq("user_id", user.uid)
+    }
+  }
+  const isLong = (item.caption || "").length > 120
 
   return (
     <Card ref={containerRef} className="rounded-none sm:rounded-2xl border-x-0 sm:border-x border-none shadow-sm bg-card overflow-hidden">
@@ -318,7 +333,7 @@ function PostCard({ item }: { item: any }) {
           <button onClick={handleLike} className="group">
             <Heart className={cn("h-6 w-6 transition-colors", liked ? "text-red-500 fill-red-500 animate-like-pop" : "text-foreground group-hover:text-red-400")} />
           </button>
-          <button className="group">
+          <button className="group" onClick={() => setCommentSheetOpen(true)}>
             <MessageCircle className="h-6 w-6 text-foreground group-hover:text-primary transition-colors" />
           </button>
           <button className="group">
@@ -342,19 +357,33 @@ function PostCard({ item }: { item: any }) {
         </p>
         <TagRow tags={item.tags} />
       </div>
-      <button className="px-4 pb-1">
-        <span className="text-sm text-muted-foreground font-medium">View all {item.comments} comments</span>
+      <button className="px-4 pb-1 text-left" onClick={() => setCommentSheetOpen(true)}>
+        <span className="text-sm text-muted-foreground font-medium">
+          {commentCount > 0 ? `View all ${commentCount} comments` : "Add a comment…"}
+        </span>
       </button>
       <div className="px-4 pb-3">
         <span className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">{item.timeAgo} ago</span>
       </div>
-      <div className="border-t border-border px-4 py-3 flex items-center gap-3">
+      <button
+        className="border-t border-border px-4 py-3 flex items-center gap-3 w-full text-left"
+        onClick={() => setCommentSheetOpen(true)}
+      >
         <Avatar className="h-8 w-8 shrink-0">
-          <AvatarFallback className="bg-primary/10 text-primary font-black text-[10px]">YOU</AvatarFallback>
+          {user?.photoURL && <AvatarImage src={user.photoURL} />}
+          <AvatarFallback className="bg-primary/10 text-primary font-black text-[10px]">
+            {user?.name?.[0] ?? "?"}
+          </AvatarFallback>
         </Avatar>
-        <input type="text" placeholder="Add a comment…" className="flex-1 text-sm bg-transparent outline-none placeholder:text-muted-foreground text-foreground" />
-        <button className="text-primary font-black text-sm opacity-50 hover:opacity-100 transition-opacity">Post</button>
-      </div>
+        <span className="flex-1 text-sm text-muted-foreground">Add a comment…</span>
+      </button>
+
+      <CommentSheet
+        postId={String(item.id)}
+        open={commentSheetOpen}
+        onClose={() => setCommentSheetOpen(false)}
+        onCountChange={setCommentCount}
+      />
     </Card>
   )
 }
