@@ -123,17 +123,15 @@ export function AdminSidebar() {
     setMounted(true)
   }, [])
 
+  const directoryItems = [
+    { title: "Users", icon: Users, url: "/admin/users" },
+    { title: "Creators", icon: PenTool, url: "/admin/creators" },
+    { title: "Organizations", icon: Building, url: "/admin/organizations" },
+    { title: "Mosques", icon: Church, url: "/admin/mosques" },
+    { title: "Professionals", icon: Wrench, url: "/admin/professionals" },
+  ];
+
   const platformGroups = [
-    {
-      title: "Directory",
-      icon: Users,
-      items: [
-        { title: "Users", icon: Users, url: "/admin/users" },
-        { title: "Creators", icon: PenTool, url: "/admin/creators" },
-        { title: "Organizations", icon: Building, url: "/admin/organizations" },
-        { title: "Mosques", icon: Church, url: "/admin/mosques" },
-      ]
-    },
     {
       title: "Trust & Safety",
       icon: ShieldCheck,
@@ -173,6 +171,7 @@ export function AdminSidebar() {
   };
 
   const businessSubItems = [
+    { title: "Business Reviews", icon: MessageSquare, url: "/admin/reviews" },
     { title: "Restaurants", icon: UtensilsCrossed, url: "/admin/restaurants" },
     { title: "Meat Shops", icon: MeatIcon, url: "/admin/meat" },
     { title: "Grocery", icon: ShoppingCart, url: "/admin/grocery" },
@@ -186,7 +185,6 @@ export function AdminSidebar() {
     { title: "Healthcare", icon: Stethoscope, url: "/admin/healthcare" },
     { title: "Education", icon: GraduationCap, url: "/admin/education" },
     { title: "Bookstores", icon: BookOpen, url: "/admin/media" },
-    { title: "Professionals", icon: Wrench, url: "/admin/verification" },
   ];
 
   const erpGroups = [
@@ -324,6 +322,37 @@ export function AdminSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-muted-foreground tracking-widest mt-4 mb-2">Directory Hub</SidebarGroupLabel>
+          <SidebarMenu className="px-1 space-y-1">
+            <Collapsible className="group/collapsible-dir">
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton className="h-10 font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40">
+                    <Users className="h-4 w-4 mr-3" />
+                    <span>Directory</span>
+                    <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible-dir:rotate-180" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenu className="ml-4 mt-1 border-l border-blue-100 dark:border-blue-900/40">
+                    {directoryItems.map((sub) => (
+                      <SidebarMenuItem key={sub.title}>
+                        <SidebarMenuButton asChild isActive={mounted && pathname === sub.url} className="h-9 font-bold text-muted-foreground rounded-lg hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/30">
+                          <Link href={sub.url}>
+                            <sub.icon className="h-4 w-4 mr-3 opacity-70" />
+                            <span className="text-[13px]">{sub.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          </SidebarMenu>
+        </SidebarGroup>
 
         <SidebarGroup>
           <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-muted-foreground tracking-widest mt-4 mb-2">Platform</SidebarGroupLabel>
