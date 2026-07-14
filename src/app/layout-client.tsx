@@ -63,6 +63,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
     setMounted(true);
   }, []);
 
+  const isDevPreview = pathname === '/dev-preview';
   const isAdminPath = pathname?.startsWith('/admin');
   const isVendorPath = pathname?.startsWith('/vendor');
   const isButcherPath = pathname?.startsWith('/vendor/butcher');
@@ -105,6 +106,16 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
   };
+
+  if (isDevPreview) {
+    return (
+      <ThemeProvider>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </ThemeProvider>
+    )
+  }
 
   return (
     <ThemeProvider>
