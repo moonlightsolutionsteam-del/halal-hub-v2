@@ -1169,7 +1169,14 @@ export default function FeedPage() {
               title: (b.description || "").slice(0, 80) || "Community Post",
               body: b.description || "", image: url || null, likes: 0, comments: 0 }
           }
-          // photo, video, review, checkin, recommendation, business_update → PostCard
+          // video post_type OR any post with a video URL → ReelCard
+          if (pt === "video" || isVideo) {
+            return { ...base, type: "reel" as FeedItemType, author,
+              videoUrl: url, thumbnail: null, caption: b.description || "",
+              likes: 0, comments: 0, shares: 0, audio: "Original Audio",
+              views: "0", images: url ? [url] : [] }
+          }
+          // photo, review, checkin, recommendation, business_update → PostCard
           return { ...base, type: "post" as FeedItemType, author,
             location: b.place_name || null,
             images: url ? [url] : [],
