@@ -133,6 +133,57 @@ function TagRow({ tags }: { tags: string[] }) {
   )
 }
 
+// ─── Share helper ────────────────────────────────────────────────────────────
+
+function sharePost(id: string, caption: string) {
+  const url = `${window.location.origin}/feed/${id}`
+  const text = caption || "Check this out on Halal Hub"
+  if (typeof navigator !== "undefined" && navigator.share) {
+    navigator.share({ title: text, url }).catch(() => {})
+  } else {
+    navigator.clipboard?.writeText(url)
+  }
+}
+
+// ─── More Options Sheet ───────────────────────────────────────────────────────
+
+function MoreSheet({ open, onClose, postId }: { open: boolean; onClose: () => void; postId: string }) {
+  if (!open) return null
+  const copyLink = () => {
+    navigator.clipboard?.writeText(`${window.location.origin}/feed/${postId}`)
+    onClose()
+  }
+  return (
+    <div className="fixed inset-0 z-[400] flex flex-col justify-end">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative z-10 bg-background rounded-t-3xl pb-8">
+        <div className="flex justify-center pt-3 pb-1">
+          <div className="h-1 w-10 rounded-full bg-muted-foreground/30" />
+        </div>
+        {[
+          { label: "Copy Link",       icon: "🔗", action: copyLink },
+          { label: "Not Interested",  icon: "🚫", action: onClose },
+          { label: "Report",          icon: "⚠️",  action: onClose },
+        ].map(({ label, icon, action }) => (
+          <button
+            key={label}
+            onClick={action}
+            className="w-full flex items-center gap-4 px-6 py-4 text-left text-sm font-bold text-foreground hover:bg-muted transition-colors"
+          >
+            <span className="text-xl w-7 shrink-0">{icon}</span>
+            {label}
+          </button>
+        ))}
+        <div className="mx-4 border-t border-border mt-1 pt-1">
+          <button onClick={onClose} className="w-full py-4 text-sm font-black text-muted-foreground text-center hover:bg-muted rounded-xl transition-colors">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Mute Context ─────────────────────────────────────────────────────────────
 
 const MuteCtx = React.createContext<{
@@ -212,6 +263,7 @@ function PostCard({ item }: { item: any }) {
   const [likeCount,      setLikeCount]      = React.useState<number>(item.likes ?? 0)
   const [commentCount,   setCommentCount]   = React.useState<number>(item.comments ?? 0)
   const [commentSheetOpen, setCommentSheetOpen] = React.useState(false)
+  const [moreOpen, setMoreOpen] = React.useState(false)
   const { activeId, audioOn, setActiveId, clearActiveId, toggleAudio } = React.useContext(MuteCtx)
   const muted = !audioOn || activeId !== item.id
   const videoRef = React.useRef<HTMLVideoElement>(null)
@@ -272,7 +324,7 @@ function PostCard({ item }: { item: any }) {
             )}
           </div>
         </div>
-        <button className="text-muted-foreground p-2 rounded-full hover:bg-muted">
+        <button onClick={() => setMoreOpen(true)} className="text-muted-foreground p-2 rounded-full hover:bg-muted">
           <MoreHorizontal className="h-5 w-5" />
         </button>
       </div>
@@ -336,7 +388,7 @@ function PostCard({ item }: { item: any }) {
           <button className="group" onClick={() => setCommentSheetOpen(true)}>
             <MessageCircle className="h-6 w-6 text-foreground group-hover:text-primary transition-colors" />
           </button>
-          <button className="group">
+          <button className="group" onClick={() => sharePost(String(item.id), item.caption)}>
             <Send className="h-5 w-5 text-foreground group-hover:text-primary transition-colors -rotate-12" />
           </button>
         </div>
@@ -384,6 +436,7 @@ function PostCard({ item }: { item: any }) {
         onClose={() => setCommentSheetOpen(false)}
         onCountChange={setCommentCount}
       />
+      <MoreSheet open={moreOpen} onClose={() => setMoreOpen(false)} postId={String(item.id)} />
     </Card>
   )
 }
@@ -391,9 +444,13 @@ function PostCard({ item }: { item: any }) {
 // ─── Reel Card ────────────────────────────────────────────────────────────────
 
 function ReelCard({ item }: { item: any }) {
+  const { user } = useAuth()
   const [liked,     setLiked]     = React.useState(false)
   const [saved,     setSaved]     = React.useState(false)
   const [likeCount, setLikeCount] = React.useState<number>(item.likes)
+  const [commentCount,     setCommentCount]     = React.useState<number>(item.comments ?? 0)
+  const [commentSheetOpen, setCommentSheetOpen] = React.useState(false)
+  const [moreOpen,         setMoreOpen]         = React.useState(false)
   const { activeId, audioOn, setActiveId, clearActiveId, toggleAudio } = React.useContext(MuteCtx)
   const muted = !audioOn || activeId !== item.id
   const videoRef = React.useRef<HTMLVideoElement>(null)
@@ -470,11 +527,11 @@ function ReelCard({ item }: { item: any }) {
             <Heart className={cn("h-7 w-7 transition-all", liked ? "text-red-500 fill-red-500" : "text-white")} />
             <span className="text-white text-[10px] font-black">{fmt(likeCount)}</span>
           </button>
-          <button className="flex flex-col items-center gap-1">
+          <button onClick={() => setCommentSheetOpen(true)} className="flex flex-col items-center gap-1">
             <MessageCircle className="h-7 w-7 text-white" />
-            <span className="text-white text-[10px] font-black">{fmt(item.comments)}</span>
+            <span className="text-white text-[10px] font-black">{fmt(commentCount)}</span>
           </button>
-          <button className="flex flex-col items-center gap-1">
+          <button onClick={() => sharePost(String(item.id), item.caption)} className="flex flex-col items-center gap-1">
             <Send className="h-6 w-6 text-white -rotate-12" />
             <span className="text-white text-[10px] font-black">{fmt(item.shares)}</span>
           </button>
@@ -487,7 +544,7 @@ function ReelCard({ item }: { item: any }) {
               {muted ? <VolumeX className="h-6 w-6 text-white" /> : <Volume2 className="h-6 w-6 text-white" />}
             </button>
           )}
-          <button>
+          <button onClick={() => setMoreOpen(true)}>
             <MoreHorizontal className="h-7 w-7 text-white" />
           </button>
         </div>
@@ -504,6 +561,13 @@ function ReelCard({ item }: { item: any }) {
           </div>
         </div>
       </div>
+      <CommentSheet
+        postId={String(item.id)}
+        open={commentSheetOpen}
+        onClose={() => setCommentSheetOpen(false)}
+        onCountChange={setCommentCount}
+      />
+      <MoreSheet open={moreOpen} onClose={() => setMoreOpen(false)} postId={String(item.id)} />
     </Card>
   )
 }
