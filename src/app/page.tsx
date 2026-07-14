@@ -27,15 +27,14 @@ import { useCapabilities } from "@/hooks/use-capabilities";
 // ─── Static data ─────────────────────────────────────────────────────────────
 
 const QUICK_ACTIONS = [
-  { name: "Directory", icon: List,        url: "/categories",    color: "text-primary",    bg: "bg-primary/10" },
-  { name: "Prayer",    icon: Moon,        url: "/prayer-times",  color: "text-indigo-500", bg: "bg-indigo-50 dark:bg-indigo-950/40" },
-  { name: "Map",       icon: Map,         url: "/map",           color: "text-sky-500",    bg: "bg-sky-50 dark:bg-sky-950/40" },
-  { name: "Events",    icon: Calendar,    url: "/events",        color: "text-amber-500",  bg: "bg-amber-50 dark:bg-amber-950/40" },
-  { name: "Feed",      icon: Flame,       url: "/feed",          color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-950/40" },
-  { name: "Mosques",   icon: Building2,   url: "/mosques",       color: "text-teal-500",   bg: "bg-teal-50 dark:bg-teal-950/40" },
-  { name: "Shop",      icon: ShoppingCart,url: "/marketplace",   color: "text-rose-500",   bg: "bg-rose-50 dark:bg-rose-950/40" },
-  { name: "Charity",   icon: Heart,       url: "/charity",       color: "text-red-500",    bg: "bg-red-50 dark:bg-red-950/40" },
-  { name: "Creators",  icon: PenTool,     url: "/creators",      color: "text-purple-500", bg: "bg-purple-50 dark:bg-purple-950/40" },
+  { name: "Directory", icon: List,         url: "/categories",    color: "text-primary",    bg: "bg-primary/10" },
+  { name: "Prayer",    icon: Moon,         url: "/prayer-times",  color: "text-indigo-500", bg: "bg-indigo-50 dark:bg-indigo-950/40" },
+  { name: "Map",       icon: Map,          url: "/map",           color: "text-sky-500",    bg: "bg-sky-50 dark:bg-sky-950/40" },
+  { name: "Events",    icon: Calendar,     url: "/events",        color: "text-amber-500",  bg: "bg-amber-50 dark:bg-amber-950/40" },
+  { name: "Feed",      icon: Flame,        url: "/feed",          color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-950/40" },
+  { name: "Mosques",   icon: Building2,    url: "/mosques",       color: "text-teal-500",   bg: "bg-teal-50 dark:bg-teal-950/40" },
+  { name: "Shop",      icon: ShoppingCart, url: "/marketplace",   color: "text-rose-500",   bg: "bg-rose-50 dark:bg-rose-950/40" },
+  { name: "Charity",   icon: Heart,        url: "/charity",       color: "text-red-500",    bg: "bg-red-50 dark:bg-red-950/40" },
 ];
 
 const FEATURED_BANNERS = [
@@ -143,6 +142,13 @@ const STATS = [
   { label: "Community Posts", value: "482K", icon: MessageSquare, color: "text-purple-500", bg: "bg-purple-500/10", url: "/feed" },
 ];
 
+const FAITH_TOOLS = [
+  { icon: BookOpen, label: "Quran", desc: "Read & recite daily", url: "/quran", gradient: "from-emerald-600 to-emerald-800" },
+  { icon: Coins, label: "Zakat", desc: "Calculate your obligation", url: "/zakat", gradient: "from-amber-500 to-amber-700" },
+  { icon: Heart, label: "Charity", desc: "Give & make an impact", url: "/charity", gradient: "from-rose-500 to-rose-700" },
+  { icon: HandHelping, label: "Volunteer", desc: "Serve the community", url: "/volunteer", gradient: "from-sky-500 to-sky-700" },
+];
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 type LiveBiz = { id: string; name: string; category: string; rating: number; image_url: string | null; city: string | null; halal_verified: boolean }
@@ -157,6 +163,25 @@ function mapCategory(category: string): string {
   if (c.includes("grocery")) return "Grocery"
   if (c.includes("event")) return "Events"
   return "Food"
+}
+
+// Reusable section header
+function SectionHeader({ eyebrow, title, linkLabel, linkUrl }: { eyebrow: string; title: string; linkLabel?: string; linkUrl?: string }) {
+  return (
+    <div className="px-4 flex items-center justify-between mb-3">
+      <div>
+        <p className="text-[9px] font-black uppercase tracking-[0.25em] text-muted-foreground">{eyebrow}</p>
+        <h2 className="text-lg font-black text-foreground leading-tight">{title}</h2>
+      </div>
+      {linkLabel && linkUrl && (
+        <Link href={linkUrl}>
+          <div className="flex items-center gap-0.5 text-primary text-xs font-black">
+            {linkLabel} <ChevronRight className="h-3 w-3" />
+          </div>
+        </Link>
+      )}
+    </div>
+  )
 }
 
 export default function Home() {
@@ -227,116 +252,117 @@ export default function Home() {
   const banner = FEATURED_BANNERS[bannerIdx];
 
   return (
-    <div className="pb-8 max-w-2xl lg:max-w-6xl mx-auto overflow-x-hidden">
+    <div className="pb-12 overflow-x-hidden">
 
-      {/* ── 1. GREETING + SEARCH ─────────────────────────────────────────── */}
-      <div className="px-4 pt-5 pb-3 space-y-4">
-        <div className="space-y-0.5">
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{formattedDate}</p>
-          <h1 className="text-2xl font-black text-foreground tracking-tight">{greetingText} ✨</h1>
-          {greetingSubtext && (
-            <p className="text-xs font-bold text-primary">{greetingSubtext}</p>
-          )}
+      {/* ── 1. HERO COMMAND CENTER ─────────────────────────────────────────── */}
+      <div className="relative overflow-hidden mx-4 mt-4 rounded-[2rem] bg-gradient-to-br from-zinc-900 via-emerald-950 to-zinc-900">
+        {/* Geometric glow orbs */}
+        <div className="absolute top-0 right-0 w-56 h-56 bg-emerald-500/20 rounded-full blur-3xl -translate-y-16 translate-x-16 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-primary/25 rounded-full blur-2xl translate-y-10 -translate-x-10 pointer-events-none" />
+        {/* Islamic star pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.055] pointer-events-none" aria-hidden>
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="istar" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
+                <path d="M32 4L36.2 20.8L53 24L36.2 27.2L32 44L27.8 27.2L11 24L27.8 20.8Z" fill="white"/>
+                <circle cx="32" cy="24" r="3.5" fill="white" opacity="0.4"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#istar)"/>
+          </svg>
         </div>
 
-        <Link href="/search" className="block">
-          <div className="flex items-center gap-3 bg-card border border-border/60 rounded-2xl px-4 py-3.5 shadow-sm hover:shadow-md transition-shadow">
-            <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-            <span className="text-sm text-muted-foreground flex-1 font-medium">
-              Restaurants, mosques, events…
-            </span>
-            <div className="h-7 w-px bg-border" />
-            <Mic className="h-4 w-4 text-muted-foreground shrink-0" />
+        <div className="relative px-6 pt-7 pb-6 space-y-4">
+          {/* Date + greeting */}
+          <div>
+            <p className="text-[9px] font-black uppercase tracking-[0.35em] text-white/40">{formattedDate}</p>
+            <h1 className="text-[2rem] font-black text-white tracking-tight leading-tight mt-1">{greetingText}</h1>
+            {greetingSubtext && <p className="text-xs font-bold text-emerald-400 mt-1">{greetingSubtext}</p>}
           </div>
-        </Link>
-      </div>
 
-      {/* ── 2. PRAYER WIDGET (COMPACT) ────────────────────────────────────── */}
-      <div className="px-4 pb-4">
-        <Link href="/prayer-times" className="block">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary via-primary to-emerald-500 text-white px-5 py-4 flex items-center justify-between shadow-md hover:shadow-lg transition-shadow">
-            <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10 blur-xl" />
-            <div className="absolute right-10 bottom-0 opacity-[0.08]">
-              <Moon className="h-16 w-16" />
-            </div>
-            <div className="relative space-y-0.5">
-              <p className="text-[10px] font-black uppercase tracking-widest opacity-70">Next Prayer</p>
+          {/* Prayer countdown pill */}
+          <Link href="/prayer-times">
+            <div className="inline-flex items-center gap-3 bg-white/[0.08] border border-white/10 rounded-2xl px-4 py-2.5 hover:bg-white/[0.12] transition-colors">
+              <Moon className="h-4 w-4 text-emerald-400 shrink-0" />
               {prayerLoading ? (
-                <div className="h-6 w-36 bg-white/20 rounded animate-pulse" />
+                <div className="h-4 w-40 bg-white/20 rounded animate-pulse" />
               ) : !prayerData ? (
-                <p className="text-sm font-black">Tap to set location</p>
+                <p className="text-sm font-black text-white/70">Tap to set your location</p>
               ) : (
-                <p className="text-lg font-black tabular-nums">
-                  {nextPrayerName} · {String(countdown.hours).padStart(2, "0")}:{String(countdown.minutes).padStart(2, "0")}:{String(countdown.seconds).padStart(2, "0")}
-                </p>
+                <div className="flex items-baseline gap-2.5">
+                  <span className="text-sm font-black text-white/70">{nextPrayerName}</span>
+                  <span className="text-base font-black text-emerald-400 tabular-nums tracking-tight">
+                    {String(countdown.hours).padStart(2, "0")}:{String(countdown.minutes).padStart(2, "0")}:{String(countdown.seconds).padStart(2, "0")}
+                  </span>
+                  {nextPrayerTime && (
+                    <span className="text-[11px] text-white/35 font-bold">{formatPrayerTime(nextPrayerTime, timeFormat)}</span>
+                  )}
+                </div>
               )}
+              <ChevronRight className="h-3.5 w-3.5 text-white/25 shrink-0 ml-auto" />
             </div>
-            <div className="relative text-right space-y-0.5">
-              {!prayerLoading && prayerData && (
-                <p className="text-[11px] font-bold opacity-75">
-                  {nextPrayerTime ? formatPrayerTime(nextPrayerTime, timeFormat) : "--:--"}
-                </p>
-              )}
-              <div className="flex items-center gap-1 justify-end text-[10px] font-bold opacity-60">
-                <MapPin className="h-3 w-3" />
-                {locationName || "Set location"}
-              </div>
-              <div className="text-[10px] font-bold opacity-50">All Prayer Times →</div>
+          </Link>
+
+          {/* Search bar */}
+          <Link href="/search" className="block">
+            <div className="flex items-center gap-3 bg-white/[0.08] border border-white/10 rounded-2xl px-4 py-3 hover:bg-white/[0.12] transition-colors">
+              <Search className="h-4 w-4 text-white/35 shrink-0" />
+              <span className="text-sm text-white/35 flex-1 font-medium">Restaurants, mosques, events…</span>
+              <div className="h-4 w-px bg-white/15" />
+              <Mic className="h-4 w-4 text-white/35 shrink-0" />
             </div>
-          </div>
-        </Link>
+          </Link>
+        </div>
       </div>
 
-      {/* ── 2b. FAITH MOMENT ──────────────────────────────────────────────── */}
-      <FaithMomentCard />
-
-      {/* ── 2c. MY CAPABILITIES QUICK-ACCESS (logged-in, has extra caps) ── */}
-      {user && (hasCapability("creator") || hasCapability("professional") || hasCapability("business_owner")) && (
-        <div className="px-4 pb-5">
-          <div className="rounded-2xl bg-card border border-border p-4 space-y-3">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">My Capabilities</p>
-            <div className="flex flex-wrap gap-2">
-              {hasCapability("creator") && (
-                <a href="/vendor/creative/dashboard" className="flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full text-xs font-black border border-blue-200 dark:border-blue-800 hover:bg-blue-100 transition-colors">
-                  <span>✦</span> Creator Studio
-                </a>
-              )}
-              {hasCapability("professional") && (
-                <a href="/vendor/professional/dashboard" className="flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 px-4 py-2 rounded-full text-xs font-black border border-violet-200 dark:border-violet-800 hover:bg-violet-100 transition-colors">
-                  <span>✦</span> Professional
-                </a>
-              )}
-              {hasCapability("business_owner") && (
-                <a href="/partner/portal" className="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-full text-xs font-black border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 transition-colors">
-                  <span>✦</span> My Business
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── 3. QUICK ACTIONS ──────────────────────────────────────────────── */}
-      <div className="px-4 pb-5">
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1 lg:justify-between lg:overflow-x-visible">
+      {/* ── 2. QUICK ACTION GRID ──────────────────────────────────────────── */}
+      <div className="px-4 pt-5 pb-1">
+        <div className="grid grid-cols-4 gap-3">
           {QUICK_ACTIONS.map((action) => (
-            <Link key={action.name} href={action.url} className="flex flex-col items-center gap-2 min-w-[56px] group">
+            <Link key={action.name} href={action.url} className="group">
               <div className={cn(
-                "w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md",
+                "rounded-2xl py-4 flex flex-col items-center justify-center gap-2 transition-all active:scale-95 group-hover:-translate-y-0.5",
                 action.bg
               )}>
                 <action.icon className={cn("h-6 w-6", action.color)} />
+                <span className={cn("text-[10px] font-black leading-none", action.color)}>{action.name}</span>
               </div>
-              <span className="text-[10px] font-bold text-muted-foreground text-center leading-tight">{action.name}</span>
             </Link>
           ))}
         </div>
       </div>
 
-      {/* ── 4. FEATURED BANNER (AUTO-ROTATING EDITORIAL) ──────────────────── */}
-      <div className="px-4 pb-6">
+      {/* ── Capabilities strip (pro users only) ───────────────────────────── */}
+      {user && (hasCapability("creator") || hasCapability("professional") || hasCapability("business_owner")) && (
+        <div className="px-4 pt-4 flex flex-wrap gap-2">
+          {hasCapability("creator") && (
+            <Link href="/vendor/creative/dashboard">
+              <div className="flex items-center gap-1.5 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-blue-200 dark:border-blue-800">
+                <Sparkles className="h-3 w-3" /> Creator Studio
+              </div>
+            </Link>
+          )}
+          {hasCapability("professional") && (
+            <Link href="/vendor/professional/dashboard">
+              <div className="flex items-center gap-1.5 bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-violet-200 dark:border-violet-800">
+                <Briefcase className="h-3 w-3" /> Professional
+              </div>
+            </Link>
+          )}
+          {hasCapability("business_owner") && (
+            <Link href="/partner/portal">
+              <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                <Store className="h-3 w-3" /> My Business
+              </div>
+            </Link>
+          )}
+        </div>
+      )}
+
+      {/* ── 3. FEATURED EDITORIAL BANNER ──────────────────────────────────── */}
+      <div className="px-4 pt-5 pb-1">
         <div
-          className="relative rounded-3xl overflow-hidden h-56 cursor-pointer shadow-lg"
+          className="relative rounded-3xl overflow-hidden h-64 lg:h-72 cursor-pointer shadow-lg"
           onClick={() => { if (bannerRef.current) clearInterval(bannerRef.current); }}
         >
           <Link href={banner.url} className="block h-full">
@@ -348,16 +374,16 @@ export default function Home() {
               priority
             />
             <div className={cn("absolute inset-0 bg-gradient-to-t", banner.accent)} />
-            <div className="absolute inset-0 flex flex-col justify-end p-5 space-y-2">
+            <div className="absolute inset-0 flex flex-col justify-end p-6 space-y-2">
               <Badge className="w-fit bg-white/20 backdrop-blur-md text-white border-white/30 text-[10px] font-black uppercase tracking-wider">
                 {banner.tag}
               </Badge>
-              <h2 className="text-xl font-black text-white leading-tight whitespace-pre-line">
+              <h2 className="text-2xl font-black text-white leading-tight whitespace-pre-line tracking-tight">
                 {banner.title}
               </h2>
-              <p className="text-xs font-bold text-white/80">{banner.sub}</p>
+              <p className="text-xs font-bold text-white/75">{banner.sub}</p>
               <div className="flex items-center justify-between pt-1">
-                <div className="inline-flex items-center gap-1.5 bg-white text-primary text-xs font-black px-4 py-2 rounded-full">
+                <div className="inline-flex items-center gap-1.5 bg-white text-primary text-xs font-black px-4 py-2 rounded-full shadow-lg">
                   {banner.cta} <ArrowRight className="h-3 w-3" />
                 </div>
                 <div className="flex gap-1.5">
@@ -378,22 +404,17 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── 4. FAITH MOMENT ───────────────────────────────────────────────── */}
+      <div className="pt-5">
+        <FaithMomentCard />
+      </div>
+
       {/* ── 5. RECOMMENDED FOR YOU ────────────────────────────────────────── */}
-      <section className="pb-6">
-        <div className="px-4 flex items-center justify-between mb-3">
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Personalised</p>
-            <h2 className="text-lg font-black">Recommended for You</h2>
-          </div>
-          <Link href="/categories">
-            <div className="flex items-center gap-1 text-primary text-xs font-black">
-              See All <ChevronRight className="h-3 w-3" />
-            </div>
-          </Link>
-        </div>
+      <section className="pt-5 pb-1">
+        <SectionHeader eyebrow="Personalised" title="Recommended for You" linkLabel="See All" linkUrl="/categories" />
 
         {/* Category filter pills */}
-        <div className="flex gap-2 overflow-x-auto no-scrollbar px-4 pb-3">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar px-4 pb-4">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -410,20 +431,21 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Business cards */}
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-x-visible">
-          {filteredRecs.map((biz, i) => (
-            <Link key={i} href={biz.url} className="shrink-0 w-48 lg:w-auto group">
+        {/* 2-column card grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 px-4">
+          {filteredRecs.slice(0, 8).map((biz, i) => (
+            <Link key={i} href={biz.url} className="group">
               <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
-                <div className="relative h-28 overflow-hidden">
+                <div className="relative h-36 overflow-hidden">
                   <Image src={biz.img} alt={biz.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   <div className="absolute top-2 left-2">
                     <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-md text-white">
                       {biz.badge}
                     </span>
                   </div>
                   <div className={cn(
-                    "absolute top-2 right-2 h-2 w-2 rounded-full",
+                    "absolute top-2 right-2 h-2 w-2 rounded-full ring-2 ring-background",
                     biz.open ? "bg-green-400" : "bg-red-400"
                   )} />
                 </div>
@@ -435,93 +457,37 @@ export default function Home() {
                       <Star className="h-2.5 w-2.5 text-amber-400 fill-amber-400" />
                       <span className="text-[10px] font-black">{biz.rating}</span>
                     </div>
-                    <div className="flex items-center gap-0.5 text-[10px] text-muted-foreground font-bold">
-                      <MapPin className="h-2.5 w-2.5" />{biz.dist}
-                    </div>
+                    {biz.dist && (
+                      <div className="flex items-center gap-0.5 text-[10px] text-muted-foreground font-bold">
+                        <MapPin className="h-2.5 w-2.5" />{biz.dist}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </Link>
           ))}
-          {/* See all card */}
-          <Link href="/categories" className="shrink-0 w-24 lg:hidden flex flex-col items-center justify-center gap-2 text-primary group">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-              <ChevronRight className="h-5 w-5" />
-            </div>
-            <span className="text-[10px] font-black text-center leading-tight">View All</span>
-          </Link>
         </div>
       </section>
 
-      {/* ── 6. NEARBY EVENTS ──────────────────────────────────────────────── */}
-      <section className="px-4 pb-6">
+      {/* ── 6. COMMUNITY PULSE ────────────────────────────────────────────── */}
+      <section className="px-4 pt-8 pb-1">
         <div className="flex items-center justify-between mb-3">
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">This Week</p>
-            <h2 className="text-lg font-black">Events Near You</h2>
-          </div>
-          <Link href="/events">
-            <div className="flex items-center gap-1 text-primary text-xs font-black">
-              All Events <ChevronRight className="h-3 w-3" />
-            </div>
-          </Link>
-        </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-x-visible">
-          {EVENTS.map((ev, i) => (
-            <Link key={i} href="/events" className="shrink-0 w-64 lg:w-auto group">
-              <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
-                <div className="relative h-32 overflow-hidden">
-                  <Image src={ev.img} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute top-3 left-3">
-                    <span className="text-[9px] font-black px-2.5 py-1 rounded-full bg-amber-400 text-black">
-                      {ev.type}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className="text-xs font-black text-white leading-tight line-clamp-2">{ev.title}</p>
-                  </div>
-                </div>
-                <div className="p-3 flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-1.5 text-[10px] font-black text-foreground">
-                      <Calendar className="h-3 w-3 text-primary" />
-                      {ev.date} · {ev.time}
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground">
-                      <MapPin className="h-3 w-3" />
-                      {ev.location}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 text-[10px] font-black text-muted-foreground">
-                    <Users className="h-3 w-3" />
-                    {ev.going}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* ── 7. COMMUNITY PULSE ────────────────────────────────────────────── */}
-      <section className="px-4 pb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+          <div>
+            <p className="text-[9px] font-black uppercase tracking-[0.25em] text-muted-foreground flex items-center gap-1.5">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
               Live Activity
             </p>
-            <h2 className="text-lg font-black">Community Pulse</h2>
+            <h2 className="text-lg font-black text-foreground">Community Pulse</h2>
           </div>
           <Link href="/feed">
-            <div className="flex items-center gap-1 text-primary text-xs font-black">
+            <div className="flex items-center gap-0.5 text-primary text-xs font-black">
               Open Feed <ChevronRight className="h-3 w-3" />
             </div>
           </Link>
         </div>
-        <div className="space-y-3 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
-          {COMMUNITY_POSTS.map((post, i) => (
+        <div className="space-y-3">
+          {COMMUNITY_POSTS.slice(0, 2).map((post, i) => (
             <Link key={i} href="/feed" className="block group">
               <div className="rounded-2xl bg-card border border-border/50 p-4 hover:shadow-md transition-shadow space-y-3">
                 <div className="flex items-start gap-3">
@@ -550,28 +516,54 @@ export default function Home() {
               </div>
             </Link>
           ))}
-          <Link href="/feed" className="block lg:col-span-2">
-            <div className="rounded-2xl border border-dashed border-border text-center py-4 text-xs font-black text-primary hover:bg-primary/5 transition-colors">
+          <Link href="/feed" className="block">
+            <div className="rounded-2xl border border-dashed border-border text-center py-3.5 text-xs font-black text-primary hover:bg-primary/5 transition-colors">
               Join the conversation →
             </div>
           </Link>
         </div>
       </section>
 
-      {/* ── 8. CREATOR SPOTLIGHT (STORIES-STYLE) ─────────────────────────── */}
-      <section className="pb-6">
-        <div className="px-4 flex items-center justify-between mb-4">
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Original Content</p>
-            <h2 className="text-lg font-black">Creator Spotlight</h2>
-          </div>
-          <Link href="/creators">
-            <div className="flex items-center gap-1 text-primary text-xs font-black">
-              All Creators <ChevronRight className="h-3 w-3" />
-            </div>
-          </Link>
+      {/* ── 7. UPCOMING EVENTS ────────────────────────────────────────────── */}
+      <section className="pt-8 pb-1">
+        <SectionHeader eyebrow="This Week" title="Events Near You" linkLabel="All Events" linkUrl="/events" />
+        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-x-visible">
+          {EVENTS.map((ev, i) => (
+            <Link key={i} href="/events" className="shrink-0 w-72 lg:w-auto group">
+              <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
+                <div className="relative h-40 overflow-hidden">
+                  <Image src={ev.img} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                  <div className="absolute top-3 left-3">
+                    <span className="text-[9px] font-black px-2.5 py-1 rounded-full bg-amber-400 text-black">{ev.type}</span>
+                  </div>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="text-sm font-black text-white leading-tight line-clamp-2">{ev.title}</p>
+                  </div>
+                </div>
+                <div className="p-3 flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1.5 text-[10px] font-black text-foreground">
+                      <Calendar className="h-3 w-3 text-primary" />{ev.date} · {ev.time}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground">
+                      <MapPin className="h-3 w-3" />{ev.location}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] font-black text-muted-foreground">
+                    <Users className="h-3 w-3" />{ev.going}
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:flex-wrap lg:gap-6 lg:overflow-x-visible">
+      </section>
+
+      {/* ── 8. CREATOR SPOTLIGHT ──────────────────────────────────────────── */}
+      <section className="pt-8 pb-1">
+        <SectionHeader eyebrow="Original Content" title="Creator Spotlight" linkLabel="All Creators" linkUrl="/creators" />
+        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1">
           {CREATORS.map((creator, i) => (
             <Link key={i} href="/creators" className="flex flex-col items-center gap-2 min-w-[72px] group">
               <div className="relative p-0.5 rounded-full bg-gradient-to-br from-primary via-emerald-400 to-teal-300">
@@ -592,36 +584,24 @@ export default function Home() {
       </section>
 
       {/* ── 9. FEATURED PROFESSIONALS ─────────────────────────────────────── */}
-      <section className="pb-6">
-        <div className="px-4 flex items-center justify-between mb-4">
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Verified Experts</p>
-            <h2 className="text-lg font-black">Featured Professionals</h2>
-          </div>
-          <Link href="/professionals">
-            <div className="flex items-center gap-1 text-primary text-xs font-black">
-              View All <ChevronRight className="h-3 w-3" />
-            </div>
-          </Link>
-        </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-5 lg:gap-4 lg:overflow-x-visible">
+      <section className="pt-8 pb-1">
+        <SectionHeader eyebrow="Verified Experts" title="Featured Professionals" linkLabel="View All" linkUrl="/professionals" />
+        <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-5 lg:gap-3 lg:overflow-x-visible">
           {PROFESSIONALS.map((pro, i) => (
             <Link key={i} href="/professionals" className="shrink-0 w-44 lg:w-auto group">
               <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
                 <div className="relative h-28 bg-gradient-to-br from-primary/10 to-emerald-50 dark:to-emerald-950/20 flex items-center justify-center">
-                  <div className="h-16 w-16 rounded-full overflow-hidden border-4 border-background shadow-md relative">
-                    <Avatar className="h-16 w-16">
-                      <AvatarImage src={pro.img} className="object-cover" />
-                      <AvatarFallback>{pro.name[0]}</AvatarFallback>
-                    </Avatar>
-                  </div>
+                  <Avatar className="h-16 w-16 border-4 border-background shadow-md">
+                    <AvatarImage src={pro.img} className="object-cover" />
+                    <AvatarFallback>{pro.name[0]}</AvatarFallback>
+                  </Avatar>
                   {pro.verified && (
                     <div className="absolute top-2 right-2 h-6 w-6 bg-primary rounded-full flex items-center justify-center shadow-sm">
                       <ShieldCheck className="h-3 w-3 text-white" />
                     </div>
                   )}
                   <div className={cn(
-                    "absolute bottom-2 left-1/2 -translate-x-1/2 text-[8px] font-black px-2 py-0.5 rounded-full",
+                    "absolute bottom-2 left-1/2 -translate-x-1/2 text-[8px] font-black px-2 py-0.5 rounded-full whitespace-nowrap",
                     pro.open ? "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400" : "bg-muted text-muted-foreground"
                   )}>
                     {pro.open ? "Available Now" : "Unavailable"}
@@ -645,18 +625,8 @@ export default function Home() {
       </section>
 
       {/* ── 10. MARKETPLACE PICKS ─────────────────────────────────────────── */}
-      <section className="px-4 pb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Deals & Trending</p>
-            <h2 className="text-lg font-black">Marketplace Picks</h2>
-          </div>
-          <Link href="/marketplace">
-            <div className="flex items-center gap-1 text-primary text-xs font-black">
-              Shop All <ChevronRight className="h-3 w-3" />
-            </div>
-          </Link>
-        </div>
+      <section className="px-4 pt-8 pb-1">
+        <SectionHeader eyebrow="Deals & Trending" title="Marketplace Picks" linkLabel="Shop All" linkUrl="/marketplace" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {MARKETPLACE.map((item, i) => (
             <Link key={i} href="/marketplace" className="group">
@@ -685,45 +655,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 11. BLOG HIGHLIGHTS ───────────────────────────────────────────── */}
-      <section className="px-4 pb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="space-y-0.5">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Knowledge & Stories</p>
-            <h2 className="text-lg font-black">Featured Reading</h2>
-          </div>
-          <Link href="/blog">
-            <div className="flex items-center gap-1 text-primary text-xs font-black">
-              All Articles <ChevronRight className="h-3 w-3" />
-            </div>
-          </Link>
+      {/* ── 11. FAITH & GIVING ────────────────────────────────────────────── */}
+      <section className="px-4 pt-8 pb-1">
+        <SectionHeader eyebrow="Spiritual Tools" title="Faith & Giving" />
+        <div className="grid grid-cols-2 gap-3">
+          {FAITH_TOOLS.map((item) => (
+            <Link key={item.label} href={item.url} className="group">
+              <div className={cn(
+                "rounded-2xl p-5 bg-gradient-to-br space-y-8 relative overflow-hidden transition-all active:scale-95 group-hover:-translate-y-0.5",
+                item.gradient
+              )}>
+                {/* Faint circle decoration */}
+                <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none" />
+                <item.icon className="h-7 w-7 text-white relative" />
+                <div className="relative">
+                  <p className="text-base font-black text-white leading-tight">{item.label}</p>
+                  <p className="text-[11px] font-medium text-white/65 mt-0.5">{item.desc}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
+      </section>
+
+      {/* ── 12. FEATURED READING ──────────────────────────────────────────── */}
+      <section className="px-4 pt-8 pb-1">
+        <SectionHeader eyebrow="Knowledge & Stories" title="Featured Reading" linkLabel="All Articles" linkUrl="/blog" />
         <div className="space-y-3">
-          {/* Large featured article */}
           <Link href="/blog" className="block group">
             <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200">
-              <div className="relative h-44 overflow-hidden">
+              <div className="relative h-48 overflow-hidden">
                 <Image src={BLOGS[0].img} alt={BLOGS[0].title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
                 {BLOGS[0].hot && (
                   <div className="absolute top-3 left-3 flex items-center gap-1 bg-orange-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full">
                     <Flame className="h-2.5 w-2.5" />Trending
                   </div>
                 )}
-                <div className="absolute bottom-3 left-4 right-4 space-y-1">
+                <div className="absolute bottom-4 left-4 right-4 space-y-1.5">
                   <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white">{BLOGS[0].category}</span>
-                  <p className="text-sm font-black text-white leading-tight">{BLOGS[0].title}</p>
-                  <p className="text-[10px] text-white/70 font-bold">{BLOGS[0].readTime} read</p>
+                  <p className="text-base font-black text-white leading-tight">{BLOGS[0].title}</p>
+                  <p className="text-[10px] text-white/65 font-bold">{BLOGS[0].readTime} read</p>
                 </div>
               </div>
             </div>
           </Link>
-          {/* Two smaller articles */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {BLOGS.slice(1).map((blog, i) => (
               <Link key={i} href="/blog" className="group">
                 <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
-                  <div className="relative h-24 overflow-hidden">
+                  <div className="relative h-28 overflow-hidden">
                     <Image src={blog.img} alt={blog.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
@@ -739,70 +720,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 12. FAITH & GIVING STRIP ──────────────────────────────────────── */}
-      <section className="px-4 pb-6">
-        <div className="mb-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Spiritual Tools</p>
-          <h2 className="text-lg font-black">Faith & Giving</h2>
-        </div>
-        <div className="grid grid-cols-4 lg:grid-cols-8 gap-3">
-          {[
-            { icon: BookOpen, label: "Quran",   url: "/quran",     color: "text-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/30" },
-            { icon: Coins,    label: "Zakat",   url: "/zakat",     color: "text-amber-600",   bg: "bg-amber-50 dark:bg-amber-950/30" },
-            { icon: Heart,    label: "Charity", url: "/charity",   color: "text-rose-500",    bg: "bg-rose-50 dark:bg-rose-950/30" },
-            { icon: HandHelping, label: "Volunteer", url: "/volunteer", color: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-950/30" },
-          ].map((item) => (
-            <Link key={item.label} href={item.url} className="group flex flex-col items-center gap-2">
-              <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md", item.bg)}>
-                <item.icon className={cn("h-6 w-6", item.color)} />
-              </div>
-              <span className="text-[10px] font-bold text-muted-foreground text-center">{item.label}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
       {/* ── 13. PLATFORM STATS ────────────────────────────────────────────── */}
-      <section className="px-4 pb-6">
-        <div className="rounded-2xl border border-border/50 bg-card divide-y divide-border/50 overflow-hidden shadow-sm">
-          <div className="px-4 py-3 flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-primary" />
-            <p className="text-sm font-black">Halal Hub at a Glance</p>
-          </div>
+      <section className="px-4 pt-8 pb-1">
+        <SectionHeader eyebrow="By the Numbers" title="Halal Hub at a Glance" />
+        <div className="grid grid-cols-2 gap-3">
           {STATS.map((stat, i) => (
-            <Link key={i} href={stat.url} className="flex items-center gap-4 px-4 py-3.5 hover:bg-muted/30 transition-colors group">
-              <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", stat.bg)}>
-                <stat.icon className={cn("h-5 w-5", stat.color)} />
+            <Link key={i} href={stat.url} className="group">
+              <div className="rounded-2xl bg-card border border-border/50 p-5 space-y-4 hover:shadow-md transition-shadow group-hover:-translate-y-0.5">
+                <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", stat.bg)}>
+                  <stat.icon className={cn("h-5 w-5", stat.color)} />
+                </div>
+                <div>
+                  <p className={cn("text-3xl font-black tracking-tight tabular-nums", stat.color)}>{stat.value}</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mt-0.5">{stat.label}</p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-black text-foreground">{stat.value}</p>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{stat.label}</p>
-              </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
             </Link>
           ))}
         </div>
       </section>
 
-      {/* ── 14. EXPLORE ALL FEATURES ──────────────────────────────────────── */}
-      <section className="px-4 pb-2">
-        <div className="rounded-2xl bg-gradient-to-br from-primary/5 to-emerald-50 dark:from-primary/10 dark:to-emerald-950/20 border border-primary/10 p-5 text-center space-y-4">
-          <div className="space-y-1">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
-              <Sparkles className="h-6 w-6 text-primary" />
-            </div>
-            <h3 className="font-black text-foreground">Explore the Full Ecosystem</h3>
-            <p className="text-xs font-medium text-muted-foreground leading-relaxed">
-              Business Directory · Professionals · Creators · Community · Prayer & Faith · Marketplace · Events · Blogs · Rewards · Wallet · Family
-            </p>
+      {/* ── 14. CLOSING CTA ───────────────────────────────────────────────── */}
+      <div className="px-4 pt-8">
+        <div className="relative overflow-hidden rounded-[2rem] bg-zinc-900">
+          {/* Same star pattern */}
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" aria-hidden>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="istar2" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
+                  <path d="M32 4L36.2 20.8L53 24L36.2 27.2L32 44L27.8 27.2L11 24L27.8 20.8Z" fill="white"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#istar2)"/>
+            </svg>
           </div>
-          <Link href="/explore" className="block">
-            <div className="inline-flex items-center gap-2 bg-primary text-white text-sm font-black px-6 py-3 rounded-2xl hover:opacity-90 transition-opacity">
-              Browse Everything <ArrowRight className="h-4 w-4" />
+          <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl -translate-y-12 translate-x-12 pointer-events-none" />
+          <div className="relative px-6 py-10 text-center space-y-5">
+            <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto">
+              <Sparkles className="h-7 w-7 text-primary" />
             </div>
-          </Link>
+            <div className="space-y-1.5">
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500">The Complete Muslim Life App</p>
+              <h3 className="text-2xl font-black text-white leading-tight tracking-tight">
+                Mumbai's Halal<br />Super-App
+              </h3>
+            </div>
+            <p className="text-[11px] text-zinc-500 font-medium leading-relaxed max-w-xs mx-auto">
+              Directory · Prayer · Community · Events · Creators · Professionals · Marketplace · Family · Faith
+            </p>
+            <Link href="/categories">
+              <div className="inline-flex items-center gap-2 bg-primary text-white text-sm font-black px-7 py-3 rounded-2xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
+                Explore Everything <ArrowRight className="h-4 w-4" />
+              </div>
+            </Link>
+          </div>
         </div>
-      </section>
+      </div>
 
     </div>
   );

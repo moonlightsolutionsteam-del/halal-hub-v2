@@ -25,7 +25,7 @@ export function FaithMomentCard() {
       <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
         <Icon className="h-3.5 w-3.5" /> {meta.label}
       </div>
-      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground italic">"{moment.text}"</p>
+      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground italic line-clamp-4">"{moment.text}"</p>
       <p className="mt-1.5 text-[11px] font-bold text-muted-foreground">— {moment.reference}</p>
     </div>
   )

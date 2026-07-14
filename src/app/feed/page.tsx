@@ -1327,9 +1327,18 @@ export default function FeedPage() {
 
   const allItems = [...livePosts, ...FEED_ITEMS]
 
+  const modeFilteredItems = React.useMemo(() => {
+    switch (activeMode) {
+      case "nearby":    return allItems.filter(item => item.type === "nearby" || !!item.location)
+      case "trending":  return [...allItems].sort((a, b) => (b.likes ?? 0) - (a.likes ?? 0))
+      case "following": return allItems.filter(item => ["post", "creator", "community"].includes(item.type))
+      default:          return allItems
+    }
+  }, [allItems, activeMode])
+
   const filteredItems = activeFilter === "all"
-    ? allItems
-    : allItems.filter(item => FILTER_TYPE_MAP[activeFilter]?.includes(item.type))
+    ? modeFilteredItems
+    : modeFilteredItems.filter(item => FILTER_TYPE_MAP[activeFilter]?.includes(item.type))
 
   const nearbyPeople = React.useMemo(() =>
     sidebarProfiles.length > 0
@@ -1361,8 +1370,8 @@ export default function FeedPage() {
   return (
     <MuteCtxProvider value={{ activeId, audioOn, setActiveId, clearActiveId, toggleAudio }}>
     <div className="min-h-screen bg-background">
-      <div className="max-w-[1024px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="w-full px-0 lg:px-4 xl:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-6 xl:gap-8">
 
           {/* ── Main Feed Column ──────────────────────────────────────────── */}
           <div className="lg:col-span-7 space-y-0">
