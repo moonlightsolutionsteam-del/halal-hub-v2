@@ -4,41 +4,51 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
-  Search, MapPin, Star, ArrowLeft,
+  Search, MapPin, ArrowLeft,
   Briefcase, Award, ChevronRight,
-  CheckCircle2, Sparkles, Zap, MessageCircle
+  CheckCircle2, Sparkles, Zap, MessageCircle, UserX
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { createClient } from "@/lib/supabase/client"
 
 const TABS = ["All", "Legal", "Medical", "Finance", "IT & Tech", "Consultancy", "Architecture"]
 
-const MOCK_PROFESSIONALS = [
-  {
-    id: "p1", name: "Br. Tariq Osman", type: "Solicitor & Barrister", loc: "Colaba, Mumbai",
-    rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Family Law", "Islamic Finance", "Contract Review"], specialty: "Legal", avail: "Available"
-  },
-  {
-    id: "p2", name: "Dr. Amira Hossain", type: "General Practitioner", loc: "Powai, Mumbai",
-    rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Female GP", "Home Visits", "Arabic Speaking"], specialty: "Medical", avail: "Available"
-  },
-  {
-    id: "p3", name: "Br. Yusuf Karim", type: "Chartered Accountant", loc: "Kurla, Mumbai",
-    rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["Halal Investments", "Zakat Calculation", "Tax Planning"], specialty: "Finance", avail: "Fully Booked"
-  },
-  {
-    id: "p4", name: "Sr. Nadia Al-Sheikh", type: "IT Consultant & Developer", loc: "Thane, Mumbai",
-    rate: 4.5, ver: false, img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format&q=80",
-    features: ["SaaS Architecture", "Data Privacy", "Muslim Startups"], specialty: "IT & Tech", avail: "Available"
-  },
-]
+type Professional = {
+  id: string
+  profession: string | null
+  specializations: string[] | null
+  availability: string | null
+  verification_status: string | null
+  profile: { name: string | null; photo_url: string | null; city: string | null } | null
+}
 
 export default function ProfessionalsPage() {
   const [selectedTab, setSelectedTab] = useState("All")
+  const [query, setQuery] = useState("")
+  const [professionals, setProfessionals] = useState<Professional[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("professional_profiles")
+      .select("id, profession, specializations, availability, verification_status, profiles(name, photo_url, city)")
+      .order("created_at", { ascending: false })
+      .limit(40)
+      .then(({ data }: { data: any[] | null }) => {
+        setLoading(false)
+        if (data?.length) setProfessionals(data.map(d => ({ ...d, profile: d.profiles ?? null })))
+      })
+  }, [])
+
+  const filtered = professionals.filter(p => {
+    const tab = selectedTab === "All" || (p.profession ?? "").toLowerCase().includes(selectedTab.toLowerCase())
+    const q = query === "" || (p.profile?.name ?? "").toLowerCase().includes(query.toLowerCase()) || (p.profession ?? "").toLowerCase().includes(query.toLowerCase())
+    return tab && q
+  })
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -58,12 +68,19 @@ export default function ProfessionalsPage() {
             </div>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <Button variant="outline" className="h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm gap-2 font-bold px-4 sm:px-6 hover:bg-muted">
-              <MessageCircle className="h-5 w-5 text-violet-600" /> Post a Request
-            </Button>
+            <Link href="/account/capabilities/professional">
+              <Button variant="outline" className="h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm gap-2 font-bold px-4 sm:px-6 hover:bg-muted">
+                <MessageCircle className="h-5 w-5 text-violet-600" /> List Your Services
+              </Button>
+            </Link>
             <div className="relative flex-1 md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search by profession, skill, or name..." className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg" />
+              <Input
+                placeholder="Search by profession, skill, or name..."
+                className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+              />
             </div>
           </div>
         </div>
@@ -116,14 +133,18 @@ export default function ProfessionalsPage() {
               <div className="absolute -top-4 -right-4 opacity-20"><Sparkles className="h-24 w-24" /></div>
               <h3 className="font-black text-lg leading-tight relative z-10">Join as a Professional</h3>
               <p className="text-xs text-white/80 leading-relaxed relative z-10">Be discovered by thousands of Muslims seeking trusted professionals who share their values.</p>
-              <Button variant="secondary" className="w-full rounded-2xl font-black text-xs h-12 shadow-xl bg-card text-violet-900 hover:bg-violet-50">Apply Now</Button>
+              <Link href="/account/capabilities/professional">
+                <Button variant="secondary" className="w-full rounded-2xl font-black text-xs h-12 shadow-xl bg-card text-violet-900 hover:bg-violet-50">Apply Now</Button>
+              </Link>
             </Card>
           </Card>
         </aside>
 
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{MOCK_PROFESSIONALS.length}</span> verified professionals</p>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">
+              {loading ? "Loading…" : <>Found <span className="text-foreground">{filtered.length}</span> verified professionals</>}
+            </p>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
               <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
@@ -134,49 +155,75 @@ export default function ProfessionalsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {MOCK_PROFESSIONALS.map(item => (
-              <Link key={item.id} href={`/professionals/${item.id}`}>
-                <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-violet-100/50">
-                  <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
-                    <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                    <div className="absolute top-2 left-2 sm:top-6 sm:left-6">
-                      <Badge className="bg-card/90 backdrop-blur-md text-violet-600 font-black border-none shadow-xl px-4 py-1.5 rounded-full flex items-center gap-1.5">
-                        <Star className="h-3.5 w-3.5 fill-violet-600 text-violet-600" /> {item.rate}
-                      </Badge>
-                    </div>
+          {loading && (
+            <div className="grid grid-cols-2 gap-3 sm:gap-8">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="rounded-2xl sm:rounded-[3rem] bg-muted animate-pulse h-80" />
+              ))}
+            </div>
+          )}
+
+          {!loading && filtered.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 gap-6 text-center">
+              <div className="h-20 w-20 rounded-3xl bg-violet-100 flex items-center justify-center">
+                <UserX className="h-10 w-10 text-violet-400" />
+              </div>
+              <div className="space-y-2">
+                <p className="text-xl font-black text-foreground">No professionals listed yet</p>
+                <p className="text-muted-foreground font-medium max-w-sm">Be the first Muslim professional to join and get discovered by thousands of community members.</p>
+              </div>
+              <Link href="/account/capabilities/professional">
+                <Button className="bg-violet-600 hover:bg-violet-700 text-white rounded-2xl font-black px-10 h-14">
+                  List Your Services <ChevronRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          )}
+
+          {!loading && filtered.length > 0 && (
+            <div className="grid grid-cols-2 gap-3 sm:gap-8">
+              {filtered.map(item => (
+                <Card key={item.id} className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-violet-100/50">
+                  <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden bg-violet-50 flex items-center justify-center">
+                    <Avatar className="h-24 w-24">
+                      <AvatarFallback className="bg-violet-100 text-violet-600 font-black text-3xl">{(item.profile?.name ?? item.profession ?? "P")[0]}</AvatarFallback>
+                    </Avatar>
                     <div className="absolute bottom-2 left-2 sm:bottom-6 sm:left-6 flex gap-2">
-                      {item.ver && (
+                      {item.verification_status === "verified" && (
                         <Badge className="bg-emerald-500 text-white font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center gap-1 sm:gap-2">
                           <CheckCircle2 className="h-3 w-3" /> Verified
                         </Badge>
                       )}
-                      <Badge className={`font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest ${item.avail === "Available" ? "bg-violet-500 text-white" : "bg-card text-muted-foreground"}`}>
-                        {item.avail}
+                      <Badge className={`font-black border-none shadow-xl px-2 py-1 sm:px-5 sm:py-2 rounded-full uppercase text-[10px] tracking-widest ${item.availability === "available" ? "bg-violet-500 text-white" : "bg-card text-muted-foreground"}`}>
+                        {item.availability === "available" ? "Available" : "Busy"}
                       </Badge>
                     </div>
                   </div>
                   <CardHeader className="p-3 pb-1 sm:p-8 sm:pb-4">
                     <div className="space-y-2">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-violet-600">{item.type}</p>
-                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-violet-600 transition-colors leading-tight">{item.name}</CardTitle>
-                      <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
-                        <MapPin className="h-4 w-4 text-violet-600" /> {item.loc}
-                      </div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-violet-600">{item.profession || "Professional"}</p>
+                      <CardTitle className="text-sm sm:text-3xl font-black group-hover:text-violet-600 transition-colors leading-tight">{item.profile?.name || "Professional"}</CardTitle>
+                      {item.profile?.city && (
+                        <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground mt-2">
+                          <MapPin className="h-4 w-4 text-violet-600" /> {item.profile.city}
+                        </div>
+                      )}
                     </div>
                   </CardHeader>
                   <CardContent className="px-3 pb-3 sm:px-8 sm:pb-8 flex-1 space-y-2 sm:space-y-6">
-                    <div className="hidden sm:block space-y-3">
-                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Expertise</p>
-                      <div className="flex flex-wrap gap-2">
-                        {item.features.map(f => (
-                          <span key={f} className="text-[10px] font-bold bg-muted text-muted-foreground px-3 py-1 rounded-lg border border-border">{f}</span>
-                        ))}
+                    {item.specializations && item.specializations.length > 0 && (
+                      <div className="hidden sm:block space-y-3">
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Expertise</p>
+                        <div className="flex flex-wrap gap-2">
+                          {item.specializations.slice(0, 3).map(f => (
+                            <span key={f} className="text-[10px] font-bold bg-muted text-muted-foreground px-3 py-1 rounded-lg border border-border">{f}</span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:pt-6 sm:border-t border-border">
                       <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
-                        <Award className="h-4 w-4 text-violet-500" /> {item.specialty}
+                        <Award className="h-4 w-4 text-violet-500" /> {item.profession || "Pro"}
                       </div>
                       <div className="flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground">
                         <Zap className="h-4 w-4 text-amber-500" /> Quick Response
@@ -189,18 +236,9 @@ export default function ProfessionalsPage() {
                     </Button>
                   </CardFooter>
                 </Card>
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex flex-col items-center justify-center py-6 sm:py-16 gap-4 sm:gap-6">
-            <div className="flex items-center gap-2">
-              <div className="h-1 w-12 bg-muted rounded-full" />
-              <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Professionals</p>
-              <div className="h-1 w-12 bg-muted rounded-full" />
+              ))}
             </div>
-            <Button variant="outline" className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-violet-600 hover:text-white hover:border-violet-600 transition-all text-sm sm:text-lg shadow-sm">Load More Professionals</Button>
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -49,7 +49,7 @@ const FEATURED_BANNERS = [
   {
     id: 0,
     tag: "Top Pick · Restaurants",
-    title: "Discover Mumbai's\nBest Halal Dining",
+    title: "Discover India's\nBest Halal Dining",
     sub: "50+ verified halal restaurants near you",
     cta: "Explore Restaurants",
     url: "/categories/food",

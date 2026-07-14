@@ -80,16 +80,15 @@ const FILTER_TYPE_MAP: Record<string, FeedItemType[]> = {
 
 type StoryKind = "business" | "creator" | "mosque" | "community"
 
-const STORIES = [
-  { id: "you", name: "Your Story", avatar: "https://randomuser.me/api/portraits/men/1.jpg", isOwn: true },
-  { id: "1",   name: "Noor Kitchen",  avatar: "https://randomuser.me/api/portraits/women/7.jpg",   verified: true,  kind: "business" as StoryKind, live: true },
-  { id: "2",   name: "Amina Travels", avatar: "https://randomuser.me/api/portraits/women/2.jpg",                    kind: "creator" as StoryKind },
-  { id: "3",   name: "Halal Bites",   avatar: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80",  verified: true, kind: "business" as StoryKind },
-  { id: "4",   name: "Al-Noor Masjid", avatar: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", verified: true, kind: "mosque" as StoryKind },
-  { id: "5",   name: "Chef Yusuf",    avatar: "https://randomuser.me/api/portraits/men/3.jpg",  verified: true, kind: "creator" as StoryKind },
-  { id: "6",   name: "Zahra Beauty",  avatar: "https://randomuser.me/api/portraits/women/5.jpg",                   kind: "business" as StoryKind },
-  { id: "7",   name: "Ummah Eats",    avatar: "https://randomuser.me/api/portraits/men/21.jpg",  verified: true, kind: "community" as StoryKind, live: true },
-]
+type StoryItem = {
+  id: string
+  name: string
+  avatar: string
+  isOwn?: boolean
+  verified?: boolean
+  kind?: StoryKind
+  live?: boolean
+}
 
 const STORY_KIND_META: Record<StoryKind, { icon: any; label: string }> = {
   business:  { icon: Handshake,      label: "Business" },
@@ -98,166 +97,8 @@ const STORY_KIND_META: Record<StoryKind, { icon: any; label: string }> = {
   community: { icon: Users,         label: "Community" },
 }
 
-const FEED_ITEMS: Array<{ id: number; type: FeedItemType; [k: string]: any }> = [
-  // 1 — Post
-  {
-    id: 1, type: "post",
-    author: { name: "The Bosphorus Kitchen", handle: "@bosphoruskitchen", avatar: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", verified: true },
-    location: "Bandra West, Mumbai",
-    images: ["https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80"],
-    mediaType: "image",
-    caption: "Our signature Ottoman lamb shank is back on the menu! 🍖 Slow-cooked for 8 hours with traditional spices, served with saffron rice. 100% Halal certified.",
-    likes: 1247, comments: 89, shares: 34, timeAgo: "2h",
-    tags: ["#HalalFood", "#Ottoman", "#Bandra"],
-    category: "Food & Dining",
-  },
-  // 2 — Community
-  {
-    id: 2, type: "community",
-    community: { name: "Muslim Entrepreneurs Hub", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format&q=80", members: "14.2K", verified: true },
-    postedBy: { name: "Ibrahim Al-Sayed", avatar: "https://randomuser.me/api/portraits/men/5.jpg" },
-    title: "How do you handle Zakat on business inventory?",
-    body: "Assalamu Alaikum brothers and sisters. I run a modest clothing brand and I'm unsure how to calculate Zakat on unsold stock. Any scholars or accountants who can shed light on this?",
-    image: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80",
-    likes: 342, comments: 87, timeAgo: "4h",
-    tags: ["#Zakat", "#IslamicFinance", "#SmallBusiness"],
-  },
-  // 3 — Reel
-  {
-    id: 3, type: "reel",
-    author: { name: "Chef Yusuf", handle: "@chefyusuf", avatar: "https://randomuser.me/api/portraits/men/3.jpg", verified: true },
-    thumbnail: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80",
-    caption: "Perfect shawarma in 60 seconds 🌯 The secret? Overnight marinate + charcoal. Trust me on this.",
-    audio: "Ya Lili — Balti ft. Hamouda",
-    likes: 8932, comments: 567, shares: 1204, views: "214K", timeAgo: "12h",
-  },
-  // 4 — Creator
-  {
-    id: 4, type: "creator",
-    creator: { name: "Fatima Al-Rashid", handle: "@fatimadesigns", avatar: "https://randomuser.me/api/portraits/women/4.jpg", verified: true, followers: "89K", category: "Modest Fashion" },
-    coverImage: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80",
-    bio: "Award-winning modest fashion designer · Sustainable & Ethical · Worn by 20K+ globally",
-    recentPosts: ["https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80", "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80"],
-    tags: ["#ModestFashion", "#Sustainable", "#Abaya"],
-  },
-  // 5 — Blog
-  {
-    id: 5, type: "blog",
-    author: { name: "Halal Hub Editorial", handle: "@halalhub", avatar: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80", verified: true },
-    category: "Islamic Finance",
-    title: "The Complete Guide to Halal Mortgages in 2026",
-    excerpt: "With Islamic banking growing 15% annually, more Muslims are exploring Sharia-compliant home financing. Here's everything you need to know about Murabaha, Ijara, and Diminishing Musharakah structures.",
-    coverImage: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80",
-    readTime: "8 min read", likes: 2341, comments: 156, timeAgo: "1d",
-    tags: ["#IslamicFinance", "#HalalMortgage", "#HomeBuying"],
-  },
-  // 6 — Collab
-  {
-    id: 6, type: "collab",
-    party1: { name: "Noor Collective", handle: "@noorcollective", avatar: "https://randomuser.me/api/portraits/women/7.jpg", verified: true },
-    party2: { name: "Zahra Beauty", handle: "@zahrabeauty", avatar: "https://randomuser.me/api/portraits/women/5.jpg", verified: false },
-    headline: "Exclusive Ramadan Collection Drop ✨",
-    body: "We've partnered to bring you the ultimate Ramadan style kit — modest elegance meets halal beauty. Pre-order now before it sells out.",
-    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&h=600&fit=crop&auto=format&q=80",
-    likes: 3421, comments: 214, timeAgo: "6h",
-    tags: ["#Collaboration", "#Ramadan", "#ModestStyle"],
-  },
-  // 7 — Discussion
-  {
-    id: 7, type: "discussion",
-    author: { name: "Dr. Amira Hassan", handle: "@dramirahassan", avatar: "https://randomuser.me/api/portraits/women/3.jpg", verified: true },
-    category: "Islamic Finance",
-    question: "Is it permissible to invest in index funds that include non-halal companies?",
-    excerpt: "I've been researching this for months. Mainstream scholarly opinion leans toward permissibility with purification, but there's significant disagreement among contemporary scholars on the threshold percentages.",
-    replies: 234, upvotes: 1893, views: "12.4K", timeAgo: "3h",
-    tags: ["#IslamicFinance", "#Investing", "#Fatwa"],
-    isTrending: true,
-  },
-  // 8 — Offer
-  {
-    id: 8, type: "offer",
-    business: { name: "Al-Zaeem Sweets", handle: "@alzaeemsweets", avatar: "https://images.unsplash.com/photo-1561043433-aaf687c4cf04?w=800&h=600&fit=crop&auto=format&q=80", verified: true },
-    headline: "Eid Mega Sale — Up to 40% Off",
-    body: "Celebrate Eid with our premium selection of traditional sweets. Order before Sunday for free same-day delivery.",
-    image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=800&h=600&fit=crop&auto=format&q=80",
-    cta: "Shop Now", discount: "40% OFF", validUntil: "Ends Jul 7",
-    timeAgo: "2h",
-  },
-  // 9 — Nearby
-  {
-    id: 9, type: "nearby",
-    places: [
-      { name: "Al-Noor Masjid",      type: "Mosque",     distance: "0.3 mi", rating: 4.9, image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",  open: true },
-      { name: "Bismillah Grill",      type: "Restaurant", distance: "0.6 mi", rating: 4.7, image: "https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&h=600&fit=crop&auto=format&q=80",   open: true },
-      { name: "The Halal Butcher",    type: "Butcher",    distance: "0.8 mi", rating: 4.8, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80", open: false },
-      { name: "Islamic Books Corner", type: "Books",      distance: "1.1 mi", rating: 4.6, image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop&auto=format&q=80",   open: true },
-    ],
-  },
-  // 10 — Event
-  {
-    id: 10, type: "event",
-    organizer: { name: "Islamic Society of NYC", handle: "@isnyc", avatar: "https://images.unsplash.com/photo-1522083165195-3424ed129620?w=800&h=600&fit=crop&auto=format&q=80", verified: true },
-    title: "Annual Halal Food Festival 2026",
-    description: "Join 5,000+ attendees for the largest halal food festival in North America — 200+ vendors, live cooking shows, and family activities.",
-    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80",
-    date: "Sat, Jul 19, 2026", time: "11:00 AM – 9:00 PM",
-    location: "Azad Maidan, Mumbai",
-    going: 3241, interested: 8920, timeAgo: "5h",
-    tags: ["#HalalFood", "#Mumbai", "#Festival"],
-    price: "₹15",
-  },
-  // 11 — Post (travel)
-  {
-    id: 11, type: "post",
-    author: { name: "Amina Travels", handle: "@aminatravels", avatar: "https://randomuser.me/api/portraits/women/2.jpg", verified: false },
-    location: "Istanbul, Turkey",
-    images: ["https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80"],
-    mediaType: "image",
-    caption: "Sunset at the Blue Mosque 🕌 There's nothing quite like hearing the Adhan echo across the Bosphorus at Maghrib. Sharing my full halal travel guide this week — save this!",
-    likes: 3421, comments: 214, shares: 187, timeAgo: "5h",
-    tags: ["#HalalTravel", "#Istanbul", "#BlueMosque"],
-    category: "Travel",
-  },
-  // 12 — Blog (parenting)
-  {
-    id: 12, type: "blog",
-    author: { name: "Umm Khalid Writes", handle: "@ummkhalidwrites", avatar: "https://randomuser.me/api/portraits/women/21.jpg", verified: false },
-    category: "Parenting",
-    title: "Raising Confident Muslim Kids in a Non-Muslim School",
-    excerpt: "When my daughter came home crying because classmates laughed at her hijab, I knew we needed a serious conversation about identity and confidence. Here's what worked for us.",
-    coverImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format&q=80",
-    readTime: "5 min read", likes: 892, comments: 234, timeAgo: "2d",
-    tags: ["#MuslimParenting", "#Hijab", "#Identity"],
-  },
-  // 13 — Creator (educator)
-  {
-    id: 13, type: "creator",
-    creator: { name: "Brother Yaqub", handle: "@brotheryaqub", avatar: "https://randomuser.me/api/portraits/men/6.jpg", verified: true, followers: "234K", category: "Islamic Education" },
-    coverImage: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop&auto=format&q=80",
-    bio: "Making Islamic knowledge accessible for the modern Muslim. Daily Quran reflections & Hadith explanations.",
-    recentPosts: ["https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80", "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80", "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=600&fit=crop&auto=format&q=80"],
-    tags: ["#IslamicEducation", "#Quran", "#Hadith"],
-  },
-]
 
-const TRENDING_TOPICS = [
-  { tag: "#RamadanRecipes",    posts: "12.4K" },
-  { tag: "#HalalTravel2026",   posts: "8.2K" },
-  { tag: "#ModestFashionWeek", posts: "5.7K" },
-  { tag: "#HalalFinance",      posts: "3.1K" },
-]
 
-const SUGGESTED_ACCOUNTS = [
-  { name: "Pure Glow Beauty", handle: "@pureglowbeauty", avatar: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=600&fit=crop&auto=format&q=80", verified: true,  followers: "24K followers" },
-  { name: "Ummah Fitness",    handle: "@ummahfitness",   avatar: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&h=600&fit=crop&auto=format&q=80", verified: false, followers: "18K followers" },
-  { name: "Barakah Finance",  handle: "@barakahfin",     avatar: "https://randomuser.me/api/portraits/men/22.jpg", verified: true,  followers: "31K followers" },
-]
-
-const PEOPLE_NEARBY = [
-  { name: "Aisha Rahman", handle: "@aisharahman", avatar: "https://randomuser.me/api/portraits/women/1.jpg",  distance: "0.4 mi", mutual: 3, verified: false },
-  { name: "Omar Farouq",  handle: "@omarfarouq",  avatar: "https://randomuser.me/api/portraits/men/2.jpg",   distance: "0.7 mi", mutual: 5, verified: true  },
-  { name: "Zainab Ali",   handle: "@zainabali",   avatar: "https://randomuser.me/api/portraits/women/6.jpg", distance: "1.1 mi", mutual: 2, verified: false },
-]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -310,7 +151,7 @@ const MuteCtxProvider = MuteCtx.Provider
 
 // ─── Story Bubble ─────────────────────────────────────────────────────────────
 
-function StoryBubble({ story, viewed, onOpen }: { story: typeof STORIES[0]; viewed: boolean; onOpen: (id: string) => void }) {
+function StoryBubble({ story, viewed, onOpen }: { story: StoryItem; viewed: boolean; onOpen: (id: string) => void }) {
   const kind = (story as any).kind as StoryKind | undefined
   const isLive = Boolean((story as any).live)
   const KindIcon = kind ? STORY_KIND_META[kind].icon : null
@@ -509,7 +350,6 @@ function PostCard({ item }: { item: any }) {
       </div>
       <div className="border-t border-border px-4 py-3 flex items-center gap-3">
         <Avatar className="h-8 w-8 shrink-0">
-          <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
           <AvatarFallback className="bg-primary/10 text-primary font-black text-[10px]">YOU</AvatarFallback>
         </Avatar>
         <input type="text" placeholder="Add a comment…" className="flex-1 text-sm bg-transparent outline-none placeholder:text-muted-foreground text-foreground" />
@@ -1215,7 +1055,7 @@ function interleaveFeedInserts(nodes: React.ReactNode[]): React.ReactNode[] {
 
 // ─── Card Dispatcher ──────────────────────────────────────────────────────────
 
-function FeedCard({ item }: { item: typeof FEED_ITEMS[0] }) {
+function FeedCard({ item }: { item: { id: any; type: FeedItemType; [k: string]: any } }) {
   switch (item.type) {
     case "post":       return <PostCard       item={item} />
     case "reel":       return <ReelCard       item={item} />
@@ -1240,7 +1080,7 @@ export default function FeedPage() {
   const composerInitials = getInitials(composerUser?.name)
   const [activeMode, setActiveMode] = React.useState("for-you")
   const [activeFilter, setActiveFilter] = React.useState("all")
-  const [livePosts, setLivePosts] = React.useState<typeof FEED_ITEMS>([])
+  const [livePosts, setLivePosts] = React.useState<Array<{ id: any; type: FeedItemType; [k: string]: any }>>([])
   const [postsLoading, setPostsLoading] = React.useState(true)
   const [activeId, setActiveId] = React.useState<string | null>(null)
   const [audioOn, setAudioOn] = React.useState(false)
@@ -1248,6 +1088,7 @@ export default function FeedPage() {
   const clearActiveId = React.useCallback((id: string) => setActiveId(prev => prev === id ? null : prev), [])
   const [sidebarBizs, setSidebarBizs] = React.useState<Array<{ id: string; name: string; category: string | null; image_url: string | null; logo_url: string | null; city: string | null }>>([])
   const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
+  const [liveStories, setLiveStories] = React.useState<StoryItem[]>([])
   const [viewedStories, setViewedStories] = React.useState<Set<string>>(new Set())
 
   // Compose modal state
@@ -1341,8 +1182,21 @@ export default function FeedPage() {
       .from("businesses")
       .select("id, name, category, image_url, logo_url, city")
       .eq("status", "active")
-      .limit(5)
-      .then(({ data }: { data: any[] | null }) => { if (data?.length) setSidebarBizs(data) })
+      .limit(12)
+      .then(({ data }: { data: any[] | null }) => {
+        if (!data?.length) return
+        // First 5 go to sidebar suggested accounts
+        setSidebarBizs(data.slice(0, 5))
+        // Build story bubbles from businesses that have an image
+        const storyBizs = data.filter(b => b.logo_url || b.image_url).slice(0, 7)
+        setLiveStories(storyBizs.map(b => ({
+          id: b.id,
+          name: b.name,
+          avatar: b.logo_url || b.image_url || "",
+          verified: true,
+          kind: "business" as StoryKind,
+        })))
+      })
     ;(supabase as any)
       .from("profiles")
       .select("id, name, photo_url, city")
@@ -1351,8 +1205,25 @@ export default function FeedPage() {
       .then(({ data }: { data: any[] | null }) => { if (data?.length) setSidebarProfiles(data) })
   }, [loadPosts])
 
-  // Show live posts only; fall back to FEED_ITEMS only if nothing loaded yet
-  const allItems = livePosts.length > 0 ? livePosts : (postsLoading ? [] : FEED_ITEMS)
+  const allItems = livePosts.length > 0 ? livePosts : []
+
+  const trendingTopics = React.useMemo(() => {
+    if (!livePosts.length) return []
+    const typeLabel: Record<string, string> = {
+      post: "#HalalHub", discussion: "#Discussions", question: "#Questions",
+      event: "#Events", offer: "#Offers", community: "#Community",
+      review: "#Reviews", recommendation: "#Recommendations",
+    }
+    const counts: Record<string, number> = {}
+    livePosts.forEach(p => {
+      const label = typeLabel[(p as any).post_type ?? p.type] || "#HalalHub"
+      counts[label] = (counts[label] || 0) + 1
+    })
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 4)
+      .map(([tag, n]) => ({ tag, posts: String(n) }))
+  }, [livePosts])
 
   const modeFilteredItems = React.useMemo(() => {
     switch (activeMode) {
@@ -1368,30 +1239,26 @@ export default function FeedPage() {
     : modeFilteredItems.filter(item => FILTER_TYPE_MAP[activeFilter]?.includes(item.type))
 
   const nearbyPeople = React.useMemo(() =>
-    sidebarProfiles.length > 0
-      ? sidebarProfiles.map(p => ({
-          name: p.name || "HalalHub User",
-          handle: "@" + (p.name || "user").toLowerCase().replace(/\s+/g, "").slice(0, 20),
-          avatar: p.photo_url || "",
-          distance: p.city || "Nearby",
-          mutual: 0,
-          verified: false,
-        }))
-      : PEOPLE_NEARBY,
+    sidebarProfiles.map(p => ({
+      name: p.name || "HalalHub User",
+      handle: "@" + (p.name || "user").toLowerCase().replace(/\s+/g, "").slice(0, 20),
+      avatar: p.photo_url || "",
+      distance: p.city || "Nearby",
+      mutual: 0,
+      verified: false,
+    })),
   [sidebarProfiles])
 
   const suggestedAccounts = React.useMemo(() =>
-    sidebarBizs.length > 0
-      ? sidebarBizs.map(b => ({
-          name: b.name,
-          handle: "@" + b.name.toLowerCase().replace(/\s+/g, "").slice(0, 20),
-          avatar: b.logo_url || b.image_url || "",
-          verified: true,
-          followers: b.city
-            ? `${b.category || "Business"} · ${b.city}`
-            : (b.category || "Verified Business"),
-        }))
-      : SUGGESTED_ACCOUNTS,
+    sidebarBizs.map(b => ({
+      name: b.name,
+      handle: "@" + b.name.toLowerCase().replace(/\s+/g, "").slice(0, 20),
+      avatar: b.logo_url || b.image_url || "",
+      verified: true,
+      followers: b.city
+        ? `${b.category || "Business"} · ${b.city}`
+        : (b.category || "Verified Business"),
+    })),
   [sidebarBizs])
 
   return (
@@ -1406,7 +1273,13 @@ export default function FeedPage() {
             {/* Stories */}
             <div className="bg-card border-b border-border px-4 py-4 overflow-x-auto no-scrollbar">
               <div className="flex gap-4 w-max">
-                {STORIES.map(story => (
+                {/* "Your Story" bubble always first */}
+                <StoryBubble
+                  story={{ id: "you", name: "Your Story", avatar: composerUser?.photoURL || "", isOwn: true }}
+                  viewed={false}
+                  onOpen={handleOpenStory}
+                />
+                {liveStories.map(story => (
                   <StoryBubble key={story.id} story={story} viewed={viewedStories.has(story.id)} onOpen={handleOpenStory} />
                 ))}
               </div>
@@ -1565,6 +1438,9 @@ export default function FeedPage() {
                 <button className="text-xs text-primary font-bold">See All</button>
               </div>
               <div className="space-y-4">
+                {nearbyPeople.length === 0 && (
+                  <p className="text-xs text-muted-foreground font-medium">No members found nearby.</p>
+                )}
                 {nearbyPeople.map(person => (
                   <div key={person.handle} className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 shrink-0">
@@ -1598,7 +1474,7 @@ export default function FeedPage() {
                 <button className="text-xs text-primary font-bold">See All</button>
               </div>
               <div className="space-y-3">
-                {TRENDING_TOPICS.map((topic, i) => (
+                {trendingTopics.length > 0 ? trendingTopics.map((topic, i) => (
                   <button key={topic.tag} className="w-full text-left flex items-center justify-between group hover:bg-muted -mx-2 px-2 py-2 rounded-xl transition-colors">
                     <div>
                       <p className="text-sm font-black text-foreground group-hover:text-primary transition-colors">{topic.tag}</p>
@@ -1606,7 +1482,9 @@ export default function FeedPage() {
                     </div>
                     <Flame className={cn("h-4 w-4", i === 0 ? "text-orange-500" : "text-muted-foreground")} />
                   </button>
-                ))}
+                )) : (
+                  <p className="text-xs text-muted-foreground font-medium">No trending topics yet.</p>
+                )}
               </div>
             </Card>
 
@@ -1619,6 +1497,9 @@ export default function FeedPage() {
                 <button className="text-xs text-primary font-bold">See All</button>
               </div>
               <div className="space-y-4">
+                {suggestedAccounts.length === 0 && (
+                  <p className="text-xs text-muted-foreground font-medium">No suggested accounts yet.</p>
+                )}
                 {suggestedAccounts.map(account => (
                   <div key={account.handle} className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 shrink-0">
