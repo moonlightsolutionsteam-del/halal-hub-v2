@@ -1091,7 +1091,6 @@ export default function FeedPage() {
   const [liveStories, setLiveStories] = React.useState<StoryItem[]>([])
   const [userStories, setUserStories] = React.useState<Array<StoryItem & { mediaUrl: string; mediaType: "image" | "video" }>>([])
   const [viewedStories, setViewedStories] = React.useState<Set<string>>(new Set())
-  const [viewingStory, setViewingStory] = React.useState<{ name: string; avatar: string; mediaUrl: string; mediaType: "image" | "video" } | null>(null)
 
   // Compose modal state
   const [composerOpen, setComposerOpen] = React.useState(false)
@@ -1111,18 +1110,14 @@ export default function FeedPage() {
 
   const handleOpenStory = React.useCallback((id: string) => {
     if (id === "you") { openComposer("story"); return }
-    // Check if it's a user-posted story with media
-    const userStory = userStories.find(s => s.id === id)
-    if (userStory) {
-      setViewingStory({ name: userStory.name, avatar: userStory.avatar, mediaUrl: userStory.mediaUrl, mediaType: userStory.mediaType })
-    }
     setViewedStories(prev => {
       if (prev.has(id)) return prev
       const next = new Set(prev).add(id)
       try { localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify([...next])) } catch {}
       return next
     })
-  }, [openComposer, userStories])
+    window.location.href = `/feed/stories/${id}`
+  }, [openComposer])
 
   const loadPosts = React.useCallback(() => {
     const supabase = createClient()
@@ -1137,48 +1132,52 @@ export default function FeedPage() {
         if (!data || data.length === 0) return
         setLivePosts(data.map((b, i) => {
           const url = b.media_url || b.firebase_media_url || ""
-          const isVideo = url.includes(".mp4") || url.includes(".mov") || url.includes(".webm")
-          const type = (b.post_type === "discussion" || b.post_type === "question") ? "discussion"
-            : b.post_type === "event" ? "event"
-            : "post"
-          return {
-            id: b.id ?? i + 1000,
-            type: type as any,
-            author: {
-              name: b.display_name || "Halal Hub Member",
-              handle: "@" + (b.display_name || "halalhub").toLowerCase().replace(/\s+/g, ""),
-              avatar: null,
-              verified: false,
-            },
+          const isVideo = /\.(mp4|mov|webm)/i.test(url)
+          const pt: string = b.post_type ?? "post"
+          const ago = timeAgo(b.created_at)
+          const author = {
+            name: b.display_name || "Halal Hub Member",
+            handle: "@" + (b.display_name || "halalhub").toLowerCase().replace(/\s+/g, ""),
+            avatar: null,
+            verified: false,
+          }
+          const base = { id: b.id ?? i + 1000, timeAgo: ago, tags: [] as string[] }
+
+          if (pt === "discussion" || pt === "question") {
+            return { ...base, type: "discussion" as FeedItemType, author, question: b.description || "",
+              excerpt: "", replies: 0, upvotes: 0, views: "0", isTrending: false,
+              category: pt === "question" ? "Q&A" : "Discussion" }
+          }
+          if (pt === "event") {
+            return { ...base, type: "event" as FeedItemType, author,
+              title: b.metadata?.event_title || b.description || "Event",
+              date: b.metadata?.event_date || "", time: b.metadata?.event_time || "",
+              description: b.description || "", image: url,
+              organizer: author, location: b.place_name || "", going: 0, interested: 0,
+              caption: b.description || "", images: url ? [url] : [], mediaType: "image" }
+          }
+          if (pt === "offer") {
+            return { ...base, type: "offer" as FeedItemType,
+              business: { name: b.display_name || b.business_name || "Business", avatar: null, verified: false },
+              image: url, discount: b.metadata?.discount || "Special Offer",
+              headline: b.metadata?.offer_title || b.description || "Special Offer",
+              body: b.description || "", validUntil: "Limited time", cta: "Get Offer" }
+          }
+          if (pt === "community") {
+            return { ...base, type: "community" as FeedItemType,
+              community: { name: "Halal Hub Community", avatar: null, verified: true, members: "—" },
+              postedBy: { name: b.display_name || "Member", avatar: null },
+              title: (b.description || "").slice(0, 80) || "Community Post",
+              body: b.description || "", image: url || null, likes: 0, comments: 0 }
+          }
+          // photo, video, review, checkin, recommendation, business_update → PostCard
+          return { ...base, type: "post" as FeedItemType, author,
             location: b.place_name || null,
             images: url ? [url] : [],
             mediaType: isVideo ? "video" : "image",
             caption: b.description || "",
             likes: 0, comments: 0, shares: 0,
-            timeAgo: timeAgo(b.created_at),
-            tags: [] as string[],
-            category: b.business_name || null,
-            // For discussion-type posts
-            question: b.description || "",
-            excerpt: "",
-            replies: 0, upvotes: 0, views: "0",
-            isTrending: false,
-            // event fields from metadata
-            ...(b.metadata?.event_title ? {
-              title: b.metadata.event_title,
-              date: b.metadata.event_date || "",
-              time: b.metadata.event_time || "",
-              description: b.description || "",
-              image: url || "",
-              organizer: {
-                name: b.display_name || "Organizer",
-                handle: "",
-                avatar: null,
-                verified: false,
-              },
-              going: 0, interested: 0,
-            } : {}),
-          }
+            category: b.business_name || (pt === "review" ? "Review" : pt === "recommendation" ? "Recommend" : null) }
         }))
       })
   }, [])
@@ -1572,31 +1571,6 @@ export default function FeedPage() {
         </div>
       </div>
     </div>
-    {/* ── Story Viewer ─────────────────────────────────────────────────── */}
-    {viewingStory && (
-      <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black" onClick={() => setViewingStory(null)}>
-        <button className="absolute top-5 right-5 text-white bg-white/20 rounded-full p-2 hover:bg-white/30 z-10" onClick={() => setViewingStory(null)}>
-          <X className="h-5 w-5" />
-        </button>
-        <div className="absolute top-5 left-5 flex items-center gap-3 z-10">
-          <Avatar className="h-10 w-10 border-2 border-white shadow-md">
-            <AvatarImage src={viewingStory.avatar} />
-            <AvatarFallback className="bg-primary/20 text-white font-black">{viewingStory.name[0]}</AvatarFallback>
-          </Avatar>
-          <div>
-            <p className="text-white font-black text-sm">{viewingStory.name}</p>
-            <p className="text-white/60 text-[11px] font-medium">Story · 24h</p>
-          </div>
-        </div>
-        {viewingStory.mediaType === "video" ? (
-          <video src={viewingStory.mediaUrl} className="max-h-screen max-w-full object-contain" autoPlay loop playsInline onClick={e => e.stopPropagation()} />
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={viewingStory.mediaUrl} alt="Story" className="max-h-screen max-w-full object-contain" onClick={e => e.stopPropagation()} />
-        )}
-      </div>
-    )}
-
     <CreatePostModal
       open={composerOpen}
       initialType={composerType as any}
