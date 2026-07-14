@@ -48,7 +48,6 @@ const CATEGORIES = [
   { id: 'healthcare', title: 'Healthcare & Wellness', desc: 'Clinics, pharmacies, hijama centers, and more.', icon: Stethoscope },
   { id: 'education', title: 'Education & Training', desc: 'Madrasas, schools, and Islamic training centres.', icon: GraduationCap },
   { id: 'media', title: 'Bookstores & Islamic Media', desc: 'Literature and digital media.', icon: BookOpen },
-  { id: 'certifier', title: 'Certification Body', desc: 'Halal audit and certification services.', icon: Award },
 ];
 
 export default function BusinessCategoryPage() {
