@@ -23,6 +23,7 @@ import { FamilyTreeSidebar } from "@/components/family-tree-sidebar";
 import { MosqueSidebar } from "@/components/mosque-sidebar";
 import { OrganizationSidebar } from "@/components/organization-sidebar";
 import { ProfessionalSidebar } from "@/components/professional-sidebar";
+import { CertificationBodySidebar } from "@/components/certification-body-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { HeaderLocation } from "@/components/header-location";
 import { HeaderSearch } from "@/components/header-search";
@@ -82,6 +83,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
   const isMosquePath = pathname?.startsWith('/vendor/mosque');
   const isOrganizationPath = pathname?.startsWith('/vendor/organization');
   const isProfessionalPath = pathname?.startsWith('/vendor/professional');
+  const isCertificationBodyPath = pathname?.startsWith('/vendor/certification-body');
   const isFamilyTreePath = pathname?.startsWith('/family-tree');
 
   const getSidebar = () => {
@@ -102,6 +104,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
     if (isMosquePath) return <MosqueSidebar />;
     if (isOrganizationPath) return <OrganizationSidebar />;
     if (isProfessionalPath) return <ProfessionalSidebar />;
+    if (isCertificationBodyPath) return <CertificationBodySidebar />;
     if (isFamilyTreePath) return <FamilyTreeSidebar />;
     if (isVendorPath) return <VendorSidebar />;
     return <UserSidebar />;
