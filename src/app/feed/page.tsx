@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/use-auth"
 import { usePrayerSnapshot } from "@/lib/use-prayer-snapshot"
 import { useFaithMoment } from "@/hooks/use-faith-moment"
 import { formatPrayerTime } from "@/lib/ummah-api"
+import { CreatePostModal } from "@/components/create-post-modal"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -420,69 +421,56 @@ function PostCard({ item }: { item: any }) {
         </button>
       </div>
 
-      <div className="relative w-full overflow-hidden bg-black">
-        {/* Blurred ambient background — fills gap around portrait content */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img
-            src={item.images[imgIndex]}
-            aria-hidden
-            className="w-full h-full object-cover scale-110 blur-2xl opacity-50"
-          />
-        </div>
-        {item.mediaType === "video" ? (
-          <video
-            ref={videoRef}
-            src={item.images[imgIndex]}
-            className="relative w-full h-auto block"
-            style={{ maxHeight: "640px", objectFit: "contain" }}
-            autoPlay
-            muted={muted}
-            loop
-            playsInline
-          />
-        ) : (
-          <img
-            src={item.images[imgIndex]}
-            alt={item.caption}
-            className="relative w-full h-auto block"
-            style={{ maxHeight: "640px", objectFit: "contain" }}
-          />
-        )}
-        {/* Sound toggle (video posts only) */}
-        {item.mediaType === "video" && (
-          <button
-            onClick={e => { e.stopPropagation(); toggleAudio() }}
-            className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm rounded-full p-2 text-white hover:bg-black/80 transition-colors z-10"
-          >
-            {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-          </button>
-        )}
-        {item.images.length > 1 && (
-          <>
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
-              {item.images.map((_: any, i: number) => (
-                <button key={i} onClick={() => setImgIndex(i)}
-                  className={cn("rounded-full transition-all", i === imgIndex ? "w-6 h-2 bg-card" : "w-2 h-2 bg-card/50")} />
-              ))}
-            </div>
-            {imgIndex > 0 && (
-              <button onClick={() => setImgIndex(p => p - 1)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-card/80 backdrop-blur rounded-full h-8 w-8 flex items-center justify-center shadow-lg text-xl font-bold">‹</button>
-            )}
-            {imgIndex < item.images.length - 1 && (
-              <button onClick={() => setImgIndex(p => p + 1)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-card/80 backdrop-blur rounded-full h-8 w-8 flex items-center justify-center shadow-lg text-xl font-bold">›</button>
-            )}
-          </>
-        )}
-        {item.category && (
-          <div className="absolute top-4 left-4">
-            <Badge className="bg-card/90 backdrop-blur text-foreground border-none font-bold text-[10px] uppercase tracking-wider shadow-sm px-3 py-1">
-              {item.category}
-            </Badge>
+      {/* Media — only render when there's a real URL */}
+      {item.images?.[imgIndex] && (
+        <div className="relative w-full overflow-hidden bg-black">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <img src={item.images[imgIndex]} aria-hidden className="w-full h-full object-cover scale-110 blur-2xl opacity-50" />
           </div>
-        )}
-      </div>
+          {item.mediaType === "video" ? (
+            <video
+              ref={videoRef}
+              src={item.images[imgIndex]}
+              className="relative w-full h-auto block"
+              style={{ maxHeight: "640px", objectFit: "contain" }}
+              autoPlay muted={muted} loop playsInline
+            />
+          ) : (
+            <img src={item.images[imgIndex]} alt={item.caption} className="relative w-full h-auto block" style={{ maxHeight: "640px", objectFit: "contain" }} />
+          )}
+          {item.mediaType === "video" && (
+            <button onClick={e => { e.stopPropagation(); toggleAudio() }}
+              className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm rounded-full p-2 text-white hover:bg-black/80 transition-colors z-10">
+              {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+            </button>
+          )}
+          {item.images.length > 1 && (
+            <>
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+                {item.images.map((_: any, i: number) => (
+                  <button key={i} onClick={() => setImgIndex(i)}
+                    className={cn("rounded-full transition-all", i === imgIndex ? "w-6 h-2 bg-card" : "w-2 h-2 bg-card/50")} />
+                ))}
+              </div>
+              {imgIndex > 0 && (
+                <button onClick={() => setImgIndex(p => p - 1)}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-card/80 backdrop-blur rounded-full h-8 w-8 flex items-center justify-center shadow-lg text-xl font-bold">‹</button>
+              )}
+              {imgIndex < item.images.length - 1 && (
+                <button onClick={() => setImgIndex(p => p + 1)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-card/80 backdrop-blur rounded-full h-8 w-8 flex items-center justify-center shadow-lg text-xl font-bold">›</button>
+              )}
+            </>
+          )}
+          {item.category && (
+            <div className="absolute top-4 left-4">
+              <Badge className="bg-card/90 backdrop-blur text-foreground border-none font-bold text-[10px] uppercase tracking-wider shadow-sm px-3 py-1">
+                {item.category}
+              </Badge>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="px-4 pt-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -1262,6 +1250,15 @@ export default function FeedPage() {
   const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
   const [viewedStories, setViewedStories] = React.useState<Set<string>>(new Set())
 
+  // Compose modal state
+  const [composerOpen, setComposerOpen] = React.useState(false)
+  const [composerType, setComposerType] = React.useState<string | null>(null)
+
+  const openComposer = React.useCallback((type?: string) => {
+    setComposerType(type ?? null)
+    setComposerOpen(true)
+  }, [])
+
   React.useEffect(() => {
     try {
       const stored = JSON.parse(localStorage.getItem(VIEWED_STORIES_KEY) ?? "[]")
@@ -1270,47 +1267,76 @@ export default function FeedPage() {
   }, [])
 
   const handleOpenStory = React.useCallback((id: string) => {
+    if (id === "you") { openComposer(); return }
     setViewedStories(prev => {
       if (prev.has(id)) return prev
       const next = new Set(prev).add(id)
       try { localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify([...next])) } catch {}
       return next
     })
-  }, [])
+  }, [openComposer])
 
-  React.useEffect(() => {
+  const loadPosts = React.useCallback(() => {
     const supabase = createClient()
     ;(supabase as any)
       .from("feed_posts")
-      .select("id, display_name, description, media_url, firebase_media_url, business_name, place_name, created_at")
+      .select("id, display_name, description, media_url, firebase_media_url, business_name, place_name, post_type, metadata, created_at")
       .order("created_at", { ascending: false })
-      .limit(30)
+      .limit(40)
       .then(({ data }: { data: any[] | null }) => {
         setPostsLoading(false)
         if (!data || data.length === 0) return
         setLivePosts(data.map((b, i) => {
           const url = b.media_url || b.firebase_media_url || ""
           const isVideo = url.includes(".mp4") || url.includes(".mov") || url.includes(".webm")
+          const type = (b.post_type === "discussion" || b.post_type === "question") ? "discussion"
+            : b.post_type === "event" ? "event"
+            : "post"
           return {
-            id: i + 1000,
-            type: "post" as const,
+            id: b.id ?? i + 1000,
+            type: type as any,
             author: {
-              name: b.display_name || "Halal Hub",
+              name: b.display_name || "Halal Hub Member",
               handle: "@" + (b.display_name || "halalhub").toLowerCase().replace(/\s+/g, ""),
-              avatar: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80",
-              verified: true,
+              avatar: null,
+              verified: false,
             },
             location: b.place_name || null,
-            images: [url],
+            images: url ? [url] : [],
             mediaType: isVideo ? "video" : "image",
             caption: b.description || "",
             likes: 0, comments: 0, shares: 0,
             timeAgo: timeAgo(b.created_at),
             tags: [] as string[],
             category: b.business_name || null,
+            // For discussion-type posts
+            question: b.description || "",
+            excerpt: "",
+            replies: 0, upvotes: 0, views: "0",
+            isTrending: false,
+            // event fields from metadata
+            ...(b.metadata?.event_title ? {
+              title: b.metadata.event_title,
+              date: b.metadata.event_date || "",
+              time: b.metadata.event_time || "",
+              description: b.description || "",
+              image: url || "",
+              organizer: {
+                name: b.display_name || "Organizer",
+                handle: "",
+                avatar: null,
+                verified: false,
+              },
+              going: 0, interested: 0,
+            } : {}),
           }
         }))
       })
+  }, [])
+
+  React.useEffect(() => {
+    loadPosts()
+    const supabase = createClient()
     ;(supabase as any)
       .from("businesses")
       .select("id, name, category, image_url, logo_url, city")
@@ -1323,9 +1349,10 @@ export default function FeedPage() {
       .not("name", "is", null)
       .limit(5)
       .then(({ data }: { data: any[] | null }) => { if (data?.length) setSidebarProfiles(data) })
-  }, [])
+  }, [loadPosts])
 
-  const allItems = [...livePosts, ...FEED_ITEMS]
+  // Show live posts only; fall back to FEED_ITEMS only if nothing loaded yet
+  const allItems = livePosts.length > 0 ? livePosts : (postsLoading ? [] : FEED_ITEMS)
 
   const modeFilteredItems = React.useMemo(() => {
     switch (activeMode) {
@@ -1408,28 +1435,43 @@ export default function FeedPage() {
             {/* Create Post */}
             <div className="bg-gradient-to-b from-card to-muted/20 border-b border-border p-4 sm:p-5">
               <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 border-2 border-card shadow-sm ring-1 ring-border">
-                  {composerUser?.photoURL && <AvatarImage src={composerUser.photoURL} />}
-                  <AvatarFallback className="bg-primary/10 text-primary font-black">{composerInitials}</AvatarFallback>
-                </Avatar>
-                <button className="flex-1 text-left bg-muted hover:bg-muted/80 transition-colors rounded-2xl px-4 sm:px-5 py-3 text-sm text-muted-foreground font-medium shadow-inner">
+                <button onClick={() => openComposer()}>
+                  <Avatar className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 border-2 border-card shadow-sm ring-1 ring-primary/20">
+                    {composerUser?.photoURL && <AvatarImage src={composerUser.photoURL} />}
+                    <AvatarFallback className="bg-primary/10 text-primary font-black">{composerInitials}</AvatarFallback>
+                  </Avatar>
+                </button>
+                <button
+                  onClick={() => openComposer()}
+                  className="flex-1 text-left bg-muted hover:bg-muted/80 transition-colors rounded-2xl px-4 sm:px-5 py-3 text-sm text-muted-foreground font-medium shadow-inner"
+                >
                   Share something with the Ummah…
                 </button>
               </div>
               <div className="overflow-x-auto no-scrollbar mt-3">
                 <div className="flex items-center gap-2 w-max pb-0.5">
-                  {COMPOSER_ACTIONS.map(({ icon: Icon, label, tint, iconColor }) => (
-                    <button
-                      key={label}
-                      className={cn(
-                        "flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-full whitespace-nowrap border border-transparent transition-all duration-150",
-                        "hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0",
-                        tint, iconColor,
-                      )}
-                    >
-                      <Icon className="h-3.5 w-3.5" /> {label}
-                    </button>
-                  ))}
+                  {COMPOSER_ACTIONS.map(({ icon: Icon, label, tint, iconColor }) => {
+                    const typeMap: Record<string, string> = {
+                      "Photo": "photo", "Video": "video", "Review": "review",
+                      "Discussion": "discussion", "Check In": "checkin", "Event": "event",
+                      "Recommendation": "recommendation", "Offer": "offer",
+                      "Business Update": "business_update", "Question": "question",
+                      "Community Post": "community",
+                    }
+                    return (
+                      <button
+                        key={label}
+                        onClick={() => openComposer(typeMap[label])}
+                        className={cn(
+                          "flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-full whitespace-nowrap border border-transparent transition-all duration-150",
+                          "hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0",
+                          tint, iconColor,
+                        )}
+                      >
+                        <Icon className="h-3.5 w-3.5" /> {label}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -1612,6 +1654,16 @@ export default function FeedPage() {
         </div>
       </div>
     </div>
+    <CreatePostModal
+      open={composerOpen}
+      initialType={composerType as any}
+      onClose={() => setComposerOpen(false)}
+      onPosted={() => {
+        setPostsLoading(true)
+        setLivePosts([])
+        loadPosts()
+      }}
+    />
     </MuteCtxProvider>
   )
 }
