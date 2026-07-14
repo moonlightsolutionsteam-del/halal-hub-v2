@@ -23,7 +23,7 @@ const DEV_DASHBOARDS = [
   { label: "Healthcare", url: "/vendor/healthcare/dashboard" },
   { label: "Education", url: "/vendor/education/dashboard" },
   { label: "Media", url: "/vendor/media/dashboard" },
-  { label: "Certification Body", url: "/admin/certification-body" },
+  { label: "Certification Body", url: "/vendor/certification-body/dashboard" },
 ];
 
 const MeatIcon = (props: React.SVGProps<SVGSVGElement>) => (
