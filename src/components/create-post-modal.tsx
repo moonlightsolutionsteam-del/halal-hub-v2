@@ -9,13 +9,13 @@ import { cn } from "@/lib/utils"
 import {
   X, Camera, Play, Star, MessageCircle, MapPin, Calendar,
   ThumbsUp, Tag, Megaphone, HelpCircle, Users, ChevronLeft,
-  ImagePlus, Video, Upload, Loader2, CheckCircle2,
+  ImagePlus, Video, Upload, Loader2, CheckCircle2, Zap,
 } from "lucide-react"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type PostType =
-  | "photo" | "video" | "review" | "discussion"
+  | "story" | "photo" | "video" | "review" | "discussion"
   | "checkin" | "event" | "recommendation"
   | "offer" | "business_update" | "question" | "community"
 
@@ -31,6 +31,7 @@ interface PostTypeConfig {
 }
 
 const POST_TYPES: PostTypeConfig[] = [
+  { id: "story",           label: "Story",           icon: Zap,           tint: "bg-gradient-to-br from-pink-50 to-violet-50 dark:from-pink-950/40 dark:to-violet-950/40", iconColor: "text-pink-600 dark:text-pink-400", placeholder: "Share a moment — disappears in 24 hours…", hasMedia: true },
   { id: "photo",           label: "Photo",           icon: Camera,        tint: "bg-blue-50 dark:bg-blue-950/40",     iconColor: "text-blue-600 dark:text-blue-400",     placeholder: "Share what's on your mind…",               hasMedia: true },
   { id: "video",           label: "Video",           icon: Play,          tint: "bg-purple-50 dark:bg-purple-950/40", iconColor: "text-purple-600 dark:text-purple-400", placeholder: "What's happening in this video?",           hasMedia: true },
   { id: "review",          label: "Review",          icon: Star,          tint: "bg-amber-50 dark:bg-amber-950/40",   iconColor: "text-amber-600 dark:text-amber-400",   placeholder: "Share your experience…",                   hasMedia: true,  extraFields: "review" },
@@ -119,6 +120,7 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
   }
 
   const canPost = (): boolean => {
+    if (selectedType === "story") return !!mediaFile
     if (!text.trim() && !mediaFile) return false
     if (selectedType === "review" && !businessName.trim()) return false
     if (selectedType === "event" && !title.trim()) return false
@@ -183,7 +185,7 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+    <div className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 

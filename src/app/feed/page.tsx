@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import {
   Heart, MessageCircle, Send, Bookmark,
-  MoreHorizontal, Plus, ShieldCheck, Play,
+  MoreHorizontal, Plus, ShieldCheck, Play, X,
   MapPin, Flame, TrendingUp, Camera,
   Sparkles, Star, Music2, Handshake,
   Calendar, Clock, Users, BookOpen,
@@ -1089,7 +1089,9 @@ export default function FeedPage() {
   const [sidebarBizs, setSidebarBizs] = React.useState<Array<{ id: string; name: string; category: string | null; image_url: string | null; logo_url: string | null; city: string | null }>>([])
   const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
   const [liveStories, setLiveStories] = React.useState<StoryItem[]>([])
+  const [userStories, setUserStories] = React.useState<Array<StoryItem & { mediaUrl: string; mediaType: "image" | "video" }>>([])
   const [viewedStories, setViewedStories] = React.useState<Set<string>>(new Set())
+  const [viewingStory, setViewingStory] = React.useState<{ name: string; avatar: string; mediaUrl: string; mediaType: "image" | "video" } | null>(null)
 
   // Compose modal state
   const [composerOpen, setComposerOpen] = React.useState(false)
@@ -1108,20 +1110,26 @@ export default function FeedPage() {
   }, [])
 
   const handleOpenStory = React.useCallback((id: string) => {
-    if (id === "you") { openComposer(); return }
+    if (id === "you") { openComposer("story"); return }
+    // Check if it's a user-posted story with media
+    const userStory = userStories.find(s => s.id === id)
+    if (userStory) {
+      setViewingStory({ name: userStory.name, avatar: userStory.avatar, mediaUrl: userStory.mediaUrl, mediaType: userStory.mediaType })
+    }
     setViewedStories(prev => {
       if (prev.has(id)) return prev
       const next = new Set(prev).add(id)
       try { localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify([...next])) } catch {}
       return next
     })
-  }, [openComposer])
+  }, [openComposer, userStories])
 
   const loadPosts = React.useCallback(() => {
     const supabase = createClient()
     ;(supabase as any)
       .from("feed_posts")
       .select("id, display_name, description, media_url, firebase_media_url, business_name, place_name, post_type, metadata, created_at")
+      .neq("post_type", "story")
       .order("created_at", { ascending: false })
       .limit(40)
       .then(({ data }: { data: any[] | null }) => {
@@ -1203,6 +1211,32 @@ export default function FeedPage() {
       .not("name", "is", null)
       .limit(5)
       .then(({ data }: { data: any[] | null }) => { if (data?.length) setSidebarProfiles(data) })
+
+    // Load user-created stories from the last 24 hours
+    const since = new Date(Date.now() - 86_400_000).toISOString()
+    ;(supabase as any)
+      .from("feed_posts")
+      .select("id, display_name, media_url, post_type, created_at")
+      .eq("post_type", "story")
+      .not("media_url", "is", null)
+      .gte("created_at", since)
+      .order("created_at", { ascending: false })
+      .limit(20)
+      .then(({ data }: { data: any[] | null }) => {
+        if (!data?.length) return
+        setUserStories(data.map(s => {
+          const url: string = s.media_url || ""
+          const isVideo = url.endsWith(".mp4") || url.endsWith(".mov") || url.endsWith(".webm")
+          return {
+            id: s.id,
+            name: s.display_name || "Community Member",
+            avatar: url,
+            kind: "community" as StoryKind,
+            mediaUrl: url,
+            mediaType: isVideo ? "video" : "image",
+          }
+        }))
+      })
   }, [loadPosts])
 
   const allItems = livePosts.length > 0 ? livePosts : []
@@ -1279,6 +1313,9 @@ export default function FeedPage() {
                   viewed={false}
                   onOpen={handleOpenStory}
                 />
+                {userStories.map(story => (
+                  <StoryBubble key={story.id} story={story} viewed={viewedStories.has(story.id)} onOpen={handleOpenStory} />
+                ))}
                 {liveStories.map(story => (
                   <StoryBubble key={story.id} story={story} viewed={viewedStories.has(story.id)} onOpen={handleOpenStory} />
                 ))}
@@ -1535,6 +1572,31 @@ export default function FeedPage() {
         </div>
       </div>
     </div>
+    {/* ── Story Viewer ─────────────────────────────────────────────────── */}
+    {viewingStory && (
+      <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black" onClick={() => setViewingStory(null)}>
+        <button className="absolute top-5 right-5 text-white bg-white/20 rounded-full p-2 hover:bg-white/30 z-10" onClick={() => setViewingStory(null)}>
+          <X className="h-5 w-5" />
+        </button>
+        <div className="absolute top-5 left-5 flex items-center gap-3 z-10">
+          <Avatar className="h-10 w-10 border-2 border-white shadow-md">
+            <AvatarImage src={viewingStory.avatar} />
+            <AvatarFallback className="bg-primary/20 text-white font-black">{viewingStory.name[0]}</AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="text-white font-black text-sm">{viewingStory.name}</p>
+            <p className="text-white/60 text-[11px] font-medium">Story · 24h</p>
+          </div>
+        </div>
+        {viewingStory.mediaType === "video" ? (
+          <video src={viewingStory.mediaUrl} className="max-h-screen max-w-full object-contain" autoPlay loop playsInline onClick={e => e.stopPropagation()} />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={viewingStory.mediaUrl} alt="Story" className="max-h-screen max-w-full object-contain" onClick={e => e.stopPropagation()} />
+        )}
+      </div>
+    )}
+
     <CreatePostModal
       open={composerOpen}
       initialType={composerType as any}
@@ -1543,6 +1605,29 @@ export default function FeedPage() {
         setPostsLoading(true)
         setLivePosts([])
         loadPosts()
+        // Reload user stories in case a story was just posted
+        const supabase = createClient()
+        const since = new Date(Date.now() - 86_400_000).toISOString()
+        ;(supabase as any)
+          .from("feed_posts")
+          .select("id, display_name, media_url, post_type, created_at")
+          .eq("post_type", "story")
+          .not("media_url", "is", null)
+          .gte("created_at", since)
+          .order("created_at", { ascending: false })
+          .limit(20)
+          .then(({ data }: { data: any[] | null }) => {
+            if (!data?.length) return
+            setUserStories(data.map(s => {
+              const url: string = s.media_url || ""
+              const isVideo = url.endsWith(".mp4") || url.endsWith(".mov") || url.endsWith(".webm")
+              return {
+                id: s.id, name: s.display_name || "Community Member",
+                avatar: url, kind: "community" as StoryKind,
+                mediaUrl: url, mediaType: isVideo ? "video" : "image",
+              }
+            }))
+          })
       }}
     />
     </MuteCtxProvider>
