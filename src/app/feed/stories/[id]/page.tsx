@@ -116,7 +116,7 @@ export default function StoryPage() {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center">
+      <div className="fixed inset-0 z-[300] bg-black flex items-center justify-center">
         <div className="h-10 w-10 rounded-full border-2 border-white/30 border-t-white animate-spin" />
       </div>
     )
@@ -124,7 +124,7 @@ export default function StoryPage() {
 
   if (!story) {
     return (
-      <div className="fixed inset-0 bg-black flex flex-col items-center justify-center gap-4">
+      <div className="fixed inset-0 z-[300] bg-black flex flex-col items-center justify-center gap-4">
         <p className="text-white/60 font-medium">Story not found</p>
         <button onClick={() => router.push("/feed")} className="text-white font-black text-sm bg-white/20 px-6 py-2 rounded-full">
           Back to Feed
@@ -134,7 +134,7 @@ export default function StoryPage() {
   }
 
   return (
-    <div className="fixed inset-0 bg-black overflow-hidden touch-none select-none">
+    <div className="fixed inset-0 z-[300] bg-black overflow-hidden touch-none select-none">
 
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 z-20 flex gap-1 px-3 pt-3">
