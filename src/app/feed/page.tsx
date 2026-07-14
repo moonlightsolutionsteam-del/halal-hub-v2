@@ -15,8 +15,13 @@ import {
   MessageSquare, Navigation, Quote,
   ThumbsUp, UserPlus, Eye, ArrowRight,
   CheckCircle2, Volume2, VolumeX,
+  Tag, Megaphone, HelpCircle, Moon, BookMarked,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/hooks/use-auth"
+import { usePrayerSnapshot } from "@/lib/use-prayer-snapshot"
+import { useFaithMoment } from "@/hooks/use-faith-moment"
+import { formatPrayerTime } from "@/lib/ummah-api"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -25,6 +30,27 @@ type FeedItemType =
   | "community" | "creator" | "blog" | "discussion" | "nearby"
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
+
+const COMPOSER_ACTIONS = [
+  { icon: Camera,        label: "Photo",          tint: "bg-blue-50 dark:bg-blue-950/30",     iconColor: "text-blue-600 dark:text-blue-400" },
+  { icon: Play,          label: "Video",          tint: "bg-purple-50 dark:bg-purple-950/30", iconColor: "text-purple-600 dark:text-purple-400" },
+  { icon: Star,          label: "Review",         tint: "bg-amber-50 dark:bg-amber-950/30",   iconColor: "text-amber-600 dark:text-amber-400" },
+  { icon: MessageCircle, label: "Discussion",     tint: "bg-sky-50 dark:bg-sky-950/30",       iconColor: "text-sky-600 dark:text-sky-400" },
+  { icon: MapPin,        label: "Check In",       tint: "bg-rose-50 dark:bg-rose-950/30",     iconColor: "text-rose-600 dark:text-rose-400" },
+  { icon: Calendar,      label: "Event",          tint: "bg-violet-50 dark:bg-violet-950/30", iconColor: "text-violet-600 dark:text-violet-400" },
+  { icon: ThumbsUp,      label: "Recommendation", tint: "bg-teal-50 dark:bg-teal-950/30",      iconColor: "text-teal-600 dark:text-teal-400" },
+  { icon: Tag,           label: "Offer",          tint: "bg-orange-50 dark:bg-orange-950/30", iconColor: "text-orange-600 dark:text-orange-400" },
+  { icon: Megaphone,     label: "Business Update",tint: "bg-emerald-50 dark:bg-emerald-950/30",iconColor: "text-emerald-600 dark:text-emerald-400" },
+  { icon: HelpCircle,    label: "Question",       tint: "bg-indigo-50 dark:bg-indigo-950/30", iconColor: "text-indigo-600 dark:text-indigo-400" },
+  { icon: Users,         label: "Community Post", tint: "bg-pink-50 dark:bg-pink-950/30",      iconColor: "text-pink-600 dark:text-pink-400" },
+]
+
+const FEED_MODES = [
+  { id: "for-you",   label: "For You",   emoji: "✨" },
+  { id: "nearby",    label: "Nearby",    emoji: "📍" },
+  { id: "trending",  label: "Trending",  emoji: "🔥" },
+  { id: "following", label: "Following", emoji: "👥" },
+]
 
 const FILTERS = [
   { id: "all",         label: "✦ All" },
@@ -51,16 +77,25 @@ const FILTER_TYPE_MAP: Record<string, FeedItemType[]> = {
   nearby:      ["nearby"],
 }
 
+type StoryKind = "business" | "creator" | "mosque" | "community"
+
 const STORIES = [
   { id: "you", name: "Your Story", avatar: "https://randomuser.me/api/portraits/men/1.jpg", isOwn: true },
-  { id: "1",   name: "Noor Kitchen",  avatar: "https://randomuser.me/api/portraits/women/7.jpg",   verified: true },
-  { id: "2",   name: "Amina Travels", avatar: "https://randomuser.me/api/portraits/women/2.jpg" },
-  { id: "3",   name: "Halal Bites",   avatar: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80",  verified: true },
-  { id: "4",   name: "Modest Wear",   avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80" },
-  { id: "5",   name: "Chef Yusuf",    avatar: "https://randomuser.me/api/portraits/men/3.jpg",  verified: true },
-  { id: "6",   name: "Zahra Beauty",  avatar: "https://randomuser.me/api/portraits/women/5.jpg" },
-  { id: "7",   name: "Ummah Eats",    avatar: "https://randomuser.me/api/portraits/men/21.jpg",  verified: true },
+  { id: "1",   name: "Noor Kitchen",  avatar: "https://randomuser.me/api/portraits/women/7.jpg",   verified: true,  kind: "business" as StoryKind, live: true },
+  { id: "2",   name: "Amina Travels", avatar: "https://randomuser.me/api/portraits/women/2.jpg",                    kind: "creator" as StoryKind },
+  { id: "3",   name: "Halal Bites",   avatar: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80",  verified: true, kind: "business" as StoryKind },
+  { id: "4",   name: "Al-Noor Masjid", avatar: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", verified: true, kind: "mosque" as StoryKind },
+  { id: "5",   name: "Chef Yusuf",    avatar: "https://randomuser.me/api/portraits/men/3.jpg",  verified: true, kind: "creator" as StoryKind },
+  { id: "6",   name: "Zahra Beauty",  avatar: "https://randomuser.me/api/portraits/women/5.jpg",                   kind: "business" as StoryKind },
+  { id: "7",   name: "Ummah Eats",    avatar: "https://randomuser.me/api/portraits/men/21.jpg",  verified: true, kind: "community" as StoryKind, live: true },
 ]
+
+const STORY_KIND_META: Record<StoryKind, { icon: any; label: string }> = {
+  business:  { icon: Handshake,      label: "Business" },
+  creator:   { icon: Sparkles,       label: "Creator" },
+  mosque:    { icon: Navigation,     label: "Mosque" },
+  community: { icon: Users,         label: "Community" },
+}
 
 const FEED_ITEMS: Array<{ id: number; type: FeedItemType; [k: string]: any }> = [
   // 1 — Post
@@ -240,6 +275,11 @@ function timeAgo(iso: string): string {
   return `${Math.floor(hrs / 24)}d`
 }
 
+function getInitials(name: string | null | undefined): string {
+  if (!name) return "?"
+  return name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase()
+}
+
 function TagRow({ tags }: { tags: string[] }) {
   return (
     <div className="flex flex-wrap gap-1.5 mt-2">
@@ -269,19 +309,32 @@ const MuteCtxProvider = MuteCtx.Provider
 
 // ─── Story Bubble ─────────────────────────────────────────────────────────────
 
-function StoryBubble({ story }: { story: typeof STORIES[0] }) {
+function StoryBubble({ story, viewed, onOpen }: { story: typeof STORIES[0]; viewed: boolean; onOpen: (id: string) => void }) {
+  const kind = (story as any).kind as StoryKind | undefined
+  const isLive = Boolean((story as any).live)
+  const KindIcon = kind ? STORY_KIND_META[kind].icon : null
+
   return (
-    <button className="flex flex-col items-center gap-1.5 shrink-0 group">
+    <button onClick={() => onOpen(story.id)} className="flex flex-col items-center gap-2 shrink-0 group">
       <div className={cn(
-        "rounded-full p-[3px]",
-        story.isOwn ? "bg-muted" : "bg-gradient-to-br from-primary via-emerald-400 to-teal-500",
+        "rounded-full p-[3px] transition-transform group-hover:scale-105 group-active:scale-95",
+        story.isOwn
+          ? "bg-muted"
+          : viewed
+            ? "bg-border"
+            : "story-ring-live",
       )}>
         <div className="bg-card rounded-full p-[2px]">
           <div className="relative">
-            <Avatar className="h-14 w-14 sm:h-16 sm:w-16 group-hover:scale-105 transition-transform">
+            <Avatar className="h-16 w-16 sm:h-[72px] sm:w-[72px]">
               <AvatarImage src={story.avatar} />
               <AvatarFallback className="bg-primary/10 text-primary font-black text-sm">{story.name[0]}</AvatarFallback>
             </Avatar>
+            {isLive && (
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 flex items-center gap-0.5 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full border-2 border-card shadow-sm">
+                <span className="h-1 w-1 rounded-full bg-white animate-pulse" /> LIVE
+              </div>
+            )}
             {story.isOwn ? (
               <div className="absolute -bottom-0.5 -right-0.5 bg-primary text-white rounded-full h-6 w-6 flex items-center justify-center border-2 border-white shadow-sm">
                 <Plus className="h-3.5 w-3.5" />
@@ -290,11 +343,15 @@ function StoryBubble({ story }: { story: typeof STORIES[0] }) {
               <div className="absolute -bottom-0.5 -right-0.5 bg-primary text-white rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
                 <ShieldCheck className="h-3 w-3" />
               </div>
+            ) : KindIcon ? (
+              <div className="absolute -bottom-0.5 -right-0.5 bg-card text-muted-foreground rounded-full h-5 w-5 flex items-center justify-center border-2 border-white shadow-sm">
+                <KindIcon className="h-2.5 w-2.5" />
+              </div>
             ) : null}
           </div>
         </div>
       </div>
-      <span className="text-[11px] font-bold text-muted-foreground max-w-[72px] truncate">
+      <span className={cn("text-[11px] max-w-[76px] truncate", viewed && !story.isOwn ? "font-medium text-muted-foreground/70" : "font-bold text-foreground")}>
         {story.isOwn ? "Your Story" : story.name.split(" ")[0]}
       </span>
     </button>
@@ -430,7 +487,7 @@ function PostCard({ item }: { item: any }) {
       <div className="px-4 pt-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button onClick={handleLike} className="group">
-            <Heart className={cn("h-6 w-6 transition-all active:scale-125", liked ? "text-red-500 fill-red-500" : "text-foreground group-hover:text-red-400")} />
+            <Heart className={cn("h-6 w-6 transition-colors", liked ? "text-red-500 fill-red-500 animate-like-pop" : "text-foreground group-hover:text-red-400")} />
           </button>
           <button className="group">
             <MessageCircle className="h-6 w-6 text-foreground group-hover:text-primary transition-colors" />
@@ -1106,6 +1163,68 @@ function EventCard({ item }: { item: any }) {
   )
 }
 
+// ─── Dynamic Feed Inserts ─────────────────────────────────────────────────────
+
+function PrayerInsertCard() {
+  const { prayerData, loading, countdown, nextPrayerName, nextPrayerTime, locationName, timeFormat } = usePrayerSnapshot()
+  if (loading || !prayerData) return null
+  return (
+    <Card className="rounded-none sm:rounded-2xl border-x-0 sm:border-x border-none shadow-sm overflow-hidden bg-gradient-to-r from-primary via-primary to-emerald-500 text-white">
+      <a href="/prayer-times" className="block p-5 flex items-center justify-between relative overflow-hidden">
+        <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10 blur-xl" />
+        <div className="relative space-y-1">
+          <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest opacity-75">
+            <Moon className="h-3 w-3" /> Prayer Reminder
+          </p>
+          <p className="text-lg font-black tabular-nums">
+            {nextPrayerName} · {String(countdown.hours).padStart(2, "0")}:{String(countdown.minutes).padStart(2, "0")}:{String(countdown.seconds).padStart(2, "0")}
+          </p>
+          <p className="text-xs font-bold opacity-80">{locationName || "Set your location"}</p>
+        </div>
+        <div className="relative text-right space-y-0.5 shrink-0">
+          <p className="text-sm font-black">{nextPrayerTime ? formatPrayerTime(nextPrayerTime, timeFormat) : "--:--"}</p>
+          <p className="text-[10px] font-bold opacity-70">All Prayer Times →</p>
+        </div>
+      </a>
+    </Card>
+  )
+}
+
+function FaithInsertCard() {
+  const { moment, loading } = useFaithMoment()
+  if (loading || !moment?.text) return null
+  const label = moment.kind === "verse" ? "Daily Qur'an Verse" : moment.kind === "hadith" ? "Hadith Reminder" : "Dua of the Day"
+  return (
+    <Card className="rounded-none sm:rounded-2xl border-x-0 sm:border-x border-none shadow-sm bg-card overflow-hidden">
+      <div className="p-5 space-y-2">
+        <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-primary">
+          <BookMarked className="h-3.5 w-3.5" /> {label}
+        </p>
+        <p className="text-sm font-medium italic leading-relaxed text-foreground">"{moment.text}"</p>
+        <p className="text-[11px] font-bold text-muted-foreground">— {moment.reference}</p>
+      </div>
+    </Card>
+  )
+}
+
+const DYNAMIC_INSERTS = [PrayerInsertCard, FaithInsertCard]
+
+/** Weave rich, non-post inserts into the feed every few items — main "all" mode only. */
+function interleaveFeedInserts(nodes: React.ReactNode[]): React.ReactNode[] {
+  const INTERVAL = 4
+  const out: React.ReactNode[] = []
+  let insertIdx = 0
+  nodes.forEach((node, i) => {
+    out.push(node)
+    if ((i + 1) % INTERVAL === 0 && i < nodes.length - 1) {
+      const Insert = DYNAMIC_INSERTS[insertIdx % DYNAMIC_INSERTS.length]
+      out.push(<Insert key={`insert-${i}`} />)
+      insertIdx += 1
+    }
+  })
+  return out
+}
+
 // ─── Card Dispatcher ──────────────────────────────────────────────────────────
 
 function FeedCard({ item }: { item: typeof FEED_ITEMS[0] }) {
@@ -1126,15 +1245,38 @@ function FeedCard({ item }: { item: typeof FEED_ITEMS[0] }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
+const VIEWED_STORIES_KEY = "hh_viewed_stories"
+
 export default function FeedPage() {
+  const { user: composerUser } = useAuth()
+  const composerInitials = getInitials(composerUser?.name)
+  const [activeMode, setActiveMode] = React.useState("for-you")
   const [activeFilter, setActiveFilter] = React.useState("all")
   const [livePosts, setLivePosts] = React.useState<typeof FEED_ITEMS>([])
+  const [postsLoading, setPostsLoading] = React.useState(true)
   const [activeId, setActiveId] = React.useState<string | null>(null)
   const [audioOn, setAudioOn] = React.useState(false)
   const toggleAudio = React.useCallback(() => setAudioOn(a => !a), [])
   const clearActiveId = React.useCallback((id: string) => setActiveId(prev => prev === id ? null : prev), [])
   const [sidebarBizs, setSidebarBizs] = React.useState<Array<{ id: string; name: string; category: string | null; image_url: string | null; logo_url: string | null; city: string | null }>>([])
   const [sidebarProfiles, setSidebarProfiles] = React.useState<Array<{ id: string; name: string | null; photo_url: string | null; city: string | null }>>([])
+  const [viewedStories, setViewedStories] = React.useState<Set<string>>(new Set())
+
+  React.useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem(VIEWED_STORIES_KEY) ?? "[]")
+      setViewedStories(new Set(stored))
+    } catch {}
+  }, [])
+
+  const handleOpenStory = React.useCallback((id: string) => {
+    setViewedStories(prev => {
+      if (prev.has(id)) return prev
+      const next = new Set(prev).add(id)
+      try { localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify([...next])) } catch {}
+      return next
+    })
+  }, [])
 
   React.useEffect(() => {
     const supabase = createClient()
@@ -1144,6 +1286,7 @@ export default function FeedPage() {
       .order("created_at", { ascending: false })
       .limit(30)
       .then(({ data }: { data: any[] | null }) => {
+        setPostsLoading(false)
         if (!data || data.length === 0) return
         setLivePosts(data.map((b, i) => {
           const url = b.media_url || b.firebase_media_url || ""
@@ -1225,36 +1368,56 @@ export default function FeedPage() {
           <div className="lg:col-span-7 space-y-0">
 
             {/* Stories */}
-            <div className="bg-card border-b border-border px-4 py-3 overflow-x-auto no-scrollbar">
-              <div className="flex gap-3 w-max">
-                {STORIES.map(story => <StoryBubble key={story.id} story={story} />)}
+            <div className="bg-card border-b border-border px-4 py-4 overflow-x-auto no-scrollbar">
+              <div className="flex gap-4 w-max">
+                {STORIES.map(story => (
+                  <StoryBubble key={story.id} story={story} viewed={viewedStories.has(story.id)} onOpen={handleOpenStory} />
+                ))}
+              </div>
+            </div>
+
+            {/* Feed Modes */}
+            <div className="bg-card border-b border-border px-4 py-3">
+              <div className="flex gap-2">
+                {FEED_MODES.map(mode => (
+                  <button
+                    key={mode.id}
+                    onClick={() => setActiveMode(mode.id)}
+                    className={cn(
+                      "flex-1 flex items-center justify-center gap-1.5 rounded-2xl py-2.5 text-xs font-black transition-all duration-200",
+                      activeMode === mode.id
+                        ? "bg-primary text-white shadow-md shadow-primary/25 scale-[1.02]"
+                        : "text-muted-foreground hover:bg-muted",
+                    )}
+                  >
+                    <span>{mode.emoji}</span> {mode.label}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Create Post */}
-            <div className="bg-card border-b border-border p-3 sm:p-4">
+            <div className="bg-gradient-to-b from-card to-muted/20 border-b border-border p-4 sm:p-5">
               <div className="flex items-center gap-3">
-                <Avatar className="h-9 w-9 sm:h-10 sm:w-10 shrink-0">
-                  <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
-                  <AvatarFallback className="bg-primary/10 text-primary font-black">U</AvatarFallback>
+                <Avatar className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 border-2 border-card shadow-sm ring-1 ring-border">
+                  {composerUser?.photoURL && <AvatarImage src={composerUser.photoURL} />}
+                  <AvatarFallback className="bg-primary/10 text-primary font-black">{composerInitials}</AvatarFallback>
                 </Avatar>
-                <button className="flex-1 text-left bg-muted hover:bg-muted/80 transition-colors rounded-full px-4 sm:px-5 py-2.5 text-sm text-muted-foreground font-medium">
-                  Share with the Ummah…
-                </button>
-                <button className="bg-primary/10 hover:bg-primary/20 text-primary rounded-full p-2.5 transition-colors shrink-0">
-                  <Camera className="h-4 w-4 sm:h-5 sm:w-5" />
+                <button className="flex-1 text-left bg-muted hover:bg-muted/80 transition-colors rounded-2xl px-4 sm:px-5 py-3 text-sm text-muted-foreground font-medium shadow-inner">
+                  Share something with the Ummah…
                 </button>
               </div>
-              <div className="overflow-x-auto no-scrollbar mt-2.5">
-                <div className="flex items-center gap-1 w-max pl-12 sm:pl-[52px]">
-                  {[
-                    { icon: Camera,         label: "Photo" },
-                    { icon: Play,           label: "Video" },
-                    { icon: MapPin,         label: "Location" },
-                    { icon: Star,           label: "Review" },
-                    { icon: MessageCircle,  label: "Discussion" },
-                  ].map(({ icon: Icon, label }) => (
-                    <button key={label} className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-full hover:bg-primary/5 whitespace-nowrap">
+              <div className="overflow-x-auto no-scrollbar mt-3">
+                <div className="flex items-center gap-2 w-max pb-0.5">
+                  {COMPOSER_ACTIONS.map(({ icon: Icon, label, tint, iconColor }) => (
+                    <button
+                      key={label}
+                      className={cn(
+                        "flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-full whitespace-nowrap border border-transparent transition-all duration-150",
+                        "hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0",
+                        tint, iconColor,
+                      )}
+                    >
                       <Icon className="h-3.5 w-3.5" /> {label}
                     </button>
                   ))}
@@ -1286,8 +1449,28 @@ export default function FeedPage() {
 
             {/* Feed items */}
             <div className="space-y-3 py-3 md:py-4 md:space-y-4">
-              {filteredItems.length > 0 ? (
-                filteredItems.map(item => <FeedCard key={item.id} item={item} />)
+              {postsLoading ? (
+                /* Skeleton shimmer while live posts load */
+                Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="bg-card rounded-none sm:rounded-2xl overflow-hidden border border-border/50 shadow-sm">
+                    <div className="flex items-center gap-3 p-4">
+                      <div className="shimmer h-10 w-10 rounded-full shrink-0" />
+                      <div className="flex-1 space-y-2">
+                        <div className="shimmer h-3 w-32 rounded-full" />
+                        <div className="shimmer h-2.5 w-20 rounded-full" />
+                      </div>
+                    </div>
+                    <div className="shimmer aspect-[4/3] w-full" />
+                    <div className="p-4 space-y-2">
+                      <div className="shimmer h-3 w-full rounded-full" />
+                      <div className="shimmer h-3 w-3/4 rounded-full" />
+                    </div>
+                  </div>
+                ))
+              ) : filteredItems.length > 0 ? (
+                activeFilter === "all"
+                  ? interleaveFeedInserts(filteredItems.map(item => <FeedCard key={item.id} item={item} />))
+                  : filteredItems.map(item => <FeedCard key={item.id} item={item} />)
               ) : (
                 <div className="py-20 text-center space-y-2">
                   <Sparkles className="h-10 w-10 text-muted-foreground mx-auto" />
@@ -1308,14 +1491,18 @@ export default function FeedPage() {
             {/* User */}
             <div className="flex items-center gap-3 px-2">
               <Avatar className="h-14 w-14 border-2 border-white shadow-md ring-2 ring-primary/10">
-                <AvatarImage src="https://randomuser.me/api/portraits/men/1.jpg" />
-                <AvatarFallback className="bg-primary/10 text-primary font-black">JD</AvatarFallback>
+                {composerUser?.photoURL && <AvatarImage src={composerUser.photoURL} />}
+                <AvatarFallback className="bg-primary/10 text-primary font-black">{composerInitials || "?"}</AvatarFallback>
               </Avatar>
-              <div className="flex-1">
-                <p className="text-sm font-black text-foreground">Super User</p>
-                <p className="text-xs text-muted-foreground font-medium">@superuser · Hub Level 12</p>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-black text-foreground truncate">{composerUser?.name || "Sign In"}</p>
+                <p className="text-xs text-muted-foreground font-medium truncate">
+                  {composerUser ? `@${(composerUser.name || "user").toLowerCase().replace(/\s+/g, "")}` : "Guest"}
+                </p>
               </div>
-              <Button variant="ghost" className="text-primary text-xs font-black">Switch</Button>
+              <Button variant="ghost" className="text-primary text-xs font-black shrink-0" asChild>
+                <a href="/account/dashboard">Profile</a>
+              </Button>
             </div>
 
             {/* People Near You */}
