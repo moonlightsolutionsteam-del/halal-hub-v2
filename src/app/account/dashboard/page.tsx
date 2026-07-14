@@ -5,9 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { 
-  Heart, Clock, Star, Wallet, Settings, 
-  Bell, ShieldCheck, MapPin, Award, 
+import {
+  Heart, Clock, Star, Wallet, Settings,
+  Bell, ShieldCheck, MapPin, Award,
   MessageSquare, UserCheck, Zap, TrendingUp,
   ChevronRight, Share2, Camera, Edit2,
   ArrowLeft, MoreVertical, Flame, ShoppingBag,
@@ -15,7 +15,8 @@ import {
   Info, Bookmark, CheckCircle2, ArrowRight, Store, PenTool,
   Sparkles, Utensils, ClipboardList, Calendar,
   Trophy, Globe, Activity as ActivityIcon,
-  Plus, Moon, BookOpen, HeartPulse, Gift
+  Plus, Moon, BookOpen, HeartPulse, Gift,
+  Briefcase, Lock, ExternalLink
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -24,6 +25,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useAuth } from "@/hooks/use-auth"
+import { useCapabilities } from "@/hooks/use-capabilities"
 import { createClient } from "@/lib/supabase/client"
 
 const FamilyTreeIcon = (props: any) => (
@@ -63,11 +65,21 @@ type MyReviewRow = { id: string; rating: number; body: string | null; created_at
 export default function UserDashboard() {
   const [mounted, setMounted] = React.useState(false)
   const { user, loading } = useAuth()
+  const { capabilities, hasCapability, getCapability, loading: capsLoading } = useCapabilities()
   const [suggestions, setSuggestions] = React.useState<SuggestionRow[]>([])
   const [checkInCount, setCheckInCount] = React.useState<number | null>(null)
   const [savedCount, setSavedCount] = React.useState<number | null>(null)
   const [suggestionCount, setSuggestionCount] = React.useState<number | null>(null)
   const [myReviews, setMyReviews] = React.useState<MyReviewRow[]>([])
+  const [myBusinesses, setMyBusinesses] = React.useState<Array<{ id: string; name: string; category: string; status: string; image_url: string | null }>>([])
+
+  React.useEffect(() => {
+    if (!user?.uid) return
+    const supabase = createClient()
+    ;(supabase as any).from("businesses").select("id, name, category, status, image_url")
+      .eq("owner_id", user.uid).order("created_at", { ascending: false })
+      .then(({ data }: { data: any[] | null }) => { if (data) setMyBusinesses(data) })
+  }, [user?.uid])
 
   React.useEffect(() => {
     setMounted(true)
@@ -200,84 +212,176 @@ export default function UserDashboard() {
             ))}
           </div>
 
-          {/* Action Buttons Hub */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-10">
-            <Link href="/family-tree">
-              <Card className="rounded-[2rem] sm:rounded-[2.5rem] border-none shadow-sm bg-emerald-600 text-white p-5 sm:p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
-                <FamilyTreeIcon className="absolute -top-4 -right-4 h-32 w-32 opacity-10 group-hover:scale-110 transition-transform" />
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="space-y-1 sm:space-y-2">
-                    <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none uppercase">Family Tree</h3>
-                    <p className="text-emerald-100 text-xs sm:text-sm font-medium">Manage lineage & shared board</p>
+          {/* ── My Capabilities Hub ─────────────────────────────────────── */}
+          <div className="mt-6 sm:mt-10 space-y-4 sm:space-y-6">
+            <div className="flex items-center justify-between px-1">
+              <h3 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">My Capabilities</h3>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">One identity · Multiple powers</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+
+              {/* Consumer — always active */}
+              <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-primary/20 bg-primary/5 p-5 sm:p-6 flex items-center gap-4">
+                <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="h-6 w-6 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="text-sm font-black text-foreground">Consumer</p>
+                    <Badge className="bg-primary/15 text-primary border-none font-black text-[9px] uppercase px-2 h-4">Active</Badge>
                   </div>
-                  <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl sm:rounded-3xl bg-card/20 flex items-center justify-center backdrop-blur-md shadow-xl group-hover:translate-x-2 transition-all shrink-0">
-                    <ArrowRight className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <p className="text-xs text-muted-foreground font-medium mt-0.5">Browse, save, review, check in</p>
+                </div>
+                <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+              </div>
+
+              {/* Creator */}
+              {hasCapability("creator") ? (
+                <Link href="/vendor/creative/dashboard">
+                  <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30 p-5 sm:p-6 flex items-center gap-4 group hover:border-blue-400 transition-all cursor-pointer">
+                    <div className="h-12 w-12 rounded-2xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center shrink-0">
+                      <Sparkles className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="text-sm font-black text-foreground">Creator</p>
+                        <Badge className="bg-blue-100 text-blue-700 border-none font-black text-[9px] uppercase px-2 h-4">Active</Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">Open Creator Studio</p>
+                    </div>
+                    <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-blue-600 transition-colors shrink-0" />
+                  </div>
+                </Link>
+              ) : getCapability("creator")?.status === "pending" ? (
+                <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/30 p-5 sm:p-6 flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-2xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center shrink-0">
+                    <Sparkles className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-black text-foreground">Creator</p>
+                      <Badge className="bg-amber-100 text-amber-700 border-none font-black text-[9px] uppercase px-2 h-4">Pending</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground font-medium mt-0.5">Under review</p>
                   </div>
                 </div>
-              </Card>
-            </Link>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Card className="rounded-[2rem] sm:rounded-[2.5rem] border-none shadow-sm bg-zinc-900 text-white p-5 sm:p-8 group hover:shadow-xl transition-all duration-500 cursor-pointer overflow-hidden relative">
-                  <Sparkles className="absolute -top-4 -right-4 h-32 w-32 opacity-10 group-hover:scale-110 transition-transform text-primary" />
-                  <div className="relative z-10 flex items-center justify-between">
-                    <div className="space-y-1 sm:space-y-2">
-                      <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-none uppercase">Go Pro</h3>
-                      <p className="text-muted-foreground text-xs sm:text-sm font-medium">Unlock premium hub tools</p>
+              ) : (
+                <Link href="/account/capabilities/creator">
+                  <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-dashed border-border bg-card p-5 sm:p-6 flex items-center gap-4 group hover:border-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-all cursor-pointer">
+                    <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center shrink-0 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
+                      <Sparkles className="h-6 w-6 text-muted-foreground group-hover:text-blue-600 transition-colors" />
                     </div>
-                    <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl sm:rounded-3xl bg-primary flex items-center justify-center shadow-xl group-hover:translate-x-2 transition-all shrink-0">
-                      <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-black text-muted-foreground group-hover:text-foreground transition-colors">Creator</p>
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">Share content · Grow following</p>
+                    </div>
+                    <div className="h-7 w-7 rounded-full bg-muted group-hover:bg-blue-600 transition-colors flex items-center justify-center shrink-0">
+                      <Plus className="h-3.5 w-3.5 text-muted-foreground group-hover:text-white transition-colors" />
                     </div>
                   </div>
-                </Card>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md rounded-[3rem] p-10 border-none bg-card shadow-3xl">
-                <DialogHeader className="space-y-4">
-                  <div className="h-16 w-16 bg-primary/10 rounded-[1.5rem] flex items-center justify-center text-primary mx-auto mb-2">
-                    <Trophy className="h-8 w-8" />
-                  </div>
-                  <DialogTitle className="text-3xl font-black text-foreground text-center tracking-tight leading-tight">Elevate Your Presence</DialogTitle>
-                  <DialogDescription className="text-center font-medium text-muted-foreground text-base leading-relaxed px-4">
-                    Choose your professional path in the Halal Ecosystem and unlock specialized tools.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid grid-cols-1 gap-4 pt-8">
-                  <Link href="/vendor/creative/dashboard">
-                    <Button className="w-full h-24 bg-blue-50 hover:bg-blue-100 text-blue-700 border-2 border-blue-100 rounded-[2rem] flex flex-col items-start px-8 group transition-all shadow-sm">
-                      <div className="flex items-center gap-4 w-full">
-                        <div className="h-12 w-12 bg-card rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                          <PenTool className="h-6 w-6" />
-                        </div>
-                        <div className="flex flex-col items-start">
-                          <span className="font-black text-lg tracking-tight leading-none mb-1">Join as Creator</span>
-                          <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Influencers & Scholars</span>
-                        </div>
-                        <ArrowRight className="h-5 w-5 ml-auto group-hover:translate-x-2 transition-transform text-blue-300" />
+                </Link>
+              )}
+
+              {/* Professional */}
+              {hasCapability("professional") ? (
+                <Link href="/vendor/professional/dashboard">
+                  <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-violet-200 bg-violet-50 dark:border-violet-800 dark:bg-violet-950/30 p-5 sm:p-6 flex items-center gap-4 group hover:border-violet-400 transition-all cursor-pointer">
+                    <div className="h-12 w-12 rounded-2xl bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center shrink-0">
+                      <Briefcase className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="text-sm font-black text-foreground">Professional</p>
+                        <Badge className="bg-violet-100 text-violet-700 border-none font-black text-[9px] uppercase px-2 h-4">Active</Badge>
                       </div>
-                    </Button>
-                  </Link>
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">Open Professional Dashboard</p>
+                    </div>
+                    <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-violet-600 transition-colors shrink-0" />
+                  </div>
+                </Link>
+              ) : getCapability("professional")?.status === "pending" ? (
+                <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/30 p-5 sm:p-6 flex items-center gap-4">
+                  <div className="h-12 w-12 rounded-2xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center shrink-0">
+                    <Briefcase className="h-6 w-6 text-amber-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-black text-foreground">Professional</p>
+                      <Badge className="bg-amber-100 text-amber-700 border-none font-black text-[9px] uppercase px-2 h-4">Pending Review</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground font-medium mt-0.5">24–48h approval</p>
+                  </div>
+                </div>
+              ) : (
+                <Link href="/account/capabilities/professional">
+                  <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-dashed border-border bg-card p-5 sm:p-6 flex items-center gap-4 group hover:border-violet-400 hover:bg-violet-50/50 dark:hover:bg-violet-950/20 transition-all cursor-pointer">
+                    <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center shrink-0 group-hover:bg-violet-100 dark:group-hover:bg-violet-900/40 transition-colors">
+                      <Briefcase className="h-6 w-6 text-muted-foreground group-hover:text-violet-600 transition-colors" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-black text-muted-foreground group-hover:text-foreground transition-colors">Professional</p>
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">Offer services · Receive bookings</p>
+                    </div>
+                    <div className="h-7 w-7 rounded-full bg-muted group-hover:bg-violet-600 transition-colors flex items-center justify-center shrink-0">
+                      <Plus className="h-3.5 w-3.5 text-muted-foreground group-hover:text-white transition-colors" />
+                    </div>
+                  </div>
+                </Link>
+              )}
+
+              {/* Business Owner */}
+              <div className="rounded-[1.5rem] sm:rounded-[2rem] border-2 border-border bg-card p-5 sm:p-6 space-y-4 sm:col-span-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center shrink-0">
+                      <Store className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="text-sm font-black text-foreground">Business Owner</p>
+                        {myBusinesses.length > 0 && (
+                          <Badge className="bg-emerald-100 text-emerald-700 border-none font-black text-[9px] uppercase px-2 h-4">{myBusinesses.length} {myBusinesses.length === 1 ? "Business" : "Businesses"}</Badge>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground font-medium mt-0.5">Manage listings, orders & analytics</p>
+                    </div>
+                  </div>
                   <Link href="/partner/onboarding/business/category">
-                    <Button className="w-full h-24 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-2 border-emerald-100 rounded-[2rem] flex flex-col items-start px-8 group transition-all shadow-sm">
-                      <div className="flex items-center gap-4 w-full">
-                        <div className="h-12 w-12 bg-card rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-                          <Store className="h-6 w-6" />
-                        </div>
-                        <div className="flex flex-col items-start">
-                          <span className="font-black text-lg tracking-tight leading-none mb-1">Register Business</span>
-                          <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Shops & Restaurants</span>
-                        </div>
-                        <ArrowRight className="h-5 w-5 ml-auto group-hover:translate-x-2 transition-transform text-emerald-300" />
-                      </div>
+                    <Button size="sm" className="rounded-2xl bg-primary text-white font-black text-xs h-9 px-4 shadow-sm shrink-0">
+                      <Plus className="h-3.5 w-3.5 mr-1" /> Add Business
                     </Button>
                   </Link>
                 </div>
-                <div className="pt-8 text-center">
-                  <Link href="/partner/portal" className="text-[10px] font-black text-muted-foreground hover:text-primary uppercase tracking-[0.2em] transition-colors flex items-center justify-center gap-2">
-                    Explore all partner types <ChevronRight className="h-3 w-3" />
-                  </Link>
-                </div>
-              </DialogContent>
-            </Dialog>
+                {myBusinesses.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {myBusinesses.slice(0, 4).map(biz => (
+                      <Link key={biz.id} href={`/partner/portal`}>
+                        <div className="flex items-center gap-3 p-3 rounded-2xl bg-muted hover:bg-muted/80 transition-colors group">
+                          <div className="h-9 w-9 rounded-xl overflow-hidden bg-border shrink-0">
+                            {biz.image_url
+                              ? <img src={biz.image_url} alt={biz.name} className="h-full w-full object-cover" />
+                              : <div className="h-full w-full flex items-center justify-center"><Store className="h-4 w-4 text-muted-foreground" /></div>
+                            }
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-black text-foreground truncate">{biz.name}</p>
+                            <p className="text-[10px] text-muted-foreground font-medium truncate">{biz.category}</p>
+                          </div>
+                          <Badge className={cn(
+                            "text-[9px] font-black border-none px-2 h-4 shrink-0",
+                            biz.status === "active" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700",
+                          )}>
+                            {biz.status === "active" ? "Live" : "Pending"}
+                          </Badge>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+            </div>
           </div>
 
           {/* Unified My Activity Hub */}

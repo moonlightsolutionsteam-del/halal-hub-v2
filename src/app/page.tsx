@@ -22,6 +22,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useSmartGreeting } from "@/hooks/use-smart-greeting";
 import { FaithMomentCard } from "@/components/faith-moment-card";
+import { useCapabilities } from "@/hooks/use-capabilities";
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 
@@ -164,6 +165,7 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [liveBizList, setLiveBizList] = useState<LiveBiz[]>([]);
   const { user } = useAuth();
+  const { hasCapability } = useCapabilities();
   const { text: greetingText, subtext: greetingSubtext } = useSmartGreeting(user?.name, user?.uid);
   const { prayerData, loading: prayerLoading, countdown, nextPrayerName, nextPrayerTime, locationName, timeFormat } = usePrayerSnapshot();
   const bannerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -287,6 +289,32 @@ export default function Home() {
 
       {/* ── 2b. FAITH MOMENT ──────────────────────────────────────────────── */}
       <FaithMomentCard />
+
+      {/* ── 2c. MY CAPABILITIES QUICK-ACCESS (logged-in, has extra caps) ── */}
+      {user && (hasCapability("creator") || hasCapability("professional") || hasCapability("business_owner")) && (
+        <div className="px-4 pb-5">
+          <div className="rounded-2xl bg-card border border-border p-4 space-y-3">
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">My Capabilities</p>
+            <div className="flex flex-wrap gap-2">
+              {hasCapability("creator") && (
+                <a href="/vendor/creative/dashboard" className="flex items-center gap-2 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full text-xs font-black border border-blue-200 dark:border-blue-800 hover:bg-blue-100 transition-colors">
+                  <span>✦</span> Creator Studio
+                </a>
+              )}
+              {hasCapability("professional") && (
+                <a href="/vendor/professional/dashboard" className="flex items-center gap-2 bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 px-4 py-2 rounded-full text-xs font-black border border-violet-200 dark:border-violet-800 hover:bg-violet-100 transition-colors">
+                  <span>✦</span> Professional
+                </a>
+              )}
+              {hasCapability("business_owner") && (
+                <a href="/partner/portal" className="flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-full text-xs font-black border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 transition-colors">
+                  <span>✦</span> My Business
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── 3. QUICK ACTIONS ──────────────────────────────────────────────── */}
       <div className="px-4 pb-5">
