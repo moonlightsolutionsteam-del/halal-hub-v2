@@ -24,6 +24,14 @@ import { useSmartGreeting } from "@/hooks/use-smart-greeting";
 import { FaithMomentCard } from "@/components/faith-moment-card";
 import { useCapabilities } from "@/hooks/use-capabilities";
 
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+type LiveBizType = { id: string; name: string; category: string; rating: number; image_url: string | null; city: string | null; halal_verified: boolean }
+type FeedPostRow = { id: string; display_name: string | null; description: string | null; media_url: string | null; firebase_media_url: string | null; place_name: string | null; created_at: string }
+type CreatorRow = { user_id: string; display_name: string | null; category: string | null; content_categories: string[] | null; profile?: { name: string | null; photo_url: string | null } | null }
+type ProfessionalRow = { user_id: string; profession: string | null; availability: string | null; city: string | null; skills: string[] | null; bio: string | null; profile?: { name: string | null; photo_url: string | null } | null }
+type CatalogItem = { id: string; name: string; price: number | null; image_url: string | null; business?: { name: string; image_url: string | null } | null }
+
 // ─── Static data ─────────────────────────────────────────────────────────────
 
 const QUICK_ACTIONS = [
@@ -82,66 +90,6 @@ const FEATURED_BANNERS = [
 
 const CATEGORIES = ["All", "Food", "Healthcare", "Fashion", "Finance", "Travel", "Grocery", "Events"];
 
-const RECOMMENDED = [
-  { name: "Istanbul Grill House", cat: "Turkish Restaurant", rating: 4.9, dist: "0.4 km", open: true, badge: "Halal Certified", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format&q=80", url: "/categories/food", category: "Food" },
-  { name: "Noor Health Clinic", cat: "Healthcare", rating: 4.8, dist: "1.1 km", open: true, badge: "Verified", img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop&auto=format&q=80", url: "/categories/healthcare", category: "Healthcare" },
-  { name: "Amanah Islamic Bank", cat: "Shariah Finance", rating: 4.9, dist: "0.8 km", open: true, badge: "AAOIFI Cert", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=300&fit=crop&auto=format&q=80", url: "/entities/fin1", category: "Finance" },
-  { name: "Modest Attire Co.", cat: "Fashion Boutique", rating: 4.7, dist: "2.3 km", open: false, badge: "New", img: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=300&fit=crop&auto=format&q=80", url: "/categories/fashion", category: "Fashion" },
-  { name: "Al-Madina Feast", cat: "Arabic & Levantine", rating: 4.8, dist: "0.9 km", open: true, badge: "Top Rated", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&auto=format&q=80", url: "/categories/food", category: "Food" },
-  { name: "Sunnah Fresh Mart", cat: "Organic Grocery", rating: 4.6, dist: "1.4 km", open: true, badge: "Organic", img: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=300&fit=crop&auto=format&q=80", url: "/categories/grocery", category: "Grocery" },
-  { name: "Halal Journeys", cat: "Travel & Umrah", rating: 4.9, dist: "3.2 km", open: true, badge: "Featured", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=300&fit=crop&auto=format&q=80", url: "/categories/travel", category: "Travel" },
-  { name: "Grand Halal Ballroom", cat: "Event Venue", rating: 4.9, dist: "1.8 km", open: true, badge: "Premium", img: "https://images.unsplash.com/photo-1497644083578-611b798c60f3?w=400&h=300&fit=crop&auto=format&q=80", url: "/categories/events", category: "Events" },
-];
-
-const EVENTS = [
-  { title: "Islamic Finance Summit 2026", date: "Sat 12 Jul", time: "10:00 AM", location: "Bandra, Mumbai", type: "Networking", going: 234, img: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=250&fit=crop&auto=format&q=80" },
-  { title: "Quran & Seerah Intensive", date: "Sun 13 Jul", time: "9:00 AM", location: "Andheri West, Mumbai", type: "Education", going: 158, img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=250&fit=crop&auto=format&q=80" },
-  { title: "Community Iftar Gathering", date: "Fri 18 Jul", time: "7:30 PM", location: "Kurla, Mumbai", type: "Community", going: 412, img: "https://images.unsplash.com/photo-1555244162-803834f70033?w=400&h=250&fit=crop&auto=format&q=80" },
-];
-
-const COMMUNITY_POSTS = [
-  { avatar: "https://randomuser.me/api/portraits/men/21.jpg", name: "Ahmad K.", handle: "@ahmadkhan", time: "2h ago", text: "Just tried the new Turkish spot on 5th Ave — absolutely 🔥 The lamb köfte is unreal. Definitely halal certified.", likes: 142, replies: 23, tag: "Food Review" },
-  { avatar: "https://randomuser.me/api/portraits/women/35.jpg", name: "Fatima H.", handle: "@fatimah", time: "4h ago", text: "Question for the community: best Shariah-compliant investment options in 2026? Looking for REIT alternatives.", likes: 89, replies: 47, tag: "Finance" },
-  { avatar: "https://randomuser.me/api/portraits/men/55.jpg", name: "Yusuf T.", handle: "@yusuft", time: "6h ago", text: "Alhamdulillah — our community volunteer day planted 200 trees in Queens! Jazakallah khair to everyone who joined 🌱", likes: 312, replies: 61, tag: "Community" },
-];
-
-const PROFESSIONALS = [
-  { name: "Dr. Aisha Rahman", role: "General Physician", specialty: "Healthcare", rating: 4.9, reviews: 142, open: true, img: "https://randomuser.me/api/portraits/women/44.jpg", verified: true },
-  { name: "Ustadh Ibrahim", role: "Islamic Scholar", specialty: "Education", rating: 5.0, reviews: 88, open: true, img: "https://randomuser.me/api/portraits/men/33.jpg", verified: true },
-  { name: "Mufti Yusuf Ali", role: "Shariah Advisor", specialty: "Finance", rating: 4.8, reviews: 61, open: false, img: "https://randomuser.me/api/portraits/men/52.jpg", verified: true },
-  { name: "Arch. Fatima Hassan", role: "Interior Designer", specialty: "Creative", rating: 4.7, reviews: 34, open: true, img: "https://randomuser.me/api/portraits/women/29.jpg", verified: false },
-  { name: "Br. Hassan Malik", role: "Halal Auditor", specialty: "Certification", rating: 4.9, reviews: 207, open: true, img: "https://randomuser.me/api/portraits/men/14.jpg", verified: true },
-];
-
-const MARKETPLACE = [
-  { name: "Pure Argan Oil", price: "₹28", orig: "₹45", tag: "38% off", img: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=300&fit=crop&auto=format&q=80" },
-  { name: "Medjool Dates Box", price: "₹19", orig: "₹24", tag: "Popular", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=300&fit=crop&auto=format&q=80" },
-  { name: "Halal Protein Blend", price: "₹42", orig: "₹55", tag: "New", img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=300&h=300&fit=crop&auto=format&q=80" },
-  { name: "Oud Bakhoor Set", price: "₹35", orig: "₹50", tag: "Top Seller", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&h=300&fit=crop&auto=format&q=80" },
-];
-
-const CREATORS = [
-  { name: "Halal.Chef", avatar: "https://randomuser.me/api/portraits/women/12.jpg", tag: "Food" },
-  { name: "ModestMoments", avatar: "https://randomuser.me/api/portraits/women/8.jpg", tag: "Fashion" },
-  { name: "IslaamicFinance", avatar: "https://randomuser.me/api/portraits/men/19.jpg", tag: "Finance" },
-  { name: "TravelWithNur", avatar: "https://randomuser.me/api/portraits/women/38.jpg", tag: "Travel" },
-  { name: "Quran.Daily", avatar: "https://randomuser.me/api/portraits/men/47.jpg", tag: "Faith" },
-  { name: "HalalFoodie", avatar: "https://randomuser.me/api/portraits/women/62.jpg", tag: "Food" },
-];
-
-const BLOGS = [
-  { title: "The Complete Guide to Halal Investing in 2026", category: "Finance", readTime: "8 min", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=700&h=400&fit=crop&auto=format&q=80", hot: true },
-  { title: "Top 10 Halal Restaurants in Mumbai", category: "Food", readTime: "5 min", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=250&fit=crop&auto=format&q=80", hot: false },
-  { title: "How to Plan a Halal-Friendly Family Trip", category: "Travel", readTime: "6 min", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=250&fit=crop&auto=format&q=80", hot: false },
-];
-
-const STATS = [
-  { label: "Active Businesses", value: "45,892", icon: Building2, color: "text-primary", bg: "bg-primary/10", url: "/categories" },
-  { label: "Community Members", value: "1.2M", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10", url: "/community" },
-  { label: "Verified Certificates", value: "12,554", icon: ShieldCheck, color: "text-amber-500", bg: "bg-amber-500/10", url: "/categories" },
-  { label: "Community Posts", value: "482K", icon: MessageSquare, color: "text-purple-500", bg: "bg-purple-500/10", url: "/feed" },
-];
-
 const FAITH_TOOLS = [
   { icon: BookOpen, label: "Quran", desc: "Read & recite daily", url: "/quran", gradient: "from-emerald-600 to-emerald-800" },
   { icon: Coins, label: "Zakat", desc: "Calculate your obligation", url: "/zakat", gradient: "from-amber-500 to-amber-700" },
@@ -149,12 +97,10 @@ const FAITH_TOOLS = [
   { icon: HandHelping, label: "Volunteer", desc: "Serve the community", url: "/volunteer", gradient: "from-sky-500 to-sky-700" },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
-type LiveBiz = { id: string; name: string; category: string; rating: number; image_url: string | null; city: string | null; halal_verified: boolean }
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function mapCategory(category: string): string {
-  const c = category.toLowerCase()
+  const c = (category || "").toLowerCase()
   if (c.includes("food") || c.includes("dining") || c.includes("restaurant")) return "Food"
   if (c.includes("health")) return "Healthcare"
   if (c.includes("fashion") || c.includes("modest")) return "Fashion"
@@ -164,6 +110,23 @@ function mapCategory(category: string): string {
   if (c.includes("event")) return "Events"
   return "Food"
 }
+
+function timeAgo(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const m = Math.floor(diff / 60000)
+  if (m < 1) return "just now"
+  if (m < 60) return `${m}m ago`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `${h}h ago`
+  return `${Math.floor(h / 24)}d ago`
+}
+
+function getInitials(name: string | null | undefined): string {
+  if (!name) return "H"
+  return name.trim().split(/\s+/).map((w: string) => w[0]).slice(0, 2).join("").toUpperCase()
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 // Reusable section header
 function SectionHeader({ eyebrow, title, linkLabel, linkUrl }: { eyebrow: string; title: string; linkLabel?: string; linkUrl?: string }) {
@@ -188,7 +151,15 @@ export default function Home() {
   const [time, setTime] = useState<Date | null>(null);
   const [bannerIdx, setBannerIdx] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
-  const [liveBizList, setLiveBizList] = useState<LiveBiz[]>([]);
+
+  // Live data
+  const [liveBizList, setLiveBizList] = useState<LiveBizType[]>([]);
+  const [feedPosts, setFeedPosts] = useState<FeedPostRow[]>([]);
+  const [creators, setCreators] = useState<CreatorRow[]>([]);
+  const [professionals, setProfessionals] = useState<ProfessionalRow[]>([]);
+  const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
+  const [liveStats, setLiveStats] = useState<{ businesses: number; members: number; posts: number; creators: number } | null>(null);
+
   const { user } = useAuth();
   const { hasCapability } = useCapabilities();
   const { text: greetingText, subtext: greetingSubtext } = useSmartGreeting(user?.name, user?.uid);
@@ -214,17 +185,72 @@ export default function Home() {
     ;(supabase as any).rpc("bump_streak", { p_streak_type: "daily_checkin" })
   }, [user?.uid]);
 
+  // ── Live data fetches (all parallel) ────────────────────────────────────────
   useEffect(() => {
     const supabase = createClient()
+
+    // Businesses for Recommended section
     supabase
       .from("businesses")
       .select("id, name, category, rating, image_url, city, halal_verified")
       .eq("status", "active")
       .order("rating", { ascending: false })
       .limit(16)
-      .then(({ data }) => {
-        if (data && data.length > 0) setLiveBizList(data as LiveBiz[])
+      .then(({ data }) => { if (data?.length) setLiveBizList(data as LiveBizType[]) })
+
+    // Community Pulse — latest feed posts
+    ;(supabase as any)
+      .from("feed_posts")
+      .select("id, display_name, description, media_url, firebase_media_url, place_name, created_at")
+      .order("created_at", { ascending: false })
+      .limit(4)
+      .then(({ data }: { data: FeedPostRow[] | null }) => { if (data?.length) setFeedPosts(data) })
+
+    // Creator Spotlight — activated creators joined with profiles
+    ;(supabase as any)
+      .from("creator_profiles")
+      .select("user_id, display_name, category, content_categories, profiles(name, photo_url)")
+      .order("created_at", { ascending: false })
+      .limit(8)
+      .then(({ data }: { data: any[] | null }) => {
+        if (data?.length) setCreators(data.map((r: any) => ({ ...r, profile: r.profiles })))
       })
+
+    // Featured Professionals
+    ;(supabase as any)
+      .from("professional_profiles")
+      .select("user_id, profession, availability, city, skills, bio, profiles(name, photo_url)")
+      .order("created_at", { ascending: false })
+      .limit(6)
+      .then(({ data }: { data: any[] | null }) => {
+        if (data?.length) setProfessionals(data.map((r: any) => ({ ...r, profile: r.profiles })))
+      })
+
+    // Marketplace Picks — catalog items with business images
+    ;(supabase as any)
+      .from("business_catalog_items")
+      .select("id, name, price, image_url, businesses(name, image_url)")
+      .not("price", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(4)
+      .then(({ data }: { data: any[] | null }) => {
+        if (data?.length) setCatalogItems(data.map((r: any) => ({ ...r, business: r.businesses })))
+      })
+
+    // Live stats
+    Promise.all([
+      supabase.from("businesses").select("id", { count: "exact", head: true }).eq("status", "active"),
+      (supabase as any).from("profiles").select("id", { count: "exact", head: true }),
+      (supabase as any).from("feed_posts").select("id", { count: "exact", head: true }),
+      (supabase as any).from("creator_profiles").select("user_id", { count: "exact", head: true }),
+    ]).then(([biz, mem, posts, cre]) => {
+      setLiveStats({
+        businesses: (biz as any).count ?? 0,
+        members: (mem as any).count ?? 0,
+        posts: (posts as any).count ?? 0,
+        creators: (cre as any).count ?? 0,
+      })
+    })
   }, []);
 
   const formattedDate = time
@@ -236,20 +262,26 @@ export default function Home() {
         name: b.name,
         cat: b.category,
         rating: b.rating ?? 4.5,
-        dist: "",
         open: true,
         badge: b.halal_verified ? "Halal Certified" : "Verified",
         img: b.image_url || "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format&q=80",
         url: `/entities/${b.id}`,
         category: mapCategory(b.category ?? ""),
       }))
-    : RECOMMENDED
+    : []
 
   const filteredRecs = activeCategory === "All"
     ? baseRecs
     : baseRecs.filter(r => r.category === activeCategory);
 
   const banner = FEATURED_BANNERS[bannerIdx];
+
+  const STATS_CONFIG = [
+    { label: "Active Businesses", value: liveStats ? liveStats.businesses.toLocaleString() : "…", icon: Building2, color: "text-primary", bg: "bg-primary/10", url: "/categories" },
+    { label: "Community Members", value: liveStats ? liveStats.members.toLocaleString() : "…", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10", url: "/community" },
+    { label: "Community Posts", value: liveStats ? liveStats.posts.toLocaleString() : "…", icon: MessageSquare, color: "text-purple-500", bg: "bg-purple-500/10", url: "/feed" },
+    { label: "Active Creators", value: liveStats ? liveStats.creators.toLocaleString() : "…", icon: Sparkles, color: "text-amber-500", bg: "bg-amber-500/10", url: "/creators" },
+  ];
 
   return (
     <div className="pb-12 overflow-x-hidden">
@@ -457,9 +489,9 @@ export default function Home() {
                       <Star className="h-2.5 w-2.5 text-amber-400 fill-amber-400" />
                       <span className="text-[10px] font-black">{biz.rating}</span>
                     </div>
-                    {biz.dist && (
+                    {(biz as any).dist && (
                       <div className="flex items-center gap-0.5 text-[10px] text-muted-foreground font-bold">
-                        <MapPin className="h-2.5 w-2.5" />{biz.dist}
+                        <MapPin className="h-2.5 w-2.5" />{(biz as any).dist}
                       </div>
                     )}
                   </div>
@@ -487,31 +519,33 @@ export default function Home() {
           </Link>
         </div>
         <div className="space-y-3">
-          {COMMUNITY_POSTS.slice(0, 2).map((post, i) => (
-            <Link key={i} href="/feed" className="block group">
+          {feedPosts.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-border text-center py-8 text-xs font-black text-muted-foreground">
+              No posts yet — be the first to share!
+            </div>
+          ) : feedPosts.slice(0, 2).map((post, i) => (
+            <Link key={post.id ?? i} href="/feed" className="block group">
               <div className="rounded-2xl bg-card border border-border/50 p-4 hover:shadow-md transition-shadow space-y-3">
                 <div className="flex items-start gap-3">
                   <Avatar className="h-9 w-9 shrink-0 ring-2 ring-primary/20">
-                    <AvatarImage src={post.avatar} />
-                    <AvatarFallback>{post.name[0]}</AvatarFallback>
+                    <AvatarFallback>{getInitials(post.display_name)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-black text-foreground">{post.name}</span>
-                      <span className="text-[10px] text-muted-foreground font-medium">{post.handle}</span>
-                      <span className="text-[10px] text-muted-foreground ml-auto">{post.time}</span>
+                      <span className="text-xs font-black text-foreground">{post.display_name || "Halal Hub Member"}</span>
+                      <span className="text-[10px] text-muted-foreground ml-auto">{timeAgo(post.created_at)}</span>
                     </div>
-                    <p className="text-xs font-medium text-foreground/80 mt-1.5 leading-relaxed line-clamp-2">{post.text}</p>
+                    <p className="text-xs font-medium text-foreground/80 mt-1.5 leading-relaxed line-clamp-2">{post.description || "Shared a moment with the community."}</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-black px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-                    {post.tag}
-                  </span>
-                  <div className="flex items-center gap-4 text-[10px] font-bold text-muted-foreground">
-                    <span className="flex items-center gap-1"><Heart className="h-3 w-3" />{post.likes}</span>
-                    <span className="flex items-center gap-1"><MessageSquare className="h-3 w-3" />{post.replies}</span>
-                  </div>
+                  {post.place_name ? (
+                    <span className="text-[9px] font-black px-2.5 py-1 rounded-full bg-primary/10 text-primary flex items-center gap-1">
+                      <MapPin className="h-2.5 w-2.5" />{post.place_name}
+                    </span>
+                  ) : (
+                    <span className="text-[9px] font-black px-2.5 py-1 rounded-full bg-primary/10 text-primary">Community</span>
+                  )}
                 </div>
               </div>
             </Link>
@@ -525,134 +559,164 @@ export default function Home() {
       </section>
 
       {/* ── 7. UPCOMING EVENTS ────────────────────────────────────────────── */}
-      <section className="pt-8 pb-1">
-        <SectionHeader eyebrow="This Week" title="Events Near You" linkLabel="All Events" linkUrl="/events" />
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-x-visible">
-          {EVENTS.map((ev, i) => (
-            <Link key={i} href="/events" className="shrink-0 w-72 lg:w-auto group">
-              <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
-                <div className="relative h-40 overflow-hidden">
-                  <Image src={ev.img} alt={ev.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  <div className="absolute top-3 left-3">
-                    <span className="text-[9px] font-black px-2.5 py-1 rounded-full bg-amber-400 text-black">{ev.type}</span>
-                  </div>
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className="text-sm font-black text-white leading-tight line-clamp-2">{ev.title}</p>
-                  </div>
-                </div>
-                <div className="p-3 flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-1.5 text-[10px] font-black text-foreground">
-                      <Calendar className="h-3 w-3 text-primary" />{ev.date} · {ev.time}
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground">
-                      <MapPin className="h-3 w-3" />{ev.location}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 text-[10px] font-black text-muted-foreground">
-                    <Users className="h-3 w-3" />{ev.going}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+      <section className="pt-8 pb-1 px-4">
+        <SectionHeader eyebrow="This Week" title="Events Near You" />
+        <div className="rounded-2xl border border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20 p-6 text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center mx-auto">
+            <Calendar className="h-6 w-6 text-amber-500" />
+          </div>
+          <div className="space-y-1">
+            <p className="text-sm font-black text-foreground">Events Coming Soon</p>
+            <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">
+              Community events will appear here once members and businesses start posting. Be the first to host one!
+            </p>
+          </div>
+          <Link href="/partner/portal">
+            <div className="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-black px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
+              <PenTool className="h-3.5 w-3.5" /> Post an Event
+            </div>
+          </Link>
         </div>
       </section>
 
       {/* ── 8. CREATOR SPOTLIGHT ──────────────────────────────────────────── */}
       <section className="pt-8 pb-1">
         <SectionHeader eyebrow="Original Content" title="Creator Spotlight" linkLabel="All Creators" linkUrl="/creators" />
-        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1">
-          {CREATORS.map((creator, i) => (
-            <Link key={i} href="/creators" className="flex flex-col items-center gap-2 min-w-[72px] group">
-              <div className="relative p-0.5 rounded-full bg-gradient-to-br from-primary via-emerald-400 to-teal-300">
-                <div className="p-0.5 rounded-full bg-background">
-                  <Avatar className="h-14 w-14">
-                    <AvatarImage src={creator.avatar} />
-                    <AvatarFallback>{creator.name[0]}</AvatarFallback>
-                  </Avatar>
-                </div>
-              </div>
-              <div className="text-center space-y-0.5">
-                <p className="text-[10px] font-black text-foreground line-clamp-1 leading-tight">{creator.name}</p>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">{creator.tag}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {creators.length === 0 ? (
+          <div className="px-4">
+            <div className="rounded-2xl border border-dashed border-border text-center py-6 space-y-2">
+              <Sparkles className="h-6 w-6 text-muted-foreground mx-auto" />
+              <p className="text-xs font-black text-muted-foreground">No creators yet</p>
+              <Link href="/account/capabilities/creator">
+                <span className="text-xs font-black text-primary">Become a Creator →</span>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1">
+            {creators.map((creator) => {
+              const name = creator.display_name || creator.profile?.name || "Creator"
+              const tag = creator.content_categories?.[0] || creator.category || "Content"
+              const photoUrl = creator.profile?.photo_url
+              return (
+                <Link key={creator.user_id} href="/creators" className="flex flex-col items-center gap-2 min-w-[72px] group">
+                  <div className="relative p-0.5 rounded-full bg-gradient-to-br from-primary via-emerald-400 to-teal-300">
+                    <div className="p-0.5 rounded-full bg-background">
+                      <Avatar className="h-14 w-14">
+                        {photoUrl && <AvatarImage src={photoUrl} />}
+                        <AvatarFallback>{getInitials(name)}</AvatarFallback>
+                      </Avatar>
+                    </div>
+                  </div>
+                  <div className="text-center space-y-0.5">
+                    <p className="text-[10px] font-black text-foreground line-clamp-1 leading-tight">{name}</p>
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">{tag}</span>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        )}
       </section>
 
       {/* ── 9. FEATURED PROFESSIONALS ─────────────────────────────────────── */}
       <section className="pt-8 pb-1">
         <SectionHeader eyebrow="Verified Experts" title="Featured Professionals" linkLabel="View All" linkUrl="/professionals" />
-        <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-5 lg:gap-3 lg:overflow-x-visible">
-          {PROFESSIONALS.map((pro, i) => (
-            <Link key={i} href="/professionals" className="shrink-0 w-44 lg:w-auto group">
-              <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
-                <div className="relative h-28 bg-gradient-to-br from-primary/10 to-emerald-50 dark:to-emerald-950/20 flex items-center justify-center">
-                  <Avatar className="h-16 w-16 border-4 border-background shadow-md">
-                    <AvatarImage src={pro.img} className="object-cover" />
-                    <AvatarFallback>{pro.name[0]}</AvatarFallback>
-                  </Avatar>
-                  {pro.verified && (
-                    <div className="absolute top-2 right-2 h-6 w-6 bg-primary rounded-full flex items-center justify-center shadow-sm">
-                      <ShieldCheck className="h-3 w-3 text-white" />
+        {professionals.length === 0 ? (
+          <div className="px-4">
+            <div className="rounded-2xl border border-dashed border-border text-center py-6 space-y-2">
+              <Briefcase className="h-6 w-6 text-muted-foreground mx-auto" />
+              <p className="text-xs font-black text-muted-foreground">No professionals listed yet</p>
+              <Link href="/account/capabilities/professional">
+                <span className="text-xs font-black text-primary">List Your Services →</span>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-1 lg:grid lg:grid-cols-5 lg:gap-3 lg:overflow-x-visible">
+            {professionals.map((pro) => {
+              const name = pro.profile?.name || "Professional"
+              const isAvailable = pro.availability === "available"
+              const photoUrl = pro.profile?.photo_url
+              return (
+                <Link key={pro.user_id} href="/professionals" className="shrink-0 w-44 lg:w-auto group">
+                  <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
+                    <div className="relative h-28 bg-gradient-to-br from-primary/10 to-emerald-50 dark:to-emerald-950/20 flex items-center justify-center">
+                      <Avatar className="h-16 w-16 border-4 border-background shadow-md">
+                        {photoUrl && <AvatarImage src={photoUrl} className="object-cover" />}
+                        <AvatarFallback>{getInitials(name)}</AvatarFallback>
+                      </Avatar>
+                      <div className="absolute top-2 right-2 h-6 w-6 bg-primary rounded-full flex items-center justify-center shadow-sm">
+                        <ShieldCheck className="h-3 w-3 text-white" />
+                      </div>
+                      <div className={cn(
+                        "absolute bottom-2 left-1/2 -translate-x-1/2 text-[8px] font-black px-2 py-0.5 rounded-full whitespace-nowrap",
+                        isAvailable ? "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400" : "bg-muted text-muted-foreground"
+                      )}>
+                        {isAvailable ? "Available Now" : "Busy"}
+                      </div>
                     </div>
-                  )}
-                  <div className={cn(
-                    "absolute bottom-2 left-1/2 -translate-x-1/2 text-[8px] font-black px-2 py-0.5 rounded-full whitespace-nowrap",
-                    pro.open ? "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-400" : "bg-muted text-muted-foreground"
-                  )}>
-                    {pro.open ? "Available Now" : "Unavailable"}
-                  </div>
-                </div>
-                <div className="p-3 space-y-1">
-                  <p className="text-xs font-black text-foreground leading-tight line-clamp-1">{pro.name}</p>
-                  <p className="text-[10px] font-bold text-muted-foreground line-clamp-1">{pro.role}</p>
-                  <div className="flex items-center justify-between pt-0.5">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-2.5 w-2.5 text-amber-400 fill-amber-400" />
-                      <span className="text-[10px] font-black">{pro.rating}</span>
+                    <div className="p-3 space-y-1">
+                      <p className="text-xs font-black text-foreground leading-tight line-clamp-1">{name}</p>
+                      <p className="text-[10px] font-bold text-muted-foreground line-clamp-1">{pro.profession || "Professional"}</p>
+                      {pro.skills?.[0] && (
+                        <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-primary/10 text-primary">{pro.skills[0]}</span>
+                      )}
                     </div>
-                    <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-primary/10 text-primary">{pro.specialty}</span>
                   </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+                </Link>
+              )
+            })}
+          </div>
+        )}
       </section>
 
       {/* ── 10. MARKETPLACE PICKS ─────────────────────────────────────────── */}
       <section className="px-4 pt-8 pb-1">
         <SectionHeader eyebrow="Deals & Trending" title="Marketplace Picks" linkLabel="Shop All" linkUrl="/marketplace" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {MARKETPLACE.map((item, i) => (
-            <Link key={i} href="/marketplace" className="group">
-              <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
-                <div className="relative aspect-square overflow-hidden">
-                  <Image src={item.img} alt={item.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute top-2 right-2">
-                    <span className={cn(
-                      "text-[9px] font-black px-2 py-0.5 rounded-full",
-                      item.tag.includes("%") ? "bg-red-500 text-white" : "bg-primary text-white"
-                    )}>
-                      {item.tag}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-3 space-y-1">
-                  <p className="text-xs font-black text-foreground line-clamp-1">{item.name}</p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-black text-primary">{item.price}</span>
-                    <span className="text-[10px] font-bold text-muted-foreground line-through">{item.orig}</span>
-                  </div>
-                </div>
-              </div>
+        {catalogItems.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border text-center py-6 space-y-2">
+            <ShoppingCart className="h-6 w-6 text-muted-foreground mx-auto" />
+            <p className="text-xs font-black text-muted-foreground">No products listed yet</p>
+            <Link href="/partner/portal">
+              <span className="text-xs font-black text-primary">List Your Products →</span>
             </Link>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {catalogItems.map((item) => {
+              const img = item.image_url || item.business?.image_url
+              return (
+                <Link key={item.id} href="/marketplace" className="group">
+                  <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
+                    <div className="relative aspect-square overflow-hidden bg-muted">
+                      {img && <Image src={img} alt={item.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />}
+                      {!img && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <ShoppingCart className="h-8 w-8 text-muted-foreground/40" />
+                        </div>
+                      )}
+                      <div className="absolute top-2 right-2">
+                        <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-primary text-white">New</span>
+                      </div>
+                    </div>
+                    <div className="p-3 space-y-1">
+                      <p className="text-xs font-black text-foreground line-clamp-1">{item.name}</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-black text-primary">
+                          {item.price != null ? `$${item.price.toFixed(2)}` : "—"}
+                        </span>
+                      </div>
+                      {item.business?.name && (
+                        <p className="text-[9px] text-muted-foreground font-bold line-clamp-1">{item.business.name}</p>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        )}
       </section>
 
       {/* ── 11. FAITH & GIVING ────────────────────────────────────────────── */}
@@ -680,51 +744,91 @@ export default function Home() {
 
       {/* ── 12. FEATURED READING ──────────────────────────────────────────── */}
       <section className="px-4 pt-8 pb-1">
-        <SectionHeader eyebrow="Knowledge & Stories" title="Featured Reading" linkLabel="All Articles" linkUrl="/blog" />
-        <div className="space-y-3">
-          <Link href="/blog" className="block group">
-            <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200">
-              <div className="relative h-48 overflow-hidden">
-                <Image src={BLOGS[0].img} alt={BLOGS[0].title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
-                {BLOGS[0].hot && (
-                  <div className="absolute top-3 left-3 flex items-center gap-1 bg-orange-500 text-white text-[9px] font-black px-2.5 py-1 rounded-full">
-                    <Flame className="h-2.5 w-2.5" />Trending
-                  </div>
-                )}
-                <div className="absolute bottom-4 left-4 right-4 space-y-1.5">
-                  <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white">{BLOGS[0].category}</span>
-                  <p className="text-base font-black text-white leading-tight">{BLOGS[0].title}</p>
-                  <p className="text-[10px] text-white/65 font-bold">{BLOGS[0].readTime} read</p>
-                </div>
-              </div>
-            </div>
-          </Link>
-          <div className="grid grid-cols-2 gap-3">
-            {BLOGS.slice(1).map((blog, i) => (
-              <Link key={i} href="/blog" className="group">
-                <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
-                  <div className="relative h-28 overflow-hidden">
-                    <Image src={blog.img} alt={blog.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  </div>
-                  <div className="p-3 space-y-1">
-                    <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-primary/10 text-primary">{blog.category}</span>
-                    <p className="text-[11px] font-black text-foreground leading-tight line-clamp-2">{blog.title}</p>
-                    <p className="text-[9px] font-bold text-muted-foreground">{blog.readTime} read</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
+        <SectionHeader eyebrow="Community Stories" title="From the Feed" linkLabel="Open Feed" linkUrl="/feed" />
+        {feedPosts.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border text-center py-6 space-y-2">
+            <BookOpen className="h-6 w-6 text-muted-foreground mx-auto" />
+            <p className="text-xs font-black text-muted-foreground">Community posts will appear here</p>
+            <Link href="/feed">
+              <span className="text-xs font-black text-primary">Go to Feed →</span>
+            </Link>
           </div>
-        </div>
+        ) : (
+          <div className="space-y-3">
+            {/* Hero post — first item with a media URL if available */}
+            {(() => {
+              const hero = feedPosts.find(p => p.media_url || p.firebase_media_url) ?? feedPosts[0]
+              const heroImg = hero.media_url || hero.firebase_media_url
+              return (
+                <Link href="/feed" className="block group">
+                  <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200">
+                    {heroImg ? (
+                      <div className="relative h-48 overflow-hidden">
+                        <Image src={heroImg} alt={hero.description || "Community post"} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" />
+                        <div className="absolute top-3 left-3 flex items-center gap-1 bg-primary text-white text-[9px] font-black px-2.5 py-1 rounded-full">
+                          <Flame className="h-2.5 w-2.5" />Latest
+                        </div>
+                        <div className="absolute bottom-4 left-4 right-4 space-y-1.5">
+                          <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white">
+                            {hero.display_name || "Community"}
+                          </span>
+                          <p className="text-base font-black text-white leading-tight line-clamp-2">{hero.description || "Shared something with the community."}</p>
+                          <p className="text-[10px] text-white/65 font-bold">{timeAgo(hero.created_at)}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="p-5 space-y-2">
+                        <div className="flex items-center gap-1 text-[9px] font-black text-primary">
+                          <Flame className="h-2.5 w-2.5" />Latest Post
+                        </div>
+                        <p className="text-base font-black text-foreground leading-tight">{hero.description || "Shared something with the community."}</p>
+                        <p className="text-[10px] text-muted-foreground font-bold">{hero.display_name || "Community"} · {timeAgo(hero.created_at)}</p>
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              )
+            })()}
+
+            {/* Supporting cards — up to 2 more */}
+            {feedPosts.filter((_, i) => i > 0).slice(0, 2).length > 0 && (
+              <div className="grid grid-cols-2 gap-3">
+                {feedPosts.filter((_, i) => i > 0).slice(0, 2).map((post) => {
+                  const img = post.media_url || post.firebase_media_url
+                  return (
+                    <Link key={post.id} href="/feed" className="group">
+                      <div className="rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5">
+                        {img ? (
+                          <div className="relative h-28 overflow-hidden">
+                            <Image src={img} alt={post.description || "Post"} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          </div>
+                        ) : (
+                          <div className="h-28 bg-gradient-to-br from-primary/10 to-emerald-50 dark:to-emerald-950/20 flex items-center justify-center">
+                            <MessageSquare className="h-8 w-8 text-primary/30" />
+                          </div>
+                        )}
+                        <div className="p-3 space-y-1">
+                          <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-primary/10 text-primary">{post.display_name || "Community"}</span>
+                          <p className="text-[11px] font-black text-foreground leading-tight line-clamp-2">{post.description || "Shared a moment."}</p>
+                          <p className="text-[9px] font-bold text-muted-foreground">{timeAgo(post.created_at)}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )}
       </section>
 
       {/* ── 13. PLATFORM STATS ────────────────────────────────────────────── */}
       <section className="px-4 pt-8 pb-1">
         <SectionHeader eyebrow="By the Numbers" title="Halal Hub at a Glance" />
         <div className="grid grid-cols-2 gap-3">
-          {STATS.map((stat, i) => (
+          {STATS_CONFIG.map((stat, i) => (
             <Link key={i} href={stat.url} className="group">
               <div className="rounded-2xl bg-card border border-border/50 p-5 space-y-4 hover:shadow-md transition-shadow group-hover:-translate-y-0.5">
                 <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", stat.bg)}>
