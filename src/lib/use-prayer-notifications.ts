@@ -25,7 +25,30 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
   }
 }
 
-export function usePrayerNotifications(enabled: boolean, prayerData: PrayerTimesResponse | null) {
+type ReminderOption = "off" | "at_time" | "5_before" | "10_before" | "15_before" | "30_before"
+type PrayerReminders = Partial<Record<string, ReminderOption>>
+
+function offsetMinutes(option: ReminderOption): number {
+  switch (option) {
+    case "5_before": return 5
+    case "10_before": return 10
+    case "15_before": return 15
+    case "30_before": return 30
+    default: return 0
+  }
+}
+
+/**
+ * Schedules browser notifications per prayer, honouring per-prayer reminder settings
+ * (blueprint §3.2). When `reminders` is omitted, all 5 prayers notify at prayer time
+ * (legacy behaviour behind the master toggle). On Fridays the jumuah setting replaces
+ * the dhuhr one when configured.
+ */
+export function usePrayerNotifications(
+  enabled: boolean,
+  prayerData: PrayerTimesResponse | null,
+  reminders?: PrayerReminders,
+) {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
@@ -35,18 +58,35 @@ export function usePrayerNotifications(enabled: boolean, prayerData: PrayerTimes
     timers.current.forEach(clearTimeout)
     timers.current = []
 
-    const schedule = MAIN_PRAYERS.map((key) => ({
-      name: PRAYER_NAMES[key],
-      timestamp: new Date(prayerData.prayer_datetimes[key]).getTime(),
-    })).filter((p) => p.timestamp > Date.now())
+    const isFriday = new Date().getDay() === 5
 
-    schedule.forEach(({ name, timestamp }) => {
+    const schedule = MAIN_PRAYERS.flatMap((key) => {
+      let option: ReminderOption = reminders ? (reminders[key] ?? "off") : "at_time"
+      let label = PRAYER_NAMES[key]
+      if (key === "dhuhr" && isFriday && reminders?.jumuah && reminders.jumuah !== "off") {
+        option = reminders.jumuah
+        label = "Jumu'ah"
+      }
+      if (option === "off") return []
+      const prayerTs = new Date(prayerData.prayer_datetimes[key]).getTime()
+      const mins = offsetMinutes(option)
+      const fireTs = prayerTs - mins * 60000
+      if (fireTs <= Date.now()) return []
+      return [{
+        name: label,
+        timestamp: fireTs,
+        body: mins > 0
+          ? `${label} is in ${mins} minutes. Prepare for prayer.`
+          : label === "Jumu'ah"
+          ? "Jumu'ah prayer time. May your Friday be blessed."
+          : `It's time for ${label} prayer.`,
+      }]
+    })
+
+    schedule.forEach(({ name, timestamp, body }) => {
       const delay = timestamp - Date.now()
       const timer = setTimeout(() => {
-        new Notification(`${name} Prayer Time`, {
-          body: `It's time for ${name} prayer.`,
-          tag: `prayer-${name}`,
-        })
+        new Notification(`${name} Prayer Time`, { body, tag: `prayer-${name}` })
       }, delay)
       timers.current.push(timer)
     })
@@ -54,7 +94,7 @@ export function usePrayerNotifications(enabled: boolean, prayerData: PrayerTimes
     navigator.serviceWorker.ready.then((registration) => {
       registration.active?.postMessage({
         type: "SCHEDULE_PRAYER_NOTIFICATIONS",
-        prayers: schedule,
+        prayers: schedule.map(({ name, timestamp }) => ({ name, timestamp })),
       })
     }).catch(() => {})
 
@@ -62,5 +102,5 @@ export function usePrayerNotifications(enabled: boolean, prayerData: PrayerTimes
       timers.current.forEach(clearTimeout)
       timers.current = []
     }
-  }, [enabled, prayerData])
+  }, [enabled, prayerData, reminders])
 }

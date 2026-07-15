@@ -178,7 +178,7 @@ export default function PrayerTimesPage() {
     if (getNotificationSupport()) setNotifPermission(Notification.permission)
   }, [])
 
-  usePrayerNotifications(settings.notifications && notifPermission === "granted", prayerData)
+  usePrayerNotifications(settings.notifications && notifPermission === "granted", prayerData, settings.reminders)
 
   useEffect(() => {
     if (!citySearch.trim()) {
@@ -484,6 +484,40 @@ export default function PrayerTimesPage() {
                 disabled={notifPermission === "denied" || notifPermission === "unsupported"}
               />
             </div>
+
+            {/* Per-prayer reminder configuration (blueprint §3.2) */}
+            {settings.notifications && notifPermission === "granted" && (
+              <div className="pt-3 border-t border-border space-y-3">
+                <p className="text-xs font-black uppercase text-muted-foreground tracking-widest">Reminder Per Prayer</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {([
+                    { key: "fajr", label: "Fajr", options: ["off", "at_time", "5_before", "10_before", "15_before"] },
+                    { key: "dhuhr", label: "Dhuhr", options: ["off", "at_time", "5_before", "10_before", "30_before"] },
+                    { key: "asr", label: "Asr", options: ["off", "at_time", "5_before", "10_before", "30_before"] },
+                    { key: "maghrib", label: "Maghrib", options: ["off", "at_time", "5_before"] },
+                    { key: "isha", label: "Isha", options: ["off", "at_time", "5_before", "10_before"] },
+                    { key: "jumuah", label: "Jumu'ah (Fri)", options: ["off", "at_time", "30_before"] },
+                  ] as const).map(({ key, label, options }) => (
+                    <div key={key} className="flex items-center justify-between gap-2 bg-muted/40 rounded-xl px-3 py-2">
+                      <span className="text-sm font-bold text-foreground">{label}</span>
+                      <Select
+                        value={settings.reminders[key]}
+                        onValueChange={(v) => updateSettings({ reminders: { ...settings.reminders, [key]: v as any } })}
+                      >
+                        <SelectTrigger className="h-8 w-32 rounded-lg text-xs font-bold border-none bg-background"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          {options.map(o => (
+                            <SelectItem key={o} value={o} className="text-xs">
+                              {o === "off" ? "Off" : o === "at_time" ? "At time" : `${o.split("_")[0]} min before`}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
