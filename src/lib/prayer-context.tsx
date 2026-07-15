@@ -1,6 +1,8 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react"
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from "react"
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
 
 export interface PrayerSettings {
   method: string
@@ -51,9 +53,12 @@ const PrayerSettingsContext = createContext<PrayerSettingsContextType>({
 })
 
 export function PrayerSettingsProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth()
   const [settings, setSettings] = useState<PrayerSettings>(DEFAULT_SETTINGS)
   const [locationLoading, setLocationLoading] = useState(false)
   const [locationError, setLocationError] = useState<string | null>(null)
+  const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const loadedFromDb = useRef(false)
 
   useEffect(() => {
     try {
@@ -62,13 +67,62 @@ export function PrayerSettingsProvider({ children }: { children: React.ReactNode
     } catch {}
   }, [])
 
+  // Pull settings from user_prayer_settings once the user is known (server copy wins)
+  useEffect(() => {
+    if (!user?.uid || loadedFromDb.current) return
+    loadedFromDb.current = true
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("user_prayer_settings")
+      .select("calculation_method, madhab, time_format, location_type, manual_city, manual_lat, manual_lng")
+      .eq("user_id", user.uid)
+      .maybeSingle()
+      .then(({ data }: { data: any }) => {
+        if (!data) return
+        setSettings(prev => {
+          const next: PrayerSettings = {
+            ...prev,
+            method: data.calculation_method ?? prev.method,
+            madhab: data.madhab ?? prev.madhab,
+            timeFormat: (data.time_format as "12h" | "24h") ?? prev.timeFormat,
+            ...(data.location_type === "manual" && data.manual_lat && data.manual_lng
+              ? { latitude: Number(data.manual_lat), longitude: Number(data.manual_lng), locationName: data.manual_city ?? prev.locationName }
+              : {}),
+          }
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+          return next
+        })
+      })
+  }, [user?.uid])
+
+  // Push settings to user_prayer_settings (debounced) so they survive device changes
+  const syncToDb = useCallback((next: PrayerSettings) => {
+    if (!user?.uid) return
+    if (syncTimer.current) clearTimeout(syncTimer.current)
+    syncTimer.current = setTimeout(() => {
+      const supabase = createClient()
+      ;(supabase as any).from("user_prayer_settings").upsert({
+        user_id: user.uid,
+        calculation_method: next.method,
+        madhab: next.madhab,
+        time_format: next.timeFormat,
+        location_type: "manual",
+        manual_city: next.locationName,
+        manual_lat: next.latitude,
+        manual_lng: next.longitude,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: "user_id" }).then(() => {})
+    }, 1500)
+  }, [user?.uid])
+
   const updateSettings = useCallback((partial: Partial<PrayerSettings>) => {
     setSettings((prev) => {
       const next = { ...prev, ...partial }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+      syncToDb(next)
       return next
     })
-  }, [])
+  }, [syncToDb])
 
   const detectLocation = useCallback(async () => {
     if (!navigator.geolocation) {

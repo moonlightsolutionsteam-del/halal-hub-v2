@@ -20,6 +20,9 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { usePrayerSettings, type CitySearchResult } from "@/lib/prayer-context"
 import { useFavoriteDuas } from "@/lib/favorites-context"
+import { usePrayerLog, MILESTONE_COINS, type PrayerName } from "@/lib/use-prayer-log"
+import { useToast } from "@/hooks/use-toast"
+import { CheckCircle2, Flame } from "lucide-react"
 import {
   requestNotificationPermission, registerServiceWorker,
   getNotificationSupport, usePrayerNotifications,
@@ -92,6 +95,23 @@ function formatClock(date: Date, format: "12h" | "24h", timeZone?: string): stri
 export default function PrayerTimesPage() {
   const { settings, updateSettings, detectLocation, locationLoading, locationError, searchCity, selectCity } = usePrayerSettings()
   const { favorites, isFavorite, toggleFavorite } = useFavoriteDuas()
+  const { todayLog, streak, longestStreak, week, marking, markPrayer, signedIn } = usePrayerLog()
+  const { toast } = useToast()
+
+  const handleMarkPrayer = async (prayer: PrayerName) => {
+    if (todayLog[prayer] === "prayed") return // already marked
+    try {
+      const result = await markPrayer(prayer, "prayed")
+      if (result?.milestone) {
+        toast({
+          title: `🔥 ${result.milestone}-Day Prayer Streak!`,
+          description: `MashAllah! +${MILESTONE_COINS[result.milestone]} Halal Coins awarded. May Allah accept your worship.`,
+        })
+      }
+    } catch {
+      toast({ title: "Could not mark prayer", description: "Please try again.", variant: "destructive" } as any)
+    }
+  }
 
   const [citySearch, setCitySearch] = useState("")
   const [citySearchResults, setCitySearchResults] = useState<CitySearchResult[]>([])
@@ -543,9 +563,29 @@ export default function PrayerTimesPage() {
                             {isNext && !isCurrent && <Badge variant="secondary" className="ml-2 text-[10px] px-1.5 py-0">NEXT</Badge>}
                           </div>
                         </div>
-                        <span className={cn("font-mono text-sm font-bold tabular-nums", isCurrent ? "text-primary" : "text-foreground")}>
-                          {formatTime(time, settings.timeFormat)}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className={cn("font-mono text-sm font-bold tabular-nums", isCurrent ? "text-primary" : "text-foreground")}>
+                            {formatTime(time, settings.timeFormat)}
+                          </span>
+                          {isMainPrayer && signedIn && (
+                            <button
+                              onClick={() => handleMarkPrayer(key as PrayerName)}
+                              disabled={marking === key}
+                              title={todayLog[key as PrayerName] === "prayed" ? "Prayed — Alhamdulillah" : "Mark as prayed"}
+                              className={cn(
+                                "rounded-full p-1 transition-all",
+                                todayLog[key as PrayerName] === "prayed"
+                                  ? "text-emerald-500"
+                                  : "text-muted-foreground/30 hover:text-primary hover:scale-110"
+                              )}
+                            >
+                              {marking === key
+                                ? <Loader2 className="h-5 w-5 animate-spin" />
+                                : <CheckCircle2 className={cn("h-5 w-5", todayLog[key as PrayerName] === "prayed" && "fill-emerald-100 dark:fill-emerald-950")} />
+                              }
+                            </button>
+                          )}
+                        </div>
                       </div>
                     )
                   })}
@@ -555,6 +595,51 @@ export default function PrayerTimesPage() {
 
             {/* Info sidebar */}
             <div className="space-y-4">
+              {/* Prayer streak card (blueprint §9) */}
+              {signedIn && (
+                <Card className="rounded-[2rem] border-none shadow-sm bg-gradient-to-br from-amber-500/10 to-orange-500/5">
+                  <CardContent className="p-5 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Prayer Streak</p>
+                      <Flame className={cn("h-4 w-4", streak > 0 ? "text-orange-500" : "text-muted-foreground/30")} />
+                    </div>
+                    <div className="flex items-end gap-2">
+                      <span className="text-4xl font-black text-foreground tabular-nums">{streak}</span>
+                      <span className="text-sm font-bold text-muted-foreground pb-1">{streak === 1 ? "day" : "days"}</span>
+                      {longestStreak > streak && (
+                        <span className="text-[10px] font-bold text-muted-foreground/60 pb-1.5 ml-auto">Best: {longestStreak}</span>
+                      )}
+                    </div>
+                    {/* Last 7 days dots */}
+                    <div className="flex items-center justify-between pt-1">
+                      {week.map(({ date, prayedCount }) => {
+                        const dayLetter = ["S", "M", "T", "W", "T", "F", "S"][new Date(date + "T12:00:00").getDay()]
+                        return (
+                          <div key={date} className="flex flex-col items-center gap-1">
+                            <div
+                              className={cn(
+                                "h-6 w-6 rounded-full flex items-center justify-center text-[9px] font-black transition-colors",
+                                prayedCount >= 5 ? "bg-emerald-500 text-white"
+                                : prayedCount > 0 ? "bg-emerald-500/25 text-emerald-700 dark:text-emerald-400"
+                                : "bg-muted text-muted-foreground/50"
+                              )}
+                            >
+                              {prayedCount > 0 ? prayedCount : ""}
+                            </div>
+                            <span className="text-[8px] font-bold text-muted-foreground/60">{dayLetter}</span>
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <p className="text-[10px] text-muted-foreground font-medium">
+                      {streak === 0
+                        ? "Mark your prayers above to start a streak today."
+                        : "Mark at least 5 prayers daily to keep your streak."}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Islamic date card */}
               {hijriData && (
                 <Card className="rounded-[2rem] border-none shadow-sm">
