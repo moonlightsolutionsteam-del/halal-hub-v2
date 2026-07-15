@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import {
@@ -66,6 +66,7 @@ interface Business {
   signature_dish: string | null
   primary_cuisine: string | null
   social_links: any
+  prayer_times?: any
   latitude: number | null
   longitude: number | null
   firebase_business_id: string | null
@@ -85,9 +86,11 @@ type CategoryGroup =
   | "finance"
   | "travel"
   | "books"
+  | "mosque"
 
 function getCategoryGroup(cat: string | null): CategoryGroup {
   const c = (cat ?? "").toLowerCase()
+  if (c.includes("mosque") || c.includes("masjid") || c.includes("islamic centre") || c.includes("islamic center")) return "mosque"
   if (c.includes("restaurant") || c.includes("food & dining")) return "food"
   if (c.includes("catering")) return "catering"
   if (c.includes("meat") || c.includes("butcher")) return "meat"
@@ -115,6 +118,7 @@ function categoryLabel(cat: string | null): string {
     "Cosmetics & Personal Care": "Cosmetics",
     "Healthcare, Wellness & Spiritual Healing": "Healthcare",
     "Finance & Banking": "Islamic Finance",
+    "Mosques & Islamic Centres": "Mosque",
   }
   if (!cat) return "Business"
   return map[cat] ?? cat
@@ -143,6 +147,7 @@ function getTabsForGroup(group: CategoryGroup): TabDef[] {
     case "finance":   return [{ value: "info", label: "Info" }, { value: "second", label: "Services" },   media, reviews, offers]
     case "travel":    return [{ value: "info", label: "Info" }, { value: "second", label: "Packages" },   media, reviews, events]
     case "books":     return [{ value: "info", label: "Info" }, { value: "second", label: "Collection" }, media, reviews, events]
+    case "mosque":    return [{ value: "info", label: "Info" }, { value: "second", label: "Prayers" },    media, reviews, events]
   }
 }
 
@@ -163,7 +168,67 @@ function getCategoryHighlights(group: CategoryGroup): Highlight[] {
     case "finance":   return [{ emoji: "🏠", label: "Islamic Mortgage" }, { emoji: "📈", label: "Halal Investments" }, { emoji: "📜", label: "Sukuk" }, { emoji: "🌙", label: "Zakat Planning" }, { emoji: "🌍", label: "NRI Advisory" }, { emoji: "☕", label: "Free Consultation" }]
     case "travel":    return [{ emoji: "🕋", label: "Hajj Packages" }, { emoji: "🌙", label: "Umrah Packages" }, { emoji: "🇹🇷", label: "Turkey" }, { emoji: "🇲🇾", label: "Malaysia" }, { emoji: "🇦🇪", label: "UAE" }, { emoji: "🤲", label: "Guided Group Tours" }]
     case "books":     return [{ emoji: "📖", label: "Quran & Tafseer" }, { emoji: "🕌", label: "Fiqh & Seerah" }, { emoji: "👶", label: "Children's Books" }, { emoji: "🔤", label: "Arabic Learning" }, { emoji: "🎵", label: "Audio & Media" }, { emoji: "📦", label: "Bulk Orders" }]
+    case "mosque":    return [{ emoji: "🕌", label: "5 Daily Prayers" }, { emoji: "🗓️", label: "Jumu'ah" }, { emoji: "💧", label: "Wudu Facilities" }, { emoji: "👩", label: "Ladies' Section" }, { emoji: "📖", label: "Quran Classes" }, { emoji: "🌙", label: "Ramadan Programmes" }]
   }
+}
+
+// ── Set as My Mosque (blueprint §7.3) ─────────────────────────────────────────
+
+function SetMyMosqueButton({ mosqueId, mosqueName }: { mosqueId: string; mosqueName: string }) {
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const router = useRouter()
+  const [isMine, setIsMine] = useState<boolean | null>(null)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    if (!user?.uid) { setIsMine(false); return }
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("user_prayer_settings")
+      .select("my_mosque_id")
+      .eq("user_id", user.uid)
+      .maybeSingle()
+      .then(({ data }: { data: any }) => setIsMine(data?.my_mosque_id === mosqueId))
+  }, [user?.uid, mosqueId])
+
+  const toggle = async () => {
+    if (!user?.uid) { router.push(`/login?redirectTo=/entities/${mosqueId}`); return }
+    setSaving(true)
+    const supabase = createClient()
+    const next = !isMine
+    const { error } = await (supabase as any).from("user_prayer_settings").upsert(
+      { user_id: user.uid, my_mosque_id: next ? mosqueId : null, updated_at: new Date().toISOString() },
+      { onConflict: "user_id" },
+    )
+    setSaving(false)
+    if (error) {
+      toast({ title: "Could not update", description: error.message })
+      return
+    }
+    setIsMine(next)
+    toast({
+      title: next ? "Set as your mosque 🕌" : "Removed as your mosque",
+      description: next
+        ? `${mosqueName}'s Jumu'ah time will now appear on your Prayer Times screen.`
+        : undefined,
+    })
+  }
+
+  return (
+    <Button
+      onClick={toggle}
+      disabled={saving || isMine === null}
+      className={cn(
+        "w-full h-12 rounded-2xl font-black gap-2",
+        isMine ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""
+      )}
+      variant={isMine ? "default" : "outline"}
+    >
+      <CheckCircle2 className="h-4 w-4" />
+      {saving ? "Saving…" : isMine ? "✓ My Mosque" : "Set as My Mosque"}
+    </Button>
+  )
 }
 
 // ── Halal tab variant ─────────────────────────────────────────────────────────
@@ -598,6 +663,69 @@ function SecondTabContent({ business, group }: { business: Business; group: Cate
             <p className="text-sm text-muted-foreground font-medium">Supply to madrasas, Islamic schools, and mosques. Contact us for wholesale pricing.</p>
           </CardContent>
         </Card>
+      </div>
+    )
+  }
+
+  // ── MOSQUE ──
+  if (group === "mosque") {
+    const pt = business.prayer_times ?? {}
+    const congregation: { name: string; time: string | undefined }[] = [
+      { name: "Fajr", time: pt.fajr },
+      { name: "Dhuhr", time: pt.dhuhr },
+      { name: "Asr", time: pt.asr },
+      { name: "Maghrib", time: pt.maghrib },
+      { name: "Isha", time: pt.isha },
+    ]
+    const hasTimes = congregation.some(p => p.time)
+    return (
+      <div className="space-y-4">
+        <SetMyMosqueButton mosqueId={business.id} mosqueName={business.name} />
+
+        {pt.jumuah && (
+          <Card className="rounded-2xl border-primary/20 bg-primary/5">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-primary/80">Jumu'ah Prayer</p>
+                <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                  {Array.isArray(pt.khutbah_languages) && pt.khutbah_languages.length > 0
+                    ? `Khutbah in ${pt.khutbah_languages.join(" & ")}`
+                    : "Friday congregation"}
+                </p>
+              </div>
+              <p className="text-2xl font-black text-primary tabular-nums">{pt.jumuah}</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {hasTimes && (
+          <Card className="rounded-2xl border-border/50">
+            <CardContent className="p-4 space-y-2">
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Congregation Times</p>
+              {congregation.filter(p => p.time).map(({ name, time }) => (
+                <div key={name} className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground font-medium">{name}</span>
+                  <span className="font-black text-foreground tabular-nums">{time}</span>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        )}
+
+        <Card className="rounded-2xl border-border/50">
+          <CardContent className="p-4 space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Facilities</p>
+            <div className="flex flex-wrap gap-1.5">
+              {pt.wudu && <Chip label="💧 Wudu Facilities" />}
+              {pt.ladies_section && <Chip label="👩 Ladies' Section" />}
+              {!pt.wudu && !pt.ladies_section && <Chip label="Contact mosque for facilities" />}
+            </div>
+          </CardContent>
+        </Card>
+
+        {!hasTimes && (
+          <EmptyState icon="🕌" title="Prayer times not listed" desc="This mosque hasn't added congregation times yet." />
+        )}
       </div>
     )
   }

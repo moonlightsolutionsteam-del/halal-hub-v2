@@ -22,7 +22,9 @@ import { usePrayerSettings, type CitySearchResult } from "@/lib/prayer-context"
 import { useFavoriteDuas } from "@/lib/favorites-context"
 import { usePrayerLog, MILESTONE_COINS, type PrayerName } from "@/lib/use-prayer-log"
 import { useToast } from "@/hooks/use-toast"
-import { CheckCircle2, Flame } from "lucide-react"
+import { useAuth } from "@/hooks/use-auth"
+import { createClient } from "@/lib/supabase/client"
+import { CheckCircle2, Flame, Building2 } from "lucide-react"
 import {
   requestNotificationPermission, registerServiceWorker,
   getNotificationSupport, usePrayerNotifications,
@@ -97,6 +99,29 @@ export default function PrayerTimesPage() {
   const { favorites, isFavorite, toggleFavorite } = useFavoriteDuas()
   const { todayLog, streak, longestStreak, week, marking, markPrayer, signedIn } = usePrayerLog()
   const { toast } = useToast()
+  const { user } = useAuth()
+  const [myMosque, setMyMosque] = useState<{ id: string; name: string; jumuah: string | null; city: string | null } | null>(null)
+
+  useEffect(() => {
+    if (!user?.uid) { setMyMosque(null); return }
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("user_prayer_settings")
+      .select("my_mosque_id")
+      .eq("user_id", user.uid)
+      .maybeSingle()
+      .then(async ({ data }: { data: any }) => {
+        if (!data?.my_mosque_id) { setMyMosque(null); return }
+        const { data: mosque } = await (supabase as any)
+          .from("businesses")
+          .select("id, name, city, prayer_times")
+          .eq("id", data.my_mosque_id)
+          .maybeSingle()
+        if (mosque) {
+          setMyMosque({ id: mosque.id, name: mosque.name, jumuah: mosque.prayer_times?.jumuah ?? null, city: mosque.city })
+        }
+      })
+  }, [user?.uid])
 
   const handleMarkPrayer = async (prayer: PrayerName) => {
     if (todayLog[prayer] === "prayed") return // already marked
@@ -638,6 +663,28 @@ export default function PrayerTimesPage() {
                     </p>
                   </CardContent>
                 </Card>
+              )}
+
+              {/* My Mosque card (blueprint §7.3) */}
+              {myMosque && (
+                <Link href={`/entities/${myMosque.id}`} className="block">
+                  <Card className="rounded-[2rem] border-none shadow-sm hover:shadow-md transition-shadow">
+                    <CardContent className="p-5 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Building2 className="h-3.5 w-3.5 text-primary" />
+                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">My Mosque</p>
+                      </div>
+                      <p className="text-base font-black text-foreground leading-tight">{myMosque.name}</p>
+                      {myMosque.city && <p className="text-xs text-muted-foreground font-medium">{myMosque.city}</p>}
+                      {myMosque.jumuah && (
+                        <div className="flex items-center justify-between pt-1 border-t border-border mt-2">
+                          <span className="text-xs font-bold text-muted-foreground">Jumu'ah</span>
+                          <span className="text-sm font-black text-primary tabular-nums">{myMosque.jumuah}</span>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
               )}
 
               {/* Islamic date card */}
