@@ -40,7 +40,7 @@ export default function FoodPage() {
   const [selectedTab, setSelectedTab] = useState("All")
   const [visible, setVisible] = useState(12)
 
-  const restaurants = useCategoryBusinesses<RestaurantCard>(
+  const allRestaurants = useCategoryBusinesses<RestaurantCard>(
     ["Food & Dining", "restaurant"],
     FALLBACK,
     b => ({
@@ -56,6 +56,10 @@ export default function FoodPage() {
       price: priceLabel(b.price_range),
     })
   )
+
+  const restaurants = selectedTab === "All"
+    ? allRestaurants
+    : allRestaurants.filter(r => r.type.toLowerCase().includes(selectedTab.toLowerCase()))
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -88,7 +92,7 @@ export default function FoodPage() {
 
       <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar -mx-2 px-2">
         {TABS.map(tab => (
-          <button key={tab} onClick={() => setSelectedTab(tab)}
+          <button key={tab} onClick={() => { setSelectedTab(tab); setVisible(12) }}
             className={`px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all whitespace-nowrap shadow-sm border-2 ${
               selectedTab === tab
                 ? "bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-600/20 scale-105"
