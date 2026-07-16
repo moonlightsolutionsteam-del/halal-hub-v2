@@ -14,6 +14,64 @@ export interface DayLogSummary {
 
 export const STREAK_MILESTONES = [7, 30, 100, 365] as const
 export const MILESTONE_COINS: Record<number, number> = { 7: 50, 30: 200, 100: 500, 365: 2000 }
+export const PRAYER_COIN_VALUE = 10
+export const DAILY_BONUS_COINS = 25
+
+export interface MarkPrayerResult {
+  streak: number
+  coinsAwarded: number
+  milestone: number | null
+  badgesEarned: BadgeId[]
+}
+
+export type BadgeId =
+  | "first_prayer"
+  | "full_day"
+  | "week_warrior"
+  | "perfect_week"
+  | "fajr_champion"
+  | "month_mujahid"
+  | "century"
+  | "year_muttaqi"
+
+export interface BadgeDefinition {
+  id: BadgeId
+  name: string
+  desc: string
+  icon: string
+  color: string
+}
+
+export const BADGE_DEFS: BadgeDefinition[] = [
+  { id: "first_prayer",  name: "First Steps",     desc: "Marked your very first prayer",          icon: "🌱", color: "text-green-600"  },
+  { id: "full_day",      name: "Full Day",         desc: "Prayed all 5 prayers in one day",        icon: "✅", color: "text-emerald-600" },
+  { id: "week_warrior",  name: "Week Warrior",     desc: "Maintained a 7-day prayer streak",       icon: "🔥", color: "text-orange-500"  },
+  { id: "perfect_week",  name: "Perfect Week",     desc: "All 5 prayers for 7 days straight",      icon: "💫", color: "text-yellow-500"  },
+  { id: "fajr_champion", name: "Fajr Champion",    desc: "Prayed Fajr 30 days in a row",           icon: "🌅", color: "text-amber-500"   },
+  { id: "month_mujahid", name: "Month Mujahid",    desc: "Maintained a 30-day prayer streak",      icon: "⚔️", color: "text-blue-600"    },
+  { id: "century",       name: "Century",          desc: "Maintained a 100-day prayer streak",     icon: "💎", color: "text-purple-600"  },
+  { id: "year_muttaqi",  name: "Year of Taqwa",    desc: "Maintained a 365-day prayer streak",     icon: "👑", color: "text-yellow-600"  },
+]
+
+export interface RankDefinition {
+  name: string
+  minStreak: number
+  icon: string
+  color: string
+  bg: string
+}
+
+export const RANKS: RankDefinition[] = [
+  { name: "Mubtadi",   minStreak: 0,   icon: "🌱", color: "text-muted-foreground",  bg: "bg-muted/40"              },
+  { name: "Muntasib",  minStreak: 7,   icon: "⭐", color: "text-amber-600",          bg: "bg-amber-50 dark:bg-amber-950/30"   },
+  { name: "Mujahid",   minStreak: 30,  icon: "🔥", color: "text-orange-600",         bg: "bg-orange-50 dark:bg-orange-950/30" },
+  { name: "Mukhlis",   minStreak: 100, icon: "💎", color: "text-purple-600",         bg: "bg-purple-50 dark:bg-purple-950/30" },
+  { name: "Muttaqi",   minStreak: 365, icon: "👑", color: "text-yellow-600",         bg: "bg-yellow-50 dark:bg-yellow-950/30" },
+]
+
+export function getRank(streak: number): RankDefinition {
+  return [...RANKS].reverse().find(r => streak >= r.minStreak) ?? RANKS[0]
+}
 
 function localDateISO(d = new Date()): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
@@ -69,18 +127,14 @@ export function usePrayerLog() {
 
   useEffect(() => { load() }, [load])
 
-  /**
-   * Mark (or unmark by toggling) a prayer for today.
-   * Returns { streak, milestone } — milestone is set when a new milestone was just crossed.
-   */
   const markPrayer = useCallback(async (
     prayer: PrayerName,
     status: PrayerLogStatus = "prayed",
-  ): Promise<{ streak: number; milestone: number | null } | null> => {
+  ): Promise<MarkPrayerResult | null> => {
     if (!user?.uid) return null
     setMarking(prayer)
     const supabase = createClient()
-    const prevStreak = streak
+
     const { data, error } = await (supabase as any).rpc("mark_prayer", {
       p_date: localDateISO(),
       p_prayer: prayer,
@@ -89,19 +143,24 @@ export function usePrayerLog() {
     setMarking(null)
     if (error) throw error
 
-    const newStreak: number = data ?? 0
+    const result: MarkPrayerResult = {
+      streak:        data.streak        ?? 0,
+      coinsAwarded:  data.coins_awarded ?? 0,
+      milestone:     data.milestone     ?? null,
+      badgesEarned:  data.badges_earned ?? [],
+    }
+
     setTodayLog(prev => ({ ...prev, [prayer]: status }))
-    setStreak(newStreak)
-    setLongestStreak(l => Math.max(l, newStreak))
+    setStreak(result.streak)
+    setLongestStreak(l => Math.max(l, result.streak))
     setWeek(prev => prev.map((d, i) =>
       i === prev.length - 1 && status === "prayed"
         ? { ...d, prayedCount: d.prayedCount + 1 }
         : d
     ))
 
-    const milestone = STREAK_MILESTONES.find(m => newStreak >= m && prevStreak < m) ?? null
-    return { streak: newStreak, milestone }
-  }, [user?.uid, streak])
+    return result
+  }, [user?.uid])
 
   return { todayLog, streak, longestStreak, week, loading, marking, markPrayer, reload: load, signedIn: !!user?.uid }
 }

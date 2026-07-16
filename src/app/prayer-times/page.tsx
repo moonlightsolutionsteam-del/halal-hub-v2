@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils"
 import { usePrayerSettings, type CitySearchResult } from "@/lib/prayer-context"
 import { useRamadanTracker, type FastStatus } from "@/lib/use-ramadan-tracker"
 import { useFavoriteDuas } from "@/lib/favorites-context"
-import { usePrayerLog, MILESTONE_COINS, type PrayerName } from "@/lib/use-prayer-log"
+import { usePrayerLog, MILESTONE_COINS, BADGE_DEFS, getRank, type PrayerName } from "@/lib/use-prayer-log"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/hooks/use-auth"
 import { createClient } from "@/lib/supabase/client"
@@ -127,15 +127,34 @@ export default function PrayerTimesPage() {
   }, [user?.uid])
 
   const handleMarkPrayer = async (prayer: PrayerName) => {
-    if (todayLog[prayer] === "prayed") return // already marked
+    if (todayLog[prayer] === "prayed") return
     try {
       const result = await markPrayer(prayer, "prayed")
-      if (result?.milestone) {
+      if (!result) return
+
+      // Coins toast
+      if (result.coinsAwarded > 0) {
         toast({
-          title: `🔥 ${result.milestone}-Day Prayer Streak!`,
-          description: `MashAllah! +${MILESTONE_COINS[result.milestone]} Halal Coins awarded. May Allah accept your worship.`,
+          title: `+${result.coinsAwarded} Halal Coins`,
+          description: result.milestone
+            ? `${result.milestone}-day streak milestone! MashAllah — may Allah accept your worship.`
+            : result.coinsAwarded >= 35
+            ? "All 5 prayers completed today — full day bonus! 🌟"
+            : "Prayer marked — keep going!",
         })
       }
+
+      // Badge toasts (one per badge, staggered)
+      result.badgesEarned.forEach((id, i) => {
+        const def = BADGE_DEFS.find(b => b.id === id)
+        if (!def) return
+        setTimeout(() => {
+          toast({
+            title: `${def.icon} Badge Earned: ${def.name}`,
+            description: def.desc,
+          })
+        }, (i + 1) * 600)
+      })
     } catch {
       toast({ title: "Could not mark prayer", description: "Please try again.", variant: "destructive" } as any)
     }
@@ -671,50 +690,56 @@ export default function PrayerTimesPage() {
 
             {/* Info sidebar */}
             <div className="space-y-4">
-              {/* Prayer streak card (blueprint §9) */}
-              {signedIn && (
-                <Card className="rounded-[2rem] border-none shadow-sm bg-gradient-to-br from-amber-500/10 to-orange-500/5">
-                  <CardContent className="p-5 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Prayer Streak</p>
-                      <Flame className={cn("h-4 w-4", streak > 0 ? "text-orange-500" : "text-muted-foreground/30")} />
-                    </div>
-                    <div className="flex items-end gap-2">
-                      <span className="text-4xl font-black text-foreground tabular-nums">{streak}</span>
-                      <span className="text-sm font-bold text-muted-foreground pb-1">{streak === 1 ? "day" : "days"}</span>
-                      {longestStreak > streak && (
-                        <span className="text-[10px] font-bold text-muted-foreground/60 pb-1.5 ml-auto">Best: {longestStreak}</span>
-                      )}
-                    </div>
-                    {/* Last 7 days dots */}
-                    <div className="flex items-center justify-between pt-1">
-                      {week.map(({ date, prayedCount }) => {
-                        const dayLetter = ["S", "M", "T", "W", "T", "F", "S"][new Date(date + "T12:00:00").getDay()]
-                        return (
-                          <div key={date} className="flex flex-col items-center gap-1">
-                            <div
-                              className={cn(
+              {/* Prayer streak card */}
+              {signedIn && (() => {
+                const rank = getRank(streak)
+                return (
+                  <Card className="rounded-[2rem] border-none shadow-sm bg-gradient-to-br from-amber-500/10 to-orange-500/5">
+                    <CardContent className="p-5 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Prayer Streak</p>
+                        <Flame className={cn("h-4 w-4", streak > 0 ? "text-orange-500" : "text-muted-foreground/30")} />
+                      </div>
+                      {/* Rank badge */}
+                      <div className={cn("inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-black w-fit", rank.bg, rank.color)}>
+                        <span>{rank.icon}</span><span>{rank.name}</span>
+                      </div>
+                      <div className="flex items-end gap-2">
+                        <span className="text-4xl font-black text-foreground tabular-nums">{streak}</span>
+                        <span className="text-sm font-bold text-muted-foreground pb-1">{streak === 1 ? "day" : "days"}</span>
+                        {longestStreak > streak && (
+                          <span className="text-[10px] font-bold text-muted-foreground/60 pb-1.5 ml-auto">Best: {longestStreak}</span>
+                        )}
+                      </div>
+                      {/* Last 7 days dots */}
+                      <div className="flex items-center justify-between pt-1">
+                        {week.map(({ date, prayedCount }) => {
+                          const dayLetter = ["S", "M", "T", "W", "T", "F", "S"][new Date(date + "T12:00:00").getDay()]
+                          return (
+                            <div key={date} className="flex flex-col items-center gap-1">
+                              <div className={cn(
                                 "h-6 w-6 rounded-full flex items-center justify-center text-[9px] font-black transition-colors",
                                 prayedCount >= 5 ? "bg-emerald-500 text-white"
                                 : prayedCount > 0 ? "bg-emerald-500/25 text-emerald-700 dark:text-emerald-400"
                                 : "bg-muted text-muted-foreground/50"
-                              )}
-                            >
-                              {prayedCount > 0 ? prayedCount : ""}
+                              )}>
+                                {prayedCount > 0 ? prayedCount : ""}
+                              </div>
+                              <span className="text-[8px] font-bold text-muted-foreground/60">{dayLetter}</span>
                             </div>
-                            <span className="text-[8px] font-bold text-muted-foreground/60">{dayLetter}</span>
-                          </div>
-                        )
-                      })}
-                    </div>
-                    <p className="text-[10px] text-muted-foreground font-medium">
-                      {streak === 0
-                        ? "Mark your prayers above to start a streak today."
-                        : "Mark at least 5 prayers daily to keep your streak."}
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
+                          )
+                        })}
+                      </div>
+                      <Link href="/prayer/tracker" className="flex items-center justify-between pt-1 group">
+                        <p className="text-[10px] text-muted-foreground font-medium">
+                          {streak === 0 ? "Mark prayers above to start your streak." : "Mark at least 5 prayers daily to keep it."}
+                        </p>
+                        <span className="text-[10px] font-black text-primary shrink-0 group-hover:underline ml-2">View Tracker →</span>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                )
+              })()}
 
               {/* My Mosque card (blueprint §7.3) */}
               {myMosque && (
