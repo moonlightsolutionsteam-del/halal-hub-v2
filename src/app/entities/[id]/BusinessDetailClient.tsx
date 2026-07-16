@@ -24,6 +24,14 @@ import { createClient } from "@/lib/supabase/client"
 import { announceNewAchievements } from "@/lib/engagement/announce-achievements"
 import { cn } from "@/lib/utils"
 
+interface CatalogItem {
+  id: string
+  title: string | null
+  description: string | null
+  price: number | null
+  image_url: string | null
+}
+
 interface Business {
   id: string
   name: string
@@ -324,7 +332,7 @@ function SocialLinks({ links }: { links: any }) {
 
 // ── Second tab content per category group ─────────────────────────────────────
 
-function SecondTabContent({ business, group }: { business: Business; group: CategoryGroup }) {
+function SecondTabContent({ business, group, menuItems }: { business: Business; group: CategoryGroup; menuItems: CatalogItem[] }) {
   const highlights = getCategoryHighlights(group)
 
   // Shared building blocks
@@ -373,8 +381,10 @@ function SecondTabContent({ business, group }: { business: Business; group: Cate
   // ── FOOD ──
   if (group === "food") {
     const menuImgs = business.menu_images?.filter(Boolean) ?? []
+    const hasContent = menuItems.length > 0 || business.signature_dish || business.popular_dishes || menuImgs.length > 0
     return (
       <div className="space-y-4">
+        {/* Must Try dishes */}
         {(business.signature_dish || business.popular_dishes) && (
           <Card className="rounded-2xl border-border/50">
             <CardContent className="p-4 space-y-2">
@@ -384,16 +394,53 @@ function SecondTabContent({ business, group }: { business: Business; group: Cate
             </CardContent>
           </Card>
         )}
-        {menuImgs.length > 0 && (
-          <div className="grid grid-cols-2 gap-2">
-            {menuImgs.map((src, i) => (
-              <div key={i} className="relative aspect-square rounded-2xl overflow-hidden bg-muted">
-                <Image src={src} alt="Menu item" fill className="object-cover" />
-              </div>
-            ))}
+
+        {/* Live menu items from vendor panel */}
+        {menuItems.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-1">Menu</p>
+            <div className="space-y-2">
+              {menuItems.map(item => (
+                <Card key={item.id} className="rounded-2xl border-border/50">
+                  <CardContent className="p-3 flex items-center gap-3">
+                    {item.image_url && (
+                      <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-muted shrink-0">
+                        <Image src={item.image_url} alt={item.title ?? ""} fill className="object-cover" sizes="64px" />
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-sm font-black text-foreground">{item.title}</p>
+                        {item.price != null && (
+                          <p className="text-sm font-black text-primary shrink-0">₹{item.price}</p>
+                        )}
+                      </div>
+                      {item.description && (
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{item.description}</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         )}
-        {business.selected_dining?.length && (
+
+        {/* Menu photo images (fallback when no catalog items) */}
+        {menuItems.length === 0 && menuImgs.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-1">Menu Photos</p>
+            <div className="grid grid-cols-2 gap-2">
+              {menuImgs.map((src, i) => (
+                <div key={i} className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
+                  <Image src={src} alt="Menu" fill className="object-cover" sizes="50vw" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {business.selected_dining?.length ? (
           <Card className="rounded-2xl border-border/50">
             <CardContent className="p-4 space-y-2">
               <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Dining Options</p>
@@ -402,9 +449,9 @@ function SecondTabContent({ business, group }: { business: Business; group: Cate
               </div>
             </CardContent>
           </Card>
-        )}
+        ) : null}
         <PriceCard label="Price Range" />
-        {menuImgs.length === 0 && !business.signature_dish && (
+        {!hasContent && (
           <EmptyState icon="🍽️" title="Menu coming soon" desc="This restaurant hasn't uploaded their menu yet." />
         )}
       </div>
@@ -1014,6 +1061,7 @@ export default function BusinessDetailClient({ business }: { business: Business 
   const [showReserve, setShowReserve] = useState(false)
   const [checkinCount, setCheckinCount] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState("info")
+  const [menuItems, setMenuItems] = useState<CatalogItem[]>([])
 
   useEffect(() => {
     const supabase = createClient()
@@ -1022,6 +1070,15 @@ export default function BusinessDetailClient({ business }: { business: Business 
       .select("*", { count: "exact", head: true })
       .eq("business_id", business.id)
       .then(({ count }) => { if (count != null) setCheckinCount(count) })
+
+    ;(supabase as any)
+      .from("business_catalog_items")
+      .select("id, title, description, price, image_url")
+      .eq("business_id", business.id)
+      .order("created_at", { ascending: true })
+      .then(({ data }: { data: CatalogItem[] | null }) => {
+        if (data) setMenuItems(data)
+      })
   }, [business.id])
 
   const group = getCategoryGroup(business.category)
@@ -1210,7 +1267,7 @@ export default function BusinessDetailClient({ business }: { business: Business 
         </div>
 
         {/* Plan Your Meal banner — food only */}
-        {group === "food" && (business.menu_images?.length || business.signature_dish || business.popular_dishes) && (
+        {group === "food" && (menuItems.length > 0 || business.menu_images?.length || business.signature_dish || business.popular_dishes) && (
           <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 border border-primary/15">
             <div>
               <p className="text-xs font-black uppercase tracking-widest text-primary/80">Plan Your Meal</p>
@@ -1341,7 +1398,7 @@ export default function BusinessDetailClient({ business }: { business: Business 
 
           {/* SECOND TAB (category-specific) */}
           <TabsContent value="second" className="mt-4 animate-in fade-in duration-300">
-            <SecondTabContent business={business} group={group} />
+            <SecondTabContent business={business} group={group} menuItems={menuItems} />
           </TabsContent>
 
           {/* GALLERY */}
