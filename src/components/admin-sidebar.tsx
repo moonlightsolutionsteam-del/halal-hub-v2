@@ -171,7 +171,7 @@ export function AdminSidebar() {
   };
 
   const businessSubItems = [
-    { title: "Business Reviews", icon: MessageSquare, url: "/admin/reviews" },
+    { title: "Business Submissions", icon: MessageSquare, url: "/admin/businesses" },
     { title: "Restaurants", icon: UtensilsCrossed, url: "/admin/restaurants" },
     { title: "Meat Shops", icon: MeatIcon, url: "/admin/meat" },
     { title: "Grocery", icon: ShoppingCart, url: "/admin/grocery" },
