@@ -25,7 +25,7 @@ function mapRow(b: any): CategoryBusiness {
     city: [b.city, b.country].filter(Boolean).join(", "),
     rating: b.rating ?? 4.5,
     halal_verified: b.halal_verified ?? false,
-    image_url: b.image_url || "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80",
+    image_url: b.cover_url || b.image_url || "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80",
     features: Array.isArray(b.selected_highlights) ? b.selected_highlights : [],
     is_open: b.is_open ?? true,
     price_range: b.price_range ?? null,
@@ -43,7 +43,7 @@ export function useCategoryBusinesses<T>(
   useEffect(() => {
     const supabase = createClient()
     const q = (supabase as any).from("businesses")
-      .select("id, name, subcategory, city, country, rating, halal_verified, image_url, selected_highlights, description, is_open, price_range")
+      .select("id, name, subcategory, city, country, rating, halal_verified, image_url, cover_url, selected_highlights, description, is_open, price_range")
       .eq("status", "active")
       .order("rating", { ascending: false })
 

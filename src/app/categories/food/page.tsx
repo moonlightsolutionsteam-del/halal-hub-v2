@@ -45,7 +45,7 @@ export default function FoodPage() {
     const supabase = createClient()
     ;(supabase as any)
       .from("businesses")
-      .select("id, name, primary_cuisine, city, country, rating, halal_verified, image_url, selected_dining, price_range, hours_open, opening_hours")
+      .select("id, name, primary_cuisine, city, country, rating, halal_verified, image_url, cover_url, selected_dining, price_range, hours_open, opening_hours")
       .in("category", ["Food & Dining", "restaurant"])
       .eq("status", "active")
       .order("rating", { ascending: false })
@@ -58,7 +58,7 @@ export default function FoodPage() {
           loc: [b.city, b.country].filter(Boolean).join(", ") || "Mumbai",
           rate: b.rating ?? 4.5,
           ver: b.halal_verified ?? false,
-          img: b.image_url || "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
+          img: b.cover_url || b.image_url || "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
           features: Array.isArray(b.selected_dining) ? b.selected_dining.slice(0, 3) : [],
           openNow: b.hours_open ?? true,
           price: priceLabel(b.price_range),
