@@ -1,22 +1,74 @@
-
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { 
-  ShieldCheck, CheckCircle2, History, AlertCircle, 
-  FileText, Search, Download, Trash2,
-  Lock, TrendingUp, Sparkles, Plus,
-  Microscope, Globe, ArrowUpRight, Award
-} from "lucide-react";
+import { useEffect, useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { ShieldCheck, CheckCircle2, Users, FileText, ArrowUpRight, Loader2, Award } from "lucide-react"
+import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
+
+type Verification = {
+  id: string
+  halal_status: string
+  answers: Record<string, "yes" | "no" | "not-sure"> | null
+  created_at: string
+  user: { name: string | null } | null
+}
+
+const ANSWER_LABELS: Record<string, string> = {
+  halalCertification: "Halal Certification Displayed",
+  crossContamination: "Cross Contamination Risk",
+  nonHalalProducts: "Non Halal Products Used",
+  porkServed: "Pork Served",
+  alcoholServed: "Alcohol Served",
+  prayerPlace: "Prayer Place Available",
+}
+
+const POSITIVE_KEYS = ["halalCertification", "prayerPlace"]
 
 export default function MarketingTransparencyPage() {
-  const auditLogs = [
-    { id: "AUD-9921", topic: "Meat Source Verification", status: "Pass", date: "Nov 01, 2024", score: "100%" },
-    { id: "AUD-9922", topic: "Kitchen Hygiene Audit", status: "Pass", date: "Oct 15, 2024", score: "98%" },
-    { id: "AUD-9923", topic: "Supply Chain Log May", status: "Pass", date: "Jun 02, 2024", score: "100%" },
-  ];
+  const { user, loading: authLoading } = useAuth()
+  const [verifications, setVerifications] = useState<Verification[]>([])
+  const [loading, setLoading] = useState(true)
+  const [bizId, setBizId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (authLoading) return
+    if (!user?.uid) { setLoading(false); return }
+    const supabase = createClient()
+
+    ;(supabase as any)
+      .from("businesses")
+      .select("id")
+      .eq("owner_id", user.uid)
+      .limit(1)
+      .then(({ data }: { data: { id: string }[] | null }) => {
+        const biz = data?.[0]
+        if (!biz) { setLoading(false); return }
+        setBizId(biz.id)
+
+        ;(supabase as any)
+          .from("business_verifications")
+          .select("id, halal_status, answers, created_at, user:profiles!business_verifications_user_id_fkey(name)")
+          .eq("business_id", biz.id)
+          .order("created_at", { ascending: false })
+          .limit(50)
+          .then(({ data: rows }: { data: Verification[] | null }) => {
+            setVerifications(rows ?? [])
+            setLoading(false)
+          })
+      })
+  }, [user?.uid, authLoading])
+
+  const totalVerfications = verifications.length
+  const halalCertOk = verifications.filter(v => v.answers?.halalCertification === "yes").length
+  const prayerPlaceOk = verifications.filter(v => v.answers?.prayerPlace === "yes").length
+  const noAlcohol = verifications.filter(v => v.answers?.alcoholServed === "no").length
+
+  const trustScore = totalVerfications === 0 ? null :
+    Math.round(((halalCertOk + noAlcohol) / (totalVerfications * 2)) * 100)
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
@@ -26,101 +78,91 @@ export default function MarketingTransparencyPage() {
             <ShieldCheck className="h-3 w-3" /> Integrity Hub
           </div>
           <h1 className="text-2xl sm:text-3xl font-black font-headline">Trust & Transparency</h1>
-          <p className="text-muted-foreground font-medium">Manage your halal claims, certificates, and audit history to build consumer confidence.</p>
+          <p className="text-muted-foreground font-medium">Community verifications and halal compliance reports from your customers.</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" className="rounded-full px-6 font-bold border-2">
-            <History className="mr-2 h-4 w-4" /> Export Audit Trail
-          </Button>
+        <Link href="/vendor/verification">
           <Button className="bg-primary rounded-full px-8 font-black shadow-lg shadow-primary/20 h-12 text-white">
-            <Award className="mr-2 h-4 w-4" /> Request Official Audit
+            <Award className="mr-2 h-4 w-4" /> Get Official Audit
           </Button>
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
+        {[
+          { label: "Community Checks", value: totalVerfications, icon: Users, color: "bg-primary text-primary-foreground" },
+          { label: "Trust Score", value: trustScore !== null ? `${trustScore}%` : "—", icon: ShieldCheck, color: "bg-card" },
+          { label: "Halal Cert Confirmed", value: halalCertOk, icon: CheckCircle2, color: "bg-card" },
+          { label: "Prayer Space Confirmed", value: prayerPlaceOk, icon: Award, color: "bg-card" },
+        ].map((stat, i) => (
+          <Card key={i} className={`rounded-[2.5rem] border-none shadow-sm ${stat.color} p-5 sm:p-8`}>
+            <stat.icon className={`h-5 w-5 mb-3 ${i === 0 ? "text-primary-foreground" : "text-primary"}`} />
+            <p className={`text-3xl sm:text-4xl font-black ${i === 0 ? "text-primary-foreground" : "text-foreground"}`}>{stat.value}</p>
+            <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${i === 0 ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{stat.label}</p>
+          </Card>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-primary text-primary-foreground p-10 text-center space-y-4">
-          <div className="h-20 w-20 bg-card/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-md">
-            <ShieldCheck className="h-10 w-10 text-white" />
+      ) : verifications.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
+          <div className="h-16 w-16 rounded-3xl bg-primary/10 flex items-center justify-center">
+            <ShieldCheck className="h-8 w-8 text-primary" />
           </div>
-          <div className="space-y-1">
-            <h2 className="text-5xl font-black tracking-tighter">99.8%</h2>
-            <p className="text-xs font-bold uppercase tracking-widest opacity-80">Trust Score</p>
-          </div>
-          <Badge className="bg-card text-primary font-black border-none uppercase text-[9px] px-4 py-1.5 rounded-full">TOP 1% Verified</Badge>
-        </Card>
-
-        <Card className="md:col-span-2 rounded-[2.5rem] border-none shadow-sm bg-card p-10 grid grid-cols-1 sm:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6">
-            <h3 className="text-2xl font-black text-foreground leading-tight">Verification Status</h3>
-            <div className="space-y-4">
-              {[
-                { label: "Main Halal Cert", status: "Active", expiry: "Dec 31, 2024" },
-                { label: "Hygiene Rating", status: "Active", expiry: "Jun 15, 2025" },
-                { label: "Water Quality", status: "Verified", expiry: "Ongoing" },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-muted rounded-2xl">
-                  <div>
-                    <p className="text-sm font-black text-foreground">{item.label}</p>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase">{item.expiry}</p>
-                  </div>
-                  <Badge className="bg-emerald-50 text-emerald-600 border-none font-black text-[9px] uppercase px-3">
-                    <CheckCircle2 className="h-2.5 w-2.5 mr-1" /> {item.status}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="space-y-6 bg-zinc-900 text-white p-8 rounded-[2rem] relative overflow-hidden">
-            <Microscope className="absolute -top-4 -right-4 h-24 w-24 opacity-10" />
-            <h4 className="text-xl font-black relative z-10">AI-Verified Sourcing</h4>
-            <p className="text-xs text-muted-foreground leading-relaxed relative z-10">
-              Our system periodically cross-references your supplier invoices with global halal databases to maintain your "Source Verified" status.
-            </p>
-            <Button variant="secondary" className="w-full rounded-xl font-black text-[10px] h-10 uppercase tracking-widest relative z-10">View Analysis</Button>
-          </div>
-        </Card>
-      </div>
-
-      <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
-        <CardHeader className="p-8 border-b flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-xl font-black">Audit History</CardTitle>
-            <p className="text-sm text-muted-foreground font-medium">Monthly integrity and compliance logs.</p>
-          </div>
-          <Button variant="ghost" className="font-bold text-primary">All Logs <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="divide-y divide-slate-50">
-            {auditLogs.map((log) => (
-              <div key={log.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-muted/50 transition-colors">
-                <div className="flex items-center gap-6">
-                  <div className="h-12 w-12 rounded-2xl bg-muted flex items-center justify-center text-muted-foreground">
-                    <FileText className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="font-black text-foreground text-base">{log.topic}</p>
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{log.id}</span>
-                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">• {log.date}</span>
+          <p className="font-black text-lg text-foreground">No community verifications yet</p>
+          <p className="text-muted-foreground font-medium text-sm">Customers can verify your halal compliance from your listing page.</p>
+          {bizId && (
+            <Link href={`/entities/${bizId}`}>
+              <Button variant="outline" className="rounded-full px-6 font-bold mt-2">
+                <ArrowUpRight className="mr-2 h-4 w-4" /> View Your Listing
+              </Button>
+            </Link>
+          )}
+        </div>
+      ) : (
+        <Card className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden">
+          <CardHeader className="p-6 sm:p-8 border-b">
+            <CardTitle className="text-xl font-black">Community Verification Log</CardTitle>
+            <p className="text-sm text-muted-foreground font-medium">Recent halal compliance checks submitted by customers.</p>
+          </CardHeader>
+          <CardContent className="p-0 divide-y divide-border">
+            {verifications.slice(0, 20).map(v => {
+              const date = new Date(v.created_at).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })
+              const positives = Object.entries(v.answers ?? {}).filter(([key, val]) =>
+                POSITIVE_KEYS.includes(key) ? val === "yes" : val === "no"
+              ).length
+              const total = Object.keys(v.answers ?? {}).length
+              return (
+                <div key={v.id} className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-muted/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="h-10 w-10 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
+                      <FileText className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-black text-foreground text-sm">{v.user?.name ?? "Anonymous Customer"}</p>
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mt-0.5">{date}</p>
+                      {v.halal_status && (
+                        <Badge className="mt-1.5 bg-emerald-50 text-emerald-700 border-none font-black text-[9px] uppercase px-2">{v.halal_status}</Badge>
+                      )}
                     </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-10">
-                  <div className="text-right">
-                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Score</p>
-                    <p className="text-xl font-black text-emerald-600">{log.score}</p>
+                  <div className="flex items-center gap-4 pl-14 sm:pl-0">
+                    <div className="text-right">
+                      <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Score</p>
+                      <p className="text-xl font-black text-emerald-600">{total > 0 ? `${Math.round((positives / total) * 100)}%` : "—"}</p>
+                    </div>
+                    <Badge className="bg-emerald-50 text-emerald-600 border-none px-3 h-7 font-black uppercase text-[9px] tracking-widest">
+                      <CheckCircle2 className="h-2.5 w-2.5 mr-1" /> Verified
+                    </Badge>
                   </div>
-                  <Badge className="bg-emerald-50 text-emerald-600 border-none px-4 h-8 flex items-center font-black uppercase text-[10px] tracking-widest">
-                    {log.status}
-                  </Badge>
-                  <Button size="icon" variant="ghost" className="rounded-xl"><Download className="h-5 w-5 text-muted-foreground" /></Button>
                 </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+              )
+            })}
+          </CardContent>
+        </Card>
+      )}
     </div>
-  );
+  )
 }
