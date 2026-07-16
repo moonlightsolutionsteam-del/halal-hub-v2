@@ -1,228 +1,157 @@
-
 "use client"
 
-import {
-  MoreHorizontal,
-  Search,
-  CheckCircle2,
-  Clock,
-  ShieldAlert,
-  Star,
-} from "lucide-react"
+import { useEffect, useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Star, Search, Loader2, Trash2, CheckCircle2, XCircle } from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
+import { useToast } from "@/hooks/use-toast"
 
-const reviewsData = [
-  { 
-    id: "rev-001",
-    author: "Aisha Khan",
-    authorAvatar: "AK",
-    location: "Karim's Restaurant",
-    rating: 5,
-    content: "Absolutely delicious! The best Mughlai food I've had in a long time. The kebabs were succulent and the biryani was flavorful. A must-visit place for every food lover in Delhi.",
-    status: "Published",
-    date: "2024-07-30" 
-  },
-  { 
-    id: "rev-002",
-    author: "Yusuf Ibrahim",
-    authorAvatar: "YI",
-    location: "Al-Naseeb Meats",
-    rating: 4,
-    content: "Fresh meat and very clean shop. The staff is helpful. My only suggestion is to improve the packaging for home deliveries. Otherwise, great quality.",
-    status: "Pending",
-    date: "2024-07-30" 
-  },
-  { 
-    id: "rev-003",
-    author: "Zoya Akhtar",
-    authorAvatar: "ZA",
-    location: "Medina Style Modest Wear",
-    rating: 2,
-    content: "The collection is okay but the prices are too high for the quality. I found a similar abaya for half the price elsewhere. Not recommended.",
-    status: "Reported",
-    date: "2024-07-29" 
-  },
-   { 
-    id: "rev-004",
-    author: "Omar Abdullah",
-    authorAvatar: "OA",
-    location: "Al-Huda Islamic Books",
-    rating: 5,
-    content: "A treasure trove for any book lover. They have a vast collection of authentic Islamic literature. The staff is knowledgeable and guided me to some excellent reads.",
-    status: "Published",
-    date: "2024-07-28" 
-  },
-];
+type Review = {
+  id: string
+  rating: number
+  title: string | null
+  body: string | null
+  status: string
+  created_at: string
+  business: { name: string } | null
+  profiles: { name: string | null } | null
+}
 
-
-export default function SuperAdminReviewsPage() {
+function Stars({ n }: { n: number }) {
   return (
-    <div className="space-y-6">
-        <div>
-            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Reviews & Media</h1>
-            <p className="text-muted-foreground">Moderate user-generated reviews and media uploads.</p>
-        </div>
+    <div className="flex gap-0.5">
+      {[1,2,3,4,5].map(s => <Star key={s} className={`h-3 w-3 ${s<=n?"fill-amber-400 text-amber-400":"text-muted-foreground/20"}`} />)}
+    </div>
+  )
+}
 
-      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Reviews</CardTitle>
-                <Star className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">25,890</div>
-                <p className="text-xs text-muted-foreground">+500 this week</p>
-            </CardContent>
-        </Card>
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Pending Approval</CardTitle>
-                <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">42</div>
-                <p className="text-xs text-muted-foreground">Action required</p>
-            </CardContent>
-        </Card>
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Reported Reviews</CardTitle>
-                <ShieldAlert className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold text-destructive">12</div>
-                <p className="text-xs text-muted-foreground">Immediate action needed</p>
-            </CardContent>
-        </Card>
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Approved Today</CardTitle>
-                <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">+210</div>
-                <p className="text-xs text-muted-foreground">Reviews published</p>
-            </CardContent>
-        </Card>
+export default function AdminReviewsPage() {
+  const { toast } = useToast()
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState("")
+
+  function load() {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("business_reviews")
+      .select("id, rating, title, body, status, created_at, business:businesses(name), profiles(name)")
+      .order("created_at", { ascending: false })
+      .limit(200)
+      .then(({ data }: { data: Review[] | null }) => {
+        setReviews(data ?? [])
+        setLoading(false)
+      })
+  }
+
+  useEffect(() => { load() }, [])
+
+  async function setStatus(id: string, status: string) {
+    const supabase = createClient()
+    await (supabase as any).from("business_reviews").update({ status }).eq("id", id)
+    setReviews(prev => prev.map(r => r.id === id ? { ...r, status } : r))
+    toast({ title: `Review ${status}` })
+  }
+
+  async function deleteReview(id: string) {
+    const supabase = createClient()
+    await (supabase as any).from("business_reviews").delete().eq("id", id)
+    setReviews(prev => prev.filter(r => r.id !== id))
+    toast({ title: "Review deleted" })
+  }
+
+  const filtered = reviews.filter(r => {
+    const q = search.toLowerCase()
+    return !q || (r.title ?? "").toLowerCase().includes(q) || (r.body ?? "").toLowerCase().includes(q) ||
+      (r.business?.name ?? "").toLowerCase().includes(q) || (r.profiles?.name ?? "").toLowerCase().includes(q)
+  })
+
+  const pending = filtered.filter(r => r.status === "pending")
+  const active = filtered.filter(r => r.status === "active")
+  const rejected = filtered.filter(r => r.status === "rejected")
+
+  function ReviewList({ items }: { items: Review[] }) {
+    return items.length === 0 ? (
+      <div className="text-center py-12 text-muted-foreground">
+        <Star className="h-8 w-8 mx-auto mb-2 opacity-30" />
+        <p className="font-medium text-sm">{search ? "No matches." : "No reviews."}</p>
+      </div>
+    ) : (
+      <div className="space-y-3">
+        {items.map(r => {
+          const date = new Date(r.created_at).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })
+          return (
+            <Card key={r.id} className="rounded-2xl border-none shadow-sm">
+              <CardContent className="p-4 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <Stars n={r.rating} />
+                      <span className="text-xs font-bold text-muted-foreground">{date}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {r.profiles?.name ?? "Anonymous"} → <span className="font-bold">{r.business?.name ?? "Unknown Business"}</span>
+                    </p>
+                  </div>
+                  <Badge className={`text-[10px] shrink-0 ${r.status === "active" ? "bg-emerald-50 text-emerald-700" : r.status === "pending" ? "bg-amber-50 text-amber-700" : "bg-red-50 text-red-700"}`}>
+                    {r.status}
+                  </Badge>
+                </div>
+                {r.title && <p className="text-sm font-bold text-foreground">{r.title}</p>}
+                {r.body && <p className="text-sm text-muted-foreground line-clamp-2">{r.body}</p>}
+                <div className="flex gap-2 pt-1">
+                  {r.status !== "active" && (
+                    <Button size="sm" variant="outline" onClick={() => setStatus(r.id, "active")} className="h-7 text-[11px] text-emerald-600 border-emerald-200 hover:bg-emerald-50">
+                      <CheckCircle2 className="h-3 w-3 mr-1" /> Approve
+                    </Button>
+                  )}
+                  {r.status !== "rejected" && (
+                    <Button size="sm" variant="outline" onClick={() => setStatus(r.id, "rejected")} className="h-7 text-[11px] text-amber-600 border-amber-200 hover:bg-amber-50">
+                      <XCircle className="h-3 w-3 mr-1" /> Reject
+                    </Button>
+                  )}
+                  <Button size="sm" variant="outline" onClick={() => deleteReview(r.id)} className="h-7 text-[11px] text-red-600 border-red-200 hover:bg-red-50">
+                    <Trash2 className="h-3 w-3 mr-1" /> Delete
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+    )
+  }
+
+  return (
+    <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-black text-foreground">Reviews Moderation</h1>
+        <p className="text-sm text-muted-foreground font-medium">Approve, reject, or remove business reviews.</p>
       </div>
 
-       <Tabs defaultValue="all">
-            <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="pending">Pending</TabsTrigger>
-                <TabsTrigger value="reported">Reported</TabsTrigger>
-                <TabsTrigger value="published">Published</TabsTrigger>
-            </TabsList>
-            <TabsContent value="all" className="mt-4">
-                 <Card>
-                    <CardHeader>
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Search reviews, users, or locations..." className="pl-10" />
-                            </div>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                    <Table>
-                        <TableHeader>
-                        <TableRow>
-                            <TableHead>Author</TableHead>
-                            <TableHead>Review</TableHead>
-                            <TableHead className="hidden md:table-cell">Location</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>
-                            <span className="sr-only">Actions</span>
-                            </TableHead>
-                        </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                        {reviewsData.map((item) => (
-                            <TableRow key={item.id}>
-                                <TableCell>
-                                    <div className="flex items-center gap-3">
-                                    <Avatar>
-                                        <AvatarFallback>{item.authorAvatar}</AvatarFallback>
-                                    </Avatar>
-                                    <div className="font-medium">{item.author}</div>
-                                    </div>
-                                </TableCell>
-                                <TableCell className="max-w-xs">
-                                    <p className="truncate font-semibold">{item.content}</p>
-                                    <div className="flex items-center gap-1 mt-1 text-yellow-500">
-                                        {[...Array(item.rating)].map((_, i) => <Star key={i} className="h-4 w-4 fill-current"/>)}
-                                        {[...Array(5 - item.rating)].map((_, i) => <Star key={i} className="h-4 w-4"/>)}
-                                    </div>
-                                </TableCell>
-                                <TableCell className="hidden md:table-cell">{item.location}</TableCell>
-                                <TableCell>
-                                    <Badge variant={
-                                        item.status === 'Published' ? 'secondary' :
-                                        item.status === 'Pending' ? 'default' :
-                                        'destructive'
-                                    }>{item.status}</Badge>
-                                </TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                        aria-haspopup="true"
-                                        size="icon"
-                                        variant="ghost"
-                                        >
-                                        <MoreHorizontal className="h-4 w-4" />
-                                        <span className="sr-only">Toggle menu</span>
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                        <DropdownMenuItem>View Full Review</DropdownMenuItem>
-                                        <DropdownMenuItem>Approve</DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem className="text-destructive">Reject / Delete</DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                        </TableBody>
-                    </Table>
-                    </CardContent>
-                </Card>
-            </TabsContent>
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input placeholder="Search by reviewer, business, or content..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9 h-11 rounded-xl" />
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-16"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+      ) : (
+        <Tabs defaultValue="pending">
+          <TabsList className="rounded-full h-11">
+            <TabsTrigger value="pending" className="rounded-full">Pending <Badge className="ml-2 text-[10px] h-5 px-1.5">{pending.length}</Badge></TabsTrigger>
+            <TabsTrigger value="active" className="rounded-full">Active <Badge className="ml-2 text-[10px] h-5 px-1.5">{active.length}</Badge></TabsTrigger>
+            <TabsTrigger value="rejected" className="rounded-full">Rejected <Badge className="ml-2 text-[10px] h-5 px-1.5">{rejected.length}</Badge></TabsTrigger>
+          </TabsList>
+          <TabsContent value="pending" className="mt-4"><ReviewList items={pending} /></TabsContent>
+          <TabsContent value="active" className="mt-4"><ReviewList items={active} /></TabsContent>
+          <TabsContent value="rejected" className="mt-4"><ReviewList items={rejected} /></TabsContent>
         </Tabs>
+      )}
     </div>
   )
 }
