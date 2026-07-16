@@ -114,7 +114,8 @@ const CATEGORIES: Category[] = [
     iconBg: "bg-emerald-100 dark:bg-emerald-950/40",
     iconColor: "text-emerald-600",
     features: [
-      { name: "Prayer Times",  desc: "Salah schedule & Qibla",              href: "/prayer-times",       icon: Moon,          bg: "bg-emerald-50 dark:bg-emerald-950/30", color: "text-emerald-600" },
+      { name: "Prayer Times",  desc: "Salah schedule & countdown",          href: "/prayer-times",       icon: Moon,          bg: "bg-emerald-50 dark:bg-emerald-950/30", color: "text-emerald-600" },
+      { name: "Qibla",         desc: "Live compass to the Kaaba",           href: "/qibla",              icon: Compass,       bg: "bg-emerald-50 dark:bg-emerald-950/30", color: "text-emerald-700" },
       { name: "Quran",         desc: "Read & listen to the Quran",          href: "/quran",              icon: BookOpen,      bg: "bg-teal-50 dark:bg-teal-950/30",       color: "text-teal-600",    badge: "Popular" },
       { name: "Tasbeeh",       desc: "Digital dhikr counter",               href: "/prayer/tasbeeh",     icon: Hash,          bg: "bg-green-50 dark:bg-green-950/30",     color: "text-green-600" },
       { name: "99 Names",      desc: "Asma ul-Husna with meanings",         href: "/asma-ul-husna",      icon: Star,          bg: "bg-yellow-50 dark:bg-yellow-950/30",   color: "text-yellow-600" },
