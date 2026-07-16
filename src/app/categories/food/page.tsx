@@ -10,18 +10,18 @@ import {
   CheckCircle2, Sparkles, Zap, BookOpen
 } from "lucide-react"
 import Link from "next/link"
-import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { useState } from "react"
+import { useCategoryBusinesses } from "@/hooks/use-category-businesses"
 
 const TABS = ["All", "Turkish", "Arabic", "Indian", "Malay", "Western", "Chinese", "Mediterranean"]
 
-type Restaurant = {
+type RestaurantCard = {
   id: string; name: string; type: string; loc: string
   rate: number; ver: boolean; img: string
   features: string[]; openNow: boolean; price: string
 }
 
-const FALLBACK: Restaurant[] = [
+const FALLBACK: RestaurantCard[] = [
   { id: "r1", name: "Istanbul Grill House", type: "Turkish Restaurant", loc: "Bandra, Mumbai", rate: 4.9, ver: true, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", features: ["Open Kitchen", "Prayer Mats Available", "Private Dining"], openNow: true, price: "££" },
   { id: "r2", name: "Al-Madina Feast", type: "Arabic & Levantine", loc: "Andheri West, Mumbai", rate: 4.8, ver: true, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80", features: ["Family Sections", "Shisha Lounge", "Authentic Recipes"], openNow: true, price: "£" },
   { id: "r3", name: "Spice of Punjab", type: "Indian & Pakistani", loc: "Kurla, Mumbai", rate: 4.7, ver: true, img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80", features: ["Tandoor Oven", "Jumu'ah Special", "Vegan Options"], openNow: false, price: "£" },
@@ -38,33 +38,24 @@ function priceLabel(range: string | null) {
 
 export default function FoodPage() {
   const [selectedTab, setSelectedTab] = useState("All")
-  const [restaurants, setRestaurants] = useState<Restaurant[]>(FALLBACK)
   const [visible, setVisible] = useState(12)
 
-  useEffect(() => {
-    const supabase = createClient()
-    ;(supabase as any)
-      .from("businesses")
-      .select("id, name, primary_cuisine, city, country, rating, halal_verified, image_url, cover_url, selected_dining, price_range, hours_open, opening_hours")
-      .in("category", ["Food & Dining", "restaurant"])
-      .eq("status", "active")
-      .order("rating", { ascending: false })
-      .then(({ data }: { data: any[] | null }) => {
-        if (!data || data.length === 0) return
-        setRestaurants(data.map(b => ({
-          id: b.id,
-          name: b.name,
-          type: b.primary_cuisine || "Halal Restaurant",
-          loc: [b.city, b.country].filter(Boolean).join(", ") || "Mumbai",
-          rate: b.rating ?? 4.5,
-          ver: b.halal_verified ?? false,
-          img: b.cover_url || b.image_url || "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80",
-          features: Array.isArray(b.selected_dining) ? b.selected_dining.slice(0, 3) : [],
-          openNow: b.hours_open ?? true,
-          price: priceLabel(b.price_range),
-        })))
-      })
-  }, [])
+  const restaurants = useCategoryBusinesses<RestaurantCard>(
+    ["Food & Dining", "restaurant"],
+    FALLBACK,
+    b => ({
+      id: b.id,
+      name: b.name,
+      type: b.subcategory || "Halal Restaurant",
+      loc: b.city,
+      rate: b.rating,
+      ver: b.halal_verified,
+      img: b.image_url,
+      features: b.features.slice(0, 3),
+      openNow: b.is_open,
+      price: priceLabel(b.price_range),
+    })
+  )
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
