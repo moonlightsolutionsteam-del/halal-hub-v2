@@ -671,7 +671,7 @@ export default function PrayerTimesPage() {
                                 "rounded-full p-1 transition-all",
                                 todayLog[key as PrayerName] === "prayed"
                                   ? "text-emerald-500"
-                                  : "text-muted-foreground/30 hover:text-primary hover:scale-110"
+                                  : "text-muted-foreground hover:text-primary hover:scale-110"
                               )}
                             >
                               {marking === key
