@@ -384,6 +384,36 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
     </div>
   ) : null
 
+  const CatalogItemsList = ({ label }: { label: string }) => menuItems.length > 0 ? (
+    <div className="space-y-2">
+      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-1">{label}</p>
+      <div className="space-y-2">
+        {menuItems.map(item => (
+          <Card key={item.id} className="rounded-2xl border-border/50">
+            <CardContent className="p-3 flex items-center gap-3">
+              {item.image_url && (
+                <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-muted shrink-0">
+                  <Image src={item.image_url} alt={item.title ?? ""} fill className="object-cover" sizes="64px" />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm font-black text-foreground">{item.title}</p>
+                  {item.price != null && (
+                    <p className="text-sm font-black text-primary shrink-0">₹{item.price}</p>
+                  )}
+                </div>
+                {item.description && (
+                  <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{item.description}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  ) : null
+
   // ── FOOD ──
   if (group === "food") {
     const menuImgs = business.menu_images?.filter(Boolean) ?? []
@@ -470,6 +500,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
       <div className="space-y-4">
         <SubcategoryBadge />
         <HighlightChips />
+        <CatalogItemsList label="Menu Packages" />
         <PriceCard label="Starting Price (Per Person)" />
         <Card className="rounded-2xl border-border/50 bg-primary/5 border-primary/20">
           <CardContent className="p-4 space-y-1">
@@ -497,6 +528,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
         ) : (
           <HighlightChips />
         )}
+        <CatalogItemsList label="Available Products" />
         <PriceCard label="Price Range (Per kg)" />
         {business.halal_verified && (
           <Card className="rounded-2xl border-emerald-200/60 dark:border-emerald-800/40 bg-emerald-50/50 dark:bg-emerald-950/20">
@@ -518,6 +550,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
     return (
       <div className="space-y-4">
         <HighlightChips />
+        <CatalogItemsList label="Featured Products" />
         {business.halal_verified && (
           <Card className="rounded-2xl border-emerald-200/60 dark:border-emerald-800/40 bg-emerald-50/50 dark:bg-emerald-950/20">
             <CardContent className="p-4 flex items-center gap-3">
@@ -540,6 +573,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
       <div className="space-y-4">
         <SubcategoryBadge />
         <HighlightChips />
+        <CatalogItemsList label="Our Range" />
         <PriceCard label="Price Range" />
         {business.website && (
           <Card className="rounded-2xl border-border/50">
@@ -565,6 +599,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
       <div className="space-y-4">
         <SubcategoryBadge />
         <HighlightChips />
+        <CatalogItemsList label="Our Products" />
         {business.halal_verified && (
           <Card className="rounded-2xl border-emerald-200/60 dark:border-emerald-800/40 bg-emerald-50/50 dark:bg-emerald-950/20">
             <CardContent className="p-4 flex items-center gap-3">
@@ -587,6 +622,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
       <div className="space-y-4">
         <SubcategoryBadge />
         <HighlightChips />
+        <CatalogItemsList label="Courses & Programmes" />
         <PriceCard label="Fees" />
         {business.opening_hours && (
           <Card className="rounded-2xl border-border/50">
@@ -620,6 +656,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
       <div className="space-y-4">
         <SubcategoryBadge />
         <HighlightChips />
+        <CatalogItemsList label="Services & Treatments" />
         <PriceCard label="Consultation Fee" />
         <Card className="rounded-2xl border-border/50 bg-primary/5 border-primary/20">
           <CardContent className="p-4 space-y-1">
@@ -668,6 +705,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
       <div className="space-y-4">
         <SubcategoryBadge />
         <HighlightChips />
+        <CatalogItemsList label="Travel Packages" />
         <PriceCard label="Package Prices (Per Person)" />
         <Card className="rounded-2xl border-primary/20 bg-primary/5">
           <CardContent className="p-4 space-y-1">
@@ -699,6 +737,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
       <div className="space-y-4">
         <SubcategoryBadge />
         <HighlightChips />
+        <CatalogItemsList label="Our Collection" />
         <PriceCard label="Price Range" />
         {business.website && (
           <Card className="rounded-2xl border-border/50">
