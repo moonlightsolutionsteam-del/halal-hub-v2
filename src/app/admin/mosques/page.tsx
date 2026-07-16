@@ -2,6 +2,7 @@
 "use client"
 
 import * as React from "react"
+import { useAdminCategory } from "@/hooks/use-admin-category"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,13 +36,17 @@ import Link from "next/link"
 
 export default function SuperAdminMosqueManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
+  const cat = useAdminCategory(["Mosque", "Masjid", "Islamic Center"])
 
-  const MOCK_MOSQUES = [
-    { id: "MSQ-001", name: "Al-Huda Masjid", city: "New York, USA", type: "Juma Masjid", status: "Verified", rating: 4.9, donors: 1240 },
-    { id: "MSQ-002", name: "Crescent Islamic Center", city: "London, UK", type: "Cultural Center", status: "Verified", rating: 4.8, donors: 850 },
-    { id: "MSQ-003", name: "Masjid Al-Falah", city: "Toronto, CA", type: "Local Musalla", status: "Renewal Due", rating: 4.7, donors: 210 },
-    { id: "MSQ-004", name: "Grand Mosque West", city: "Manchester, UK", type: "Juma Masjid", status: "Verified", rating: 4.5, donors: 450 },
-  ];
+  const MOCK_MOSQUES = cat.businesses.map((b, i) => ({
+    id: b.id,
+    name: b.name,
+    city: [b.city, b.country].filter(Boolean).join(", ") || "—",
+    type: b.subcategory ?? "Mosque",
+    status: b.halal_verified ? "Verified" : b.status === "pending" ? "Renewal Due" : b.status,
+    rating: b.rating ?? 0,
+    donors: 0,
+  }))
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
