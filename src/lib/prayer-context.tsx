@@ -13,6 +13,7 @@ export interface PrayerReminders {
   maghrib: ReminderOption
   isha: ReminderOption
   jumuah: ReminderOption
+  [key: string]: ReminderOption
 }
 
 export const DEFAULT_REMINDERS: PrayerReminders = {

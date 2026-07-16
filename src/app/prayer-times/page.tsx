@@ -15,10 +15,12 @@ import {
   Utensils, Sparkles, BookMarked, BellRing, Search, X,
   Hash, MessageCircle, Calculator, HandHelping, Gift,
   Compass, Award, CalendarCheck, Users, Shield, ChevronRight as ChevronRightIcon,
+  UtensilsCrossed, Plane, RotateCcw, BookCheck, Grid3X3, List,
 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { usePrayerSettings, type CitySearchResult } from "@/lib/prayer-context"
+import { useRamadanTracker, type FastStatus } from "@/lib/use-ramadan-tracker"
 import { useFavoriteDuas } from "@/lib/favorites-context"
 import { usePrayerLog, MILESTONE_COINS, type PrayerName } from "@/lib/use-prayer-log"
 import { useToast } from "@/hooks/use-toast"
@@ -100,6 +102,7 @@ export default function PrayerTimesPage() {
   const { todayLog, streak, longestStreak, week, marking, markPrayer, signedIn } = usePrayerLog()
   const { toast } = useToast()
   const { user } = useAuth()
+  // ramadanYear is derived later from ramadanData state; tracker hook is called after state is declared below
   const [myMosque, setMyMosque] = useState<{ id: string; name: string; jumuah: string | null; city: string | null } | null>(null)
 
   useEffect(() => {
@@ -171,6 +174,20 @@ export default function PrayerTimesPage() {
   const [ramadanData, setRamadanData] = useState<RamadanResponse | null>(null)
   const [ramadanLoading, setRamadanLoading] = useState(false)
   const [ramadanError, setRamadanError] = useState<string | null>(null)
+
+  // Ramadan fasting tracker + Khatm plan (§8.3 / §8.4)
+  const ramadanYear = ramadanData ? new Date(ramadanData.ramadan_start).getFullYear() : null
+  const { fastLog, khatmJuz, markFasting, clearFasting, toggleKhatmJuz, fastedCount, signedIn: trackerSignedIn } = useRamadanTracker(ramadanYear)
+
+  // Hijri calendar grid view
+  const [hijriViewMode, setHijriViewMode] = useState<"grid" | "list">("grid")
+  const [hijriGridMonth, setHijriGridMonth] = useState(() => {
+    const now = new Date()
+    return { year: now.getFullYear(), month: now.getMonth() }
+  })
+  // Converter
+  const [converterGreg, setConverterGreg] = useState("")
+  const [converterHijri, setConverterHijri] = useState<string | null>(null)
 
   const [notifPermission, setNotifPermission] = useState<string>("default")
 
@@ -872,6 +889,15 @@ export default function PrayerTimesPage() {
                   accent: "border-emerald-200/60 dark:border-emerald-800/40",
                 },
                 {
+                  label: "Qibla Compass",
+                  desc: "Live device-orientation compass",
+                  href: "/qibla",
+                  icon: Compass,
+                  color: "text-sky-600",
+                  bg: "bg-sky-50 dark:bg-sky-950/30",
+                  accent: "border-sky-200/60 dark:border-sky-800/40",
+                },
+                {
                   label: "Jummah Guide",
                   desc: "Friday prayer times & sunnah",
                   href: "/prayer/jummah",
@@ -885,9 +911,9 @@ export default function PrayerTimesPage() {
                   desc: "Schedule with local imams",
                   href: "/prayer/appointments",
                   icon: CalendarCheck,
-                  color: "text-sky-600",
-                  bg: "bg-sky-50 dark:bg-sky-950/30",
-                  accent: "border-sky-200/60 dark:border-sky-800/40",
+                  color: "text-violet-600",
+                  bg: "bg-violet-50 dark:bg-violet-950/30",
+                  accent: "border-violet-200/60 dark:border-violet-800/40",
                 },
               ].map((tool) => (
                 <Link key={tool.href} href={tool.href} className="group">
@@ -1104,9 +1130,14 @@ export default function PrayerTimesPage() {
 
           {/* ── QIBLA DIRECTION ── */}
           <section className="space-y-3">
-            <div className="flex items-center gap-2 px-1">
-              <div className="h-4 w-1 rounded-full bg-sky-500" />
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Qibla Direction</p>
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-1 rounded-full bg-sky-500" />
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Qibla Direction</p>
+              </div>
+              <Link href="/qibla" className="text-[10px] font-black text-primary flex items-center gap-1 hover:underline">
+                Live Compass <ChevronRightIcon className="h-3 w-3" />
+              </Link>
             </div>
             <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden">
               <CardContent className="p-6 flex flex-col items-center space-y-6">
@@ -1223,10 +1254,22 @@ export default function PrayerTimesPage() {
 
           {/* ── HIJRI CALENDAR ── */}
           <section className="space-y-3">
-            <div className="flex items-center gap-2 px-1">
-              <div className="h-4 w-1 rounded-full bg-teal-500" />
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Hijri Calendar</p>
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-1 rounded-full bg-teal-500" />
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Hijri Calendar</p>
+              </div>
+              <div className="flex gap-1 bg-muted rounded-full p-1">
+                <button onClick={() => setHijriViewMode("grid")} className={cn("px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1", hijriViewMode === "grid" ? "bg-primary text-white" : "text-muted-foreground")}>
+                  <Grid3X3 className="h-3 w-3" />Grid
+                </button>
+                <button onClick={() => setHijriViewMode("list")} className={cn("px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1", hijriViewMode === "list" ? "bg-primary text-white" : "text-muted-foreground")}>
+                  <List className="h-3 w-3" />Months
+                </button>
+              </div>
             </div>
+
+            {/* Hero: current Islamic date */}
             {hijriData && (
               <Card className="relative overflow-hidden rounded-[2rem] border-none shadow-soft-md bg-gradient-to-br from-primary to-emerald-400 text-white">
                 <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
@@ -1237,32 +1280,175 @@ export default function PrayerTimesPage() {
                 </CardContent>
               </Card>
             )}
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-              {islamicMonths.map((month) => {
-                const isCurrent = hijriData?.hijri.month === month.number
-                const monthEvents = eventsData?.events.filter((e) => e.month === month.number) || []
-                return (
-                  <Card key={month.number} className={cn("rounded-[2rem] border-none shadow-soft transition-all duration-250 hover:shadow-soft-md hover:-translate-y-0.5", isCurrent && "ring-2 ring-primary bg-primary/5")}>
-                    <CardContent className="p-4 space-y-2">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="text-[10px] font-black text-muted-foreground uppercase">Month {month.number}</p>
-                          <p className="text-sm font-black text-foreground">{month.name_english}</p>
-                        </div>
-                        <span className="text-base font-bold text-primary" dir="rtl">{month.name_arabic}</span>
+
+            {/* Grid view — month calendar with Hijri dates overlaid */}
+            {hijriViewMode === "grid" && (() => {
+              const { year, month } = hijriGridMonth
+              const firstDay = new Date(year, month, 1)
+              const lastDay = new Date(year, month + 1, 0)
+              const startDow = firstDay.getDay() // 0=Sun
+              const daysInMonth = lastDay.getDate()
+              const today = new Date()
+              const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month
+
+              // Compute Hijri date via Intl API (Islamic-Umalqura calendar)
+              const hijriOf = (d: Date): string => {
+                try {
+                  return d.toLocaleDateString("en-u-ca-islamic-umalqura", { day: "numeric" })
+                } catch {
+                  return ""
+                }
+              }
+
+              // Build cell array: null for empty leading cells, then day numbers
+              const cells: (number | null)[] = [
+                ...Array<null>(startDow).fill(null),
+                ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+              ]
+              // Pad to complete last row
+              while (cells.length % 7 !== 0) cells.push(null)
+
+              const monthName = new Date(year, month).toLocaleDateString(undefined, { month: "long", year: "numeric" })
+
+              return (
+                <div className="space-y-3">
+                  {/* Month navigator */}
+                  <div className="flex items-center justify-between">
+                    <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setHijriGridMonth((p) => { const d = new Date(p.year, p.month - 1); return { year: d.getFullYear(), month: d.getMonth() } })}>
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <div className="text-center">
+                      <p className="text-base font-black text-foreground">{monthName}</p>
+                      <p className="text-xs text-muted-foreground font-bold">
+                        {(() => {
+                          try {
+                            const hStart = new Date(year, month, 1).toLocaleDateString("en-u-ca-islamic-umalqura", { month: "long", year: "numeric" })
+                            const hEnd = new Date(year, month + 1, 0).toLocaleDateString("en-u-ca-islamic-umalqura", { month: "long" })
+                            return `${hStart} – ${hEnd} AH`
+                          } catch { return "" }
+                        })()}
+                      </p>
+                    </div>
+                    <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setHijriGridMonth((p) => { const d = new Date(p.year, p.month + 1); return { year: d.getFullYear(), month: d.getMonth() } })}>
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden">
+                    <CardContent className="p-3">
+                      {/* Day headers */}
+                      <div className="grid grid-cols-7 mb-1">
+                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d, i) => (
+                          <div key={d} className={cn("text-center text-[9px] font-black uppercase py-2 text-muted-foreground", i === 5 && "text-primary")}>
+                            {d}
+                          </div>
+                        ))}
                       </div>
-                      {isCurrent && <Badge variant="default" className="bg-primary text-[9px]">CURRENT</Badge>}
-                      <p className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">{month.significance}</p>
-                      {monthEvents.length > 0 && (
-                        <div className="flex flex-wrap gap-1">
-                          {monthEvents.map((e, i) => <Badge key={i} variant="secondary" className="text-[9px]">{e.day}: {e.name}</Badge>)}
-                        </div>
+                      {/* Cells */}
+                      <div className="grid grid-cols-7 gap-px">
+                        {cells.map((day, idx) => {
+                          if (day === null) return <div key={`e-${idx}`} />
+                          const date = new Date(year, month, day)
+                          const isToday = isCurrentMonth && day === today.getDate()
+                          const isFriday = date.getDay() === 5
+                          const hijriDay = hijriOf(date)
+                          const isHijriDay1 = hijriDay === "1"
+                          // Check events on this date
+                          const hijriMonth = (() => {
+                            try { return parseInt(date.toLocaleDateString("en-u-ca-islamic-umalqura", { month: "numeric" })) } catch { return 0 }
+                          })()
+                          const hijriDayNum = (() => {
+                            try { return parseInt(hijriDay) } catch { return 0 }
+                          })()
+                          const hasEvent = eventsData?.events.some((e) => e.month === hijriMonth && e.day === hijriDayNum)
+                          return (
+                            <div
+                              key={day}
+                              className={cn(
+                                "relative flex flex-col items-center justify-start py-1.5 rounded-xl min-h-[52px] transition-colors cursor-default",
+                                isToday && "bg-primary text-white",
+                                !isToday && isFriday && "bg-primary/5",
+                                !isToday && "hover:bg-muted/60"
+                              )}
+                            >
+                              <span className={cn("text-sm font-black leading-none", isToday ? "text-white" : "text-foreground")}>{day}</span>
+                              <span className={cn("text-[9px] font-bold mt-0.5 leading-none", isToday ? "text-white/70" : isHijriDay1 ? "text-primary font-black" : "text-muted-foreground")}>
+                                {hijriDay}
+                              </span>
+                              {hasEvent && (
+                                <div className={cn("absolute bottom-1 h-1.5 w-1.5 rounded-full", isToday ? "bg-white" : "bg-amber-500")} />
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+                      <div className="flex items-center gap-3 mt-3 px-1 pt-2 border-t border-border">
+                        <div className="flex items-center gap-1.5"><div className="h-1.5 w-1.5 rounded-full bg-amber-500" /><span className="text-[9px] text-muted-foreground font-bold">Islamic event</span></div>
+                        <div className="flex items-center gap-1.5"><div className="h-4 w-4 rounded bg-primary/5 border border-primary/20" /><span className="text-[9px] text-muted-foreground font-bold">Jumu'ah</span></div>
+                        <div className="text-[9px] text-muted-foreground font-bold ml-auto">Small # = Hijri day</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Date converter */}
+                  <Card className="rounded-[2rem] border-none shadow-sm">
+                    <CardContent className="p-5 space-y-3">
+                      <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Date Converter</p>
+                      <div className="flex gap-2">
+                        <input
+                          type="date"
+                          value={converterGreg}
+                          onChange={(e) => {
+                            setConverterGreg(e.target.value)
+                            if (e.target.value) {
+                              try {
+                                const d = new Date(e.target.value + "T12:00:00")
+                                const h = d.toLocaleDateString("en-u-ca-islamic-umalqura", { weekday: "long", year: "numeric", month: "long", day: "numeric" })
+                                setConverterHijri(h + " AH")
+                              } catch { setConverterHijri("Could not convert") }
+                            } else { setConverterHijri(null) }
+                          }}
+                          className="flex-1 rounded-xl border border-border bg-background px-3 py-2 text-sm font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                      </div>
+                      {converterHijri && (
+                        <p className="text-sm font-black text-primary">{converterHijri}</p>
                       )}
                     </CardContent>
                   </Card>
-                )
-              })}
-            </div>
+                </div>
+              )
+            })()}
+
+            {/* List view — 12 months */}
+            {hijriViewMode === "list" && (
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                {islamicMonths.map((month) => {
+                  const isCurrent = hijriData?.hijri.month === month.number
+                  const monthEvents = eventsData?.events.filter((e) => e.month === month.number) || []
+                  return (
+                    <Card key={month.number} className={cn("rounded-[2rem] border-none shadow-soft transition-all duration-250 hover:shadow-soft-md hover:-translate-y-0.5", isCurrent && "ring-2 ring-primary bg-primary/5")}>
+                      <CardContent className="p-4 space-y-2">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <p className="text-[10px] font-black text-muted-foreground uppercase">Month {month.number}</p>
+                            <p className="text-sm font-black text-foreground">{month.name_english}</p>
+                          </div>
+                          <span className="text-base font-bold text-primary" dir="rtl">{month.name_arabic}</span>
+                        </div>
+                        {isCurrent && <Badge variant="default" className="bg-primary text-[9px]">CURRENT</Badge>}
+                        <p className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">{month.significance}</p>
+                        {monthEvents.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {monthEvents.map((e, i) => <Badge key={i} variant="secondary" className="text-[9px]">{e.day}: {e.name}</Badge>)}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+            )}
           </section>
 
           {/* ── ISLAMIC EVENTS ── */}
@@ -1334,8 +1520,20 @@ export default function PrayerTimesPage() {
               const ramadanStart = new Date(ramadanData.ramadan_start)
               const isUpcoming = ramadanStart.getTime() > Date.now()
               const daysUntil = Math.ceil((ramadanStart.getTime() - Date.now()) / 86400000)
+              const FAST_STATUSES: { status: FastStatus; label: string; emoji: string; color: string }[] = [
+                { status: "fasted", label: "Fasted", emoji: "✓", color: "bg-emerald-500 text-white" },
+                { status: "missed", label: "Missed", emoji: "✗", color: "bg-red-400 text-white" },
+                { status: "qadha", label: "Make-up", emoji: "↩", color: "bg-amber-400 text-white" },
+                { status: "travelling", label: "Travel", emoji: "✈", color: "bg-sky-400 text-white" },
+              ]
+              const statusStyle = (s: FastStatus | undefined): string => {
+                if (!s) return "bg-muted text-muted-foreground/50"
+                const found = FAST_STATUSES.find((f) => f.status === s)
+                return found?.color ?? "bg-muted text-muted-foreground/50"
+              }
               return (
                 <>
+                  {/* Hero card */}
                   <Card className="relative overflow-hidden border-none rounded-[2.5rem] bg-gradient-to-br from-amber-500 to-orange-400 text-white shadow-2xl shadow-amber-500/20">
                     <div className="absolute top-0 right-0 p-6 opacity-15"><Utensils className="h-28 w-28" /></div>
                     <CardContent className="p-7 space-y-3">
@@ -1364,6 +1562,144 @@ export default function PrayerTimesPage() {
                       )}
                     </CardContent>
                   </Card>
+
+                  {/* ── Fasting Tracker (§8.3) ── */}
+                  <Card className="rounded-[2rem] border-none shadow-sm">
+                    <CardContent className="p-5 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-black text-foreground">Fasting Tracker</p>
+                          <p className="text-[10px] text-muted-foreground font-medium">Tap a day to mark — your personal record of Ramadan</p>
+                        </div>
+                        {trackerSignedIn && (
+                          <div className="text-right">
+                            <p className="text-2xl font-black text-primary">{fastedCount}</p>
+                            <p className="text-[9px] font-bold text-muted-foreground uppercase">/ {ramadanData.ramadan_days} days</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Progress bar */}
+                      {trackerSignedIn && (
+                        <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${(fastedCount / ramadanData.ramadan_days) * 100}%` }} />
+                        </div>
+                      )}
+
+                      {/* 30-day grid */}
+                      <div className="grid grid-cols-6 sm:grid-cols-10 gap-1.5">
+                        {ramadanData.days.map((day) => {
+                          const status = fastLog[day.day]
+                          const isToday = day.date === today
+                          return (
+                            <div key={day.day} className="relative group">
+                              <button
+                                onClick={() => {
+                                  if (!trackerSignedIn) return
+                                  // Cycle through statuses on click, or clear if already marked
+                                  const cur = fastLog[day.day]
+                                  if (!cur) { markFasting(day.day, "fasted"); return }
+                                  const idx = FAST_STATUSES.findIndex((f) => f.status === cur)
+                                  const next = FAST_STATUSES[idx + 1]
+                                  if (next) { markFasting(day.day, next.status) } else { clearFasting(day.day) }
+                                }}
+                                className={cn(
+                                  "w-full aspect-square rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all hover:scale-105 active:scale-95",
+                                  statusStyle(status),
+                                  isToday && !status && "ring-2 ring-amber-400",
+                                  !trackerSignedIn && "cursor-default opacity-60"
+                                )}
+                                title={status ? FAST_STATUSES.find((f) => f.status === status)?.label : `Day ${day.day}`}
+                              >
+                                <span className="text-[10px] font-black leading-none">{day.day}</span>
+                                {status && (
+                                  <span className="text-[8px] leading-none opacity-90">
+                                    {FAST_STATUSES.find((f) => f.status === status)?.emoji}
+                                  </span>
+                                )}
+                              </button>
+                            </div>
+                          )
+                        })}
+                      </div>
+
+                      {/* Legend */}
+                      <div className="flex flex-wrap gap-2 pt-1 border-t border-border">
+                        {FAST_STATUSES.map((f) => (
+                          <div key={f.status} className="flex items-center gap-1">
+                            <div className={cn("h-3 w-3 rounded-full", f.color)} />
+                            <span className="text-[9px] font-bold text-muted-foreground">{f.label}</span>
+                          </div>
+                        ))}
+                        <span className="text-[9px] font-bold text-muted-foreground ml-auto">Tap to cycle • Tap again to clear</span>
+                      </div>
+
+                      {!trackerSignedIn && (
+                        <p className="text-xs text-center text-muted-foreground font-bold py-2">Sign in to track your fasting journey</p>
+                      )}
+                      {trackerSignedIn && fastedCount === ramadanData.ramadan_days && (
+                        <div className="bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl p-4 text-center border border-emerald-200/60 dark:border-emerald-800/40">
+                          <p className="text-base font-black text-emerald-600 dark:text-emerald-400">🌙 Alhamdulillah — Full Ramadan Complete!</p>
+                          <p className="text-xs text-muted-foreground mt-1">May Allah accept your fasts</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* ── Khatm Quran Plan (§8.4) ── */}
+                  <Card className="rounded-[2rem] border-none shadow-sm">
+                    <CardContent className="p-5 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-black text-foreground flex items-center gap-1.5">
+                            <BookCheck className="h-4 w-4 text-amber-500" />Khatm Quran Plan
+                          </p>
+                          <p className="text-[10px] text-muted-foreground font-medium">1 Juz per day — complete the Quran this Ramadan</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-black text-amber-500">{khatmJuz.size}</p>
+                          <p className="text-[9px] font-bold text-muted-foreground uppercase">/ 30 Juz</p>
+                        </div>
+                      </div>
+
+                      {/* Progress */}
+                      <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                        <div className="h-full bg-amber-500 rounded-full transition-all duration-500" style={{ width: `${(khatmJuz.size / 30) * 100}%` }} />
+                      </div>
+
+                      {/* 30-Juz grid */}
+                      <div className="grid grid-cols-6 sm:grid-cols-10 gap-1.5">
+                        {Array.from({ length: 30 }, (_, i) => i + 1).map((juz) => {
+                          const done = khatmJuz.has(juz)
+                          const dayEntry = ramadanData.days[juz - 1]
+                          const isToday = dayEntry?.date === today
+                          return (
+                            <Link key={juz} href={`/quran?juz=${juz}`} className="group">
+                              <button
+                                onClick={(e) => {
+                                  if (!trackerSignedIn) return
+                                  e.preventDefault()
+                                  toggleKhatmJuz(juz)
+                                }}
+                                className={cn(
+                                  "w-full aspect-square rounded-xl flex items-center justify-center text-[10px] font-black transition-all hover:scale-105 active:scale-95",
+                                  done ? "bg-amber-500 text-white" : isToday ? "ring-2 ring-amber-400 bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400" : "bg-muted text-muted-foreground/70 hover:bg-amber-50 dark:hover:bg-amber-950/20"
+                                )}
+                                title={`Juz ${juz}${done ? " — Read ✓" : ""}`}
+                              >
+                                {juz}
+                              </button>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                      <p className="text-[9px] text-muted-foreground font-bold">
+                        {trackerSignedIn ? "Tap to mark read • Long press opens Juz in Quran reader" : "Sign in to track your Khatm progress"}
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  {/* Ramadan calendar table */}
                   <Card className="rounded-[2rem] border-none shadow-sm overflow-hidden">
                     <CardHeader className="pb-2"><CardTitle className="text-base font-black">Ramadan Calendar</CardTitle></CardHeader>
                     <div className="overflow-x-auto">
