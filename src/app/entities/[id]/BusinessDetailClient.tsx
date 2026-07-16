@@ -99,10 +99,12 @@ type CategoryGroup =
   | "travel"
   | "books"
   | "mosque"
+  | "hotel"
 
 function getCategoryGroup(cat: string | null): CategoryGroup {
   const c = (cat ?? "").toLowerCase()
   if (c.includes("mosque") || c.includes("masjid") || c.includes("islamic centre") || c.includes("islamic center")) return "mosque"
+  if (c.includes("hotel") || c.includes("homestay") || c.includes("resort") || c.includes("accommodation")) return "hotel"
   if (c.includes("restaurant") || c.includes("food & dining")) return "food"
   if (c.includes("catering")) return "catering"
   if (c.includes("meat") || c.includes("butcher")) return "meat"
@@ -131,6 +133,7 @@ function categoryLabel(cat: string | null): string {
     "Healthcare, Wellness & Spiritual Healing": "Healthcare",
     "Finance & Banking": "Islamic Finance",
     "Mosques & Islamic Centres": "Mosque",
+    "Hotels & Homestays": "Hotel",
   }
   if (!cat) return "Business"
   return map[cat] ?? cat
@@ -160,6 +163,7 @@ function getTabsForGroup(group: CategoryGroup): TabDef[] {
     case "travel":    return [{ value: "info", label: "Info" }, { value: "second", label: "Packages" },   media, reviews, events]
     case "books":     return [{ value: "info", label: "Info" }, { value: "second", label: "Collection" }, media, reviews, events]
     case "mosque":    return [{ value: "info", label: "Info" }, { value: "second", label: "Prayers" },    media, reviews, events]
+    case "hotel":     return [{ value: "info", label: "Info" }, { value: "second", label: "Rooms" },      media, reviews, events]
   }
 }
 
@@ -181,6 +185,7 @@ function getCategoryHighlights(group: CategoryGroup): Highlight[] {
     case "travel":    return [{ emoji: "🕋", label: "Hajj Packages" }, { emoji: "🌙", label: "Umrah Packages" }, { emoji: "🇹🇷", label: "Turkey" }, { emoji: "🇲🇾", label: "Malaysia" }, { emoji: "🇦🇪", label: "UAE" }, { emoji: "🤲", label: "Guided Group Tours" }]
     case "books":     return [{ emoji: "📖", label: "Quran & Tafseer" }, { emoji: "🕌", label: "Fiqh & Seerah" }, { emoji: "👶", label: "Children's Books" }, { emoji: "🔤", label: "Arabic Learning" }, { emoji: "🎵", label: "Audio & Media" }, { emoji: "📦", label: "Bulk Orders" }]
     case "mosque":    return [{ emoji: "🕌", label: "5 Daily Prayers" }, { emoji: "🗓️", label: "Jumu'ah" }, { emoji: "💧", label: "Wudu Facilities" }, { emoji: "👩", label: "Ladies' Section" }, { emoji: "📖", label: "Quran Classes" }, { emoji: "🌙", label: "Ramadan Programmes" }]
+    case "hotel":     return [{ emoji: "🛏️", label: "Halal Rooms" }, { emoji: "🍳", label: "Halal Breakfast" }, { emoji: "🕌", label: "Prayer Room" }, { emoji: "🚫", label: "Alcohol-Free" }, { emoji: "👨‍👩‍👧", label: "Family Suites" }, { emoji: "🏊", label: "Modest Pool Hours" }]
   }
 }
 
@@ -350,6 +355,7 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
            group === "finance" ? "Our Services" :
            group === "travel" ? "Travel Packages" :
            group === "books" ? "Our Collection" :
+           group === "hotel" ? "What's Included" :
            "Highlights"}
         </p>
         <div className="flex flex-wrap gap-2">
@@ -714,6 +720,64 @@ function SecondTabContent({ business, group, menuItems }: { business: Business; 
             <p className="text-sm text-muted-foreground font-medium">Supply to madrasas, Islamic schools, and mosques. Contact us for wholesale pricing.</p>
           </CardContent>
         </Card>
+      </div>
+    )
+  }
+
+  // ── HOTEL ──
+  if (group === "hotel") {
+    const amenities = business.selected_amenities ?? []
+    const dining = business.selected_dining ?? []
+    return (
+      <div className="space-y-4">
+        <SubcategoryBadge />
+        <HighlightChips />
+        {amenities.length > 0 && (
+          <Card className="rounded-2xl border-border/50">
+            <CardContent className="p-4 space-y-2">
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Amenities</p>
+              <div className="flex flex-wrap gap-1.5">
+                {amenities.map((a: string) => <Chip key={a} label={a} />)}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+        {dining.length > 0 && (
+          <Card className="rounded-2xl border-border/50">
+            <CardContent className="p-4 space-y-2">
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Dining Options</p>
+              <div className="flex flex-wrap gap-1.5">
+                {dining.map((d: string) => <Chip key={d} label={d} />)}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+        <PriceCard label="Price Range (Per Night)" />
+        {business.website && (
+          <Card className="rounded-2xl border-border/50">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Book Direct</p>
+                <p className="text-sm font-bold text-primary truncate">{business.website}</p>
+              </div>
+              <a href={business.website.startsWith("http") ? business.website : `https://${business.website}`}
+                target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4 text-muted-foreground" />
+              </a>
+            </CardContent>
+          </Card>
+        )}
+        {business.halal_verified && (
+          <Card className="rounded-2xl border-emerald-200/60 dark:border-emerald-800/40 bg-emerald-50/50 dark:bg-emerald-950/20">
+            <CardContent className="p-4 flex items-center gap-3">
+              <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0" />
+              <div>
+                <p className="text-sm font-black text-emerald-700 dark:text-emerald-400">Halal-Friendly Certified</p>
+                <p className="text-xs text-muted-foreground">Alcohol-free premises, halal food served, and prayer facilities available</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     )
   }
