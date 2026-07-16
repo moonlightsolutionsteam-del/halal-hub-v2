@@ -46,7 +46,6 @@ export function useCategoryBusinesses<T>(
       .select("id, name, subcategory, city, country, rating, halal_verified, image_url, selected_highlights, description, is_open, price_range")
       .eq("status", "active")
       .order("rating", { ascending: false })
-      .limit(50)
 
     const query = Array.isArray(category)
       ? q.in("category", category)

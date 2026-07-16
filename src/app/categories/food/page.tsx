@@ -49,7 +49,6 @@ export default function FoodPage() {
       .in("category", ["Food & Dining", "restaurant"])
       .eq("status", "active")
       .order("rating", { ascending: false })
-      .limit(50)
       .then(({ data }: { data: any[] | null }) => {
         if (!data || data.length === 0) return
         setRestaurants(data.map(b => ({
