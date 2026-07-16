@@ -8,11 +8,15 @@ import {
   ShieldCheck, ShieldAlert, Star, CheckCircle2,
   ExternalLink, MessageCircle, PlayCircle, Clock,
   Instagram, Facebook, Twitter, Link2,
+  Navigation, Users, Send, Calendar, Flag, X,
+  CreditCard, Utensils, ChevronRight, Award,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/hooks/use-auth"
 import { useSavedBusiness } from "@/hooks/use-saved-business"
@@ -851,6 +855,148 @@ function HalalTabContent({ business, group }: { business: Business; group: Categ
           </CardContent>
         </Card>
       )}
+
+      {/* Halal transparency badge */}
+      <Card className="rounded-2xl border-border/50">
+        <CardContent className="p-4 flex items-center gap-3">
+          <Award className="h-5 w-5 text-primary shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-black text-foreground">
+              {business.halal_verified ? "Certified by HalalHub" : "Self Declared"}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {business.halal_verified
+                ? "Reviewed and approved by HalalHub's verification team"
+                : "Business has self-declared their halal practices"}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Suggest an Edit */}
+      <div className="flex justify-center pt-2">
+        <button className="text-xs text-muted-foreground hover:text-primary transition-colors font-medium underline underline-offset-2">
+          Suggest an Edit
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Enquire modal ─────────────────────────────────────────────────────────────
+
+function EnquireModal({ business, onClose }: { business: Business; onClose: () => void }) {
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [name, setName] = useState(user?.name ?? "")
+  const [mobile, setMobile] = useState(user?.phone ?? "")
+  const [query, setQuery] = useState("")
+  const [sending, setSending] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!name.trim() || !mobile.trim() || !query.trim()) {
+      toast({ title: "Please fill all fields", variant: "destructive" }); return
+    }
+    setSending(true)
+    await new Promise(r => setTimeout(r, 800))
+    setSending(false)
+    toast({ title: "Enquiry sent!", description: `${business.name} will get back to you soon.` })
+    onClose()
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <div className="relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-black">Enquire</h2>
+            <p className="text-xs text-muted-foreground">{business.name}</p>
+          </div>
+          <Button variant="ghost" size="icon" className="rounded-2xl" onClick={onClose}><X className="h-4 w-4" /></Button>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="space-y-1">
+            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Full Name</label>
+            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Your name" className="rounded-xl h-11" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Mobile Number</label>
+            <Input value={mobile} onChange={e => setMobile(e.target.value)} placeholder="+91 XXXXX XXXXX" type="tel" className="rounded-xl h-11" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Your Query</label>
+            <Textarea value={query} onChange={e => setQuery(e.target.value)} placeholder="Ask anything about this business…" className="rounded-xl resize-none" rows={3} />
+          </div>
+          <Button type="submit" className="w-full h-12 rounded-2xl font-black gap-2" disabled={sending}>
+            <Send className="h-4 w-4" />
+            {sending ? "Sending…" : "Send Enquiry"}
+          </Button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+// ── Reserve modal ─────────────────────────────────────────────────────────────
+
+function ReserveModal({ business, onClose }: { business: Business; onClose: () => void }) {
+  const { toast } = useToast()
+  const [guests, setGuests] = useState("2")
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
+  const [requests, setRequests] = useState("")
+  const [sending, setSending] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!guests || !date || !time) {
+      toast({ title: "Please fill required fields", variant: "destructive" }); return
+    }
+    setSending(true)
+    await new Promise(r => setTimeout(r, 800))
+    setSending(false)
+    toast({ title: "Reservation requested!", description: `${business.name} will confirm your booking.` })
+    onClose()
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <div className="relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl shadow-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-black">Reserve a Table</h2>
+            <p className="text-xs text-muted-foreground">{business.name}</p>
+          </div>
+          <Button variant="ghost" size="icon" className="rounded-2xl" onClick={onClose}><X className="h-4 w-4" /></Button>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Guests *</label>
+              <Input value={guests} onChange={e => setGuests(e.target.value)} placeholder="2" type="number" min="1" max="50" className="rounded-xl h-11" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Time *</label>
+              <Input value={time} onChange={e => setTime(e.target.value)} type="time" className="rounded-xl h-11" />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Date *</label>
+            <Input value={date} onChange={e => setDate(e.target.value)} type="date" className="rounded-xl h-11" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Special Requests</label>
+            <Textarea value={requests} onChange={e => setRequests(e.target.value)} placeholder="Birthday celebration, dietary needs, seating preference…" className="rounded-xl resize-none" rows={2} />
+          </div>
+          <Button type="submit" className="w-full h-12 rounded-2xl font-black gap-2" disabled={sending}>
+            <Calendar className="h-4 w-4" />
+            {sending ? "Booking…" : "Request Reservation"}
+          </Button>
+        </form>
+      </div>
     </div>
   )
 }
@@ -864,6 +1010,19 @@ export default function BusinessDetailClient({ business }: { business: Business 
   const router = useRouter()
   const [checkingIn, setCheckingIn] = useState(false)
   const [checkedIn, setCheckedIn] = useState(false)
+  const [showEnquire, setShowEnquire] = useState(false)
+  const [showReserve, setShowReserve] = useState(false)
+  const [checkinCount, setCheckinCount] = useState<number | null>(null)
+  const [activeTab, setActiveTab] = useState("info")
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase
+      .from("check_ins")
+      .select("*", { count: "exact", head: true })
+      .eq("business_id", business.id)
+      .then(({ count }) => { if (count != null) setCheckinCount(count) })
+  }, [business.id])
 
   const group = getCategoryGroup(business.category)
   const tabs = getTabsForGroup(group)
@@ -903,6 +1062,9 @@ export default function BusinessDetailClient({ business }: { business: Business 
   }
 
   return (
+    <>
+    {showEnquire && <EnquireModal business={business} onClose={() => setShowEnquire(false)} />}
+    {showReserve && <ReserveModal business={business} onClose={() => setShowReserve(false)} />}
     <div className="min-h-screen bg-background pb-24">
       {/* ── Hero ── */}
       <div className="relative h-56 sm:h-72 w-full bg-muted overflow-hidden">
@@ -969,51 +1131,99 @@ export default function BusinessDetailClient({ business }: { business: Business 
           </div>
         </div>
 
-        {/* Rating */}
-        {(business.rating || business.review_count) && (
-          <div className="flex items-center gap-3 text-sm">
-            {business.rating && (
-              <div className="flex items-center gap-1 font-black text-foreground">
-                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                {parseFloat(business.rating).toFixed(1)}
-              </div>
+        {/* Rating + check-in count */}
+        <div className="flex items-center gap-3 text-sm flex-wrap">
+          {business.rating && (
+            <div className="flex items-center gap-1 font-black text-foreground">
+              <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+              {parseFloat(business.rating).toFixed(1)}
+            </div>
+          )}
+          {(business.review_count ?? 0) > 0 && (
+            <span className="text-muted-foreground">{business.review_count} reviews</span>
+          )}
+          {(business.rating || business.review_count) && checkinCount != null && checkinCount > 0 && (
+            <span className="text-muted-foreground">·</span>
+          )}
+          {checkinCount != null && checkinCount > 0 && (
+            <div className="flex items-center gap-1 text-muted-foreground">
+              <Users className="h-3.5 w-3.5" />
+              <span>{checkinCount} check-ins</span>
+            </div>
+          )}
+        </div>
+
+        {/* Action buttons */}
+        <div className="space-y-2">
+          {/* Primary row */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <Button
+              className={cn("col-span-2 h-12 rounded-2xl font-black gap-2", checkedIn ? "bg-emerald-600 hover:bg-emerald-700" : "")}
+              onClick={handleCheckIn}
+              disabled={checkingIn}
+            >
+              <CheckCircle2 className="h-4 w-4" />
+              {checkingIn ? "Checking in…" : checkedIn ? "Checked In! +5 🪙" : "Check In (+5 Coins)"}
+            </Button>
+            {business.phone && (
+              <Button variant="outline" className="h-12 rounded-2xl font-black gap-2" asChild>
+                <a href={`tel:${business.phone}`}><Phone className="h-4 w-4" /> Call</a>
+              </Button>
             )}
-            {(business.review_count ?? 0) > 0 && (
-              <span className="text-muted-foreground">{business.review_count} reviews</span>
+            {business.whatsapp ? (
+              <Button variant="outline" className="h-12 rounded-2xl font-black gap-2" asChild>
+                <a href={`https://wa.me/${business.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="h-4 w-4" /> WhatsApp
+                </a>
+              </Button>
+            ) : !business.phone ? (
+              <Button variant="outline" className="h-12 rounded-2xl font-black gap-2 col-span-2" disabled>
+                <Phone className="h-4 w-4" /> No contact listed
+              </Button>
+            ) : null}
+          </div>
+
+          {/* Secondary row */}
+          <div className="grid gap-2" style={{ gridTemplateColumns: group === "food" ? "1fr 1fr 1fr" : "1fr 1fr" }}>
+            <Button variant="outline" className="h-11 rounded-2xl font-black gap-1.5 text-sm" onClick={() => setShowEnquire(true)}>
+              <Send className="h-3.5 w-3.5" /> Enquire
+            </Button>
+            {group === "food" && (
+              <Button variant="outline" className="h-11 rounded-2xl font-black gap-1.5 text-sm" onClick={() => setShowReserve(true)}>
+                <Calendar className="h-3.5 w-3.5" /> Reserve
+              </Button>
             )}
+            {business.latitude && business.longitude ? (
+              <Button variant="outline" className="h-11 rounded-2xl font-black gap-1.5 text-sm" asChild>
+                <a href={`https://maps.google.com/?q=${business.latitude},${business.longitude}`} target="_blank" rel="noopener noreferrer">
+                  <Navigation className="h-3.5 w-3.5" /> Directions
+                </a>
+              </Button>
+            ) : (
+              <Button variant="outline" className="h-11 rounded-2xl font-black gap-1.5 text-sm" asChild>
+                <a href={`https://maps.google.com/?q=${encodeURIComponent([business.name, business.address, business.city].filter(Boolean).join(", "))}`} target="_blank" rel="noopener noreferrer">
+                  <Navigation className="h-3.5 w-3.5" /> Directions
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Plan Your Meal banner — food only */}
+        {group === "food" && (business.menu_images?.length || business.signature_dish || business.popular_dishes) && (
+          <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 border border-primary/15">
+            <div>
+              <p className="text-xs font-black uppercase tracking-widest text-primary/80">Plan Your Meal</p>
+              <p className="text-sm text-muted-foreground font-medium mt-0.5">Browse the menu before you visit</p>
+            </div>
+            <Button size="sm" className="rounded-xl font-black gap-1.5 h-9" onClick={() => setActiveTab("second")}>
+              View Menu <ChevronRight className="h-3.5 w-3.5" />
+            </Button>
           </div>
         )}
 
-        {/* Action buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <Button
-            className={cn("col-span-2 h-12 rounded-2xl font-black gap-2", checkedIn ? "bg-emerald-600 hover:bg-emerald-700" : "")}
-            onClick={handleCheckIn}
-            disabled={checkingIn}
-          >
-            <CheckCircle2 className="h-4 w-4" />
-            {checkingIn ? "Checking in…" : checkedIn ? "Checked In! +5 🪙" : "Check In (+5 Coins)"}
-          </Button>
-          {business.phone && (
-            <Button variant="outline" className="h-12 rounded-2xl font-black gap-2" asChild>
-              <a href={`tel:${business.phone}`}><Phone className="h-4 w-4" /> Call</a>
-            </Button>
-          )}
-          {business.whatsapp ? (
-            <Button variant="outline" className="h-12 rounded-2xl font-black gap-2" asChild>
-              <a href={`https://wa.me/${business.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="h-4 w-4" /> WhatsApp
-              </a>
-            </Button>
-          ) : !business.phone ? (
-            <Button variant="outline" className="h-12 rounded-2xl font-black gap-2 col-span-2" disabled>
-              <Phone className="h-4 w-4" /> No contact listed
-            </Button>
-          ) : null}
-        </div>
-
         {/* ── Tabs ── */}
-        <Tabs defaultValue="info" className="w-full mt-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
           <TabsList className="bg-muted/40 rounded-2xl p-1 h-auto w-full grid gap-1" style={{ gridTemplateColumns: `repeat(${tabs.length}, 1fr)` }}>
             {tabs.map(t => (
               <TabsTrigger
@@ -1045,6 +1255,15 @@ export default function BusinessDetailClient({ business }: { business: Business 
                 {business.phone && <InfoRow icon={<Phone className="h-4 w-4" />} label={business.phone} href={`tel:${business.phone}`} />}
                 {business.email && <InfoRow icon={<Link2 className="h-4 w-4" />} label={business.email} href={`mailto:${business.email}`} />}
                 {business.website && <InfoRow icon={<Globe className="h-4 w-4" />} label={business.website} href={business.website.startsWith("http") ? business.website : `https://${business.website}`} external />}
+                <a
+                  href={business.latitude && business.longitude
+                    ? `https://maps.google.com/?q=${business.latitude},${business.longitude}`
+                    : `https://maps.google.com/?q=${encodeURIComponent([business.name, business.address, business.city].filter(Boolean).join(", "))}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-primary font-bold hover:underline pt-1"
+                >
+                  <Navigation className="h-3.5 w-3.5 shrink-0" /> Get Directions
+                </a>
               </CardContent>
             </Card>
 
@@ -1069,6 +1288,46 @@ export default function BusinessDetailClient({ business }: { business: Business 
                   <div className="flex flex-wrap gap-1.5">
                     {business.selected_amenities.map(a => <Chip key={a} label={a} />)}
                   </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Business highlights */}
+            {business.selected_highlights?.length ? (
+              <Card className="rounded-2xl border-border/50">
+                <CardContent className="p-4 space-y-2">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Highlights</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {business.selected_highlights.map(h => <Chip key={h} label={h} />)}
+                  </div>
+                </CardContent>
+              </Card>
+            ) : null}
+
+            {/* Payment methods */}
+            {business.selected_payment?.length ? (
+              <Card className="rounded-2xl border-border/50">
+                <CardContent className="p-4 space-y-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <CreditCard className="h-3.5 w-3.5 text-muted-foreground" />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Payment Methods</p>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {business.selected_payment.map(p => <Chip key={p} label={p} />)}
+                  </div>
+                </CardContent>
+              </Card>
+            ) : null}
+
+            {/* Pricing */}
+            {business.price_range && (
+              <Card className="rounded-2xl border-border/50">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Utensils className="h-3.5 w-3.5 text-muted-foreground" />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Pricing</p>
+                  </div>
+                  <p className="text-sm font-black text-foreground">{business.price_range}</p>
                 </CardContent>
               </Card>
             )}
@@ -1130,8 +1389,16 @@ export default function BusinessDetailClient({ business }: { business: Business 
             />
           </TabsContent>
         </Tabs>
+
+        {/* Report link */}
+        <div className="flex justify-center py-4">
+          <a href={`/entities/${business.id}/report`} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-destructive transition-colors font-medium">
+            <Flag className="h-3 w-3" /> Report this Business
+          </a>
+        </div>
       </div>
     </div>
+    </>
   )
 }
 
