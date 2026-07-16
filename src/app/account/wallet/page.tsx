@@ -2,22 +2,18 @@
 "use client";
 
 import { useAuth } from "@/hooks/use-auth";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Wallet, Sparkles, Star, Check, ThumbsUp, Upload, ChevronRight, Coins, Utensils, BookOpen, Heart } from "lucide-react";
+import { Wallet, Sparkles, Star, Check, ThumbsUp, Upload, ChevronRight, Coins, Utensils, BookOpen, Heart, Loader2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import Link from 'next/link';
 import Image from 'next/image';
 
-const activityFeed = [
-  { icon: <Check className="h-4 w-4" />, text: "Checked in at Karim's Restaurant", points: "+10", time: "2h ago" },
-  { icon: <Star className="h-4 w-4" />, text: "Posted a review for Al Bake", points: "+50", time: "1d ago" },
-  { icon: <Upload className="h-4 w-4" />, text: "Uploaded 3 photos for Jama Masjid", points: "+30", time: "1d ago" },
-  { icon: <ThumbsUp className="h-4 w-4" />, text: "Your review was marked as helpful", points: "+5", time: "2d ago" },
-];
+type LedgerRow = { id: string; delta: number; reason: string; created_at: string }
 
 const earnRewardTiers = [
     {
@@ -93,6 +89,23 @@ const amazonRewards = [
 export default function WalletPage() {
     const { user } = useAuth();
     const [selectedPackId, setSelectedPackId] = useState(1);
+    const [ledger, setLedger] = useState<LedgerRow[]>([]);
+    const [ledgerLoading, setLedgerLoading] = useState(true);
+
+    useEffect(() => {
+      if (!user?.uid) { setLedgerLoading(false); return }
+      const supabase = createClient()
+      ;(supabase as any)
+        .from("points_ledger")
+        .select("id, delta, reason, created_at")
+        .eq("user_id", user.uid)
+        .order("created_at", { ascending: false })
+        .limit(20)
+        .then(({ data }: { data: LedgerRow[] | null }) => {
+          setLedger(data ?? [])
+          setLedgerLoading(false)
+        })
+    }, [user?.uid]);
 
     const selectedPack = coinPacks.find(p => p.id === selectedPackId);
     
@@ -174,18 +187,29 @@ export default function WalletPage() {
                     <CardDescription>Your recent coin activities.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    {activityFeed.map((item, index) => (
-                        <div key={index} className="flex items-center justify-between text-sm">
+                    {ledgerLoading ? (
+                      <div className="flex justify-center py-4"><Loader2 className="h-5 w-5 animate-spin text-primary" /></div>
+                    ) : ledger.length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">No coin activity yet.</p>
+                    ) : ledger.map(row => {
+                      const date = new Date(row.created_at).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+                      return (
+                        <div key={row.id} className="flex items-center justify-between text-sm">
                             <div className="flex items-center gap-3">
-                                <div className="bg-secondary p-2 rounded-full">{item.icon}</div>
+                                <div className="bg-secondary p-2 rounded-full">
+                                  <Coins className="h-4 w-4 text-amber-500" />
+                                </div>
                                 <div>
-                                    <p>{item.text}</p>
-                                    <p className="text-xs text-muted-foreground">{item.time}</p>
+                                    <p className="capitalize">{row.reason.replace(/_/g, " ")}</p>
+                                    <p className="text-xs text-muted-foreground">{date}</p>
                                 </div>
                             </div>
-                            <p className="font-bold text-green-500">{item.points}</p>
+                            <p className={`font-bold ${row.delta >= 0 ? "text-green-500" : "text-red-500"}`}>
+                              {row.delta >= 0 ? "+" : ""}{row.delta}
+                            </p>
                         </div>
-                    ))}
+                      )
+                    })}
                 </CardContent>
             </Card>
             
