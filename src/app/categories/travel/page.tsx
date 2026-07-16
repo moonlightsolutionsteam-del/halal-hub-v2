@@ -201,11 +201,6 @@ export default function TravelPage() {
           </div>
 
           <div className="flex flex-col items-center justify-center py-6 sm:py-16 gap-4 sm:gap-6">
-            <div className="flex items-center gap-2">
-              <div className="h-1 w-12 bg-muted rounded-full" />
-              <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Agency List</p>
-              <div className="h-1 w-12 bg-muted rounded-full" />
-            </div>
             {visible < items.length ? (
               <Button
                 variant="outline"
