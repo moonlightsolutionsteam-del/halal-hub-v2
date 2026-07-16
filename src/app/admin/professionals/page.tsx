@@ -19,21 +19,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import { ExternalLink } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-const MOCK_PROFESSIONALS = [
-  { id: "PRO-001", name: "Dr. Amina Hassan", type: "Medical Doctor", city: "Mumbai", country: "India", rating: 4.9, status: "active", halal_verified: true },
-  { id: "PRO-002", name: "Usman Architects", type: "Architecture Firm", city: "Dubai", country: "UAE", rating: 4.7, status: "active", halal_verified: true },
-  { id: "PRO-003", name: "Al-Faisal Legal", type: "Legal Services", city: "London", country: "UK", rating: 4.8, status: "pending", halal_verified: false },
-  { id: "PRO-004", name: "Halal Finance Advisors", type: "Financial Advisory", city: "Kuala Lumpur", country: "Malaysia", rating: 4.6, status: "active", halal_verified: true },
-  { id: "PRO-005", name: "TechSolve IT", type: "IT Services", city: "Karachi", country: "Pakistan", rating: 4.5, status: "pending", halal_verified: false },
-];
+import { useAdminCategory } from "@/hooks/use-admin-category"
 
 export default function SuperAdminProfessionalsPage() {
   const [activeTab, setActiveTab] = React.useState("all")
-  const [mounted, setMounted] = React.useState(false)
+  const cat = useAdminCategory(["Professional Services", "Healthcare", "Legal", "Finance", "Architecture", "IT Services", "Consulting"])
 
-  React.useEffect(() => { setMounted(true) }, [])
-  if (!mounted) return null
+  const MOCK_PROFESSIONALS = cat.businesses.map(b => ({
+    id: b.id,
+    name: b.name,
+    type: b.subcategory ?? b.category,
+    city: b.city ?? "—",
+    country: b.country ?? "—",
+    rating: b.rating ?? 0,
+    status: b.status ?? "unknown",
+    halal_verified: b.halal_verified ?? false,
+  }))
 
   const total = MOCK_PROFESSIONALS.length
   const active = MOCK_PROFESSIONALS.filter(p => p.status === "active").length
