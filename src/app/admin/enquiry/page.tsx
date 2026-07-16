@@ -1,176 +1,117 @@
+"use client"
 
-"use client";
+import { useEffect, useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MessageSquare, Search, Loader2, ArrowRight } from "lucide-react"
+import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from "@/components/ui/tabs";
+type Msg = {
+  id: string
+  content: string
+  is_read: boolean | null
+  created_at: string
+  sender: { name: string | null } | null
+  receiver: { name: string | null } | null
+}
 
+export default function AdminEnquiryPage() {
+  const [messages, setMessages] = useState<Msg[]>([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState("")
 
-const EmptyState = () => (
-    <div className="text-center p-8 text-muted-foreground">
-        <p>No messages to display.</p>
-    </div>
-)
+  useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("messages")
+      .select("id, content, is_read, created_at, sender:profiles!messages_sender_id_fkey(name), receiver:profiles!messages_receiver_id_fkey(name)")
+      .order("created_at", { ascending: false })
+      .limit(100)
+      .then(({ data }: { data: Msg[] | null }) => {
+        setMessages(data ?? [])
+        setLoading(false)
+      })
+  }, [])
 
-export default function EnquiryPage() {
+  const filtered = messages.filter(m => {
+    const q = search.toLowerCase()
+    return !q ||
+      (m.sender?.name ?? "").toLowerCase().includes(q) ||
+      (m.receiver?.name ?? "").toLowerCase().includes(q) ||
+      m.content.toLowerCase().includes(q)
+  })
+
+  const unread = filtered.filter(m => !m.is_read)
+
   return (
-    <div className="space-y-6">
-        <div>
-            <h2 className="text-2xl font-bold font-headline">Enquiries</h2>
-            <p className="text-muted-foreground">Manage messages from potential customers and creators.</p>
-            <p className="text-sm font-semibold mt-2">0 New Inquiries This Month</p>
-        </div>
+    <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-black text-foreground">Enquiries & Messages</h1>
+        <p className="text-sm text-muted-foreground font-medium">All platform messages between users and vendors.</p>
+      </div>
 
-        <Tabs defaultValue="customer-messages">
-            <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="customer-messages">Customer Messages</TabsTrigger>
-                <TabsTrigger value="collaboration-requests">Collaboration Requests</TabsTrigger>
-            </TabsList>
-            <TabsContent value="customer-messages" className="mt-4">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Customer Messages</CardTitle>
-                        <CardDescription>View and respond to messages from your customers.</CardDescription>
-                         <div className="flex flex-col sm:flex-row gap-2 pt-2">
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Filter by Business" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All Businesses</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Filter by Status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All</SelectItem>
-                                    <SelectItem value="new">New</SelectItem>
-                                    <SelectItem value="read">Read</SelectItem>
-                                    <SelectItem value="archived">Archived</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                       <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Customer</TableHead>
-                                    <TableHead>Query</TableHead>
-                                    <TableHead className="hidden md:table-cell">Business</TableHead>
-                                    <TableHead className="text-right">Received</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell colSpan={4}>
-                                        <EmptyState />
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                         <div className="flex items-center justify-center space-x-2 py-4">
-                            <Button variant="outline" size="sm" disabled>
-                                Previous
-                            </Button>
-                            <div className="text-sm font-medium">
-                                Page 0 of 0
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Search messages, sender, or receiver..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="pl-9 h-11 rounded-xl"
+        />
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-16"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+      ) : (
+        <Tabs defaultValue="unread">
+          <TabsList className="rounded-full h-11">
+            <TabsTrigger value="unread" className="rounded-full">
+              Unread <Badge className="ml-2 text-[10px] h-5 px-1.5">{unread.length}</Badge>
+            </TabsTrigger>
+            <TabsTrigger value="all" className="rounded-full">
+              All <Badge className="ml-2 text-[10px] h-5 px-1.5">{filtered.length}</Badge>
+            </TabsTrigger>
+          </TabsList>
+
+          {(["unread", "all"] as const).map(tab => {
+            const items = tab === "unread" ? unread : filtered
+            return (
+              <TabsContent key={tab} value={tab} className="mt-4 space-y-3">
+                {items.length === 0 ? (
+                  <div className="text-center py-12 text-muted-foreground">
+                    <MessageSquare className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                    <p className="font-medium">{search ? "No messages match your search." : "No messages yet."}</p>
+                  </div>
+                ) : (
+                  items.map(m => {
+                    const date = new Date(m.created_at).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+                    return (
+                      <Card key={m.id} className={`rounded-2xl border-none shadow-sm ${!m.is_read ? "ring-1 ring-primary/30 bg-primary/5" : ""}`}>
+                        <CardContent className="p-4 flex items-start gap-4">
+                          <div className="flex-1 min-w-0 space-y-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-xs font-black text-foreground">{m.sender?.name ?? "Unknown"}</span>
+                              <ArrowRight className="h-3 w-3 text-muted-foreground shrink-0" />
+                              <span className="text-xs font-bold text-muted-foreground">{m.receiver?.name ?? "Unknown"}</span>
+                              {!m.is_read && <Badge className="bg-primary text-primary-foreground text-[10px] px-2 py-0.5">New</Badge>}
                             </div>
-                            <Button variant="outline" size="sm" disabled>
-                                Next
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </TabsContent>
-            <TabsContent value="collaboration-requests" className="mt-4">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Collaboration Requests</CardTitle>
-                        <CardDescription>Manage collaboration enquiries from creators and influencers.</CardDescription>
-                         <div className="flex flex-col sm:flex-row gap-2 pt-2">
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Filter by Business" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All Businesses</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Select>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Filter by Status" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">All</SelectItem>
-                                    <SelectItem value="pending">Pending</SelectItem>
-                                    <SelectItem value="accepted">Accepted</SelectItem>
-                                    <SelectItem value="declined">Declined</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </CardHeader>
-                     <CardContent>
-                       <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Creator</TableHead>
-                                    <TableHead>Message</TableHead>
-                                    <TableHead className="hidden md:table-cell">Status</TableHead>
-                                    <TableHead className="text-right">Received</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell colSpan={4}>
-                                        <EmptyState />
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                         <div className="flex items-center justify-center space-x-2 py-4">
-                            <Button variant="outline" size="sm" disabled>
-                                Previous
-                            </Button>
-                            <div className="text-sm font-medium">
-                                Page 0 of 0
-                            </div>
-                            <Button variant="outline" size="sm" disabled>
-                                Next
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </TabsContent>
+                            <p className="text-sm text-foreground line-clamp-2">{m.content}</p>
+                            <p className="text-xs text-muted-foreground">{date}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )
+                  })
+                )}
+              </TabsContent>
+            )
+          })}
         </Tabs>
+      )}
     </div>
-  );
+  )
 }
