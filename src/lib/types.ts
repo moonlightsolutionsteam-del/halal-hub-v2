@@ -1,7 +1,4 @@
 
-
-import type { Timestamp } from 'firebase/firestore';
-
 export type UserRole = "consumer" | "business_owner" | "creator" | "field_team" | "admin" | "super_admin";
 
 export interface UserProfile {
@@ -13,8 +10,8 @@ export interface UserProfile {
   country: string;
   roles: UserRole[];
   halalCoinsBalance: number;
-  createdAt: Timestamp;
-  lastLoginAt: Timestamp;
+  createdAt: string;
+  lastLoginAt: string;
   photoURL?: string | null;
 }
 
@@ -30,7 +27,7 @@ export interface EmployeeProfile {
     department: Department;
     role: string; // e.g., "Sales Executive", "Lead Developer"
     permissions: string[];
-    joinDate: Timestamp;
+    joinDate: string;
     status: EmployeeStatus;
     photoURL?: string;
     zone?: string; // For field sales/ops

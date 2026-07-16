@@ -1,7 +1,1 @@
-"use client"
-
-import { VendorWalletPage } from "@/components/vendor-wallet-page";
-
-export default function WalletPage() {
-  return <VendorWalletPage />;
-}
+export { default } from "@/app/vendor/account/wallet/page"
