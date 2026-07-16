@@ -48,6 +48,8 @@ export interface ExploreShellProps {
   // Load more
   loadMoreLabel: string
   loadMoreHoverClass: string
+  onLoadMore?: () => void
+  hasMore?: boolean
 
   // CTA
   ctaBg: string
@@ -66,7 +68,7 @@ export function ExploreShell({
   quickFilters, activeQuick, onQuickChange, quickActiveClass,
   amenities, amenityClass,
   children,
-  loadMoreLabel, loadMoreHoverClass,
+  loadMoreLabel, loadMoreHoverClass, onLoadMore, hasMore = false,
   ctaBg, ctaAccentIcon, ctaTitle, ctaDesc, ctaLabel, ctaLink, ctaTextColor,
 }: ExploreShellProps) {
   return (
@@ -156,12 +158,17 @@ export function ExploreShell({
         {children}
 
         <div className="flex justify-center pt-2">
-          <Button
-            variant="outline"
-            className={cn("rounded-full px-8 font-black border-2 h-11 transition-all", loadMoreHoverClass)}
-          >
-            {loadMoreLabel}
-          </Button>
+          {hasMore ? (
+            <Button
+              variant="outline"
+              onClick={onLoadMore}
+              className={cn("rounded-full px-8 font-black border-2 h-11 transition-all", loadMoreHoverClass)}
+            >
+              {loadMoreLabel}
+            </Button>
+          ) : (
+            <p className="text-xs font-black text-muted-foreground uppercase tracking-widest py-2">All results shown</p>
+          )}
         </div>
 
         <Card className="rounded-[2.5rem] border-none overflow-hidden">

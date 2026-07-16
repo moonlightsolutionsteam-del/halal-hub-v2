@@ -39,6 +39,7 @@ function priceLabel(range: string | null) {
 export default function FoodPage() {
   const [selectedTab, setSelectedTab] = useState("All")
   const [restaurants, setRestaurants] = useState<Restaurant[]>(FALLBACK)
+  const [visible, setVisible] = useState(12)
 
   useEffect(() => {
     const supabase = createClient()
@@ -161,7 +162,7 @@ export default function FoodPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {restaurants.map(item => (
+            {restaurants.slice(0, visible).map(item => (
               <Link key={item.id} href={`/entities/${item.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-emerald-100/50">
                   <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
@@ -225,7 +226,21 @@ export default function FoodPage() {
               <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">End of Restaurant List</p>
               <div className="h-1 w-12 bg-muted rounded-full" />
             </div>
-            <Button variant="outline" className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all text-sm sm:text-lg shadow-sm">Load More Restaurants</Button>
+            {visible < restaurants.length ? (
+              <Button
+                variant="outline"
+                onClick={() => setVisible(v => v + 12)}
+                className="rounded-full px-8 sm:px-16 font-black border-2 h-10 sm:h-16 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all text-sm sm:text-lg shadow-sm"
+              >
+                Load More Restaurants
+              </Button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <div className="h-1 w-12 bg-muted rounded-full" />
+                <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">All {restaurants.length} restaurants shown</p>
+                <div className="h-1 w-12 bg-muted rounded-full" />
+              </div>
+            )}
           </div>
         </div>
       </div>

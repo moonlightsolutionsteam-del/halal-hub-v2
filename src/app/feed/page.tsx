@@ -1173,6 +1173,7 @@ export default function FeedPage() {
   const composerInitials = getInitials(composerUser?.name)
   const [activeMode, setActiveMode] = React.useState("for-you")
   const [activeFilter, setActiveFilter] = React.useState("all")
+  const [visibleFeed, setVisibleFeed] = React.useState(20)
   const [livePosts, setLivePosts] = React.useState<Array<{ id: any; type: FeedItemType; [k: string]: any }>>([])
   const [postsLoading, setPostsLoading] = React.useState(true)
   const [activeId, setActiveId] = React.useState<string | null>(null)
@@ -1360,6 +1361,8 @@ export default function FeedPage() {
     ? modeFilteredItems
     : modeFilteredItems.filter(item => FILTER_TYPE_MAP[activeFilter]?.includes(item.type))
 
+  React.useEffect(() => { setVisibleFeed(20) }, [activeFilter, activeMode])
+
   const nearbyPeople = React.useMemo(() =>
     sidebarProfiles.map(p => ({
       name: p.name || "HalalHub User",
@@ -1515,8 +1518,8 @@ export default function FeedPage() {
                 ))
               ) : filteredItems.length > 0 ? (
                 activeFilter === "all"
-                  ? interleaveFeedInserts(filteredItems.map(item => <FeedCard key={item.id} item={item} />))
-                  : filteredItems.map(item => <FeedCard key={item.id} item={item} />)
+                  ? interleaveFeedInserts(filteredItems.slice(0, visibleFeed).map(item => <FeedCard key={item.id} item={item} />))
+                  : filteredItems.slice(0, visibleFeed).map(item => <FeedCard key={item.id} item={item} />)
               ) : (
                 <div className="py-20 text-center space-y-2">
                   <Sparkles className="h-10 w-10 text-muted-foreground mx-auto" />
@@ -1524,9 +1527,17 @@ export default function FeedPage() {
                 </div>
               )}
               <div className="flex justify-center py-8">
-                <Button variant="outline" className="rounded-full px-10 h-12 font-black border-2 text-sm hover:bg-primary hover:text-white hover:border-primary transition-all">
-                  Load More
-                </Button>
+                {visibleFeed < filteredItems.length ? (
+                  <Button
+                    variant="outline"
+                    onClick={() => setVisibleFeed(v => v + 20)}
+                    className="rounded-full px-10 h-12 font-black border-2 text-sm hover:bg-primary hover:text-white hover:border-primary transition-all"
+                  >
+                    Load More
+                  </Button>
+                ) : filteredItems.length > 0 ? (
+                  <p className="text-xs font-black text-muted-foreground uppercase tracking-widest">You&apos;re all caught up</p>
+                ) : null}
               </div>
             </div>
           </div>

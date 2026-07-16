@@ -50,6 +50,7 @@ export default function CommunityPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [posts, setPosts] = useState<PostItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [visibleCount, setVisibleCount] = useState(10)
   const [stats, setStats] = useState<{ members: number; dailyPosts: number } | null>(null)
 
   useEffect(() => {
@@ -182,7 +183,7 @@ export default function CommunityPage() {
               </div>
             )}
 
-            {filteredPosts.map(post => (
+            {filteredPosts.slice(0, visibleCount).map(post => (
               <Card key={post.id} className="hover:shadow-md transition-all duration-200 cursor-pointer rounded-[1.5rem] sm:rounded-[2rem] border-none shadow-sm bg-card">
                 <CardHeader className="flex-row gap-3 sm:gap-4 space-y-0 p-4 sm:p-6 pb-3">
                   <Avatar className="h-10 w-10 shrink-0">
@@ -214,7 +215,19 @@ export default function CommunityPage() {
           </div>
 
           {!loading && filteredPosts.length > 0 && (
-            <Button variant="outline" className="w-full h-12 rounded-2xl font-bold border-2">Load More Discussions</Button>
+            visibleCount < filteredPosts.length ? (
+              <Button
+                variant="outline"
+                onClick={() => setVisibleCount(c => c + 10)}
+                className="w-full h-12 rounded-2xl font-bold border-2"
+              >
+                Load More Discussions
+              </Button>
+            ) : (
+              <p className="text-center text-xs font-black text-muted-foreground uppercase tracking-widest py-2">
+                All {filteredPosts.length} discussions shown
+              </p>
+            )
           )}
         </div>
       </div>

@@ -190,8 +190,11 @@ export default function MySuggestionsPage() {
         </div>
 
         <div className="flex flex-col items-center justify-center py-12 gap-4">
-          <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">End of History</p>
-          <Button variant="outline" className="rounded-full px-12 font-black border-2 h-14 hover:bg-muted transition-all">Load More History</Button>
+          <div className="flex items-center gap-3">
+            <div className="h-px w-12 bg-border" />
+            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">All suggestions shown</p>
+            <div className="h-px w-12 bg-border" />
+          </div>
         </div>
       </div>
     </div>

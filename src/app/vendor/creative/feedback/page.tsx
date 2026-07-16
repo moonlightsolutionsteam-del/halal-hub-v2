@@ -159,8 +159,11 @@ export default function CreativeFeedbackPage() {
           </div>
           
           <div className="flex flex-col items-center justify-center py-12 gap-4">
-            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">End of Feedback History</p>
-            <Button variant="outline" className="rounded-full px-12 font-black border-2 h-14 hover:bg-muted transition-all uppercase text-xs tracking-widest">Load More Reviews</Button>
+            <div className="flex items-center gap-3">
+              <div className="h-px w-12 bg-border" />
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">All reviews shown</p>
+              <div className="h-px w-12 bg-border" />
+            </div>
           </div>
         </div>
       </div>
