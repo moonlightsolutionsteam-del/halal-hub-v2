@@ -38,10 +38,41 @@ import { HalalHubMark } from "@/components/brand";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { ThemeToggleButton } from "@/components/theme-toggle-button";
+import { useLoginCoins, LEVEL_ICONS, getConsumerLevel } from "@/lib/use-login-coins";
+import { useToast } from "@/hooks/use-toast";
 
 function getInitials(name: string | null | undefined): string {
   if (!name) return "?";
   return name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+}
+
+// Invisible component — fires award_login_coins once per day and toasts the result
+function LoginCoinsGrant() {
+  const result = useLoginCoins();
+  const { toast } = useToast();
+  const toastedRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!result || result.alreadyAwarded || result.coinsAwarded === 0 || toastedRef.current) return;
+    toastedRef.current = true;
+
+    const level = getConsumerLevel(result.lifetimeCoins);
+    const icon = LEVEL_ICONS[level.level - 1];
+
+    if (result.milestone) {
+      toast({
+        title: `🔥 ${result.milestone}-day login streak!`,
+        description: `+${result.coinsAwarded} Halal Coins — streak milestone bonus included. Keep it up!`,
+      });
+    } else {
+      toast({
+        title: `+${result.coinsAwarded} Halal Coins`,
+        description: `Daily login reward. ${icon} ${level.name} · ${result.streak}-day streak`,
+      });
+    }
+  }, [result, toast]);
+
+  return null;
 }
 
 function HeaderAvatar() {
@@ -123,6 +154,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
   return (
     <ThemeProvider>
     <AuthProvider>
+    <LoginCoinsGrant />
     <PrayerSettingsProvider>
     <FavoritesProvider>
     <SavedBusinessesProvider>

@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils"
 import { createClient } from "@/lib/supabase/client"
 import { useAuth } from "@/hooks/use-auth"
 import { usePrayerLog, BADGE_DEFS, RANKS, getRank, type BadgeId } from "@/lib/use-prayer-log"
-import { Flame, ChevronLeft, ChevronRight, Coins, Trophy, TrendingUp, Star, Lock } from "lucide-react"
+import { CONSUMER_LEVELS, LEVEL_ICONS, getConsumerLevel, levelProgress } from "@/lib/use-login-coins"
+import { Flame, ChevronLeft, ChevronRight, Coins, Trophy, TrendingUp, Star, Lock, Zap } from "lucide-react"
 import Link from "next/link"
 
 type PrayerKey = "fajr" | "dhuhr" | "asr" | "maghrib" | "isha"
@@ -25,6 +26,7 @@ interface Stats {
   totalPrayers: number
   totalCoins: number
   badges: BadgeId[]
+  lifetimeCoins: number
 }
 
 function daysInMonth(year: number, month: number) {
@@ -77,10 +79,17 @@ export default function PrayerTrackerPage() {
     const supabase = createClient()
     const { data } = await (supabase as any).rpc("get_prayer_stats")
     if (data) {
+      // Also fetch lifetime coins from user_levels for level display
+      const { data: levelRow } = await (supabase as any)
+        .from("user_levels")
+        .select("lifetime_coins_earned")
+        .eq("user_id", user!.uid)
+        .maybeSingle()
       setStats({
-        totalPrayers: data.total_prayers ?? 0,
-        totalCoins:   data.total_coins   ?? 0,
-        badges:       data.badges        ?? [],
+        totalPrayers:  data.total_prayers ?? 0,
+        totalCoins:    data.total_coins   ?? 0,
+        badges:        data.badges        ?? [],
+        lifetimeCoins: levelRow?.lifetime_coins_earned ?? 0,
       })
     }
   }, [user?.uid])
@@ -183,6 +192,55 @@ export default function PrayerTrackerPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Consumer Level card */}
+        {(() => {
+          const lifetime = stats?.lifetimeCoins ?? 0
+          const lvl = getConsumerLevel(lifetime)
+          const pct = levelProgress(lifetime)
+          const icon = LEVEL_ICONS[lvl.level - 1]
+          const nextLvl = lvl.level < 5 ? CONSUMER_LEVELS[lvl.level] : null
+          return (
+            <Card className={cn("rounded-[2rem] border-none shadow-sm", lvl.bg)}>
+              <CardContent className="p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Community Level</p>
+                  <Zap className={cn("h-4 w-4", lvl.color)} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className={cn("text-xl font-black flex items-center gap-2", lvl.color)}>
+                      <span className="text-2xl">{icon}</span>
+                      <span>Level {lvl.level} — {lvl.name}</span>
+                    </div>
+                    {nextLvl ? (
+                      <p className="text-[10px] text-muted-foreground font-medium">
+                        {nextLvl.minCoins - lifetime} coins to {nextLvl.name}
+                      </p>
+                    ) : (
+                      <p className="text-[10px] text-muted-foreground font-medium">Maximum level reached</p>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-black text-foreground tabular-nums">{lifetime.toLocaleString()}</p>
+                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">lifetime coins</p>
+                  </div>
+                </div>
+                {nextLvl && (
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-[10px] font-bold text-muted-foreground">
+                      <span>{lvl.minCoins.toLocaleString()}</span>
+                      <span>{nextLvl.minCoins.toLocaleString()}</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-black/10 dark:bg-white/10 overflow-hidden">
+                      <div className={cn("h-full rounded-full transition-all", lvl.level === 1 ? "bg-sky-500" : lvl.level === 2 ? "bg-emerald-500" : lvl.level === 3 ? "bg-amber-500" : "bg-yellow-500")} style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )
+        })()}
 
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-3">
