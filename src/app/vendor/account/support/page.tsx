@@ -1,21 +1,57 @@
 "use client"
 
+import * as React from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Headset, MessageSquare, LifeBuoy, FileText, 
+import {
+  Headset, MessageSquare, LifeBuoy, FileText,
   HelpCircle, Search, ExternalLink, ArrowRight,
   Phone, Mail, Globe, Zap, Clock, ShieldCheck,
   ChevronRight, ArrowUpRight, CheckCircle2
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
+
+type Ticket = {
+  id: string
+  subject: string | null
+  message: string
+  status: string | null
+  created_at: string | null
+}
+
+function shortId(id: string): string {
+  return `TKT-${id.slice(0, 6).toUpperCase()}`
+}
+
+function formatDate(iso: string | null): string {
+  if (!iso) return "—"
+  return new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+}
 
 export default function AccountSupportPage() {
-  const activeTickets = [
-    { id: "TKT-9921", subject: "Verification status pending", status: "Under Review", date: "Nov 01, 2024", priority: "High" },
-    { id: "TKT-9922", subject: "Update menu photos request", status: "Closed", date: "Oct 28, 2024", priority: "Medium" },
-  ];
+  const { user, loading: authLoading } = useAuth()
+  const [tickets, setTickets] = React.useState<Ticket[]>([])
+  const [ticketsLoading, setTicketsLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    if (authLoading || !user?.uid) { setTicketsLoading(false); return }
+    const supabase = createClient()
+    supabase
+      .from("contacts")
+      .select("id, subject, message, status, created_at")
+      .eq("user_id", user.uid)
+      .order("created_at", { ascending: false })
+      .limit(20)
+      .then(({ data }) => {
+        setTickets(data ?? [])
+        setTicketsLoading(false)
+      })
+  }, [user?.uid, authLoading])
+
+  const activeTickets = tickets
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
@@ -63,25 +99,24 @@ export default function AccountSupportPage() {
               <Button variant="ghost" className="font-bold text-primary">All Tickets <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
             </CardHeader>
             <CardContent className="p-0">
-              {activeTickets.length > 0 ? (
+              {ticketsLoading ? (
+                <div className="p-12 flex justify-center">
+                  <div className="h-6 w-6 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : activeTickets.length > 0 ? (
                 <div className="divide-y divide-slate-100">
                   {activeTickets.map((ticket) => (
                     <div key={ticket.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-muted/50 transition-colors">
                       <div className="space-y-1">
                         <div className="flex items-center gap-3">
-                          <span className="text-sm font-black text-foreground">{ticket.id}</span>
-                          <Badge variant="outline" className={
-                            ticket.priority === 'High' ? 'bg-rose-50 text-rose-600 border-none px-2 text-[9px] font-black' : 'bg-muted text-muted-foreground border-none px-2 text-[9px] font-black'
-                          }>
-                            {ticket.priority} PRIORITY
-                          </Badge>
+                          <span className="text-sm font-black text-foreground">{shortId(ticket.id)}</span>
                         </div>
-                        <p className="font-bold text-foreground text-base">{ticket.subject}</p>
-                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Created: {ticket.date}</p>
+                        <p className="font-bold text-foreground text-base">{ticket.subject ?? ticket.message.slice(0, 60)}</p>
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Created: {formatDate(ticket.created_at)}</p>
                       </div>
                       <div className="flex items-center gap-6">
-                        <Badge className={ticket.status === 'Closed' ? 'bg-muted text-muted-foreground border-none' : 'bg-blue-50 text-blue-600 border-none'}>
-                          {ticket.status}
+                        <Badge className={(ticket.status === "closed" || ticket.status === "Closed") ? 'bg-muted text-muted-foreground border-none' : 'bg-blue-50 text-blue-600 border-none'}>
+                          {ticket.status ?? "Open"}
                         </Badge>
                         <Button size="icon" variant="ghost" className="rounded-xl"><ChevronRight className="h-5 w-5 text-muted-foreground" /></Button>
                       </div>
