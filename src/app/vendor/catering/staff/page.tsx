@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState } from "react"
+import * as React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,20 +15,46 @@ import {
   Zap, Star
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
+
+type StaffMember = {
+  id: string
+  name: string | null
+  role: string | null
+  phone: string | null
+  email: string | null
+  image_url: string | null
+}
 
 export default function CateringStaffPage() {
-  const [showRosterModal, setShowRosterModal] = useState(false)
-  const [showAddMemberModal, setShowAddMemberModal] = useState(false)
-  const [showPhoneModal, setShowPhoneModal] = useState(false)
-  const [showMoreModal, setShowMoreModal] = useState(false)
-  const [activeStaff, setActiveStaff] = useState<{ name: string; role: string } | null>(null)
+  const { user, loading: authLoading } = useAuth()
+  const [showRosterModal, setShowRosterModal] = React.useState(false)
+  const [showAddMemberModal, setShowAddMemberModal] = React.useState(false)
+  const [showPhoneModal, setShowPhoneModal] = React.useState(false)
+  const [showMoreModal, setShowMoreModal] = React.useState(false)
+  const [activeStaff, setActiveStaff] = React.useState<{ name: string; role: string } | null>(null)
+  const [staff, setStaff] = React.useState<StaffMember[]>([])
+  const [loading, setLoading] = React.useState(true)
 
-  const staff = [
-    { id: 1, name: "Omar Sheikh", role: "Head Chef", status: "On Duty", rating: 4.9, certs: ["Food Hygiene Lvl 3"] },
-    { id: 2, name: "Sami Khan", role: "Event Captain", status: "Available", rating: 4.8, certs: ["Crowd Control"] },
-    { id: 3, name: "Fatima S.", role: "Lead Hostess", status: "On Break", rating: 5.0, certs: ["Protocol Certified"] },
-    { id: 4, name: "Zaid Ali", role: "Logistics Lead", status: "Off-duty", rating: 4.7, certs: ["Heavy Driver"] },
-  ];
+  React.useEffect(() => {
+    if (authLoading || !user?.uid) { setLoading(false); return }
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
+      .then(({ data }: { data: { id: string } | null }) => {
+        if (!data) { setLoading(false); return }
+        ;(supabase as any)
+          .from("business_staff")
+          .select("id, name, role, phone, email, image_url")
+          .eq("business_id", data.id)
+          .order("created_at", { ascending: true })
+          .then(({ data: rows }: { data: StaffMember[] | null }) => {
+            setStaff(rows ?? [])
+            setLoading(false)
+          })
+      })
+  }, [user?.uid, authLoading])
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
@@ -52,7 +78,7 @@ export default function CateringStaffPage() {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
         {[
-          { label: "Active Today", value: "8", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
+          { label: "Total Staff", value: loading ? "—" : staff.length.toString(), icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
           { label: "Uniform Check", value: "100%", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
           { label: "Avg Staff Rating", value: "4.9", icon: Star, color: "text-amber-600", bg: "bg-amber-50" },
           { label: "Next Shift", value: "12:00 PM", icon: Clock, color: "text-purple-600", bg: "bg-purple-50" },
@@ -78,48 +104,47 @@ export default function CateringStaffPage() {
           </div>
         </div>
 
+        {loading ? (
+          <div className="flex items-center justify-center py-16">
+            <div className="h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : staff.length === 0 ? (
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-12 text-center space-y-3">
+            <Users className="h-10 w-10 text-muted-foreground/30 mx-auto" />
+            <p className="font-black text-foreground">No staff added yet</p>
+            <p className="text-sm text-muted-foreground">Add your first team member to get started.</p>
+          </Card>
+        ) : (
         <div className="grid grid-cols-1 gap-4">
           {staff.map((s) => (
             <Card key={s.id} className="rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden border-2 border-transparent hover:border-blue-100 transition-all group">
               <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-10">
                 <div className="flex items-center gap-6">
                   <Avatar className="h-16 w-16 border-4 border-border shadow-md">
-                    <AvatarImage src={`https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150/150`} />
-                    <AvatarFallback>{s.name[0]}</AvatarFallback>
+                    <AvatarImage src={s.image_url ?? ""} />
+                    <AvatarFallback>{(s.name ?? "S")[0]}</AvatarFallback>
                   </Avatar>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <p className="text-xl font-black text-foreground">{s.name}</p>
-                      <Badge className="bg-blue-50 text-blue-600 border-none font-black text-[9px] uppercase px-2">{s.role}</Badge>
+                      <p className="text-xl font-black text-foreground">{s.name ?? "—"}</p>
+                      <Badge className="bg-blue-50 text-blue-600 border-none font-black text-[9px] uppercase px-2">{s.role ?? "Staff"}</Badge>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-xs font-bold text-amber-500">
-                        <Star className="h-3 w-3 fill-current" /> {s.rating}
-                      </div>
-                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">• {s.certs[0]}</span>
-                    </div>
+                    {s.email && <p className="text-xs font-medium text-muted-foreground">{s.email}</p>}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-12">
-                  <div className="text-right">
-                    <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest mb-1">Current Status</p>
-                    <Badge className={
-                      s.status === 'On Duty' ? 'bg-emerald-50 text-emerald-600 border-none' :
-                      s.status === 'Available' ? 'bg-blue-50 text-blue-600 border-none' : 'bg-muted text-muted-foreground border-none'
-                    }>
-                      {s.status}
-                    </Badge>
-                  </div>
+                <div className="flex items-center gap-6">
+                  {s.phone && <p className="text-xs font-bold text-muted-foreground">{s.phone}</p>}
                   <div className="flex gap-2">
-                    <Button size="icon" variant="ghost" onClick={() => { setActiveStaff(s); setShowPhoneModal(true); }} className="rounded-xl"><Phone className="h-4 w-4 text-muted-foreground" /></Button>
-                    <Button size="icon" variant="ghost" onClick={() => { setActiveStaff(s); setShowMoreModal(true); }} className="rounded-xl"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
+                    <Button size="icon" variant="ghost" onClick={() => { setActiveStaff({ name: s.name ?? "", role: s.role ?? "" }); setShowPhoneModal(true); }} className="rounded-xl"><Phone className="h-4 w-4 text-muted-foreground" /></Button>
+                    <Button size="icon" variant="ghost" onClick={() => { setActiveStaff({ name: s.name ?? "", role: s.role ?? "" }); setShowMoreModal(true); }} className="rounded-xl"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
                   </div>
                 </div>
               </div>
             </Card>
           ))}
         </div>
+        )}
       </div>
 
       {/* Schedule Roster Modal */}
