@@ -33,22 +33,102 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { createClient } from "@/lib/supabase/client"
+import { Loader2 } from "lucide-react"
+
+type Creator = {
+  id: string
+  name: string
+  username: string
+  category: string
+  reach: string
+  score: number
+  tier: string
+  status: string
+  avatar_url: string | null
+  follower_count: number
+}
+
+type ContentPost = {
+  id: string
+  creator: string
+  type: string
+  date: string
+  flag: string
+  status: string
+}
+
+function formatFollowers(n: number | null): string {
+  if (!n) return "0"
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
+  if (n >= 1_000) return `${Math.round(n / 1_000)}k`
+  return String(n)
+}
+
+function deriveTier(followers: number): string {
+  if (followers >= 100_000) return "Elite"
+  if (followers >= 50_000) return "Gold"
+  return "Silver"
+}
+
+function timeAgoStr(iso: string | null): string {
+  if (!iso) return "—"
+  const diff = Date.now() - new Date(iso).getTime()
+  const h = Math.floor(diff / 3_600_000)
+  if (h < 24) return `${h}h ago`
+  return `${Math.floor(h / 24)}d ago`
+}
 
 export default function SuperAdminCreatorsControlTower() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
+  const [creators, setCreators] = React.useState<Creator[]>([])
+  const [content, setContent] = React.useState<ContentPost[]>([])
+  const [loading, setLoading] = React.useState(true)
 
-  const MOCK_CREATORS = [
-    { id: "CRT-001", name: "Shaykh Hamza", username: "@hamza_legacy", category: "Scholar", reach: "250k", score: 98, tier: "Elite", status: "Active", earnings: "₹4.2M" },
-    { id: "CRT-002", name: "The Halal Foodie", username: "@halal_eats", category: "Influencer", reach: "120k", score: 85, tier: "Gold", status: "Active", earnings: "₹1.8M" },
-    { id: "CRT-003", name: "Amina's Art", username: "@aminart", category: "Artist", reach: "45k", score: 72, tier: "Silver", status: "Vetting", earnings: "₹45k" },
-    { id: "CRT-004", name: "Zaid's Wellness", username: "@zaid_fit", category: "Educator", reach: "15k", score: 64, tier: "Silver", status: "Active", earnings: "₹12k" },
-  ];
+  React.useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      (supabase as any)
+        .from("creators")
+        .select("id, display_name, category, follower_count, post_count, status, avatar_url")
+        .order("follower_count", { ascending: false })
+        .limit(100),
+      (supabase as any)
+        .from("feed_posts")
+        .select("id, display_name, business_name, media_url, status, created_at")
+        .order("created_at", { ascending: false })
+        .limit(50),
+    ]).then(([{ data: cData }, { data: pData }]) => {
+      setCreators(
+        (cData ?? []).map((c: any) => ({
+          id: c.id,
+          name: c.display_name ?? "Unknown Creator",
+          username: `@${(c.display_name ?? "user").toLowerCase().replace(/\s+/g, "_")}`,
+          category: c.category ?? "Creator",
+          reach: formatFollowers(c.follower_count),
+          score: Math.min(99, Math.round(((c.follower_count ?? 0) / 1000) + (c.post_count ?? 0) * 0.5)),
+          tier: deriveTier(c.follower_count ?? 0),
+          status: c.status === "active" ? "Active" : c.status === "pending" ? "Vetting" : c.status ?? "Active",
+          avatar_url: c.avatar_url,
+          follower_count: c.follower_count ?? 0,
+        }))
+      )
+      setContent(
+        (pData ?? []).map((p: any) => ({
+          id: p.id,
+          creator: p.display_name ?? p.business_name ?? "Unknown",
+          type: p.media_url ? "Image" : "Post",
+          date: timeAgoStr(p.created_at),
+          flag: p.status === "flagged" ? "Flagged Content" : "None",
+          status: p.status === "active" ? "Approved" : p.status === "pending" ? "Pending" : p.status ?? "Active",
+        }))
+      )
+      setLoading(false)
+    })
+  }, [])
 
-  const MOCK_CONTENT = [
-    { id: "POST-101", creator: "@hamza_legacy", type: "Video", date: "2h ago", flag: "None", status: "Approved" },
-    { id: "POST-102", creator: "@halal_eats", type: "Reel", date: "5h ago", flag: "None", status: "Pending" },
-    { id: "POST-103", creator: "@user_99", type: "Image", date: "1d ago", flag: "Non-Halal", status: "Flagged" },
-  ];
+  const MOCK_CREATORS = creators
+  const MOCK_CONTENT = content
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -101,10 +181,10 @@ export default function SuperAdminCreatorsControlTower() {
         <TabsContent value="dashboard" className="space-y-8 m-0 animate-in fade-in duration-500">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
-              { label: "Total Creators", value: "4,250", trend: "+12.4%", sub: "Growth Rate", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
-              { label: "Active Content", value: "842", trend: "High", sub: "Daily Uploads", icon: Video, color: "text-purple-600", bg: "bg-purple-50" },
-              { label: "Total Payouts", value: "₹8.4M", trend: "92%", sub: "Completion Rate", icon: Wallet, color: "text-emerald-600", bg: "bg-emerald-50" },
-              { label: "Coin Circulation", value: "1.2M", trend: "Optimal", sub: "Economy Health", icon: Coins, color: "text-amber-600", bg: "bg-amber-50" },
+              { label: "Total Creators", value: loading ? "—" : creators.length.toLocaleString(), trend: "Platform", sub: "Registered", icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
+              { label: "Active Creators", value: loading ? "—" : creators.filter(c => c.status === "Active").length.toLocaleString(), trend: "Live", sub: "Active Profiles", icon: Video, color: "text-purple-600", bg: "bg-purple-50" },
+              { label: "Elite Tier", value: loading ? "—" : creators.filter(c => c.tier === "Elite").length.toLocaleString(), trend: "100k+ Followers", sub: "Top Creators", icon: Crown, color: "text-emerald-600", bg: "bg-emerald-50" },
+              { label: "Total Posts", value: loading ? "—" : content.length.toLocaleString(), trend: "Feed", sub: "Content Items", icon: Coins, color: "text-amber-600", bg: "bg-amber-50" },
             ].map((stat, i) => (
               <Card key={i} className="border-none shadow-sm rounded-[2rem] p-8 bg-card group hover:shadow-md transition-all">
                 <div className="flex justify-between items-start mb-6">
