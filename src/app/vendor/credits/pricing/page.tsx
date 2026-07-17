@@ -22,6 +22,16 @@ import {
   Sparkles
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
+
+type ActiveSub = {
+  plan: string
+  status: string
+  expires_at: string | null
+  business_slots: number | null
+  image_slots: number | null
+}
 
 const PRICING_PLANS = [
   {
@@ -79,7 +89,35 @@ const ACTIONS = [
   { name: "Market Insights", cost: "100 credits", icon: TrendingUp, color: "text-indigo-500", bg: "bg-indigo-50" },
 ];
 
+function formatExpiry(iso: string | null): string {
+  if (!iso) return "—"
+  return new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+}
+
 export default function CreditsPricingPage() {
+  const { user, loading: authLoading } = useAuth()
+  const [sub, setSub] = React.useState<ActiveSub | null>(null)
+
+  React.useEffect(() => {
+    if (authLoading || !user?.uid) return
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
+      .then(({ data }: { data: { id: string } | null }) => {
+        if (!data) return
+        ;(supabase as any)
+          .from("partner_subscriptions")
+          .select("plan, status, expires_at, business_slots, image_slots")
+          .eq("business_id", data.id)
+          .eq("status", "active")
+          .limit(1)
+          .maybeSingle()
+          .then(({ data: s }: { data: ActiveSub | null }) => {
+            if (s) setSub(s)
+          })
+      })
+  }, [user?.uid, authLoading])
+
   return (
     <div className="container mx-auto p-4 sm:p-6 space-y-10 sm:space-y-20 max-w-7xl pb-32 selection:bg-primary/10">
       
@@ -95,6 +133,27 @@ export default function CreditsPricingPage() {
           No rigid subscriptions. Pay only for the features you use to grow your presence.
         </p>
       </div>
+
+      {/* Active subscription banner */}
+      {sub && (
+        <div className="max-w-3xl mx-auto w-full">
+          <Card className="rounded-[2.5rem] border-none shadow-sm bg-emerald-50 dark:bg-emerald-950/30 p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8">
+            <div className="h-14 w-14 rounded-2xl bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg">
+              <CheckCircle2 className="h-7 w-7 text-white" />
+            </div>
+            <div className="flex-1 space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Active Plan</p>
+              <h3 className="text-xl font-black text-foreground capitalize">{sub.plan} Pack</h3>
+              <p className="text-sm font-medium text-muted-foreground">
+                Expires {formatExpiry(sub.expires_at)}
+                {sub.business_slots != null && ` · ${sub.business_slots} listing slot${sub.business_slots !== 1 ? "s" : ""}`}
+                {sub.image_slots != null && ` · ${sub.image_slots} image slot${sub.image_slots !== 1 ? "s" : ""}`}
+              </p>
+            </div>
+            <Badge className="bg-emerald-500 text-white border-none font-black text-[10px] uppercase px-4 py-1.5 rounded-full">Active</Badge>
+          </Card>
+        </div>
+      )}
 
       {/* Pricing Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
