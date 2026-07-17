@@ -1,20 +1,46 @@
 "use client"
 
+import * as React from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { PlusCircle, Network } from "lucide-react"
+import { PlusCircle, Network, Users } from "lucide-react"
 import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
 
-const leadership = [
-  { name: "Syed Shaban Bukhari", role: "Head Imam", years: "Since 2008", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format&q=80" },
-  { name: "Abdul Rahman", role: "Committee Chairman", years: "Since 2015", img: "https://randomuser.me/api/portraits/men/33.jpg" },
-  { name: "Mohammed Yusuf", role: "Treasurer", years: "Since 2019", img: "https://randomuser.me/api/portraits/women/33.jpg" },
-  { name: "Ibrahim Malik", role: "Secretary", years: "Since 2020", img: "https://randomuser.me/api/portraits/men/34.jpg" },
-]
+type StaffMember = {
+  id: string
+  name: string | null
+  role: string | null
+  image_url: string | null
+}
 
 export default function MosqueLeadershipPage() {
+  const { user, loading: authLoading } = useAuth()
+  const [staff, setStaff] = React.useState<StaffMember[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    if (authLoading || !user?.uid) { setLoading(false); return }
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
+      .then(({ data }: { data: { id: string } | null }) => {
+        if (!data) { setLoading(false); return }
+        ;(supabase as any)
+          .from("business_staff")
+          .select("id, name, role, image_url")
+          .eq("business_id", data.id)
+          .order("created_at", { ascending: true })
+          .then(({ data: rows }: { data: StaffMember[] | null }) => {
+            setStaff(rows ?? [])
+            setLoading(false)
+          })
+      })
+  }, [user?.uid, authLoading])
+
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-8">
       <div className="flex items-center justify-between gap-4">
@@ -30,23 +56,36 @@ export default function MosqueLeadershipPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {leadership.map((person, i) => (
-          <Card key={i} className="rounded-[2rem] border-none shadow-soft text-center">
-            <CardContent className="p-6 space-y-3">
-              <Avatar className="h-20 w-20 mx-auto border-2 border-border">
-                <AvatarImage src={person.img} />
-                <AvatarFallback>{person.name[0]}</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="text-base font-black text-foreground">{person.name}</p>
-                <Badge variant="secondary" className="mt-1 text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/40">{person.role}</Badge>
-              </div>
-              <p className="text-xs text-muted-foreground font-medium">{person.years}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex items-center justify-center py-16">
+          <div className="h-6 w-6 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : staff.length === 0 ? (
+        <Card className="rounded-[2rem] border-none shadow-soft p-12 text-center space-y-3">
+          <Users className="h-10 w-10 text-muted-foreground/30 mx-auto" />
+          <p className="font-black text-foreground">No leadership members yet</p>
+          <p className="text-sm text-muted-foreground">Add your Imam and committee members to get started.</p>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {staff.map((person) => (
+            <Card key={person.id} className="rounded-[2rem] border-none shadow-soft text-center">
+              <CardContent className="p-6 space-y-3">
+                <Avatar className="h-20 w-20 mx-auto border-2 border-border">
+                  <AvatarImage src={person.image_url ?? ""} />
+                  <AvatarFallback>{(person.name ?? "M")[0]}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="text-base font-black text-foreground">{person.name ?? "—"}</p>
+                  <Badge variant="secondary" className="mt-1 text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/40">
+                    {person.role ?? "Staff"}
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
