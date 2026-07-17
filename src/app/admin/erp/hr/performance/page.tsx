@@ -1,183 +1,156 @@
-
 "use client"
 
-import {
-  MoreHorizontal,
-  PlusCircle,
-  Search,
-  TrendingUp,
-  Star,
-  Users,
-  Target,
-} from "lucide-react"
+import * as React from "react"
+import { PlusCircle, TrendingUp, Star, Users, Target, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { createClient } from "@/lib/supabase/client"
 
-const performanceReviews = [
-  {
-    employee: "Yasar Khan",
-    initials: "YK",
-    type: "Quarterly Review (Q3)",
-    status: "Pending Manager Review",
-    dueDate: "2024-08-15",
-  },
-  {
-    employee: "Vinayak kainthla",
-    initials: "VK",
-    type: "Annual Appraisal",
-    status: "Completed",
-    dueDate: "2024-07-20",
-  },
-  {
-    employee: "Sheikh",
-    initials: "SH",
-    type: "Probation Review",
-    status: "Pending Employee Self-Review",
-    dueDate: "2024-08-10",
-  },
-];
+type Review = { id: string; employee_name: string | null; period: string | null; status: string | null; rating: number | null; goals_met: number | null; goals_total: number | null }
 
-const teamGoals = [
-    { team: "Sales", progress: 80, status: "On Track" },
-    { team: "Engineering", progress: 65, status: "On Track" },
-    { team: "Marketing", progress: 95, status: "Exceeding" },
-]
-
-const getStatusBadgeVariant = (status: string) => {
-    switch (status) {
-        case "Completed": return "secondary";
-        case "Pending Manager Review":
-        case "Pending Employee Self-Review":
-            return "default";
-        default: return "outline";
-    }
+function statusVariant(s: string | null) {
+  if (s === "Completed") return "secondary" as const
+  if (s === "In Progress" || s === "Pending") return "default" as const
+  return "outline" as const
 }
 
 export default function PerformancePage() {
+  const [reviews, setReviews] = React.useState<Review[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    supabase.from("erp_performance")
+      .select("id, employee_name, period, status, rating, goals_met, goals_total")
+      .order("created_at", { ascending: false })
+      .limit(50)
+      .then(({ data }) => { setReviews(data ?? []); setLoading(false) })
+  }, [])
+
+  const pending = reviews.filter(r => r.status === "Pending" || r.status === "In Progress")
+  const completed = reviews.filter(r => r.status === "Completed")
+  const topPerformer = [...reviews].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))[0]
+  const lowPerformers = reviews.filter(r => r.rating !== null && r.rating < 3)
+
+  const avgGoalPct = reviews.length > 0
+    ? reviews.filter(r => r.goals_total && r.goals_total > 0).reduce((s, r) => s + ((r.goals_met ?? 0) / (r.goals_total ?? 1)) * 100, 0) / reviews.filter(r => r.goals_total && (r.goals_total ?? 0) > 0).length
+    : 0
+
+  const departments = [...new Set(reviews.map(r => r.period).filter(Boolean))] as string[]
+
+  if (loading) return <div className="flex justify-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold font-headline">Performance Management</h1>
-        <p className="text-muted-foreground">
-          Track goals, manage reviews, and improve team productivity.
-        </p>
+        <p className="text-muted-foreground">Track goals, manage reviews, and improve team productivity.</p>
       </div>
 
-       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Team Performance</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">Excellent</div>
-                <p className="text-xs text-muted-foreground">Avg. target achievement: 92%</p>
-            </CardContent>
-        </Card>
-         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Pending Reviews</CardTitle>
-                <Target className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold text-yellow-600">2</div>
-                <p className="text-xs text-muted-foreground">Manager action required</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Avg. Goal Completion</CardTitle><TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{isNaN(avgGoalPct) ? "—" : `${Math.round(avgGoalPct)}%`}</div>
+            <p className="text-xs text-muted-foreground">Across {reviews.length} reviews</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Top Performer</CardTitle>
-                <Star className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">Vinayak K.</div>
-                <p className="text-xs text-muted-foreground">110% of Q3 sales target</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending Reviews</CardTitle><Target className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className={`text-2xl font-bold ${pending.length > 0 ? "text-yellow-600" : ""}`}>{pending.length}</div>
+            <p className="text-xs text-muted-foreground">{pending.length > 0 ? "Manager action required" : "All clear"}</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Needs Improvement</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">1</div>
-                <p className="text-xs text-muted-foreground">Performance Improvement Plan active</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Top Performer</CardTitle><Star className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold truncate">{topPerformer?.employee_name?.split(" ")[0] ?? "—"}</div>
+            <p className="text-xs text-muted-foreground">{topPerformer ? `Rating: ${topPerformer.rating}/5` : "No data yet"}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Needs Improvement</CardTitle><Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{lowPerformers.length}</div>
+            <p className="text-xs text-muted-foreground">Rating below 3/5</p>
+          </CardContent>
         </Card>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-            <Card>
-                <CardHeader>
-                    <div className="flex justify-between items-center">
-                        <CardTitle>Performance Reviews</CardTitle>
-                        <Button size="sm">
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            Start New Review Cycle
-                        </Button>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Employee</TableHead>
-                                <TableHead>Review Type</TableHead>
-                                <TableHead>Status</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {performanceReviews.map((review) => (
-                                <TableRow key={review.employee}>
-                                    <TableCell className="font-medium">{review.employee}</TableCell>
-                                    <TableCell>{review.type}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={getStatusBadgeVariant(review.status)}>{review.status}</Badge>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>Performance Reviews</CardTitle>
+              <Button size="sm"><PlusCircle className="mr-2 h-4 w-4" />New Review</Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Employee</TableHead>
+                  <TableHead>Period</TableHead>
+                  <TableHead>Rating</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {reviews.length === 0 ? (
+                  <TableRow><TableCell colSpan={4} className="text-center py-6 text-muted-foreground">No reviews yet.</TableCell></TableRow>
+                ) : reviews.slice(0, 10).map(r => (
+                  <TableRow key={r.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 text-xs"><AvatarFallback>{(r.employee_name ?? "?").slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+                        <span className="font-medium">{r.employee_name}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm">{r.period ?? "—"}</TableCell>
+                    <TableCell className="tabular-nums">{r.rating !== null ? `${r.rating}/5` : "—"}</TableCell>
+                    <TableCell><Badge variant={statusVariant(r.status)}>{r.status ?? "Pending"}</Badge></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Team Goal Progress (Q3)</CardTitle>
-                </CardHeader>
-                 <CardContent>
-                    <div className="space-y-4">
-                        {teamGoals.map(team => (
-                            <div key={team.team}>
-                                <div className="flex justify-between items-center mb-1">
-                                    <h4 className="font-semibold text-sm">{team.team}</h4>
-                                    <span className="text-xs font-bold">{team.progress}%</span>
-                                </div>
-                                <Progress value={team.progress} />
-                            </div>
-                        ))}
+        <Card>
+          <CardHeader><CardTitle>Goal Progress by Employee</CardTitle></CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {reviews.filter(r => r.goals_total && (r.goals_total ?? 0) > 0).slice(0, 6).length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-6">No goal data yet.</p>
+              ) : reviews.filter(r => r.goals_total && (r.goals_total ?? 0) > 0).slice(0, 6).map(r => {
+                const pct = Math.round(((r.goals_met ?? 0) / (r.goals_total ?? 1)) * 100)
+                return (
+                  <div key={r.id}>
+                    <div className="flex justify-between items-center mb-1">
+                      <h4 className="font-semibold text-sm">{r.employee_name}</h4>
+                      <span className="text-xs font-bold">{pct}%</span>
                     </div>
-                </CardContent>
-            </Card>
-        </div>
-
+                    <Progress value={pct} />
+                  </div>
+                )
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
