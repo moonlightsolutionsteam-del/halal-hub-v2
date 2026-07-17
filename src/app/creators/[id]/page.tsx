@@ -1,8 +1,7 @@
-
 "use client";
 
+import * as React from "react";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,334 +17,89 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useSavedBusinesses } from "@/lib/saved-businesses-context";
+import { createClient } from "@/lib/supabase/client";
 
-const CREATORS: Record<string, any> = {
-  "cr1": {
-    name: "The Muslim Money Guy",
-    handle: "@muslimmoneyguy",
-    title: "Islamic Finance Creator & Halal Investing Coach",
-    location: "Mumbai, MH",
-    avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80",
-    cover: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-orange-600",
-    accent: "bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400",
-    verified: true,
-    followers: "180K+",
-    posts: "420",
-    rating: 4.9,
-    reviewCount: 284,
-    experience: "7 years",
-    about: "The Muslim Money Guy breaks down Islamic finance, halal investing, and interest-free money management into simple, actionable steps. With an MBA in Finance and a passion for helping Muslims build ethical wealth, MMG has become the go-to platform for riba-free financial guidance across the English-speaking Muslim world.",
-    expertise: ["Halal Investing", "Islamic Finance", "Zakat Calculation", "Debt-Free Journey", "Shariah-Compliant Mortgages"],
-    services: ["1-on-1 Finance Coaching", "Halal Portfolio Review", "Sponsored Content", "Corporate Finance Workshops"],
-    social: [
-      { platform: "YouTube", handle: "@MuslimMoneyGuy", icon: Youtube, url: "#" },
-      { platform: "Instagram", handle: "@muslimmoneyguy", icon: Instagram, url: "#" },
-      { platform: "Twitter", handle: "@MuslimMoneyGuy", icon: Twitter, url: "#" },
-    ],
-    gallery: [
-      { type: "video", thumb: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80", title: "How to Invest Halal in 2026", views: "88K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&auto=format&q=80", title: "Zakat on Stocks Explained", views: "54K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&h=600&fit=crop&auto=format&q=80", title: "The Complete Guide to Shariah Mortgages", views: "41K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop&auto=format&q=80", title: "5 Halal ETFs Worth Watching", views: "37K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&auto=format&q=80", title: "Paying Off Riba: A Step-by-Step Plan", views: "62K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop&auto=format&q=80", title: "Islamic Wills: What You Need to Know", views: "29K" },
-    ],
-    reviews: [
-      { user: "Bilal A.", rating: 5, text: "MMG completely transformed how I think about money. I closed my interest-bearing accounts and built a halal portfolio within 6 months of following his content." },
-      { user: "Fatima N.", rating: 5, text: "The most trustworthy finance creator for Muslims. He doesn't just talk theory — he walks you through every step practically." },
-      { user: "Hassan R.", rating: 4, text: "Incredibly valuable content. I'd love more UK-specific advice but the principles apply universally." },
-    ],
-    upcomingEvents: [
-      { title: "Halal Wealth Summit 2026", date: "August 20, 2026", time: "10:00 AM", location: "Online (Zoom)" },
-      { title: "Live Q&A: Shariah Mortgages", date: "July 25, 2026", time: "7:00 PM", location: "YouTube Live" },
-    ],
-  },
-  "cr2": {
-    name: "Modest Fashion Diaries",
-    handle: "@modestfashiondiaries",
-    title: "Modest Fashion Blogger & Lifestyle Creator",
-    location: "London, UK",
-    avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80",
-    cover: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-orange-600",
-    accent: "bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400",
-    verified: true,
-    followers: "240K+",
-    posts: "860",
-    rating: 4.8,
-    reviewCount: 512,
-    experience: "8 years",
-    about: "Modest Fashion Diaries is London's leading modest lifestyle platform. From hijab tutorials and abaya hauls to ethical brand spotlights and family lifestyle content, MFD inspires Muslim women to express their identity beautifully and confidently. All featured brands and products are vetted for modesty standards.",
-    expertise: ["Modest Outfits", "Hijab Tutorials", "Abaya Styling", "Ethical Fashion", "Family-Friendly Content"],
-    services: ["Brand Ambassadorship", "Styling Consultations", "Instagram Content Creation", "Lookbook Photography"],
-    social: [
-      { platform: "Instagram", handle: "@modestfashiondiaries", icon: Instagram, url: "#" },
-      { platform: "YouTube", handle: "@ModestFashionDiaries", icon: Youtube, url: "#" },
-      { platform: "Twitter", handle: "@MFDiaries", icon: Twitter, url: "#" },
-    ],
-    gallery: [
-      { type: "video", thumb: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80", title: "Summer Abaya Lookbook 2026", views: "92K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", title: "Top 10 Modest Brands Supporting Muslim Designers", views: "58K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80", title: "5 Hijab Styles for Different Face Shapes", views: "134K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", title: "How I Style Modest Outfits for Work", views: "47K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&auto=format&q=80", title: "Ethical Modest Fashion Haul — Is It Worth It?", views: "71K" },
-    ],
-    reviews: [
-      { user: "Hana M.", rating: 5, text: "MFD changed how I dress as a Muslim woman in a non-Muslim country. Her styling is so achievable and beautiful." },
-      { user: "Sana K.", rating: 5, text: "The most authentic modest fashion creator. She doesn't compromise on values just for brand deals." },
-      { user: "Aisha L.", rating: 4, text: "Love the content. Would appreciate more budget-friendly recommendations but the quality is always top tier." },
-    ],
-    upcomingEvents: [
-      { title: "Muslim Women in Business Panel", date: "August 5, 2026", time: "6:00 PM", location: "London (in-person + livestream)" },
-      { title: "Live Hijab Styling Q&A", date: "July 22, 2026", time: "8:00 PM", location: "Instagram Live" },
-    ],
-  },
-  "cr3": {
-    name: "Sunnah Science Podcast",
-    handle: "@sunnahscience",
-    title: "Islamic Education Podcaster & Scholar Host",
-    location: "Toronto, Canada",
-    avatar: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80",
-    cover: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-orange-600",
-    accent: "bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400",
-    verified: true,
-    followers: "75K+",
-    posts: "210",
-    rating: 4.7,
-    reviewCount: 193,
-    experience: "5 years",
-    about: "Sunnah Science Podcast explores the intersection of Islamic knowledge and modern science, philosophy, and lifestyle. Every episode features respected scholars, doctors, and thinkers breaking down complex Islamic topics in an accessible way. With over 200 episodes, SSP has become a trusted weekly companion for Muslims seeking depth.",
-    expertise: ["Islamic Science", "Hadith Studies", "Modern Muslim Life", "Scholar Interviews", "Fiqh Q&A"],
-    services: ["Episode Sponsorships", "Scholar Interview Facilitation", "Islamic Lecture Recordings", "Community Partnerships"],
-    social: [
-      { platform: "YouTube", handle: "@SunnahScience", icon: Youtube, url: "#" },
-      { platform: "Instagram", handle: "@sunnahscience", icon: Instagram, url: "#" },
-      { platform: "Twitter", handle: "@SunnahSciPod", icon: Twitter, url: "#" },
-    ],
-    gallery: [
-      { type: "video", thumb: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80", title: "Fasting & Metabolic Health — with Dr. Khalid", views: "32K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80", title: "The Prophetic Medicine Handbook: What's Proven?", views: "24K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format&q=80", title: "Mental Health in Islam — Breaking the Stigma", views: "48K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format&q=80", title: "How the Quran Addresses Modern Bioethics", views: "19K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80", title: "Sheikh Omar on Love, Marriage & Fiqh of Family", views: "67K" },
-    ],
-    reviews: [
-      { user: "Yusuf H.", rating: 5, text: "SSP is my commute companion every week. The depth of scholarship combined with modern relevance is unmatched." },
-      { user: "Maryam B.", rating: 4, text: "Fantastic podcast. I've learned more about Islamic bioethics from this show than from years of searching on my own." },
-      { user: "Tariq M.", rating: 5, text: "The mental health episode changed my life. So grateful this conversation is happening in our community." },
-    ],
-    upcomingEvents: [
-      { title: "Live Podcast Recording: Islamic Parenting", date: "August 12, 2026", time: "7:00 PM", location: "Toronto Islamic Centre" },
-    ],
-  },
-  "cr4": {
-    name: "Muslim Travel Diaries",
-    handle: "@muslimtraveldiaries",
-    title: "Halal Travel Vlogger & Destination Reviewer",
-    location: "Dubai, UAE",
-    avatar: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80",
-    cover: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-orange-600",
-    accent: "bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400",
-    verified: false,
-    followers: "90K+",
-    posts: "340",
-    rating: 4.5,
-    reviewCount: 147,
-    experience: "4 years",
-    about: "Muslim Travel Diaries documents halal-friendly destinations, hotels, restaurants, and Umrah experiences across the globe. Based in Dubai, MTD covers everything from luxury halal resorts to budget-friendly Muslim-majority destinations. Every review checks for prayer facilities, halal food access, and modesty-friendly environments.",
-    expertise: ["Halal Travel", "Destination Reviews", "Umrah Vlogs", "Halal Hotel Finds", "Muslim-Friendly Itineraries"],
-    services: ["Hotel & Resort Reviews", "Destination Sponsorships", "Travel Photography", "Brand Partnerships"],
-    social: [
-      { platform: "YouTube", handle: "@MuslimTravelDiaries", icon: Youtube, url: "#" },
-      { platform: "Instagram", handle: "@muslimtraveldiaries", icon: Instagram, url: "#" },
-    ],
-    gallery: [
-      { type: "video", thumb: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", title: "5 Days in Istanbul: The Ultimate Halal Guide", views: "78K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", title: "Umrah 2026: Complete Vlog Series", views: "112K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", title: "Top 10 Halal Resorts in the Maldives", views: "44K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop&auto=format&q=80", title: "Budget Halal Travel: Morocco for ₹500", views: "56K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=800&h=600&fit=crop&auto=format&q=80", title: "How to Find Prayer Rooms at Airports", views: "33K" },
-    ],
-    reviews: [
-      { user: "Bilal S.", rating: 5, text: "MTD's Istanbul guide was the reason our trip was perfect. Every halal restaurant they recommended was outstanding." },
-      { user: "Zahra Q.", rating: 4, text: "Great content. I do wish they covered more African destinations but what they produce is thorough and trustworthy." },
-      { user: "Omar K.", rating: 5, text: "The Umrah vlog series was incredibly helpful for planning our first trip. Practical, emotional, and beautifully filmed." },
-    ],
-    upcomingEvents: [
-      { title: "Halal Travel Meetup — Dubai", date: "August 28, 2026", time: "6:00 PM", location: "Burj Al Arab Area, Dubai" },
-    ],
-  },
-  imamrahman: {
-    name: "Imam Ahmad Rahman",
-    handle: "@imamrahman",
-    title: "Islamic Scholar & Senior Imam",
-    location: "Al-Noor Islamic Center, Mumbai",
-    avatar: "https://randomuser.me/api/portraits/men/51.jpg",
-    cover: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-emerald-600",
-    accent: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400",
-    verified: true,
-    followers: "48.2K",
-    posts: "320",
-    rating: 4.9,
-    reviewCount: 152,
-    experience: "15 years",
-    about:
-      "Imam Ahmad Rahman has been serving the community for over 15 years. With a Masters in Islamic Studies from Al-Azhar University, he specializes in Quranic Tafsir, Fiqh, and family counselling. Known for engaging lectures and compassionate guidance.",
-    expertise: ["Quranic Tafsir", "Fiqh (Islamic Law)", "Family & Marriage Counselling", "Youth Mentorship", "Islamic History"],
-    services: ["1-on-1 Counselling", "Nikah Services", "Quran Classes", "Corporate Islamic Talks"],
-    social: [
-      { platform: "YouTube", handle: "@ImamRahmanOfficial", icon: Youtube, url: "#" },
-      { platform: "Instagram", handle: "@imam.rahman", icon: Instagram, url: "#" },
-      { platform: "Twitter", handle: "@ImamRahman", icon: Twitter, url: "#" },
-    ],
-    gallery: [
-      { type: "video", thumb: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop&auto=format&q=80", title: "Lessons from Surah Yusuf", views: "12.4K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop&auto=format&q=80", title: "The Life of the Prophet (PBUH)", views: "9.8K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&auto=format&q=80", title: "The Spiritual Benefits of Fasting", views: "6.1K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&auto=format&q=80", title: "Parenting in the Digital Age", views: "4.3K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=600&fit=crop&auto=format&q=80", title: "Ramadan: Inner Transformation", views: "21.0K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop&auto=format&q=80", title: "Understanding Zakat in Modern Times", views: "8.2K" },
-    ],
-    reviews: [
-      { user: "Aisha Yusuf", rating: 5, text: "Imam Ahmad's advice was invaluable during a difficult time in my marriage. Highly recommended." },
-      { user: "Omar Abdullah", rating: 5, text: "His Tafsir sessions are incredibly insightful and easy to understand." },
-      { user: "Nadia K.", rating: 5, text: "A truly compassionate and knowledgeable scholar. His youth mentorship program changed my son's life." },
-    ],
-    upcomingEvents: [
-      { title: "Friday Khutbah", date: "Every Friday", time: "1:15 PM", location: "Al-Noor Islamic Center" },
-      { title: "Family Fiqh Q&A", date: "July 12, 2026", time: "7:00 PM", location: "Online (Zoom)" },
-    ],
-  },
-  aishaskitchen: {
-    name: "Aisha's Kitchen",
-    handle: "@aishaskitchen",
-    title: "Halal Food Blogger & Recipe Creator",
-    location: "Mumbai, India",
-    avatar: "https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&h=600&fit=crop&auto=format&q=80",
-    cover: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-orange-500",
-    accent: "bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400",
-    verified: true,
-    followers: "92.5K",
-    posts: "780",
-    rating: 4.8,
-    reviewCount: 340,
-    experience: "6 years",
-    about:
-      "Exploring the world of Halal cuisine, one dish at a time. Join me for recipes, restaurant reviews, and culinary adventures from across the Muslim world. All recipes are 100% halal-verified.",
-    expertise: ["Mughlai Cuisine", "Restaurant Reviews", "Home Cooking", "Food Photography", "Recipe Development"],
-    services: ["Sponsored Posts", "Recipe Development", "Food Photography", "Restaurant Collaboration"],
-    social: [
-      { platform: "Instagram", handle: "@aishaskitchen", icon: Instagram, url: "#" },
-      { platform: "YouTube", handle: "@AishasKitchen", icon: Youtube, url: "#" },
-    ],
-    gallery: [
-      { type: "video", thumb: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=600&fit=crop&auto=format&q=80", title: "Perfect Biryani Recipe", views: "45K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format&q=80", title: "Top 10 Halal Spots in Mumbai", views: "28K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format&q=80", title: "Ramadan Special: 5 Suhoor Recipes", views: "67K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop&auto=format&q=80", title: "Guide to Halal Street Food", views: "19K" },
-    ],
-    reviews: [
-      { user: "Fatima R.", rating: 5, text: "Her biryani recipe is the only one I'll ever use. Perfectly detailed and always halal." },
-      { user: "Bilal M.", rating: 5, text: "Best food blogger I follow. Her restaurant reviews are always honest and she never compromises on halal standards." },
-    ],
-    upcomingEvents: [
-      { title: "Live Cooking Session", date: "July 18, 2026", time: "6:00 PM", location: "Instagram Live" },
-    ],
-  },
-  modestfashion: {
-    name: "Modest Fashionista",
-    handle: "@modestfashion",
-    title: "Modest Fashion Blogger & Stylist",
-    location: "Bangalore, India",
-    avatar: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&h=600&fit=crop&auto=format&q=80",
-    cover: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-rose-500",
-    accent: "bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400",
-    verified: false,
-    followers: "134K",
-    posts: "1,200",
-    rating: 4.9,
-    reviewCount: 520,
-    experience: "8 years",
-    about:
-      "Celebrating style with modesty. Your daily dose of inspiration for chic, elegant, and ethically sourced modest wear. From abayas to everyday modest outfits — finding beauty in covering.",
-    expertise: ["Modest Fashion", "Personal Styling", "Abaya Design", "Hijab Tutorials", "Ethical Fashion"],
-    services: ["Brand Ambassadorship", "Styling Consultations", "Content Creation", "Lookbook Photography"],
-    social: [
-      { platform: "Instagram", handle: "@modestfashionista", icon: Instagram, url: "#" },
-      { platform: "YouTube", handle: "@ModestFashionista", icon: Youtube, url: "#" },
-      { platform: "Twitter", handle: "@modestfashion", icon: Twitter, url: "#" },
-    ],
-    gallery: [
-      { type: "article", thumb: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80", title: "Summer Abaya Edit 2026", views: "54K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", title: "5-Minute Hijab Tutorial", views: "88K" },
-      { type: "article", thumb: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=600&fit=crop&auto=format&q=80", title: "Modest Wedding Guest Looks", views: "41K" },
-      { type: "video", thumb: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80", title: "Ethical Modest Brands Haul", views: "30K" },
-    ],
-    reviews: [
-      { user: "Hana A.", rating: 5, text: "She makes modest dressing feel so chic and modern. I've refreshed my entire wardrobe following her recommendations." },
-      { user: "Sana M.", rating: 5, text: "The hijab tutorials are clear and beautiful. She really understands what modest fashion means to Muslim women." },
-    ],
-    upcomingEvents: [],
-  },
-  halalreviews: {
-    name: "Halal Food Reviews",
-    handle: "@halalreviews",
-    title: "Food Critic & Halal Investigator",
-    location: "New Delhi, India",
-    avatar: "https://images.unsplash.com/photo-1612307057748-b44842539a29?w=800&h=600&fit=crop&auto=format&q=80",
-    cover: "https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&h=600&fit=crop&auto=format&q=80",
-    color: "bg-amber-600",
-    accent: "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400",
-    verified: true,
-    followers: "61.3K",
-    posts: "450",
-    rating: 4.7,
-    reviewCount: 180,
-    experience: "5 years",
-    about:
-      "Your trusted guide to the best Halal food spots across India and beyond. Unbiased, independent reviews and certification checks so you can eat with confidence.",
-    expertise: ["Restaurant Reviews", "Street Food", "Halal Verification", "Food Photography", "Certification Checks"],
-    services: ["Restaurant Reviews", "Sponsored Content", "Halal Verification Guidance", "Brand Partnerships"],
-    social: [
-      { platform: "YouTube", handle: "@HalalFoodReviews", icon: Youtube, url: "#" },
-      { platform: "Instagram", handle: "@halalreviews", icon: Instagram, url: "#" },
-    ],
-    gallery: [
-      { type: "video", thumb: "https://randomuser.me/api/portraits/men/40.jpg", title: "Is This Restaurant Actually Halal?", views: "72K" },
-      { type: "article", thumb: "https://randomuser.me/api/portraits/women/40.jpg", title: "Top 5 Halal Burger Spots in Delhi", views: "34K" },
-      { type: "video", thumb: "https://randomuser.me/api/portraits/men/41.jpg", title: "Street Food Halal Check: Chandni Chowk", views: "55K" },
-      { type: "article", thumb: "https://randomuser.me/api/portraits/women/41.jpg", title: "How to Read a Halal Certificate", views: "23K" },
-    ],
-    reviews: [
-      { user: "Tariq B.", rating: 5, text: "Finally a reviewer who actually checks the halal certificates and doesn't just take the restaurant's word for it." },
-      { user: "Maryam D.", rating: 4, text: "Honest and thorough. Would love more coverage outside Delhi but the content is always top quality." },
-    ],
-    upcomingEvents: [
-      { title: "Delhi Food Walk", date: "August 10, 2026", time: "11:00 AM", location: "Chandni Chowk, Delhi" },
-    ],
-  },
-};
-
-const FALLBACK = CREATORS["imamrahman"];
+function formatFollowers(n: number | null): string {
+  if (!n) return "0"
+  if (n >= 1000000) return `${(n / 1000000).toFixed(1)}M`
+  if (n >= 1000) return `${Math.round(n / 1000)}K`
+  return n.toString()
+}
 
 export default function CreatorProfilePage() {
   const params = useParams();
   const id = params.id as string;
-  const creator = CREATORS[id] || FALLBACK;
-  const [activeTab, setActiveTab] = useState("about");
-  const [galleryFilter, setGalleryFilter] = useState<"all" | "video" | "article">("all");
+  const [creator, setCreator] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [activeTab, setActiveTab] = React.useState("about");
+  const [galleryFilter, setGalleryFilter] = React.useState<"all" | "video" | "article">("all");
   const { isSaved, toggleSaved } = useSavedBusinesses();
   const { toast } = useToast();
   const entityId = `creator-${id}`;
   const saved = isSaved(entityId);
 
+  React.useEffect(() => {
+    const supabase = createClient()
+    ;(supabase as any)
+      .from("creators")
+      .select("id, user_id, display_name, avatar_url, bio, category, cover_url, follower_count, post_count, status")
+      .eq("id", id)
+      .maybeSingle()
+      .then(({ data }: { data: any }) => {
+        if (!data) { setLoading(false); return }
+
+        const mapped = {
+          name: data.display_name ?? "Creator",
+          handle: `@${(data.display_name ?? "creator").toLowerCase().replace(/\s+/g, "_")}`,
+          title: data.category ?? "Creator",
+          location: "",
+          avatar: data.avatar_url ?? "",
+          cover: data.cover_url ?? "https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=800&h=600&fit=crop&auto=format&q=80",
+          color: "bg-primary",
+          accent: "bg-primary/10 text-primary dark:bg-primary/20",
+          verified: data.status === "active",
+          followers: formatFollowers(data.follower_count),
+          posts: (data.post_count ?? 0).toString(),
+          rating: 0,
+          reviewCount: 0,
+          experience: "",
+          about: data.bio ?? "",
+          expertise: [] as string[],
+          services: [] as string[],
+          social: [] as any[],
+          upcomingEvents: [] as any[],
+          reviews: [] as any[],
+          gallery: [] as any[],
+        }
+        setCreator(mapped)
+
+        if (data.user_id) {
+          ;(supabase as any)
+            .from("feed_posts")
+            .select("id, description, media_url, status, created_at")
+            .eq("owner_id", data.user_id)
+            .order("created_at", { ascending: false })
+            .limit(12)
+            .then(({ data: pData }: { data: any[] | null }) => {
+              const gallery = (pData ?? [])
+                .filter((p: any) => p.media_url)
+                .map((p: any) => ({
+                  type: "article" as const,
+                  thumb: p.media_url,
+                  title: p.description ?? "Post",
+                  views: "—",
+                }))
+              setCreator((prev: any) => ({ ...prev, gallery }))
+              setLoading(false)
+            })
+        } else {
+          setLoading(false)
+        }
+      })
+  }, [id])
+
   const handleSave = () => {
+    if (!creator) return
     toggleSaved({ id: entityId, name: creator.name, category: "Creator", location: creator.location });
     toast({ title: saved ? "Removed" : "Saved" });
   };
@@ -353,10 +107,23 @@ export default function CreatorProfilePage() {
   const handleShare = async () => {
     const url = typeof window !== "undefined" ? window.location.href : "";
     try {
-      if (navigator.share) { await navigator.share({ title: creator.name, url }); }
+      if (navigator.share) { await navigator.share({ title: creator?.name ?? "Creator", url }); }
       else { await navigator.clipboard.writeText(url); toast({ title: "Link copied" }); }
     } catch {}
   };
+
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
+
+  if (!creator) return (
+    <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+      <p className="text-lg font-black text-foreground">Creator not found</p>
+      <Link href="/creators"><Button variant="outline" className="rounded-2xl font-black border-2"><ArrowLeft className="h-4 w-4 mr-2" /> Back to Creators</Button></Link>
+    </div>
+  )
 
   const filteredGallery = creator.gallery.filter((g: any) =>
     galleryFilter === "all" || g.type === galleryFilter
@@ -406,8 +173,8 @@ export default function CreatorProfilePage() {
             {[
               { label: "Followers", value: creator.followers },
               { label: "Posts", value: creator.posts },
-              { label: "Rating", value: creator.rating },
-              { label: "Reviews", value: creator.reviewCount },
+              { label: "Rating", value: creator.rating || "—" },
+              { label: "Reviews", value: creator.reviewCount || "—" },
             ].map(stat => (
               <div key={stat.label} className="text-center p-3 bg-muted rounded-2xl">
                 <p className="font-black text-sm text-foreground">{stat.value}</p>
@@ -431,22 +198,24 @@ export default function CreatorProfilePage() {
           </div>
 
           {/* Social links */}
-          <div className="flex gap-2 flex-wrap">
-            {creator.social.map((s: any) => (
-              <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="rounded-2xl h-9 px-4 font-bold text-xs border-2 flex items-center gap-1.5">
-                  <s.icon className="h-3.5 w-3.5" /> {s.handle}
-                </Button>
-              </a>
-            ))}
-          </div>
+          {creator.social.length > 0 && (
+            <div className="flex gap-2 flex-wrap">
+              {creator.social.map((s: any) => (
+                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="rounded-2xl h-9 px-4 font-bold text-xs border-2 flex items-center gap-1.5">
+                    <s.icon className="h-3.5 w-3.5" /> {s.handle}
+                  </Button>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-5">
           <TabsList className="bg-card border rounded-2xl h-12 p-1 shadow-sm w-full overflow-x-auto flex justify-start">
             {["about", "content", "events", "reviews"].map(tab => (
-              <TabsTrigger key={tab} value={tab} className={`rounded-xl px-5 font-bold text-xs h-full capitalize shrink-0 data-[state=active]:${creator.color} data-[state=active]:text-white`}>
+              <TabsTrigger key={tab} value={tab} className="rounded-xl px-5 font-bold text-xs h-full capitalize shrink-0">
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </TabsTrigger>
             ))}
@@ -456,29 +225,35 @@ export default function CreatorProfilePage() {
           <TabsContent value="about" className="space-y-4 animate-in fade-in duration-300">
             <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-3">
               <h2 className="font-black text-base flex items-center gap-2"><Info className="h-4 w-4 text-primary" /> About</h2>
-              <p className="text-sm text-muted-foreground font-medium leading-relaxed">{creator.about}</p>
+              {creator.about
+                ? <p className="text-sm text-muted-foreground font-medium leading-relaxed">{creator.about}</p>
+                : <p className="text-sm text-muted-foreground italic">No bio available yet.</p>}
             </Card>
 
-            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-3">
-              <h2 className="font-black text-base flex items-center gap-2"><Award className="h-4 w-4 text-primary" /> Expertise</h2>
-              <div className="flex flex-wrap gap-2">
-                {creator.expertise.map((e: string) => (
-                  <span key={e} className={`text-xs font-bold px-3 py-1.5 ${creator.accent} rounded-full`}>{e}</span>
-                ))}
-              </div>
-            </Card>
+            {creator.expertise.length > 0 && (
+              <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-3">
+                <h2 className="font-black text-base flex items-center gap-2"><Award className="h-4 w-4 text-primary" /> Expertise</h2>
+                <div className="flex flex-wrap gap-2">
+                  {creator.expertise.map((e: string) => (
+                    <span key={e} className={`text-xs font-bold px-3 py-1.5 ${creator.accent} rounded-full`}>{e}</span>
+                  ))}
+                </div>
+              </Card>
+            )}
 
-            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-3">
-              <h2 className="font-black text-base flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> Services</h2>
-              <div className="grid grid-cols-2 gap-2">
-                {creator.services.map((s: string) => (
-                  <div key={s} className="flex items-center gap-2 p-3 bg-muted rounded-2xl">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
-                    <span className="text-xs font-bold text-foreground">{s}</span>
-                  </div>
-                ))}
-              </div>
-            </Card>
+            {creator.services.length > 0 && (
+              <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 space-y-3">
+                <h2 className="font-black text-base flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-primary" /> Services</h2>
+                <div className="grid grid-cols-2 gap-2">
+                  {creator.services.map((s: string) => (
+                    <div key={s} className="flex items-center gap-2 p-3 bg-muted rounded-2xl">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
+                      <span className="text-xs font-bold text-foreground">{s}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            )}
           </TabsContent>
 
           {/* Content / Gallery */}
@@ -486,37 +261,38 @@ export default function CreatorProfilePage() {
             <div className="flex gap-2">
               {(["all", "video", "article"] as const).map(f => (
                 <button key={f} onClick={() => setGalleryFilter(f)}
-                  className={`px-4 py-2 rounded-full text-xs font-black border-2 transition-all capitalize ${galleryFilter === f ? `${creator.color} text-white border-transparent` : "border-border text-muted-foreground hover:text-foreground"}`}>
+                  className={`px-4 py-2 rounded-full text-xs font-black border-2 transition-all capitalize ${galleryFilter === f ? "bg-primary text-white border-transparent" : "border-border text-muted-foreground hover:text-foreground"}`}>
                   {f === "all" ? "All" : f === "video" ? "Videos" : "Articles"}
                 </button>
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              {filteredGallery.map((item: any, i: number) => (
-                <div key={i} className="group relative rounded-[1.5rem] overflow-hidden bg-muted aspect-video cursor-pointer hover:shadow-md transition-all">
-                  <Image src={item.thumb} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  {item.type === "video" && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="h-10 w-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center">
-                        <Play className="h-4 w-4 text-white fill-white ml-0.5" />
+            {filteredGallery.length > 0 ? (
+              <div className="grid grid-cols-2 gap-3">
+                {filteredGallery.map((item: any, i: number) => (
+                  <div key={i} className="group relative rounded-[1.5rem] overflow-hidden bg-muted aspect-video cursor-pointer hover:shadow-md transition-all">
+                    <Image src={item.thumb} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    {item.type === "video" && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="h-10 w-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center">
+                          <Play className="h-4 w-4 text-white fill-white ml-0.5" />
+                        </div>
                       </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 p-3 space-y-0.5">
+                      <p className="text-[11px] font-black text-white leading-tight line-clamp-2">{item.title}</p>
+                      <p className="text-[10px] text-white/70 font-medium">{item.views} views</p>
                     </div>
-                  )}
-                  <div className="absolute bottom-0 left-0 right-0 p-3 space-y-0.5">
-                    <p className="text-[11px] font-black text-white leading-tight line-clamp-2">{item.title}</p>
-                    <p className="text-[10px] text-white/70 font-medium">{item.views} views</p>
+                    <div className="absolute top-2 right-2">
+                      <span className={`text-[9px] font-black px-2 py-0.5 rounded-full ${item.type === "video" ? "bg-rose-500 text-white" : "bg-blue-500 text-white"}`}>
+                        {item.type === "video" ? "Video" : "Post"}
+                      </span>
+                    </div>
                   </div>
-                  <div className="absolute top-2 right-2">
-                    <span className={`text-[9px] font-black px-2 py-0.5 rounded-full ${item.type === "video" ? "bg-rose-500 text-white" : "bg-blue-500 text-white"}`}>
-                      {item.type === "video" ? "Video" : "Article"}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            {filteredGallery.length === 0 && (
-              <div className="text-center py-12 text-muted-foreground text-sm font-medium">No content in this category yet.</div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-muted-foreground text-sm font-medium">No content published yet.</div>
             )}
           </TabsContent>
 
@@ -554,47 +330,46 @@ export default function CreatorProfilePage() {
 
           {/* Reviews */}
           <TabsContent value="reviews" className="space-y-5 animate-in fade-in duration-300">
-            <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 flex items-center gap-6">
-              <div className="text-center shrink-0">
-                <p className="text-5xl font-black text-foreground">{creator.rating}</p>
-                <div className="flex gap-0.5 justify-center mt-1">
-                  {[1,2,3,4,5].map(s => <Star key={s} className={`h-4 w-4 ${s <= Math.floor(creator.rating) ? "fill-amber-400 text-amber-400" : "text-muted"}`} />)}
-                </div>
-                <p className="text-[10px] text-muted-foreground font-bold mt-1">{creator.reviewCount} reviews</p>
+            {creator.reviews.length === 0 ? (
+              <div className="text-center py-16 space-y-2">
+                <Star className="h-10 w-10 text-muted-foreground/30 mx-auto" />
+                <p className="text-sm font-bold text-muted-foreground">No reviews yet</p>
+                <p className="text-xs text-muted-foreground">Be the first to review this creator.</p>
               </div>
-              <div className="flex-1 space-y-1.5">
-                {[5,4,3,2,1].map(star => (
-                  <div key={star} className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-muted-foreground w-3">{star}</span>
-                    <div className="h-2 bg-muted rounded-full flex-1 overflow-hidden">
-                      <div className="h-full bg-amber-400 rounded-full" style={{ width: star === 5 ? "88%" : star === 4 ? "9%" : "3%" }} />
+            ) : (
+              <>
+                <Card className="rounded-[2rem] border-none shadow-sm bg-card p-6 flex items-center gap-6">
+                  <div className="text-center shrink-0">
+                    <p className="text-5xl font-black text-foreground">{creator.rating}</p>
+                    <div className="flex gap-0.5 justify-center mt-1">
+                      {[1,2,3,4,5].map(s => <Star key={s} className={`h-4 w-4 ${s <= Math.floor(creator.rating) ? "fill-amber-400 text-amber-400" : "text-muted"}`} />)}
                     </div>
+                    <p className="text-[10px] text-muted-foreground font-bold mt-1">{creator.reviewCount} reviews</p>
                   </div>
-                ))}
-              </div>
-            </Card>
-
-            <div className="space-y-3">
-              {creator.reviews.map((r: any, i: number) => (
-                <Card key={i} className="rounded-[2rem] border-none shadow-sm bg-card p-5 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9 rounded-xl bg-muted">
-                        <AvatarFallback className="text-xs font-black bg-muted text-muted-foreground rounded-xl">{r.user.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <p className="font-black text-sm text-foreground">{r.user}</p>
-                    </div>
-                    <div className="flex gap-0.5">
-                      {[...Array(r.rating)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />)}
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground font-medium italic leading-relaxed">"{r.text}"</p>
-                  <button className="flex items-center gap-1 text-xs text-muted-foreground font-bold hover:text-primary transition-colors">
-                    <ThumbsUp className="h-3 w-3" /> Helpful
-                  </button>
                 </Card>
-              ))}
-            </div>
+                <div className="space-y-3">
+                  {creator.reviews.map((r: any, i: number) => (
+                    <Card key={i} className="rounded-[2rem] border-none shadow-sm bg-card p-5 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-9 w-9 rounded-xl bg-muted">
+                            <AvatarFallback className="text-xs font-black bg-muted text-muted-foreground rounded-xl">{r.user.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <p className="font-black text-sm text-foreground">{r.user}</p>
+                        </div>
+                        <div className="flex gap-0.5">
+                          {[...Array(r.rating)].map((_, j) => <Star key={j} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />)}
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground font-medium italic leading-relaxed">"{r.text}"</p>
+                      <button className="flex items-center gap-1 text-xs text-muted-foreground font-bold hover:text-primary transition-colors">
+                        <ThumbsUp className="h-3 w-3" /> Helpful
+                      </button>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
             <Button variant="outline" className="w-full rounded-2xl h-12 font-black text-xs border-2">
               <Edit className="h-4 w-4 mr-2" /> Write a Review
             </Button>
