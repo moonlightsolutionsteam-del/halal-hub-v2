@@ -1,158 +1,169 @@
-
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShieldCheck, Award, Briefcase, Headset, Clock, AlertTriangle } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import * as React from "react"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { ShieldCheck, Award, Briefcase, Headset, AlertTriangle, Loader2 } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { createClient } from "@/lib/supabase/client"
+import Link from "next/link"
 
-const verificationQueue = [
-  { name: "Karim's Restaurant", type: "Business", submitted: "2 days ago", status: "Pending Docs" },
-  { name: "Al-Huda Masjid", type: "Mosque", submitted: "3 days ago", status: "Pending Review" },
-  { name: "Mercy Foundation", type: "Organization", submitted: "5 days ago", status: "Pending Review" },
-];
+type Verification = { id: string; business_id: string; halal_status: string; created_at: string | null }
+type Business = { id: string; name: string; category: string | null; is_verified: boolean | null; created_at: string | null }
+type Order = { id: string; status: string | null; service_type: string | null; created_at: string | null }
 
-const addonOrders = [
-    { orderId: "ADDON-051", service: "Professional Photoshoot", business: "The Kebab Shop", status: "In Progress" },
-    { orderId: "ADDON-052", service: "Reel Creation", business: "Modern Abayas", status: "Pending Assignment" },
-    { orderId: "ADDON-053", service: "Menu Redesign", business: "Sultan's Dine", status: "Completed" },
-];
-
+function verBadge(s: string) {
+  if (s === "Approved" || s === "verified") return "secondary" as const
+  if (s === "Rejected") return "destructive" as const
+  return "default" as const
+}
 
 export default function OperationsDashboardPage() {
+  const [verifications, setVerifications] = React.useState<Verification[]>([])
+  const [newBusinesses, setNewBusinesses] = React.useState<Business[]>([])
+  const [orders, setOrders] = React.useState<Order[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      supabase.from("business_verifications").select("id, business_id, halal_status, created_at").order("created_at", { ascending: false }).limit(20),
+      supabase.from("businesses").select("id, name, category, is_verified, created_at").eq("is_verified", false).order("created_at", { ascending: false }).limit(10),
+      supabase.from("business_orders").select("id, status, service_type, created_at").order("created_at", { ascending: false }).limit(10),
+    ]).then(([ver, biz, ord]) => {
+      setVerifications(ver.data ?? [])
+      setNewBusinesses(biz.data ?? [])
+      setOrders(ord.data ?? [])
+      setLoading(false)
+    })
+  }, [])
+
+  const pendingVerifications = verifications.filter(v => v.halal_status === "Pending" || v.halal_status === "pending")
+
+  if (loading) return <div className="flex justify-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold font-headline">Operations Dashboard</h1>
         <p className="text-muted-foreground">Manage listings, verifications, and support.</p>
       </div>
+
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Verifications</CardTitle>
-            <ShieldCheck className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Pending Verifications</CardTitle><ShieldCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">22</div>
-            <p className="text-xs text-muted-foreground">5 new today</p>
+            <div className="text-2xl font-bold">{pendingVerifications.length}</div>
+            <p className="text-xs text-muted-foreground">{verifications.length} total submitted</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Open Support Tickets</CardTitle>
-            <Headset className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Active Orders</CardTitle><Award className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">8</div>
-            <p className="text-xs text-muted-foreground">2 high priority</p>
+            <div className="text-2xl font-bold">{orders.filter(o => o.status !== "completed" && o.status !== "Completed").length}</div>
+            <p className="text-xs text-muted-foreground">{orders.length} total orders</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Add-on Orders</CardTitle>
-            <Award className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Unverified Listings</CardTitle><Briefcase className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">3 photoshoots, 2 videos</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">New Listings</CardTitle>
-            <Briefcase className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">35</div>
+            <div className="text-2xl font-bold">{newBusinesses.length}</div>
             <p className="text-xs text-muted-foreground">Awaiting approval</p>
           </CardContent>
         </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Halal Verified</CardTitle><Headset className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{verifications.filter(v => v.halal_status === "Approved" || v.halal_status === "verified").length}</div>
+            <p className="text-xs text-muted-foreground">Approved verifications</p>
+          </CardContent>
+        </Card>
       </div>
-      
-        <Alert variant="destructive">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>2 Verifications Overdue</AlertTitle>
-            <AlertDescription>
-                SLA breached for "Karim's Restaurant" and "Mercy Foundation". Please review immediately.
-            </AlertDescription>
-        </Alert>
 
-        <div className="grid gap-4 sm:gap-6 grid-cols-2">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Verification Queue</CardTitle>
-                     <CardDescription>New businesses, mosques, and organizations awaiting approval.</CardDescription>
-                </CardHeader>
-                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead className="text-right">Action</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {verificationQueue.map(item => (
-                                <TableRow key={item.name}>
-                                    <TableCell>
-                                        <p className="font-semibold">{item.name}</p>
-                                        <p className="text-xs text-muted-foreground">{item.submitted}</p>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline">{item.type}</Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                         <Badge variant={item.status === 'Pending Review' ? 'default' : 'secondary'}>{item.status}</Badge>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <Button size="sm" variant="outline">Review</Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
-             <Card>
-                <CardHeader>
-                    <CardTitle>Add-on Service Orders</CardTitle>
-                     <CardDescription>Track the progress of premium services for businesses.</CardDescription>
-                </CardHeader>
-                 <CardContent>
-                     <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Service</TableHead>
-                                <TableHead>Business</TableHead>
-                                <TableHead>Status</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                             {addonOrders.map(item => (
-                                <TableRow key={item.orderId}>
-                                    <TableCell className="font-semibold">{item.service}</TableCell>
-                                    <TableCell>{item.business}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={item.status === 'Completed' ? 'secondary' : 'default'}>{item.status}</Badge>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
-        </div>
+      {pendingVerifications.length > 0 && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>{pendingVerifications.length} Verifications Pending Review</AlertTitle>
+          <AlertDescription>These require manual review before businesses can display the Halal badge.</AlertDescription>
+        </Alert>
+      )}
+
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle>Unverified Businesses</CardTitle>
+                <CardDescription>New listings awaiting approval.</CardDescription>
+              </div>
+              <Button size="sm" variant="outline" asChild><Link href="/admin/businesses">View All</Link></Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {newBusinesses.length === 0 ? (
+                  <TableRow><TableCell colSpan={3} className="text-center py-6 text-muted-foreground">No pending listings.</TableCell></TableRow>
+                ) : newBusinesses.map(b => (
+                  <TableRow key={b.id}>
+                    <TableCell className="font-medium">{b.name}</TableCell>
+                    <TableCell><Badge variant="outline">{b.category ?? "—"}</Badge></TableCell>
+                    <TableCell className="text-right"><Button size="sm" variant="outline">Review</Button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Orders</CardTitle>
+            <CardDescription>Track the progress of business service orders.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Service</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.length === 0 ? (
+                  <TableRow><TableCell colSpan={2} className="text-center py-6 text-muted-foreground">No orders yet.</TableCell></TableRow>
+                ) : orders.map(o => (
+                  <TableRow key={o.id}>
+                    <TableCell className="font-medium">{o.service_type ?? "Order"}</TableCell>
+                    <TableCell>
+                      <Badge variant={o.status === "completed" || o.status === "Completed" ? "secondary" : "default"}>
+                        {o.status ?? "Pending"}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
-  );
+  )
 }
