@@ -1,195 +1,169 @@
-
 "use client"
 
-import {
-  MoreHorizontal,
-  Search,
-  Users,
-  Map,
-  ClipboardList,
-  BarChart,
-  PlusCircle,
-  File,
-} from "lucide-react"
+import * as React from "react"
+import { MoreHorizontal, Search, Users, ClipboardList, BarChart, PlusCircle, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { createClient } from "@/lib/supabase/client"
 
+type Call = { id: string; contact: string; account: string | null; subject: string | null; call_date: string | null; owner: string | null; owner_initials: string | null; duration: string | null }
+type Employee = { id: string; name: string; initials: string | null; status: string | null; department: string | null }
 
-const visitLogsData = [
-  { agent: "Yasar Khan", agentInitials: "YK", business: "Sultan's Dine", location: "South Delhi", purpose: "Onboarding", date: "2024-07-30" },
-  { agent: "MOHAMMED HUZAIFA", agentInitials: "MH", business: "The Kebab Shop", location: "Old Delhi", purpose: "Initial Contact", date: "2024-07-30" },
-  { agent: "Vinayak kainthla", agentInitials: "VK", business: "Modern Abayas", location: "Bangalore", purpose: "Follow-up", date: "2024-07-29" },
-  { agent: "Yasar Khan", agentInitials: "YK", business: "New Biryani House", location: "South Delhi", purpose: "Initial Contact", date: "2024-07-29" },
-  { agent: "MOHAMMED HUZAIFA", agentInitials: "MH", business: "Old City Cafe", location: "Old Delhi", purpose: "Scheduled", date: "2024-07-31" },
-];
-
-const territoryData = [
-    { zone: "South Delhi", agent: "Yasar Khan", agentInitials: "YK", businesses: 150, conversion: "15%" },
-    { zone: "Old Delhi", agent: "MOHAMMED HUZAIFA", agentInitials: "MH", businesses: 220, conversion: "12%" },
-    { zone: "Bangalore", agent: "Vinayak kainthla", agentInitials: "VK", businesses: 300, conversion: "18%" },
-    { zone: "West Delhi", agent: "Unassigned", agentInitials: "?", businesses: 180, conversion: "N/A" },
-]
-
+function fmtDate(d: string | null) {
+  if (!d) return "—"
+  try { return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) } catch { return d }
+}
 
 export default function SuperAdminFieldSalesPage() {
+  const [calls, setCalls] = React.useState<Call[]>([])
+  const [employees, setEmployees] = React.useState<Employee[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      supabase.from("erp_calls").select("id, contact, account, subject, call_date, owner, owner_initials, duration").order("call_date", { ascending: false }).limit(50),
+      supabase.from("erp_employees").select("id, name, initials, status, department").eq("status", "Active").limit(30),
+    ]).then(([c, e]) => { setCalls(c.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
+  }, [])
+
+  const todaysCalls = calls.filter(c => {
+    if (!c.call_date) return false
+    return new Date(c.call_date).toDateString() === new Date().toDateString()
+  })
+
+  const activeAgents = employees.filter(e => e.status === "Active")
+  const departments = [...new Set(employees.map(e => e.department).filter(Boolean))]
+
+  if (loading) return <div className="flex justify-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+
   return (
     <div className="space-y-6">
-        <div>
-            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Field Sales</h1>
-            <p className="text-muted-foreground">Manage territories, track visits, and monitor field team performance.</p>
-        </div>
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Field Sales</h1>
+        <p className="text-muted-foreground">Manage territories, track visits, and monitor field team performance.</p>
+      </div>
 
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Agents</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">12</div>
-                <p className="text-xs text-muted-foreground">2 onboarding</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Agents</CardTitle><Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{activeAgents.length}</div>
+            <p className="text-xs text-muted-foreground">{departments.length} departments</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Visits Today</CardTitle>
-                <ClipboardList className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">45</div>
-                <p className="text-xs text-muted-foreground">+10 from yesterday</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Calls Today</CardTitle><ClipboardList className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{todaysCalls.length}</div>
+            <p className="text-xs text-muted-foreground">Logged today</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Leads Generated (Week)</CardTitle>
-                <BarChart className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">85</div>
-                <p className="text-xs text-muted-foreground">22 converted</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Calls</CardTitle><BarChart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{calls.length}</div>
+            <p className="text-xs text-muted-foreground">Last 50 records</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Top Performer</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">Yasar Khan</div>
-                <p className="text-xs text-muted-foreground">15 conversions this month</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Top Agent</CardTitle><Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {(() => {
+              const counts: Record<string, number> = {}
+              calls.forEach(c => { if (c.owner) counts[c.owner] = (counts[c.owner] ?? 0) + 1 })
+              const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]
+              return top ? <><div className="text-xl font-bold truncate">{top[0].split(" ")[0]}</div><p className="text-xs text-muted-foreground">{top[1]} calls logged</p></> : <div className="text-2xl font-bold">—</div>
+            })()}
+          </CardContent>
         </Card>
       </div>
 
-       <div className="grid gap-4 md:gap-8 lg:grid-cols-2">
-         <Card>
-            <CardHeader>
-                <div className="flex justify-between items-center">
-                    <CardTitle>Territory Assignments</CardTitle>
-                    <Button size="sm">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Assign Territory
-                    </Button>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Zone</TableHead>
-                            <TableHead>Agent</TableHead>
-                            <TableHead className="text-right">Conversion</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {territoryData.map(item => (
-                             <TableRow key={item.zone}>
-                                <TableCell className="font-medium">{item.zone}</TableCell>
-                                <TableCell>
-                                     <div className="flex items-center gap-2">
-                                        <Avatar className="h-7 w-7">
-                                            <AvatarFallback>{item.agentInitials}</AvatarFallback>
-                                        </Avatar>
-                                        <span>{item.agent}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell className="text-right">{item.conversion}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </CardContent>
-        </Card>
+      <div className="grid gap-4 md:gap-8 lg:grid-cols-2">
         <Card>
-            <CardHeader>
-                <div className="flex justify-between items-center">
-                    <CardTitle>Recent Visit Logs</CardTitle>
-                    <Button size="sm">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Log Visit
-                    </Button>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Business</TableHead>
-                            <TableHead>Agent</TableHead>
-                            <TableHead className="text-right">Purpose</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {visitLogsData.slice(0, 4).map(item => (
-                             <TableRow key={item.business}>
-                                <TableCell>
-                                    <div className="font-medium">{item.business}</div>
-                                    <div className="text-sm text-muted-foreground">{item.location}</div>
-                                </TableCell>
-                                <TableCell>{item.agent}</TableCell>
-                                <TableCell className="text-right">
-                                    <Badge variant="outline">{item.purpose}</Badge>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </CardContent>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>Team Roster</CardTitle>
+              <Button size="sm"><PlusCircle className="mr-2 h-4 w-4" />Add Agent</Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Agent</TableHead>
+                  <TableHead>Department</TableHead>
+                  <TableHead className="text-right">Calls</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {employees.length === 0 ? (
+                  <TableRow><TableCell colSpan={3} className="text-center py-6 text-muted-foreground">No agents found.</TableCell></TableRow>
+                ) : employees.map(e => (
+                  <TableRow key={e.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 text-xs"><AvatarFallback>{e.initials ?? e.name.slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+                        <span className="font-medium">{e.name}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{e.department ?? "—"}</TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {calls.filter(c => c.owner === e.name).length}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
         </Card>
-       </div>
+
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>Recent Call Logs</CardTitle>
+              <Button size="sm"><PlusCircle className="mr-2 h-4 w-4" />Log Call</Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Contact</TableHead>
+                  <TableHead className="hidden sm:table-cell">Agent</TableHead>
+                  <TableHead className="text-right">Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {calls.length === 0 ? (
+                  <TableRow><TableCell colSpan={3} className="text-center py-6 text-muted-foreground">No calls logged yet.</TableCell></TableRow>
+                ) : calls.slice(0, 6).map(c => (
+                  <TableRow key={c.id}>
+                    <TableCell>
+                      <div className="font-medium">{c.contact}</div>
+                      {c.account && <div className="text-xs text-muted-foreground">{c.account}</div>}
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">{c.owner ?? "—"}</TableCell>
+                    <TableCell className="text-right text-sm text-muted-foreground">{fmtDate(c.call_date)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
