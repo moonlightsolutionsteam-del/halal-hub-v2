@@ -33,9 +33,9 @@ export default function AdminUsersPage() {
     async function load() {
       setLoading(true)
       const [countRes, bannedRes, listRes] = await Promise.all([
-        (supabase as any).from("profiles").select("id", { count: "exact", head: true }),
-        (supabase as any).from("profiles").select("id", { count: "exact", head: true }).eq("is_banned", true),
-        (supabase as any)
+        supabase.from("profiles").select("id", { count: "exact", head: true }),
+        supabase.from("profiles").select("id", { count: "exact", head: true }).eq("is_banned", true),
+        supabase
           .from("profiles")
           .select("id, full_name, email, role, city, country, is_banned, created_at")
           .order("created_at", { ascending: false })

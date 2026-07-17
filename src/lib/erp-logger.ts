@@ -7,8 +7,8 @@ export async function logErpActivity(opts: {
   recordType?: string
   recordId?: string
   recordTitle?: string
-  oldValue?: object
-  newValue?: object
+  oldValue?: Record<string, unknown>
+  newValue?: Record<string, unknown>
 }) {
   const supabase = createClient()
   await supabase.from("erp_activity_logs").insert({

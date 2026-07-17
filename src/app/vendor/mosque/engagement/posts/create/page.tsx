@@ -24,7 +24,7 @@ export default function CreateMosquePostPage() {
         if (!user?.uid || !title.trim()) return;
         setSubmitting(true);
         const supabase = createClient();
-        await (supabase as any)
+        await supabase
             .from("community_posts")
             .insert({ title: title.trim(), content: content.trim(), category: postType, author_id: user.uid });
         setSubmitting(false);
@@ -35,7 +35,7 @@ export default function CreateMosquePostPage() {
         if (!user?.uid || !title.trim()) return;
         setSubmitting(true);
         const supabase = createClient();
-        await (supabase as any)
+        await supabase
             .from("community_posts")
             .insert({ title: title.trim(), content: content.trim(), category: `draft:${postType}`, author_id: user.uid });
         setSubmitting(false);

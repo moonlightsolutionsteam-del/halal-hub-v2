@@ -33,7 +33,7 @@ export function useAdminCategory(category: string | string[]): AdminCategoryStat
   useEffect(() => {
     const supabase = createClient()
     async function load() {
-      const q = (supabase as any)
+      const q = supabase
         .from("businesses")
         .select("id, name, subcategory, city, country, status, rating, halal_verified, created_at")
         .order("created_at", { ascending: false })

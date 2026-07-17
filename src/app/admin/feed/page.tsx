@@ -47,7 +47,7 @@ export default function AdminFeedPage() {
   async function toggleStatus(id: string, current: string | null) {
     const next = current === "active" ? "hidden" : "active"
     const supabase = createClient()
-    await (supabase as any).from("feed_posts").update({ status: next }).eq("id", id)
+    await supabase.from("feed_posts").update({ status: next }).eq("id", id)
     setPosts(prev => prev.map(p => p.id === id ? { ...p, status: next } : p))
     toast({ title: `Post ${next}` })
   }

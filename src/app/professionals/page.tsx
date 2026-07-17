@@ -33,7 +33,7 @@ export default function ProfessionalsPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("professional_profiles")
       .select("id, profession, specializations, availability, verification_status, profiles(name, photo_url, city)")
       .order("created_at", { ascending: false })

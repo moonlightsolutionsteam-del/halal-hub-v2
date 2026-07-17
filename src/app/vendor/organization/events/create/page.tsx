@@ -31,7 +31,7 @@ export default function CreateOrganizationEventPage() {
     if (location) lines.push(`Location: ${location}`)
     const content = [...lines, "", description.trim()].join("\n").trim()
     const supabase = createClient()
-    await (supabase as any)
+    await supabase
       .from("community_posts")
       .insert({ title: title.trim(), content, category: "event", author_id: user.uid })
     setSubmitting(false)

@@ -29,7 +29,7 @@ export default function EngagementEnquiryPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("messages")
       .select("id, sender_id, content, read, created_at, sender:profiles!messages_sender_id_fkey(name, photo_url)")
       .eq("receiver_id", user.uid)
@@ -43,7 +43,7 @@ export default function EngagementEnquiryPage() {
 
   const markRead = async (id: string) => {
     const supabase = createClient()
-    await (supabase as any).from("messages").update({ read: true }).eq("id", id)
+    await supabase.from("messages").update({ read: true }).eq("id", id)
     setMessages(prev => prev.map(m => m.id === id ? { ...m, read: true } : m))
   }
 

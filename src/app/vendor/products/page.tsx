@@ -62,13 +62,13 @@ function ItemFormModal({
     const supabase = createClient()
     const ext = file.name.split(".").pop() ?? "jpg"
     const path = `${bizId}/menu_${Date.now()}.${ext}`
-    const { error } = await (supabase as any).storage
+    const { error } = await supabase.storage
       .from("business-media")
       .upload(path, file, { upsert: true, contentType: file.type })
     if (error) {
       toast({ title: "Upload failed", description: error.message, variant: "destructive" })
     } else {
-      const { data } = (supabase as any).storage.from("business-media").getPublicUrl(path)
+      const { data } = supabase.storage.from("business-media").getPublicUrl(path)
       setImageUrl(data.publicUrl)
     }
     setUploading(false)
@@ -92,7 +92,7 @@ function ItemFormModal({
       vendor_uid: vendorUid,
     }
     if (item) {
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from("business_catalog_items")
         .update(payload)
         .eq("id", item.id)
@@ -103,7 +103,7 @@ function ItemFormModal({
       toast({ title: "Item updated!" })
       onSaved(data)
     } else {
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from("business_catalog_items")
         .insert(payload)
         .select("id, title, description, price, image_url")
@@ -211,7 +211,7 @@ export default function VendorProductsPage() {
   React.useEffect(() => {
     if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses")
       .select("id, name")
       .eq("owner_id", user.uid)
@@ -221,7 +221,7 @@ export default function VendorProductsPage() {
         if (!biz) { setLoading(false); return }
         setBizId(biz.id)
         setBizName(biz.name ?? "")
-        ;(supabase as any)
+        ;supabase
           .from("business_catalog_items")
           .select("id, title, description, price, image_url")
           .eq("business_id", biz.id)
@@ -236,7 +236,7 @@ export default function VendorProductsPage() {
   const handleDelete = async (id: string) => {
     setDeleting(id)
     const supabase = createClient()
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from("business_catalog_items")
       .delete()
       .eq("id", id)

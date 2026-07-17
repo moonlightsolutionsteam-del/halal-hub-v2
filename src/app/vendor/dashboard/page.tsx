@@ -34,7 +34,7 @@ export default function VendorDashboard() {
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
 
-    ;(supabase as any)
+    ;supabase
       .from("businesses")
       .select("id, name, category, city, country, rating, halal_verified, status")
       .eq("owner_id", user.uid)
@@ -45,11 +45,11 @@ export default function VendorDashboard() {
         setLoading(false)
         if (!biz) return
 
-        ;(supabase as any).from("check_ins").select("id", { count: "exact", head: true })
+        ;supabase.from("check_ins").select("id", { count: "exact", head: true })
           .eq("business_id", biz.id)
           .then(({ count }: { count: number | null }) => setCheckIns(count ?? 0))
 
-        ;(supabase as any).from("saved_businesses").select("id", { count: "exact", head: true })
+        ;supabase.from("saved_businesses").select("id", { count: "exact", head: true })
           .eq("business_id", biz.id)
           .then(({ count }: { count: number | null }) => setSaves(count ?? 0))
       })

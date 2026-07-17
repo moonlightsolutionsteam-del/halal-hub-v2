@@ -101,11 +101,11 @@ export default function CreditsPricingPage() {
   React.useEffect(() => {
     if (authLoading || !user?.uid) return
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => {
         if (!data) return
-        ;(supabase as any)
+        ;supabase
           .from("partner_subscriptions")
           .select("plan, status, expires_at, business_slots, image_slots")
           .eq("business_id", data.id)

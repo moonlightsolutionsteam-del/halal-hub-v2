@@ -46,16 +46,16 @@ export default function MyJourneyPage() {
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
 
-    ;(supabase as any).from("achievements").select("id, key, name, description, icon, event_type, threshold, points_reward")
+    ;supabase.from("achievements").select("id, key, name, description, icon, event_type, threshold, points_reward")
       .eq("active", true).order("sort_order", { ascending: true })
       .then(({ data }: { data: Achievement[] | null }) => setAchievements(data ?? []))
 
-    ;(supabase as any).from("user_achievements").select("achievement_id, unlocked_at").eq("user_id", user.uid)
+    ;supabase.from("user_achievements").select("achievement_id, unlocked_at").eq("user_id", user.uid)
       .then(({ data }: { data: UserAchievement[] | null }) => {
         setUnlocked(new Map((data ?? []).map(r => [r.achievement_id, r.unlocked_at])))
       })
 
-    ;(supabase as any).from("user_activity_events").select("event_type").eq("user_id", user.uid)
+    ;supabase.from("user_activity_events").select("event_type").eq("user_id", user.uid)
       .then(({ data }: { data: { event_type: string }[] | null }) => {
         const c: Record<string, number> = {}
         for (const row of data ?? []) c[row.event_type] = (c[row.event_type] ?? 0) + 1
@@ -63,11 +63,11 @@ export default function MyJourneyPage() {
         setLoading(false)
       })
 
-    ;(supabase as any).from("points_ledger").select("id, delta, reason, created_at")
+    ;supabase.from("points_ledger").select("id, delta, reason, created_at")
       .eq("user_id", user.uid).order("created_at", { ascending: false }).limit(10)
       .then(({ data }: { data: LedgerRow[] | null }) => setLedger(data ?? []))
 
-    ;(supabase as any).from("user_streaks").select("current_count").eq("user_id", user.uid).eq("streak_type", "daily_checkin").maybeSingle()
+    ;supabase.from("user_streaks").select("current_count").eq("user_id", user.uid).eq("streak_type", "daily_checkin").maybeSingle()
       .then(({ data }: { data: { current_count: number } | null }) => setStreak(data?.current_count ?? 0))
   }, [user?.uid, authLoading])
 

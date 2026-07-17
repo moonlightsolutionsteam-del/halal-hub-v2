@@ -54,7 +54,7 @@ export default function PrayerTrackerPage() {
     if (!user?.uid) return
     setMonthLoading(true)
     const supabase = createClient()
-    const { data } = await (supabase as any).rpc("get_prayer_month_log", { p_year: y, p_month: m + 1 })
+    const { data } = await supabase.rpc("get_prayer_month_log", { p_year: y, p_month: m + 1 })
 
     const byDay = new Map<string, Set<PrayerKey>>()
     for (const row of data ?? []) {
@@ -77,10 +77,10 @@ export default function PrayerTrackerPage() {
   const loadStats = useCallback(async () => {
     if (!user?.uid) return
     const supabase = createClient()
-    const { data } = await (supabase as any).rpc("get_prayer_stats")
+    const { data } = await supabase.rpc("get_prayer_stats")
     if (data) {
       // Also fetch lifetime coins from user_levels for level display
-      const { data: levelRow } = await (supabase as any)
+      const { data: levelRow } = await supabase
         .from("user_levels")
         .select("lifetime_coins_earned")
         .eq("user_id", user!.uid)

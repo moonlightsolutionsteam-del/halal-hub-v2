@@ -31,7 +31,7 @@ export function useCapabilities() {
   const refresh = useCallback(async () => {
     if (!user?.uid) { setCapabilities([]); setLoading(false); return }
     const supabase = createClient()
-    const { data } = await (supabase as any)
+    const { data } = await supabase
       .from("capabilities")
       .select("id, type, status, activated_at, metadata")
       .eq("user_id", user.uid)
@@ -59,7 +59,7 @@ export function useCapabilities() {
     const supabase = createClient()
     // Creator self-activates immediately; others go pending for admin approval
     const status: CapabilityStatus = type === "creator" ? "active" : "pending"
-    const { error } = await (supabase as any).from("capabilities").upsert(
+    const { error } = await supabase.from("capabilities").upsert(
       { user_id: user.uid, type, status, metadata, activated_at: new Date().toISOString() },
       { onConflict: "user_id,type" },
     )

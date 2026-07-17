@@ -26,7 +26,7 @@ export default function AdminEnquiryPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("messages")
       .select("id, content, is_read, created_at, sender:profiles!messages_sender_id_fkey(name), receiver:profiles!messages_receiver_id_fkey(name)")
       .order("created_at", { ascending: false })

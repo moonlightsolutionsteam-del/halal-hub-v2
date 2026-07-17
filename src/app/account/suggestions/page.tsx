@@ -34,7 +34,7 @@ export default function SuggestionsPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("suggestions")
       .select("id, place_name, category, status, created_at")
       .eq("user_id", user.uid)

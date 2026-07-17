@@ -28,7 +28,7 @@ export default async function CategoriesPage() {
   const supabase = await createClient()
 
   // Count active businesses per category pattern set
-  const { data: rows } = await (supabase as any)
+  const { data: rows } = await supabase
     .from("businesses")
     .select("category")
     .eq("status", "active")

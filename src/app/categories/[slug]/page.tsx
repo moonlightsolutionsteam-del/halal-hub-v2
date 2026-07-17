@@ -46,7 +46,7 @@ export default async function CategoryListingPage({
   type BizRow = { id: string; name: string; category: string | null; city: string | null; country: string | null; rating: number | null; halal_verified: boolean | null; image_url: string | null; logo_url: string | null; description: string | null }
 
   const supabase = await createClient()
-  const { data: rawData } = await (supabase as any)
+  const { data: rawData } = await supabase
     .from("businesses")
     .select("id, name, category, city, country, rating, halal_verified, image_url, logo_url, description")
     .eq("status", "active")

@@ -100,7 +100,7 @@ export default function QuranPage() {
   useEffect(() => {
     if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("quran_bookmarks")
       .select("verse_key, surah, ayah, created_at")
       .eq("user_id", user.uid)
@@ -110,7 +110,7 @@ export default function QuranPage() {
         setBookmarkRows(data)
         setBookmarkedKeys(new Set(data.map((b: any) => b.verse_key)))
       })
-    ;(supabase as any)
+    ;supabase
       .from("quran_progress")
       .select("last_surah, last_ayah")
       .eq("user_id", user.uid)
@@ -131,7 +131,7 @@ export default function QuranPage() {
     // Persist last-read position (blueprint §5.3)
     if (user?.uid) {
       const supabase = createClient()
-      ;(supabase as any).from("quran_progress").upsert(
+      ;supabase.from("quran_progress").upsert(
         { user_id: user.uid, last_surah: selectedSurah, last_ayah: 1, updated_at: new Date().toISOString() },
         { onConflict: "user_id" },
       ).then(() => {})
@@ -147,12 +147,12 @@ export default function QuranPage() {
     const supabase = createClient()
     const isBookmarked = bookmarkedKeys.has(verse.verse_key)
     if (isBookmarked) {
-      await (supabase as any).from("quran_bookmarks").delete()
+      await supabase.from("quran_bookmarks").delete()
         .eq("user_id", user.uid).eq("verse_key", verse.verse_key)
       setBookmarkedKeys(prev => { const n = new Set(prev); n.delete(verse.verse_key); return n })
       setBookmarkRows(prev => prev.filter(b => b.verse_key !== verse.verse_key))
     } else {
-      await (supabase as any).from("quran_bookmarks").insert({
+      await supabase.from("quran_bookmarks").insert({
         user_id: user.uid, surah: surahNumber, ayah: verse.ayah, verse_key: verse.verse_key,
       })
       setBookmarkedKeys(prev => new Set(prev).add(verse.verse_key))

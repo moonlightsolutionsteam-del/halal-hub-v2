@@ -48,7 +48,7 @@ export default function MessagesPage() {
     const supabase = createClient()
 
     async function load() {
-      const { data } = await (supabase as any)
+      const { data } = await supabase
         .from("messages")
         .select(
           "sender_id, receiver_id, content, read, created_at, sender:profiles!messages_sender_id_fkey(name, photo_url), receiver:profiles!messages_receiver_id_fkey(name, photo_url)"

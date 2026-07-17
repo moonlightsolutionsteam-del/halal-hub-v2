@@ -155,7 +155,7 @@ export default function ProfessionalActivationPage() {
     setSubmitting(true)
     const supabase = createClient()
 
-    const { error: profileError } = await (supabase as any).from("professional_profiles").upsert({
+    const { error: profileError } = await supabase.from("professional_profiles").upsert({
       user_id: user.uid,
       profession: finalProfession,
       bio,

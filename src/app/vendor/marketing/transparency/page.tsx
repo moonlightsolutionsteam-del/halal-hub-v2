@@ -39,7 +39,7 @@ export default function MarketingTransparencyPage() {
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
 
-    ;(supabase as any)
+    ;supabase
       .from("businesses")
       .select("id")
       .eq("owner_id", user.uid)
@@ -49,7 +49,7 @@ export default function MarketingTransparencyPage() {
         if (!biz) { setLoading(false); return }
         setBizId(biz.id)
 
-        ;(supabase as any)
+        ;supabase
           .from("business_verifications")
           .select("id, halal_status, answers, created_at, user:profiles!business_verifications_user_id_fkey(name)")
           .eq("business_id", biz.id)

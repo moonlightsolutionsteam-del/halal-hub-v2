@@ -93,12 +93,12 @@ export function usePrayerLog() {
     const weekAgo = localDateISO(new Date(Date.now() - 6 * 86400000))
 
     const [{ data: logs }, { data: streakRow }] = await Promise.all([
-      (supabase as any)
+      supabase
         .from("user_prayer_log")
         .select("prayer_date, prayer_name, status")
         .eq("user_id", user.uid)
         .gte("prayer_date", weekAgo),
-      (supabase as any)
+      supabase
         .from("user_streaks")
         .select("current_count, longest_count")
         .eq("user_id", user.uid)
@@ -135,7 +135,7 @@ export function usePrayerLog() {
     setMarking(prayer)
     const supabase = createClient()
 
-    const { data, error } = await (supabase as any).rpc("mark_prayer", {
+    const { data, error } = await supabase.rpc("mark_prayer", {
       p_date: localDateISO(),
       p_prayer: prayer,
       p_status: status,

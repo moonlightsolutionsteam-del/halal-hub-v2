@@ -58,7 +58,7 @@ export default function EngagementEventsPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => {
         if (!data) { setLoading(false); return }
@@ -69,7 +69,7 @@ export default function EngagementEventsPage() {
 
   function loadEvents(id: string) {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("business_events")
       .select("id, title, event_type, event_date, event_time, location, description, status, attendees")
       .eq("business_id", id)
@@ -97,13 +97,13 @@ export default function EngagementEventsPage() {
     }
 
     if (editingEvent) {
-      const { error } = await (supabase as any).from("business_events").update(payload).eq("id", editingEvent.id)
+      const { error } = await supabase.from("business_events").update(payload).eq("id", editingEvent.id)
       setSaving(false)
       if (error) { toast({ variant: "destructive", title: "Couldn't update event", description: error.message }); return }
       setEditingEvent(null)
       toast({ title: "Event updated" })
     } else {
-      const { error } = await (supabase as any).from("business_events").insert(payload)
+      const { error } = await supabase.from("business_events").insert(payload)
       setSaving(false)
       if (error) { toast({ variant: "destructive", title: "Couldn't create event", description: error.message }); return }
       setShowCreate(false)
@@ -117,7 +117,7 @@ export default function EngagementEventsPage() {
     if (!bizId) return
     setDeletingId(id)
     const supabase = createClient()
-    const { error } = await (supabase as any).from("business_events").delete().eq("id", id)
+    const { error } = await supabase.from("business_events").delete().eq("id", id)
     setDeletingId(null)
     if (error) { toast({ variant: "destructive", title: "Couldn't delete event", description: error.message }); return }
     setEvents(prev => prev.filter(e => e.id !== id))
@@ -127,7 +127,7 @@ export default function EngagementEventsPage() {
   async function markCompleted(ev: BusinessEvent) {
     if (!bizId) return
     const supabase = createClient()
-    const { error } = await (supabase as any).from("business_events").update({ status: "completed" }).eq("id", ev.id)
+    const { error } = await supabase.from("business_events").update({ status: "completed" }).eq("id", ev.id)
     if (error) { toast({ variant: "destructive", title: "Update failed", description: error.message }); return }
     setEvents(prev => prev.map(e => e.id === ev.id ? { ...e, status: "completed" } : e))
     toast({ title: "Marked as completed" })

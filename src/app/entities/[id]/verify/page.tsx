@@ -93,7 +93,7 @@ export default function VerifyPage() {
     setIsSubmitting(true);
 
     const supabase = createClient()
-    const { error } = await (supabase as any).from("business_verifications").insert({
+    const { error } = await supabase.from("business_verifications").insert({
       business_id: id,
       user_id: user.uid,
       halal_status: halalStatus,

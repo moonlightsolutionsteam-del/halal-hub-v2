@@ -200,7 +200,7 @@ export default function Home() {
   useEffect(() => {
     if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any).rpc("bump_streak", { p_streak_type: "daily_checkin" })
+    ;supabase.rpc("bump_streak", { p_streak_type: "daily_checkin" })
   }, [user?.uid]);
 
   // ── Live data fetches (all parallel) ────────────────────────────────────────
@@ -217,7 +217,7 @@ export default function Home() {
       .then(({ data }) => { if (data?.length) setLiveBizList(data as LiveBizType[]) })
 
     // Community Pulse — latest feed posts
-    ;(supabase as any)
+    ;supabase
       .from("feed_posts")
       .select("id, display_name, description, media_url, firebase_media_url, place_name, created_at")
       .order("created_at", { ascending: false })
@@ -225,7 +225,7 @@ export default function Home() {
       .then(({ data }: { data: FeedPostRow[] | null }) => { if (data?.length) setFeedPosts(data) })
 
     // Creator Spotlight — activated creators joined with profiles
-    ;(supabase as any)
+    ;supabase
       .from("creator_profiles")
       .select("user_id, display_name, category, content_categories, profiles(name, photo_url)")
       .order("created_at", { ascending: false })
@@ -235,7 +235,7 @@ export default function Home() {
       })
 
     // Featured Professionals
-    ;(supabase as any)
+    ;supabase
       .from("professional_profiles")
       .select("user_id, profession, availability, city, skills, bio, profiles(name, photo_url)")
       .order("created_at", { ascending: false })
@@ -245,7 +245,7 @@ export default function Home() {
       })
 
     // Marketplace Picks — catalog items with business images
-    ;(supabase as any)
+    ;supabase
       .from("business_catalog_items")
       .select("id, name, price, image_url, businesses(name, image_url)")
       .not("price", "is", null)
@@ -258,9 +258,9 @@ export default function Home() {
     // Live stats
     Promise.all([
       supabase.from("businesses").select("id", { count: "exact", head: true }).eq("status", "active"),
-      (supabase as any).from("profiles").select("id", { count: "exact", head: true }),
-      (supabase as any).from("feed_posts").select("id", { count: "exact", head: true }),
-      (supabase as any).from("creator_profiles").select("user_id", { count: "exact", head: true }),
+      supabase.from("profiles").select("id", { count: "exact", head: true }),
+      supabase.from("feed_posts").select("id", { count: "exact", head: true }),
+      supabase.from("creator_profiles").select("user_id", { count: "exact", head: true }),
     ]).then(([biz, mem, posts, cre]) => {
       setLiveStats({
         businesses: (biz as any).count ?? 0,

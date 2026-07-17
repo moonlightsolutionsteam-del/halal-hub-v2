@@ -33,7 +33,7 @@ export default function SavedPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("saved_businesses")
       .select("id, business_id, business:businesses(id, name, category, city, image_url, rating, halal_verified)")
       .eq("user_id", user.uid)
@@ -46,7 +46,7 @@ export default function SavedPage() {
 
   const unsave = async (rowId: string) => {
     const supabase = createClient()
-    await (supabase as any).from("saved_businesses").delete().eq("id", rowId)
+    await supabase.from("saved_businesses").delete().eq("id", rowId)
     setRows(prev => prev.filter(r => r.id !== rowId))
   }
 

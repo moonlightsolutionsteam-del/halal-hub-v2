@@ -40,9 +40,9 @@ export function useAdminStats(): AdminStats {
     const supabase = createClient()
     async function load() {
       const [businesses, profiles, pending] = await Promise.all([
-        (supabase as any).from("businesses").select("status, category"),
-        (supabase as any).from("profiles").select("id", { count: "exact", head: true }),
-        (supabase as any)
+        supabase.from("businesses").select("status, category"),
+        supabase.from("profiles").select("id", { count: "exact", head: true }),
+        supabase
           .from("businesses")
           .select("id, name, category, city, country, created_at")
           .eq("status", "pending")

@@ -102,7 +102,7 @@ export function CommentSheet({ postId, open, onClose, onCountChange }: CommentSh
     if (!postId) return
     setLoading(true)
     const supabase = createClient()
-    const { data } = await (supabase as any)
+    const { data } = await supabase
       .from("post_comments")
       .select("id, author_id, display_name, body, parent_comment_id, created_at")
       .eq("post_id", postId)
@@ -127,7 +127,7 @@ export function CommentSheet({ postId, open, onClose, onCountChange }: CommentSh
     if (!text.trim() || !user || posting) return
     setPosting(true)
     const supabase = createClient()
-    const { data: inserted } = await (supabase as any)
+    const { data: inserted } = await supabase
       .from("post_comments")
       .insert({
         post_id: postId,

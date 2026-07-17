@@ -27,7 +27,7 @@ export default function CreateMosqueProgramPage() {
     if (capacity) lines.push(`Capacity: ${capacity}`)
     const content = [...lines, "", description.trim()].join("\n").trim()
     const supabase = createClient()
-    await (supabase as any)
+    await supabase
       .from("community_posts")
       .insert({ title: name.trim(), content, category: "program", author_id: user.uid })
     setSubmitting(false)

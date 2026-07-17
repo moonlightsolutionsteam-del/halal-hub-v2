@@ -34,7 +34,7 @@ export default function HistoryPage() {
   useEffect(() => {
     if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("product_scans")
       .select("id, barcode, product_id, created_at, product:halal_products(id, name, halal_status)")
       .eq("user_id", user.uid)
@@ -47,7 +47,7 @@ export default function HistoryPage() {
           ts: new Date(r.created_at).getTime(),
         })))
       })
-    ;(supabase as any)
+    ;supabase
       .from("product_views")
       .select("id, created_at, product:halal_products(id, name, brand, halal_status)")
       .eq("user_id", user.uid)
@@ -64,14 +64,14 @@ export default function HistoryPage() {
   async function clearScans() {
     if (!user?.uid) return
     const supabase = createClient()
-    await (supabase as any).from("product_scans").delete().eq("user_id", user.uid)
+    await supabase.from("product_scans").delete().eq("user_id", user.uid)
     setScanHistory([])
   }
 
   async function clearViews() {
     if (!user?.uid) return
     const supabase = createClient()
-    await (supabase as any).from("product_views").delete().eq("user_id", user.uid)
+    await supabase.from("product_views").delete().eq("user_id", user.uid)
     setViewHistory([])
   }
 

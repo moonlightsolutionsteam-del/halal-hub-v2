@@ -31,11 +31,11 @@ export default function ChatPage() {
         if (!user?.uid || !otherId) return;
         const supabase = createClient();
 
-        (supabase as any).from("profiles").select("name, photo_url").eq("id", otherId).single()
+        supabase.from("profiles").select("name, photo_url").eq("id", otherId).single()
             .then(({ data }: { data: { name: string | null; photo_url: string | null } | null }) => setRecipient(data));
 
         async function loadMessages() {
-            const { data } = await (supabase as any)
+            const { data } = await supabase
                 .from("messages")
                 .select("id, content, sender_id, created_at, read, receiver_id")
                 .or(`and(sender_id.eq.${user!.uid},receiver_id.eq.${otherId}),and(sender_id.eq.${otherId},receiver_id.eq.${user!.uid})`)
@@ -46,7 +46,7 @@ export default function ChatPage() {
                 .filter((m: any) => m.receiver_id === user!.uid && !m.read)
                 .map((m: any) => m.id);
             if (unreadIds.length > 0) {
-                await (supabase as any).from("messages").update({ read: true }).in("id", unreadIds);
+                await supabase.from("messages").update({ read: true }).in("id", unreadIds);
             }
         }
         loadMessages();
@@ -80,7 +80,7 @@ export default function ChatPage() {
         const content = inputValue;
         setInputValue("");
 
-        const { error } = await (supabase as any).from("messages").insert({
+        const { error } = await supabase.from("messages").insert({
             sender_id: user.uid,
             receiver_id: otherId,
             content,

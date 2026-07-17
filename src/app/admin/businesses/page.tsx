@@ -4,7 +4,7 @@ import BusinessReviewClient from "./BusinessReviewClient"
 export default async function BusinessSubmissionsPage() {
   const supabase = await createClient()
 
-  const { data: businesses } = await (supabase as any)
+  const { data: businesses } = await supabase
     .from("businesses")
     .select("id, name, category, city, country, phone, halal_verified, under_no_cert, full_responsibility, status, created_at, compliance_docs, description")
     .in("status", ["pending", "active", "rejected"])

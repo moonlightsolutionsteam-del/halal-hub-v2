@@ -30,7 +30,7 @@ export default function MosqueProgramsPage() {
   React.useEffect(() => {
     if (authLoading || !user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("community_posts")
       .select("id, title, content, created_at")
       .eq("author_id", user.uid)

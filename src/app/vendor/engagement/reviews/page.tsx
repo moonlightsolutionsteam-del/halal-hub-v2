@@ -52,11 +52,11 @@ export default function EngagementReviewsPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => {
         if (!data) { setLoading(false); return }
-        ;(supabase as any)
+        ;supabase
           .from("business_reviews")
           .select("id, rating, title, body, status, created_at, profiles(name)")
           .eq("business_id", data.id)

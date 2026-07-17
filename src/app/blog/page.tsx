@@ -61,7 +61,7 @@ export default function BlogFeedPage() {
 
   React.useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("feed_posts")
       .select("id, display_name, description, media_url, firebase_media_url, post_type, created_at, business_name")
       .order("created_at", { ascending: false })

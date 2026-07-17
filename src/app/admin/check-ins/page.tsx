@@ -23,7 +23,7 @@ export default function AdminCheckInsPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("check_ins")
       .select("id, check_date, coins_earned, created_at, business:businesses(name, category), user:profiles!check_ins_user_id_fkey(name)")
       .order("created_at", { ascending: false })

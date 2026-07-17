@@ -22,7 +22,7 @@ export default function QRMenuGeneratorPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses")
       .select("id, name")
       .eq("owner_id", user.uid)

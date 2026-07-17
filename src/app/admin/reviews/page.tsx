@@ -37,7 +37,7 @@ export default function AdminReviewsPage() {
 
   function load() {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("business_reviews")
       .select("id, rating, title, body, status, created_at, business:businesses(name), profiles(name)")
       .order("created_at", { ascending: false })
@@ -52,14 +52,14 @@ export default function AdminReviewsPage() {
 
   async function setStatus(id: string, status: string) {
     const supabase = createClient()
-    await (supabase as any).from("business_reviews").update({ status }).eq("id", id)
+    await supabase.from("business_reviews").update({ status }).eq("id", id)
     setReviews(prev => prev.map(r => r.id === id ? { ...r, status } : r))
     toast({ title: `Review ${status}` })
   }
 
   async function deleteReview(id: string) {
     const supabase = createClient()
-    await (supabase as any).from("business_reviews").delete().eq("id", id)
+    await supabase.from("business_reviews").delete().eq("id", id)
     setReviews(prev => prev.filter(r => r.id !== id))
     toast({ title: "Review deleted" })
   }

@@ -38,11 +38,11 @@ export default function CheckInsPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => {
         if (!data) { setLoading(false); return }
-        ;(supabase as any)
+        ;supabase
           .from("check_ins")
           .select("id, user_id, check_date, coins_earned, created_at, profiles(name)")
           .eq("business_id", data.id)

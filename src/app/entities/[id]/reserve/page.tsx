@@ -95,7 +95,7 @@ export default function ReservePage() {
       return false;
     }
     const supabase = createClient()
-    const { error } = await (supabase as any).from("check_ins").insert({
+    const { error } = await supabase.from("check_ins").insert({
       business_id: id,
       user_id: user.uid,
     })
@@ -144,7 +144,7 @@ export default function ReservePage() {
     }
     setIsSubmitting(true);
     const supabase = createClient()
-    const { error } = await (supabase as any).from("business_reservations").insert({
+    const { error } = await supabase.from("business_reservations").insert({
       business_id: id,
       user_id: user.uid,
       guest_count: guestCount,

@@ -157,7 +157,7 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
       if (selectedType === "offer")   { metadata.discount = discount; metadata.offer_title = title }
       if (selectedType === "checkin") { metadata.location = location }
 
-      const { error: insertErr } = await (supabase as any).from("feed_posts").insert({
+      const { error: insertErr } = await supabase.from("feed_posts").insert({
         owner_id: user.uid,
         display_name: user.name || "Halal Hub Member",
         description: text.trim() || null,

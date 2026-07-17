@@ -32,7 +32,7 @@ export default function CreatorsPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("creators")
       .select("id, display_name, bio, avatar_url, cover_url, category, follower_count")
       .eq("status", "active")

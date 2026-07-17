@@ -31,7 +31,7 @@ export default function MosqueSalatPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses")
       .select("id, prayer_times")
       .eq("owner_id", user.uid)
@@ -62,7 +62,7 @@ export default function MosqueSalatPage() {
       if (times[key]) pt[key] = times[key]
       if (iqamah[key]) pt[`iqamah_${key}`] = iqamah[key]
     }
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from("businesses")
       .update({ prayer_times: pt })
       .eq("id", bizId)

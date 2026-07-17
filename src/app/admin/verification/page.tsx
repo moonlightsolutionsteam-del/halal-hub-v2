@@ -29,7 +29,7 @@ export default function AdminVerificationCenter() {
   async function load() {
     setLoading(true)
     const supabase = createClient()
-    const { data } = await (supabase as any)
+    const { data } = await supabase
       .from("businesses")
       .select("id, name, category, subcategory, city, country, created_at, halal_verified")
       .eq("status", "pending")
@@ -43,7 +43,7 @@ export default function AdminVerificationCenter() {
   async function updateStatus(id: string, status: "active" | "rejected") {
     setActioning(id)
     const supabase = createClient()
-    await (supabase as any).from("businesses").update({ status }).eq("id", id)
+    await supabase.from("businesses").update({ status }).eq("id", id)
     await load()
     setActioning(null)
   }

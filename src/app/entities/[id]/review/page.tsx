@@ -57,7 +57,7 @@ export default function ReviewPage() {
       }
     }
 
-    const { error } = await (supabase as any).from("business_reviews").insert({
+    const { error } = await supabase.from("business_reviews").insert({
       business_id: id,
       user_id: user.uid,
       rating,

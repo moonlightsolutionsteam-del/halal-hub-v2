@@ -59,7 +59,7 @@ export default function DeliveryManagementPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => {
         if (!data) { setLoading(false); return }
@@ -70,7 +70,7 @@ export default function DeliveryManagementPage() {
 
   function loadOrders(id: string) {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("business_orders")
       .select("id, status, total_amount, created_at, profiles(name)")
       .eq("business_id", id)
@@ -86,7 +86,7 @@ export default function DeliveryManagementPage() {
     if (!bizId) return
     setUpdating(order.id)
     const supabase = createClient()
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from("business_orders").update({ status: "delivered" }).eq("id", order.id)
     setUpdating(null)
     if (error) { toast({ variant: "destructive", title: "Update failed", description: error.message }); return }

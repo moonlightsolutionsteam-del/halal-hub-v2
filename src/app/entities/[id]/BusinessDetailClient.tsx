@@ -201,7 +201,7 @@ function SetMyMosqueButton({ mosqueId, mosqueName }: { mosqueId: string; mosqueN
   useEffect(() => {
     if (!user?.uid) { setIsMine(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("user_prayer_settings")
       .select("my_mosque_id")
       .eq("user_id", user.uid)
@@ -214,7 +214,7 @@ function SetMyMosqueButton({ mosqueId, mosqueName }: { mosqueId: string; mosqueN
     setSaving(true)
     const supabase = createClient()
     const next = !isMine
-    const { error } = await (supabase as any).from("user_prayer_settings").upsert(
+    const { error } = await supabase.from("user_prayer_settings").upsert(
       { user_id: user.uid, my_mosque_id: next ? mosqueId : null, updated_at: new Date().toISOString() },
       { onConflict: "user_id" },
     )
@@ -1174,7 +1174,7 @@ export default function BusinessDetailClient({ business }: { business: Business 
       .eq("business_id", business.id)
       .then(({ count }) => { if (count != null) setCheckinCount(count) })
 
-    ;(supabase as any)
+    ;supabase
       .from("business_catalog_items")
       .select("id, title, description, price, image_url")
       .eq("business_id", business.id)

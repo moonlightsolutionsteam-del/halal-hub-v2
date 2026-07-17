@@ -37,7 +37,7 @@ export function useLoginCoins(): LoginCoinsResult | null {
     firedRef.current = true
 
     const supabase = createClient()
-    ;(supabase as any).rpc("award_login_coins", { p_date: todayISO() }).then(({ data, error }: any) => {
+    ;supabase.rpc("award_login_coins", { p_date: todayISO() }).then(({ data, error }: any) => {
       if (error || !data) return
       localStorage.setItem(storageKey, "1")
       setResult({

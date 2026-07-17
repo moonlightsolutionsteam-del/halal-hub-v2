@@ -19,7 +19,7 @@ export default function SavedProductsPage() {
   useEffect(() => {
     if (!user?.uid) { setLoaded(true); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("saved_products")
       .select("product:halal_products(id, name, brand, category, halal_status)")
       .eq("user_id", user.uid)
@@ -33,14 +33,14 @@ export default function SavedProductsPage() {
   async function remove(id: string) {
     if (!user?.uid) return
     const supabase = createClient()
-    await (supabase as any).from("saved_products").delete().eq("user_id", user.uid).eq("product_id", id)
+    await supabase.from("saved_products").delete().eq("user_id", user.uid).eq("product_id", id)
     setProducts(p => p.filter(pr => pr.id !== id))
   }
 
   async function clearAll() {
     if (!user?.uid) return
     const supabase = createClient()
-    await (supabase as any).from("saved_products").delete().eq("user_id", user.uid)
+    await supabase.from("saved_products").delete().eq("user_id", user.uid)
     setProducts([])
   }
 

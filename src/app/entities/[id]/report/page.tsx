@@ -49,7 +49,7 @@ export default function ReportPage() {
     setIsSubmitting(true);
 
     const supabase = createClient()
-    const { error } = await (supabase as any).from("contacts").insert({
+    const { error } = await supabase.from("contacts").insert({
       business_id: id,
       user_id: user?.uid ?? null,
       name: user?.name ?? "Anonymous",

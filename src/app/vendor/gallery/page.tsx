@@ -22,7 +22,7 @@ export default function VendorGalleryPage() {
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id, images").eq("owner_id", user.uid).limit(1)
+    ;supabase.from("businesses").select("id, images").eq("owner_id", user.uid).limit(1)
       .then(({ data }: { data: { id: string; images: string[] | null }[] | null }) => {
         const biz = data?.[0]
         setBusinessId(biz?.id ?? null)
@@ -34,7 +34,7 @@ export default function VendorGalleryPage() {
   async function saveImages(next: string[]) {
     if (!businessId) return
     const supabase = createClient()
-    const { error } = await (supabase as any).from("businesses").update({ images: next }).eq("id", businessId)
+    const { error } = await supabase.from("businesses").update({ images: next }).eq("id", businessId)
     if (error) {
       toast({ variant: "destructive", title: "Couldn't update gallery", description: error.message })
       return

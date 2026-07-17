@@ -52,7 +52,7 @@ export default function HalalCheckPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("halal_products")
       .select("id, name, brand, category, halal_status", { count: "exact" })
       .order("created_at", { ascending: false })
@@ -68,7 +68,7 @@ export default function HalalCheckPage() {
     const supabase = createClient()
     const q = query.trim()
     const handle = setTimeout(() => {
-      ;(supabase as any)
+      ;supabase
         .from("halal_products")
         .select("id, name, brand, category, halal_status")
         .or(`name.ilike.%${q}%,brand.ilike.%${q}%`)

@@ -89,14 +89,14 @@ export default function ScanPage() {
     stopCamera()
     setScannedCode(code)
     const supabase = createClient()
-    const { data: product } = await (supabase as any)
+    const { data: product } = await supabase
       .from("halal_products")
       .select("id")
       .eq("barcode", code)
       .maybeSingle()
 
     if (user?.uid) {
-      await (supabase as any).from("product_scans").insert({
+      await supabase.from("product_scans").insert({
         user_id: user.uid,
         barcode: code,
         product_id: product?.id ?? null,

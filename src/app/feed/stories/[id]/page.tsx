@@ -47,7 +47,7 @@ export default function StoryPage() {
     const supabase = createClient()
 
     // Try feed_posts first (user-uploaded story)
-    ;(supabase as any)
+    ;supabase
       .from("feed_posts")
       .select("id, display_name, description, media_url, place_name, post_type, created_at")
       .eq("id", id)
@@ -73,7 +73,7 @@ export default function StoryPage() {
         }
 
         // Fallback: load from businesses table
-        ;(supabase as any)
+        ;supabase
           .from("businesses")
           .select("id, name, category, image_url, logo_url, city, status")
           .eq("id", id)

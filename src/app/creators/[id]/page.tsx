@@ -40,7 +40,7 @@ export default function CreatorProfilePage() {
 
   React.useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("creators")
       .select("id, user_id, display_name, avatar_url, bio, category, cover_url, follower_count, post_count, status")
       .eq("id", id)
@@ -74,7 +74,7 @@ export default function CreatorProfilePage() {
         setCreator(mapped)
 
         if (data.user_id) {
-          ;(supabase as any)
+          ;supabase
             .from("feed_posts")
             .select("id, description, media_url, status, created_at")
             .eq("owner_id", data.user_id)

@@ -51,7 +51,7 @@ export default function UserSettingsPage() {
     setSaving(true);
     const supabase = createClient();
     const fullName = [firstName.trim(), lastName.trim()].filter(Boolean).join(" ");
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from("profiles")
       .update({ name: fullName })
       .eq("id", user.uid);

@@ -13,7 +13,7 @@ export function useSavedBusiness(businessId: string) {
   useEffect(() => {
     if (!user?.uid) { setSaved(false); setRowId(null); return }
     const supabase = createClient()
-    ;(supabase as any).from("saved_businesses").select("id")
+    ;supabase.from("saved_businesses").select("id")
       .eq("user_id", user.uid).eq("business_id", businessId).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => {
         setSaved(!!data)
@@ -25,11 +25,11 @@ export function useSavedBusiness(businessId: string) {
     if (!user?.uid) return { requiresAuth: true as const }
     const supabase = createClient()
     if (saved && rowId) {
-      const { error } = await (supabase as any).from("saved_businesses").delete().eq("id", rowId)
+      const { error } = await supabase.from("saved_businesses").delete().eq("id", rowId)
       if (!error) { setSaved(false); setRowId(null) }
       return { requiresAuth: false as const, saved: false, error }
     }
-    const { data, error } = await (supabase as any).from("saved_businesses")
+    const { data, error } = await supabase.from("saved_businesses")
       .insert({ user_id: user.uid, business_id: businessId })
       .select("id").single()
     if (!error) { setSaved(true); setRowId(data.id) }

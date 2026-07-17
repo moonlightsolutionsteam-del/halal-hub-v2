@@ -93,7 +93,7 @@ export function PrayerSettingsProvider({ children }: { children: React.ReactNode
     if (!user?.uid || loadedFromDb.current) return
     loadedFromDb.current = true
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("user_prayer_settings")
       .select("calculation_method, madhab, time_format, location_type, manual_city, manual_lat, manual_lng, fajr_reminder, dhuhr_reminder, asr_reminder, maghrib_reminder, isha_reminder, jumuah_reminder")
       .eq("user_id", user.uid)
@@ -130,7 +130,7 @@ export function PrayerSettingsProvider({ children }: { children: React.ReactNode
     if (syncTimer.current) clearTimeout(syncTimer.current)
     syncTimer.current = setTimeout(() => {
       const supabase = createClient()
-      ;(supabase as any).from("user_prayer_settings").upsert({
+      ;supabase.from("user_prayer_settings").upsert({
         user_id: user.uid,
         calculation_method: next.method,
         madhab: next.madhab,

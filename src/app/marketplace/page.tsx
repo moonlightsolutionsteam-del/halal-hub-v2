@@ -100,7 +100,7 @@ export default function MarketplacePage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("business_catalog_items")
       .select("id, title, business_name, category, price, image_url, is_available, firebase_business_id")
       .eq("is_available", true)

@@ -23,7 +23,7 @@ export default function CreateMosqueBlogPage() {
     if (!user?.uid || !title.trim()) return
     setSubmitting(true)
     const supabase = createClient()
-    await (supabase as any)
+    await supabase
       .from("community_posts")
       .insert({ title: title.trim(), content: content.trim(), category: asDraft ? "draft:blog" : "blog", author_id: user.uid })
     setSubmitting(false)

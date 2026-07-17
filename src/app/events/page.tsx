@@ -28,7 +28,7 @@ type EventRow = {
 export default async function EventsPage() {
   const supabase = await createClient()
 
-  const { data } = await (supabase as any)
+  const { data } = await supabase
     .from("business_events")
     .select("id, title, event_type, event_date, event_time, location, description, attendees, status, business:businesses(id, name, image_url)")
     .eq("status", "upcoming")

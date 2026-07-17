@@ -16,7 +16,7 @@ export default async function MosquesPage() {
 
   const supabase = await createClient()
 
-  const { data: rawMosques } = await (supabase as any)
+  const { data: rawMosques } = await supabase
     .from("businesses")
     .select("id, name, category, city, country, rating, halal_verified, image_url, logo_url, description")
     .eq("status", "active")

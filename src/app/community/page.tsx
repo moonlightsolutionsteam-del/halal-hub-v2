@@ -56,7 +56,7 @@ export default function CommunityPage() {
   useEffect(() => {
     const supabase = createClient()
 
-    ;(supabase as any)
+    ;supabase
       .from("feed_posts")
       .select("id, display_name, description, post_type, created_at")
       .in("post_type", ["discussion", "question", "community", "post"])
@@ -69,8 +69,8 @@ export default function CommunityPage() {
 
     const oneDayAgo = new Date(Date.now() - 86400000).toISOString()
     Promise.all([
-      (supabase as any).from("profiles").select("id", { count: "exact", head: true }),
-      (supabase as any).from("feed_posts").select("id", { count: "exact", head: true }).gte("created_at", oneDayAgo),
+      supabase.from("profiles").select("id", { count: "exact", head: true }),
+      supabase.from("feed_posts").select("id", { count: "exact", head: true }).gte("created_at", oneDayAgo),
     ]).then(([{ count: members }, { count: daily }]: any[]) => {
       setStats({ members: members ?? 0, dailyPosts: daily ?? 0 })
     })

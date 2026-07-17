@@ -88,12 +88,12 @@ export default function SuperAdminCreatorsControlTower() {
   React.useEffect(() => {
     const supabase = createClient()
     Promise.all([
-      (supabase as any)
+      supabase
         .from("creators")
         .select("id, display_name, category, follower_count, post_count, status, avatar_url")
         .order("follower_count", { ascending: false })
         .limit(100),
-      (supabase as any)
+      supabase
         .from("feed_posts")
         .select("id, display_name, business_name, media_url, status, created_at")
         .order("created_at", { ascending: false })

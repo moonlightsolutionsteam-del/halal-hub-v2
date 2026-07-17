@@ -12,7 +12,7 @@ type ToastFn = (opts: { title: string; description?: string }) => void
 export async function announceNewAchievements(userId: string, toast: ToastFn) {
   const supabase = createClient()
   const since = new Date(Date.now() - 10_000).toISOString()
-  const { data } = await (supabase as any)
+  const { data } = await supabase
     .from("user_achievements")
     .select("unlocked_at, achievements(name, description, points_reward)")
     .eq("user_id", userId)

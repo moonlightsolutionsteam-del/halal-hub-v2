@@ -95,7 +95,7 @@ export default function WalletPage() {
     useEffect(() => {
       if (!user?.uid) { setLedgerLoading(false); return }
       const supabase = createClient()
-      ;(supabase as any)
+      ;supabase
         .from("points_ledger")
         .select("id, delta, reason, created_at")
         .eq("user_id", user.uid)

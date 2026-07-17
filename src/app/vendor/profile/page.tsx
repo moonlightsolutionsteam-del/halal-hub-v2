@@ -216,7 +216,7 @@ export default function VendorProfilePage() {
   React.useEffect(() => {
     if (!user?.uid) return;
     const supabase = createClient();
-    (supabase as any)
+    supabase
       .from("businesses")
       .select(
         "id, name, phone, whatsapp, description, primary_cuisine, selected_meat, selected_highlights, selected_dining, selected_amenities, selected_payment, cover_url, logo_url, images, ambience_images, menu_images, halal_cert_url"
@@ -253,7 +253,7 @@ export default function VendorProfilePage() {
     }
     setSaving(true);
     const supabase = createClient();
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from("businesses")
       .update({
         name: bizName || undefined,
@@ -281,14 +281,14 @@ export default function VendorProfilePage() {
     const supabase = createClient();
     const ext = file.name.split(".").pop() ?? "jpg";
     const filePath = `${bizId}/${pathPrefix}_${Date.now()}.${ext}`;
-    const { error } = await (supabase as any).storage
+    const { error } = await supabase.storage
       .from("business-media")
       .upload(filePath, file, { upsert: true, contentType: file.type });
     if (error) {
       toast({ title: "Upload failed", description: error.message, variant: "destructive" });
       return null;
     }
-    const { data } = (supabase as any).storage.from("business-media").getPublicUrl(filePath);
+    const { data } = supabase.storage.from("business-media").getPublicUrl(filePath);
     return data.publicUrl as string;
   };
 
@@ -299,7 +299,7 @@ export default function VendorProfilePage() {
     const url = await uploadToStorage(file, "cover");
     if (url) {
       const supabase = createClient();
-      await (supabase as any).from("businesses").update({ cover_url: url }).eq("id", bizId);
+      await supabase.from("businesses").update({ cover_url: url }).eq("id", bizId);
       setCoverUrl(url);
       toast({ title: "Cover photo updated!" });
     }
@@ -314,7 +314,7 @@ export default function VendorProfilePage() {
     const url = await uploadToStorage(file, "logo");
     if (url) {
       const supabase = createClient();
-      await (supabase as any).from("businesses").update({ logo_url: url }).eq("id", bizId);
+      await supabase.from("businesses").update({ logo_url: url }).eq("id", bizId);
       setLogoUrl(url);
       toast({ title: "Logo updated!" });
     }
@@ -340,7 +340,7 @@ export default function VendorProfilePage() {
       if (type === "images") { updated = [...galleryImages, ...newUrls]; setGalleryImages(updated); }
       else if (type === "menu_images") { updated = [...menuImages, ...newUrls]; setMenuImages(updated); }
       else { updated = [...ambienceImages, ...newUrls]; setAmbienceImages(updated); }
-      await (supabase as any).from("businesses").update({ [type]: updated }).eq("id", bizId);
+      await supabase.from("businesses").update({ [type]: updated }).eq("id", bizId);
       toast({ title: `${newUrls.length} photo${newUrls.length > 1 ? "s" : ""} uploaded!` });
     }
     setUploadingGallery(null);
@@ -354,7 +354,7 @@ export default function VendorProfilePage() {
     if (type === "images") { updated = galleryImages.filter((u) => u !== url); setGalleryImages(updated); }
     else if (type === "menu_images") { updated = menuImages.filter((u) => u !== url); setMenuImages(updated); }
     else { updated = ambienceImages.filter((u) => u !== url); setAmbienceImages(updated); }
-    await (supabase as any).from("businesses").update({ [type]: updated }).eq("id", bizId);
+    await supabase.from("businesses").update({ [type]: updated }).eq("id", bizId);
   };
 
   const handleCertUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -364,7 +364,7 @@ export default function VendorProfilePage() {
     const url = await uploadToStorage(file, "halal-cert");
     if (url) {
       const supabase = createClient();
-      await (supabase as any).from("businesses").update({ halal_cert_url: url }).eq("id", bizId);
+      await supabase.from("businesses").update({ halal_cert_url: url }).eq("id", bizId);
       setHalalCertUrl(url);
       toast({ title: "Certificate uploaded!" });
     }
@@ -756,7 +756,7 @@ export default function VendorProfilePage() {
                     onClick={async () => {
                       if (!bizId) return;
                       const supabase = createClient();
-                      await (supabase as any).from("businesses").update({ cover_url: null }).eq("id", bizId);
+                      await supabase.from("businesses").update({ cover_url: null }).eq("id", bizId);
                       setCoverUrl("");
                     }}
                   >
@@ -802,7 +802,7 @@ export default function VendorProfilePage() {
                       onClick={async () => {
                         if (!bizId) return;
                         const supabase = createClient();
-                        await (supabase as any).from("businesses").update({ logo_url: null }).eq("id", bizId);
+                        await supabase.from("businesses").update({ logo_url: null }).eq("id", bizId);
                         setLogoUrl("");
                       }}
                     >

@@ -45,7 +45,7 @@ export default function MenuPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("business_catalog_items")
       .select("id, title, description, image_url, price")
       .eq("business_id", id)
@@ -53,7 +53,7 @@ export default function MenuPage() {
         setItems(data ?? [])
         setLoading(false)
       })
-    ;(supabase as any)
+    ;supabase
       .from("businesses")
       .select("name, phone")
       .eq("id", id)

@@ -33,7 +33,7 @@ export default function MarketingOffersPage() {
   useEffect(() => {
     if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id").eq("owner_id", user.uid).limit(1)
+    ;supabase.from("businesses").select("id").eq("owner_id", user.uid).limit(1)
       .then(({ data }: { data: { id: string }[] | null }) => {
         const biz = data?.[0]
         setBusinessId(biz?.id ?? null)
@@ -43,7 +43,7 @@ export default function MarketingOffersPage() {
 
   function loadOffers(bizId: string) {
     const supabase = createClient()
-    ;(supabase as any).from("business_offers").select("*").eq("business_id", bizId)
+    ;supabase.from("business_offers").select("*").eq("business_id", bizId)
       .order("created_at", { ascending: false })
       .then(({ data }: { data: Offer[] | null }) => setOffers(data ?? []))
   }
@@ -52,7 +52,7 @@ export default function MarketingOffersPage() {
     if (!businessId || !form.title.trim()) return
     setSaving(true)
     const supabase = createClient()
-    const { error } = await (supabase as any).from("business_offers").insert({
+    const { error } = await supabase.from("business_offers").insert({
       business_id: businessId, title: form.title, code: form.code || null,
       discount_type: form.discount_type,
       discount_value: form.discount_value ? parseFloat(form.discount_value) : null,
@@ -68,7 +68,7 @@ export default function MarketingOffersPage() {
     if (!editingOffer || !businessId) return
     setSaving(true)
     const supabase = createClient()
-    const { error } = await (supabase as any).from("business_offers").update({
+    const { error } = await supabase.from("business_offers").update({
       title: form.title, code: form.code || null, discount_type: form.discount_type,
       discount_value: form.discount_value ? parseFloat(form.discount_value) : null,
       valid_until: form.valid_until || null,
@@ -82,7 +82,7 @@ export default function MarketingOffersPage() {
   async function deleteOffer() {
     if (!deletingOffer || !businessId) return
     const supabase = createClient()
-    const { error } = await (supabase as any).from("business_offers").delete().eq("id", deletingOffer.id)
+    const { error } = await supabase.from("business_offers").delete().eq("id", deletingOffer.id)
     if (error) { toast({ variant: "destructive", title: "Couldn't delete offer", description: error.message }); return }
     setDeletingOffer(null); loadOffers(businessId)
     toast({ title: "Offer deleted" })

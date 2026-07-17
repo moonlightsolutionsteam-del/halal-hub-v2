@@ -28,7 +28,7 @@ function occasionGreeting(hijriMonth: number, hijriDay: number): string | null {
 async function weeklyStat(userId: string): Promise<string | null> {
   const supabase = createClient()
   const since = new Date(Date.now() - 7 * 86400000).toISOString()
-  const { count } = await (supabase as any)
+  const { count } = await supabase
     .from("user_activity_events")
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId)

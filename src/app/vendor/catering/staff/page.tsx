@@ -40,11 +40,11 @@ export default function CateringStaffPage() {
   React.useEffect(() => {
     if (authLoading || !user?.uid) { setLoading(false); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses").select("id").eq("owner_id", user.uid).limit(1).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => {
         if (!data) { setLoading(false); return }
-        ;(supabase as any)
+        ;supabase
           .from("business_staff")
           .select("id, name, role, phone, email, image_url")
           .eq("business_id", data.id)

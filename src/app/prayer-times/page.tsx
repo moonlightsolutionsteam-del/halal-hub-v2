@@ -108,14 +108,14 @@ export default function PrayerTimesPage() {
   useEffect(() => {
     if (!user?.uid) { setMyMosque(null); return }
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("user_prayer_settings")
       .select("my_mosque_id")
       .eq("user_id", user.uid)
       .maybeSingle()
       .then(async ({ data }: { data: any }) => {
         if (!data?.my_mosque_id) { setMyMosque(null); return }
-        const { data: mosque } = await (supabase as any)
+        const { data: mosque } = await supabase
           .from("businesses")
           .select("id, name, city, prayer_times")
           .eq("id", data.my_mosque_id)

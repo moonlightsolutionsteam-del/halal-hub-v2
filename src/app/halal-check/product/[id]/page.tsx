@@ -68,7 +68,7 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("halal_products")
       .select("id, barcode, name, brand, category, halal_status, certifications, country, ingredients, ingredient_analysis, description, manufacturer, last_verified, verification_source, alternatives")
       .eq("id", id)
@@ -79,9 +79,9 @@ export default function ProductDetailPage() {
   useEffect(() => {
     if (!product || !user?.uid) return
     const supabase = createClient()
-    ;(supabase as any).from("saved_products").select("id").eq("user_id", user.uid).eq("product_id", product.id).maybeSingle()
+    ;supabase.from("saved_products").select("id").eq("user_id", user.uid).eq("product_id", product.id).maybeSingle()
       .then(({ data }: { data: { id: string } | null }) => setSaved(!!data))
-    ;(supabase as any).from("product_views").insert({ user_id: user.uid, product_id: product.id }).then(() => {})
+    ;supabase.from("product_views").insert({ user_id: user.uid, product_id: product.id }).then(() => {})
   }, [product, user?.uid])
 
   async function toggleSave() {
@@ -91,10 +91,10 @@ export default function ProductDetailPage() {
     }
     const supabase = createClient()
     if (saved) {
-      await (supabase as any).from("saved_products").delete().eq("user_id", user.uid).eq("product_id", product.id)
+      await supabase.from("saved_products").delete().eq("user_id", user.uid).eq("product_id", product.id)
       setSaved(false)
     } else {
-      await (supabase as any).from("saved_products").insert({ user_id: user.uid, product_id: product.id })
+      await supabase.from("saved_products").insert({ user_id: user.uid, product_id: product.id })
       setSaved(true)
     }
   }
@@ -103,7 +103,7 @@ export default function ProductDetailPage() {
     if (!product) return
     setReporting(true)
     const supabase = createClient()
-    const { error } = await (supabase as any).from("contacts").insert({
+    const { error } = await supabase.from("contacts").insert({
       user_id: user?.uid ?? null,
       name: user?.name ?? "Anonymous",
       email: user?.email ?? "unknown@halalhub.app",

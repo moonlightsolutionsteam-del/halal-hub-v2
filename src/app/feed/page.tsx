@@ -295,9 +295,9 @@ function PostCard({ item }: { item: any }) {
     setLikeCount(c => next ? c + 1 : c - 1)
     const supabase = createClient()
     if (next) {
-      ;(supabase as any).from("post_reactions").upsert({ post_id: item.id, user_id: user.uid, emoji: "❤️" })
+      ;supabase.from("post_reactions").upsert({ post_id: item.id, user_id: user.uid, emoji: "❤️" })
     } else {
-      ;(supabase as any).from("post_reactions").delete().eq("post_id", item.id).eq("user_id", user.uid)
+      ;supabase.from("post_reactions").delete().eq("post_id", item.id).eq("user_id", user.uid)
     }
   }
   const isLong = (item.caption || "").length > 120
@@ -1214,7 +1214,7 @@ export default function FeedPage() {
 
   const loadPosts = React.useCallback(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("feed_posts")
       .select("id, display_name, description, media_url, firebase_media_url, business_name, place_name, post_type, metadata, created_at")
       .neq("post_type", "story")
@@ -1285,7 +1285,7 @@ export default function FeedPage() {
   React.useEffect(() => {
     loadPosts()
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("businesses")
       .select("id, name, category, image_url, logo_url, city")
       .eq("status", "active")
@@ -1294,7 +1294,7 @@ export default function FeedPage() {
         if (!data?.length) return
         setSidebarBizs(data.slice(0, 5))
       })
-    ;(supabase as any)
+    ;supabase
       .from("profiles")
       .select("id, name, photo_url, city")
       .not("name", "is", null)
@@ -1303,7 +1303,7 @@ export default function FeedPage() {
 
     // Load user-created stories from the last 24 hours
     const since = new Date(Date.now() - 86_400_000).toISOString()
-    ;(supabase as any)
+    ;supabase
       .from("feed_posts")
       .select("id, display_name, media_url, post_type, created_at")
       .eq("post_type", "story")
@@ -1679,7 +1679,7 @@ export default function FeedPage() {
         // Reload user stories in case a story was just posted
         const supabase = createClient()
         const since = new Date(Date.now() - 86_400_000).toISOString()
-        ;(supabase as any)
+        ;supabase
           .from("feed_posts")
           .select("id, display_name, media_url, post_type, created_at")
           .eq("post_type", "story")

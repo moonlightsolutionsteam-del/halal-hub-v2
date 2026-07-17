@@ -76,7 +76,7 @@ export default function UserDashboard() {
   React.useEffect(() => {
     if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any).from("businesses").select("id, name, category, status, image_url")
+    ;supabase.from("businesses").select("id, name, category, status, image_url")
       .eq("owner_id", user.uid).order("created_at", { ascending: false })
       .then(({ data }: { data: any[] | null }) => { if (data) setMyBusinesses(data) })
   }, [user?.uid])
@@ -88,19 +88,19 @@ export default function UserDashboard() {
   React.useEffect(() => {
     if (!user?.uid) return
     const supabase = createClient()
-    ;(supabase as any).from("suggestions").select("id, place_name, category, status, created_at")
+    ;supabase.from("suggestions").select("id, place_name, category, status, created_at")
       .eq("user_id", user.uid).order("created_at", { ascending: false }).limit(4)
       .then(({ data }: { data: SuggestionRow[] | null }) => { if (data) setSuggestions(data) })
-    ;(supabase as any).from("suggestions").select("id", { count: "exact", head: true })
+    ;supabase.from("suggestions").select("id", { count: "exact", head: true })
       .eq("user_id", user.uid)
       .then(({ count }: { count: number | null }) => setSuggestionCount(count ?? 0))
-    ;(supabase as any).from("check_ins").select("id", { count: "exact", head: true })
+    ;supabase.from("check_ins").select("id", { count: "exact", head: true })
       .eq("user_id", user.uid)
       .then(({ count }: { count: number | null }) => setCheckInCount(count ?? 0))
-    ;(supabase as any).from("saved_businesses").select("id", { count: "exact", head: true })
+    ;supabase.from("saved_businesses").select("id", { count: "exact", head: true })
       .eq("user_id", user.uid)
       .then(({ count }: { count: number | null }) => setSavedCount(count ?? 0))
-    ;(supabase as any).from("business_reviews").select("id, rating, body, created_at, businesses(name)")
+    ;supabase.from("business_reviews").select("id, rating, body, created_at, businesses(name)")
       .eq("user_id", user.uid).order("created_at", { ascending: false }).limit(4)
       .then(({ data }: { data: MyReviewRow[] | null }) => { if (data) setMyReviews(data) })
   }, [user?.uid])

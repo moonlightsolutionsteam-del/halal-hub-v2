@@ -47,7 +47,7 @@ function formatDate(iso: string | null): string {
 
 async function getPost(id: string): Promise<FeedPost | null> {
   const supabase = await createClient()
-  const { data } = await (supabase as any)
+  const { data } = await supabase
     .from("feed_posts")
     .select("id, description, media_url, firebase_media_url, post_type, created_at, display_name, business_name")
     .eq("id", id)
@@ -57,7 +57,7 @@ async function getPost(id: string): Promise<FeedPost | null> {
 
 async function getRelated(id: string): Promise<FeedPost[]> {
   const supabase = await createClient()
-  const { data } = await (supabase as any)
+  const { data } = await supabase
     .from("feed_posts")
     .select("id, description, media_url, firebase_media_url, post_type, created_at, display_name, business_name")
     .neq("id", id)

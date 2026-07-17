@@ -44,7 +44,7 @@ function ProductCheckerContent() {
     const q = productQuery.trim()
     setLoadingProducts(true)
     const handle = setTimeout(() => {
-      let query = (supabase as any).from("halal_products").select("id, name, brand, category, halal_status").order("name")
+      let query = supabase.from("halal_products").select("id, name, brand, category, halal_status").order("name")
       if (q) query = query.or(`name.ilike.%${q}%,brand.ilike.%${q}%,category.ilike.%${q}%,ingredients.ilike.%${q}%`)
       query.then(({ data }: { data: ProductRow[] | null }) => {
         setProductResults(data ?? [])

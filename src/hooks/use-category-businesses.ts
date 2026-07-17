@@ -42,7 +42,7 @@ export function useCategoryBusinesses<T>(
 
   useEffect(() => {
     const supabase = createClient()
-    const q = (supabase as any).from("businesses")
+    const q = supabase.from("businesses")
       .select("id, name, subcategory, city, country, rating, halal_verified, image_url, cover_url, selected_highlights, description, is_open, price_range")
       .eq("status", "active")
       .order("rating", { ascending: false })

@@ -21,12 +21,12 @@ export function useRamadanTracker(ramadanYear: number | null) {
     setLoading(true)
     const supabase = createClient()
     const [{ data: fasting }, { data: settings }] = await Promise.all([
-      (supabase as any)
+      supabase
         .from("user_ramadan_tracker")
         .select("day, status")
         .eq("user_id", user.uid)
         .eq("ramadan_year", ramadanYear),
-      (supabase as any)
+      supabase
         .from("user_prayer_settings")
         .select("khatm_juz_completed")
         .eq("user_id", user.uid)
@@ -49,7 +49,7 @@ export function useRamadanTracker(ramadanYear: number | null) {
     if (!user?.uid || !ramadanYear) return
     setFastLog((prev) => ({ ...prev, [day]: status }))
     const supabase = createClient()
-    await (supabase as any)
+    await supabase
       .from("user_ramadan_tracker")
       .upsert({ user_id: user.uid, ramadan_year: ramadanYear, day, status, marked_at: new Date().toISOString() }, { onConflict: "user_id,ramadan_year,day" })
   }, [user?.uid, ramadanYear])
@@ -58,7 +58,7 @@ export function useRamadanTracker(ramadanYear: number | null) {
     if (!user?.uid || !ramadanYear) return
     setFastLog((prev) => { const next = { ...prev }; delete next[day]; return next })
     const supabase = createClient()
-    await (supabase as any)
+    await supabase
       .from("user_ramadan_tracker")
       .delete()
       .eq("user_id", user.uid)
@@ -73,7 +73,7 @@ export function useRamadanTracker(ramadanYear: number | null) {
       if (next.has(juz)) next.delete(juz); else next.add(juz)
       const arr = Array.from(next)
       const supabase = createClient()
-      ;(supabase as any)
+      ;supabase
         .from("user_prayer_settings")
         .upsert({ user_id: user.uid, khatm_juz_completed: arr, updated_at: new Date().toISOString() }, { onConflict: "user_id" })
         .then(() => {})
