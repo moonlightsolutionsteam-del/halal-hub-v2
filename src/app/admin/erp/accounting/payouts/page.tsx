@@ -1,250 +1,220 @@
-
 "use client"
 
-import {
-  MoreHorizontal,
-  PlusCircle,
-  Search,
-  DollarSign,
-  Banknote,
-  Clock,
-  CheckCircle2,
-  Download,
-  AlertTriangle,
-  UserCheck,
-} from "lucide-react"
+import * as React from "react"
+import { MoreHorizontal, PlusCircle, Search, Wallet } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { createClient } from "@/lib/supabase/client"
+import { logErpActivity } from "@/lib/erp-logger"
 
+type Payout = {
+  id: string
+  payout_id: string | null
+  payee: string | null
+  payout_type: string | null
+  amount: number | null
+  date: string | null
+  method: string | null
+  status: string | null
+}
 
-const payoutsData = [
-  { 
-    id: "PAY-001",
-    payee: "Karim's Restaurant",
-    type: "Vendor",
-    amount: "₹12,500",
-    date: "2024-08-05",
-    method: "Bank Transfer",
-    status: "Pending"
-  },
-  { 
-    id: "PAY-002",
-    payee: "Al-Naseeb Meats",
-    type: "Vendor",
-    amount: "₹8,500",
-    date: "2024-08-05",
-    method: "UPI",
-    status: "Pending"
-  },
-  { 
-    id: "PAY-003",
-    payee: "Aisha's Kitchen",
-    type: "Creator",
-    amount: "₹5,000",
-    date: "2024-07-28",
-    method: "Bank Transfer",
-    status: "Processed"
-  },
-  { 
-    id: "PAY-004",
-    payee: "Sultan's Dine",
-    type: "Vendor",
-    amount: "₹22,000",
-    date: "2024-07-25",
-    method: "Bank Transfer",
-    status: "Failed"
-  },
-    { 
-    id: "PAY-005",
-    payee: "Jamiat Trust",
-    type: "Certification Body",
-    amount: "₹18,000",
-    date: "2024-08-02",
-    method: "Bank Transfer",
-    status: "Pending"
-  },
-];
+function getStatusVariant(s: string | null) {
+  if (s === "Paid") return "secondary"
+  if (s === "Failed") return "destructive"
+  return "outline"
+}
 
-const getStatusBadgeVariant = (status: string) => {
-    switch (status) {
-        case "Processed": return "secondary";
-        case "Pending": return "default";
-        case "Failed": return "destructive";
-        default: return "outline";
-    }
+function fmt(n: number | null) {
+  if (n == null) return "—"
+  return `₹${n.toLocaleString("en-IN")}`
 }
 
 export default function PayoutsPage() {
+  const [payouts, setPayouts] = React.useState<Payout[]>([])
+  const [loading, setLoading] = React.useState(true)
+  const [search, setSearch] = React.useState("")
+  const [statusFilter, setStatusFilter] = React.useState("all")
+  const [open, setOpen] = React.useState(false)
+  const [payee, setPayee] = React.useState("")
+  const [payoutType, setPayoutType] = React.useState("Salary")
+  const [amount, setAmount] = React.useState("")
+  const [method, setMethod] = React.useState("Bank Transfer")
+  const [date, setDate] = React.useState("")
+  const [saving, setSaving] = React.useState(false)
+
+  const refresh = async () => {
+    const supabase = createClient()
+    const { data } = await (supabase as any).from("erp_payouts").select("*").order("date", { ascending: false })
+    setPayouts(data ?? [])
+  }
+
+  React.useEffect(() => { refresh().then(() => setLoading(false)) }, [])
+
+  async function handleCreate() {
+    if (!payee.trim() || !amount) return
+    setSaving(true)
+    const supabase = createClient()
+    const nextId = `PAY-${String(payouts.length + 1).padStart(3, "0")}`
+    await (supabase as any).from("erp_payouts").insert({ payout_id: nextId, payee: payee.trim(), payout_type: payoutType, amount: parseFloat(amount), method, date: date || new Date().toISOString().split("T")[0], status: "Pending" })
+    await logErpActivity({ employeeName: "Admin", action: "payout_created", module: "accounting", recordType: "payout", recordTitle: `${nextId} - ${payee}` })
+    await refresh()
+    setSaving(false); setOpen(false)
+    setPayee(""); setAmount(""); setDate("")
+  }
+
+  async function markPaid(id: string, pid: string | null, payeeName: string | null) {
+    const supabase = createClient()
+    await (supabase as any).from("erp_payouts").update({ status: "Paid" }).eq("id", id)
+    await logErpActivity({ employeeName: "Admin", action: "payout_paid", module: "accounting", recordType: "payout", recordId: id, recordTitle: `${pid} - ${payeeName}` })
+    await refresh()
+  }
+
+  const filtered = payouts.filter(p => {
+    const ms = !search || (p.payee ?? "").toLowerCase().includes(search.toLowerCase()) || (p.payout_id ?? "").toLowerCase().includes(search.toLowerCase())
+    const mst = statusFilter === "all" || p.status === statusFilter
+    return ms && mst
+  })
+
+  const totalPaid = payouts.filter(p => p.status === "Paid").reduce((s, p) => s + (p.amount ?? 0), 0)
+  const pending = payouts.filter(p => p.status === "Pending").reduce((s, p) => s + (p.amount ?? 0), 0)
+
   return (
     <div className="space-y-6">
-        <div>
-            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Payouts Management</h1>
-            <p className="text-muted-foreground">Manage and process payouts to vendors and creators.</p>
-        </div>
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Payouts</h1>
+        <p className="text-muted-foreground">Manage salary, freelancer, and vendor payouts.</p>
+      </div>
 
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Pending Payouts</CardTitle>
-                <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">₹38,500</div>
-                <p className="text-xs text-muted-foreground">Across 3 payouts</p>
-            </CardContent>
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-medium">Total Payouts</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">{payouts.length}</div></CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Paid Out (Month)</CardTitle>
-                <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">₹78,450</div>
-                <p className="text-xs text-muted-foreground">+5% from last month</p>
-            </CardContent>
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-medium">Total Paid</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">{fmt(totalPaid)}</div></CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Avg. Payout Time</CardTitle>
-                <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">24 Hours</div>
-                <p className="text-xs text-muted-foreground">For processed requests</p>
-            </CardContent>
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-medium">Pending Amount</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold text-yellow-600">{fmt(pending)}</div></CardContent>
         </Card>
-         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Failed Payouts</CardTitle>
-                <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold text-destructive">1</div>
-                <p className="text-xs text-muted-foreground">Action required</p>
-            </CardContent>
+        <Card>
+          <CardHeader className="pb-2"><CardTitle className="text-sm font-medium">Pending Count</CardTitle></CardHeader>
+          <CardContent><div className="text-2xl font-bold">{payouts.filter(p => p.status === "Pending").length}</div></CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-            <div className="flex justify-between items-center">
-                 <CardTitle>All Payouts</CardTitle>
-                 <Button variant="outline">
-                    <Download className="mr-2 h-4 w-4" />
-                    Export Report
-                 </Button>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input placeholder="Search by payee or payout ID..." className="pl-10" />
-                </div>
-                <div className="flex gap-2">
-                    <Select>
-                        <SelectTrigger className="w-full sm:w-[180px]">
-                            <SelectValue placeholder="Filter by Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All</SelectItem>
-                            <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="processed">Processed</SelectItem>
-                            <SelectItem value="failed">Failed</SelectItem>
-                        </SelectContent>
+          <div className="flex justify-between items-center">
+            <CardTitle>All Payouts</CardTitle>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild><Button><PlusCircle className="mr-2 h-4 w-4" />New Payout</Button></DialogTrigger>
+              <DialogContent>
+                <DialogHeader><DialogTitle>Create Payout</DialogTitle></DialogHeader>
+                <div className="space-y-3 py-4">
+                  <div className="space-y-1"><Label>Payee *</Label><Input value={payee} onChange={e => setPayee(e.target.value)} placeholder="Employee or vendor name" /></div>
+                  <div className="space-y-1">
+                    <Label>Type</Label>
+                    <Select value={payoutType} onValueChange={setPayoutType}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Salary">Salary</SelectItem>
+                        <SelectItem value="Freelancer">Freelancer</SelectItem>
+                        <SelectItem value="Vendor">Vendor</SelectItem>
+                        <SelectItem value="Bonus">Bonus</SelectItem>
+                        <SelectItem value="Reimbursement">Reimbursement</SelectItem>
+                      </SelectContent>
                     </Select>
+                  </div>
+                  <div className="space-y-1"><Label>Amount (₹) *</Label><Input type="number" value={amount} onChange={e => setAmount(e.target.value)} /></div>
+                  <div className="space-y-1">
+                    <Label>Method</Label>
+                    <Select value={method} onValueChange={setMethod}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
+                        <SelectItem value="UPI">UPI</SelectItem>
+                        <SelectItem value="Cheque">Cheque</SelectItem>
+                        <SelectItem value="Cash">Cash</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1"><Label>Date</Label><Input type="date" value={date} onChange={e => setDate(e.target.value)} /></div>
                 </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+                  <Button onClick={handleCreate} disabled={saving || !payee.trim() || !amount}>{saving ? "Saving…" : "Create"}</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+          <div className="flex gap-4 mt-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search payouts..." className="pl-10" value={search} onChange={e => setSearch(e.target.value)} />
             </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="Pending">Pending</SelectItem>
+                <SelectItem value="Paid">Paid</SelectItem>
+                <SelectItem value="Failed">Failed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Payee</TableHead>
-                <TableHead className="hidden md:table-cell">Type</TableHead>
-                <TableHead className="hidden lg:table-cell">Date</TableHead>
-                <TableHead className="hidden lg:table-cell">Method</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {payoutsData.map((payout) => (
-                <TableRow key={payout.id}>
-                  <TableCell>
-                      <div className="font-medium">{payout.payee}</div>
-                      <div className="text-sm text-muted-foreground">{payout.id}</div>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant="outline">{payout.type}</Badge>
-                  </TableCell>
-                  <TableCell className="hidden lg:table-cell">{payout.date}</TableCell>
-                  <TableCell className="hidden lg:table-cell">{payout.method}</TableCell>
-                   <TableCell>
-                    <Badge variant={getStatusBadgeVariant(payout.status)}>{payout.status}</Badge>
-                   </TableCell>
-                  <TableCell className="text-right font-semibold">{payout.amount}</TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          aria-haspopup="true"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
-                        <DropdownMenuItem>View Payee Profile</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem><UserCheck className="mr-2 h-4 w-4"/>Approve Payout</DropdownMenuItem>
-                        <DropdownMenuItem><CheckCircle2 className="mr-2 h-4 w-4"/>Mark as Paid</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          Reject Payout
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
+          {loading ? (
+            <div className="flex items-center justify-center py-12"><div className="h-6 w-6 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Payee</TableHead>
+                  <TableHead className="hidden md:table-cell">Type</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden lg:table-cell">Method</TableHead>
+                  <TableHead className="hidden lg:table-cell">Date</TableHead>
+                  <TableHead><span className="sr-only">Actions</span></TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filtered.map(p => (
+                  <TableRow key={p.id}>
+                    <TableCell className="font-mono text-xs">{p.payout_id}</TableCell>
+                    <TableCell className="font-medium">{p.payee}</TableCell>
+                    <TableCell className="hidden md:table-cell">{p.payout_type}</TableCell>
+                    <TableCell className="tabular-nums font-medium">{fmt(p.amount)}</TableCell>
+                    <TableCell><Badge variant={getStatusVariant(p.status)}>{p.status}</Badge></TableCell>
+                    <TableCell className="hidden lg:table-cell">{p.method}</TableCell>
+                    <TableCell className="hidden lg:table-cell text-muted-foreground">{p.date}</TableCell>
+                    <TableCell>
+                      {p.status === "Pending" && (
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild><Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => markPaid(p.id, p.payout_id, p.payee)}>Mark as Paid</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
