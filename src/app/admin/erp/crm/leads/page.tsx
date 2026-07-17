@@ -51,7 +51,7 @@ export default function LeadsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_leads").select("*").order("last_update", { ascending: false })
+    const { data } = await supabase.from("erp_leads").select("*").order("last_update", { ascending: false })
     setLeads(data ?? [])
   }
 
@@ -63,7 +63,7 @@ export default function LeadsPage() {
     if (!name.trim()) return
     setSaving(true)
     const supabase = createClient()
-    await (supabase as any).from("erp_leads").insert({ name: name.trim(), company: company || null, email: email || null, source: source || null, owner: owner || null, status: "New", last_update: new Date().toISOString() })
+    await supabase.from("erp_leads").insert({ name: name.trim(), company: company || null, email: email || null, source: source || null, owner: owner || null, status: "New", last_update: new Date().toISOString() })
     await logErpActivity({ employeeName: owner || "Admin", action: "lead_created", module: "crm", recordType: "lead", recordTitle: name })
     await refresh()
     setSaving(false)
@@ -73,7 +73,7 @@ export default function LeadsPage() {
 
   async function updateStatus(id: string, status: string, leadName: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_leads").update({ status, last_update: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_leads").update({ status, last_update: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: "lead_status_updated", module: "crm", recordType: "lead", recordId: id, recordTitle: leadName, newValue: { status } })
     await refresh()
   }

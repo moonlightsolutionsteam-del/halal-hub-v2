@@ -52,7 +52,7 @@ export default function DealsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_deals").select("*").order("last_update", { ascending: false })
+    const { data } = await supabase.from("erp_deals").select("*").order("last_update", { ascending: false })
     setDeals(data ?? [])
   }
 
@@ -63,7 +63,7 @@ export default function DealsPage() {
     setSaving(true)
     const supabase = createClient()
     const initials = owner.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
-    await (supabase as any).from("erp_deals").insert({ business_name: bizName.trim(), contact: contact || null, value: value ? parseFloat(value) : null, owner: owner || null, owner_initials: initials || null, stage: "Lead", last_update: new Date().toISOString() })
+    await supabase.from("erp_deals").insert({ business_name: bizName.trim(), contact: contact || null, value: value ? parseFloat(value) : null, owner: owner || null, owner_initials: initials || null, stage: "Lead", last_update: new Date().toISOString() })
     await logErpActivity({ employeeName: owner || "Admin", action: "deal_created", module: "crm", recordType: "deal", recordTitle: bizName })
     await refresh()
     setSaving(false); setOpen(false)
@@ -72,7 +72,7 @@ export default function DealsPage() {
 
   async function updateStage(id: string, stage: string, dealName: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_deals").update({ stage, last_update: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_deals").update({ stage, last_update: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `deal_${stage.toLowerCase().replace(/\s+/g, "_")}`, module: "crm", recordType: "deal", recordId: id, recordTitle: dealName })
     await refresh()
   }

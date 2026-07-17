@@ -49,7 +49,7 @@ export default function InvoicesPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_invoices").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_invoices").select("*").order("created_at", { ascending: false })
     setInvoices(data ?? [])
   }
 
@@ -60,7 +60,7 @@ export default function InvoicesPage() {
     setSaving(true)
     const supabase = createClient()
     const nextId = `INV-${String(invoices.length + 1).padStart(3, "0")}`
-    await (supabase as any).from("erp_invoices").insert({ invoice_id: nextId, vendor: vendor.trim(), amount: amount ? parseFloat(amount) : null, date: date || null, due_date: dueDate || null, status: "Pending" })
+    await supabase.from("erp_invoices").insert({ invoice_id: nextId, vendor: vendor.trim(), amount: amount ? parseFloat(amount) : null, date: date || null, due_date: dueDate || null, status: "Pending" })
     await logErpActivity({ employeeName: "Admin", action: "invoice_created", module: "accounting", recordType: "invoice", recordTitle: `${nextId} - ${vendor}` })
     await refresh()
     setSaving(false); setOpen(false)
@@ -69,7 +69,7 @@ export default function InvoicesPage() {
 
   async function markPaid(id: string, invId: string | null) {
     const supabase = createClient()
-    await (supabase as any).from("erp_invoices").update({ status: "Paid", updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_invoices").update({ status: "Paid", updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: "invoice_paid", module: "accounting", recordType: "invoice", recordTitle: invId ?? id })
     await refresh()
   }

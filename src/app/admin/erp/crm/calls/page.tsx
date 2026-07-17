@@ -37,7 +37,7 @@ export default function CallsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_calls").select("*").order("call_date", { ascending: false })
+    const { data } = await supabase.from("erp_calls").select("*").order("call_date", { ascending: false })
     setCalls(data ?? [])
   }
 
@@ -48,7 +48,7 @@ export default function CallsPage() {
     setSaving(true)
     const supabase = createClient()
     const initials = owner.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
-    await (supabase as any).from("erp_calls").insert({ contact: contact.trim(), account: account || null, subject: subject || null, duration: duration || null, owner: owner || null, owner_initials: initials || null, call_date: new Date().toISOString() })
+    await supabase.from("erp_calls").insert({ contact: contact.trim(), account: account || null, subject: subject || null, duration: duration || null, owner: owner || null, owner_initials: initials || null, call_date: new Date().toISOString() })
     await logErpActivity({ employeeName: owner || "Admin", action: "call_logged", module: "crm", recordType: "call", recordTitle: `${contact} - ${subject}` })
     await refresh()
     setSaving(false); setOpen(false)

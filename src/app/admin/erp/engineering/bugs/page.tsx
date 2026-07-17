@@ -59,7 +59,7 @@ export default function BugsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_bugs").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_bugs").select("*").order("created_at", { ascending: false })
     setBugs(data ?? [])
   }
 
@@ -71,7 +71,7 @@ export default function BugsPage() {
     const supabase = createClient()
     const nextId = `BUG-${String(bugs.length + 1).padStart(3, "0")}`
     const initials = assignee.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
-    await (supabase as any).from("erp_bugs").insert({ bug_id: nextId, title: title.trim(), description: desc || null, priority: bugPriority, assignee: assignee || null, assignee_initials: initials || null, module: bugModule || null, status: "Open", reported_date: new Date().toISOString().split("T")[0] })
+    await supabase.from("erp_bugs").insert({ bug_id: nextId, title: title.trim(), description: desc || null, priority: bugPriority, assignee: assignee || null, assignee_initials: initials || null, module: bugModule || null, status: "Open", reported_date: new Date().toISOString().split("T")[0] })
     await logErpActivity({ employeeName: "Admin", action: "bug_reported", module: "engineering", recordType: "bug", recordTitle: `${nextId} - ${title}` })
     await refresh()
     setSaving(false); setOpen(false)
@@ -80,7 +80,7 @@ export default function BugsPage() {
 
   async function updateStatus(id: string, status: string, bugTitle: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_bugs").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_bugs").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `bug_${status.toLowerCase().replace(" ", "_")}`, module: "engineering", recordType: "bug", recordId: id, recordTitle: bugTitle })
     await refresh()
   }

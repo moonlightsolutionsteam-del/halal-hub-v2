@@ -52,7 +52,7 @@ export default function LeaveManagementPage() {
 
   const refresh = React.useCallback(async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any)
+    const { data } = await supabase
       .from("erp_leaves")
       .select("*")
       .order("created_at", { ascending: false })
@@ -62,8 +62,8 @@ export default function LeaveManagementPage() {
   React.useEffect(() => {
     const supabase = createClient()
     Promise.all([
-      (supabase as any).from("erp_leaves").select("*").order("created_at", { ascending: false }),
-      (supabase as any).from("erp_employees").select("id, name").order("name"),
+      supabase.from("erp_leaves").select("*").order("created_at", { ascending: false }),
+      supabase.from("erp_employees").select("id, name").order("name"),
     ]).then(([lv, emp]) => {
       setLeaves(lv.data ?? [])
       setEmployees(emp.data ?? [])
@@ -73,7 +73,7 @@ export default function LeaveManagementPage() {
 
   async function updateStatus(id: string, status: string, empName: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_leaves").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_leaves").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `leave_${status.toLowerCase()}`, module: "hr", recordType: "leave", recordId: id, recordTitle: empName })
     await refresh()
   }
@@ -83,7 +83,7 @@ export default function LeaveManagementPage() {
     setSaving(true)
     const supabase = createClient()
     const emp = employees.find(e => e.id === empId)
-    await (supabase as any).from("erp_leaves").insert({
+    await supabase.from("erp_leaves").insert({
       employee_name: emp?.name,
       leave_type: leaveType,
       from_date: fromDate,

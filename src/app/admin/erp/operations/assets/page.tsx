@@ -51,7 +51,7 @@ export default function AssetsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_assets").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_assets").select("*").order("created_at", { ascending: false })
     setAssets(data ?? [])
   }
 
@@ -62,7 +62,7 @@ export default function AssetsPage() {
     setSaving(true)
     const supabase = createClient()
     const nextId = `ASSET-${String(assets.length + 1).padStart(3, "0")}`
-    await (supabase as any).from("erp_assets").insert({ asset_id: nextId, name: name.trim(), category, assigned_to: assignedTo || null, purchase_price: price ? parseFloat(price) : null, purchase_date: purchaseDate || null, status: assignedTo ? "In Use" : "Available" })
+    await supabase.from("erp_assets").insert({ asset_id: nextId, name: name.trim(), category, assigned_to: assignedTo || null, purchase_price: price ? parseFloat(price) : null, purchase_date: purchaseDate || null, status: assignedTo ? "In Use" : "Available" })
     await logErpActivity({ employeeName: "Admin", action: "asset_registered", module: "operations", recordType: "asset", recordTitle: `${nextId} - ${name}` })
     await refresh()
     setSaving(false); setOpen(false)
@@ -71,7 +71,7 @@ export default function AssetsPage() {
 
   async function updateStatus(id: string, status: string, assetName: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_assets").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_assets").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `asset_${status.toLowerCase().replace(/\s+/g, "_")}`, module: "operations", recordType: "asset", recordId: id, recordTitle: assetName })
     await refresh()
   }

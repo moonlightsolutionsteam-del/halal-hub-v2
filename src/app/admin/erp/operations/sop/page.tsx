@@ -46,7 +46,7 @@ export default function SopPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_sop_articles").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_sop_articles").select("*").order("created_at", { ascending: false })
     setArticles(data ?? [])
   }
 
@@ -59,7 +59,7 @@ export default function SopPage() {
     const prefix = category === "Knowledge Base" ? "KB" : "SOP"
     const count = articles.filter(a => (a.article_id ?? "").startsWith(prefix)).length
     const nextId = `${prefix}-${String(count + 1).padStart(3, "0")}`
-    await (supabase as any).from("erp_sop_articles").insert({ article_id: nextId, title: title.trim(), category, content: content || null, author: author || null, status: "Draft", version: "1.0", last_updated: new Date().toISOString().split("T")[0] })
+    await supabase.from("erp_sop_articles").insert({ article_id: nextId, title: title.trim(), category, content: content || null, author: author || null, status: "Draft", version: "1.0", last_updated: new Date().toISOString().split("T")[0] })
     await logErpActivity({ employeeName: author || "Admin", action: "sop_created", module: "operations", recordType: "sop", recordTitle: `${nextId} - ${title}` })
     await refresh()
     setSaving(false); setOpen(false)
@@ -68,7 +68,7 @@ export default function SopPage() {
 
   async function updateStatus(id: string, status: string, articleTitle: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_sop_articles").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_sop_articles").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `sop_${status.toLowerCase().replace(/\s+/g, "_")}`, module: "operations", recordType: "sop", recordId: id, recordTitle: articleTitle })
     await refresh()
   }

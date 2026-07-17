@@ -42,7 +42,7 @@ export default function TeamDirectoryPage() {
 
   React.useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    ;supabase
       .from("erp_employees")
       .select("id, emp_id, name, initials, department, role, status, email, manager, employment_type, join_date")
       .order("emp_id", { ascending: true })

@@ -48,7 +48,7 @@ export default function ContactsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_contacts").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_contacts").select("*").order("created_at", { ascending: false })
     setContacts(data ?? [])
   }
 
@@ -59,7 +59,7 @@ export default function ContactsPage() {
     setSaving(true)
     const supabase = createClient()
     const initials = owner.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
-    await (supabase as any).from("erp_contacts").insert({ name: name.trim(), email: email || null, phone: phone || null, account: account || null, owner: owner || null, owner_initials: initials || null, status: "Lead", last_contact: new Date().toISOString() })
+    await supabase.from("erp_contacts").insert({ name: name.trim(), email: email || null, phone: phone || null, account: account || null, owner: owner || null, owner_initials: initials || null, status: "Lead", last_contact: new Date().toISOString() })
     await logErpActivity({ employeeName: owner || "Admin", action: "contact_created", module: "crm", recordType: "contact", recordTitle: name })
     await refresh()
     setSaving(false); setOpen(false)

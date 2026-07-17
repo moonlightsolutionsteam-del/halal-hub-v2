@@ -51,7 +51,7 @@ export default function PayoutsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_payouts").select("*").order("date", { ascending: false })
+    const { data } = await supabase.from("erp_payouts").select("*").order("date", { ascending: false })
     setPayouts(data ?? [])
   }
 
@@ -62,7 +62,7 @@ export default function PayoutsPage() {
     setSaving(true)
     const supabase = createClient()
     const nextId = `PAY-${String(payouts.length + 1).padStart(3, "0")}`
-    await (supabase as any).from("erp_payouts").insert({ payout_id: nextId, payee: payee.trim(), payout_type: payoutType, amount: parseFloat(amount), method, date: date || new Date().toISOString().split("T")[0], status: "Pending" })
+    await supabase.from("erp_payouts").insert({ payout_id: nextId, payee: payee.trim(), payout_type: payoutType, amount: parseFloat(amount), method, date: date || new Date().toISOString().split("T")[0], status: "Pending" })
     await logErpActivity({ employeeName: "Admin", action: "payout_created", module: "accounting", recordType: "payout", recordTitle: `${nextId} - ${payee}` })
     await refresh()
     setSaving(false); setOpen(false)
@@ -71,7 +71,7 @@ export default function PayoutsPage() {
 
   async function markPaid(id: string, pid: string | null, payeeName: string | null) {
     const supabase = createClient()
-    await (supabase as any).from("erp_payouts").update({ status: "Paid" }).eq("id", id)
+    await supabase.from("erp_payouts").update({ status: "Paid" }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: "payout_paid", module: "accounting", recordType: "payout", recordId: id, recordTitle: `${pid} - ${payeeName}` })
     await refresh()
   }

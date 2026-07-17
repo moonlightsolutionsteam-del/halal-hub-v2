@@ -44,7 +44,7 @@ export default function RecruitmentPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_recruitment").select("*").order("posted_date", { ascending: false })
+    const { data } = await supabase.from("erp_recruitment").select("*").order("posted_date", { ascending: false })
     setJobs(data ?? [])
   }
 
@@ -54,7 +54,7 @@ export default function RecruitmentPage() {
     if (!position.trim()) return
     setSaving(true)
     const supabase = createClient()
-    await (supabase as any).from("erp_recruitment").insert({ position: position.trim(), department: department || null, status: "Open", applicants: 0, posted_date: new Date().toISOString().split("T")[0], closing_date: closingDate || null })
+    await supabase.from("erp_recruitment").insert({ position: position.trim(), department: department || null, status: "Open", applicants: 0, posted_date: new Date().toISOString().split("T")[0], closing_date: closingDate || null })
     await logErpActivity({ employeeName: "Admin", action: "job_posted", module: "hr", recordType: "recruitment", recordTitle: position })
     await refresh()
     setSaving(false); setOpen(false)
@@ -63,7 +63,7 @@ export default function RecruitmentPage() {
 
   async function updateStatus(id: string, status: string, pos: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_recruitment").update({ status }).eq("id", id)
+    await supabase.from("erp_recruitment").update({ status }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `job_${status.toLowerCase().replace(/\s+/g, "_")}`, module: "hr", recordType: "recruitment", recordId: id, recordTitle: pos })
     await refresh()
   }

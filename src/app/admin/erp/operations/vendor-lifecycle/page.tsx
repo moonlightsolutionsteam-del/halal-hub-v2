@@ -45,7 +45,7 @@ export default function VendorLifecyclePage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_vendors").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_vendors").select("*").order("created_at", { ascending: false })
     setVendors(data ?? [])
   }
 
@@ -55,7 +55,7 @@ export default function VendorLifecyclePage() {
     if (!name.trim()) return
     setSaving(true)
     const supabase = createClient()
-    await (supabase as any).from("erp_vendors").insert({ name: name.trim(), contact: contact || null, email: email || null, category: category || null, stage: "Onboarding", health: "Good", onboarded_date: new Date().toISOString().split("T")[0] })
+    await supabase.from("erp_vendors").insert({ name: name.trim(), contact: contact || null, email: email || null, category: category || null, stage: "Onboarding", health: "Good", onboarded_date: new Date().toISOString().split("T")[0] })
     await logErpActivity({ employeeName: "Admin", action: "vendor_added", module: "operations", recordType: "vendor", recordTitle: name })
     await refresh()
     setSaving(false); setOpen(false)
@@ -64,7 +64,7 @@ export default function VendorLifecyclePage() {
 
   async function updateStage(id: string, stage: string, vendorName: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_vendors").update({ stage, updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_vendors").update({ stage, updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `vendor_${stage.toLowerCase()}`, module: "operations", recordType: "vendor", recordId: id, recordTitle: vendorName })
     await refresh()
   }

@@ -48,7 +48,7 @@ export default function ReleasesPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_releases").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_releases").select("*").order("created_at", { ascending: false })
     setReleases(data ?? [])
   }
 
@@ -58,7 +58,7 @@ export default function ReleasesPage() {
     if (!version.trim()) return
     setSaving(true)
     const supabase = createClient()
-    await (supabase as any).from("erp_releases").insert({ version: version.trim(), release_type: releaseType, features: features || null, bugs_fixed: bugsFixed ? parseInt(bugsFixed) : 0, deployed_by: deployedBy || null, deployment_date: deployDate || null, status: "Planned" })
+    await supabase.from("erp_releases").insert({ version: version.trim(), release_type: releaseType, features: features || null, bugs_fixed: bugsFixed ? parseInt(bugsFixed) : 0, deployed_by: deployedBy || null, deployment_date: deployDate || null, status: "Planned" })
     await logErpActivity({ employeeName: deployedBy || "Admin", action: "release_planned", module: "engineering", recordType: "release", recordTitle: version })
     await refresh()
     setSaving(false); setOpen(false)
@@ -67,7 +67,7 @@ export default function ReleasesPage() {
 
   async function updateStatus(id: string, status: string, ver: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_releases").update({ status }).eq("id", id)
+    await supabase.from("erp_releases").update({ status }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `release_${status.toLowerCase().replace(/\s+/g, "_")}`, module: "engineering", recordType: "release", recordId: id, recordTitle: ver })
     await refresh()
   }

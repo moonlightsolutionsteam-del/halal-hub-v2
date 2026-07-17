@@ -55,7 +55,7 @@ export default function ActivityLogsPage() {
   React.useEffect(() => {
     const fetch = async () => {
       const supabase = createClient()
-      const { data } = await (supabase as any).from("erp_activity_logs").select("*").order("created_at", { ascending: false }).limit(500)
+      const { data } = await supabase.from("erp_activity_logs").select("*").order("created_at", { ascending: false }).limit(500)
       setLogs(data ?? [])
       setLoading(false)
     }

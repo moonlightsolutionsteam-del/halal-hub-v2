@@ -47,7 +47,7 @@ export default function MeetingsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_meetings").select("*").order("date_time", { ascending: false })
+    const { data } = await supabase.from("erp_meetings").select("*").order("date_time", { ascending: false })
     setMeetings(data ?? [])
   }
 
@@ -58,7 +58,7 @@ export default function MeetingsPage() {
     setSaving(true)
     const supabase = createClient()
     const initials = owner.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
-    await (supabase as any).from("erp_meetings").insert({ title: title.trim(), attendee: attendee || null, account: account || null, date_time: dateTime || null, owner: owner || null, owner_initials: initials || null, status: "Scheduled" })
+    await supabase.from("erp_meetings").insert({ title: title.trim(), attendee: attendee || null, account: account || null, date_time: dateTime || null, owner: owner || null, owner_initials: initials || null, status: "Scheduled" })
     await logErpActivity({ employeeName: owner || "Admin", action: "meeting_scheduled", module: "crm", recordType: "meeting", recordTitle: title })
     await refresh()
     setSaving(false); setOpen(false)
@@ -67,7 +67,7 @@ export default function MeetingsPage() {
 
   async function updateStatus(id: string, status: string, meetingTitle: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_meetings").update({ status }).eq("id", id)
+    await supabase.from("erp_meetings").update({ status }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `meeting_${status.toLowerCase()}`, module: "crm", recordType: "meeting", recordId: id, recordTitle: meetingTitle })
     await refresh()
   }

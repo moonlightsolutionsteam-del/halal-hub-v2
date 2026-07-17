@@ -57,7 +57,7 @@ export default function CampaignsPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_campaigns").select("*").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_campaigns").select("*").order("created_at", { ascending: false })
     setCampaigns(data ?? [])
   }
 
@@ -67,7 +67,7 @@ export default function CampaignsPage() {
     if (!cName.trim()) return
     setSaving(true)
     const supabase = createClient()
-    await (supabase as any).from("erp_campaigns").insert({ name: cName.trim(), campaign_type: cType, budget: budget ? parseFloat(budget) : null, start_date: startDate || null, status: "Draft" })
+    await supabase.from("erp_campaigns").insert({ name: cName.trim(), campaign_type: cType, budget: budget ? parseFloat(budget) : null, start_date: startDate || null, status: "Draft" })
     await logErpActivity({ employeeName: "Admin", action: "campaign_created", module: "marketing", recordType: "campaign", recordTitle: cName })
     await refresh()
     setSaving(false); setOpen(false)
@@ -76,7 +76,7 @@ export default function CampaignsPage() {
 
   async function updateStatus(id: string, status: string, name: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_campaigns").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_campaigns").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `campaign_${status.toLowerCase()}`, module: "marketing", recordType: "campaign", recordId: id, recordTitle: name })
     await refresh()
   }

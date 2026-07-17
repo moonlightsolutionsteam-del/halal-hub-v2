@@ -59,7 +59,7 @@ export default function EngineeringTasksPage() {
 
   const refresh = async () => {
     const supabase = createClient()
-    const { data } = await (supabase as any).from("erp_tasks").select("*").eq("module", "engineering").order("created_at", { ascending: false })
+    const { data } = await supabase.from("erp_tasks").select("*").eq("module", "engineering").order("created_at", { ascending: false })
     setTasks(data ?? [])
   }
 
@@ -71,7 +71,7 @@ export default function EngineeringTasksPage() {
     const supabase = createClient()
     const nextId = `TASK-${String(tasks.length + 1).padStart(3, "0")}`
     const initials = assignee.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2)
-    await (supabase as any).from("erp_tasks").insert({ task_id: nextId, title: title.trim(), description: desc || null, priority: taskPriority, assignee: assignee || null, assignee_initials: initials || null, due_date: dueDate || null, estimated_time: estTime || null, module: "engineering", status: "To Do" })
+    await supabase.from("erp_tasks").insert({ task_id: nextId, title: title.trim(), description: desc || null, priority: taskPriority, assignee: assignee || null, assignee_initials: initials || null, due_date: dueDate || null, estimated_time: estTime || null, module: "engineering", status: "To Do" })
     await logErpActivity({ employeeName: assignee || "Admin", action: "task_created", module: "engineering", recordType: "task", recordTitle: `${nextId} - ${title}` })
     await refresh()
     setSaving(false); setOpen(false)
@@ -80,7 +80,7 @@ export default function EngineeringTasksPage() {
 
   async function updateStatus(id: string, status: string, taskTitle: string) {
     const supabase = createClient()
-    await (supabase as any).from("erp_tasks").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
+    await supabase.from("erp_tasks").update({ status, updated_at: new Date().toISOString() }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `task_${status.toLowerCase().replace(/\s+/g, "_")}`, module: "engineering", recordType: "task", recordId: id, recordTitle: taskTitle })
     await refresh()
   }

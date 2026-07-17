@@ -56,8 +56,8 @@ export default function AttendancePage() {
   React.useEffect(() => {
     const supabase = createClient()
     Promise.all([
-      (supabase as any).from("erp_attendance").select("*").eq("date", today).order("employee_name"),
-      (supabase as any).from("erp_employees").select("id, name, initials").order("name"),
+      supabase.from("erp_attendance").select("*").eq("date", today).order("employee_name"),
+      supabase.from("erp_employees").select("id, name, initials").order("name"),
     ]).then(([att, emp]) => {
       setRecords(att.data ?? [])
       setEmployees(emp.data ?? [])
@@ -76,7 +76,7 @@ export default function AttendancePage() {
       const [h2, m2] = checkOut.split(":").map(Number)
       hours = Math.round(((h2 * 60 + m2) - (h1 * 60 + m1)) / 6) / 10
     }
-    await (supabase as any).from("erp_attendance").insert({
+    await supabase.from("erp_attendance").insert({
       employee_id: selectedEmpId,
       employee_name: emp?.name,
       initials: emp?.initials,
@@ -88,7 +88,7 @@ export default function AttendancePage() {
       notes: notes || null,
     })
     await logErpActivity({ employeeName: emp?.name ?? "Admin", action: "marked_attendance", module: "hr", recordType: "attendance", recordTitle: emp?.name })
-    const { data } = await (supabase as any).from("erp_attendance").select("*").eq("date", today).order("employee_name")
+    const { data } = await supabase.from("erp_attendance").select("*").eq("date", today).order("employee_name")
     setRecords(data ?? [])
     setSaving(false)
     setOpen(false)

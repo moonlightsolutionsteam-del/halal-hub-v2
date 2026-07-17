@@ -11,7 +11,7 @@ export async function logErpActivity(opts: {
   newValue?: object
 }) {
   const supabase = createClient()
-  await (supabase as any).from("erp_activity_logs").insert({
+  await supabase.from("erp_activity_logs").insert({
     employee_name: opts.employeeName,
     action: opts.action,
     module: opts.module,
