@@ -347,7 +347,6 @@ export function AdminSidebar() {
       title: "Settings",
       icon: Settings,
       items: [
-        { title: "Certifications", icon: Award, url: "/admin/certifications" },
         { title: "Roles, Permissions & Security", icon: Shield, url: "/admin/roles" },
         { title: "Global Settings", icon: Sliders, url: "/admin/global-settings" },
         { title: "File Manager", icon: FolderOpen, url: "/admin/file-manager" },
@@ -493,6 +492,40 @@ export function AdminSidebar() {
                     {eventManagementGroup.items.map((sub) => (
                       <SidebarMenuItem key={sub.title}>
                         <SidebarMenuButton asChild isActive={mounted && pathname === sub.url} className="h-9 font-bold text-muted-foreground rounded-lg hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50/50 dark:hover:bg-purple-950/30">
+                          <Link href={sub.url}>
+                            <sub.icon className="h-4 w-4 mr-3 opacity-70" />
+                            <span className="text-[13px]">{sub.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase text-muted-foreground tracking-widest mt-4 mb-2">Certifications</SidebarGroupLabel>
+          <SidebarMenu className="px-1 space-y-1">
+            <Collapsible className="group/collapsible-cert">
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton className="h-10 font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/40">
+                    <Award className="h-4 w-4 mr-3" />
+                    <span>Halal Certification</span>
+                    <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible-cert:rotate-180" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenu className="ml-4 mt-1 border-l border-amber-100 dark:border-amber-900/40">
+                    {[
+                      { title: "Body Applications", icon: CheckSquare, url: "/admin/certifications" },
+                      { title: "Platform Monitoring", icon: BarChart3, url: "/admin/certifications" },
+                    ].map((sub) => (
+                      <SidebarMenuItem key={sub.title}>
+                        <SidebarMenuButton asChild isActive={mounted && pathname === sub.url} className="h-9 font-bold text-muted-foreground rounded-lg hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-950/30">
                           <Link href={sub.url}>
                             <sub.icon className="h-4 w-4 mr-3 opacity-70" />
                             <span className="text-[13px]">{sub.title}</span>

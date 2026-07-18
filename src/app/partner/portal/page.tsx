@@ -57,7 +57,7 @@ const PARTNER_TYPES = [
     highlight: "For Halal Certification Bodies",
     description: "Manage your certification services, client businesses, and compliance reporting.",
     icon: Award,
-    url: "/admin/certification-body"
+    url: "/vendor/certification-body/dashboard"
   }
 ];
 

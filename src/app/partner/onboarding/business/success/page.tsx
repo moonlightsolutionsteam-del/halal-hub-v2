@@ -20,7 +20,7 @@ const CATEGORY_DASHBOARD: Record<string, string> = {
   healthcare: "/vendor/healthcare/dashboard",
   education: "/vendor/education/dashboard",
   media: "/vendor/media/dashboard",
-  certifier: "/admin/certification-body",
+  certifier: "/vendor/certification-body/dashboard",
 }
 
 export default function SuccessPage() {
