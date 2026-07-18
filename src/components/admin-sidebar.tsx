@@ -236,10 +236,14 @@ export function AdminSidebar() {
       ]
     },
     {
-      title: "Accounting",
-      icon: Wallet,
+      title: "Finance",
+      icon: Banknote,
       items: [
         { title: "Revenue Dashboard", icon: TrendingUp, url: "/admin/erp/accounting/revenue-dashboard" },
+        { title: "MIS Reports", icon: BarChart3, url: "/admin/erp/finance/mis-reports" },
+        { title: "Budget Management", icon: Target, url: "/admin/erp/finance/budget" },
+        { title: "Cash Flow", icon: TrendingUp, url: "/admin/erp/finance/cash-flow" },
+        { title: "Fundraising Pipeline", icon: ArrowUpRight, url: "/admin/erp/finance/fundraising" },
         { title: "Vendor Billing", icon: CreditCard, url: "/admin/erp/accounting/vendor-billing" },
         { title: "Credits Ledger", icon: Book, url: "/admin/erp/accounting/credits-ledger" },
         { title: "Invoices", icon: FileText, url: "/admin/erp/accounting/invoices" },
@@ -247,6 +251,7 @@ export function AdminSidebar() {
         { title: "Expenses", icon: Receipt, url: "/admin/erp/accounting/expenses" },
         { title: "Payouts", icon: ArrowUpRight, url: "/admin/erp/accounting/payouts" },
         { title: "Taxes & GST", icon: Percent, url: "/admin/erp/accounting/taxes-gst" },
+        { title: "TDS Management", icon: Percent, url: "/admin/erp/finance/tds" },
         { title: "Reports", icon: BarChart3, url: "/admin/erp/accounting/reports" },
         { title: "Audit Logs", icon: History, url: "/admin/erp/accounting/audit-logs" },
         { title: "Settings", icon: Settings, url: "/admin/erp/accounting/settings" },
@@ -281,17 +286,6 @@ export function AdminSidebar() {
         { title: "Tech Vendors", icon: HardDrive, url: "/admin/erp/engineering/vendors" },
         { title: "Technical Risks", icon: AlertTriangle, url: "/admin/erp/engineering/risks" },
         { title: "Systems", icon: Settings, url: "/admin/erp/engineering/settings" },
-      ]
-    },
-    {
-      title: "Finance & MIS",
-      icon: Banknote,
-      items: [
-        { title: "MIS Reports", icon: BarChart3, url: "/admin/erp/finance/mis-reports" },
-        { title: "Budget Management", icon: Target, url: "/admin/erp/finance/budget" },
-        { title: "Cash Flow", icon: TrendingUp, url: "/admin/erp/finance/cash-flow" },
-        { title: "TDS Management", icon: Percent, url: "/admin/erp/finance/tds" },
-        { title: "Fundraising Pipeline", icon: ArrowUpRight, url: "/admin/erp/finance/fundraising" },
       ]
     },
     {

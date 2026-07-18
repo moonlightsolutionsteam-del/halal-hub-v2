@@ -32,13 +32,17 @@ export default function AccountingLayout({
   return (
     <div className="space-y-6">
         <div className="space-y-1">
-          <h2 className="text-2xl sm:text-3xl font-black font-headline">Finance & Accounting</h2>
+          <h2 className="text-2xl sm:text-3xl font-black font-headline">Finance</h2>
           <p className="text-sm text-muted-foreground font-medium">
-            Manage revenue, expenses, payouts, and financial reporting.
+            Manage revenue, expenses, payouts, budgets, and financial reporting.
           </p>
         </div>
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-1">
             <NavLink href="/admin/erp/accounting/revenue-dashboard">Revenue Dashboard</NavLink>
+            <NavLink href="/admin/erp/finance/mis-reports">MIS Reports</NavLink>
+            <NavLink href="/admin/erp/finance/budget">Budget</NavLink>
+            <NavLink href="/admin/erp/finance/cash-flow">Cash Flow</NavLink>
+            <NavLink href="/admin/erp/finance/fundraising">Fundraising</NavLink>
             <NavLink href="/admin/erp/accounting/vendor-billing">Vendor Billing</NavLink>
             <NavLink href="/admin/erp/accounting/credits-ledger">Credits Ledger</NavLink>
             <NavLink href="/admin/erp/accounting/invoices">Invoices</NavLink>
@@ -46,6 +50,7 @@ export default function AccountingLayout({
             <NavLink href="/admin/erp/accounting/expenses">Expenses</NavLink>
             <NavLink href="/admin/erp/accounting/payouts">Payouts</NavLink>
             <NavLink href="/admin/erp/accounting/taxes-gst">Taxes & GST</NavLink>
+            <NavLink href="/admin/erp/finance/tds">TDS</NavLink>
             <NavLink href="/admin/erp/accounting/reports">Reports</NavLink>
             <NavLink href="/admin/erp/accounting/audit-logs">Audit Logs</NavLink>
             <NavLink href="/admin/erp/accounting/settings">Settings</NavLink>
