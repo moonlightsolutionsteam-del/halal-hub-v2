@@ -80,7 +80,10 @@ import {
   Award,
   MessageSquare,
   ShieldAlert,
-  Scale
+  Scale,
+  Banknote,
+  HeartHandshake,
+  LineChart
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -273,6 +276,60 @@ export function AdminSidebar() {
         { title: "Technical Risks", icon: AlertTriangle, url: "/admin/erp/engineering/risks" },
         { title: "Systems", icon: Settings, url: "/admin/erp/engineering/settings" },
       ]
+    },
+    {
+      title: "Finance & MIS",
+      icon: Banknote,
+      items: [
+        { title: "MIS Reports", icon: BarChart3, url: "/admin/erp/finance/mis-reports" },
+        { title: "Budget Management", icon: Target, url: "/admin/erp/finance/budget" },
+        { title: "Cash Flow", icon: TrendingUp, url: "/admin/erp/finance/cash-flow" },
+        { title: "TDS Management", icon: Percent, url: "/admin/erp/finance/tds" },
+        { title: "Fundraising Pipeline", icon: ArrowUpRight, url: "/admin/erp/finance/fundraising" },
+      ]
+    },
+    {
+      title: "Legal & Compliance",
+      icon: Scale,
+      items: [
+        { title: "Contract Repository", icon: FileText, url: "/admin/erp/legal/contracts" },
+        { title: "Compliance Calendar", icon: CalendarDays, url: "/admin/erp/legal/compliance" },
+        { title: "Legal Cases", icon: Briefcase, url: "/admin/erp/legal/cases" },
+        { title: "Policy Management", icon: ClipboardList, url: "/admin/erp/legal/policies" },
+        { title: "DPDP Compliance", icon: ShieldCheck, url: "/admin/erp/legal/dpdp" },
+      ]
+    },
+    {
+      title: "Customer Success",
+      icon: HeartHandshake,
+      items: [
+        { title: "Vendor Health Scores", icon: Target, url: "/admin/erp/cs/health-scores" },
+        { title: "Churn Prevention", icon: AlertTriangle, url: "/admin/erp/cs/churn" },
+        { title: "Vendor NPS", icon: BarChart3, url: "/admin/erp/cs/nps" },
+        { title: "Success Playbooks", icon: Book, url: "/admin/erp/cs/playbooks" },
+        { title: "Escalation Tracker", icon: LifeBuoy, url: "/admin/erp/cs/escalations" },
+      ]
+    },
+    {
+      title: "Business Intelligence",
+      icon: LineChart,
+      items: [
+        { title: "Platform KPIs", icon: LayoutGrid, url: "/admin/erp/bi/kpis" },
+        { title: "Unit Economics", icon: CircleDollarSign, url: "/admin/erp/bi/unit-economics" },
+        { title: "Cohort Analysis", icon: Users2, url: "/admin/erp/bi/cohorts" },
+        { title: "Geographic Intel", icon: MapPin, url: "/admin/erp/bi/geo" },
+        { title: "Google Analytics", icon: Globe, url: "/admin/erp/bi/google-analytics" },
+      ]
+    },
+    {
+      title: "Security & Privacy",
+      icon: ShieldAlert,
+      items: [
+        { title: "Access Logs", icon: History, url: "/admin/erp/security/access-logs" },
+        { title: "Data Privacy (DPDP)", icon: Shield, url: "/admin/erp/security/privacy" },
+        { title: "Security Incidents", icon: AlertTriangle, url: "/admin/erp/security/incidents" },
+        { title: "Permissions Audit", icon: CheckSquare, url: "/admin/erp/security/audit" },
+      ]
     }
   ];
 
@@ -290,11 +347,11 @@ export function AdminSidebar() {
       title: "Settings",
       icon: Settings,
       items: [
+        { title: "Certifications", icon: Award, url: "/admin/certifications" },
         { title: "Roles, Permissions & Security", icon: Shield, url: "/admin/roles" },
         { title: "Global Settings", icon: Sliders, url: "/admin/global-settings" },
         { title: "File Manager", icon: FolderOpen, url: "/admin/file-manager" },
         { title: "Pages", icon: FileText, url: "/admin/pages" },
-        { title: "Certifications", icon: Award, url: "/admin/certifications" },
         { title: "Enquiries", icon: MessageSquare, url: "/admin/enquiry" },
       ]
     }
