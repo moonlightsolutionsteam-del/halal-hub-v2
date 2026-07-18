@@ -1,183 +1,176 @@
-
 "use client"
 
-import {
-  MoreHorizontal,
-  PlusCircle,
-  Search,
-  Headset,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
-  FileText,
-  User,
-  ShieldAlert,
-} from "lucide-react"
+import * as React from "react"
+import { MoreHorizontal, Search, Headset, Clock, CheckCircle2, AlertTriangle, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { createClient } from "@/lib/supabase/client"
 
-const escalatedTickets = [
-  { id: "ESC-001", subject: "Vendor payment dispute", from: "Finance Team", priority: "High", status: "Open", assignedTo: "Yasar", initials: "YK" },
-  { id: "ESC-002", subject: "Harassment claim on community post", from: "Content Moderation", priority: "Critical", status: "In Progress", assignedTo: "Huzaifa", initials: "MH" },
-  { id: "ESC-003", subject: "Legal query from a business", from: "Sales Team", priority: "High", status: "Open", assignedTo: "Unassigned", initials: "?" },
-  { id: "ESC-004", subject: "Repeated API failures for Enterprise client", from: "Engineering", priority: "Medium", status: "Resolved", assignedTo: "Ovais", initials: "OV" },
-];
+type Suggestion = { id: string; place_name: string | null; category: string | null; reason: string | null; status: string | null; user_id: string | null; created_at: string | null }
 
-const kpiData = [
-    { title: "Open Escalations", value: "3", icon: <AlertTriangle /> },
-    { title: "Resolved Today", value: "1", icon: <CheckCircle2 /> },
-    { title: "Avg. Resolution Time", value: "24h", icon: <Clock /> },
-    { title: "SLA Breaches", value: "0", icon: <ShieldAlert /> },
-];
-
-const getPriorityBadgeVariant = (priority: string) => {
-    switch (priority) {
-        case "Critical":
-        case "High": return "destructive";
-        case "Medium": return "default";
-        case "Low": return "secondary";
-        default: return "outline";
-    }
+function statusVariant(s: string | null) {
+  if (s === "approved" || s === "resolved") return "secondary" as const
+  if (s === "rejected") return "destructive" as const
+  if (s === "under_review" || s === "in_review") return "default" as const
+  return "outline" as const
 }
 
-const getStatusBadgeVariant = (status: string) => {
-    switch (status) {
-        case "Resolved": return "secondary";
-        case "In Progress":
-        case "Open":
-            return "default";
-        default: return "outline";
-    }
+function statusLabel(s: string | null) {
+  if (!s) return "Pending"
+  return s.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase())
 }
 
+function fmtDate(d: string | null) {
+  if (!d) return "—"
+  try { return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) } catch { return d }
+}
 
 export default function SupportPage() {
+  const [suggestions, setSuggestions] = React.useState<Suggestion[]>([])
+  const [loading, setLoading] = React.useState(true)
+  const [search, setSearch] = React.useState("")
+  const [statusFilter, setStatusFilter] = React.useState("all")
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    supabase.from("suggestions")
+      .select("id, place_name, category, reason, status, user_id, created_at")
+      .order("created_at", { ascending: false })
+      .limit(200)
+      .then(({ data }) => { setSuggestions(data ?? []); setLoading(false) })
+  }, [])
+
+  const filtered = suggestions.filter(s => {
+    const q = search.toLowerCase()
+    const ms = !q || (s.place_name ?? "").toLowerCase().includes(q) || (s.category ?? "").toLowerCase().includes(q) || (s.reason ?? "").toLowerCase().includes(q)
+    const sf = statusFilter === "all" || (s.status ?? "pending") === statusFilter
+    return ms && sf
+  })
+
+  const open = suggestions.filter(s => !s.status || s.status === "pending" || s.status === "under_review" || s.status === "in_review")
+  const resolved = suggestions.filter(s => s.status === "approved" || s.status === "resolved")
+
+  const today = new Date().toDateString()
+  const todayCount = suggestions.filter(s => s.created_at && new Date(s.created_at).toDateString() === today).length
+
   return (
     <div className="space-y-6">
-        <div>
-            <h1 className="text-2xl sm:text-3xl font-bold font-headline">Support & Escalations</h1>
-            <p className="text-muted-foreground">Manage escalated support tickets and complex customer issues.</p>
-        </div>
+      <div>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Support & Suggestions</h1>
+        <p className="text-muted-foreground">Review and manage user-submitted place suggestions and reports.</p>
+      </div>
 
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
-        {kpiData.map((kpi, index) => (
-            <Card key={index}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">{kpi.title}</CardTitle>
-                    <div className="text-muted-foreground">{kpi.icon}</div>
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{kpi.value}</div>
-                </CardContent>
-            </Card>
-        ))}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Submissions</CardTitle><Headset className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : suggestions.length}</div>
+            <p className="text-xs text-muted-foreground">All user suggestions</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Open / In Review</CardTitle><AlertTriangle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : open.length}</div>
+            <p className="text-xs text-muted-foreground">Awaiting action</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Resolved</CardTitle><CheckCircle2 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : resolved.length}</div>
+            <p className="text-xs text-muted-foreground">Approved or closed</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Received Today</CardTitle><Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : todayCount}</div>
+            <p className="text-xs text-muted-foreground">New today</p>
+          </CardContent>
+        </Card>
       </div>
 
       <Card>
         <CardHeader>
-            <div className="flex justify-between items-center">
-                 <CardTitle>Escalated Tickets</CardTitle>
-                 <Button disabled>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Create Escalation
-                 </Button>
+          <CardTitle>All Suggestions</CardTitle>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search by place, category, or reason..." className="pl-10" value={search} onChange={e => setSearch(e.target.value)} />
             </div>
-            <div className="relative mt-4">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input placeholder="Search tickets by ID, subject, or business..." className="pl-10" />
-            </div>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-full sm:w-[180px]"><SelectValue placeholder="Status" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="under_review">Under Review</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Subject</TableHead>
-                <TableHead className="hidden md:table-cell">Escalated From</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Owner</TableHead>
-                <TableHead className="text-right">
-                  Actions
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {escalatedTickets.map((ticket) => (
-                <TableRow key={ticket.id}>
-                  <TableCell>
-                      <div className="font-medium">{ticket.subject}</div>
-                      <div className="text-sm text-muted-foreground">{ticket.id}</div>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {ticket.from}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={getPriorityBadgeVariant(ticket.priority)}>{ticket.priority}</Badge>
-                  </TableCell>
-                   <TableCell>
-                    <Badge variant={getStatusBadgeVariant(ticket.status)}>{ticket.status}</Badge>
-                   </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                        <Avatar className="h-7 w-7">
-                            <AvatarFallback>{ticket.initials}</AvatarFallback>
-                        </Avatar>
-                        <span>{ticket.assignedTo}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          aria-haspopup="true"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
-                        <DropdownMenuItem>Assign Owner</DropdownMenuItem>
-                        <DropdownMenuItem>Update Status</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive">
-                          Close Ticket
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
+          {loading ? (
+            <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Place</TableHead>
+                  <TableHead className="hidden md:table-cell">Category</TableHead>
+                  <TableHead className="hidden lg:table-cell">Reason</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden lg:table-cell">Submitted</TableHead>
+                  <TableHead><span className="sr-only">Actions</span></TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filtered.length === 0 ? (
+                  <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No suggestions found.</TableCell></TableRow>
+                ) : filtered.map(s => (
+                  <TableRow key={s.id}>
+                    <TableCell>
+                      <div className="font-medium">{s.place_name ?? "—"}</div>
+                      {s.user_id && <div className="text-xs text-muted-foreground font-mono">uid: {s.user_id.slice(0, 8)}…</div>}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{s.category ?? "—"}</TableCell>
+                    <TableCell className="hidden lg:table-cell text-sm text-muted-foreground max-w-[240px] truncate">{s.reason ?? "—"}</TableCell>
+                    <TableCell><Badge variant={statusVariant(s.status)}>{statusLabel(s.status)}</Badge></TableCell>
+                    <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{fmtDate(s.created_at)}</TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem>View Details</DropdownMenuItem>
+                          <DropdownMenuItem>Approve</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive">Reject</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
