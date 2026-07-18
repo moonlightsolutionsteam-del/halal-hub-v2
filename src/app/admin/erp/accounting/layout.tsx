@@ -10,11 +10,11 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
   const isActive = pathname.startsWith(href);
 
   return (
-    <Link 
-      href={href} 
+    <Link
+      href={href}
       className={cn(
-        "px-4 py-2 text-muted-foreground font-semibold hover:text-primary whitespace-nowrap",
-        isActive && "border-b-2 border-primary text-primary"
+        "px-4 py-1.5 text-sm font-bold text-muted-foreground hover:text-foreground whitespace-nowrap rounded-full transition-colors",
+        isActive && "bg-primary/10 text-primary"
       )}
     >
       {children}
@@ -31,13 +31,13 @@ export default function AccountingLayout({
 
   return (
     <div className="space-y-6">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Finance & Accounting</h2>
-          <p className="text-muted-foreground">
+        <div className="space-y-1">
+          <h2 className="text-2xl sm:text-3xl font-black font-headline">Finance & Accounting</h2>
+          <p className="text-sm text-muted-foreground font-medium">
             Manage revenue, expenses, payouts, and financial reporting.
           </p>
         </div>
-        <div className="flex items-center border-b overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-1">
             <NavLink href="/admin/erp/accounting/revenue-dashboard">Revenue Dashboard</NavLink>
             <NavLink href="/admin/erp/accounting/vendor-billing">Vendor Billing</NavLink>
             <NavLink href="/admin/erp/accounting/credits-ledger">Credits Ledger</NavLink>
@@ -50,7 +50,7 @@ export default function AccountingLayout({
             <NavLink href="/admin/erp/accounting/audit-logs">Audit Logs</NavLink>
             <NavLink href="/admin/erp/accounting/settings">Settings</NavLink>
         </div>
-        <div className="mt-4">
+        <div>
             {children}
         </div>
     </div>

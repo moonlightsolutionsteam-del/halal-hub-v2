@@ -10,11 +10,11 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
   const isActive = pathname.startsWith(href);
 
   return (
-    <Link 
-      href={href} 
+    <Link
+      href={href}
       className={cn(
-        "px-4 py-2 text-muted-foreground font-semibold hover:text-primary whitespace-nowrap",
-        isActive && "border-b-2 border-primary text-primary"
+        "px-4 py-1.5 text-sm font-bold text-muted-foreground hover:text-foreground whitespace-nowrap rounded-full transition-colors",
+        isActive && "bg-primary/10 text-primary"
       )}
     >
       {children}
@@ -31,20 +31,20 @@ export default function MarketingLayout({
 
   return (
     <div className="space-y-6">
-        <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">Marketing</h2>
-          <p className="text-muted-foreground">
+        <div className="space-y-1">
+          <h2 className="text-2xl sm:text-3xl font-black font-headline">Marketing</h2>
+          <p className="text-sm text-muted-foreground font-medium">
             Manage blog content, campaigns, social media, and analytics.
           </p>
         </div>
-        <div className="flex items-center border-b overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-1">
             <NavLink href="/admin/erp/marketing/dashboard">Dashboard</NavLink>
             <NavLink href="/admin/erp/marketing/blog">Blog</NavLink>
             <NavLink href="/admin/erp/marketing/campaigns">Campaigns</NavLink>
             <NavLink href="/admin/erp/marketing/social">Social Media</NavLink>
             <NavLink href="/admin/erp/marketing/analytics">Analytics</NavLink>
         </div>
-        <div className="mt-4">
+        <div>
             {children}
         </div>
     </div>
