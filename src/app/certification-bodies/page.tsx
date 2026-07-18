@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import {
   Award, Search, Globe, MapPin, CheckCircle2, Clock,
   Loader2, ShieldCheck, ArrowLeft, BadgeCheck, Mail,
-  Phone, User, MessageSquare, CalendarDays, AlertCircle
+  Phone, User, MessageSquare, CalendarDays, AlertCircle,
+  Beef, FlaskConical, Sparkles, ExternalLink
 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { logErpActivity } from "@/lib/erp-logger"
@@ -33,6 +34,14 @@ type CertBody = {
   claim_status: string
   is_pre_seeded: boolean
   recognition_expires_at: string | null
+  address: string | null
+  phone: string | null
+  email: string | null
+  website: string | null
+  contact_person: string | null
+  cert_slaughtering: boolean
+  cert_raw_material: boolean
+  cert_flavor: boolean
 }
 
 type ClaimForm = {
@@ -79,7 +88,7 @@ export default function CertificationBodiesPage() {
     const supabase = createClient()
     supabase
       .from("certification_bodies")
-      .select("id, name, country, coverage_type, certification_categories, accrediting_authority, claim_status, is_pre_seeded, recognition_expires_at")
+      .select("id, name, country, coverage_type, certification_categories, accrediting_authority, claim_status, is_pre_seeded, recognition_expires_at, address, phone, email, website, contact_person, cert_slaughtering, cert_raw_material, cert_flavor")
       .eq("status", "approved")
       .order("name")
       .then(({ data }) => {
@@ -300,6 +309,51 @@ export default function CertificationBodiesPage() {
                           {isRecognitionActive ? `Valid until ${expiryLabel}` : `Expired ${expiryLabel}`}
                         </p>
                       </div>
+                    </div>
+                  )}
+
+                  {/* Certification categories */}
+                  {(body.cert_slaughtering || body.cert_raw_material || body.cert_flavor) && (
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {body.cert_slaughtering && (
+                        <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-100 dark:bg-red-950/20 dark:text-red-400">
+                          <Beef className="h-2.5 w-2.5" /> Slaughtering
+                        </span>
+                      )}
+                      {body.cert_raw_material && (
+                        <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 dark:bg-blue-950/20 dark:text-blue-400">
+                          <FlaskConical className="h-2.5 w-2.5" /> Raw Material
+                        </span>
+                      )}
+                      {body.cert_flavor && (
+                        <span className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-100 dark:bg-green-950/20 dark:text-green-400">
+                          <Sparkles className="h-2.5 w-2.5" /> Flavor
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Contact info */}
+                  {(body.email || body.website || body.phone) && (
+                    <div className="space-y-1 pt-0.5">
+                      {body.email && (
+                        <a href={`mailto:${body.email}`} className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground hover:text-primary transition-colors group truncate">
+                          <Mail className="h-3 w-3 shrink-0 text-muted-foreground/50 group-hover:text-primary" />
+                          <span className="truncate">{body.email}</span>
+                        </a>
+                      )}
+                      {body.phone && (
+                        <a href={`tel:${body.phone}`} className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground hover:text-primary transition-colors group">
+                          <Phone className="h-3 w-3 shrink-0 text-muted-foreground/50 group-hover:text-primary" />
+                          <span>{body.phone}</span>
+                        </a>
+                      )}
+                      {body.website && (
+                        <a href={body.website.startsWith('http') ? body.website : `https://${body.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground hover:text-primary transition-colors group truncate">
+                          <ExternalLink className="h-3 w-3 shrink-0 text-muted-foreground/50 group-hover:text-primary" />
+                          <span className="truncate">{body.website}</span>
+                        </a>
+                      )}
                     </div>
                   )}
 
