@@ -72,7 +72,7 @@ const APP_STATUS_STYLES: Record<string, string> = {
   withdrawn: "bg-zinc-50 text-zinc-600 border-zinc-200",
 }
 
-const DEMO_BUSINESS_ID = "demo-business-001"
+const DEMO_BUSINESS_ID = "00000000-0000-0000-0000-000000000001"
 const DEMO_BUSINESS_NAME = "My Business"
 
 const emptyApplyForm = {
