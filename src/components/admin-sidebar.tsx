@@ -201,6 +201,12 @@ export function AdminSidebar() {
         { title: "Leaves", icon: CalendarDays, url: "/admin/erp/hr/leaves" },
         { title: "Recruitment", icon: UserPlus, url: "/admin/erp/hr/recruitment" },
         { title: "Performance", icon: BarChart3, url: "/admin/erp/hr/performance" },
+        { title: "Payroll", icon: Wallet, url: "/admin/erp/hr/payroll" },
+        { title: "Onboarding", icon: Rocket, url: "/admin/erp/hr/onboarding" },
+        { title: "Exit Management", icon: ArrowUpRight, url: "/admin/erp/hr/exit" },
+        { title: "Training & LMS", icon: GraduationCap, url: "/admin/erp/hr/training" },
+        { title: "Benefits", icon: HandCoins, url: "/admin/erp/hr/benefits" },
+        { title: "Document Vault", icon: FolderOpen, url: "/admin/erp/hr/documents" },
       ]
     },
     {

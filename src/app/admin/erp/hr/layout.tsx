@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils";
-import { ClipboardCheck, Users, LayoutDashboard, BarChart2, UserPlus, CalendarCheck, Settings } from "lucide-react";
+import { ClipboardCheck, Users, LayoutDashboard, BarChart2, UserPlus, CalendarCheck, Settings, Wallet, Rocket, ArrowUpRight, GraduationCap, HandCoins, FolderOpen } from "lucide-react";
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -36,6 +36,12 @@ export default function HRLayout({
     { href: "/admin/erp/hr/leaves", icon: <CalendarCheck className="h-4 w-4" />, label: "Leaves" },
     { href: "/admin/erp/hr/recruitment", icon: <UserPlus className="h-4 w-4" />, label: "Recruitment" },
     { href: "/admin/erp/hr/performance", icon: <BarChart2 className="h-4 w-4" />, label: "Performance" },
+    { href: "/admin/erp/hr/payroll", icon: <Wallet className="h-4 w-4" />, label: "Payroll" },
+    { href: "/admin/erp/hr/onboarding", icon: <Rocket className="h-4 w-4" />, label: "Onboarding" },
+    { href: "/admin/erp/hr/exit", icon: <ArrowUpRight className="h-4 w-4" />, label: "Exit" },
+    { href: "/admin/erp/hr/training", icon: <GraduationCap className="h-4 w-4" />, label: "Training" },
+    { href: "/admin/erp/hr/benefits", icon: <HandCoins className="h-4 w-4" />, label: "Benefits" },
+    { href: "/admin/erp/hr/documents", icon: <FolderOpen className="h-4 w-4" />, label: "Documents" },
     { href: "/admin/erp/hr/settings", icon: <Settings className="h-4 w-4" />, label: "Settings" },
   ];
 
