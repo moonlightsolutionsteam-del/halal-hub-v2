@@ -10,9 +10,7 @@ const LIGHT_ATTR  = '© <a href="https://www.openstreetmap.org/copyright">OpenSt
 const DARK_ATTR   = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com">CARTO</a>';
 
 function isDarkMode(): boolean {
-  if (document.documentElement.getAttribute("data-theme") === "dark") return true;
-  if (document.documentElement.getAttribute("data-theme") === "light") return false;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  return document.documentElement.classList.contains("dark");
 }
 
 function makePinIcon(emoji: string, color: string, L: typeof import("leaflet")) {
