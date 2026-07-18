@@ -1,80 +1,46 @@
-
 "use client"
 
-import {
-  Server,
-  Cloud,
-  HardDrive,
-  DollarSign,
-  AlertTriangle,
-  CheckCircle2,
-  TrendingUp,
-  Clock,
-  Key,
-  Webhook,
-} from "lucide-react"
+import * as React from "react"
+import { Server, Cloud, HardDrive, DollarSign, AlertTriangle, CheckCircle2, TrendingUp, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Progress } from "@/components/ui/progress"
 import { Label } from "@/components/ui/label"
+import { createClient } from "@/lib/supabase/client"
 
-const kpiData = [
-  { title: "Overall System Status", value: "All Systems Operational", icon: <CheckCircle2 className="h-4 w-4 text-green-500" />, description: "No active incidents" },
-  { title: "API Error Rate (24h)", value: "0.02%", icon: <AlertTriangle className="h-4 w-4 text-muted-foreground" />, description: "Below threshold" },
-  { title: "Estimated Monthly Cost", value: "₹45,000", icon: <DollarSign className="h-4 w-4 text-muted-foreground" />, description: "+2% from last month" },
-  { title: "Cloud Storage Used", value: "52.8 GB / 100 GB", icon: <HardDrive className="h-4 w-4 text-muted-foreground" />, description: "52.8% usage" },
-];
-
-const infraHealth = {
-    firebase: {
-        projectName: "halal-hub-prod",
-        environment: "Production",
-        errorRate: "0.01%",
-        apiLatency: "85ms"
-    },
-    gcp: {
-        projectName: "halal-hub-services",
-        environment: "Production",
-        errorRate: "0.03%",
-        apiLatency: "120ms"
-    }
-};
+type Bug = { id: string; title: string; priority: string | null; status: string | null }
 
 const thirdPartyIntegrations = [
-  { name: "Razorpay (Payment)", status: "Operational", lastFailure: "45 days ago", apiKeyExpiry: "Jan 15, 2025", webhookHealth: "Healthy" },
-  { name: "Twilio (SMS/WhatsApp)", status: "Operational", lastFailure: "12 days ago", apiKeyExpiry: "Sep 30, 2024", webhookHealth: "Healthy" },
-  { name: "Google Analytics", status: "Operational", lastFailure: "N/A", apiKeyExpiry: "N/A", webhookHealth: "N/A" },
-  { name: "Postmark (Transactional Email)", status: "Degraded Performance", lastFailure: "2 hours ago", apiKeyExpiry: "Dec 10, 2024", webhookHealth: "Delayed" },
-];
+  { name: "Supabase (DB + Auth + Storage)", status: "Operational", lastCheck: "Live", webhookHealth: "Healthy" },
+  { name: "Firebase (Legacy Auth)", status: "Operational", lastCheck: "Monitored", webhookHealth: "Healthy" },
+  { name: "Twilio (SMS/WhatsApp)", status: "Operational", lastCheck: "24h ago", webhookHealth: "Healthy" },
+  { name: "Google Analytics", status: "Operational", lastCheck: "N/A", webhookHealth: "N/A" },
+  { name: "Vercel (Hosting)", status: "Operational", lastCheck: "Live", webhookHealth: "Healthy" },
+]
 
-const getStatusBadge = (status: string) => {
-    switch (status) {
-        case "Operational":
-            return <Badge variant="secondary" className="bg-green-100 text-green-800">{status}</Badge>;
-        case "Degraded Performance":
-            return <Badge variant="default" className="bg-yellow-100 text-yellow-800">{status}</Badge>;
-        case "Outage":
-            return <Badge variant="destructive">{status}</Badge>;
-        default:
-            return <Badge variant="outline">{status}</Badge>;
-    }
-};
+function statusBadge(s: string) {
+  if (s === "Operational") return <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">{s}</Badge>
+  if (s === "Degraded Performance") return <Badge variant="default" className="bg-yellow-100 text-yellow-800">{s}</Badge>
+  return <Badge variant="destructive">{s}</Badge>
+}
 
 export default function InfrastructurePage() {
+  const [bugs, setBugs] = React.useState<Bug[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    supabase.from("erp_bugs")
+      .select("id, title, priority, status")
+      .neq("status", "Closed")
+      .in("priority", ["Critical", "High"])
+      .limit(20)
+      .then(({ data }) => { setBugs(data ?? []); setLoading(false) })
+  }, [])
+
+  const criticalBugs = bugs.filter(b => b.priority === "Critical")
+
   return (
     <div className="space-y-6">
       <div>
@@ -82,95 +48,143 @@ export default function InfrastructurePage() {
         <p className="text-muted-foreground">Monitor the health and stability of all technical services.</p>
       </div>
 
-       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
-        {kpiData.map((item) => (
-            <Card key={item.title}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
-                    <div className="text-muted-foreground">{item.icon}</div>
-                </CardHeader>
-                <CardContent>
-                    <div className="text-2xl font-bold">{item.value}</div>
-                    <p className="text-xs text-muted-foreground">{item.description}</p>
-                </CardContent>
-            </Card>
-        ))}
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">System Status</CardTitle><CheckCircle2 className="h-4 w-4 text-green-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-bold text-green-600">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : criticalBugs.length === 0 ? "Operational" : "Degraded"}</div>
+            <p className="text-xs text-muted-foreground">{loading ? "—" : criticalBugs.length > 0 ? `${criticalBugs.length} critical issues` : "No active incidents"}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Open High/Critical Bugs</CardTitle><AlertTriangle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className={`text-2xl font-bold ${bugs.length > 0 ? "text-destructive" : ""}`}>{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : bugs.length}</div>
+            <p className="text-xs text-muted-foreground">{criticalBugs.length} critical, {bugs.length - criticalBugs.length} high</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Integrations Active</CardTitle><Server className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{thirdPartyIntegrations.filter(t => t.status === "Operational").length}</div>
+            <p className="text-xs text-muted-foreground">of {thirdPartyIntegrations.length} monitored</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Cloud Storage</CardTitle><HardDrive className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">4 Buckets</div>
+            <p className="text-xs text-muted-foreground">Supabase Storage — all active</p>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid gap-4 sm:gap-6 grid-cols-2">
         <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Server className="text-primary"/> Backend Services</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                 <div className="p-4 border rounded-lg">
-                    <h3 className="font-semibold">Firebase</h3>
-                    <p className="text-sm text-muted-foreground">Project: {infraHealth.firebase.projectName} ({infraHealth.firebase.environment})</p>
-                    <div className="grid grid-cols-2 gap-2 mt-2 text-sm">
-                        <p><strong>Error Rate:</strong> {infraHealth.firebase.errorRate}</p>
-                        <p><strong>API Latency:</strong> {infraHealth.firebase.apiLatency}</p>
-                    </div>
-                 </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-semibold">Google Cloud</h3>
-                    <p className="text-sm text-muted-foreground">Project: {infraHealth.gcp.projectName} ({infraHealth.gcp.environment})</p>
-                    <div className="grid grid-cols-2 gap-2 mt-2 text-sm">
-                        <p><strong>Error Rate:</strong> {infraHealth.gcp.errorRate}</p>
-                        <p><strong>API Latency:</strong> {infraHealth.gcp.apiLatency}</p>
-                    </div>
-                 </div>
-            </CardContent>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Server className="text-primary h-5 w-5" /> Backend Services</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="p-4 border rounded-lg">
+              <h3 className="font-semibold">Supabase</h3>
+              <p className="text-sm text-muted-foreground">Project: halal-hub-prod (Production)</p>
+              <div className="grid grid-cols-2 gap-2 mt-2 text-sm">
+                <p><strong>DB:</strong> PostgreSQL (75 tables)</p>
+                <p><strong>Auth:</strong> RLS on all tables</p>
+              </div>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h3 className="font-semibold">Firebase (Legacy)</h3>
+              <p className="text-sm text-muted-foreground">Read-only — source of truth for legacy UID mapping</p>
+              <div className="grid grid-cols-2 gap-2 mt-2 text-sm">
+                <p><strong>Access:</strong> Read-only</p>
+                <p><strong>Migration:</strong> In Progress</p>
+              </div>
+            </div>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Cloud className="text-primary"/> Cloud Usage</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                <div>
-                    <Label className="text-xs font-semibold">Storage</Label>
-                    <Progress value={52.8} className="mt-1 h-3" />
-                    <p className="text-xs text-muted-foreground text-right mt-1">52.8 GB / 100 GB</p>
-                </div>
-                 <div>
-                    <Label className="text-xs font-semibold">Database</Label>
-                    <Progress value={75} className="mt-1 h-3" />
-                    <p className="text-xs text-muted-foreground text-right mt-1">75 GB / 100 GB</p>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <TrendingUp className="h-4 w-4 text-green-500" />
-                    <span>Usage trend is stable.</span>
-                </div>
-            </CardContent>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Cloud className="text-primary h-5 w-5" /> Cloud Usage</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label className="text-xs font-semibold">Supabase Storage</Label>
+              <Progress value={30} className="mt-1 h-3" />
+              <p className="text-xs text-muted-foreground text-right mt-1">4 buckets active — business-media, post-media, review-photos, proofs</p>
+            </div>
+            <div>
+              <Label className="text-xs font-semibold">Database</Label>
+              <Progress value={45} className="mt-1 h-3" />
+              <p className="text-xs text-muted-foreground text-right mt-1">75 tables — all with RLS policies</p>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              <span>Usage trend is stable.</span>
+            </div>
+          </CardContent>
         </Card>
       </div>
 
-       <Card>
-        <CardHeader>
-            <CardTitle>Third-Party Integrations</CardTitle>
-        </CardHeader>
+      {bugs.length > 0 && (
+        <Card className="border-destructive">
+          <CardHeader>
+            <CardTitle className="text-destructive flex items-center gap-2"><AlertTriangle className="h-5 w-5" /> Open Critical/High Bugs</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Severity</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {bugs.map(b => (
+                  <TableRow key={b.id}>
+                    <TableCell className="font-medium">{b.title}</TableCell>
+                    <TableCell>
+                      <Badge variant={b.priority === "Critical" ? "destructive" : "default"}>{b.priority}</Badge>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{b.status ?? "Open"}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card>
+        <CardHeader><CardTitle>Third-Party Integrations</CardTitle></CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Service</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead className="hidden md:table-cell">Last Failure</TableHead>
-                <TableHead className="hidden lg:table-cell">API Key Expiry</TableHead>
+                <TableHead className="hidden md:table-cell">Last Check</TableHead>
                 <TableHead className="hidden lg:table-cell">Webhook Health</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {thirdPartyIntegrations.map((item) => (
+              {thirdPartyIntegrations.map(item => (
                 <TableRow key={item.name}>
                   <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>
-                    {getStatusBadge(item.status)}
+                  <TableCell>{statusBadge(item.status)}</TableCell>
+                  <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{item.lastCheck}</TableCell>
+                  <TableCell className="hidden lg:table-cell">
+                    <Badge variant={item.webhookHealth === "Healthy" ? "secondary" : "outline"}>{item.webhookHealth}</Badge>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell">{item.lastFailure}</TableCell>
-                  <TableCell className="hidden lg:table-cell">{item.apiKeyExpiry}</TableCell>
-                   <TableCell className="hidden lg:table-cell">
-                        <Badge variant={item.webhookHealth === "Healthy" ? "secondary" : "default"}>{item.webhookHealth}</Badge>
-                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -1,302 +1,147 @@
-
 "use client"
 
-import {
-  MoreHorizontal,
-  PlusCircle,
-  Search,
-  ShieldAlert,
-  Clock,
-  TrendingUp,
-  UserX,
-  FileText,
-  CheckCircle2,
-  AlertTriangle,
-} from "lucide-react"
+import * as React from "react"
+import { AlertTriangle, ShieldAlert, CheckCircle2, Clock, PlusCircle, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DatePicker } from "@/components/ui/datepicker"
-import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { createClient } from "@/lib/supabase/client"
 
-const risksData = [
-  { 
-    id: "RISK-001",
-    title: "Single vendor dependency on Firebase backend",
-    type: "Vendor Dependency",
-    impact: "High",
-    likelihood: "Medium",
-    mitigationPlan: "Explore multi-cloud or alternative database solutions. Document a clear migration strategy.",
-    owner: "Ovais",
-    ownerInitials: "OV",
-    reviewDate: "2024-10-01",
-    status: "Open"
-  },
-  {
-    id: "RISK-002",
-    title: "Google Maps API key expires in 30 days",
-    type: "Infrastructure",
-    impact: "Critical",
-    likelihood: "High",
-    mitigationPlan: "Renew API key immediately and set a calendar reminder for next year.",
-    owner: "Super Admin",
-    ownerInitials: "SA",
-    reviewDate: "2024-08-15",
-    status: "Open"
-  },
-  {
-    id: "RISK-003",
-    title: "No documented rollback plan for release v2.2.0",
-    type: "Security",
-    impact: "High",
-    likelihood: "Low",
-    mitigationPlan: "Document and test rollback procedures before the next major release.",
-    owner: "Ovais",
-    ownerInitials: "OV",
-    reviewDate: "2024-09-01",
-    status: "In Progress"
-  },
-  {
-    id: "RISK-004",
-    title: "Code ownership unclear for 'legacy-payment' module",
-    type: "Vendor Dependency",
-    impact: "Medium",
-    likelihood: "High",
-    mitigationPlan: "Assign a dedicated owner and schedule knowledge transfer sessions.",
-    owner: "Unassigned",
-    ownerInitials: "?",
-    reviewDate: "2024-08-20",
-    status: "Open"
-  },
-];
+type Bug = { id: string; bug_id: string | null; title: string; description: string | null; priority: string | null; status: string | null; module: string | null; assignee: string | null; assignee_initials: string | null; reported_date: string | null }
 
-
-const getBadgeVariant = (level: string) => {
-    switch (level) {
-        case "Critical":
-        case "High": return "destructive";
-        case "Medium": return "default";
-        case "Low": return "secondary";
-        default: return "outline";
-    }
+function priorityVariant(p: string | null) {
+  if (p === "Critical") return "destructive" as const
+  if (p === "High") return "default" as const
+  return "outline" as const
 }
 
-const owners = ["Ovais", "Sheikh", "Vinayak", "Yasar", "Huzaifa", "Super Admin", "Unassigned"];
-const riskTypes = ["Vendor Dependency", "Security", "Infrastructure", "Scalability", "Legal"];
-const impactLevels = ["Critical", "High", "Medium", "Low"];
-const likelihoodLevels = ["High", "Medium", "Low"];
-const statusLevels = ["Open", "In Progress", "Mitigated", "Closed"];
+function statusVariant(s: string | null) {
+  if (s === "Closed" || s === "Resolved") return "secondary" as const
+  if (s === "In Progress") return "default" as const
+  if (s === "Blocked") return "destructive" as const
+  return "outline" as const
+}
 
-export default function TechnicalRisksPage() {
+function fmtDate(d: string | null) {
+  if (!d) return "—"
+  try { return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) } catch { return d }
+}
+
+export default function RisksPage() {
+  const [bugs, setBugs] = React.useState<Bug[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    supabase.from("erp_bugs")
+      .select("id, bug_id, title, description, priority, status, module, assignee, assignee_initials, reported_date")
+      .neq("status", "Closed")
+      .order("reported_date", { ascending: false })
+      .limit(100)
+      .then(({ data }) => { setBugs(data ?? []); setLoading(false) })
+  }, [])
+
+  const critical = bugs.filter(b => b.priority === "Critical")
+  const high = bugs.filter(b => b.priority === "High")
+  const inProgress = bugs.filter(b => b.status === "In Progress")
+  const blocked = bugs.filter(b => b.status === "Blocked")
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Technical Risk Register</h1>
-        <p className="text-muted-foreground">
-          Identify, assess, and mitigate technical risks to ensure platform stability and growth.
-        </p>
+        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Risk Register</h1>
+        <p className="text-muted-foreground">Track open engineering risks and critical issues across the platform.</p>
       </div>
 
-       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Critical/High Risks</CardTitle>
-                <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold text-destructive">3</div>
-                <p className="text-xs text-muted-foreground">Currently open</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Critical Issues</CardTitle><AlertTriangle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className={`text-2xl font-bold ${critical.length > 0 ? "text-destructive" : ""}`}>{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : critical.length}</div>
+            <p className="text-xs text-muted-foreground">Require immediate attention</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Unassigned Risks</CardTitle>
-                <UserX className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">1</div>
-                <p className="text-xs text-muted-foreground">Requires ownership</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">High Priority</CardTitle><ShieldAlert className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : high.length}</div>
+            <p className="text-xs text-muted-foreground">Elevated risk level</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Overdue for Review</CardTitle>
-                <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">0</div>
-                <p className="text-xs text-muted-foreground">All reviews up-to-date</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">In Progress</CardTitle><Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : inProgress.length}</div>
+            <p className="text-xs text-muted-foreground">Being mitigated</p>
+          </CardContent>
         </Card>
         <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Mitigated This Quarter</CardTitle>
-                <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">5</div>
-                <p className="text-xs text-muted-foreground">Successfully resolved</p>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Blocked</CardTitle><CheckCircle2 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className={`text-2xl font-bold ${blocked.length > 0 ? "text-destructive" : ""}`}>{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : blocked.length}</div>
+            <p className="text-xs text-muted-foreground">Needs unblocking</p>
+          </CardContent>
         </Card>
       </div>
-      
+
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>All Risks</CardTitle>
-             <Dialog>
-                <DialogTrigger asChild>
-                    <Button>
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Add New Risk
-                    </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                        <DialogTitle>Add New Technical Risk</DialogTitle>
-                    </DialogHeader>
-                     <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto pr-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="risk-title">Risk Title</Label>
-                            <Input id="risk-title" placeholder="A concise summary of the risk" />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                             <div className="space-y-2">
-                                <Label htmlFor="risk-type">Risk Type</Label>
-                                <Select><SelectTrigger id="risk-type"><SelectValue placeholder="Select type" /></SelectTrigger><SelectContent>{riskTypes.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent></Select>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="risk-status">Status</Label>
-                                <Select><SelectTrigger id="risk-status"><SelectValue placeholder="Set status" /></SelectTrigger><SelectContent>{statusLevels.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select>
-                            </div>
-                        </div>
-                         <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="risk-impact">Impact Level</Label>
-                                <Select><SelectTrigger id="risk-impact"><SelectValue placeholder="Select impact" /></SelectTrigger><SelectContent>{impactLevels.map(i => <SelectItem key={i} value={i}>{i}</SelectItem>)}</SelectContent></Select>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="risk-likelihood">Likelihood</Label>
-                                <Select><SelectTrigger id="risk-likelihood"><SelectValue placeholder="Select likelihood" /></SelectTrigger><SelectContent>{likelihoodLevels.map(l => <SelectItem key={l} value={l}>{l}</SelectItem>)}</SelectContent></Select>
-                            </div>
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="mitigation-plan">Mitigation Plan</Label>
-                            <Textarea id="mitigation-plan" placeholder="Describe the steps to mitigate this risk..." />
-                        </div>
-                         <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="risk-owner">Owner</Label>
-                                <Select><SelectTrigger id="risk-owner"><SelectValue placeholder="Assign an owner" /></SelectTrigger><SelectContent>{owners.map(o => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent></Select>
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Next Review Date</Label>
-                                <DatePicker />
-                            </div>
-                        </div>
-                    </div>
-                    <DialogFooter>
-                        <Button variant="outline">Cancel</Button>
-                        <Button>Save Risk</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            <CardTitle>Open Risk Items</CardTitle>
+            <Button><PlusCircle className="mr-2 h-4 w-4" />Add Risk</Button>
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Risk</TableHead>
-                <TableHead className="hidden md:table-cell">Impact</TableHead>
-                <TableHead className="hidden md:table-cell">Likelihood</TableHead>
-                <TableHead>Owner</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">
-                  Actions
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {risksData.map((risk) => (
-                <TableRow key={risk.id}>
-                  <TableCell>
-                    <div className="font-medium max-w-xs truncate">{risk.title}</div>
-                    <div className="text-xs text-muted-foreground">{risk.type}</div>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant={getBadgeVariant(risk.impact)}>{risk.impact}</Badge>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <Badge variant={getBadgeVariant(risk.likelihood)}>{risk.likelihood}</Badge>
-                  </TableCell>
-                   <TableCell>{risk.owner}</TableCell>
-                   <TableCell>
-                    <Badge variant={risk.status === 'Open' ? 'default' : 'secondary'}>{risk.status}</Badge>
-                   </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          aria-haspopup="true"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>View/Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Set Review Date</DropdownMenuItem>
-                        <DropdownMenuItem>Mark as Mitigated</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive">
-                          Close Risk
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
+          {loading ? (
+            <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Risk / Issue</TableHead>
+                  <TableHead className="hidden md:table-cell">Module</TableHead>
+                  <TableHead>Priority</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden lg:table-cell">Owner</TableHead>
+                  <TableHead className="hidden lg:table-cell">Reported</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {bugs.length === 0 ? (
+                  <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No open risk items. All clear!</TableCell></TableRow>
+                ) : bugs.map(b => (
+                  <TableRow key={b.id}>
+                    <TableCell>
+                      <div className="font-medium">{b.title}</div>
+                      {b.description && <div className="text-xs text-muted-foreground truncate max-w-[280px]">{b.description}</div>}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{b.module ?? "—"}</TableCell>
+                    <TableCell><Badge variant={priorityVariant(b.priority)}>{b.priority ?? "—"}</Badge></TableCell>
+                    <TableCell><Badge variant={statusVariant(b.status)}>{b.status ?? "Open"}</Badge></TableCell>
+                    <TableCell className="hidden lg:table-cell">
+                      {b.assignee ? (
+                        <div className="flex items-center gap-2">
+                          <Avatar className="h-6 w-6 text-xs"><AvatarFallback>{b.assignee_initials ?? b.assignee.slice(0, 2).toUpperCase()}</AvatarFallback></Avatar>
+                          <span className="text-sm">{b.assignee}</span>
+                        </div>
+                      ) : "—"}
+                    </TableCell>
+                    <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{fmtDate(b.reported_date)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
