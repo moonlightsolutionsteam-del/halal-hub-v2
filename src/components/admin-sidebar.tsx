@@ -522,6 +522,7 @@ export function AdminSidebar() {
                   <SidebarMenu className="ml-4 mt-1 border-l border-amber-100 dark:border-amber-900/40">
                     {[
                       { title: "Body Applications", icon: CheckSquare, url: "/admin/certifications" },
+                      { title: "Audit & Integrity Portal", icon: ShieldCheck, url: "/admin/certification-body" },
                       { title: "Platform Monitoring", icon: BarChart3, url: "/admin/certifications" },
                     ].map((sub) => (
                       <SidebarMenuItem key={sub.title}>
