@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { PlusCircle, TrendingUp, Star, Users, Target, Loader2 } from "lucide-react"
+import { PlusCircle, TrendingUp, Star, Users, Target, Loader2, MoreHorizontal } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { createClient } from "@/lib/supabase/client"
 import { logErpActivity } from "@/lib/erp-logger"
 
@@ -54,6 +55,13 @@ export default function PerformancePage() {
       supabase.from("erp_employees").select("id, name").eq("status", "Active").order("name"),
     ]).then(([p, e]) => { setReviews(p.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
+
+  async function updateStatus(id: string, status: string, empName: string, period: string) {
+    const supabase = createClient()
+    await supabase.from("erp_performance").update({ status }).eq("id", id)
+    await logErpActivity({ employeeName: "Admin", action: `performance_${status.toLowerCase().replace(/ /g, "_")}`, module: "hr", recordType: "performance", recordTitle: `${empName} — ${period}` })
+    load()
+  }
 
   async function handleAdd() {
     if (!empId || !period) return
@@ -189,11 +197,12 @@ export default function PerformancePage() {
                   <TableHead>Period</TableHead>
                   <TableHead>Rating</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead><span className="sr-only">Actions</span></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {reviews.length === 0 ? (
-                  <TableRow><TableCell colSpan={4} className="text-center py-6 text-muted-foreground">No reviews yet.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={5} className="text-center py-6 text-muted-foreground">No reviews yet.</TableCell></TableRow>
                 ) : reviews.slice(0, 10).map(r => (
                   <TableRow key={r.id}>
                     <TableCell>
@@ -205,6 +214,32 @@ export default function PerformancePage() {
                     <TableCell className="text-sm">{r.period ?? "—"}</TableCell>
                     <TableCell className="tabular-nums">{r.rating !== null ? `${r.rating}/5` : "—"}</TableCell>
                     <TableCell><Badge variant={statusVariant(r.status)}>{r.status ?? "Pending"}</Badge></TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Update Status</DropdownMenuLabel>
+                          {r.status !== "In Progress" && (
+                            <DropdownMenuItem onClick={() => updateStatus(r.id, "In Progress", r.employee_name ?? "", r.period ?? "")}>
+                              🔄 Mark In Progress
+                            </DropdownMenuItem>
+                          )}
+                          {r.status !== "Completed" && (
+                            <DropdownMenuItem onClick={() => updateStatus(r.id, "Completed", r.employee_name ?? "", r.period ?? "")}>
+                              ✅ Mark Completed
+                            </DropdownMenuItem>
+                          )}
+                          <DropdownMenuSeparator />
+                          {r.status !== "Pending" && (
+                            <DropdownMenuItem onClick={() => updateStatus(r.id, "Pending", r.employee_name ?? "", r.period ?? "")} className="text-muted-foreground">
+                              Revert to Pending
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
