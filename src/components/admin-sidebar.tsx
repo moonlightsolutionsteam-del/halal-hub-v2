@@ -523,7 +523,6 @@ export function AdminSidebar() {
                     {[
                       { title: "Body Applications", icon: CheckSquare, url: "/admin/certifications" },
                       { title: "Audit & Integrity Portal", icon: ShieldCheck, url: "/admin/certification-body" },
-                      { title: "Platform Monitoring", icon: BarChart3, url: "/admin/certifications" },
                     ].map((sub) => (
                       <SidebarMenuItem key={sub.title}>
                         <SidebarMenuButton asChild isActive={mounted && pathname === sub.url} className="h-9 font-bold text-muted-foreground rounded-lg hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-950/30">
