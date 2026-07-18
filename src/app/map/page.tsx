@@ -6,11 +6,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Award, Beef, BookOpen, CircleDollarSign, CookingPot,
-  HeartPulse, Landmark, Plane, School, Search,
-  ShieldCheck, ShoppingCart, Star, Utensils, PartyPopper,
-  Shirt, X, ArrowLeft, Newspaper, User, MapPin,
-  SlidersHorizontal,
+  Search, ShieldCheck, Star, X, ArrowLeft, Newspaper, MapPin, SlidersHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,26 +21,9 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { useBusinesses } from "@/hooks/use-businesses";
 import type { Business } from "@/lib/types";
-import { CATEGORY_COLORS } from "@/components/map/LeafletMap";
+import { CATEGORIES_META, businessMatchesCategories, resolveCategoryMeta } from "@/components/map/categories";
 
 const LeafletMap = dynamic(() => import("@/components/map/LeafletMap"), { ssr: false });
-
-const CATEGORIES = [
-  { id: "food_dining",          name: "Food & Dining",   icon: Utensils,          color: "#f97316" },
-  { id: "meat_shops",           name: "Meat",            icon: Beef,              color: "#ef4444" },
-  { id: "grocery",              name: "Grocery",         icon: ShoppingCart,      color: "#10b981" },
-  { id: "catering",             name: "Catering",        icon: CookingPot,        color: "#3b82f6" },
-  { id: "events_services",      name: "Events",          icon: PartyPopper,       color: "#a855f7" },
-  { id: "mosques",              name: "Mosques",         icon: Landmark,          color: "#4f46e5" },
-  { id: "travel_tourism",       name: "Travel",          icon: Plane,             color: "#f59e0b" },
-  { id: "fashion_modest",       name: "Fashion",         icon: Shirt,             color: "#ec4899" },
-  { id: "healthcare_wellness",  name: "Healthcare",      icon: HeartPulse,        color: "#14b8a6" },
-  { id: "education_training",   name: "Education",       icon: School,            color: "#8b5cf6" },
-  { id: "finance_banking",      name: "Finance",         icon: CircleDollarSign,  color: "#6366f1" },
-  { id: "bookstores",           name: "Media",           icon: BookOpen,          color: "#64748b" },
-  { id: "certification_bodies", name: "Certification",   icon: Award,             color: "#059669" },
-  { id: "creators",             name: "Creators",        icon: User,              color: "#0ea5e9" },
-];
 
 const AMENITIES = ["Parking", "Prayer Space", "Family Seating", "Wheelchair Accessible"];
 
@@ -77,7 +56,7 @@ export default function MapPage() {
 
   const filteredBusinesses = React.useMemo(() => {
     return businesses.filter(biz => {
-      if (selectedCategories.length > 0 && !selectedCategories.includes(biz.categoryId ?? "")) return false;
+      if (!businessMatchesCategories(biz, selectedCategories)) return false;
       if (rating > 0 && (biz.rating ?? 0) < rating) return false;
       if (verifiedHalal && !biz.verifiedHalal) return false;
       if (openNow && !biz.isOpen) return false;
@@ -92,8 +71,8 @@ export default function MapPage() {
   }, []);
 
   const categoryColor = selectedBusiness
-    ? (CATEGORY_COLORS[selectedBusiness.categoryId ?? ""] ?? { bg: "#6b7280" })
-    : null;
+    ? resolveCategoryMeta(selectedBusiness.categoryId ?? selectedBusiness.category ?? "").color
+    : "#6b7280";
 
   const activeFilterCount =
     selectedCategories.length +
@@ -105,7 +84,7 @@ export default function MapPage() {
   return (
     <div className="flex flex-col h-screen bg-gray-100 overflow-hidden">
       {/* Header */}
-      <header className="sticky top-0 z-[1000] flex h-14 items-center gap-3 border-b bg-white/95 backdrop-blur px-4">
+      <header className="sticky top-0 z-[1000] flex h-14 items-center gap-3 border-b bg-background/95 backdrop-blur px-4">
         <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
         </Button>
@@ -130,8 +109,7 @@ export default function MapPage() {
           style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}
         >
           <div className="flex gap-2" style={{ minWidth: "max-content" }}>
-            {CATEGORIES.map(cat => {
-              const Icon = cat.icon;
+            {CATEGORIES_META.map(cat => {
               const active = selectedCategories.includes(cat.id);
               return (
                 <button
@@ -144,7 +122,7 @@ export default function MapPage() {
                       : { backgroundColor: "#fff", color: "#374151" }
                   }
                 >
-                  <Icon className="h-3.5 w-3.5" />
+                  <span>{cat.emoji}</span>
                   {cat.name}
                 </button>
               );
@@ -182,8 +160,7 @@ export default function MapPage() {
                 <div>
                   <h3 className="font-bold mb-3">Categories</h3>
                   <div className="flex flex-wrap gap-2">
-                    {CATEGORIES.map(cat => {
-                      const Icon = cat.icon;
+                    {CATEGORIES_META.map(cat => {
                       const active = selectedCategories.includes(cat.id);
                       return (
                         <button
@@ -196,7 +173,7 @@ export default function MapPage() {
                               : { borderColor: "#e5e7eb", color: "#374151" }
                           }
                         >
-                          <Icon className="h-3.5 w-3.5" />
+                          <span>{cat.emoji}</span>
                           {cat.name}
                         </button>
                       );
@@ -273,7 +250,7 @@ export default function MapPage() {
         </div>
 
         {/* Bottom nav dock */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center gap-1 bg-white/95 backdrop-blur rounded-full shadow-xl px-2 py-1.5">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center gap-1 bg-card/95 backdrop-blur rounded-full shadow-xl px-2 py-1.5">
           <Button variant="ghost" size="icon" className="h-11 w-11 rounded-full" onClick={() => router.push("/dashboard")}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </Button>
@@ -306,7 +283,7 @@ export default function MapPage() {
               ) : (
                 <div
                   className="w-full h-16 flex items-center justify-center"
-                  style={{ backgroundColor: categoryColor?.bg ?? "#6b7280" }}
+                  style={{ backgroundColor: categoryColor }}
                 >
                   <MapPin className="h-6 w-6 text-white/50" />
                 </div>

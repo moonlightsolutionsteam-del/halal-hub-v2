@@ -2,58 +2,35 @@
 
 import { useEffect, useRef } from "react";
 import type { Business } from "@/lib/types";
+import { resolveCategoryMeta } from "./categories";
 
-export type CategoryColor = {
-  bg: string;
-  border: string;
-  text: string;
-};
+const LIGHT_TILES = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const DARK_TILES  = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+const LIGHT_ATTR  = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+const DARK_ATTR   = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com">CARTO</a>';
 
-export const CATEGORY_COLORS: Record<string, CategoryColor> = {
-  food_dining:            { bg: "#f97316", border: "#ea580c", text: "#fff" },
-  "Food & Dining":        { bg: "#f97316", border: "#ea580c", text: "#fff" },
-  restaurant:             { bg: "#f97316", border: "#ea580c", text: "#fff" },
-  meat_shops:             { bg: "#ef4444", border: "#dc2626", text: "#fff" },
-  "Meat Shops & Butchers":{ bg: "#ef4444", border: "#dc2626", text: "#fff" },
-  meat:                   { bg: "#ef4444", border: "#dc2626", text: "#fff" },
-  grocery:                { bg: "#10b981", border: "#059669", text: "#fff" },
-  catering:               { bg: "#3b82f6", border: "#2563eb", text: "#fff" },
-  events_services:        { bg: "#a855f7", border: "#9333ea", text: "#fff" },
-  events_conferences:     { bg: "#a855f7", border: "#9333ea", text: "#fff" },
-  mosques:                { bg: "#4f46e5", border: "#4338ca", text: "#fff" },
-  mosque:                 { bg: "#4f46e5", border: "#4338ca", text: "#fff" },
-  "Mosques & Islamic Centers": { bg: "#4f46e5", border: "#4338ca", text: "#fff" },
-  travel_tourism:         { bg: "#f59e0b", border: "#d97706", text: "#fff" },
-  fashion_modest:         { bg: "#ec4899", border: "#db2777", text: "#fff" },
-  cosmetics:              { bg: "#f43f5e", border: "#e11d48", text: "#fff" },
-  finance_banking:        { bg: "#6366f1", border: "#4f46e5", text: "#fff" },
-  healthcare_wellness:    { bg: "#14b8a6", border: "#0d9488", text: "#fff" },
-  education_training:     { bg: "#8b5cf6", border: "#7c3aed", text: "#fff" },
-  bookstores:             { bg: "#64748b", border: "#475569", text: "#fff" },
-  certification_bodies:   { bg: "#059669", border: "#047857", text: "#fff" },
-  creators:               { bg: "#0ea5e9", border: "#0284c7", text: "#fff" },
-};
-
-const DEFAULT_COLOR: CategoryColor = { bg: "#6b7280", border: "#4b5563", text: "#fff" };
-
-function getCategoryColor(categoryId: string): CategoryColor {
-  return CATEGORY_COLORS[categoryId] ?? DEFAULT_COLOR;
+function isDarkMode(): boolean {
+  if (document.documentElement.getAttribute("data-theme") === "dark") return true;
+  if (document.documentElement.getAttribute("data-theme") === "light") return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
-function makeDivIcon(categoryId: string, L: typeof import("leaflet")) {
-  const color = getCategoryColor(categoryId);
-  const html = `
+function makePinIcon(emoji: string, color: string, L: typeof import("leaflet")) {
+  const html = `<div style="
+      position:relative;width:36px;height:44px;
+      display:flex;flex-direction:column;align-items:center;">
     <div style="
-      width:32px;height:32px;border-radius:50%;
-      background:${color.bg};
-      border:3px solid ${color.border};
-      box-shadow:0 2px 6px rgba(0,0,0,0.35);
-      display:flex;align-items:center;justify-content:center;
-    ">
-      <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.8);"></div>
+      width:36px;height:36px;border-radius:50% 50% 50% 0;
+      transform:rotate(-45deg);background:${color};
+      box-shadow:0 3px 8px rgba(0,0,0,0.3);
+      display:flex;align-items:center;justify-content:center;">
+      <span style="transform:rotate(45deg);font-size:16px;line-height:1;">${emoji}</span>
     </div>
-  `;
-  return L.divIcon({ html, className: "", iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -20] });
+    <div style="width:0;height:0;
+      border-left:5px solid transparent;border-right:5px solid transparent;
+      border-top:8px solid ${color};margin-top:-2px;"></div>
+  </div>`;
+  return L.divIcon({ html, className: "", iconSize: [36, 44], iconAnchor: [18, 44], popupAnchor: [0, -46] });
 }
 
 interface LeafletMapProps {
@@ -63,80 +40,98 @@ interface LeafletMapProps {
   onMarkerClick?: (business: Business) => void;
 }
 
-export default function LeafletMap({ businesses, center = [20.5937, 78.9629], zoom = 5, onMarkerClick }: LeafletMapProps) {
+export default function LeafletMap({
+  businesses,
+  center = [20.5937, 78.9629],
+  zoom = 5,
+  onMarkerClick,
+}: LeafletMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<import("leaflet").Map | null>(null);
-  const markersRef = useRef<import("leaflet").Marker[]>([]);
+  const mapRef      = useRef<import("leaflet").Map | null>(null);
+  const tileRef     = useRef<import("leaflet").TileLayer | null>(null);
+  const markersRef  = useRef<import("leaflet").Marker[]>([]);
 
   useEffect(() => {
-    let L: typeof import("leaflet");
+    let cleanedUp = false;
 
-    async function init() {
-      L = (await import("leaflet")).default;
-      await import("leaflet/dist/leaflet.css");
+    (async () => {
+      const L = (await import("leaflet")).default;
+      if (cleanedUp || !containerRef.current || mapRef.current) return;
 
-      if (!containerRef.current || mapRef.current) return;
+      // Inject Leaflet CSS once
+      if (!document.querySelector('link[data-leaflet]')) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        link.setAttribute("data-leaflet", "1");
+        document.head.appendChild(link);
+      }
 
-      const map = L.map(containerRef.current, {
-        center,
-        zoom,
-        zoomControl: false,
-      });
+      const dark = isDarkMode();
+      const map = L.map(containerRef.current, { center, zoom, zoomControl: false });
+      L.control.zoom({ position: "topright" }).addTo(map);
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      const tile = L.tileLayer(dark ? DARK_TILES : LIGHT_TILES, {
+        attribution: dark ? DARK_ATTR : LIGHT_ATTR,
         maxZoom: 19,
       }).addTo(map);
 
-      // Custom zoom control top-right
-      L.control.zoom({ position: "topright" }).addTo(map);
-
       mapRef.current = map;
-    }
+      tileRef.current = tile;
 
-    init();
+      // Watch theme changes from HalalHub's theme toggle
+      const observer = new MutationObserver(() => {
+        if (!tileRef.current) return;
+        tileRef.current.setUrl(isDarkMode() ? DARK_TILES : LIGHT_TILES);
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+
+      const mq = window.matchMedia("(prefers-color-scheme: dark)");
+      const mqHandler = () => { tileRef.current?.setUrl(isDarkMode() ? DARK_TILES : LIGHT_TILES); };
+      mq.addEventListener("change", mqHandler);
+
+      (map as any)._obs = observer;
+      (map as any)._mq = mq;
+      (map as any)._mqh = mqHandler;
+    })();
 
     return () => {
+      cleanedUp = true;
       if (mapRef.current) {
+        const m = mapRef.current as any;
+        m._obs?.disconnect();
+        m._mq?.removeEventListener("change", m._mqh);
         mapRef.current.remove();
         mapRef.current = null;
+        tileRef.current = null;
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update markers when businesses change
   useEffect(() => {
-    async function updateMarkers() {
+    (async () => {
       const L = (await import("leaflet")).default;
       const map = mapRef.current;
       if (!map) return;
 
-      // Remove old markers
       markersRef.current.forEach(m => m.remove());
       markersRef.current = [];
 
       businesses.forEach(biz => {
         if (!biz.latitude || !biz.longitude) return;
-
-        const icon = makeDivIcon(biz.categoryId ?? biz.category ?? "", L);
+        const meta = resolveCategoryMeta((biz.categoryId ?? (biz as any).category) || "");
+        const icon = makePinIcon(meta.emoji, meta.color, L);
         const marker = L.marker([biz.latitude, biz.longitude], { icon }).addTo(map);
-
-        marker.on("click", () => {
-          onMarkerClick?.(biz);
-        });
-
+        marker.on("click", () => onMarkerClick?.(biz));
         markersRef.current.push(marker);
       });
 
-      // Fit bounds if we have markers
       if (markersRef.current.length > 0) {
         const group = L.featureGroup(markersRef.current);
-        map.fitBounds(group.getBounds().pad(0.2), { maxZoom: 14 });
+        map.fitBounds(group.getBounds().pad(0.25), { maxZoom: 14 });
       }
-    }
-
-    updateMarkers();
+    })();
   }, [businesses, onMarkerClick]);
 
   return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
