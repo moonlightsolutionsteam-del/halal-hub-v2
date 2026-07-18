@@ -19,8 +19,8 @@ type ExitRecord = {
   id: string; employee_name: string; department: string | null
   exit_type: string | null; last_working_day: string | null
   clearance_status: string | null; noc_issued: boolean | null
-  exit_interview_done: boolean | null; exit_interview_rating: number | null
-  notice_period: number | null; exit_reason: string | null
+  interview_done: boolean | null; interview_rating: number | null
+  notice_period_days: number | null; exit_reason: string | null
 }
 type Employee = { id: string; name: string; department: string | null }
 
@@ -57,7 +57,7 @@ export default function ExitPage() {
   function load() {
     const supabase = createClient()
     supabase.from("erp_exit_records")
-      .select("id, employee_name, department, exit_type, last_working_day, clearance_status, noc_issued, exit_interview_done, exit_interview_rating, notice_period, exit_reason")
+      .select("id, employee_name, department, exit_type, last_working_day, clearance_status, noc_issued, interview_done, interview_rating, notice_period_days, exit_reason")
       .order("last_working_day", { ascending: false }).limit(200)
       .then(({ data }) => { setRecords(data ?? []); setLoading(false) })
   }
@@ -65,7 +65,7 @@ export default function ExitPage() {
   React.useEffect(() => {
     const supabase = createClient()
     Promise.all([
-      supabase.from("erp_exit_records").select("id, employee_name, department, exit_type, last_working_day, clearance_status, noc_issued, exit_interview_done, exit_interview_rating, notice_period, exit_reason").order("last_working_day", { ascending: false }).limit(200),
+      supabase.from("erp_exit_records").select("id, employee_name, department, exit_type, last_working_day, clearance_status, noc_issued, interview_done, interview_rating, notice_period_days, exit_reason").order("last_working_day", { ascending: false }).limit(200),
       supabase.from("erp_employees").select("id, name, department").order("name"),
     ]).then(([r, e]) => { setRecords(r.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
@@ -79,9 +79,9 @@ export default function ExitPage() {
       employee_id: empId, employee_name: emp!.name,
       department: emp!.department, exit_type: exitType,
       last_working_day: lastDay,
-      notice_period: noticePeriod ? Number(noticePeriod) : null,
+      notice_period_days: noticePeriod ? Number(noticePeriod) : null,
       exit_reason: exitReason || null,
-      clearance_status: "Pending", noc_issued: false, exit_interview_done: false,
+      clearance_status: "Pending", noc_issued: false, interview_done: false,
     })
     await logErpActivity({ employeeName: "Admin", action: "exit_initiated", module: "hr", recordType: "exit", recordTitle: `${emp!.name} — ${exitType}` })
     setSaving(false); setOpen(false)
@@ -104,7 +104,7 @@ export default function ExitPage() {
 
   const cleared = records.filter(r => r.clearance_status === "Cleared")
   const pendingClearance = records.filter(r => r.clearance_status === "Pending")
-  const interviewPending = records.filter(r => !r.exit_interview_done)
+  const interviewPending = records.filter(r => !r.interview_done)
 
   return (
     <div className="space-y-6">
@@ -227,8 +227,8 @@ export default function ExitPage() {
                       {r.noc_issued ? <Badge variant="secondary">Issued</Badge> : <Badge variant="outline">Pending</Badge>}
                     </TableCell>
                     <TableCell className="hidden lg:table-cell">
-                      {r.exit_interview_done
-                        ? <span className="text-sm text-muted-foreground">{r.exit_interview_rating ? `${r.exit_interview_rating}/5 ⭐` : "Done"}</span>
+                      {r.interview_done
+                        ? <span className="text-sm text-muted-foreground">{r.interview_rating ? `${r.interview_rating}/5 ⭐` : "Done"}</span>
                         : <Badge variant="outline">Pending</Badge>}
                     </TableCell>
                     <TableCell>
@@ -248,8 +248,8 @@ export default function ExitPage() {
                               📄 Issue NOC
                             </DropdownMenuItem>
                           )}
-                          {!r.exit_interview_done && (
-                            <DropdownMenuItem onClick={() => updateField(r.id, { exit_interview_done: true, exit_interview_rating: 4 }, r.employee_name, "exit_interview_done")}>
+                          {!r.interview_done && (
+                            <DropdownMenuItem onClick={() => updateField(r.id, { interview_done: true, interview_rating: 4 }, r.employee_name, "interview_done")}>
                               🎤 Mark Interview Done
                             </DropdownMenuItem>
                           )}

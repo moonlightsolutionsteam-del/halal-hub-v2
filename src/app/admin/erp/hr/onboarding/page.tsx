@@ -16,7 +16,7 @@ import { createClient } from "@/lib/supabase/client"
 import { logErpActivity } from "@/lib/erp-logger"
 
 type Task = {
-  id: string; employee_name: string; task_name: string; category: string | null
+  id: string; employee_name: string; task: string; category: string | null
   assigned_to: string | null; due_date: string | null; status: string | null
   completed_at: string | null
 }
@@ -59,8 +59,8 @@ export default function OnboardingPage() {
 
   function load() {
     const supabase = createClient()
-    supabase.from("erp_onboarding_tasks")
-      .select("id, employee_name, task_name, category, assigned_to, due_date, status, completed_at")
+    supabase.from("erp_onboarding")
+      .select("id, employee_name, task, category, assigned_to, due_date, status, completed_at")
       .order("due_date", { ascending: true }).limit(300)
       .then(({ data }) => { setTasks(data ?? []); setLoading(false) })
   }
@@ -68,7 +68,7 @@ export default function OnboardingPage() {
   React.useEffect(() => {
     const supabase = createClient()
     Promise.all([
-      supabase.from("erp_onboarding_tasks").select("id, employee_name, task_name, category, assigned_to, due_date, status, completed_at").order("due_date", { ascending: true }).limit(300),
+      supabase.from("erp_onboarding").select("id, employee_name, task, category, assigned_to, due_date, status, completed_at").order("due_date", { ascending: true }).limit(300),
       supabase.from("erp_employees").select("id, name").eq("status", "Active").order("name"),
     ]).then(([t, e]) => { setTasks(t.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
@@ -78,9 +78,9 @@ export default function OnboardingPage() {
     setSaving(true)
     const emp = employees.find(e => e.id === empId)
     const supabase = createClient()
-    await supabase.from("erp_onboarding_tasks").insert({
+    await supabase.from("erp_onboarding").insert({
       employee_id: empId, employee_name: emp!.name,
-      task_name: taskName, category: category || null,
+      task: taskName, category: category || null,
       assigned_to: assignedTo || null, due_date: dueDate || null,
       status: "Pending",
     })
@@ -95,14 +95,14 @@ export default function OnboardingPage() {
     const update: Record<string, unknown> = { status }
     if (status === "Completed") update.completed_at = new Date().toISOString()
     else update.completed_at = null
-    await supabase.from("erp_onboarding_tasks").update(update).eq("id", id)
+    await supabase.from("erp_onboarding").update(update).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `onboarding_${status.toLowerCase().replace(/ /g, "_")}`, module: "hr", recordType: "onboarding", recordTitle: `${taskTitle} — ${empName}` })
     load()
   }
 
   const filtered = tasks.filter(t => {
     const q = search.toLowerCase()
-    return (!q || t.employee_name.toLowerCase().includes(q) || t.task_name.toLowerCase().includes(q) || (t.category ?? "").toLowerCase().includes(q)) &&
+    return (!q || t.employee_name.toLowerCase().includes(q) || t.task.toLowerCase().includes(q) || (t.category ?? "").toLowerCase().includes(q)) &&
            (statusFilter === "all" || (t.status ?? "Pending") === statusFilter)
   })
 
@@ -223,7 +223,7 @@ export default function OnboardingPage() {
                         <span className="font-medium text-sm">{t.employee_name}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="font-medium text-sm">{t.task_name}</TableCell>
+                    <TableCell className="font-medium text-sm">{t.task}</TableCell>
                     <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{t.category ?? "—"}</TableCell>
                     <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{t.assigned_to ?? "—"}</TableCell>
                     <TableCell className="hidden md:table-cell text-sm">
@@ -240,18 +240,18 @@ export default function OnboardingPage() {
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Update Status</DropdownMenuLabel>
                           {t.status !== "In Progress" && (
-                            <DropdownMenuItem onClick={() => updateStatus(t.id, "In Progress", t.employee_name, t.task_name)}>
+                            <DropdownMenuItem onClick={() => updateStatus(t.id, "In Progress", t.employee_name, t.task)}>
                               🔄 Mark In Progress
                             </DropdownMenuItem>
                           )}
                           {t.status !== "Completed" && (
-                            <DropdownMenuItem onClick={() => updateStatus(t.id, "Completed", t.employee_name, t.task_name)}>
+                            <DropdownMenuItem onClick={() => updateStatus(t.id, "Completed", t.employee_name, t.task)}>
                               ✅ Mark Completed
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuSeparator />
                           {t.status !== "Pending" && (
-                            <DropdownMenuItem onClick={() => updateStatus(t.id, "Pending", t.employee_name, t.task_name)} className="text-muted-foreground">
+                            <DropdownMenuItem onClick={() => updateStatus(t.id, "Pending", t.employee_name, t.task)} className="text-muted-foreground">
                               Revert to Pending
                             </DropdownMenuItem>
                           )}

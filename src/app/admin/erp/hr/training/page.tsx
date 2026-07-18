@@ -16,10 +16,10 @@ import { createClient } from "@/lib/supabase/client"
 import { logErpActivity } from "@/lib/erp-logger"
 
 type TrainingRecord = {
-  id: string; employee_name: string; course_title: string
-  training_type: string | null; trainer: string | null
+  id: string; employee_name: string; title: string
+  type: string | null; trainer: string | null
   duration_hours: number | null; score: number | null
-  status: string | null; due_date: string | null; completed_date: string | null
+  status: string | null; due_date: string | null; completed_at: string | null
 }
 type Employee = { id: string; name: string }
 
@@ -61,8 +61,8 @@ export default function TrainingPage() {
 
   function load() {
     const supabase = createClient()
-    supabase.from("erp_training_records")
-      .select("id, employee_name, course_title, training_type, trainer, duration_hours, score, status, due_date, completed_date")
+    supabase.from("erp_training")
+      .select("id, employee_name, title, type, trainer, duration_hours, score, status, due_date, completed_at")
       .order("due_date", { ascending: true }).limit(300)
       .then(({ data }) => { setRecords(data ?? []); setLoading(false) })
   }
@@ -70,7 +70,7 @@ export default function TrainingPage() {
   React.useEffect(() => {
     const supabase = createClient()
     Promise.all([
-      supabase.from("erp_training_records").select("id, employee_name, course_title, training_type, trainer, duration_hours, score, status, due_date, completed_date").order("due_date", { ascending: true }).limit(300),
+      supabase.from("erp_training").select("id, employee_name, title, type, trainer, duration_hours, score, status, due_date, completed_at").order("due_date", { ascending: true }).limit(300),
       supabase.from("erp_employees").select("id, name").eq("status", "Active").order("name"),
     ]).then(([t, e]) => { setRecords(t.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
@@ -80,9 +80,9 @@ export default function TrainingPage() {
     setSaving(true)
     const emp = employees.find(e => e.id === empId)
     const supabase = createClient()
-    await supabase.from("erp_training_records").insert({
+    await supabase.from("erp_training").insert({
       employee_id: empId, employee_name: emp!.name,
-      course_title: courseTitle, training_type: trainingType || null,
+      title: courseTitle, type: trainingType || null,
       trainer: trainer || null, duration_hours: durationHours ? Number(durationHours) : null,
       due_date: dueDate || null, status: "Assigned",
     })
@@ -94,7 +94,7 @@ export default function TrainingPage() {
 
   async function updateStatus(id: string, status: string, empName: string, course: string) {
     const supabase = createClient()
-    await supabase.from("erp_training_records").update({ status }).eq("id", id)
+    await supabase.from("erp_training").update({ status }).eq("id", id)
     await logErpActivity({ employeeName: "Admin", action: `training_${status.toLowerCase()}`, module: "hr", recordType: "training", recordTitle: `${course} — ${empName}` })
     load()
   }
@@ -102,10 +102,10 @@ export default function TrainingPage() {
   async function handleComplete() {
     if (!completingId) return
     const supabase = createClient()
-    await supabase.from("erp_training_records").update({
+    await supabase.from("erp_training").update({
       status: "Completed",
       score: score ? Number(score) : null,
-      completed_date: new Date().toISOString().split("T")[0],
+      completed_at: new Date().toISOString().split("T")[0],
     }).eq("id", completingId)
     await logErpActivity({ employeeName: "Admin", action: "training_completed", module: "hr", recordType: "training", recordTitle: `${completingCourse} — ${completingName}` })
     setCompleteOpen(false); setScore(""); setCompletingId(""); setCompletingName(""); setCompletingCourse("")
@@ -114,7 +114,7 @@ export default function TrainingPage() {
 
   const filtered = records.filter(r => {
     const q = search.toLowerCase()
-    return (!q || r.employee_name.toLowerCase().includes(q) || r.course_title.toLowerCase().includes(q) || (r.training_type ?? "").toLowerCase().includes(q)) &&
+    return (!q || r.employee_name.toLowerCase().includes(q) || r.title.toLowerCase().includes(q) || (r.type ?? "").toLowerCase().includes(q)) &&
            (statusFilter === "all" || (r.status ?? "Assigned") === statusFilter)
   })
 
@@ -255,14 +255,14 @@ export default function TrainingPage() {
                   <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No training records. Click "Assign Training" to get started.</TableCell></TableRow>
                 ) : filtered.map(r => (
                   <TableRow key={r.id}>
-                    <TableCell className="font-medium text-sm">{r.course_title}</TableCell>
+                    <TableCell className="font-medium text-sm">{r.title}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Avatar className="h-7 w-7"><AvatarFallback className="text-xs">{initials(r.employee_name)}</AvatarFallback></Avatar>
                         <span className="text-sm">{r.employee_name}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{r.training_type ?? "—"}</TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-muted-foreground">{r.type ?? "—"}</TableCell>
                     <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{r.trainer ?? "—"}</TableCell>
                     <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{r.duration_hours ? `${r.duration_hours}h` : "—"}</TableCell>
                     <TableCell className="hidden md:table-cell text-right font-semibold text-sm">{r.score !== null ? `${r.score}%` : "—"}</TableCell>
@@ -275,18 +275,18 @@ export default function TrainingPage() {
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           {r.status !== "In Progress" && r.status !== "Completed" && (
-                            <DropdownMenuItem onClick={() => updateStatus(r.id, "In Progress", r.employee_name, r.course_title)}>
+                            <DropdownMenuItem onClick={() => updateStatus(r.id, "In Progress", r.employee_name, r.title)}>
                               🔄 Mark In Progress
                             </DropdownMenuItem>
                           )}
                           {r.status !== "Completed" && (
-                            <DropdownMenuItem onClick={() => { setCompletingId(r.id); setCompletingName(r.employee_name); setCompletingCourse(r.course_title); setCompleteOpen(true) }}>
+                            <DropdownMenuItem onClick={() => { setCompletingId(r.id); setCompletingName(r.employee_name); setCompletingCourse(r.title); setCompleteOpen(true) }}>
                               ✅ Mark Complete…
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuSeparator />
                           {r.status !== "Assigned" && (
-                            <DropdownMenuItem onClick={() => updateStatus(r.id, "Assigned", r.employee_name, r.course_title)} className="text-muted-foreground">
+                            <DropdownMenuItem onClick={() => updateStatus(r.id, "Assigned", r.employee_name, r.title)} className="text-muted-foreground">
                               Revert to Assigned
                             </DropdownMenuItem>
                           )}
