@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Award, ShieldCheck, Link2,
   FileText, Bell, FileQuestion, Settings, Headset,
   ExternalLink, ChevronDown, Wallet, Briefcase,
-  ClipboardList, Microscope, BadgeCheck
+  ClipboardList, Microscope
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -36,7 +36,6 @@ export function CertificationBodySidebar() {
         { title: "Business Links",         icon: Link2,         url: "/vendor/certification-body/businesses" },
         { title: "Pending Requests",       icon: ClipboardList, url: "/vendor/certification-body/requests" },
         { title: "Active Audits",          icon: Microscope,    url: "/vendor/certification-body/audits" },
-        { title: "Claim Your Organisation", icon: BadgeCheck,   url: "/vendor/certification-body/claim" },
       ]
     },
     {

@@ -55,9 +55,9 @@ const PARTNER_TYPES = [
   {
     title: "Certification Body",
     highlight: "For Halal Certification Bodies",
-    description: "Manage your certification services, client businesses, and compliance reporting.",
+    description: "Find your organisation in the global CICOT-recognised list, claim your profile, and manage your certification services on Halal Hub.",
     icon: Award,
-    url: "/vendor/certification-body/dashboard"
+    url: "/certification-bodies"
   }
 ];
 
