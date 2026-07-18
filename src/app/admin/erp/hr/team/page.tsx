@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { MoreHorizontal, PlusCircle, Search, GitMerge } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -35,6 +36,7 @@ function getStatusVariant(status: string | null) {
 }
 
 export default function TeamDirectoryPage() {
+  const router = useRouter()
   const [employees, setEmployees] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState(true)
   const [search, setSearch] = React.useState("")
@@ -156,11 +158,11 @@ export default function TeamDirectoryPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>View Profile</DropdownMenuItem>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>View Performance</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => router.push(`/admin/erp/hr/team/${emp.id}`)}>View Profile</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => router.push(`/admin/erp/hr/team/${emp.id}`)}>Edit</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => router.push(`/admin/erp/hr/team/${emp.id}`)}>View Performance</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-destructive">Terminate</DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive" onClick={() => router.push(`/admin/erp/hr/team/${emp.id}`)}>Terminate</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

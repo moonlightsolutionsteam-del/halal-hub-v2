@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { MoreHorizontal, PlusCircle, Search, UserPlus } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Search, UserPlus, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -42,6 +42,15 @@ export default function RecruitmentPage() {
   const [closingDate, setClosingDate] = React.useState("")
   const [saving, setSaving] = React.useState(false)
 
+  // Mark as Hired state
+  const [hireOpen, setHireOpen] = React.useState(false)
+  const [hiringJob, setHiringJob] = React.useState<Job | null>(null)
+  const [hireName, setHireName] = React.useState("")
+  const [hireEmail, setHireEmail] = React.useState("")
+  const [hirePhone, setHirePhone] = React.useState("")
+  const [hireJoinDate, setHireJoinDate] = React.useState("")
+  const [hireSaving, setHireSaving] = React.useState(false)
+
   const refresh = async () => {
     const supabase = createClient()
     const { data } = await supabase.from("erp_recruitment").select("*").order("posted_date", { ascending: false })
@@ -59,6 +68,53 @@ export default function RecruitmentPage() {
     await refresh()
     setSaving(false); setOpen(false)
     setPosition(""); setDepartment(""); setClosingDate("")
+  }
+
+  function openHireDialog(job: Job) {
+    setHiringJob(job)
+    setHireName(""); setHireEmail(""); setHirePhone(""); setHireJoinDate("")
+    setHireOpen(true)
+  }
+
+  async function handleHire() {
+    if (!hiringJob || !hireName.trim() || !hireEmail.trim()) return
+    setHireSaving(true)
+    const supabase = createClient()
+
+    // generate emp_id
+    const { count } = await supabase.from("erp_employees").select("id", { count: "exact", head: true })
+    const empId = `EMP${String((count ?? 0) + 1).padStart(3, "0")}`
+    const initials = hireName.trim().split(/\s+/).map((w: string) => w[0]).join("").slice(0, 2).toUpperCase()
+
+    const { data: newEmp } = await supabase.from("erp_employees").insert({
+      name: hireName.trim(), email: hireEmail.trim(),
+      phone: hirePhone || null, join_date: hireJoinDate || null,
+      department: hiringJob.department || null,
+      role: hiringJob.position, employment_type: "Full-time",
+      emp_id: empId, initials, status: "Active",
+    }).select("id").single()
+
+    if (newEmp) {
+      const defaultTasks = [
+        { task: "Complete ID & document verification", category: "Documentation" },
+        { task: "IT setup & access provisioning", category: "IT Setup" },
+        { task: "Policy review & employee handbook", category: "Policy Review" },
+        { task: "Team introduction & org chart walkthrough", category: "Team Introduction" },
+        { task: "Workstation & equipment setup", category: "Equipment" },
+      ]
+      await supabase.from("erp_onboarding").insert(
+        defaultTasks.map(t => ({
+          employee_id: newEmp.id, employee_name: hireName.trim(),
+          task: t.task, category: t.category, status: "Pending",
+          due_date: hireJoinDate || null,
+        }))
+      )
+    }
+
+    await supabase.from("erp_recruitment").update({ status: "Filled" }).eq("id", hiringJob.id)
+    await logErpActivity({ employeeName: "Admin", action: "candidate_hired", module: "hr", recordType: "recruitment", recordTitle: `${hireName.trim()} — ${hiringJob.position}` })
+    setHireSaving(false); setHireOpen(false)
+    await refresh()
   }
 
   async function updateStatus(id: string, status: string, pos: string) {
@@ -170,8 +226,12 @@ export default function RecruitmentPage() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild><Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Update Status</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => updateStatus(j.id, "Filled", j.position)}>Mark Filled</DropdownMenuItem>
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          {j.status === "Open" && (
+                            <DropdownMenuItem onClick={() => openHireDialog(j)}>
+                              ✅ Mark as Hired
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuItem onClick={() => updateStatus(j.id, "On Hold", j.position)}>Put On Hold</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem className="text-destructive" onClick={() => updateStatus(j.id, "Closed", j.position)}>Close Position</DropdownMenuItem>
@@ -185,6 +245,45 @@ export default function RecruitmentPage() {
           )}
         </CardContent>
       </Card>
+      {/* Mark as Hired dialog */}
+      <Dialog open={hireOpen} onOpenChange={setHireOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Mark as Hired — {hiringJob?.position}</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-2">
+            <p className="text-sm text-muted-foreground">This will create an employee record and auto-generate 5 standard onboarding tasks.</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-1.5 col-span-2">
+                <Label>Full Name <span className="text-destructive">*</span></Label>
+                <Input value={hireName} onChange={e => setHireName(e.target.value)} placeholder="e.g. Priya Sharma" />
+              </div>
+              <div className="grid gap-1.5 col-span-2">
+                <Label>Email <span className="text-destructive">*</span></Label>
+                <Input type="email" value={hireEmail} onChange={e => setHireEmail(e.target.value)} placeholder="priya@halalhub.in" />
+              </div>
+              <div className="grid gap-1.5">
+                <Label>Phone</Label>
+                <Input value={hirePhone} onChange={e => setHirePhone(e.target.value)} placeholder="+91..." />
+              </div>
+              <div className="grid gap-1.5">
+                <Label>Join Date</Label>
+                <Input type="date" value={hireJoinDate} onChange={e => setHireJoinDate(e.target.value)} />
+              </div>
+            </div>
+            <div className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
+              Department: <strong>{hiringJob?.department ?? "—"}</strong> · Role: <strong>{hiringJob?.position}</strong>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setHireOpen(false)}>Cancel</Button>
+            <Button onClick={handleHire} disabled={hireSaving || !hireName.trim() || !hireEmail.trim()}>
+              {hireSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+              Create Employee & Onboard
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
