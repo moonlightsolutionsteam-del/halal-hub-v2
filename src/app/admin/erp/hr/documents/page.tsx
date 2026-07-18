@@ -1,27 +1,29 @@
 "use client"
 
 import * as React from "react"
-import { Loader2, Search, FolderOpen, ShieldCheck, Clock, AlertTriangle, ExternalLink } from "lucide-react"
+import { Loader2, Search, FolderOpen, ShieldCheck, Clock, AlertTriangle, ExternalLink, MoreHorizontal, PlusCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { createClient } from "@/lib/supabase/client"
+import { logErpActivity } from "@/lib/erp-logger"
 
 type Doc = {
-  id: string
-  employee_name: string
-  doc_type: string
-  file_name: string | null
-  file_url: string | null
-  uploaded_by: string | null
-  verified: boolean | null
-  expiry_date: string | null
-  created_at: string | null
+  id: string; employee_name: string; doc_type: string
+  file_name: string | null; file_url: string | null
+  uploaded_by: string | null; verified: boolean | null
+  expiry_date: string | null; created_at: string | null
 }
+type Employee = { id: string; name: string }
+
+const DOC_TYPES = ["Aadhaar Card", "PAN Card", "Passport", "Driving Licence", "10th Certificate", "12th Certificate", "Degree Certificate", "Offer Letter", "Appointment Letter", "Experience Letter", "Relieving Letter", "Bank Details", "Photo", "Other"]
 
 function fmtDate(d: string | null) {
   if (!d) return "—"
@@ -39,25 +41,64 @@ function isExpired(expiry: string | null) {
   return new Date(expiry) < new Date()
 }
 
-function initials(name: string) {
-  return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
-}
+function initials(name: string) { return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() }
 
 export default function DocumentsPage() {
   const [docs, setDocs] = React.useState<Doc[]>([])
+  const [employees, setEmployees] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState(true)
+  const [saving, setSaving] = React.useState(false)
   const [search, setSearch] = React.useState("")
   const [typeFilter, setTypeFilter] = React.useState("all")
   const [verifiedFilter, setVerifiedFilter] = React.useState("all")
+  const [open, setOpen] = React.useState(false)
 
-  React.useEffect(() => {
+  const [empId, setEmpId] = React.useState("")
+  const [docType, setDocType] = React.useState("")
+  const [fileName, setFileName] = React.useState("")
+  const [uploadedBy, setUploadedBy] = React.useState("")
+  const [expiryDate, setExpiryDate] = React.useState("")
+
+  function load() {
     const supabase = createClient()
     supabase.from("erp_employee_documents")
       .select("id, employee_name, doc_type, file_name, file_url, uploaded_by, verified, expiry_date, created_at")
-      .order("created_at", { ascending: false })
-      .limit(300)
+      .order("created_at", { ascending: false }).limit(300)
       .then(({ data }) => { setDocs(data ?? []); setLoading(false) })
+  }
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      supabase.from("erp_employee_documents").select("id, employee_name, doc_type, file_name, file_url, uploaded_by, verified, expiry_date, created_at").order("created_at", { ascending: false }).limit(300),
+      supabase.from("erp_employees").select("id, name").order("name"),
+    ]).then(([d, e]) => { setDocs(d.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
+
+  async function handleAdd() {
+    if (!empId || !docType) return
+    setSaving(true)
+    const emp = employees.find(e => e.id === empId)
+    const supabase = createClient()
+    await supabase.from("erp_employee_documents").insert({
+      employee_id: empId, employee_name: emp!.name,
+      doc_type: docType, file_name: fileName || null,
+      uploaded_by: uploadedBy || "Admin",
+      expiry_date: expiryDate || null,
+      verified: false,
+    })
+    await logErpActivity({ employeeName: "Admin", action: "document_uploaded", module: "hr", recordType: "document", recordTitle: `${docType} — ${emp!.name}` })
+    setSaving(false); setOpen(false)
+    setEmpId(""); setDocType(""); setFileName(""); setUploadedBy(""); setExpiryDate("")
+    load()
+  }
+
+  async function markVerified(id: string, empName: string, dType: string) {
+    const supabase = createClient()
+    await supabase.from("erp_employee_documents").update({ verified: true }).eq("id", id)
+    await logErpActivity({ employeeName: "Admin", action: "document_verified", module: "hr", recordType: "document", recordTitle: `${dType} — ${empName}` })
+    load()
+  }
 
   const filtered = docs.filter(d => {
     const q = search.toLowerCase()
@@ -76,48 +117,72 @@ export default function DocumentsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Document Vault</h1>
-        <p className="text-muted-foreground">Centralized storage for all employee documents and compliance records.</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold font-headline">Document Vault</h1>
+          <p className="text-muted-foreground">Centralized storage for all employee documents and compliance records.</p>
+        </div>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button className="gap-2"><PlusCircle className="h-4 w-4" />Add Document</Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-md">
+            <DialogHeader><DialogTitle>Add Employee Document</DialogTitle></DialogHeader>
+            <div className="grid gap-4 py-2">
+              <div className="grid gap-1.5">
+                <Label>Employee</Label>
+                <Select value={empId} onValueChange={setEmpId}>
+                  <SelectTrigger><SelectValue placeholder="Select employee" /></SelectTrigger>
+                  <SelectContent>{employees.map(e => <SelectItem key={e.id} value={e.id}>{e.name}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-1.5">
+                <Label>Document Type</Label>
+                <Select value={docType} onValueChange={setDocType}>
+                  <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
+                  <SelectContent>{DOC_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-1.5">
+                <Label>File Name</Label>
+                <Input value={fileName} onChange={e => setFileName(e.target.value)} placeholder="e.g. aadhaar_john.pdf" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-1.5">
+                  <Label>Uploaded By</Label>
+                  <Input value={uploadedBy} onChange={e => setUploadedBy(e.target.value)} placeholder="Your name" />
+                </div>
+                <div className="grid gap-1.5">
+                  <Label>Expiry Date</Label>
+                  <Input type="date" value={expiryDate} onChange={e => setExpiryDate(e.target.value)} />
+                </div>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+              <Button onClick={handleAdd} disabled={saving || !empId || !docType}>{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add Document"}</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Documents</CardTitle><FolderOpen className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : docs.length}</div>
-            <p className="text-xs text-muted-foreground">{docTypes.length} document types</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Verified</CardTitle><ShieldCheck className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : verified.length}</div>
-            <p className="text-xs text-muted-foreground">{docs.length ? Math.round(verified.length / docs.length * 100) : 0}% verified</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Expiring Soon</CardTitle><Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-amber-600">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : expiringSoon.length}</div>
-            <p className="text-xs text-muted-foreground">Within 30 days</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Expired</CardTitle><AlertTriangle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-destructive">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : expired.length}</div>
-            <p className="text-xs text-muted-foreground">Renewal required</p>
-          </CardContent>
-        </Card>
+        {[
+          { label: "Total Documents", value: docs.length, sub: `${docTypes.length} document types`, icon: FolderOpen },
+          { label: "Verified", value: verified.length, sub: `${docs.length ? Math.round(verified.length / docs.length * 100) : 0}% verified`, icon: ShieldCheck },
+          { label: "Expiring Soon", value: expiringSoon.length, sub: "Within 30 days", icon: Clock, amber: true },
+          { label: "Expired", value: expired.length, sub: "Renewal required", icon: AlertTriangle, red: true },
+        ].map(({ label, value, sub, icon: Icon, amber, red }) => (
+          <Card key={label}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{label}</CardTitle><Icon className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className={`text-2xl font-bold ${amber ? "text-amber-600" : red ? "text-destructive" : ""}`}>{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : value}</div>
+              <p className="text-xs text-muted-foreground">{sub}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <Card>
@@ -145,9 +210,7 @@ export default function DocumentsPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {loading ? (
-            <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
-          ) : (
+          {loading ? <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div> : (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -157,12 +220,12 @@ export default function DocumentsPage() {
                   <TableHead className="hidden lg:table-cell">Uploaded By</TableHead>
                   <TableHead className="hidden lg:table-cell">Expiry</TableHead>
                   <TableHead>Verified</TableHead>
-                  <TableHead><span className="sr-only">Open</span></TableHead>
+                  <TableHead><span className="sr-only">Actions</span></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.length === 0 ? (
-                  <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No documents uploaded yet.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No documents uploaded yet. Click "Add Document" to begin.</TableCell></TableRow>
                 ) : filtered.map(d => (
                   <TableRow key={d.id}>
                     <TableCell>
@@ -182,16 +245,32 @@ export default function DocumentsPage() {
                       ) : "—"}
                     </TableCell>
                     <TableCell>
-                      {d.verified
-                        ? <Badge variant="secondary">Verified</Badge>
-                        : <Badge variant="outline">Pending</Badge>}
+                      {d.verified ? <Badge variant="secondary">Verified</Badge> : <Badge variant="outline">Pending</Badge>}
                     </TableCell>
                     <TableCell>
-                      {d.file_url && (
-                        <Button size="icon" variant="ghost" asChild>
-                          <a href={d.file_url} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-4 w-4" /></a>
-                        </Button>
-                      )}
+                      <div className="flex items-center gap-1">
+                        {d.file_url && (
+                          <Button size="icon" variant="ghost" asChild>
+                            <a href={d.file_url} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-4 w-4" /></a>
+                          </Button>
+                        )}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            {!d.verified && (
+                              <DropdownMenuItem onClick={() => markVerified(d.id, d.employee_name, d.doc_type)}>
+                                ✅ Mark Verified
+                              </DropdownMenuItem>
+                            )}
+                            {d.verified && (
+                              <DropdownMenuItem className="text-muted-foreground" disabled>Already verified</DropdownMenuItem>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -1,27 +1,30 @@
 "use client"
 
 import * as React from "react"
-import { Loader2, Search, Heart, IndianRupee, CheckCircle2, Clock } from "lucide-react"
+import { Loader2, Search, Heart, IndianRupee, CheckCircle2, Clock, MoreHorizontal, PlusCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { createClient } from "@/lib/supabase/client"
+import { logErpActivity } from "@/lib/erp-logger"
 
 type Benefit = {
-  id: string
-  employee_name: string
-  benefit_type: string
-  value: number | null
-  frequency: string | null
-  status: string | null
-  start_date: string | null
-  end_date: string | null
-  provider: string | null
-  policy_number: string | null
+  id: string; employee_name: string; benefit_type: string
+  value: number | null; frequency: string | null; status: string | null
+  start_date: string | null; end_date: string | null
+  provider: string | null; policy_number: string | null
 }
+type Employee = { id: string; name: string }
+
+const BENEFIT_TYPES = ["Health Insurance", "PF (Provident Fund)", "Gratuity", "ESIC", "Travel Allowance", "Meal Vouchers", "Life Insurance", "Group Mediclaim", "NPS", "Other"]
+const FREQUENCIES = ["Monthly", "Quarterly", "Annual", "One-time"]
 
 function statusVariant(s: string | null) {
   if (s === "Active") return "secondary" as const
@@ -29,35 +32,68 @@ function statusVariant(s: string | null) {
   return "outline" as const
 }
 
-function fmt(n: number | null) {
-  if (!n) return "₹0"
-  return `₹${n.toLocaleString("en-IN")}`
-}
-
-function fmtDate(d: string | null) {
-  if (!d) return "—"
-  try { return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) } catch { return d }
-}
-
-function initials(name: string) {
-  return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
-}
+function fmt(n: number | null) { return `₹${(n ?? 0).toLocaleString("en-IN")}` }
+function initials(name: string) { return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() }
 
 export default function BenefitsPage() {
   const [benefits, setBenefits] = React.useState<Benefit[]>([])
+  const [employees, setEmployees] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState(true)
+  const [saving, setSaving] = React.useState(false)
   const [search, setSearch] = React.useState("")
   const [statusFilter, setStatusFilter] = React.useState("all")
   const [typeFilter, setTypeFilter] = React.useState("all")
+  const [open, setOpen] = React.useState(false)
 
-  React.useEffect(() => {
+  const [empId, setEmpId] = React.useState("")
+  const [benefitType, setBenefitType] = React.useState("")
+  const [value, setValue] = React.useState("")
+  const [frequency, setFrequency] = React.useState("")
+  const [provider, setProvider] = React.useState("")
+  const [policyNumber, setPolicyNumber] = React.useState("")
+  const [startDate, setStartDate] = React.useState("")
+
+  function load() {
     const supabase = createClient()
     supabase.from("erp_benefits")
       .select("id, employee_name, benefit_type, value, frequency, status, start_date, end_date, provider, policy_number")
-      .order("created_at", { ascending: false })
-      .limit(300)
+      .order("created_at", { ascending: false }).limit(300)
       .then(({ data }) => { setBenefits(data ?? []); setLoading(false) })
+  }
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      supabase.from("erp_benefits").select("id, employee_name, benefit_type, value, frequency, status, start_date, end_date, provider, policy_number").order("created_at", { ascending: false }).limit(300),
+      supabase.from("erp_employees").select("id, name").eq("status", "Active").order("name"),
+    ]).then(([b, e]) => { setBenefits(b.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
+
+  async function handleAdd() {
+    if (!empId || !benefitType) return
+    setSaving(true)
+    const emp = employees.find(e => e.id === empId)
+    const supabase = createClient()
+    await supabase.from("erp_benefits").insert({
+      employee_id: empId, employee_name: emp!.name,
+      benefit_type: benefitType, value: value ? Number(value) : null,
+      frequency: frequency || null, provider: provider || null,
+      policy_number: policyNumber || null,
+      start_date: startDate || null, status: "Active",
+    })
+    await logErpActivity({ employeeName: "Admin", action: "benefit_added", module: "hr", recordType: "benefit", recordTitle: `${benefitType} — ${emp!.name}` })
+    setSaving(false); setOpen(false)
+    setEmpId(""); setBenefitType(""); setValue(""); setFrequency(""); setProvider(""); setPolicyNumber(""); setStartDate("")
+    load()
+  }
+
+  async function toggleStatus(id: string, current: string | null, empName: string, bType: string) {
+    const newStatus = current === "Active" ? "Inactive" : "Active"
+    const supabase = createClient()
+    await supabase.from("erp_benefits").update({ status: newStatus }).eq("id", id)
+    await logErpActivity({ employeeName: "Admin", action: `benefit_${newStatus.toLowerCase()}`, module: "hr", recordType: "benefit", recordTitle: `${bType} — ${empName}` })
+    load()
+  }
 
   const filtered = benefits.filter(b => {
     const q = search.toLowerCase()
@@ -74,48 +110,85 @@ export default function BenefitsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold font-headline">Benefits</h1>
-        <p className="text-muted-foreground">Track employee benefits — health, PF, gratuity, and more.</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold font-headline">Benefits</h1>
+          <p className="text-muted-foreground">Track employee benefits — health, PF, gratuity, and more.</p>
+        </div>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button className="gap-2"><PlusCircle className="h-4 w-4" />Add Benefit</Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-md">
+            <DialogHeader><DialogTitle>Add Employee Benefit</DialogTitle></DialogHeader>
+            <div className="grid gap-4 py-2">
+              <div className="grid gap-1.5">
+                <Label>Employee</Label>
+                <Select value={empId} onValueChange={setEmpId}>
+                  <SelectTrigger><SelectValue placeholder="Select employee" /></SelectTrigger>
+                  <SelectContent>{employees.map(e => <SelectItem key={e.id} value={e.id}>{e.name}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-1.5">
+                <Label>Benefit Type</Label>
+                <Select value={benefitType} onValueChange={setBenefitType}>
+                  <SelectTrigger><SelectValue placeholder="Select benefit" /></SelectTrigger>
+                  <SelectContent>{BENEFIT_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-1.5">
+                  <Label>Value (₹)</Label>
+                  <Input value={value} onChange={e => setValue(e.target.value)} placeholder="0" />
+                </div>
+                <div className="grid gap-1.5">
+                  <Label>Frequency</Label>
+                  <Select value={frequency} onValueChange={setFrequency}>
+                    <SelectTrigger><SelectValue placeholder="Freq" /></SelectTrigger>
+                    <SelectContent>{FREQUENCIES.map(f => <SelectItem key={f} value={f}>{f}</SelectItem>)}</SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-1.5">
+                  <Label>Provider</Label>
+                  <Input value={provider} onChange={e => setProvider(e.target.value)} placeholder="e.g. HDFC ERGO" />
+                </div>
+                <div className="grid gap-1.5">
+                  <Label>Policy No.</Label>
+                  <Input value={policyNumber} onChange={e => setPolicyNumber(e.target.value)} placeholder="Optional" />
+                </div>
+              </div>
+              <div className="grid gap-1.5">
+                <Label>Start Date</Label>
+                <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+              <Button onClick={handleAdd} disabled={saving || !empId || !benefitType}>{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add Benefit"}</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Benefits</CardTitle><Heart className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : active.length}</div>
-            <p className="text-xs text-muted-foreground">Currently active</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Monthly Outgo</CardTitle><IndianRupee className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : fmt(monthlyTotal)}</div>
-            <p className="text-xs text-muted-foreground">Monthly benefits total</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Annual Cost</CardTitle><IndianRupee className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : fmt(monthlyTotal * 12 + annualTotal)}</div>
-            <p className="text-xs text-muted-foreground">Projected annual spend</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Benefit Types</CardTitle><CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : benefitTypes.length}</div>
-            <p className="text-xs text-muted-foreground">Distinct types tracked</p>
-          </CardContent>
-        </Card>
+        {[
+          { label: "Active Benefits", value: active.length, sub: "Currently active", icon: Heart },
+          { label: "Monthly Outgo", value: fmt(monthlyTotal), sub: "Monthly benefits total", icon: IndianRupee },
+          { label: "Annual Cost", value: fmt(monthlyTotal * 12 + annualTotal), sub: "Projected annual spend", icon: Clock },
+          { label: "Benefit Types", value: benefitTypes.length, sub: "Distinct types tracked", icon: CheckCircle2 },
+        ].map(({ label, value, sub, icon: Icon }) => (
+          <Card key={label}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{label}</CardTitle><Icon className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : value}</div>
+              <p className="text-xs text-muted-foreground">{sub}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <Card>
@@ -138,15 +211,12 @@ export default function BenefitsPage() {
                 <SelectItem value="all">All Statuses</SelectItem>
                 <SelectItem value="Active">Active</SelectItem>
                 <SelectItem value="Inactive">Inactive</SelectItem>
-                <SelectItem value="Pending">Pending</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </CardHeader>
         <CardContent>
-          {loading ? (
-            <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
-          ) : (
+          {loading ? <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div> : (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -157,11 +227,12 @@ export default function BenefitsPage() {
                   <TableHead className="hidden lg:table-cell">Provider</TableHead>
                   <TableHead className="hidden lg:table-cell">Policy No.</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead><span className="sr-only">Actions</span></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.length === 0 ? (
-                  <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No benefits records found.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No benefits records. Click "Add Benefit" to create one.</TableCell></TableRow>
                 ) : filtered.map(b => (
                   <TableRow key={b.id}>
                     <TableCell>
@@ -176,6 +247,19 @@ export default function BenefitsPage() {
                     <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">{b.provider ?? "—"}</TableCell>
                     <TableCell className="hidden lg:table-cell font-mono text-xs text-muted-foreground">{b.policy_number ?? "—"}</TableCell>
                     <TableCell><Badge variant={statusVariant(b.status)}>{b.status ?? "Active"}</Badge></TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem onClick={() => toggleStatus(b.id, b.status, b.employee_name, b.benefit_type)}>
+                            {b.status === "Active" ? "⏸ Deactivate" : "▶ Activate"}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

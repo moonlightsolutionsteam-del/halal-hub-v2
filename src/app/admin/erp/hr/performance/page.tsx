@@ -8,9 +8,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { createClient } from "@/lib/supabase/client"
+import { logErpActivity } from "@/lib/erp-logger"
 
 type Review = { id: string; employee_name: string | null; period: string | null; status: string | null; rating: number | null; goals_met: number | null; goals_total: number | null }
+type Employee = { id: string; name: string }
+
+const PERIODS = ["Q1 2026", "Q2 2026", "Q3 2026", "Q4 2026", "H1 2026", "H2 2026", "Annual 2026", "Q1 2025", "H2 2025", "Annual 2025"]
 
 function statusVariant(s: string | null) {
   if (s === "Completed") return "secondary" as const
@@ -20,18 +28,52 @@ function statusVariant(s: string | null) {
 
 export default function PerformancePage() {
   const [reviews, setReviews] = React.useState<Review[]>([])
+  const [employees, setEmployees] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState(true)
+  const [saving, setSaving] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
 
-  React.useEffect(() => {
+  const [empId, setEmpId] = React.useState("")
+  const [period, setPeriod] = React.useState("")
+  const [rating, setRating] = React.useState("")
+  const [goalsTotal, setGoalsTotal] = React.useState("")
+  const [goalsMet, setGoalsMet] = React.useState("")
+
+  function load() {
     const supabase = createClient()
     supabase.from("erp_performance")
       .select("id, employee_name, period, status, rating, goals_met, goals_total")
-      .order("created_at", { ascending: false })
-      .limit(50)
+      .order("created_at", { ascending: false }).limit(50)
       .then(({ data }) => { setReviews(data ?? []); setLoading(false) })
+  }
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      supabase.from("erp_performance").select("id, employee_name, period, status, rating, goals_met, goals_total").order("created_at", { ascending: false }).limit(50),
+      supabase.from("erp_employees").select("id, name").eq("status", "Active").order("name"),
+    ]).then(([p, e]) => { setReviews(p.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
 
-  const pending = reviews.filter(r => r.status === "Pending" || r.status === "In Progress")
+  async function handleAdd() {
+    if (!empId || !period) return
+    setSaving(true)
+    const emp = employees.find(e => e.id === empId)
+    const supabase = createClient()
+    await supabase.from("erp_performance").insert({
+      employee_id: empId, employee_name: emp!.name,
+      period, status: "Pending",
+      rating: rating ? Number(rating) : null,
+      goals_total: goalsTotal ? Number(goalsTotal) : null,
+      goals_met: goalsMet ? Number(goalsMet) : null,
+    })
+    await logErpActivity({ employeeName: "Admin", action: "performance_review_created", module: "hr", recordType: "performance", recordTitle: `${emp!.name} — ${period}` })
+    setSaving(false); setOpen(false)
+    setEmpId(""); setPeriod(""); setRating(""); setGoalsTotal(""); setGoalsMet("")
+    load()
+  }
+
+  const pending = reviews.filter((r: Review) => r.status === "Pending" || r.status === "In Progress")
   const completed = reviews.filter(r => r.status === "Completed")
   const topPerformer = [...reviews].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))[0]
   const lowPerformers = reviews.filter(r => r.rating !== null && r.rating < 3)
@@ -95,7 +137,48 @@ export default function PerformancePage() {
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle>Performance Reviews</CardTitle>
-              <Button size="sm"><PlusCircle className="mr-2 h-4 w-4" />New Review</Button>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                  <Button size="sm"><PlusCircle className="mr-2 h-4 w-4" />New Review</Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader><DialogTitle>Create Performance Review</DialogTitle></DialogHeader>
+                  <div className="grid gap-4 py-2">
+                    <div className="grid gap-1.5">
+                      <Label>Employee</Label>
+                      <Select value={empId} onValueChange={setEmpId}>
+                        <SelectTrigger><SelectValue placeholder="Select employee" /></SelectTrigger>
+                        <SelectContent>{employees.map(e => <SelectItem key={e.id} value={e.id}>{e.name}</SelectItem>)}</SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid gap-1.5">
+                      <Label>Review Period</Label>
+                      <Select value={period} onValueChange={setPeriod}>
+                        <SelectTrigger><SelectValue placeholder="Select period" /></SelectTrigger>
+                        <SelectContent>{PERIODS.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="grid gap-1.5">
+                        <Label>Rating (1–5)</Label>
+                        <Input value={rating} onChange={e => setRating(e.target.value)} placeholder="4" />
+                      </div>
+                      <div className="grid gap-1.5">
+                        <Label>Goals Total</Label>
+                        <Input value={goalsTotal} onChange={e => setGoalsTotal(e.target.value)} placeholder="10" />
+                      </div>
+                      <div className="grid gap-1.5">
+                        <Label>Goals Met</Label>
+                        <Input value={goalsMet} onChange={e => setGoalsMet(e.target.value)} placeholder="8" />
+                      </div>
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button onClick={handleAdd} disabled={saving || !empId || !period}>{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Review"}</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </CardHeader>
           <CardContent>

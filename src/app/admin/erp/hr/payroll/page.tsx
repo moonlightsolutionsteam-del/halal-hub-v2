@@ -1,73 +1,108 @@
 "use client"
 
 import * as React from "react"
-import { Loader2, Search, IndianRupee, Users, CheckCircle2, Clock, Download } from "lucide-react"
+import { Loader2, Search, IndianRupee, CheckCircle2, Clock, MoreHorizontal, PlusCircle, Download, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { createClient } from "@/lib/supabase/client"
+import { logErpActivity } from "@/lib/erp-logger"
 
 type PayrollRow = {
-  id: string
-  employee_name: string
-  month: number
-  year: number
-  basic: number | null
-  hra: number | null
-  allowances: number | null
-  deductions: number | null
-  tds: number | null
-  net_pay: number | null
-  status: string | null
-  paid_date: string | null
+  id: string; employee_name: string; month: number; year: number
+  basic: number | null; hra: number | null; allowances: number | null
+  deductions: number | null; tds: number | null; net_pay: number | null
+  status: string | null; paid_date: string | null
 }
+type Employee = { id: string; name: string }
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
-function fmt(n: number | null) {
-  if (!n) return "₹0"
-  return `₹${n.toLocaleString("en-IN")}`
-}
-
+function fmt(n: number | null) { return `₹${(n ?? 0).toLocaleString("en-IN")}` }
+function initials(name: string) { return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() }
 function statusVariant(s: string | null) {
   if (s === "Paid") return "secondary" as const
   if (s === "Processed") return "default" as const
   return "outline" as const
 }
 
-function initials(name: string) {
-  return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
-}
-
 export default function PayrollPage() {
   const [records, setRecords] = React.useState<PayrollRow[]>([])
+  const [employees, setEmployees] = React.useState<Employee[]>([])
   const [loading, setLoading] = React.useState(true)
+  const [saving, setSaving] = React.useState(false)
   const [search, setSearch] = React.useState("")
   const [statusFilter, setStatusFilter] = React.useState("all")
+  const [open, setOpen] = React.useState(false)
+
+  // form state
+  const [empId, setEmpId] = React.useState("")
+  const [month, setMonth] = React.useState(String(new Date().getMonth() + 1))
+  const [year, setYear] = React.useState(String(new Date().getFullYear()))
+  const [basic, setBasic] = React.useState("")
+  const [hra, setHra] = React.useState("")
+  const [allowances, setAllowances] = React.useState("")
+  const [deductions, setDeductions] = React.useState("")
+  const [tds, setTds] = React.useState("")
 
   const now = new Date()
   const currentMonth = now.getMonth() + 1
   const currentYear = now.getFullYear()
 
-  React.useEffect(() => {
+  function load() {
     const supabase = createClient()
     supabase.from("erp_payroll")
       .select("id, employee_name, month, year, basic, hra, allowances, deductions, tds, net_pay, status, paid_date")
-      .order("year", { ascending: false })
-      .order("month", { ascending: false })
-      .limit(300)
+      .order("year", { ascending: false }).order("month", { ascending: false }).limit(300)
       .then(({ data }) => { setRecords(data ?? []); setLoading(false) })
+  }
+
+  React.useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      supabase.from("erp_payroll").select("id, employee_name, month, year, basic, hra, allowances, deductions, tds, net_pay, status, paid_date").order("year", { ascending: false }).order("month", { ascending: false }).limit(300),
+      supabase.from("erp_employees").select("id, name").eq("status", "Active").order("name"),
+    ]).then(([p, e]) => { setRecords(p.data ?? []); setEmployees(e.data ?? []); setLoading(false) })
   }, [])
+
+  async function handleAdd() {
+    if (!empId) return
+    setSaving(true)
+    const emp = employees.find(e => e.id === empId)
+    const supabase = createClient()
+    await supabase.from("erp_payroll").insert({
+      employee_id: empId, employee_name: emp!.name,
+      month: Number(month), year: Number(year),
+      basic: Number(basic) || 0, hra: Number(hra) || 0,
+      allowances: Number(allowances) || 0, deductions: Number(deductions) || 0,
+      tds: Number(tds) || 0, status: "Draft",
+    })
+    await logErpActivity({ employeeName: "Admin", action: "payroll_entry_created", module: "hr", recordType: "payroll", recordTitle: `${emp!.name} - ${MONTHS[Number(month)-1]} ${year}` })
+    setSaving(false); setOpen(false)
+    setEmpId(""); setBasic(""); setHra(""); setAllowances(""); setDeductions(""); setTds("")
+    load()
+  }
+
+  async function updateStatus(id: string, status: string, empName: string) {
+    const supabase = createClient()
+    const update: Record<string, unknown> = { status }
+    if (status === "Paid") update.paid_date = new Date().toISOString().split("T")[0]
+    await supabase.from("erp_payroll").update(update).eq("id", id)
+    await logErpActivity({ employeeName: "Admin", action: `payroll_${status.toLowerCase()}`, module: "hr", recordType: "payroll", recordTitle: empName })
+    load()
+  }
 
   const filtered = records.filter(r => {
     const q = search.toLowerCase()
-    const ms = !q || r.employee_name.toLowerCase().includes(q)
-    const sf = statusFilter === "all" || (r.status ?? "") === statusFilter
-    return ms && sf
+    return (!q || r.employee_name.toLowerCase().includes(q)) &&
+           (statusFilter === "all" || (r.status ?? "Draft") === statusFilter)
   })
 
   const thisMonth = records.filter(r => r.month === currentMonth && r.year === currentYear)
@@ -82,46 +117,71 @@ export default function PayrollPage() {
           <h1 className="text-2xl sm:text-3xl font-bold font-headline">Payroll</h1>
           <p className="text-muted-foreground">Monthly salary processing and payout records.</p>
         </div>
-        <Button className="gap-2"><IndianRupee className="h-4 w-4" />Run Payroll</Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button className="gap-2"><PlusCircle className="h-4 w-4" />Add Entry</Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-lg">
+            <DialogHeader><DialogTitle>New Payroll Entry</DialogTitle></DialogHeader>
+            <div className="grid gap-4 py-2">
+              <div className="grid gap-1.5">
+                <Label>Employee</Label>
+                <Select value={empId} onValueChange={setEmpId}>
+                  <SelectTrigger><SelectValue placeholder="Select employee" /></SelectTrigger>
+                  <SelectContent>{employees.map(e => <SelectItem key={e.id} value={e.id}>{e.name}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-1.5">
+                  <Label>Month</Label>
+                  <Select value={month} onValueChange={setMonth}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>{MONTHS.map((m, i) => <SelectItem key={i} value={String(i+1)}>{m}</SelectItem>)}</SelectContent>
+                  </Select>
+                </div>
+                <div className="grid gap-1.5">
+                  <Label>Year</Label>
+                  <Input value={year} onChange={e => setYear(e.target.value)} placeholder="2026" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-1.5"><Label>Basic (₹)</Label><Input value={basic} onChange={e => setBasic(e.target.value)} placeholder="0" /></div>
+                <div className="grid gap-1.5"><Label>HRA (₹)</Label><Input value={hra} onChange={e => setHra(e.target.value)} placeholder="0" /></div>
+                <div className="grid gap-1.5"><Label>Allowances (₹)</Label><Input value={allowances} onChange={e => setAllowances(e.target.value)} placeholder="0" /></div>
+                <div className="grid gap-1.5"><Label>Deductions (₹)</Label><Input value={deductions} onChange={e => setDeductions(e.target.value)} placeholder="0" /></div>
+              </div>
+              <div className="grid gap-1.5"><Label>TDS (₹)</Label><Input value={tds} onChange={e => setTds(e.target.value)} placeholder="0" /></div>
+              {basic && (
+                <p className="text-sm font-semibold text-primary">
+                  Net Pay: {fmt((Number(basic)||0) + (Number(hra)||0) + (Number(allowances)||0) - (Number(deductions)||0) - (Number(tds)||0))}
+                </p>
+              )}
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+              <Button onClick={handleAdd} disabled={saving || !empId}>{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save Draft"}</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">MTD Payout</CardTitle><IndianRupee className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : fmt(paidTotal)}</div>
-            <p className="text-xs text-muted-foreground">{MONTHS[currentMonth - 1]} {currentYear}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Processed</CardTitle><CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : processedCount}</div>
-            <p className="text-xs text-muted-foreground">Payslips this month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending</CardTitle><Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : draftCount}</div>
-            <p className="text-xs text-muted-foreground">Drafts not processed</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Entries</CardTitle><Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : records.length}</div>
-            <p className="text-xs text-muted-foreground">All-time records</p>
-          </CardContent>
-        </Card>
+        {[
+          { label: "MTD Payout", value: fmt(paidTotal), sub: `${MONTHS[currentMonth-1]} ${currentYear}`, icon: IndianRupee },
+          { label: "Processed", value: processedCount, sub: "Payslips this month", icon: CheckCircle2 },
+          { label: "Pending", value: draftCount, sub: "Drafts not processed", icon: Clock },
+          { label: "Total Entries", value: records.length, sub: "All-time records", icon: Users },
+        ].map(({ label, value, sub, icon: Icon }) => (
+          <Card key={label}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">{label}</CardTitle><Icon className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{loading ? <Loader2 className="h-5 w-5 animate-spin" /> : value}</div>
+              <p className="text-xs text-muted-foreground">{sub}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <Card>
@@ -140,13 +200,10 @@ export default function PayrollPage() {
                 <SelectItem value="Paid">Paid</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline" className="gap-2 shrink-0"><Download className="h-4 w-4" />Export</Button>
           </div>
         </CardHeader>
         <CardContent>
-          {loading ? (
-            <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
-          ) : (
+          {loading ? <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div> : (
             <Table>
               <TableHeader>
                 <TableRow>
@@ -157,11 +214,12 @@ export default function PayrollPage() {
                   <TableHead className="hidden md:table-cell text-right">Deductions</TableHead>
                   <TableHead className="text-right">Net Pay</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead><span className="sr-only">Actions</span></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filtered.length === 0 ? (
-                  <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No payroll records. Run payroll to generate entries.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={8} className="text-center py-8 text-muted-foreground">No payroll records. Click "Add Entry" to create one.</TableCell></TableRow>
                 ) : filtered.map(r => (
                   <TableRow key={r.id}>
                     <TableCell>
@@ -176,6 +234,33 @@ export default function PayrollPage() {
                     <TableCell className="hidden md:table-cell text-right text-sm text-destructive">{fmt((r.deductions ?? 0) + (r.tds ?? 0))}</TableCell>
                     <TableCell className="text-right font-semibold">{fmt(r.net_pay)}</TableCell>
                     <TableCell><Badge variant={statusVariant(r.status)}>{r.status ?? "Draft"}</Badge></TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          {r.status === "Draft" && (
+                            <DropdownMenuItem onClick={() => updateStatus(r.id, "Processed", r.employee_name)}>
+                              ✅ Mark Processed
+                            </DropdownMenuItem>
+                          )}
+                          {r.status === "Processed" && (
+                            <DropdownMenuItem onClick={() => updateStatus(r.id, "Paid", r.employee_name)}>
+                              💰 Mark Paid
+                            </DropdownMenuItem>
+                          )}
+                          {r.status === "Paid" && (
+                            <DropdownMenuItem className="text-muted-foreground" disabled>Paid on {r.paid_date ?? "—"}</DropdownMenuItem>
+                          )}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem onClick={() => updateStatus(r.id, "Draft", r.employee_name)} className="text-muted-foreground">
+                            Revert to Draft
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
