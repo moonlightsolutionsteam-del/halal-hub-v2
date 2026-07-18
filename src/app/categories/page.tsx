@@ -4,7 +4,7 @@ import {
   UtensilsCrossed, Store, ShoppingCart, CookingPot,
   Sparkles, Bed, Plane, Shirt,
   CircleDollarSign, Stethoscope, GraduationCap,
-  BookOpen, Building2,
+  BookOpen, Building2, Award, ShieldCheck, BadgeCheck,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -77,6 +77,35 @@ export default async function CategoriesPage() {
             </Link>
           )
         })}
+      </div>
+
+      {/* Halal Certification CTA */}
+      <div className="rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-900 via-emerald-800 to-zinc-900 relative mt-2">
+        <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-400/10 rounded-full blur-3xl -translate-y-12 translate-x-12 pointer-events-none" />
+        <div className="relative p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <div className="h-14 w-14 rounded-2xl bg-emerald-400/20 flex items-center justify-center shrink-0">
+            <Award className="h-7 w-7 text-emerald-300" />
+          </div>
+          <div className="flex-1 space-y-1">
+            <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400">CICOT Recognised · 52 Countries · 146 Bodies</p>
+            <p className="text-lg sm:text-xl font-black text-white leading-tight">Get Your Business Halal Certified</p>
+            <p className="text-sm text-white/55 font-medium">
+              Browse globally recognised certification bodies, choose one that covers your region, and apply for your official halal certificate.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto shrink-0">
+            <Link href="/certification-bodies">
+              <div className="flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 transition-colors text-white text-sm font-black px-4 py-2.5 rounded-2xl whitespace-nowrap">
+                <BadgeCheck className="h-4 w-4" /> Browse Certifiers
+              </div>
+            </Link>
+            <Link href="/vendor/verification">
+              <div className="flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/20 transition-colors text-white text-sm font-black px-4 py-2.5 rounded-2xl border border-white/15 whitespace-nowrap">
+                <ShieldCheck className="h-4 w-4" /> Apply for Certification
+              </div>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   )

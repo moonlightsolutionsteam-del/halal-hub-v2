@@ -13,6 +13,7 @@ import {
   Users, Briefcase, Sparkles, Flame,
   Play, TrendingUp, Zap, Globe, HandHelping,
   Camera, Play as PlayIcon, Tag, Megaphone, HelpCircle, ThumbsUp,
+  Award, BadgeCheck,
 } from "lucide-react";
 import { CreatePostModal } from "@/components/create-post-modal";
 import { formatPrayerTime } from "@/lib/ummah-api";
@@ -772,6 +773,53 @@ export default function Home() {
             })}
           </div>
         )}
+      </section>
+
+      {/* ── 10b. HALAL CERTIFICATION ──────────────────────────────────────── */}
+      <section className="px-4 pt-8 pb-1">
+        <SectionHeader eyebrow="Trust & Compliance" title="Halal Certification" linkLabel="View All Bodies" linkUrl="/certification-bodies" />
+        <div className="rounded-3xl overflow-hidden bg-gradient-to-br from-emerald-900 via-emerald-800 to-zinc-900 relative">
+          {/* Pattern */}
+          <div className="absolute inset-0 opacity-[0.06] pointer-events-none" aria-hidden>
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="cert-star" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+                  <path d="M24 3L27.2 15.6L40 18L27.2 20.4L24 33L20.8 20.4L8 18L20.8 15.6Z" fill="white"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#cert-star)"/>
+            </svg>
+          </div>
+          <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-400/10 rounded-full blur-3xl -translate-y-8 translate-x-8 pointer-events-none" />
+
+          <div className="relative p-5 space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="h-11 w-11 rounded-2xl bg-emerald-400/20 flex items-center justify-center shrink-0">
+                <Award className="h-6 w-6 text-emerald-300" />
+              </div>
+              <div className="space-y-0.5">
+                <p className="text-[9px] font-black uppercase tracking-widest text-emerald-400">CICOT Recognised · 52 Countries</p>
+                <p className="text-base font-black text-white leading-tight">146 Halal Certification Bodies</p>
+                <p className="text-[11px] text-white/55 font-medium leading-relaxed">
+                  Browse globally recognised certifiers, apply for certification, or claim your body's profile.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <Link href="/certification-bodies">
+                <div className="flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 transition-colors text-white text-xs font-black px-3 py-2.5 rounded-2xl">
+                  <BadgeCheck className="h-3.5 w-3.5" /> Browse Bodies
+                </div>
+              </Link>
+              <Link href="/vendor/verification">
+                <div className="flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/20 transition-colors text-white text-xs font-black px-3 py-2.5 rounded-2xl border border-white/15">
+                  <ShieldCheck className="h-3.5 w-3.5" /> Apply for Certification
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── 11. FAITH & GIVING ────────────────────────────────────────────── */}

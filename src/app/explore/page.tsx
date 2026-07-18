@@ -15,6 +15,7 @@ import {
   Trophy, Wallet, Bookmark, TreePine,
   Building2, PlusCircle, Zap,
   MapPin, Backpack, CalendarCheck, Globe,
+  Award,
 } from "lucide-react"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -82,12 +83,13 @@ const CATEGORIES: Category[] = [
     iconBg: "bg-blue-100 dark:bg-blue-950/40",
     iconColor: "text-blue-600",
     features: [
-      { name: "Directory",    desc: "Browse all 13 business categories",  href: "/categories",   icon: LayoutGrid,      bg: "bg-blue-50 dark:bg-blue-950/30",    color: "text-blue-600" },
-      { name: "Map",          desc: "Find halal spots near you",           href: "/map",           icon: MapPin,          bg: "bg-sky-50 dark:bg-sky-950/30",     color: "text-sky-600" },
-      { name: "Events",       desc: "Islamic events in your city",         href: "/events",        icon: Calendar,        bg: "bg-purple-50 dark:bg-purple-950/30",color: "text-purple-600", badge: "Popular" },
-      { name: "Halal Check",  desc: "Scan & verify halal products",        href: "/halal-check",   icon: ShieldCheck,     bg: "bg-green-50 dark:bg-green-950/30",  color: "text-green-600" },
-      { name: "Restaurants",  desc: "Find halal dining near you",          href: "/restaurants",   icon: UtensilsCrossed, bg: "bg-orange-50 dark:bg-orange-950/30",color: "text-orange-600", badge: "Popular" },
-      { name: "Travel",       desc: "Halal-friendly travel options",       href: "/travel",        icon: Compass,         bg: "bg-amber-50 dark:bg-amber-950/30",  color: "text-amber-600" },
+      { name: "Directory",              desc: "Browse all 13 business categories",         href: "/categories",          icon: LayoutGrid,      bg: "bg-blue-50 dark:bg-blue-950/30",    color: "text-blue-600" },
+      { name: "Map",                    desc: "Find halal spots near you",                href: "/map",                 icon: MapPin,          bg: "bg-sky-50 dark:bg-sky-950/30",     color: "text-sky-600" },
+      { name: "Events",                 desc: "Islamic events in your city",               href: "/events",              icon: Calendar,        bg: "bg-purple-50 dark:bg-purple-950/30",color: "text-purple-600", badge: "Popular" },
+      { name: "Halal Check",            desc: "Scan & verify halal products",              href: "/halal-check",         icon: ShieldCheck,     bg: "bg-green-50 dark:bg-green-950/30",  color: "text-green-600" },
+      { name: "Restaurants",            desc: "Find halal dining near you",                href: "/restaurants",         icon: UtensilsCrossed, bg: "bg-orange-50 dark:bg-orange-950/30",color: "text-orange-600", badge: "Popular" },
+      { name: "Travel",                 desc: "Halal-friendly travel options",             href: "/travel",              icon: Compass,         bg: "bg-amber-50 dark:bg-amber-950/30",  color: "text-amber-600" },
+      { name: "Certification Bodies",   desc: "Browse 146 CICOT-recognised certifiers",   href: "/certification-bodies",icon: Award,           bg: "bg-emerald-50 dark:bg-emerald-950/30",color: "text-emerald-600", badge: "New" },
     ],
   },
   {
@@ -167,10 +169,11 @@ const CATEGORIES: Category[] = [
     iconBg: "bg-slate-100 dark:bg-slate-800/60",
     iconColor: "text-slate-600",
     features: [
-      { name: "Partner Portal",  desc: "Manage your business profile",       href: "/partner/portal",                       icon: Building2,  bg: "bg-slate-50 dark:bg-slate-900/40",    color: "text-slate-600" },
-      { name: "List a Business", desc: "Add your business to Halal Hub",    href: "/partner/onboarding/business/category", icon: PlusCircle, bg: "bg-emerald-50 dark:bg-emerald-950/30",color: "text-emerald-600", badge: "New" },
-      { name: "Get Verified",    desc: "Apply for the halal verified badge", href: "/verifier",                             icon: ShieldCheck,bg: "bg-green-50 dark:bg-green-950/30",    color: "text-green-600" },
-      { name: "Suggest a Place", desc: "Recommend a business to add",        href: "/suggest",                              icon: Globe,      bg: "bg-blue-50 dark:bg-blue-950/30",      color: "text-blue-600" },
+      { name: "Partner Portal",         desc: "Manage your business profile",               href: "/partner/portal",                       icon: Building2,  bg: "bg-slate-50 dark:bg-slate-900/40",    color: "text-slate-600" },
+      { name: "List a Business",        desc: "Add your business to Halal Hub",            href: "/partner/onboarding/business/category", icon: PlusCircle, bg: "bg-emerald-50 dark:bg-emerald-950/30",color: "text-emerald-600", badge: "New" },
+      { name: "Get Verified",           desc: "Find a CICOT-recognised certifier",          href: "/certification-bodies",                 icon: ShieldCheck,bg: "bg-green-50 dark:bg-green-950/30",    color: "text-green-600" },
+      { name: "Apply for Certification",desc: "Start your halal certification journey",    href: "/vendor/verification",                  icon: Award,      bg: "bg-amber-50 dark:bg-amber-950/30",    color: "text-amber-600", badge: "New" },
+      { name: "Suggest a Place",        desc: "Recommend a business to add",                href: "/suggest",                              icon: Globe,      bg: "bg-blue-50 dark:bg-blue-950/30",      color: "text-blue-600" },
     ],
   },
 ]
