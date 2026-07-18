@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import {
   Award, Search, Globe, MapPin, CheckCircle2, Clock,
   Loader2, ShieldCheck, ArrowLeft, BadgeCheck, Mail,
-  Phone, User, MessageSquare
+  Phone, User, MessageSquare, CalendarDays, AlertCircle
 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { logErpActivity } from "@/lib/erp-logger"
@@ -32,6 +32,7 @@ type CertBody = {
   accrediting_authority: string | null
   claim_status: string
   is_pre_seeded: boolean
+  recognition_expires_at: string | null
 }
 
 type ClaimForm = {
@@ -78,7 +79,7 @@ export default function CertificationBodiesPage() {
     const supabase = createClient()
     supabase
       .from("certification_bodies")
-      .select("id, name, country, coverage_type, certification_categories, accrediting_authority, claim_status, is_pre_seeded")
+      .select("id, name, country, coverage_type, certification_categories, accrediting_authority, claim_status, is_pre_seeded, recognition_expires_at")
       .eq("status", "approved")
       .order("name")
       .then(({ data }) => {
@@ -231,6 +232,11 @@ export default function CertificationBodiesPage() {
             const isPending = body.claim_status === "claim_pending"
             const isUnclaimed = body.claim_status === "unclaimed"
             const wasJustClaimed = justClaimed.has(body.id)
+            const expiryDate = body.recognition_expires_at ? new Date(body.recognition_expires_at) : null
+            const isRecognitionActive = expiryDate ? expiryDate > new Date() : false
+            const expiryLabel = expiryDate
+              ? expiryDate.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })
+              : null
 
             return (
               <Card key={body.id} className="rounded-2xl border-none shadow-sm hover:shadow-md transition-all bg-card">
@@ -270,6 +276,32 @@ export default function CertificationBodiesPage() {
                       </Badge>
                     )}
                   </div>
+
+                  {/* CICOT Recognition expiry */}
+                  {expiryLabel && (
+                    <div className={`flex items-center gap-2 rounded-xl px-3 py-2 ${
+                      isRecognitionActive
+                        ? "bg-emerald-50 dark:bg-emerald-950/20"
+                        : "bg-amber-50 dark:bg-amber-950/20"
+                    }`}>
+                      {isRecognitionActive
+                        ? <CalendarDays className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                        : <AlertCircle className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                      }
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-[10px] font-black uppercase tracking-wide ${
+                          isRecognitionActive ? "text-emerald-700 dark:text-emerald-400" : "text-amber-700 dark:text-amber-400"
+                        }`}>
+                          {isRecognitionActive ? "CICOT Recognised" : "Renewal Due"}
+                        </p>
+                        <p className={`text-[11px] font-bold ${
+                          isRecognitionActive ? "text-emerald-600 dark:text-emerald-500" : "text-amber-600 dark:text-amber-500"
+                        }`}>
+                          {isRecognitionActive ? `Valid until ${expiryLabel}` : `Expired ${expiryLabel}`}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Claim CTA */}
                   {body.is_pre_seeded && isUnclaimed && (
