@@ -822,6 +822,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── 10c. DISCOVER ON MAP ──────────────────────────────────────────── */}
+      <section className="px-4 pt-8 pb-1">
+        <SectionHeader eyebrow="Near You" title="Discover on Map" linkLabel="Open Map" linkUrl="/map" />
+        <Link href="/map">
+          <div className="relative rounded-3xl overflow-hidden h-44 bg-gradient-to-br from-sky-500 to-indigo-600 group active:scale-[0.98] transition-transform">
+            {/* OSM tile preview */}
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=72.7,18.9,73.1,19.3&layer=mapnik&marker=19.076,72.8777"
+              className="absolute inset-0 w-full h-full opacity-70 pointer-events-none"
+              style={{ border: 0 }}
+              loading="lazy"
+            />
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-transparent to-transparent" />
+            {/* CTA content */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between">
+              <div>
+                <p className="text-white font-black text-base leading-tight">Halal places around you</p>
+                <p className="text-white/70 text-xs font-medium mt-0.5">Restaurants · Mosques · Meat shops & more</p>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white text-sky-700 font-black text-xs px-3 py-2 rounded-full shadow-lg">
+                <MapPin className="h-3.5 w-3.5" /> Explore
+              </div>
+            </div>
+          </div>
+        </Link>
+      </section>
+
       {/* ── 11. FAITH & GIVING ────────────────────────────────────────────── */}
       <section className="px-4 pt-8 pb-1">
         <SectionHeader eyebrow="Spiritual Tools" title="Faith & Giving" />
