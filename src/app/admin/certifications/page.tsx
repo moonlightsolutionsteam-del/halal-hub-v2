@@ -4,7 +4,8 @@ import { useEffect, useState, useCallback } from "react"
 import {
   Award, ShieldCheck, Building2, Clock, AlertTriangle, Ban,
   Search, MoreHorizontal, CheckCircle2, XCircle, Info, Pause,
-  Loader2, Globe, MapPin, FileText, ChevronDown
+  Loader2, Globe, MapPin, FileText, ChevronDown, BadgeCheck,
+  Mail, Phone, User, MessageSquare
 } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { logErpActivity } from "@/lib/erp-logger"
@@ -65,6 +66,26 @@ const STATUS_BADGE: Record<string, string> = {
 
 type ActionType = "approve" | "reject" | "info_requested" | "under_review" | "suspend" | "blacklist"
 
+type Claim = {
+  id: string
+  certification_body_id: string
+  vendor_name: string
+  contact_email: string
+  contact_phone: string | null
+  designation: string | null
+  message: string | null
+  status: string
+  admin_notes: string | null
+  created_at: string
+  certification_bodies: { name: string; country: string | null } | null
+}
+
+const CLAIM_STATUS_BADGE: Record<string, string> = {
+  pending: "bg-amber-50 text-amber-700 border-amber-200",
+  approved: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  rejected: "bg-red-50 text-red-700 border-red-200",
+}
+
 export default function AdminCertificationsPage() {
   const [bodies, setBodies] = useState<Body[]>([])
   const [loading, setLoading] = useState(true)
@@ -73,6 +94,12 @@ export default function AdminCertificationsPage() {
   const [actionDialog, setActionDialog] = useState<{ body: Body; type: ActionType } | null>(null)
   const [reason, setReason] = useState("")
   const [saving, setSaving] = useState(false)
+
+  const [claims, setClaims] = useState<Claim[]>([])
+  const [claimsLoading, setClaimsLoading] = useState(true)
+  const [claimAction, setClaimAction] = useState<{ claim: Claim; type: "approve" | "reject" } | null>(null)
+  const [claimNotes, setClaimNotes] = useState("")
+  const [claimSaving, setClaimSaving] = useState(false)
 
   const supabase = createClient()
 
@@ -86,7 +113,19 @@ export default function AdminCertificationsPage() {
     setLoading(false)
   }, [])
 
+  const loadClaims = useCallback(async () => {
+    setClaimsLoading(true)
+    const { data } = await supabase
+      .from("certification_body_claims")
+      .select("*, certification_bodies(name, country)")
+      .order("created_at", { ascending: false })
+    setClaims((data as Claim[]) ?? [])
+    setClaimsLoading(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   useEffect(() => { load() }, [load])
+  useEffect(() => { loadClaims() }, [loadClaims])
 
   const statusCounts = STATUS_TABS.reduce<Record<string, number>>((acc, t) => {
     acc[t.key] = bodies.filter(b => b.status === t.key).length
@@ -144,6 +183,39 @@ export default function AdminCertificationsPage() {
   }
 
   const needsReason = actionDialog?.type === "reject" || actionDialog?.type === "suspend" || actionDialog?.type === "blacklist"
+
+  const handleClaimAction = async () => {
+    if (!claimAction) return
+    setClaimSaving(true)
+    const { claim, type } = claimAction
+
+    await supabase.from("certification_body_claims").update({
+      status: type === "approve" ? "approved" : "rejected",
+      admin_notes: claimNotes || null,
+      reviewed_at: new Date().toISOString(),
+    }).eq("id", claim.id)
+
+    if (type === "approve") {
+      await supabase.from("certification_bodies").update({ claim_status: "claimed" }).eq("id", claim.certification_body_id)
+    } else {
+      await supabase.from("certification_bodies").update({ claim_status: "unclaimed" }).eq("id", claim.certification_body_id)
+    }
+
+    await logErpActivity({
+      employeeName: "Admin",
+      action: type === "approve" ? "CLAIM_APPROVED" : "CLAIM_REJECTED",
+      module: "Certifications",
+      recordType: "certification_body_claim",
+      recordId: claim.id,
+      recordTitle: claim.certification_bodies?.name ?? claim.id,
+      newValue: { status: type, notes: claimNotes },
+    })
+
+    setClaimAction(null)
+    setClaimNotes("")
+    setClaimSaving(false)
+    loadClaims()
+  }
 
   const totalApproved = bodies.filter(b => b.status === "approved").length
   const totalPending = bodies.filter(b => b.status === "pending").length
@@ -334,6 +406,159 @@ export default function AdminCertificationsPage() {
           ))}
         </Tabs>
       </Card>
+
+      {/* Body Claims Section */}
+      <Card className="rounded-3xl border-none shadow-sm bg-card overflow-hidden">
+        <CardHeader className="p-6 border-b">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <CardTitle className="font-black text-lg flex items-center gap-2">
+                <BadgeCheck className="h-5 w-5 text-emerald-600" /> Body Claims
+              </CardTitle>
+              <p className="text-xs text-muted-foreground font-medium">Certification bodies claiming their pre-seeded profile on Halal Hub</p>
+            </div>
+            <Badge className="bg-amber-50 text-amber-700 border-amber-200 font-black">
+              {claims.filter(c => c.status === "pending").length} Pending
+            </Badge>
+          </div>
+        </CardHeader>
+        {claimsLoading ? (
+          <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+        ) : claims.length === 0 ? (
+          <div className="text-center py-16 text-muted-foreground">
+            <BadgeCheck className="h-10 w-10 mx-auto mb-3 opacity-20" />
+            <p className="font-bold text-sm">No claims submitted yet</p>
+            <p className="text-xs mt-1">Claims will appear here when certification bodies submit them</p>
+          </div>
+        ) : (
+          <Table>
+            <TableHeader className="bg-muted/40">
+              <TableRow className="border-none">
+                <TableHead className="px-8 h-12 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Organisation</TableHead>
+                <TableHead className="h-12 font-black text-[10px] uppercase tracking-widest text-muted-foreground hidden md:table-cell">Applicant</TableHead>
+                <TableHead className="h-12 font-black text-[10px] uppercase tracking-widest text-muted-foreground hidden lg:table-cell">Contact</TableHead>
+                <TableHead className="h-12 font-black text-[10px] uppercase tracking-widest text-muted-foreground">Status</TableHead>
+                <TableHead className="h-12 font-black text-[10px] uppercase tracking-widest text-muted-foreground hidden sm:table-cell">Submitted</TableHead>
+                <TableHead className="text-right px-8 h-12"><span className="sr-only">Actions</span></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {claims.map(claim => (
+                <TableRow key={claim.id} className="border-border hover:bg-muted/40 transition-colors group">
+                  <TableCell className="px-8 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                        <Award className="h-4 w-4 text-emerald-600" />
+                      </div>
+                      <div>
+                        <p className="font-black text-foreground text-sm">{claim.certification_bodies?.name ?? "Unknown"}</p>
+                        {claim.certification_bodies?.country && (
+                          <p className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
+                            <MapPin className="h-2.5 w-2.5" /> {claim.certification_bodies.country}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    <div className="space-y-0.5">
+                      <p className="text-sm font-black text-foreground flex items-center gap-1.5">
+                        <User className="h-3 w-3 text-muted-foreground" /> {claim.vendor_name}
+                      </p>
+                      {claim.designation && (
+                        <p className="text-[10px] text-muted-foreground font-medium">{claim.designation}</p>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell className="hidden lg:table-cell">
+                    <div className="space-y-0.5">
+                      <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                        <Mail className="h-3 w-3" /> {claim.contact_email}
+                      </p>
+                      {claim.contact_phone && (
+                        <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                          <Phone className="h-3 w-3" /> {claim.contact_phone}
+                        </p>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className={`font-black text-[9px] uppercase px-3 ${CLAIM_STATUS_BADGE[claim.status] ?? ""}`}>
+                      {claim.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell">
+                    <p className="text-xs text-muted-foreground font-medium">
+                      {new Date(claim.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                    </p>
+                  </TableCell>
+                  <TableCell className="text-right px-8">
+                    {claim.status === "pending" && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="icon" variant="ghost" className="rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="rounded-2xl w-48">
+                          <DropdownMenuLabel className="font-black text-[10px] uppercase tracking-widest">Claim Review</DropdownMenuLabel>
+                          <DropdownMenuItem className="gap-2 font-bold" onClick={() => setClaimAction({ claim, type: "approve" })}>
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" /> Approve Claim
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="gap-2 font-bold text-red-600" onClick={() => setClaimAction({ claim, type: "reject" })}>
+                            <XCircle className="h-3.5 w-3.5" /> Reject Claim
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </Card>
+
+      {/* Claim Action Dialog */}
+      <Dialog open={!!claimAction} onOpenChange={open => { if (!open) { setClaimAction(null); setClaimNotes("") } }}>
+        <DialogContent className="rounded-3xl max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-black text-xl">
+              {claimAction?.type === "approve" ? "Approve Claim" : "Reject Claim"}
+            </DialogTitle>
+            <p className="text-sm text-muted-foreground font-medium">
+              {claimAction?.claim.certification_bodies?.name ?? "This body"} — claimed by {claimAction?.claim.vendor_name}
+            </p>
+          </DialogHeader>
+          <div className="space-y-2 py-2">
+            <Label className="font-black text-xs uppercase tracking-widest">Admin Notes (optional)</Label>
+            <Textarea
+              placeholder="Add any notes for the claimant..."
+              value={claimNotes}
+              onChange={e => setClaimNotes(e.target.value)}
+              className="rounded-2xl min-h-[80px]"
+            />
+          </div>
+          {claimAction?.type === "approve" && (
+            <p className="text-xs text-emerald-700 font-medium bg-emerald-50 rounded-xl px-3 py-2">
+              Approving will transfer the body profile to this vendor and mark it as claimed.
+            </p>
+          )}
+          <DialogFooter className="gap-2">
+            <Button variant="outline" className="rounded-2xl font-black" onClick={() => { setClaimAction(null); setClaimNotes("") }}>
+              Cancel
+            </Button>
+            <Button
+              className={`rounded-2xl font-black ${claimAction?.type === "approve" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : "bg-red-600 hover:bg-red-700 text-white"}`}
+              disabled={claimSaving}
+              onClick={handleClaimAction}
+            >
+              {claimSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+              {claimAction?.type === "approve" ? "Approve & Transfer" : "Reject Claim"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Action Confirmation Dialog */}
       <Dialog open={!!actionDialog} onOpenChange={open => { if (!open) { setActionDialog(null); setReason("") } }}>
