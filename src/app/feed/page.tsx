@@ -24,12 +24,13 @@ import { useFaithMoment } from "@/hooks/use-faith-moment"
 import { formatPrayerTime } from "@/lib/ummah-api"
 import { CreatePostModal } from "@/components/create-post-modal"
 import { CommentSheet } from "@/components/comment-sheet"
+import { SocialEmbedCard } from "@/components/social-embed-card"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type FeedItemType =
   | "post" | "reel" | "collab" | "offer" | "event"
-  | "community" | "creator" | "blog" | "discussion" | "nearby"
+  | "community" | "creator" | "blog" | "discussion" | "nearby" | "social"
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -1146,6 +1147,42 @@ function interleaveFeedInserts(nodes: React.ReactNode[]): React.ReactNode[] {
   return out
 }
 
+// ─── Social Embed Feed Card ───────────────────────────────────────────────────
+
+function SocialFeedCard({ item }: { item: any }) {
+  const [liked, setLiked] = React.useState(false)
+  const [likeCount, setLikeCount] = React.useState<number>(item.likes ?? 0)
+  const embed = item.social_embed
+  if (!embed) return null
+  return (
+    <Card className="rounded-none sm:rounded-2xl border-x-0 sm:border-x border-none shadow-sm bg-card overflow-hidden">
+      <div className="flex items-center justify-between p-4 pb-3">
+        <div className="flex items-center gap-3">
+          <div className="rounded-full p-[2px] bg-gradient-to-br from-primary via-emerald-400 to-teal-500">
+            <Avatar className="h-10 w-10 border-2 border-white">
+              <AvatarFallback className="bg-primary/10 text-primary font-black text-xs">{item.author.name[0]}</AvatarFallback>
+            </Avatar>
+          </div>
+          <div>
+            <span className="text-sm font-black text-foreground">{item.author.name}</span>
+            <p className="text-[11px] text-muted-foreground font-medium">{item.timeAgo} ago</p>
+          </div>
+        </div>
+      </div>
+      <div className="px-4 pb-3">
+        {item.caption && <p className="text-sm text-foreground mb-3">{item.caption}</p>}
+        <SocialEmbedCard embed={embed} />
+      </div>
+      <div className="px-4 pb-3 flex items-center gap-4 border-t border-border pt-3">
+        <button onClick={() => { setLiked(l => !l); setLikeCount(c => liked ? c - 1 : c + 1) }} className="group">
+          <Heart className={cn("h-6 w-6 transition-colors", liked ? "text-red-500 fill-red-500" : "text-foreground group-hover:text-red-400")} />
+        </button>
+        <span className="text-sm font-black text-foreground">{fmt(likeCount)}</span>
+      </div>
+    </Card>
+  )
+}
+
 // ─── Card Dispatcher ──────────────────────────────────────────────────────────
 
 function FeedCard({ item }: { item: { id: any; type: FeedItemType; [k: string]: any } }) {
@@ -1160,6 +1197,7 @@ function FeedCard({ item }: { item: { id: any; type: FeedItemType; [k: string]: 
     case "offer":      return <OfferCard      item={item} />
     case "nearby":     return <NearbyCard     item={item} />
     case "event":      return <EventCard      item={item} />
+    case "social":     return <SocialFeedCard item={item} />
     default:           return null
   }
 }
@@ -1236,6 +1274,12 @@ export default function FeedPage() {
           }
           const base = { id: b.id ?? i + 1000, timeAgo: ago, tags: [] as string[] }
 
+          if (pt === "social") {
+            return { ...base, type: "social" as FeedItemType, author,
+              caption: b.description || null,
+              social_embed: b.metadata?.social_embed ?? null,
+              likes: 0 }
+          }
           if (pt === "discussion" || pt === "question") {
             return { ...base, type: "discussion" as FeedItemType, author, question: b.description || "",
               excerpt: "", replies: 0, upvotes: 0, views: "0", isTrending: false,

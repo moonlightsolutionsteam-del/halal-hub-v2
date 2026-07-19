@@ -9,8 +9,9 @@ import { cn } from "@/lib/utils"
 import {
   X, Camera, Play, Star, MessageCircle, MapPin, Calendar,
   ThumbsUp, Tag, Megaphone, HelpCircle, Users, ChevronLeft,
-  ImagePlus, Video, Upload, Loader2, CheckCircle2, Zap,
+  ImagePlus, Video, Upload, Loader2, CheckCircle2, Zap, Link2,
 } from "lucide-react"
+import { SocialEmbedCard, useSocialEmbed, extractSocialUrl } from "@/components/social-embed-card"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -18,6 +19,7 @@ type PostType =
   | "story" | "photo" | "video" | "review" | "discussion"
   | "checkin" | "event" | "recommendation"
   | "offer" | "business_update" | "question" | "community"
+  | "social"
 
 interface PostTypeConfig {
   id: PostType
@@ -43,6 +45,7 @@ const POST_TYPES: PostTypeConfig[] = [
   { id: "business_update", label: "Business Update", icon: Megaphone,     tint: "bg-emerald-50 dark:bg-emerald-950/40",iconColor: "text-emerald-600 dark:text-emerald-400",placeholder: "Share an update about your business…",     hasMedia: true },
   { id: "question",        label: "Question",        icon: HelpCircle,    tint: "bg-indigo-50 dark:bg-indigo-950/40", iconColor: "text-indigo-600 dark:text-indigo-400", placeholder: "Ask the community a question…",             hasMedia: false },
   { id: "community",       label: "Community Post",  icon: Users,         tint: "bg-pink-50 dark:bg-pink-950/40",     iconColor: "text-pink-600 dark:text-pink-400",     placeholder: "Post to the community…",                   hasMedia: true },
+  { id: "social",          label: "Social Link",     icon: Link2,         tint: "bg-cyan-50 dark:bg-cyan-950/40",     iconColor: "text-cyan-600 dark:text-cyan-400",     placeholder: "Paste a YouTube, Instagram, or X link…",   hasMedia: false },
 ]
 
 function getInitials(name: string | null | undefined) {
@@ -84,6 +87,10 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
   const [success, setSuccess] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
 
+  // Social embed — derived from the text field
+  const detectedSocialUrl = selectedType === "social" ? extractSocialUrl(text) : null
+  const { embed: socialEmbed, loading: socialLoading } = useSocialEmbed(detectedSocialUrl)
+
   const fileInputRef = React.useRef<HTMLInputElement>(null)
   const typeConfig = POST_TYPES.find(t => t.id === selectedType)!
 
@@ -121,6 +128,7 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
 
   const canPost = (): boolean => {
     if (selectedType === "story") return !!mediaFile
+    if (selectedType === "social") return !!detectedSocialUrl
     if (!text.trim() && !mediaFile) return false
     if (selectedType === "review" && !businessName.trim()) return false
     if (selectedType === "event" && !title.trim()) return false
@@ -156,6 +164,7 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
       if (selectedType === "event")   { metadata.event_date = eventDate; metadata.event_time = eventTime; metadata.event_title = title }
       if (selectedType === "offer")   { metadata.discount = discount; metadata.offer_title = title }
       if (selectedType === "checkin") { metadata.location = location }
+      if (selectedType === "social" && socialEmbed) { metadata.social_embed = socialEmbed }
 
       const { error: insertErr } = await supabase.from("feed_posts").insert({
         owner_id: user.uid,
@@ -364,6 +373,23 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
                     value={discount}
                     onChange={e => setDiscount(e.target.value)}
                   />
+                </div>
+              )}
+
+              {/* Social embed preview */}
+              {selectedType === "social" && (
+                <div className="mt-1">
+                  {socialLoading && detectedSocialUrl && (
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground py-3">
+                      <Loader2 className="h-4 w-4 animate-spin" /> Fetching preview…
+                    </div>
+                  )}
+                  {socialEmbed && !socialLoading && (
+                    <SocialEmbedCard embed={socialEmbed} />
+                  )}
+                  {!detectedSocialUrl && text.trim() && (
+                    <p className="text-xs text-muted-foreground">Paste a YouTube, Instagram, X, or Facebook URL above to see a preview.</p>
+                  )}
                 </div>
               )}
 
