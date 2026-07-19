@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MessageSquare, Search, Loader2, ArrowRight, Bell, CheckCircle2, UserPlus, Clock, AlertTriangle } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useToast } from "@/hooks/use-toast"
+import { withLock } from "@/lib/processing-lock"
 
 type Msg = {
   id: string
@@ -64,6 +65,16 @@ export default function AdminEnquiryPage() {
 
   async function routeToCrm(msg: Msg) {
     setRouting(msg.id)
+    try {
+      await withLock(`enquiry_route_${msg.id}`, () => _doRoute(msg), `Routing enquiry from ${msg.sender?.name ?? "Unknown"}`)
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Could not acquire lock"
+      toast({ title: "Action blocked", description: message, variant: "destructive" })
+      setRouting(null)
+    }
+  }
+
+  async function _doRoute(msg: Msg) {
     const supabase = createClient()
     const { type, priority } = detectEnquiryType(msg.content)
 
