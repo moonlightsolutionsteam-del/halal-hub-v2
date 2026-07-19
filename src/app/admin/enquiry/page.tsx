@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MessageSquare, Search, Loader2, ArrowRight, Bell, CheckCircle2, UserPlus } from "lucide-react"
+import { MessageSquare, Search, Loader2, ArrowRight, Bell, CheckCircle2, UserPlus, Clock, AlertTriangle } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 
@@ -18,6 +18,15 @@ type Msg = {
   sender: { name: string | null; email: string | null } | null
   receiver: { name: string | null } | null
   routed_to_crm?: boolean
+}
+
+// SLA targets in hours per priority
+const SLA_HOURS: Record<"urgent" | "normal", number> = { urgent: 2, normal: 24 }
+
+function getSlaStatus(createdAt: string, priority: "urgent" | "normal", isRead: boolean | null): { breach: boolean; hoursElapsed: number; target: number } {
+  const hoursElapsed = (Date.now() - new Date(createdAt).getTime()) / 3_600_000
+  const target = SLA_HOURS[priority]
+  return { breach: !isRead && hoursElapsed > target, hoursElapsed, target }
 }
 
 // Heuristics to detect investment/partnership enquiries — these get founder alert
@@ -114,6 +123,10 @@ export default function AdminEnquiryPage() {
 
   const unread = filtered.filter(m => !m.is_read)
   const urgent = filtered.filter(m => detectEnquiryType(m.content).priority === "urgent")
+  const slaBreached = filtered.filter(m => {
+    const { priority } = detectEnquiryType(m.content)
+    return getSlaStatus(m.created_at, priority, m.is_read).breach
+  })
 
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
@@ -125,10 +138,11 @@ export default function AdminEnquiryPage() {
       </div>
 
       {/* Stats strip */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-4 gap-3">
         {[
           { label: "Unread", value: unread.length, color: "text-primary" },
-          { label: "Urgent / Investment", value: urgent.length, color: "text-amber-600" },
+          { label: "Urgent", value: urgent.length, color: "text-amber-600" },
+          { label: "SLA Breached", value: slaBreached.length, color: slaBreached.length > 0 ? "text-red-600" : "text-muted-foreground" },
           { label: "Routed to CRM", value: routedIds.size, color: "text-emerald-600" },
         ].map(({ label, value, color }) => (
           <Card key={label} className="rounded-2xl border-none shadow-sm">
@@ -139,6 +153,26 @@ export default function AdminEnquiryPage() {
           </Card>
         ))}
       </div>
+
+      {/* SLA targets legend */}
+      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+        <Clock className="h-3.5 w-3.5 shrink-0" />
+        <span>SLA targets:</span>
+        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-amber-500 inline-block" /> Urgent — 2 hrs</span>
+        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-muted-foreground inline-block" /> Normal — 24 hrs</span>
+      </div>
+
+      {slaBreached.length > 0 && (
+        <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 border border-red-100 dark:bg-red-950/20 dark:border-red-900/30">
+          <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-black text-red-700 dark:text-red-400">{slaBreached.length} message{slaBreached.length > 1 ? "s" : ""} past SLA deadline</p>
+            <p className="text-xs text-red-600 dark:text-red-500 mt-0.5">
+              {slaBreached.slice(0, 3).map(m => m.sender?.name ?? "Unknown").join(", ")}{slaBreached.length > 3 ? ` +${slaBreached.length - 3} more` : ""}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -180,9 +214,10 @@ export default function AdminEnquiryPage() {
                     const { type, priority } = detectEnquiryType(m.content)
                     const isInvestment = priority === "urgent"
                     const alreadyRouted = routedIds.has(m.id)
+                    const sla = getSlaStatus(m.created_at, priority, m.is_read)
                     const date = new Date(m.created_at).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
                     return (
-                      <Card key={m.id} className={`rounded-2xl border-none shadow-sm ${!m.is_read ? "ring-1 ring-primary/30 bg-primary/5" : ""} ${isInvestment ? "ring-1 ring-amber-300 bg-amber-50/50 dark:bg-amber-950/10" : ""}`}>
+                      <Card key={m.id} className={`rounded-2xl border-none shadow-sm ${sla.breach ? "ring-1 ring-red-300 bg-red-50/30 dark:bg-red-950/10" : !m.is_read ? "ring-1 ring-primary/30 bg-primary/5" : ""} ${isInvestment && !sla.breach ? "ring-1 ring-amber-300 bg-amber-50/50 dark:bg-amber-950/10" : ""}`}>
                         <CardContent className="p-4 space-y-3">
                           <div className="flex items-start gap-4">
                             <div className="flex-1 min-w-0 space-y-1">
@@ -195,9 +230,15 @@ export default function AdminEnquiryPage() {
                                   {type}
                                 </Badge>
                                 {isInvestment && <Bell className="h-3.5 w-3.5 text-amber-500" />}
+                                {sla.breach && (
+                                  <span className="flex items-center gap-1 text-[10px] font-bold text-red-600">
+                                    <AlertTriangle className="h-3 w-3" />
+                                    SLA +{Math.round(sla.hoursElapsed - sla.target)}h overdue
+                                  </span>
+                                )}
                               </div>
                               <p className="text-sm text-foreground line-clamp-2">{m.content}</p>
-                              <p className="text-xs text-muted-foreground">{date}</p>
+                              <p className="text-xs text-muted-foreground">{date} · SLA {sla.target}h</p>
                             </div>
                           </div>
                           <div className="flex justify-end">

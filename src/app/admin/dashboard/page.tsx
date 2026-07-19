@@ -284,6 +284,7 @@ export default function SuperAdminDashboard() {
           { label: "Vendor Health", href: "/admin/vendor-health", icon: TrendingUp, color: "text-cyan-600", bg: "bg-cyan-50" },
           { label: "Onboarding KPIs", href: "/admin/onboarding-funnel", icon: Network, color: "text-indigo-600", bg: "bg-indigo-50" },
           { label: "Enquiries", href: "/admin/enquiry", icon: MessageSquare, color: "text-pink-600", bg: "bg-pink-50" },
+          { label: "Audit Log", href: "/admin/audit-log", icon: History, color: "text-slate-600", bg: "bg-slate-50" },
         ].map((link) => (
           <Link key={link.href} href={link.href}>
             <Card className="border-none shadow-sm rounded-[2rem] p-5 bg-card hover:shadow-lg transition-all duration-300 group cursor-pointer h-full">
