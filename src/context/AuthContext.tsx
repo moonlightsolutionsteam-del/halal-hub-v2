@@ -11,6 +11,7 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<void>;
   signInWithPhone: (phone: string) => Promise<void>;
   verifyOtp: (phone: string, otp: string) => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   setUserRole: (role: UserRole) => void;
 }
@@ -103,6 +104,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.push('/account/dashboard');
   };
 
+  const signInWithEmail = async (email: string, password: string) => {
+    if (isDev) { router.push('/admin/erp'); return; }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    router.push('/admin/erp');
+  };
+
   const signOut = async () => {
     if (isDev) return;
     await supabase.auth.signOut();
@@ -115,7 +123,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithPhone, verifyOtp, signOut, setUserRole }}>
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithPhone, verifyOtp, signInWithEmail, signOut, setUserRole }}>
       {children}
     </AuthContext.Provider>
   );
