@@ -154,8 +154,7 @@ const CATEGORIES: Category[] = [
     iconColor: "text-amber-600",
     features: [
       { name: "My Journey",  desc: "Your faith & lifestyle journey",       href: "/account/backpack",  icon: Backpack,  bg: "bg-amber-50 dark:bg-amber-950/30",  color: "text-amber-600" },
-      { name: "Rewards",     desc: "Points, badges & achievements",        href: "/rewards",           icon: Trophy,    bg: "bg-yellow-50 dark:bg-yellow-950/30",color: "text-yellow-600", badge: "Popular" },
-      { name: "Wallet",      desc: "HH Coins & payment history",          href: "/account/wallet",    icon: Wallet,    bg: "bg-green-50 dark:bg-green-950/30",  color: "text-green-600" },
+      { name: "Rewards & Wallet", desc: "Coins, rewards & transaction history", href: "/account/wallet", icon: Trophy, bg: "bg-yellow-50 dark:bg-yellow-950/30", color: "text-yellow-600", badge: "Popular" },
       { name: "Family Tree", desc: "Map your lineage & roots",             href: "/family-tree",       icon: TreePine,  bg: "bg-teal-50 dark:bg-teal-950/30",   color: "text-teal-600",  badge: "New" },
       { name: "Saved",       desc: "Bookmarked places, posts & products",  href: "/saved",             icon: Bookmark,  bg: "bg-rose-50 dark:bg-rose-950/30",   color: "text-rose-600" },
       { name: "Settings",    desc: "App preferences & account info",       href: "/account/settings",  icon: Zap,       bg: "bg-slate-50 dark:bg-slate-900/40", color: "text-slate-500" },
