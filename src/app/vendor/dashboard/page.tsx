@@ -56,7 +56,7 @@ export default function VendorDashboard() {
   }, [user?.uid, authLoading])
 
   const quickActions = [
-    { label: "Add Product", icon: PlusCircle, color: "text-emerald-500", bg: "bg-emerald-50", href: "/vendor/products" },
+    { label: "Add Menu Item", icon: PlusCircle, color: "text-emerald-500", bg: "bg-emerald-50", href: "/vendor/products" },
     { label: "Create Offer",  icon: Tag,         color: "text-blue-500",   bg: "bg-blue-50",    href: "/vendor/orders" },
     { label: "New Event",     icon: Calendar,    color: "text-purple-500", bg: "bg-purple-50",  href: "/vendor/reservations" },
     { label: "Boost Listing", icon: Rocket,      color: "text-amber-500",  bg: "bg-amber-50",   href: "/vendor/profile" },

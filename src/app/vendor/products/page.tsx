@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import {
   Plus, Search, Filter, Edit2,
   Trash2, MoreVertical, Loader2,
-  Package, X, ImagePlus
+  UtensilsCrossed, X, ImagePlus
 } from "lucide-react"
 import {
   DropdownMenu,
@@ -61,7 +61,7 @@ function ItemFormModal({
     setUploading(true)
     const supabase = createClient()
     const ext = file.name.split(".").pop() ?? "jpg"
-    const path = `${bizId}/product_${Date.now()}.${ext}`
+    const path = `${bizId}/menu_${Date.now()}.${ext}`
     const { error } = await supabase.storage
       .from("business-media")
       .upload(path, file, { upsert: true, contentType: file.type })
@@ -123,7 +123,7 @@ function ItemFormModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-black">{item ? "Edit Item" : "Add Product"}</h2>
+          <h2 className="text-lg font-black">{item ? "Edit Item" : "Add Menu Item"}</h2>
           <Button variant="ghost" size="icon" className="rounded-2xl" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
@@ -284,9 +284,9 @@ export default function VendorProductsPage() {
       <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-6xl mx-auto pb-24">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div className="space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Products</h1>
+            <h1 className="text-2xl sm:text-3xl font-black font-headline text-foreground">Menu Items</h1>
             <p className="text-muted-foreground font-medium">
-              Manage your products — they appear live on your listing page.
+              Manage your menu offerings — they appear live on your listing page.
             </p>
           </div>
           <Button
@@ -294,7 +294,7 @@ export default function VendorProductsPage() {
             onClick={() => { setEditItem(null); setShowForm(true) }}
             disabled={!bizId}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add Product
+            <Plus className="mr-2 h-4 w-4" /> Add Menu Item
           </Button>
         </div>
 
@@ -320,14 +320,14 @@ export default function VendorProductsPage() {
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 space-y-4 text-center">
             <div className="h-20 w-20 bg-muted rounded-3xl flex items-center justify-center text-muted-foreground">
-              <Package className="h-10 w-10" />
+              <UtensilsCrossed className="h-10 w-10" />
             </div>
             <div>
               <p className="text-lg font-black text-foreground">
-                {search ? "No items match your search" : "No products yet"}
+                {search ? "No items match your search" : "No menu items yet"}
               </p>
               <p className="text-sm text-muted-foreground mt-1">
-                {search ? "Try a different keyword" : "Add your first product — it'll appear on your listing page instantly."}
+                {search ? "Try a different keyword" : "Add your first item — it'll appear on your listing page instantly."}
               </p>
             </div>
             {!search && (
@@ -357,7 +357,7 @@ export default function VendorProductsPage() {
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full text-muted-foreground/40">
-                      <Package className="h-10 w-10" />
+                      <UtensilsCrossed className="h-10 w-10" />
                     </div>
                   )}
                   <div className="absolute top-3 right-3">
@@ -414,8 +414,8 @@ export default function VendorProductsPage() {
                 <Plus className="h-6 w-6" />
               </div>
               <div className="text-center">
-                <p className="font-black">Add Product</p>
-                <p className="text-xs font-medium mt-0.5">New product entry</p>
+                <p className="font-black">Add Item</p>
+                <p className="text-xs font-medium mt-0.5">New menu entry</p>
               </div>
             </button>
           </div>
