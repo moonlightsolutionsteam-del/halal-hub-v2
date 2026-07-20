@@ -47,9 +47,8 @@ export function useCategoryBusinesses<T>(
       .eq("status", "active")
       .order("rating", { ascending: false })
 
-    const query = Array.isArray(category)
-      ? q.in("category", category)
-      : q.eq("category", category)
+    const patterns = Array.isArray(category) ? category : [category]
+    const query = q.or(patterns.map(p => `category.ilike.%${p}%`).join(","))
 
     query.then(({ data }: { data: any[] | null }) => {
       if (!data || data.length === 0) return

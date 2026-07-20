@@ -12,6 +12,7 @@ import {
 import Link from "next/link"
 import { useState } from "react"
 import { useCategoryBusinesses } from "@/hooks/use-category-businesses"
+import { useFilteredItems } from "@/hooks/use-filtered-items"
 
 const TABS = ["All", "HMC Certified", "HFA Approved", "Organic", "Grass-fed", "Local Farm"]
 
@@ -41,11 +42,13 @@ const FALLBACK = [
 export default function MeatPage() {
   const [selectedTab, setSelectedTab] = useState("All")
   const [visible, setVisible] = useState(12)
+  const [search, setSearch] = useState("")
   const items = useCategoryBusinesses("Meat & Butchers", FALLBACK, (b) => ({
     id: b.id, name: b.name, type: b.subcategory, loc: b.city,
     rate: b.rating, ver: b.halal_verified, img: b.image_url, features: b.features,
     cert: "Halal Certified", delivery: false,
   }))
+  const filtered = useFilteredItems(items, search, selectedTab, "All")
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -70,7 +73,7 @@ export default function MeatPage() {
             </Button>
             <div className="relative flex-1 md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search butchers, certifications, or cuts..." className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg" />
+              <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search butchers, certifications, or cuts..." className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg" />
             </div>
           </div>
         </div>
@@ -130,7 +133,7 @@ export default function MeatPage() {
 
         <div className="lg:col-span-9 space-y-8">
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{items.length}</span> verified butchers</p>
+            <p className="text-sm font-bold text-muted-foreground tracking-tight">Found <span className="text-foreground">{filtered.length}</span> verified butchers</p>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Sort by:</span>
               <select className="bg-transparent font-black text-xs uppercase tracking-tighter outline-none cursor-pointer text-foreground">
@@ -142,7 +145,7 @@ export default function MeatPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-8">
-            {items.slice(0, visible).map(item => (
+            {filtered.slice(0, visible).map(item => (
               <Link key={item.id} href={`/entities/${item.id}`}>
                 <Card className="group rounded-2xl sm:rounded-[3rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-red-100/50">
                   <div className="relative aspect-square sm:aspect-[16/9] overflow-hidden">
@@ -203,7 +206,7 @@ export default function MeatPage() {
           </div>
 
           <div className="flex flex-col items-center justify-center py-6 sm:py-16 gap-4 sm:gap-6">
-            {visible < items.length ? (
+            {visible < filtered.length ? (
               <Button
                 variant="outline"
                 onClick={() => setVisible(v => v + 12)}
@@ -214,7 +217,7 @@ export default function MeatPage() {
             ) : (
               <div className="flex items-center gap-2">
                 <div className="h-1 w-12 bg-muted rounded-full" />
-                <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">All {items.length} butchers shown</p>
+                <p className="text-sm font-black text-muted-foreground uppercase tracking-[0.2em]">All {filtered.length} butchers shown</p>
                 <div className="h-1 w-12 bg-muted rounded-full" />
               </div>
             )}

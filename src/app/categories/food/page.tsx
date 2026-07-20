@@ -12,6 +12,7 @@ import {
 import Link from "next/link"
 import { useState } from "react"
 import { useCategoryBusinesses } from "@/hooks/use-category-businesses"
+import { useFilteredItems } from "@/hooks/use-filtered-items"
 
 const TABS = ["All", "Turkish", "Arabic", "Indian", "Malay", "Western", "Chinese", "Mediterranean"]
 
@@ -39,6 +40,7 @@ function priceLabel(range: string | null) {
 export default function FoodPage() {
   const [selectedTab, setSelectedTab] = useState("All")
   const [visible, setVisible] = useState(12)
+  const [search, setSearch] = useState("")
 
   const allRestaurants = useCategoryBusinesses<RestaurantCard>(
     ["Food & Dining", "restaurant"],
@@ -57,9 +59,7 @@ export default function FoodPage() {
     })
   )
 
-  const restaurants = selectedTab === "All"
-    ? allRestaurants
-    : allRestaurants.filter(r => r.type.toLowerCase().includes(selectedTab.toLowerCase()))
+  const restaurants = useFilteredItems(allRestaurants, search, selectedTab, "All")
 
   return (
     <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-10 max-w-7xl">
@@ -84,7 +84,7 @@ export default function FoodPage() {
             </Button>
             <div className="relative flex-1 md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search restaurants, cuisine, or location..." className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg" />
+              <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search restaurants, cuisine, or location..." className="pl-10 sm:pl-12 h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm font-medium text-sm sm:text-lg" />
             </div>
           </div>
         </div>
