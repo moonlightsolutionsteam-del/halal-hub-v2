@@ -106,7 +106,7 @@ export default function PartnerPortalPage() {
                 <ShieldCheck className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-black text-foreground">Halal Hub Super Admin</h3>
-              <Link href="/admin/dashboard">
+              <Link href="/employee/login">
                 <Button className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 font-black text-lg shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95">
                   Admin Login
                 </Button>
