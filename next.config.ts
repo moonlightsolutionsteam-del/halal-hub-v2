@@ -10,14 +10,11 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    // Adding allowed origins to prevent dev-time cross-origin warnings in cloud environments
-    allowedDevOrigins: [
-      '6000-firebase-studio-1771602950413.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev',
-      'localhost:9002',
-      '0.0.0.0:9002'
-    ]
-  },
+  allowedDevOrigins: [
+    '6000-firebase-studio-1771602950413.cluster-zkm2jrwbnbd4awuedc2alqxrpk.cloudworkstations.dev',
+    'localhost:9002',
+    '0.0.0.0:9002'
+  ],
   images: {
     remotePatterns: [
       {
@@ -87,7 +84,7 @@ export default withSentryConfig(nextConfig, {
   // Proxy Sentry traffic through Next.js to bypass ad blockers
   tunnelRoute: "/monitoring",
   // Hide Sentry source maps from browser DevTools
-  hideSourceMaps: true,
+  sourcemaps: { disable: true },
   // Remove Sentry debug logging from production bundle
   disableLogger: true,
   // Auto-instrument Vercel Cron Monitors
