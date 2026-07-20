@@ -54,92 +54,219 @@ function TierBadge({ tier }: { tier: AdminTier }) {
   )
 }
 
+const DEPARTMENTS = [
+  "Engineering", "Marketing", "Operations", "HR", "Finance",
+  "Accounting", "CRM", "Legal", "Security", "Business Intelligence", "Customer Success",
+]
+
+function generatePassword() {
+  const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$"
+  return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join("")
+}
+
 function AddAdminDialog({ onAdded }: { onAdded: () => void }) {
   const [open, setOpen] = useState(false)
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [tier, setTier] = useState<AdminTier>("viewer")
+  const [department, setDepartment] = useState("")
   const [notes, setNotes] = useState("")
   const [saving, setSaving] = useState(false)
+  const [created, setCreated] = useState<{ name: string; email: string; password: string; tier: AdminTier } | null>(null)
+  const [copied, setCopied] = useState(false)
   const { toast } = useToast()
-  const { user } = useAdminRole() as any
 
-  async function handleAdd() {
-    if (!email.trim()) return
+  function reset() {
+    setName(""); setEmail(""); setPassword(""); setTier("viewer")
+    setDepartment(""); setNotes(""); setCreated(null); setCopied(false)
+  }
+
+  function handleOpenChange(v: boolean) {
+    setOpen(v)
+    if (!v) reset()
+  }
+
+  async function handleCreate() {
+    if (!name.trim() || !email.trim()) return
+    const pwd = password.trim() || generatePassword()
     setSaving(true)
-    const supabase = createClient()
-
-    // Look up user by email via profiles table
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("email", email.trim())
-      .single()
-
-    if (!profile) {
-      toast({ title: "User not found", description: "No account with that email exists.", variant: "destructive" })
+    try {
+      const res = await fetch("/api/admin/create-employee", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), password: pwd, tier, department, notes }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        toast({ title: "Error", description: data.error ?? "Failed to create employee", variant: "destructive" })
+      } else {
+        setCreated({ name: name.trim(), email: email.trim(), password: pwd, tier })
+        onAdded()
+      }
+    } catch {
+      toast({ title: "Network error", description: "Could not reach server", variant: "destructive" })
+    } finally {
       setSaving(false)
-      return
     }
+  }
 
-    const { error } = await supabase.from("admin_roles").upsert({
-      user_id: profile.id,
-      tier,
-      notes: notes || null,
-    })
-
-    if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" })
-    } else {
-      toast({ title: "Admin role assigned", description: `${email} is now ${TIER_META[tier].label}` })
-      setOpen(false)
-      setEmail(""); setNotes("")
-      onAdded()
-    }
-    setSaving(false)
+  function copyCredentials() {
+    if (!created) return
+    navigator.clipboard.writeText(
+      `Halal Hub ERP Access\nName: ${created.name}\nEmail: ${created.email}\nPassword: ${created.password}\nLogin: ${window.location.origin}/employee/login`
+    )
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button size="sm" className="rounded-xl h-9 font-bold gap-1.5">
-          <UserPlus className="h-4 w-4" /> Add Admin
+          <UserPlus className="h-4 w-4" /> Create Employee
         </Button>
       </DialogTrigger>
       <DialogContent className="rounded-2xl max-w-sm">
         <DialogHeader>
-          <DialogTitle className="font-black">Assign Admin Role</DialogTitle>
+          <DialogTitle className="font-black">
+            {created ? "Employee Created ✓" : "Create Employee Account"}
+          </DialogTitle>
         </DialogHeader>
-        <div className="space-y-3 pt-1">
-          <Input
-            placeholder="user@email.com"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            className="rounded-xl"
-          />
-          <Select value={tier} onValueChange={v => setTier(v as AdminTier)}>
-            <SelectTrigger className="rounded-xl">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {(Object.keys(TIER_META) as AdminTier[]).map(t => (
-                <SelectItem key={t} value={t}>
-                  <span className="font-bold">{TIER_META[t].label}</span>
-                  <span className="text-muted-foreground ml-2 text-xs">{TIER_META[t].desc}</span>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Input
-            placeholder="Notes (optional)"
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            className="rounded-xl"
-          />
-          <Button className="w-full rounded-xl font-bold" onClick={handleAdd} disabled={saving || !email.trim()}>
-            {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-            Assign Role
-          </Button>
-        </div>
+
+        {created ? (
+          /* ── Credentials card ── */
+          <div className="space-y-4 pt-1">
+            <div className="rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 p-4 space-y-2">
+              <p className="text-xs font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">Login Credentials</p>
+              <div className="space-y-1.5 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground font-bold">Name</span>
+                  <span className="font-black text-foreground">{created.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground font-bold">Email</span>
+                  <span className="font-mono text-xs text-foreground break-all text-right">{created.email}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground font-bold">Password</span>
+                  <span className="font-mono text-xs font-black text-foreground">{created.password}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground font-bold">Role</span>
+                  <TierBadge tier={created.tier} />
+                </div>
+                <div className="flex justify-between pt-1">
+                  <span className="text-muted-foreground font-bold">Login URL</span>
+                  <span className="text-xs text-primary font-bold">/employee/login</span>
+                </div>
+              </div>
+            </div>
+            <p className="text-xs text-amber-600 dark:text-amber-400 font-bold">
+              Share these credentials securely. This is the only time the password is shown.
+            </p>
+            <div className="flex gap-2">
+              <Button className="flex-1 rounded-xl font-bold gap-1.5" onClick={copyCredentials}>
+                {copied ? "Copied!" : "Copy Credentials"}
+              </Button>
+              <Button variant="outline" className="flex-1 rounded-xl font-bold" onClick={() => handleOpenChange(false)}>
+                Done
+              </Button>
+            </div>
+          </div>
+        ) : (
+          /* ── Creation form ── */
+          <div className="space-y-3 pt-1">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-muted-foreground">Full Name *</label>
+              <Input
+                placeholder="Fatima Ahmed"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="rounded-xl"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-muted-foreground">Work Email *</label>
+              <Input
+                type="email"
+                placeholder="fatima@halalhub.co.in"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="rounded-xl"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-muted-foreground">Password</label>
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Leave blank to auto-generate"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  className="rounded-xl pr-20"
+                />
+                <div className="absolute right-1 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2 text-xs rounded-lg"
+                    onClick={() => setShowPassword(s => !s)}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </Button>
+                </div>
+              </div>
+              <p className="text-[10px] text-muted-foreground">Leave blank to auto-generate a secure password</p>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-muted-foreground">Department</label>
+                <Select value={department} onValueChange={setDepartment}>
+                  <SelectTrigger className="rounded-xl">
+                    <SelectValue placeholder="Select…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {DEPARTMENTS.map(d => (
+                      <SelectItem key={d} value={d}>{d}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-muted-foreground">Access Tier *</label>
+                <Select value={tier} onValueChange={v => setTier(v as AdminTier)}>
+                  <SelectTrigger className="rounded-xl">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(Object.keys(TIER_META) as AdminTier[]).map(t => (
+                      <SelectItem key={t} value={t}>
+                        <span className="font-bold text-xs">{TIER_META[t].label}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <Input
+              placeholder="Notes (optional)"
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              className="rounded-xl"
+            />
+            <Button
+              className="w-full rounded-xl font-bold"
+              onClick={handleCreate}
+              disabled={saving || !name.trim() || !email.trim()}
+            >
+              {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+              Create Employee Account
+            </Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   )
