@@ -12,6 +12,7 @@ import {
   ImagePlus, Video, Upload, Loader2, CheckCircle2, Zap, Link2,
 } from "lucide-react"
 import { SocialEmbedCard, useSocialEmbed, extractSocialUrl } from "@/components/social-embed-card"
+import { awardCoins } from "@/lib/gamification/award-coins"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -178,6 +179,10 @@ export function CreatePostModal({ open, initialType, onClose, onPosted }: Create
       })
 
       if (insertErr) throw new Error(insertErr.message)
+
+      // Award coins for posting (fire-and-forget — don't block UI)
+      const coinAction = selectedType === "review" ? "review_written" : "post_published"
+      awardCoins(user.uid, coinAction).catch(() => {})
 
       setSuccess(true)
       setTimeout(() => {

@@ -16,7 +16,7 @@ import {
   Settings, Server, Cpu, Wifi, History,
   CheckCircle2, ChevronRight,
   ArrowRightLeft, Terminal, Loader2,
-  Clock, MessageSquare
+  Clock, MessageSquare, Coins
 } from "lucide-react"
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow
@@ -286,6 +286,7 @@ export default function SuperAdminDashboard() {
           { label: "Enquiries", href: "/admin/enquiry", icon: MessageSquare, color: "text-pink-600", bg: "bg-pink-50" },
           { label: "Audit Log", href: "/admin/audit-log", icon: History, color: "text-slate-600", bg: "bg-slate-50" },
           { label: "Credit Ledger", href: "/admin/credit-ledger", icon: IndianRupee, color: "text-emerald-700", bg: "bg-emerald-50" },
+          { label: "Gamification", href: "/admin/gamification", icon: Coins, color: "text-amber-600", bg: "bg-amber-50" },
         ].map((link) => (
           <Link key={link.href} href={link.href}>
             <Card className="border-none shadow-sm rounded-[2rem] p-5 bg-card hover:shadow-lg transition-all duration-300 group cursor-pointer h-full">
