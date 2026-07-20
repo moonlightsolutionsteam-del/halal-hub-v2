@@ -109,12 +109,12 @@ export default function AuditLogPage() {
 
   React.useEffect(() => {
     const supabase = createClient()
-    supabase
+    ;(supabase as any)
       .from("admin_actions")
       .select("*")
       .order("created_at", { ascending: false })
       .limit(200)
-      .then(({ data }) => {
+      .then(({ data }: { data: AuditEntry[] | null }) => {
         setEntries(data ?? [])
         setLoading(false)
       })

@@ -109,7 +109,7 @@ export function usePrayerLog() {
     const todayMap: Partial<Record<PrayerName, PrayerLogStatus>> = {}
     const byDay = new Map<string, number>()
     for (const row of logs ?? []) {
-      if (row.prayer_date === today) todayMap[row.prayer_name as PrayerName] = row.status
+      if (row.prayer_date === today) todayMap[row.prayer_name as PrayerName] = row.status as PrayerLogStatus
       if (row.status === "prayed") byDay.set(row.prayer_date, (byDay.get(row.prayer_date) ?? 0) + 1)
     }
     const weekDays: DayLogSummary[] = []
@@ -143,11 +143,12 @@ export function usePrayerLog() {
     setMarking(null)
     if (error) throw error
 
+    const rpc = data as any
     const result: MarkPrayerResult = {
-      streak:        data.streak        ?? 0,
-      coinsAwarded:  data.coins_awarded ?? 0,
-      milestone:     data.milestone     ?? null,
-      badgesEarned:  data.badges_earned ?? [],
+      streak:        rpc.streak        ?? 0,
+      coinsAwarded:  rpc.coins_awarded ?? 0,
+      milestone:     rpc.milestone     ?? null,
+      badgesEarned:  rpc.badges_earned ?? [],
     }
 
     setTodayLog(prev => ({ ...prev, [prayer]: status }))

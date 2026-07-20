@@ -50,7 +50,7 @@ export function useAdminStats(): AdminStats {
           .limit(6),
       ])
 
-      const rows: { status: string; category: string }[] = businesses.data ?? []
+      const rows: { status: string | null; category: string }[] = (businesses.data ?? []) as any
       const active = rows.filter((r) => r.status === "active").length
       const pendingCount = rows.filter((r) => r.status === "pending").length
       const rejected = rows.filter((r) => r.status === "rejected").length

@@ -120,19 +120,18 @@ export default function WalletPage() {
   useEffect(() => {
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
+    const db = supabase as any
     Promise.all([
-      supabase
-        .from("coin_ledger")
+      db.from("coin_ledger")
         .select("id, amount, balance_after, action_type, description, season, created_at")
         .eq("user_id", user.uid)
         .order("created_at", { ascending: false })
         .limit(50),
-      supabase
-        .from("user_levels")
+      db.from("user_levels")
         .select("level, level_name, current_balance, lifetime_coins_earned")
         .eq("user_id", user.uid)
         .single(),
-    ]).then(([ledgerRes, levelRes]) => {
+    ]).then(([ledgerRes, levelRes]: [any, any]) => {
       setLedger(ledgerRes.data ?? [])
       setLevelData(levelRes.data ?? null)
       setBalance(levelRes.data?.current_balance ?? user.halalCoinsBalance ?? 0)
@@ -342,7 +341,7 @@ export default function WalletPage() {
               ) : (
                 ledger.map(e => {
                   const isCredit = e.amount > 0
-                  const date = new Date(e.created_at).toLocaleString([], {
+                  const date = new Date(e.created_at ?? "").toLocaleString([], {
                     month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
                   })
                   return (

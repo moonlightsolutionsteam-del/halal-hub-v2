@@ -68,7 +68,7 @@ export default function MyJourneyPage() {
       .then(({ data }: { data: LedgerRow[] | null }) => setLedger(data ?? []))
 
     ;supabase.from("user_streaks").select("current_count").eq("user_id", user.uid).eq("streak_type", "daily_checkin").maybeSingle()
-      .then(({ data }: { data: { current_count: number } | null }) => setStreak(data?.current_count ?? 0))
+      .then(({ data }: { data: { current_count: number | null } | null }) => setStreak(data?.current_count ?? 0))
   }, [user?.uid, authLoading])
 
   if (!authLoading && !user) {

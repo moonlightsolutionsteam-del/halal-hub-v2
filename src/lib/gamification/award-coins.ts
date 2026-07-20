@@ -187,7 +187,7 @@ export async function awardCoins(
   if (ledgerErr) return { ok: false, reason: ledgerErr.message }
 
   // ── Log gamification action ───────────────────────────────────────────────
-  await supabase.from("gamification_actions").insert({
+  await (supabase as any).from("gamification_actions").insert({
     user_id: userId,
     action_type: action,
     coins_awarded: coins,

@@ -100,7 +100,7 @@ export default function SuggestionsPage() {
           {filtered.map(s => {
             const cfg = STATUS_CONFIG[s.status ?? "pending"] ?? STATUS_CONFIG.pending
             const Icon = cfg.icon
-            const date = new Date(s.created_at).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })
+            const date = new Date(s.created_at ?? "").toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })
             return (
               <Card key={s.id} className="rounded-[2rem] border-none shadow-sm bg-card hover:shadow-md transition-shadow">
                 <CardContent className="p-5 flex items-center gap-4">

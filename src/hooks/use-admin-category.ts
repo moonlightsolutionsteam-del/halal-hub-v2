@@ -40,7 +40,7 @@ export function useAdminCategory(category: string | string[]): AdminCategoryStat
 
       const query = Array.isArray(category) ? q.in("category", category) : q.eq("category", category)
       const { data } = await query
-      const rows: AdminCategoryBusiness[] = data ?? []
+      const rows: AdminCategoryBusiness[] = (data ?? []) as any
       setState({
         businesses: rows,
         total: rows.length,

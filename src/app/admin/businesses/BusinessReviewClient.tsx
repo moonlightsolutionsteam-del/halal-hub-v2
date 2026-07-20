@@ -25,9 +25,9 @@ interface Business {
   halal_verified: boolean | null
   under_no_cert: boolean | null
   full_responsibility: boolean | null
-  status: string
-  created_at: string
-  compliance_docs: Record<string, string> | null
+  status: string | null
+  created_at: string | null
+  compliance_docs: any
   description: string | null
 }
 
@@ -139,7 +139,7 @@ export default function BusinessReviewClient({ businesses }: { businesses: Busin
         )}
 
         {filtered.map(biz => {
-          const cfg = STATUS_CONFIG[biz.status] ?? STATUS_CONFIG.pending
+          const cfg = STATUS_CONFIG[biz.status ?? "pending"] ?? STATUS_CONFIG.pending
           const isExpanded = expanded === biz.id
           const isBusy = actionId === biz.id && pending
 
@@ -163,7 +163,7 @@ export default function BusinessReviewClient({ businesses }: { businesses: Busin
                       <span className="flex items-center gap-1"><ShieldCheck className="h-3 w-3" />{halalLabel(biz)}</span>
                     </div>
                     <p className="text-xs text-muted-foreground font-medium">
-                      Submitted {new Date(biz.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                      Submitted {new Date(biz.created_at ?? "").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                     </p>
                   </div>
                   <Button

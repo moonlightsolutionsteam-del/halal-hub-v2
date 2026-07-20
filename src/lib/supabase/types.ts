@@ -56,6 +56,72 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_actions: {
+        Row: {
+          action_type: string
+          admin_name: string | null
+          admin_tier: string | null
+          after_json: Json | null
+          before_json: Json | null
+          created_at: string
+          description: string | null
+          id: string
+          ip_address: string | null
+          module: string
+        }
+        Insert: {
+          action_type: string
+          admin_name?: string | null
+          admin_tier?: string | null
+          after_json?: Json | null
+          before_json?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          ip_address?: string | null
+          module: string
+        }
+        Update: {
+          action_type?: string
+          admin_name?: string | null
+          admin_tier?: string | null
+          after_json?: Json | null
+          before_json?: Json | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          ip_address?: string | null
+          module?: string
+        }
+        Relationships: []
+      }
+      admin_roles: {
+        Row: {
+          granted_at: string
+          granted_by: string | null
+          id: string
+          notes: string | null
+          tier: Database["public"]["Enums"]["admin_role_tier"]
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          tier?: Database["public"]["Enums"]["admin_role_tier"]
+          user_id: string
+        }
+        Update: {
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          notes?: string | null
+          tier?: Database["public"]["Enums"]["admin_role_tier"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       business_announcements: {
         Row: {
           body: string | null
@@ -536,6 +602,27 @@ export type Database = {
           },
         ]
       }
+      business_tiers: {
+        Row: {
+          lifetime_credits_spent: number
+          listing_id: string
+          tier: string
+          updated_at: string
+        }
+        Insert: {
+          lifetime_credits_spent?: number
+          listing_id: string
+          tier?: string
+          updated_at?: string
+        }
+        Update: {
+          lifetime_credits_spent?: number
+          listing_id?: string
+          tier?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       business_verifications: {
         Row: {
           answers: Json
@@ -796,6 +883,154 @@ export type Database = {
           },
         ]
       }
+      butcher_products: {
+        Row: {
+          animal: string | null
+          business_id: string
+          created_at: string | null
+          cut_type: string | null
+          description: string | null
+          id: string
+          is_available: boolean | null
+          name: string
+          price: number | null
+          unit: string | null
+        }
+        Insert: {
+          animal?: string | null
+          business_id: string
+          created_at?: string | null
+          cut_type?: string | null
+          description?: string | null
+          id?: string
+          is_available?: boolean | null
+          name: string
+          price?: number | null
+          unit?: string | null
+        }
+        Update: {
+          animal?: string | null
+          business_id?: string
+          created_at?: string | null
+          cut_type?: string | null
+          description?: string | null
+          id?: string
+          is_available?: boolean | null
+          name?: string
+          price?: number | null
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "butcher_products_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_applications: {
+        Row: {
+          applied_at: string
+          campaign_id: string
+          coins_burned: number
+          id: string
+          pitch: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          applied_at?: string
+          campaign_id: string
+          coins_burned?: number
+          id?: string
+          pitch?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          applied_at?: string
+          campaign_id?: string
+          coins_burned?: number
+          id?: string
+          pitch?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_applications_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          brand_name: string | null
+          campaign_type: string
+          coin_cost: number
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          deadline: string | null
+          deliverable: string | null
+          description: string | null
+          id: string
+          max_slots: number
+          reward_value: string | null
+          slots_filled: number
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          brand_name?: string | null
+          campaign_type?: string
+          coin_cost?: number
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deadline?: string | null
+          deliverable?: string | null
+          description?: string | null
+          id?: string
+          max_slots?: number
+          reward_value?: string | null
+          slots_filled?: number
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          brand_name?: string | null
+          campaign_type?: string
+          coin_cost?: number
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          deadline?: string | null
+          deliverable?: string | null
+          description?: string | null
+          id?: string
+          max_slots?: number
+          reward_value?: string | null
+          slots_filled?: number
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       capabilities: {
         Row: {
           activated_at: string | null
@@ -830,6 +1065,391 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      certificate_verification_log: {
+        Row: {
+          certificate_number: string
+          certification_body_id: string | null
+          created_at: string | null
+          id: string
+          result: string
+          searched_by_business_id: string | null
+          searcher_ip: string | null
+          searcher_user_agent: string | null
+        }
+        Insert: {
+          certificate_number: string
+          certification_body_id?: string | null
+          created_at?: string | null
+          id?: string
+          result: string
+          searched_by_business_id?: string | null
+          searcher_ip?: string | null
+          searcher_user_agent?: string | null
+        }
+        Update: {
+          certificate_number?: string
+          certification_body_id?: string | null
+          created_at?: string | null
+          id?: string
+          result?: string
+          searched_by_business_id?: string | null
+          searcher_ip?: string | null
+          searcher_user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certificate_verification_log_certification_body_id_fkey"
+            columns: ["certification_body_id"]
+            isOneToOne: false
+            referencedRelation: "certification_bodies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      certification_applications: {
+        Row: {
+          business_id: string
+          business_name: string
+          certification_body_id: string
+          certification_body_name: string
+          certifier_notes: string | null
+          created_at: string | null
+          document_urls: Json | null
+          estimated_completion_date: string | null
+          halal_standard_requested: string | null
+          id: string
+          message_to_body: string | null
+          product_categories: string[] | null
+          product_scope: string | null
+          rejection_reason: string | null
+          result_certificate_id: string | null
+          status: string
+          submitted_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          business_name: string
+          certification_body_id: string
+          certification_body_name: string
+          certifier_notes?: string | null
+          created_at?: string | null
+          document_urls?: Json | null
+          estimated_completion_date?: string | null
+          halal_standard_requested?: string | null
+          id?: string
+          message_to_body?: string | null
+          product_categories?: string[] | null
+          product_scope?: string | null
+          rejection_reason?: string | null
+          result_certificate_id?: string | null
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          business_name?: string
+          certification_body_id?: string
+          certification_body_name?: string
+          certifier_notes?: string | null
+          created_at?: string | null
+          document_urls?: Json | null
+          estimated_completion_date?: string | null
+          halal_standard_requested?: string | null
+          id?: string
+          message_to_body?: string | null
+          product_categories?: string[] | null
+          product_scope?: string | null
+          rejection_reason?: string | null
+          result_certificate_id?: string | null
+          status?: string
+          submitted_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certification_applications_certification_body_id_fkey"
+            columns: ["certification_body_id"]
+            isOneToOne: false
+            referencedRelation: "certification_bodies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "certification_applications_result_certificate_id_fkey"
+            columns: ["result_certificate_id"]
+            isOneToOne: false
+            referencedRelation: "halal_certificates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      certification_bodies: {
+        Row: {
+          accrediting_authority: string | null
+          address: string | null
+          admin_internal_rating: number | null
+          admin_notes: string | null
+          approved_at: string | null
+          blacklist_reason: string | null
+          blacklisted_at: string | null
+          cert_flavor: boolean | null
+          cert_raw_material: boolean | null
+          cert_slaughtering: boolean | null
+          certification_categories: string[] | null
+          claim_status: string | null
+          contact_email: string | null
+          contact_person: string | null
+          contact_phone: string | null
+          country: string | null
+          coverage_states: string[] | null
+          coverage_type: string | null
+          created_at: string | null
+          document_urls: Json | null
+          email: string | null
+          fee_annual_paise: number | null
+          fee_balance_paise: number | null
+          fee_promoted_monthly_paise: number | null
+          id: string
+          is_pre_seeded: boolean | null
+          logo_url: string | null
+          name: string
+          phone: string | null
+          recognition_expires_at: string | null
+          registered_address: string | null
+          registration_number: string | null
+          rejection_reason: string | null
+          slug: string | null
+          standards_issued: string[] | null
+          status: string
+          suspended_at: string | null
+          suspension_reason: string | null
+          total_active_certs: number | null
+          total_certs_issued: number | null
+          updated_at: string | null
+          vendor_user_id: string | null
+          website: string | null
+          website_url: string | null
+        }
+        Insert: {
+          accrediting_authority?: string | null
+          address?: string | null
+          admin_internal_rating?: number | null
+          admin_notes?: string | null
+          approved_at?: string | null
+          blacklist_reason?: string | null
+          blacklisted_at?: string | null
+          cert_flavor?: boolean | null
+          cert_raw_material?: boolean | null
+          cert_slaughtering?: boolean | null
+          certification_categories?: string[] | null
+          claim_status?: string | null
+          contact_email?: string | null
+          contact_person?: string | null
+          contact_phone?: string | null
+          country?: string | null
+          coverage_states?: string[] | null
+          coverage_type?: string | null
+          created_at?: string | null
+          document_urls?: Json | null
+          email?: string | null
+          fee_annual_paise?: number | null
+          fee_balance_paise?: number | null
+          fee_promoted_monthly_paise?: number | null
+          id?: string
+          is_pre_seeded?: boolean | null
+          logo_url?: string | null
+          name: string
+          phone?: string | null
+          recognition_expires_at?: string | null
+          registered_address?: string | null
+          registration_number?: string | null
+          rejection_reason?: string | null
+          slug?: string | null
+          standards_issued?: string[] | null
+          status?: string
+          suspended_at?: string | null
+          suspension_reason?: string | null
+          total_active_certs?: number | null
+          total_certs_issued?: number | null
+          updated_at?: string | null
+          vendor_user_id?: string | null
+          website?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          accrediting_authority?: string | null
+          address?: string | null
+          admin_internal_rating?: number | null
+          admin_notes?: string | null
+          approved_at?: string | null
+          blacklist_reason?: string | null
+          blacklisted_at?: string | null
+          cert_flavor?: boolean | null
+          cert_raw_material?: boolean | null
+          cert_slaughtering?: boolean | null
+          certification_categories?: string[] | null
+          claim_status?: string | null
+          contact_email?: string | null
+          contact_person?: string | null
+          contact_phone?: string | null
+          country?: string | null
+          coverage_states?: string[] | null
+          coverage_type?: string | null
+          created_at?: string | null
+          document_urls?: Json | null
+          email?: string | null
+          fee_annual_paise?: number | null
+          fee_balance_paise?: number | null
+          fee_promoted_monthly_paise?: number | null
+          id?: string
+          is_pre_seeded?: boolean | null
+          logo_url?: string | null
+          name?: string
+          phone?: string | null
+          recognition_expires_at?: string | null
+          registered_address?: string | null
+          registration_number?: string | null
+          rejection_reason?: string | null
+          slug?: string | null
+          standards_issued?: string[] | null
+          status?: string
+          suspended_at?: string | null
+          suspension_reason?: string | null
+          total_active_certs?: number | null
+          total_certs_issued?: number | null
+          updated_at?: string | null
+          vendor_user_id?: string | null
+          website?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      certification_body_claims: {
+        Row: {
+          admin_notes: string | null
+          certification_body_id: string
+          contact_email: string
+          contact_phone: string | null
+          created_at: string | null
+          designation: string | null
+          id: string
+          message: string | null
+          reviewed_at: string | null
+          status: string
+          vendor_name: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          certification_body_id: string
+          contact_email: string
+          contact_phone?: string | null
+          created_at?: string | null
+          designation?: string | null
+          id?: string
+          message?: string | null
+          reviewed_at?: string | null
+          status?: string
+          vendor_name: string
+        }
+        Update: {
+          admin_notes?: string | null
+          certification_body_id?: string
+          contact_email?: string
+          contact_phone?: string | null
+          created_at?: string | null
+          designation?: string | null
+          id?: string
+          message?: string | null
+          reviewed_at?: string | null
+          status?: string
+          vendor_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certification_body_claims_certification_body_id_fkey"
+            columns: ["certification_body_id"]
+            isOneToOne: false
+            referencedRelation: "certification_bodies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      certifier_verification_requests: {
+        Row: {
+          business_id: string
+          business_name: string
+          certification_body_id: string
+          certification_body_name: string
+          certifier_response: string | null
+          claimed_certificate_number: string
+          claimed_expiry_date: string | null
+          claimed_issue_date: string | null
+          created_at: string | null
+          id: string
+          linked_certificate_id: string | null
+          notes: string | null
+          responded_at: string | null
+          response_deadline: string | null
+          status: string
+          supporting_doc_url: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          business_name: string
+          certification_body_id: string
+          certification_body_name: string
+          certifier_response?: string | null
+          claimed_certificate_number: string
+          claimed_expiry_date?: string | null
+          claimed_issue_date?: string | null
+          created_at?: string | null
+          id?: string
+          linked_certificate_id?: string | null
+          notes?: string | null
+          responded_at?: string | null
+          response_deadline?: string | null
+          status?: string
+          supporting_doc_url?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          business_name?: string
+          certification_body_id?: string
+          certification_body_name?: string
+          certifier_response?: string | null
+          claimed_certificate_number?: string
+          claimed_expiry_date?: string | null
+          claimed_issue_date?: string | null
+          created_at?: string | null
+          id?: string
+          linked_certificate_id?: string | null
+          notes?: string | null
+          responded_at?: string | null
+          response_deadline?: string | null
+          status?: string
+          supporting_doc_url?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certifier_verification_requests_certification_body_id_fkey"
+            columns: ["certification_body_id"]
+            isOneToOne: false
+            referencedRelation: "certification_bodies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "certifier_verification_requests_linked_certificate_id_fkey"
+            columns: ["linked_certificate_id"]
+            isOneToOne: false
+            referencedRelation: "halal_certificates"
             referencedColumns: ["id"]
           },
         ]
@@ -912,6 +1532,208 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      coin_abuse_flags: {
+        Row: {
+          action_type: string | null
+          coins_at_risk: number | null
+          created_at: string
+          id: string
+          reason: string
+          resolved: boolean
+          resolved_at: string | null
+          resolved_by: string | null
+          user_id: string
+        }
+        Insert: {
+          action_type?: string | null
+          coins_at_risk?: number | null
+          created_at?: string
+          id?: string
+          reason: string
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          user_id: string
+        }
+        Update: {
+          action_type?: string | null
+          coins_at_risk?: number | null
+          created_at?: string
+          id?: string
+          reason?: string
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      coin_burn_log: {
+        Row: {
+          coins_burned: number
+          created_at: string
+          id: string
+          reason: string
+          reference_id: string | null
+          user_id: string
+        }
+        Insert: {
+          coins_burned: number
+          created_at?: string
+          id?: string
+          reason: string
+          reference_id?: string | null
+          user_id: string
+        }
+        Update: {
+          coins_burned?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          reference_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coin_burn_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coin_config: {
+        Row: {
+          coins_per_rupee: number
+          id: number
+          max_redeem_pct: number
+          min_redeem_coins: number
+          updated_at: string
+        }
+        Insert: {
+          coins_per_rupee?: number
+          id?: number
+          max_redeem_pct?: number
+          min_redeem_coins?: number
+          updated_at?: string
+        }
+        Update: {
+          coins_per_rupee?: number
+          id?: number
+          max_redeem_pct?: number
+          min_redeem_coins?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      coin_ledger: {
+        Row: {
+          action_type: string
+          amount: number
+          balance_after: number
+          created_at: string
+          description: string | null
+          id: string
+          reference_id: string | null
+          season: string | null
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          amount: number
+          balance_after: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          reference_id?: string | null
+          season?: string | null
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          amount?: number
+          balance_after?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          reference_id?: string | null
+          season?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coin_ledger_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coin_redemptions: {
+        Row: {
+          coins_spent: number
+          context: string
+          created_at: string
+          description: string | null
+          discount_inr: number
+          id: string
+          reference_id: string | null
+          user_id: string
+        }
+        Insert: {
+          coins_spent: number
+          context?: string
+          created_at?: string
+          description?: string | null
+          discount_inr: number
+          id?: string
+          reference_id?: string | null
+          user_id: string
+        }
+        Update: {
+          coins_spent?: number
+          context?: string
+          created_at?: string
+          description?: string | null
+          discount_inr?: number
+          id?: string
+          reference_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      coin_seasons: {
+        Row: {
+          active: boolean
+          created_at: string
+          ends_at: string
+          id: string
+          multiplier: number
+          name: string
+          starts_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          ends_at: string
+          id?: string
+          multiplier?: number
+          name: string
+          starts_at: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          ends_at?: string
+          id?: string
+          multiplier?: number
+          name?: string
+          starts_at?: string
+        }
+        Relationships: []
       }
       community_posts: {
         Row: {
@@ -1008,6 +1830,56 @@ export type Database = {
           },
         ]
       }
+      cosmetics_products: {
+        Row: {
+          business_id: string
+          category: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_available: boolean | null
+          is_cruelty_free: boolean | null
+          is_halal_certified: boolean | null
+          is_vegan: boolean | null
+          name: string
+          price: number | null
+        }
+        Insert: {
+          business_id: string
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_available?: boolean | null
+          is_cruelty_free?: boolean | null
+          is_halal_certified?: boolean | null
+          is_vegan?: boolean | null
+          name: string
+          price?: number | null
+        }
+        Update: {
+          business_id?: string
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_available?: boolean | null
+          is_cruelty_free?: boolean | null
+          is_halal_certified?: boolean | null
+          is_vegan?: boolean | null
+          name?: string
+          price?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cosmetics_products_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       creator_profiles: {
         Row: {
           audience_ages: string[] | null
@@ -1088,6 +1960,44 @@ export type Database = {
           },
         ]
       }
+      creator_tiers: {
+        Row: {
+          completed_deals: number
+          lifetime_coins: number
+          recalculated_at: string
+          tier: string
+          total_posts: number
+          total_views: number
+          user_id: string
+        }
+        Insert: {
+          completed_deals?: number
+          lifetime_coins?: number
+          recalculated_at?: string
+          tier?: string
+          total_posts?: number
+          total_views?: number
+          user_id: string
+        }
+        Update: {
+          completed_deals?: number
+          lifetime_coins?: number
+          recalculated_at?: string
+          tier?: string
+          total_posts?: number
+          total_views?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creator_tiers_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       creators: {
         Row: {
           avatar_url: string | null
@@ -1130,6 +2040,105 @@ export type Database = {
           post_count?: number | null
           status?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      credit_ledger: {
+        Row: {
+          amount: number
+          balance_after: number
+          created_at: string
+          created_by: string | null
+          description: string
+          id: string
+          reference_id: string | null
+          transaction_type: string
+          vendor_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          created_at?: string
+          created_by?: string | null
+          description: string
+          id?: string
+          reference_id?: string | null
+          transaction_type: string
+          vendor_id: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          id?: string
+          reference_id?: string | null
+          transaction_type?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_ledger_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_ledger_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_leads: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          email: string | null
+          enquiry_type: string | null
+          id: string
+          message: string | null
+          name: string | null
+          notified_founder: boolean | null
+          phone: string | null
+          priority: string | null
+          source: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          email?: string | null
+          enquiry_type?: string | null
+          id?: string
+          message?: string | null
+          name?: string | null
+          notified_founder?: boolean | null
+          phone?: string | null
+          priority?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          email?: string | null
+          enquiry_type?: string | null
+          id?: string
+          message?: string | null
+          name?: string | null
+          notified_founder?: boolean | null
+          phone?: string | null
+          priority?: string | null
+          source?: string | null
+          status?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1274,6 +2283,62 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "erp_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "erp_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      erp_benefits: {
+        Row: {
+          benefit_type: string
+          created_at: string | null
+          employee_id: string | null
+          employee_name: string
+          end_date: string | null
+          frequency: string | null
+          id: string
+          notes: string | null
+          policy_number: string | null
+          provider: string | null
+          start_date: string | null
+          status: string | null
+          value: number | null
+        }
+        Insert: {
+          benefit_type: string
+          created_at?: string | null
+          employee_id?: string | null
+          employee_name: string
+          end_date?: string | null
+          frequency?: string | null
+          id?: string
+          notes?: string | null
+          policy_number?: string | null
+          provider?: string | null
+          start_date?: string | null
+          status?: string | null
+          value?: number | null
+        }
+        Update: {
+          benefit_type?: string
+          created_at?: string | null
+          employee_id?: string | null
+          employee_name?: string
+          end_date?: string | null
+          frequency?: string | null
+          id?: string
+          notes?: string | null
+          policy_number?: string | null
+          provider?: string | null
+          start_date?: string | null
+          status?: string | null
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "erp_benefits_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "erp_employees"
@@ -1500,6 +2565,56 @@ export type Database = {
         }
         Relationships: []
       }
+      erp_employee_documents: {
+        Row: {
+          created_at: string | null
+          doc_type: string
+          employee_id: string | null
+          employee_name: string
+          expiry_date: string | null
+          file_name: string | null
+          file_url: string | null
+          id: string
+          notes: string | null
+          uploaded_by: string | null
+          verified: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          doc_type: string
+          employee_id?: string | null
+          employee_name: string
+          expiry_date?: string | null
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          uploaded_by?: string | null
+          verified?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          doc_type?: string
+          employee_id?: string | null
+          employee_name?: string
+          expiry_date?: string | null
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          uploaded_by?: string | null
+          verified?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "erp_employee_documents_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "erp_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       erp_employees: {
         Row: {
           avatar_url: string | null
@@ -1554,6 +2669,65 @@ export type Database = {
         }
         Relationships: []
       }
+      erp_exit_records: {
+        Row: {
+          clearance_status: string | null
+          created_at: string | null
+          department: string | null
+          employee_id: string | null
+          employee_name: string
+          exit_reason: string | null
+          exit_type: string | null
+          id: string
+          interview_done: boolean | null
+          interview_rating: number | null
+          interviewer: string | null
+          last_working_day: string | null
+          noc_issued: boolean | null
+          notice_period_days: number | null
+        }
+        Insert: {
+          clearance_status?: string | null
+          created_at?: string | null
+          department?: string | null
+          employee_id?: string | null
+          employee_name: string
+          exit_reason?: string | null
+          exit_type?: string | null
+          id?: string
+          interview_done?: boolean | null
+          interview_rating?: number | null
+          interviewer?: string | null
+          last_working_day?: string | null
+          noc_issued?: boolean | null
+          notice_period_days?: number | null
+        }
+        Update: {
+          clearance_status?: string | null
+          created_at?: string | null
+          department?: string | null
+          employee_id?: string | null
+          employee_name?: string
+          exit_reason?: string | null
+          exit_type?: string | null
+          id?: string
+          interview_done?: boolean | null
+          interview_rating?: number | null
+          interviewer?: string | null
+          last_working_day?: string | null
+          noc_issued?: boolean | null
+          notice_period_days?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "erp_exit_records_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "erp_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       erp_expenses: {
         Row: {
           amount: number | null
@@ -1590,6 +2764,36 @@ export type Database = {
           status?: string | null
           submitted_by?: string | null
           vendor?: string | null
+        }
+        Relationships: []
+      }
+      erp_hr_settings: {
+        Row: {
+          approval_hierarchy: string | null
+          holiday_calendar_url: string | null
+          id: number
+          leave_policy: string | null
+          salary_bands_enabled: boolean | null
+          updated_at: string | null
+          working_hours: string | null
+        }
+        Insert: {
+          approval_hierarchy?: string | null
+          holiday_calendar_url?: string | null
+          id?: number
+          leave_policy?: string | null
+          salary_bands_enabled?: boolean | null
+          updated_at?: string | null
+          working_hours?: string | null
+        }
+        Update: {
+          approval_hierarchy?: string | null
+          holiday_calendar_url?: string | null
+          id?: number
+          leave_policy?: string | null
+          salary_bands_enabled?: boolean | null
+          updated_at?: string | null
+          working_hours?: string | null
         }
         Relationships: []
       }
@@ -1766,6 +2970,56 @@ export type Database = {
         }
         Relationships: []
       }
+      erp_onboarding: {
+        Row: {
+          assigned_to: string | null
+          category: string | null
+          completed_at: string | null
+          created_at: string | null
+          due_date: string | null
+          employee_id: string | null
+          employee_name: string
+          id: string
+          notes: string | null
+          status: string | null
+          task: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          category?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          employee_id?: string | null
+          employee_name: string
+          id?: string
+          notes?: string | null
+          status?: string | null
+          task: string
+        }
+        Update: {
+          assigned_to?: string | null
+          category?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          employee_id?: string | null
+          employee_name?: string
+          id?: string
+          notes?: string | null
+          status?: string | null
+          task?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "erp_onboarding_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "erp_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       erp_payouts: {
         Row: {
           amount: number | null
@@ -1804,6 +3058,68 @@ export type Database = {
           status?: string | null
         }
         Relationships: []
+      }
+      erp_payroll: {
+        Row: {
+          allowances: number | null
+          basic: number | null
+          created_at: string | null
+          deductions: number | null
+          employee_id: string | null
+          employee_name: string
+          hra: number | null
+          id: string
+          month: number
+          net_pay: number | null
+          notes: string | null
+          paid_date: string | null
+          status: string | null
+          tds: number | null
+          year: number
+        }
+        Insert: {
+          allowances?: number | null
+          basic?: number | null
+          created_at?: string | null
+          deductions?: number | null
+          employee_id?: string | null
+          employee_name: string
+          hra?: number | null
+          id?: string
+          month: number
+          net_pay?: number | null
+          notes?: string | null
+          paid_date?: string | null
+          status?: string | null
+          tds?: number | null
+          year: number
+        }
+        Update: {
+          allowances?: number | null
+          basic?: number | null
+          created_at?: string | null
+          deductions?: number | null
+          employee_id?: string | null
+          employee_name?: string
+          hra?: number | null
+          id?: string
+          month?: number
+          net_pay?: number | null
+          notes?: string | null
+          paid_date?: string | null
+          status?: string | null
+          tds?: number | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "erp_payroll_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "erp_employees"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       erp_performance: {
         Row: {
@@ -2032,6 +3348,62 @@ export type Database = {
         }
         Relationships: []
       }
+      erp_training: {
+        Row: {
+          certificate_url: string | null
+          completed_at: string | null
+          created_at: string | null
+          due_date: string | null
+          duration_hours: number | null
+          employee_id: string | null
+          employee_name: string
+          id: string
+          score: number | null
+          status: string | null
+          title: string
+          trainer: string | null
+          type: string | null
+        }
+        Insert: {
+          certificate_url?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          duration_hours?: number | null
+          employee_id?: string | null
+          employee_name: string
+          id?: string
+          score?: number | null
+          status?: string | null
+          title: string
+          trainer?: string | null
+          type?: string | null
+        }
+        Update: {
+          certificate_url?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          due_date?: string | null
+          duration_hours?: number | null
+          employee_id?: string | null
+          employee_name?: string
+          id?: string
+          score?: number | null
+          status?: string | null
+          title?: string
+          trainer?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "erp_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "erp_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       erp_vendors: {
         Row: {
           category: string | null
@@ -2101,6 +3473,95 @@ export type Database = {
           reference?: string | null
           text_en?: string
           type?: string
+        }
+        Relationships: []
+      }
+      fashion_products: {
+        Row: {
+          business_id: string
+          category: string | null
+          colors: string | null
+          created_at: string | null
+          description: string | null
+          fabric: string | null
+          gender: string | null
+          id: string
+          is_available: boolean | null
+          is_halal_certified: boolean | null
+          name: string
+          price: number | null
+          sizes: string[] | null
+        }
+        Insert: {
+          business_id: string
+          category?: string | null
+          colors?: string | null
+          created_at?: string | null
+          description?: string | null
+          fabric?: string | null
+          gender?: string | null
+          id?: string
+          is_available?: boolean | null
+          is_halal_certified?: boolean | null
+          name: string
+          price?: number | null
+          sizes?: string[] | null
+        }
+        Update: {
+          business_id?: string
+          category?: string | null
+          colors?: string | null
+          created_at?: string | null
+          description?: string | null
+          fabric?: string | null
+          gender?: string | null
+          id?: string
+          is_available?: boolean | null
+          is_halal_certified?: boolean | null
+          name?: string
+          price?: number | null
+          sizes?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fashion_products_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feature_flags: {
+        Row: {
+          description: string | null
+          enabled: boolean
+          id: string
+          key: string
+          label: string
+          locked: boolean
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key: string
+          label: string
+          locked?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          description?: string | null
+          enabled?: boolean
+          id?: string
+          key?: string
+          label?: string
+          locked?: boolean
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }
@@ -2175,6 +3636,48 @@ export type Database = {
           },
         ]
       }
+      finance_products: {
+        Row: {
+          contact: string | null
+          created_at: string | null
+          description: string | null
+          expected_return: string | null
+          id: string
+          is_shariah_certified: boolean | null
+          min_investment: number | null
+          name: string
+          product_type: string | null
+          tenure: string | null
+          vendor_uid: string
+        }
+        Insert: {
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          expected_return?: string | null
+          id?: string
+          is_shariah_certified?: boolean | null
+          min_investment?: number | null
+          name: string
+          product_type?: string | null
+          tenure?: string | null
+          vendor_uid: string
+        }
+        Update: {
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          expected_return?: string | null
+          id?: string
+          is_shariah_certified?: boolean | null
+          min_investment?: number | null
+          name?: string
+          product_type?: string | null
+          tenure?: string | null
+          vendor_uid?: string
+        }
+        Relationships: []
+      }
       firebase_uid_mapping: {
         Row: {
           email: string | null
@@ -2208,6 +3711,7 @@ export type Database = {
           coins_awarded: number
           created_at: string
           id: string
+          meta: Json | null
           reference_id: string | null
           reference_type: string | null
           season: string
@@ -2218,6 +3722,7 @@ export type Database = {
           coins_awarded?: number
           created_at?: string
           id?: string
+          meta?: Json | null
           reference_id?: string | null
           reference_type?: string | null
           season?: string
@@ -2228,12 +3733,188 @@ export type Database = {
           coins_awarded?: number
           created_at?: string
           id?: string
+          meta?: Json | null
           reference_id?: string | null
           reference_type?: string | null
           season?: string
           user_id?: string
         }
         Relationships: []
+      }
+      grocery_inventory: {
+        Row: {
+          brand: string | null
+          business_id: string
+          category: string | null
+          created_at: string | null
+          id: string
+          is_available: boolean | null
+          is_halal_certified: boolean | null
+          low_stock_threshold: number | null
+          name: string
+          price: number | null
+          stock_qty: number | null
+          unit: string | null
+        }
+        Insert: {
+          brand?: string | null
+          business_id: string
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_available?: boolean | null
+          is_halal_certified?: boolean | null
+          low_stock_threshold?: number | null
+          name: string
+          price?: number | null
+          stock_qty?: number | null
+          unit?: string | null
+        }
+        Update: {
+          brand?: string | null
+          business_id?: string
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_available?: boolean | null
+          is_halal_certified?: boolean | null
+          low_stock_threshold?: number | null
+          name?: string
+          price?: number | null
+          stock_qty?: number | null
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "grocery_inventory_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      halal_cert_bodies_ref: {
+        Row: {
+          active: boolean
+          categories: string[] | null
+          created_at: string
+          headquarters: string | null
+          hh_tier: number
+          id: string
+          logo_url: string | null
+          name: string
+          notes: string | null
+          website: string | null
+        }
+        Insert: {
+          active?: boolean
+          categories?: string[] | null
+          created_at?: string
+          headquarters?: string | null
+          hh_tier: number
+          id?: string
+          logo_url?: string | null
+          name: string
+          notes?: string | null
+          website?: string | null
+        }
+        Update: {
+          active?: boolean
+          categories?: string[] | null
+          created_at?: string
+          headquarters?: string | null
+          hh_tier?: number
+          id?: string
+          logo_url?: string | null
+          name?: string
+          notes?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
+      halal_certificates: {
+        Row: {
+          business_id: string | null
+          business_name: string
+          certificate_doc_url: string | null
+          certificate_number: string
+          certification_body_id: string
+          created_at: string | null
+          expiry_date: string
+          halal_standard: string | null
+          id: string
+          issue_date: string
+          product_categories: string[] | null
+          renewal_notified_at: string | null
+          revocation_reason: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          scope_of_certification: string | null
+          spot_check_completed: boolean | null
+          spot_check_required: boolean | null
+          spot_check_result: string | null
+          status: string
+          suspension_reason: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_id?: string | null
+          business_name: string
+          certificate_doc_url?: string | null
+          certificate_number: string
+          certification_body_id: string
+          created_at?: string | null
+          expiry_date: string
+          halal_standard?: string | null
+          id?: string
+          issue_date: string
+          product_categories?: string[] | null
+          renewal_notified_at?: string | null
+          revocation_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          scope_of_certification?: string | null
+          spot_check_completed?: boolean | null
+          spot_check_required?: boolean | null
+          spot_check_result?: string | null
+          status?: string
+          suspension_reason?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string | null
+          business_name?: string
+          certificate_doc_url?: string | null
+          certificate_number?: string
+          certification_body_id?: string
+          created_at?: string | null
+          expiry_date?: string
+          halal_standard?: string | null
+          id?: string
+          issue_date?: string
+          product_categories?: string[] | null
+          renewal_notified_at?: string | null
+          revocation_reason?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          scope_of_certification?: string | null
+          spot_check_completed?: boolean | null
+          spot_check_required?: boolean | null
+          spot_check_result?: string | null
+          status?: string
+          suspension_reason?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "halal_certificates_certification_body_id_fkey"
+            columns: ["certification_body_id"]
+            isOneToOne: false
+            referencedRelation: "certification_bodies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       halal_products: {
         Row: {
@@ -2295,6 +3976,206 @@ export type Database = {
         }
         Relationships: []
       }
+      healthcare_services: {
+        Row: {
+          category: string | null
+          contact: string | null
+          created_at: string | null
+          description: string | null
+          duration_mins: number | null
+          id: string
+          is_free: boolean | null
+          name: string
+          price: number | null
+          vendor_uid: string
+        }
+        Insert: {
+          category?: string | null
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration_mins?: number | null
+          id?: string
+          is_free?: boolean | null
+          name: string
+          price?: number | null
+          vendor_uid: string
+        }
+        Update: {
+          category?: string | null
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration_mins?: number | null
+          id?: string
+          is_free?: boolean | null
+          name?: string
+          price?: number | null
+          vendor_uid?: string
+        }
+        Relationships: []
+      }
+      hotel_amenities: {
+        Row: {
+          created_at: string | null
+          group_name: string | null
+          id: string
+          is_available: boolean | null
+          name: string
+          vendor_uid: string
+        }
+        Insert: {
+          created_at?: string | null
+          group_name?: string | null
+          id?: string
+          is_available?: boolean | null
+          name: string
+          vendor_uid: string
+        }
+        Update: {
+          created_at?: string | null
+          group_name?: string | null
+          id?: string
+          is_available?: boolean | null
+          name?: string
+          vendor_uid?: string
+        }
+        Relationships: []
+      }
+      hotel_rooms: {
+        Row: {
+          created_at: string | null
+          features: string[] | null
+          floor: number | null
+          id: string
+          max_guests: number | null
+          price_per_night: number | null
+          room_number: string | null
+          room_type: string | null
+          status: string | null
+          vendor_uid: string
+        }
+        Insert: {
+          created_at?: string | null
+          features?: string[] | null
+          floor?: number | null
+          id?: string
+          max_guests?: number | null
+          price_per_night?: number | null
+          room_number?: string | null
+          room_type?: string | null
+          status?: string | null
+          vendor_uid: string
+        }
+        Update: {
+          created_at?: string | null
+          features?: string[] | null
+          floor?: number | null
+          id?: string
+          max_guests?: number | null
+          price_per_night?: number | null
+          room_number?: string | null
+          room_type?: string | null
+          status?: string | null
+          vendor_uid?: string
+        }
+        Relationships: []
+      }
+      media_book_inventory: {
+        Row: {
+          author: string | null
+          business_id: string
+          category: string | null
+          created_at: string | null
+          id: string
+          is_available: boolean | null
+          isbn: string | null
+          language: string | null
+          low_stock_threshold: number | null
+          price: number | null
+          publisher: string | null
+          stock_qty: number | null
+          title: string
+        }
+        Insert: {
+          author?: string | null
+          business_id: string
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_available?: boolean | null
+          isbn?: string | null
+          language?: string | null
+          low_stock_threshold?: number | null
+          price?: number | null
+          publisher?: string | null
+          stock_qty?: number | null
+          title: string
+        }
+        Update: {
+          author?: string | null
+          business_id?: string
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_available?: boolean | null
+          isbn?: string | null
+          language?: string | null
+          low_stock_threshold?: number | null
+          price?: number | null
+          publisher?: string | null
+          stock_qty?: number | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_book_inventory_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      media_digital_content: {
+        Row: {
+          content_type: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_free: boolean | null
+          price: number | null
+          published_at: string | null
+          title: string
+          url: string | null
+          vendor_uid: string
+        }
+        Insert: {
+          content_type?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_free?: boolean | null
+          price?: number | null
+          published_at?: string | null
+          title: string
+          url?: string | null
+          vendor_uid: string
+        }
+        Update: {
+          content_type?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_free?: boolean | null
+          price?: number | null
+          published_at?: string | null
+          title?: string
+          url?: string | null
+          vendor_uid?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           content: string
@@ -2337,6 +4218,565 @@ export type Database = {
           },
         ]
       }
+      mosque_announcements: {
+        Row: {
+          body: string | null
+          category: string | null
+          created_at: string | null
+          id: string
+          is_pinned: boolean | null
+          mosque_id: string
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_pinned?: boolean | null
+          mosque_id: string
+          title: string
+        }
+        Update: {
+          body?: string | null
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_pinned?: boolean | null
+          mosque_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mosque_announcements_mosque_id_fkey"
+            columns: ["mosque_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mosque_programs: {
+        Row: {
+          capacity: number | null
+          created_at: string | null
+          description: string | null
+          fee: number | null
+          id: string
+          instructor: string | null
+          is_active: boolean | null
+          is_free: boolean | null
+          mosque_id: string
+          name: string
+          program_type: string | null
+          schedule_days: string | null
+          schedule_time: string | null
+        }
+        Insert: {
+          capacity?: number | null
+          created_at?: string | null
+          description?: string | null
+          fee?: number | null
+          id?: string
+          instructor?: string | null
+          is_active?: boolean | null
+          is_free?: boolean | null
+          mosque_id: string
+          name: string
+          program_type?: string | null
+          schedule_days?: string | null
+          schedule_time?: string | null
+        }
+        Update: {
+          capacity?: number | null
+          created_at?: string | null
+          description?: string | null
+          fee?: number | null
+          id?: string
+          instructor?: string | null
+          is_active?: boolean | null
+          is_free?: boolean | null
+          mosque_id?: string
+          name?: string
+          program_type?: string | null
+          schedule_days?: string | null
+          schedule_time?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mosque_programs_mosque_id_fkey"
+            columns: ["mosque_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mp_orders: {
+        Row: {
+          buyer_id: string
+          cancelled_at: string | null
+          commission_amount_inr: number
+          commission_pct: number
+          courier_name: string | null
+          created_at: string
+          delivered_at: string | null
+          delivery_address: Json
+          estimated_delivery: string | null
+          id: string
+          payout_released_at: string | null
+          payout_status: Database["public"]["Enums"]["mp_payout_status"]
+          product_id: string
+          quantity: number
+          razorpay_order_id: string | null
+          razorpay_payment_id: string | null
+          refund_amount_inr: number | null
+          return_photos: Json | null
+          return_reason: string | null
+          return_requested_at: string | null
+          seller_id: string
+          seller_payout_inr: number
+          shipping_charge_inr: number
+          status: Database["public"]["Enums"]["mp_order_status"]
+          total_price_inr: number
+          tracking_id: string | null
+          unit_price_inr: number
+          variant_id: string | null
+        }
+        Insert: {
+          buyer_id: string
+          cancelled_at?: string | null
+          commission_amount_inr?: number
+          commission_pct?: number
+          courier_name?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          delivery_address: Json
+          estimated_delivery?: string | null
+          id?: string
+          payout_released_at?: string | null
+          payout_status?: Database["public"]["Enums"]["mp_payout_status"]
+          product_id: string
+          quantity?: number
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          refund_amount_inr?: number | null
+          return_photos?: Json | null
+          return_reason?: string | null
+          return_requested_at?: string | null
+          seller_id: string
+          seller_payout_inr?: number
+          shipping_charge_inr?: number
+          status?: Database["public"]["Enums"]["mp_order_status"]
+          total_price_inr: number
+          tracking_id?: string | null
+          unit_price_inr: number
+          variant_id?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          cancelled_at?: string | null
+          commission_amount_inr?: number
+          commission_pct?: number
+          courier_name?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          delivery_address?: Json
+          estimated_delivery?: string | null
+          id?: string
+          payout_released_at?: string | null
+          payout_status?: Database["public"]["Enums"]["mp_payout_status"]
+          product_id?: string
+          quantity?: number
+          razorpay_order_id?: string | null
+          razorpay_payment_id?: string | null
+          refund_amount_inr?: number | null
+          return_photos?: Json | null
+          return_reason?: string | null
+          return_requested_at?: string | null
+          seller_id?: string
+          seller_payout_inr?: number
+          shipping_charge_inr?: number
+          status?: Database["public"]["Enums"]["mp_order_status"]
+          total_price_inr?: number
+          tracking_id?: string | null
+          unit_price_inr?: number
+          variant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mp_orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "mp_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mp_orders_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "mp_sellers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mp_orders_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mp_product_reviews: {
+        Row: {
+          body: string | null
+          buyer_id: string
+          created_at: string
+          helpful_count: number
+          id: string
+          order_id: string
+          photos: Json | null
+          product_id: string
+          published: boolean
+          rating: number
+          title: string | null
+          verified_purchase: boolean
+        }
+        Insert: {
+          body?: string | null
+          buyer_id: string
+          created_at?: string
+          helpful_count?: number
+          id?: string
+          order_id: string
+          photos?: Json | null
+          product_id: string
+          published?: boolean
+          rating: number
+          title?: string | null
+          verified_purchase?: boolean
+        }
+        Update: {
+          body?: string | null
+          buyer_id?: string
+          created_at?: string
+          helpful_count?: number
+          id?: string
+          order_id?: string
+          photos?: Json | null
+          product_id?: string
+          published?: boolean
+          rating?: number
+          title?: string | null
+          verified_purchase?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mp_product_reviews_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "mp_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mp_product_reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "mp_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mp_products: {
+        Row: {
+          admin_notes: string | null
+          approved_at: string | null
+          approved_by: string | null
+          category: string
+          compare_price_inr: number | null
+          created_at: string
+          description: string | null
+          flag_count: number
+          free_shipping_above_inr: number | null
+          halal_cert_body: string | null
+          halal_cert_body_id: string | null
+          halal_cert_expiry: string | null
+          halal_cert_expiry_warned: boolean
+          halal_cert_url: string | null
+          halal_status: Database["public"]["Enums"]["mp_halal_status"]
+          id: string
+          order_count: number
+          photos: Json
+          price_inr: number
+          processing_days: number
+          rating: number
+          rejection_reason: string | null
+          return_count: number
+          return_eligible: boolean
+          review_count: number
+          seller_id: string
+          sku: string | null
+          slug: string
+          status: Database["public"]["Enums"]["mp_product_status"]
+          stock_quantity: number
+          title: string
+          view_count: number
+          weight_grams: number
+        }
+        Insert: {
+          admin_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          category: string
+          compare_price_inr?: number | null
+          created_at?: string
+          description?: string | null
+          flag_count?: number
+          free_shipping_above_inr?: number | null
+          halal_cert_body?: string | null
+          halal_cert_body_id?: string | null
+          halal_cert_expiry?: string | null
+          halal_cert_expiry_warned?: boolean
+          halal_cert_url?: string | null
+          halal_status?: Database["public"]["Enums"]["mp_halal_status"]
+          id?: string
+          order_count?: number
+          photos?: Json
+          price_inr: number
+          processing_days?: number
+          rating?: number
+          rejection_reason?: string | null
+          return_count?: number
+          return_eligible?: boolean
+          review_count?: number
+          seller_id: string
+          sku?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["mp_product_status"]
+          stock_quantity?: number
+          title: string
+          view_count?: number
+          weight_grams?: number
+        }
+        Update: {
+          admin_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string
+          compare_price_inr?: number | null
+          created_at?: string
+          description?: string | null
+          flag_count?: number
+          free_shipping_above_inr?: number | null
+          halal_cert_body?: string | null
+          halal_cert_body_id?: string | null
+          halal_cert_expiry?: string | null
+          halal_cert_expiry_warned?: boolean
+          halal_cert_url?: string | null
+          halal_status?: Database["public"]["Enums"]["mp_halal_status"]
+          id?: string
+          order_count?: number
+          photos?: Json
+          price_inr?: number
+          processing_days?: number
+          rating?: number
+          rejection_reason?: string | null
+          return_count?: number
+          return_eligible?: boolean
+          review_count?: number
+          seller_id?: string
+          sku?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["mp_product_status"]
+          stock_quantity?: number
+          title?: string
+          view_count?: number
+          weight_grams?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mp_products_halal_cert_body_id_fkey"
+            columns: ["halal_cert_body_id"]
+            isOneToOne: false
+            referencedRelation: "halal_cert_bodies_ref"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mp_products_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "mp_sellers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mp_seller_applications: {
+        Row: {
+          action: string
+          admin_id: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          seller_id: string
+        }
+        Insert: {
+          action: string
+          admin_id?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          seller_id: string
+        }
+        Update: {
+          action?: string
+          admin_id?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          seller_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mp_seller_applications_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "mp_sellers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mp_sellers: {
+        Row: {
+          admin_notes: string | null
+          approved_at: string | null
+          approved_by: string | null
+          bank_account_number: string | null
+          bank_ifsc: string | null
+          bank_name: string | null
+          category: string | null
+          city: string | null
+          commission_exempt_until: string | null
+          created_at: string
+          description: string | null
+          documents: Json
+          featured_until: string | null
+          gstin: string | null
+          halal_declaration_signed: boolean
+          halal_declaration_signed_at: string | null
+          id: string
+          is_verified: boolean
+          pan: string | null
+          rating: number
+          rejection_reason: string | null
+          seller_type: Database["public"]["Enums"]["mp_seller_type"]
+          status: Database["public"]["Enums"]["mp_seller_status"]
+          store_name: string
+          store_slug: string
+          total_gmv: number
+          total_sales: number
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          bank_account_number?: string | null
+          bank_ifsc?: string | null
+          bank_name?: string | null
+          category?: string | null
+          city?: string | null
+          commission_exempt_until?: string | null
+          created_at?: string
+          description?: string | null
+          documents?: Json
+          featured_until?: string | null
+          gstin?: string | null
+          halal_declaration_signed?: boolean
+          halal_declaration_signed_at?: string | null
+          id?: string
+          is_verified?: boolean
+          pan?: string | null
+          rating?: number
+          rejection_reason?: string | null
+          seller_type?: Database["public"]["Enums"]["mp_seller_type"]
+          status?: Database["public"]["Enums"]["mp_seller_status"]
+          store_name: string
+          store_slug: string
+          total_gmv?: number
+          total_sales?: number
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          bank_account_number?: string | null
+          bank_ifsc?: string | null
+          bank_name?: string | null
+          category?: string | null
+          city?: string | null
+          commission_exempt_until?: string | null
+          created_at?: string
+          description?: string | null
+          documents?: Json
+          featured_until?: string | null
+          gstin?: string | null
+          halal_declaration_signed?: boolean
+          halal_declaration_signed_at?: string | null
+          id?: string
+          is_verified?: boolean
+          pan?: string | null
+          rating?: number
+          rejection_reason?: string | null
+          seller_type?: Database["public"]["Enums"]["mp_seller_type"]
+          status?: Database["public"]["Enums"]["mp_seller_status"]
+          store_name?: string
+          store_slug?: string
+          total_gmv?: number
+          total_sales?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notification_templates: {
+        Row: {
+          active: boolean
+          body: string
+          created_at: string
+          id: string
+          key: string
+          label: string
+          link: string | null
+          title: string
+          trigger_event: string | null
+          type: string
+        }
+        Insert: {
+          active?: boolean
+          body: string
+          created_at?: string
+          id?: string
+          key: string
+          label: string
+          link?: string | null
+          title: string
+          trigger_event?: string | null
+          type?: string
+        }
+        Update: {
+          active?: boolean
+          body?: string
+          created_at?: string
+          id?: string
+          key?: string
+          label?: string
+          link?: string | null
+          title?: string
+          trigger_event?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string | null
@@ -2377,6 +4817,80 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      organization_announcements: {
+        Row: {
+          body: string | null
+          category: string | null
+          created_at: string | null
+          id: string
+          is_pinned: boolean | null
+          org_id: string
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_pinned?: boolean | null
+          org_id: string
+          title: string
+        }
+        Update: {
+          body?: string | null
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          is_pinned?: boolean | null
+          org_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_announcements_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_services: {
+        Row: {
+          category: string | null
+          contact: string | null
+          created_at: string | null
+          description: string | null
+          eligibility: string | null
+          id: string
+          is_free: boolean | null
+          name: string
+          vendor_uid: string
+        }
+        Insert: {
+          category?: string | null
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          eligibility?: string | null
+          id?: string
+          is_free?: boolean | null
+          name: string
+          vendor_uid: string
+        }
+        Update: {
+          category?: string | null
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          eligibility?: string | null
+          id?: string
+          is_free?: boolean | null
+          name?: string
+          vendor_uid?: string
+        }
+        Relationships: []
       }
       partner_subscriptions: {
         Row: {
@@ -2534,6 +5048,76 @@ export type Database = {
         }
         Relationships: []
       }
+      processing_locks: {
+        Row: {
+          context: string | null
+          expires_at: string
+          lock_key: string
+          locked_at: string
+          locked_by: string | null
+        }
+        Insert: {
+          context?: string | null
+          expires_at?: string
+          lock_key: string
+          locked_at?: string
+          locked_by?: string | null
+        }
+        Update: {
+          context?: string | null
+          expires_at?: string
+          lock_key?: string
+          locked_at?: string
+          locked_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "processing_locks_locked_by_fkey"
+            columns: ["locked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_flags: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          product_id: string
+          reason: Database["public"]["Enums"]["mp_flag_reason"]
+          reporter_id: string
+          reviewed: boolean
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          product_id: string
+          reason: Database["public"]["Enums"]["mp_flag_reason"]
+          reporter_id: string
+          reviewed?: boolean
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          product_id?: string
+          reason?: Database["public"]["Enums"]["mp_flag_reason"]
+          reporter_id?: string
+          reviewed?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_flags_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "mp_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_scans: {
         Row: {
           barcode: string
@@ -2569,6 +5153,56 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_variants: {
+        Row: {
+          attributes: Json
+          compare_price_inr: number | null
+          created_at: string
+          id: string
+          photos: Json | null
+          price_inr: number
+          product_id: string
+          sku: string | null
+          sort_order: number
+          stock_quantity: number
+          variant_name: string
+        }
+        Insert: {
+          attributes: Json
+          compare_price_inr?: number | null
+          created_at?: string
+          id?: string
+          photos?: Json | null
+          price_inr: number
+          product_id: string
+          sku?: string | null
+          sort_order?: number
+          stock_quantity?: number
+          variant_name: string
+        }
+        Update: {
+          attributes?: Json
+          compare_price_inr?: number | null
+          created_at?: string
+          id?: string
+          photos?: Json | null
+          price_inr?: number
+          product_id?: string
+          sku?: string | null
+          sort_order?: number
+          stock_quantity?: number
+          variant_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "mp_products"
             referencedColumns: ["id"]
           },
         ]
@@ -2612,48 +5246,84 @@ export type Database = {
       professional_profiles: {
         Row: {
           availability: string | null
+          bio: string | null
+          city: string | null
+          country: string | null
           created_at: string | null
+          experience_level: string | null
           experience_years: number | null
           hourly_rate: number | null
           id: string
+          languages: string[] | null
+          linkedin: string | null
+          open_to_volunteer: boolean | null
           portfolio_url: string | null
           pricing_model: string | null
           profession: string
+          qualifications: string[] | null
+          service_modes: string[] | null
+          service_note: string | null
+          session_rate: number | null
           skills: string[] | null
           specializations: string[] | null
           updated_at: string | null
           user_id: string
           verification_status: string | null
+          website: string | null
         }
         Insert: {
           availability?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string | null
+          experience_level?: string | null
           experience_years?: number | null
           hourly_rate?: number | null
           id?: string
+          languages?: string[] | null
+          linkedin?: string | null
+          open_to_volunteer?: boolean | null
           portfolio_url?: string | null
           pricing_model?: string | null
           profession: string
+          qualifications?: string[] | null
+          service_modes?: string[] | null
+          service_note?: string | null
+          session_rate?: number | null
           skills?: string[] | null
           specializations?: string[] | null
           updated_at?: string | null
           user_id: string
           verification_status?: string | null
+          website?: string | null
         }
         Update: {
           availability?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string | null
+          experience_level?: string | null
           experience_years?: number | null
           hourly_rate?: number | null
           id?: string
+          languages?: string[] | null
+          linkedin?: string | null
+          open_to_volunteer?: boolean | null
           portfolio_url?: string | null
           pricing_model?: string | null
           profession?: string
+          qualifications?: string[] | null
+          service_modes?: string[] | null
+          service_note?: string | null
+          session_rate?: number | null
           skills?: string[] | null
           specializations?: string[] | null
           updated_at?: string | null
           user_id?: string
           verification_status?: string | null
+          website?: string | null
         }
         Relationships: [
           {
@@ -2664,6 +5334,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      professional_services: {
+        Row: {
+          category: string | null
+          contact: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          price: number | null
+          price_type: string | null
+          vendor_uid: string
+        }
+        Insert: {
+          category?: string | null
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          price?: number | null
+          price_type?: string | null
+          vendor_uid: string
+        }
+        Update: {
+          category?: string | null
+          contact?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          price?: number | null
+          price_type?: string | null
+          vendor_uid?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -2770,6 +5476,87 @@ export type Database = {
         }
         Relationships: []
       }
+      ramadan_content: {
+        Row: {
+          active: boolean
+          business_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          link_href: string | null
+          section: string
+          sort_order: number
+          title: string
+        }
+        Insert: {
+          active?: boolean
+          business_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          link_href?: string | null
+          section: string
+          sort_order?: number
+          title: string
+        }
+        Update: {
+          active?: boolean
+          business_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          link_href?: string | null
+          section?: string
+          sort_order?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      ramadan_settings: {
+        Row: {
+          banner_subtitle: string
+          banner_title: string
+          city: string
+          coin_multiplier: number
+          enabled: boolean
+          end_date: string
+          id: number
+          iftar_cta_text: string
+          start_date: string
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          banner_subtitle?: string
+          banner_title?: string
+          city?: string
+          coin_multiplier?: number
+          enabled?: boolean
+          end_date?: string
+          id?: number
+          iftar_cta_text?: string
+          start_date?: string
+          updated_at?: string
+          year?: number
+        }
+        Update: {
+          banner_subtitle?: string
+          banner_title?: string
+          city?: string
+          coin_multiplier?: number
+          enabled?: boolean
+          end_date?: string
+          id?: number
+          iftar_cta_text?: string
+          start_date?: string
+          updated_at?: string
+          year?: number
+        }
+        Relationships: []
+      }
       recent_searches: {
         Row: {
           created_at: string | null
@@ -2871,6 +5658,45 @@ export type Database = {
           },
         ]
       }
+      social_embeds: {
+        Row: {
+          author_name: string | null
+          embed_html: string | null
+          fetched_at: string
+          height: number | null
+          id: string
+          platform: string
+          thumbnail_url: string | null
+          title: string | null
+          url: string
+          width: number | null
+        }
+        Insert: {
+          author_name?: string | null
+          embed_html?: string | null
+          fetched_at?: string
+          height?: number | null
+          id?: string
+          platform: string
+          thumbnail_url?: string | null
+          title?: string | null
+          url: string
+          width?: number | null
+        }
+        Update: {
+          author_name?: string | null
+          embed_html?: string | null
+          fetched_at?: string
+          height?: number | null
+          id?: string
+          platform?: string
+          thumbnail_url?: string | null
+          title?: string | null
+          url?: string
+          width?: number | null
+        }
+        Relationships: []
+      }
       story_reactions: {
         Row: {
           created_at: string | null
@@ -2891,6 +5717,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      streaks: {
+        Row: {
+          current_count: number
+          id: string
+          last_action_date: string | null
+          longest_streak: number
+          streak_type: string
+          user_id: string
+        }
+        Insert: {
+          current_count?: number
+          id?: string
+          last_action_date?: string | null
+          longest_streak?: number
+          streak_type: string
+          user_id: string
+        }
+        Update: {
+          current_count?: number
+          id?: string
+          last_action_date?: string | null
+          longest_streak?: number
+          streak_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "streaks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suggestions: {
         Row: {
@@ -2938,6 +5799,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      support_tickets: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          description: string | null
+          escalated_at: string | null
+          escalated_to: string | null
+          id: string
+          priority: string
+          resolved_at: string | null
+          status: string
+          subject: string
+          ticket_number: string
+          type: string
+          updated_at: string
+          user_email: string | null
+          user_id: string | null
+          user_name: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          description?: string | null
+          escalated_at?: string | null
+          escalated_to?: string | null
+          id?: string
+          priority?: string
+          resolved_at?: string | null
+          status?: string
+          subject: string
+          ticket_number?: string
+          type: string
+          updated_at?: string
+          user_email?: string | null
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          description?: string | null
+          escalated_at?: string | null
+          escalated_to?: string | null
+          id?: string
+          priority?: string
+          resolved_at?: string | null
+          status?: string
+          subject?: string
+          ticket_number?: string
+          type?: string
+          updated_at?: string
+          user_email?: string | null
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Relationships: []
       }
       user_achievements: {
         Row: {
@@ -3033,19 +5951,25 @@ export type Database = {
       }
       user_levels: {
         Row: {
+          current_balance: number
           level: number
+          level_name: string
           lifetime_coins_earned: number
           updated_at: string
           user_id: string
         }
         Insert: {
+          current_balance?: number
           level?: number
+          level_name?: string
           lifetime_coins_earned?: number
           updated_at?: string
           user_id: string
         }
         Update: {
+          current_balance?: number
           level?: number
+          level_name?: string
           lifetime_coins_earned?: number
           updated_at?: string
           user_id?: string
@@ -3308,9 +6232,37 @@ export type Database = {
         Returns: Json
       }
       refresh_prayer_streak: { Args: { p_user: string }; Returns: number }
+      release_expired_locks: { Args: never; Returns: undefined }
     }
     Enums: {
-      [_ in never]: never
+      admin_role_tier: "viewer" | "editor" | "manager" | "super_admin"
+      mp_flag_reason:
+        | "not_halal_as_described"
+        | "misleading_photos"
+        | "fake_certificate"
+        | "other"
+      mp_halal_status: "self_declared" | "admin_verified" | "certified"
+      mp_order_status:
+        | "payment_pending"
+        | "order_confirmed"
+        | "processing"
+        | "shipped"
+        | "out_for_delivery"
+        | "delivered"
+        | "cancelled"
+        | "return_requested"
+        | "refund_initiated"
+        | "refund_completed"
+      mp_payout_status: "pending" | "released" | "paid" | "disputed" | "held"
+      mp_product_status:
+        | "draft"
+        | "pending_review"
+        | "active"
+        | "paused"
+        | "rejected"
+        | "archived"
+      mp_seller_status: "pending" | "active" | "suspended" | "banned"
+      mp_seller_type: "business" | "msme" | "home" | "creator" | "wholesale"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -3437,6 +6389,38 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      admin_role_tier: ["viewer", "editor", "manager", "super_admin"],
+      mp_flag_reason: [
+        "not_halal_as_described",
+        "misleading_photos",
+        "fake_certificate",
+        "other",
+      ],
+      mp_halal_status: ["self_declared", "admin_verified", "certified"],
+      mp_order_status: [
+        "payment_pending",
+        "order_confirmed",
+        "processing",
+        "shipped",
+        "out_for_delivery",
+        "delivered",
+        "cancelled",
+        "return_requested",
+        "refund_initiated",
+        "refund_completed",
+      ],
+      mp_payout_status: ["pending", "released", "paid", "disputed", "held"],
+      mp_product_status: [
+        "draft",
+        "pending_review",
+        "active",
+        "paused",
+        "rejected",
+        "archived",
+      ],
+      mp_seller_status: ["pending", "active", "suspended", "banned"],
+      mp_seller_type: ["business", "msme", "home", "creator", "wholesale"],
+    },
   },
 } as const

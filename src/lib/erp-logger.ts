@@ -18,7 +18,7 @@ export async function logErpActivity(opts: {
     record_type: opts.recordType ?? null,
     record_id: opts.recordId ?? null,
     record_title: opts.recordTitle ?? null,
-    old_value: opts.oldValue ?? null,
-    new_value: opts.newValue ?? null,
+    old_value: (opts.oldValue ?? null) as any,
+    new_value: (opts.newValue ?? null) as any,
   })
 }

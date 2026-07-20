@@ -92,9 +92,10 @@ export default function AdminCampaignsPage() {
   async function load() {
     setLoading(true)
     const supabase = createClient()
+    const db = supabase as any
     const [camRes, appRes] = await Promise.all([
-      supabase.from("campaigns").select("*").order("created_at", { ascending: false }),
-      supabase
+      db.from("campaigns").select("*").order("created_at", { ascending: false }),
+      db
         .from("campaign_applications")
         .select("*, profile:profiles!campaign_applications_user_id_fkey(name, email), campaign:campaigns!campaign_applications_campaign_id_fkey(title)")
         .order("applied_at", { ascending: false })
@@ -112,7 +113,7 @@ export default function AdminCampaignsPage() {
       toast({ title: "Title required", variant: "destructive" }); return
     }
     setSubmitting(true)
-    const supabase = createClient()
+    const supabase = createClient() as any
     const { error } = await supabase.from("campaigns").insert({
       title: form.title,
       description: form.description || null,
@@ -144,14 +145,14 @@ export default function AdminCampaignsPage() {
   }
 
   async function updateStatus(id: string, status: string) {
-    const supabase = createClient()
+    const supabase = createClient() as any
     await supabase.from("campaigns").update({ status }).eq("id", id)
     setCampaigns(cs => cs.map(c => c.id === id ? { ...c, status } : c))
   }
 
   async function reviewApplication(id: string, status: "approved" | "rejected") {
     setReviewing(id)
-    const supabase = createClient()
+    const supabase = createClient() as any
     await supabase.from("campaign_applications").update({ status, reviewed_at: new Date().toISOString() }).eq("id", id)
     setApplications(as => as.map(a => a.id === id ? { ...a, status, reviewed_at: new Date().toISOString() } : a))
     toast({ title: status === "approved" ? "Application approved" : "Application rejected" })

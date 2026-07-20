@@ -35,7 +35,7 @@ export function useCapabilities() {
       .from("capabilities")
       .select("id, type, status, activated_at, metadata")
       .eq("user_id", user.uid)
-    setCapabilities(data ?? [])
+    setCapabilities((data ?? []) as Capability[])
     setLoading(false)
   }, [user?.uid])
 
