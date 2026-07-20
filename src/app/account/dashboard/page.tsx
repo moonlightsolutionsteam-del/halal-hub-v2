@@ -59,8 +59,8 @@ function formatJoinDate(date: any): string {
   } catch { return '' }
 }
 
-type SuggestionRow = { id: string; place_name: string; category: string | null; status: string | null; created_at: string }
-type MyReviewRow = { id: string; rating: number; body: string | null; created_at: string; businesses: { name: string } | null }
+type SuggestionRow = { id: string; place_name: string; category: string | null; status: string | null; created_at: string | null }
+type MyReviewRow = { id: string; rating: number; body: string | null; created_at: string | null; businesses: { name: string } | null }
 
 export default function UserDashboard() {
   const [mounted, setMounted] = React.useState(false)

@@ -174,7 +174,7 @@ export default function ProfessionalActivationPage() {
       website: website || null,
       linkedin: linkedin || null,
       verification_status: "pending",
-    }, { onConflict: "user_id" })
+    } as any, { onConflict: "user_id" })
 
     if (profileError) {
       toast({ variant: "destructive", title: "Something went wrong", description: profileError.message })

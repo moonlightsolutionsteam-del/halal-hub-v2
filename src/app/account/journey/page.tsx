@@ -19,8 +19,8 @@ type Achievement = {
   id: string; key: string; name: string; description: string; icon: string
   event_type: string; threshold: number; points_reward: number
 }
-type UserAchievement = { achievement_id: string; unlocked_at: string }
-type LedgerRow = { id: string; delta: number; reason: string; created_at: string }
+type UserAchievement = { achievement_id: string; unlocked_at: string | null }
+type LedgerRow = { id: string; delta: number; reason: string; created_at: string | null }
 
 const EVENT_LABELS: Record<string, string> = {
   business_checkin: "Businesses Checked In",
