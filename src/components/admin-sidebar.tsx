@@ -84,7 +84,8 @@ import {
   Scale,
   Banknote,
   HeartHandshake,
-  LineChart
+  LineChart,
+  Package
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -136,6 +137,14 @@ export function AdminSidebar() {
   ];
 
   const platformGroups = [
+    {
+      title: "Marketplace",
+      icon: Store,
+      items: [
+        { title: "Seller Applications", icon: Users2, url: "/admin/marketplace/sellers" },
+        { title: "Product Moderation", icon: Package, url: "/admin/marketplace/products" },
+      ]
+    },
     {
       title: "Trust & Safety",
       icon: ShieldCheck,
