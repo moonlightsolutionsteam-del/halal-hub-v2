@@ -266,7 +266,7 @@ export function AdminSidebar() {
         { title: "Lead & Onboarding Ops", icon: UserPlus, url: "/admin/erp/operations/leads" },
         { title: "Field Team Mgt", icon: Truck, url: "/admin/erp/operations/field-team" },
         { title: "Vendor Lifecycle", icon: RefreshCw, url: "/admin/erp/operations/vendor-lifecycle" },
-        { title: "Support & Escalations", icon: LifeBuoy, url: "/admin/erp/operations/support" },
+        { title: "Support & SLA", icon: LifeBuoy, url: "/admin/support" },
         { title: "SOP & Knowledge Base", icon: Library, url: "/admin/erp/operations/sop" },
         { title: "Asset Management", icon: Box, url: "/admin/erp/operations/assets" },
         { title: "Process Automation", icon: Zap, url: "/admin/erp/operations/automation" },
