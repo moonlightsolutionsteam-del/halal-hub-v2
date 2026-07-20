@@ -11,6 +11,7 @@ import {
   CheckSquare,
   Rss,
   Gift,
+  Moon,
   MapPin,
   Image as ImageIcon,
   Network,
@@ -150,6 +151,7 @@ export function AdminSidebar() {
       items: [
         { title: "Content Feed", icon: Rss, url: "/admin/feed" },
         { title: "Gamification", icon: Gift, url: "/admin/gamification" },
+        { title: "Ramadan Mode", icon: Moon, url: "/admin/ramadan" },
         { title: "Check-ins", icon: MapPin, url: "/admin/check-ins" },
         { title: "Reviews & Media", icon: ImageIcon, url: "/admin/reviews" },
         { title: "Family Tree", icon: Network, url: "/admin/family-tree" },

@@ -116,6 +116,7 @@ const CATEGORIES: Category[] = [
     iconBg: "bg-emerald-100 dark:bg-emerald-950/40",
     iconColor: "text-emerald-600",
     features: [
+      { name: "Ramadan Hub",   desc: "Iftar countdown, deals & charity",    href: "/ramadan",            icon: Moon,          bg: "bg-emerald-50 dark:bg-emerald-950/30", color: "text-emerald-700",  badge: "New" },
       { name: "Prayer Times",  desc: "Salah schedule & countdown",          href: "/prayer-times",       icon: Moon,          bg: "bg-emerald-50 dark:bg-emerald-950/30", color: "text-emerald-600" },
       { name: "Qibla",         desc: "Live compass to the Kaaba",           href: "/qibla",              icon: Compass,       bg: "bg-emerald-50 dark:bg-emerald-950/30", color: "text-emerald-700" },
       { name: "Quran",         desc: "Read & listen to the Quran",          href: "/quran",              icon: BookOpen,      bg: "bg-teal-50 dark:bg-teal-950/30",       color: "text-teal-600",    badge: "Popular" },
