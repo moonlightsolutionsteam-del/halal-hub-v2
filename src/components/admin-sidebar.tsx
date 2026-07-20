@@ -149,7 +149,7 @@ export function AdminSidebar() {
       icon: Globe,
       items: [
         { title: "Content Feed", icon: Rss, url: "/admin/feed" },
-        { title: "Reward Engine", icon: Gift, url: "/admin/rewards" },
+        { title: "Gamification", icon: Gift, url: "/admin/gamification" },
         { title: "Check-ins", icon: MapPin, url: "/admin/check-ins" },
         { title: "Reviews & Media", icon: ImageIcon, url: "/admin/reviews" },
         { title: "Family Tree", icon: Network, url: "/admin/family-tree" },
