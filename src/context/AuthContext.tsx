@@ -33,13 +33,29 @@ function toUserProfile(supabaseUser: any, profile: any): UserProfile {
   };
 }
 
+const DEV_USER: UserProfile = {
+  uid: "dev-user-id",
+  name: "Dev User",
+  email: "dev@halalhub.local",
+  phone: "+919999999999",
+  photoURL: null,
+  city: "Mumbai",
+  country: "IN",
+  roles: ["consumer", "business_owner", "creator", "admin"],
+  halalCoinsBalance: 5000,
+  createdAt: new Date() as any,
+  lastLoginAt: new Date() as any,
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost";
+  const [user, setUser] = useState<UserProfile | null>(isDev ? DEV_USER : null);
+  const [loading, setLoading] = useState(!isDev);
   const router = useRouter();
   const supabase = createClient();
 
   useEffect(() => {
+    if (isDev) return;
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         const { data: profile } = await supabase
@@ -65,6 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signInWithGoogle = async () => {
+    if (isDev) return;
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -74,17 +91,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signInWithPhone = async (phone: string) => {
+    if (isDev) return;
     const { error } = await supabase.auth.signInWithOtp({ phone });
     if (error) throw error;
   };
 
   const verifyOtp = async (phone: string, otp: string) => {
+    if (isDev) { router.push('/account/dashboard'); return; }
     const { error } = await supabase.auth.verifyOtp({ phone, token: otp, type: 'sms' });
     if (error) throw error;
     router.push('/account/dashboard');
   };
 
   const signOut = async () => {
+    if (isDev) return;
     await supabase.auth.signOut();
     setUser(null);
     router.push('/login');
