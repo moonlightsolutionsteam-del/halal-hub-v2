@@ -21,7 +21,7 @@ type LedgerEntry = {
   action_type: string
   description: string | null
   season: string | null
-  created_at: string
+  created_at: string | null
 }
 
 type UserLevel = {

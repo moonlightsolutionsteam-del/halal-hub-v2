@@ -35,7 +35,7 @@ const EVENT_LABELS: Record<string, string> = {
 export default function MyJourneyPage() {
   const { user, loading: authLoading } = useAuth()
   const [achievements, setAchievements] = useState<Achievement[]>([])
-  const [unlocked, setUnlocked] = useState<Map<string, string>>(new Map())
+  const [unlocked, setUnlocked] = useState<Map<string, string | null>>(new Map())
   const [counts, setCounts] = useState<Record<string, number>>({})
   const [ledger, setLedger] = useState<LedgerRow[]>([])
   const [streak, setStreak] = useState<number>(0)

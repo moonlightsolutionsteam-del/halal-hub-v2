@@ -15,7 +15,7 @@ type Suggestion = {
   place_name: string | null
   category: string | null
   status: string | null
-  created_at: string
+  created_at: string | null
 }
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: typeof CheckCircle2 }> = {

@@ -490,7 +490,7 @@ export default function UserDashboard() {
                         rejected: { label: "NOT LISTED",        color: "bg-red-50 text-red-600 border-red-100" },
                       }
                       const st = statusMap[s.status ?? "pending"] ?? statusMap["pending"]
-                      const date = new Date(s.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })
+                      const date = new Date(s.created_at ?? "").toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })
                       return (
                         <Card key={s.id} className="rounded-[1.5rem] sm:rounded-[2.5rem] border-none shadow-sm bg-card overflow-hidden p-4 sm:p-8 group hover:shadow-xl transition-all border-2 border-transparent hover:border-primary/10">
                           <div className="flex gap-4 sm:gap-8 items-start">
@@ -559,7 +559,7 @@ export default function UserDashboard() {
                             ))}
                           </div>
                           <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                            {new Date(review.created_at).toLocaleDateString("en-IN", { month: "short", day: "numeric" })}
+                            {new Date(review.created_at ?? "").toLocaleDateString("en-IN", { month: "short", day: "numeric" })}
                           </span>
                         </div>
                         {review.body && <p className="text-lg font-medium text-muted-foreground leading-relaxed italic border-l-4 border-emerald-50 pl-6 group-hover:border-emerald-200 transition-all">"{review.body}"</p>}
