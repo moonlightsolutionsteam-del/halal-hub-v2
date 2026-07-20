@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Coins, Search, Loader2, Trophy, TrendingUp, Users, Star, Zap,
-  ChevronUp, ChevronDown,
+  ChevronUp, ChevronDown, AlertTriangle,
 } from "lucide-react"
+import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 
 type UserLevel = {
@@ -136,11 +137,18 @@ export default function AdminGamificationPage() {
 
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-2xl font-black text-foreground">Gamification Engine</h1>
-        <p className="text-sm text-muted-foreground font-medium">
-          Halal Coins, user levels, and earning history across the platform.
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-black text-foreground">Gamification Engine</h1>
+          <p className="text-sm text-muted-foreground font-medium">
+            Halal Coins, user levels, and earning history across the platform.
+          </p>
+        </div>
+        <Link href="/admin/gamification/abuse">
+          <button className="flex items-center gap-1.5 text-xs font-bold text-amber-600 border border-amber-200 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/20 dark:border-amber-900/30 px-3 py-2 rounded-xl transition-colors">
+            <AlertTriangle className="h-3.5 w-3.5" /> Anti-Abuse & Seasons
+          </button>
+        </Link>
       </div>
 
       {/* Stats */}
