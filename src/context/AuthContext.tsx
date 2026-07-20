@@ -48,6 +48,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           .eq('id', session.user.id)
           .single();
         setUser(toUserProfile(session.user, profile));
+
+        // Award daily login coins once per calendar day
+        if (event === 'SIGNED_IN') {
+          import('@/lib/gamification/award-coins').then(({ awardCoins }) => {
+            awardCoins(session.user.id, 'daily_login').catch(() => {})
+          })
+        }
       } else {
         setUser(null);
       }
