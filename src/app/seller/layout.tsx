@@ -24,6 +24,44 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   // Allow apply flow through without any gate
   if (pathname.startsWith("/seller/apply")) return <>{children}</>
 
+  // Dev bypass — skip all gates on localhost
+  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost"
+  if (isDev) {
+    return (
+      <div className="flex flex-col min-h-screen pb-20">
+        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border/50 px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Store className="h-4 w-4 text-primary" />
+            </div>
+            <div>
+              <p className="text-sm font-black text-foreground leading-none">Dev Store</p>
+              <p className="text-[10px] text-amber-500 font-bold">DEV MODE — gates bypassed</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/30 text-amber-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block" />
+            Local
+          </div>
+        </div>
+        <div className="flex-1">{children}</div>
+        <nav className="fixed bottom-0 left-0 right-0 z-20 bg-background/95 backdrop-blur border-t border-border/50">
+          <div className="flex max-w-lg mx-auto">
+            {NAV.map(({ href, label, icon: Icon }) => {
+              const active = pathname === href || (href !== "/seller/dashboard" && pathname.startsWith(href))
+              return (
+                <Link key={href} href={href} className={`flex-1 flex flex-col items-center gap-1 py-3 transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}>
+                  <Icon className="h-5 w-5" />
+                  <span className="text-[10px] font-bold">{label}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </nav>
+      </div>
+    )
+  }
+
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">

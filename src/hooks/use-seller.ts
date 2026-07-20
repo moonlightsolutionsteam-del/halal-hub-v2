@@ -27,12 +27,38 @@ export type SellerProfile = {
   pan: string | null
 }
 
+const DEV_SELLER: SellerProfile = {
+  id: "dev-seller-id",
+  store_name: "Dev Store",
+  store_slug: "dev-store",
+  description: "Development mode store",
+  seller_type: "business",
+  category: "grocery",
+  city: "Mumbai",
+  status: "active",
+  is_verified: true,
+  rating: 4.5,
+  total_sales: 12,
+  total_gmv: 150000,
+  rejection_reason: null,
+  created_at: new Date().toISOString(),
+  approved_at: new Date().toISOString(),
+  bank_account_number: null,
+  bank_ifsc: null,
+  bank_name: null,
+  gstin: null,
+  pan: null,
+}
+
 export function useSeller() {
   const { user, loading: authLoading } = useAuth()
   const [seller, setSeller] = useState<SellerProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost"
+
   useEffect(() => {
+    if (isDev) { setSeller(DEV_SELLER); setLoading(false); return }
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
 
@@ -49,6 +75,7 @@ export function useSeller() {
   }, [user, authLoading])
 
   function refresh() {
+    if (isDev) return
     if (!user?.uid) return
     setLoading(true)
     const supabase = createClient()
