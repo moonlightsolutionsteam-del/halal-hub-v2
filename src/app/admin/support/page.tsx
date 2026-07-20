@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { createClient } from "@/lib/supabase/client"
+import { AdminRoleGate } from "@/components/admin-role-gate"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -139,7 +140,7 @@ type Ticket = {
   updated_at: string
 }
 
-export default function SupportSLAPage() {
+function SupportSLAContent() {
   const { toast } = useToast()
   const [tickets, setTickets] = React.useState<Ticket[]>([])
   const [loading, setLoading] = React.useState(true)
@@ -483,5 +484,13 @@ export default function SupportSLAPage() {
         </TabsContent>
       </Tabs>
     </div>
+  )
+}
+
+export default function SupportSLAPage() {
+  return (
+    <AdminRoleGate required="editor">
+      <SupportSLAContent />
+    </AdminRoleGate>
   )
 }

@@ -349,7 +349,7 @@ export function AdminSidebar() {
       title: "Settings",
       icon: Settings,
       items: [
-        { title: "Roles, Permissions & Security", icon: Shield, url: "/admin/roles" },
+        { title: "Roles & Permissions (RBAC)", icon: Shield, url: "/admin/rbac" },
         { title: "Global Settings", icon: Sliders, url: "/admin/global-settings" },
         { title: "File Manager", icon: FolderOpen, url: "/admin/file-manager" },
         { title: "Pages", icon: FileText, url: "/admin/pages" },

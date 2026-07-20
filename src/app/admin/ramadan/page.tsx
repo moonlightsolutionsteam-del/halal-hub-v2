@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { createClient } from "@/lib/supabase/client"
+import { AdminRoleGate } from "@/components/admin-role-gate"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -49,7 +50,7 @@ const SECTION_META: Record<string, { label: string; icon: React.ElementType; col
 
 const CITIES = ["Mumbai", "Delhi", "Hyderabad", "Chennai", "Kolkata", "Bangalore", "Pune", "Lucknow"]
 
-export default function AdminRamadanPage() {
+function AdminRamadanContent() {
   const { toast } = useToast()
   const [settings, setSettings] = React.useState<Settings | null>(null)
   const [content, setContent] = React.useState<ContentItem[]>([])
@@ -396,5 +397,13 @@ export default function AdminRamadanPage() {
         <p className="text-muted-foreground">Settings not found.</p>
       )}
     </div>
+  )
+}
+
+export default function AdminRamadanPage() {
+  return (
+    <AdminRoleGate required="manager">
+      <AdminRamadanContent />
+    </AdminRoleGate>
   )
 }
