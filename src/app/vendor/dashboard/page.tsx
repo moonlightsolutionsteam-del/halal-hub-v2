@@ -10,7 +10,9 @@ import {
   PlusCircle, Tag, Calendar, Rocket,
   ArrowUpRight, Clock, MapPin,
   ShieldCheck, Award, CheckCircle2,
-  Eye
+  Eye, UtensilsCrossed, ShoppingBag, BookOpen,
+  Image, Megaphone, Truck, BarChart2,
+  ChevronRight, FileText, Settings,
 } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
@@ -54,6 +56,19 @@ export default function VendorDashboard() {
           .then(({ count }: { count: number | null }) => setSaves(count ?? 0))
       })
   }, [user?.uid, authLoading])
+
+  const operationsModules = [
+    { label: "Menu & Products", icon: UtensilsCrossed, href: "/vendor/products", color: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400", description: "Add dishes, manage your menu" },
+    { label: "Orders", icon: ShoppingBag, href: "/vendor/orders", color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400", description: "Incoming orders and status" },
+    { label: "Reservations", icon: Calendar, href: "/vendor/reservations", color: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400", description: "Table bookings and schedule" },
+    { label: "Delivery", icon: Truck, href: "/vendor/delivery", color: "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400", description: "Delivery zones and settings" },
+    { label: "Gallery", icon: Image, href: "/vendor/gallery", color: "bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400", description: "Photos of food and ambiance" },
+    { label: "Marketing", icon: Megaphone, href: "/vendor/marketing", color: "bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400", description: "Offers, loyalty, and promotions" },
+    { label: "Engagement", icon: BookOpen, href: "/vendor/engagement", color: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400", description: "Posts, blog, and reviews" },
+    { label: "Analytics", icon: BarChart2, href: "/vendor/tools", color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400", description: "Insights and performance" },
+    { label: "Finance", icon: Wallet, href: "/vendor/finance", color: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400", description: "Wallet, billing, invoices" },
+    { label: "Documents", icon: FileText, href: "/vendor/account", color: "bg-gray-100 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400", description: "Licences, certs, and policies" },
+  ]
 
   const quickActions = [
     { label: "Add Menu Item", icon: PlusCircle, color: "text-emerald-500", bg: "bg-emerald-50", href: "/vendor/products" },
@@ -155,6 +170,29 @@ export default function VendorDashboard() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* Operations modules */}
+      <div className="space-y-3">
+        <h2 className="text-xs font-black uppercase tracking-widest text-muted-foreground px-0.5">Manage Your Business</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+          {operationsModules.map(mod => {
+            const Icon = mod.icon
+            return (
+              <Link key={mod.href} href={mod.href}>
+                <div className="group rounded-2xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-md transition-all p-3.5 flex flex-col gap-2 cursor-pointer h-full">
+                  <div className={`h-8 w-8 rounded-xl flex items-center justify-center shrink-0 ${mod.color}`}>
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black text-foreground group-hover:text-primary transition-colors leading-tight">{mod.label}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug hidden sm:block">{mod.description}</p>
+                  </div>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
