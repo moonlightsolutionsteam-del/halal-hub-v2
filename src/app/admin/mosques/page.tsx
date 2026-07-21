@@ -36,9 +36,10 @@ import Link from "next/link"
 
 export default function SuperAdminMosqueManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
+  const [search, setSearch] = React.useState("")
   const cat = useAdminCategory(["Mosque", "Masjid", "Islamic Center"])
 
-  const MOCK_MOSQUES = cat.businesses.map((b, i) => ({
+  const allMosques = cat.businesses.map(b => ({
     id: b.id,
     name: b.name,
     city: [b.city, b.country].filter(Boolean).join(", ") || "—",
@@ -47,6 +48,9 @@ export default function SuperAdminMosqueManagement() {
     rating: b.rating ?? 0,
     donors: 0,
   }))
+  const MOCK_MOSQUES = search
+    ? allMosques.filter(m => m.name.toLowerCase().includes(search.toLowerCase()) || m.city.toLowerCase().includes(search.toLowerCase()))
+    : allMosques
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -163,7 +167,7 @@ export default function SuperAdminMosqueManagement() {
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search masjids by name, city or ID..." className="pl-9 h-12 rounded-2xl bg-muted border-none font-medium" />
+                  <Input placeholder="Search masjids by name, city or ID..." className="pl-9 h-12 rounded-2xl bg-muted border-none font-medium" value={search} onChange={e => setSearch(e.target.value)} />
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" className="rounded-xl h-12 gap-2 border-2 font-bold"><Filter className="h-4 w-4" /> Filters</Button>

@@ -24,9 +24,10 @@ import { useAdminCategory } from "@/hooks/use-admin-category"
 
 export default function SuperAdminProfessionalsPage() {
   const [activeTab, setActiveTab] = React.useState("all")
+  const [search, setSearch] = React.useState("")
   const cat = useAdminCategory(["Professional Services", "Healthcare", "Legal", "Finance", "Architecture", "IT Services", "Consulting"])
 
-  const MOCK_PROFESSIONALS = cat.businesses.map(b => ({
+  const allProfessionals = cat.businesses.map(b => ({
     id: b.id,
     name: b.name,
     type: b.subcategory ?? b.category,
@@ -37,10 +38,14 @@ export default function SuperAdminProfessionalsPage() {
     halal_verified: b.halal_verified ?? false,
   }))
 
-  const total = MOCK_PROFESSIONALS.length
-  const active = MOCK_PROFESSIONALS.filter(p => p.status === "active").length
-  const pending = MOCK_PROFESSIONALS.filter(p => p.status === "pending").length
-  const verified = MOCK_PROFESSIONALS.filter(p => p.halal_verified).length
+  const MOCK_PROFESSIONALS = search
+    ? allProfessionals.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.city.toLowerCase().includes(search.toLowerCase()))
+    : allProfessionals
+
+  const total = allProfessionals.length
+  const active = allProfessionals.filter(p => p.status === "active").length
+  const pending = allProfessionals.filter(p => p.status === "pending").length
+  const verified = allProfessionals.filter(p => p.halal_verified).length
 
   return (
     <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 bg-background min-h-screen pb-24">
@@ -113,7 +118,7 @@ export default function SuperAdminProfessionalsPage() {
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search by name, type, or city..." className="pl-9 h-12 rounded-2xl bg-muted border-none font-medium" />
+                  <Input placeholder="Search by name, type, or city..." className="pl-9 h-12 rounded-2xl bg-muted border-none font-medium" value={search} onChange={e => setSearch(e.target.value)} />
                 </div>
                 <Button variant="outline" className="rounded-xl h-12 gap-2 border-2 font-bold">
                   <Filter className="h-4 w-4" /> Filters

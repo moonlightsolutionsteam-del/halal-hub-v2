@@ -36,8 +36,12 @@ import Link from "next/link"
 
 export default function SuperAdminGroceryManagement() {
   const [activeTab, setActiveTab] = React.useState("dashboard")
+  const [search, setSearch] = React.useState("")
 
   const cat = useAdminCategory("Grocery & Supermarkets")
+  const filteredBiz = search
+    ? cat.businesses.filter(b => b.name.toLowerCase().includes(search.toLowerCase()) || (b.city ?? "").toLowerCase().includes(search.toLowerCase()))
+    : cat.businesses
 
   return (
     <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 sm:space-y-8 max-w-7xl mx-auto pb-24">
@@ -164,7 +168,7 @@ export default function SuperAdminGroceryManagement() {
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="relative w-full md:w-96">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search stores by name, ID or city..." className="pl-9 h-12 rounded-2xl bg-muted border-none font-medium" />
+                  <Input placeholder="Search stores by name, ID or city..." className="pl-9 h-12 rounded-2xl bg-muted border-none font-medium" value={search} onChange={e => setSearch(e.target.value)} />
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" className="rounded-xl h-12 gap-2 border-2 font-bold hover:bg-muted"><Filter className="h-4 w-4" /> Filters</Button>
@@ -190,7 +194,7 @@ export default function SuperAdminGroceryManagement() {
                     <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading...</TableCell></TableRow>
                   ) : cat.businesses.length === 0 ? (
                     <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No stores found.</TableCell></TableRow>
-                  ) : cat.businesses.map((biz) => (
+                  ) : filteredBiz.map((biz) => (
                     <TableRow key={biz.id} className="border-border hover:bg-muted/50 transition-colors group">
                       <TableCell className="px-8 py-5">
                         <p className="font-black text-foreground text-base">{biz.name}</p>
