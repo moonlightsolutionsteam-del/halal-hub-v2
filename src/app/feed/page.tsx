@@ -15,7 +15,7 @@ import {
   MessageSquare, Navigation, Quote,
   ThumbsUp, UserPlus, Eye, ArrowRight,
   CheckCircle2, Volume2, VolumeX,
-  Tag, Megaphone, HelpCircle, Moon, BookMarked,
+  Tag, Megaphone, HelpCircle, Moon, BookMarked, Maximize2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/hooks/use-auth"
@@ -730,16 +730,14 @@ function ReelCard({ item, onFullscreen }: { item: any; onFullscreen?: () => void
           </div>
         )}
 
-        {/* Full-screen expand button */}
+        {/* Full-screen icon button — top right of media */}
         {onFullscreen && (
           <button
-            onClick={onFullscreen}
-            className="absolute top-4 right-4 z-10 bg-black/50 backdrop-blur-sm rounded-full h-9 w-9 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+            onClick={e => { e.stopPropagation(); onFullscreen() }}
+            className="absolute top-4 right-14 z-20 bg-black/50 backdrop-blur-sm rounded-full h-9 w-9 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
             aria-label="View full screen"
           >
-            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2 stroke-linecap-round stroke-linejoin-round">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
-            </svg>
+            <Maximize2 className="h-4 w-4" />
           </button>
         )}
 
@@ -783,6 +781,16 @@ function ReelCard({ item, onFullscreen }: { item: any; onFullscreen?: () => void
           </div>
         </div>
       </div>
+      {/* View Reels button — below the card media */}
+      {onFullscreen && (
+        <button
+          onClick={onFullscreen}
+          className="w-full flex items-center justify-center gap-2 py-2.5 bg-black text-white/70 hover:text-white text-xs font-black uppercase tracking-widest transition-colors border-t border-white/10"
+        >
+          <Maximize2 className="h-3.5 w-3.5" />
+          View in Reels
+        </button>
+      )}
       <CommentSheet
         postId={String(item.id)}
         open={commentSheetOpen}
