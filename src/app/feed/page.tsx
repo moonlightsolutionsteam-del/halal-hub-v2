@@ -185,6 +185,214 @@ function MoreSheet({ open, onClose, postId }: { open: boolean; onClose: () => vo
   )
 }
 
+// ─── Reel Fullscreen Viewer ───────────────────────────────────────────────────
+
+function ReelFullscreenViewer({ reels, startIndex, onClose }: {
+  reels: any[]
+  startIndex: number
+  onClose: () => void
+}) {
+  const containerRef = React.useRef<HTMLDivElement>(null)
+  const slideRefs = React.useRef<(HTMLDivElement | null)[]>([])
+  const videoRefs = React.useRef<(HTMLVideoElement | null)[]>([])
+  const [currentIndex, setCurrentIndex] = React.useState(startIndex)
+  const [muted, setMuted] = React.useState(true)
+  const [likedMap, setLikedMap] = React.useState<Record<string, boolean>>({})
+  const [savedMap, setSavedMap] = React.useState<Record<string, boolean>>({})
+  const [commentSheetOpen, setCommentSheetOpen] = React.useState(false)
+  const [commentPostId, setCommentPostId] = React.useState<string>("")
+
+  // Scroll to startIndex on open
+  React.useEffect(() => {
+    const el = slideRefs.current[startIndex]
+    if (el) el.scrollIntoView({ behavior: "instant" })
+  }, [startIndex])
+
+  // Observe which slide is in view → autoplay that video
+  React.useEffect(() => {
+    const observers: IntersectionObserver[] = []
+    slideRefs.current.forEach((el, i) => {
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return
+          setCurrentIndex(i)
+          videoRefs.current.forEach((v, j) => {
+            if (!v) return
+            if (j === i) { v.muted = muted; v.play().catch(() => {}) }
+            else { v.pause() }
+          })
+        },
+        { threshold: 0.6, root: containerRef.current }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+    return () => observers.forEach(o => o.disconnect())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reels.length])
+
+  // Sync mute toggle to current video
+  React.useEffect(() => {
+    const v = videoRefs.current[currentIndex]
+    if (v) v.muted = muted
+  }, [muted, currentIndex])
+
+  // Lock body scroll
+  React.useEffect(() => {
+    document.body.style.overflow = "hidden"
+    return () => { document.body.style.overflow = "" }
+  }, [])
+
+  // Escape key closes
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose() }
+    window.addEventListener("keydown", handler)
+    return () => window.removeEventListener("keydown", handler)
+  }, [onClose])
+
+  const toggleLike  = (id: string) => setLikedMap(m => ({ ...m, [id]: !m[id] }))
+  const toggleSaved = (id: string) => setSavedMap(m => ({ ...m, [id]: !m[id] }))
+  const openComments = (id: string) => { setCommentPostId(id); setCommentSheetOpen(true) }
+
+  return (
+    <div className="fixed inset-0 z-[500] bg-black">
+      {/* Close */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-sm rounded-full h-10 w-10 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+        aria-label="Close reels"
+      >
+        <X className="h-5 w-5" />
+      </button>
+
+      {/* Counter */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+        <span className="text-white/80 text-xs font-black bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">
+          {currentIndex + 1} / {reels.length}
+        </span>
+      </div>
+
+      {/* Reel label */}
+      <div className="absolute top-4 right-4 z-10 pointer-events-none">
+        <span className="text-white/70 text-[10px] font-black uppercase tracking-widest">Reels</span>
+      </div>
+
+      {/* Scroll container */}
+      <div
+        ref={containerRef}
+        className="h-full w-full overflow-y-scroll"
+        style={{ scrollSnapType: "y mandatory", scrollbarWidth: "none" }}
+      >
+        {reels.map((reel, i) => {
+          const hasVideo = Boolean(reel.videoUrl)
+          const liked    = !!likedMap[String(reel.id)]
+          const saved    = !!savedMap[String(reel.id)]
+
+          return (
+            <div
+              key={reel.id}
+              ref={el => { slideRefs.current[i] = el }}
+              className="relative w-full flex-shrink-0 flex items-center justify-center bg-black"
+              style={{ height: "100dvh", scrollSnapAlign: "start" }}
+            >
+              <div className="relative w-full h-full max-w-sm mx-auto overflow-hidden">
+                {/* Media */}
+                {hasVideo ? (
+                  <video
+                    ref={el => { videoRefs.current[i] = el }}
+                    src={reel.videoUrl}
+                    poster={reel.thumbnail ?? undefined}
+                    className="w-full h-full object-cover"
+                    autoPlay={i === startIndex}
+                    muted={muted}
+                    loop
+                    playsInline
+                  />
+                ) : reel.thumbnail ? (
+                  <img src={reel.thumbnail} alt={reel.caption} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
+                    <Play className="h-16 w-16 text-white/20" />
+                  </div>
+                )}
+
+                {/* Gradient overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+
+                {/* Author row */}
+                <div className="absolute top-16 left-4 right-16 flex items-center gap-3">
+                  <Avatar className="h-9 w-9 border-2 border-white shrink-0">
+                    <AvatarImage src={reel.author?.avatar} />
+                    <AvatarFallback className="bg-primary/10 text-primary font-black text-xs">
+                      {reel.author?.name?.[0] ?? "?"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0 flex items-center gap-1.5">
+                    <span className="text-sm font-black text-white truncate">{reel.author?.name ?? "Creator"}</span>
+                    {reel.author?.verified && <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" />}
+                  </div>
+                  <button className="bg-white/20 backdrop-blur-sm text-white text-[10px] font-black px-3 py-1.5 rounded-full border border-white/30 shrink-0">
+                    Follow
+                  </button>
+                </div>
+
+                {/* Right action bar */}
+                <div className="absolute right-3 bottom-32 flex flex-col items-center gap-6">
+                  <button onClick={() => toggleLike(String(reel.id))} className="flex flex-col items-center gap-1">
+                    <Heart className={cn("h-7 w-7 transition-all", liked ? "text-red-500 fill-red-500" : "text-white")} />
+                    <span className="text-white text-[10px] font-black">{fmt((reel.likes ?? 0) + (liked ? 1 : 0))}</span>
+                  </button>
+                  <button onClick={() => openComments(String(reel.id))} className="flex flex-col items-center gap-1">
+                    <MessageCircle className="h-7 w-7 text-white" />
+                    <span className="text-white text-[10px] font-black">{fmt(reel.comments ?? 0)}</span>
+                  </button>
+                  <button onClick={() => sharePost(String(reel.id), reel.caption ?? "")} className="flex flex-col items-center gap-1">
+                    <Send className="h-6 w-6 text-white -rotate-12" />
+                    <span className="text-white text-[10px] font-black">{fmt(reel.shares ?? 0)}</span>
+                  </button>
+                  <button onClick={() => toggleSaved(String(reel.id))}>
+                    <Bookmark className={cn("h-7 w-7", saved ? "text-white fill-white" : "text-white")} />
+                  </button>
+                  <button onClick={() => setMuted(m => !m)}>
+                    {muted
+                      ? <VolumeX className="h-6 w-6 text-white" />
+                      : <Volume2 className="h-6 w-6 text-white" />}
+                  </button>
+                </div>
+
+                {/* Caption + audio */}
+                <div className="absolute bottom-8 left-4 right-16 space-y-1.5">
+                  {reel.caption && (
+                    <p className="text-white text-sm font-medium leading-relaxed line-clamp-2">{reel.caption}</p>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Music2 className="h-3.5 w-3.5 text-white/80 animate-pulse shrink-0" />
+                    <span className="text-white/80 text-xs font-medium truncate">{reel.audio ?? "Original Audio"}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-white/60 text-[11px] font-medium">
+                    <Eye className="h-3 w-3" />{reel.views ?? 0} views · {reel.timeAgo} ago
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Comment sheet */}
+      {commentPostId && (
+        <CommentSheet
+          postId={commentPostId}
+          open={commentSheetOpen}
+          onClose={() => setCommentSheetOpen(false)}
+          onCountChange={() => {}}
+        />
+      )}
+    </div>
+  )
+}
+
 // ─── Mute Context ─────────────────────────────────────────────────────────────
 
 const MuteCtx = React.createContext<{
@@ -444,7 +652,7 @@ function PostCard({ item }: { item: any }) {
 
 // ─── Reel Card ────────────────────────────────────────────────────────────────
 
-function ReelCard({ item }: { item: any }) {
+function ReelCard({ item, onFullscreen }: { item: any; onFullscreen?: () => void }) {
   const { user } = useAuth()
   const [liked,     setLiked]     = React.useState(false)
   const [saved,     setSaved]     = React.useState(false)
@@ -520,6 +728,19 @@ function ReelCard({ item }: { item: any }) {
               <Play className="h-7 w-7 text-white fill-white ml-0.5" />
             </div>
           </div>
+        )}
+
+        {/* Full-screen expand button */}
+        {onFullscreen && (
+          <button
+            onClick={onFullscreen}
+            className="absolute top-4 right-4 z-10 bg-black/50 backdrop-blur-sm rounded-full h-9 w-9 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+            aria-label="View full screen"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2 stroke-linecap-round stroke-linejoin-round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            </svg>
+          </button>
         )}
 
         {/* Right-side action buttons */}
@@ -1185,10 +1406,10 @@ function SocialFeedCard({ item }: { item: any }) {
 
 // ─── Card Dispatcher ──────────────────────────────────────────────────────────
 
-function FeedCard({ item }: { item: { id: any; type: FeedItemType; [k: string]: any } }) {
+function FeedCard({ item, onOpenReel }: { item: { id: any; type: FeedItemType; [k: string]: any }; onOpenReel?: (id: any) => void }) {
   switch (item.type) {
     case "post":       return <PostCard       item={item} />
-    case "reel":       return <ReelCard       item={item} />
+    case "reel":       return <ReelCard       item={item} onFullscreen={onOpenReel ? () => onOpenReel(item.id) : undefined} />
     case "collab":     return <CollabCard     item={item} />
     case "community":  return <CommunityCard  item={item} />
     case "creator":    return <CreatorCard    item={item} />
@@ -1226,6 +1447,17 @@ export default function FeedPage() {
   // Compose modal state
   const [composerOpen, setComposerOpen] = React.useState(false)
   const [composerType, setComposerType] = React.useState<string | null>(null)
+
+  // Reel fullscreen viewer state
+  const [reelViewerOpen,  setReelViewerOpen]  = React.useState(false)
+  const [reelViewerStart, setReelViewerStart] = React.useState(0)
+
+  const openReelViewer = React.useCallback((id: any) => {
+    const reels = livePosts.filter(p => p.type === "reel")
+    const idx   = reels.findIndex(r => r.id === id)
+    setReelViewerStart(idx >= 0 ? idx : 0)
+    setReelViewerOpen(true)
+  }, [livePosts])
 
   const openComposer = React.useCallback((type?: string) => {
     setComposerType(type ?? null)
@@ -1562,8 +1794,8 @@ export default function FeedPage() {
                 ))
               ) : filteredItems.length > 0 ? (
                 activeFilter === "all"
-                  ? interleaveFeedInserts(filteredItems.slice(0, visibleFeed).map(item => <FeedCard key={item.id} item={item} />))
-                  : filteredItems.slice(0, visibleFeed).map(item => <FeedCard key={item.id} item={item} />)
+                  ? interleaveFeedInserts(filteredItems.slice(0, visibleFeed).map(item => <FeedCard key={item.id} item={item} onOpenReel={openReelViewer} />))
+                  : filteredItems.slice(0, visibleFeed).map(item => <FeedCard key={item.id} item={item} onOpenReel={openReelViewer} />)
               ) : (
                 <div className="py-20 text-center space-y-2">
                   <Sparkles className="h-10 w-10 text-muted-foreground mx-auto" />
@@ -1712,6 +1944,13 @@ export default function FeedPage() {
         </div>
       </div>
     </div>
+    {reelViewerOpen && (
+      <ReelFullscreenViewer
+        reels={livePosts.filter(p => p.type === "reel")}
+        startIndex={reelViewerStart}
+        onClose={() => setReelViewerOpen(false)}
+      />
+    )}
     <CreatePostModal
       open={composerOpen}
       initialType={composerType as any}
