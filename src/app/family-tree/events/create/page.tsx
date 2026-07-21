@@ -1,202 +1,228 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { ArrowLeft, Calendar, Plus, Trash2, Loader2, X, MapPin } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { 
-  ArrowLeft, Calendar, Clock, MapPin, 
-  Users, Bell, CheckCircle2, ShieldCheck,
-  Plus, Search, Info, ChevronRight,
-  Utensils, ShoppingBag, PartyPopper, Sparkles
-} from "lucide-react"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Textarea } from "@/components/ui/textarea"
 import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
+import { useToast } from "@/hooks/use-toast"
 
-const EVENT_TYPES = [
-  { id: 'dining', label: 'Dinner Plan', icon: Utensils, color: 'text-orange-600', bg: 'bg-orange-50' },
-  { id: 'shopping', label: 'Grocery Run', icon: ShoppingBag, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-  { id: 'ceremony', label: 'Family Ceremony', icon: PartyPopper, color: 'text-purple-600', bg: 'bg-purple-50' },
-  { id: 'outing', label: 'General Outing', icon: MapPin, color: 'text-blue-600', bg: 'bg-blue-50' },
-];
+type FamilyEvent = {
+  id: string
+  title: string
+  event_type: string
+  event_date: string | null
+  location: string | null
+  description: string | null
+  creator_name: string | null
+  created_at: string
+}
 
-const FAMILY_MEMBERS = [
-  { id: 'm1', name: 'Ibrahim (Admin)', initials: 'I' },
-  { id: 'm2', name: 'Fatima', initials: 'F' },
-  { id: 'm3', name: 'Zaid', initials: 'Z' },
-  { id: 'm4', name: 'Sarah', initials: 'S' },
-];
+const EVENT_TYPES = ["Eid", "Wedding", "Birthday", "Funeral", "Reunion", "Religious", "General"]
 
-export default function CreateFamilyEventPage() {
-  const router = useRouter();
-  const [selectedType, setSelectedType] = React.useState("dining");
-  const [remindersEnabled, setRemindersEnabled] = React.useState(true);
+function fmtDate(d: string | null) {
+  if (!d) return null
+  return new Date(d).toLocaleDateString([], { weekday: "short", month: "short", day: "numeric", year: "numeric" })
+}
+
+export default function FamilyEventsPage() {
+  const { user } = useAuth()
+  const { toast } = useToast()
+
+  const [groupId, setGroupId] = React.useState<string | null>(null)
+  const [events, setEvents] = React.useState<FamilyEvent[]>([])
+  const [loading, setLoading] = React.useState(true)
+  const [showAdd, setShowAdd] = React.useState(false)
+  const [saving, setSaving] = React.useState(false)
+
+  const [title, setTitle] = React.useState("")
+  const [eventType, setEventType] = React.useState("General")
+  const [eventDate, setEventDate] = React.useState("")
+  const [location, setLocation] = React.useState("")
+  const [description, setDescription] = React.useState("")
+
+  React.useEffect(() => {
+    if (!user?.uid) { setLoading(false); return }
+    const supabase = createClient()
+    async function load() {
+      const { data: myRow } = await (supabase as any)
+        .from("family_members").select("group_id").eq("user_id", user!.uid).maybeSingle()
+      if (!myRow) { setLoading(false); return }
+      setGroupId(myRow.group_id)
+      const { data } = await (supabase as any)
+        .from("family_events")
+        .select("id, title, event_type, event_date, location, description, creator_name, created_at")
+        .eq("group_id", myRow.group_id)
+        .order("event_date", { ascending: true })
+      setEvents(data ?? [])
+      setLoading(false)
+    }
+    load()
+  }, [user?.uid])
+
+  const handleAdd = async () => {
+    if (!title.trim() || !groupId) return
+    setSaving(true)
+    const supabase = createClient()
+    const { data, error } = await (supabase as any)
+      .from("family_events")
+      .insert({
+        group_id: groupId,
+        title: title.trim(),
+        event_type: eventType,
+        event_date: eventDate || null,
+        location: location.trim() || null,
+        description: description.trim() || null,
+        created_by: user?.uid,
+        creator_name: user?.name ?? user?.email ?? "Member",
+      })
+      .select("id, title, event_type, event_date, location, description, creator_name, created_at")
+      .single()
+
+    if (error) {
+      toast({ title: "Failed to save", description: error.message, variant: "destructive" })
+    } else {
+      setEvents(prev => [...prev, data].sort((a, b) =>
+        (a.event_date ?? "").localeCompare(b.event_date ?? "")))
+      setTitle(""); setEventType("General"); setEventDate(""); setLocation(""); setDescription("")
+      setShowAdd(false)
+      toast({ title: "Event added!" })
+    }
+    setSaving(false)
+  }
+
+  const handleDelete = async (id: string) => {
+    const supabase = createClient()
+    await (supabase as any).from("family_events").delete().eq("id", id)
+    setEvents(prev => prev.filter(e => e.id !== id))
+    toast({ title: "Event removed" })
+  }
+
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+    </div>
+  )
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-3xl pb-24 text-foreground">
-      <div className="flex items-center gap-6">
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="rounded-2xl bg-card shadow-sm border h-12 w-12" 
-          onClick={() => router.back()}
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div className="space-y-1">
-          <h1 className="text-xl sm:text-3xl font-black font-headline tracking-tight">Schedule Family Event</h1>
-          <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest opacity-60">New Activity Entry</p>
+    <div className="container mx-auto p-4 sm:p-6 max-w-2xl space-y-5 pb-24">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground mb-3 w-fit">
+            <ArrowLeft className="h-4 w-4" /> Back to Hub
+          </Link>
+          <div className="flex items-center gap-3">
+            <div className="h-11 w-11 rounded-2xl bg-indigo-100 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600">
+              <Calendar className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-black">Family Events</h1>
+              <p className="text-xs text-muted-foreground font-bold">{events.length} event{events.length !== 1 ? "s" : ""}</p>
+            </div>
+          </div>
         </div>
+        <Button onClick={() => setShowAdd(v => !v)} className="rounded-full h-10 px-5 font-black bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg mt-8">
+          {showAdd ? <X className="h-4 w-4" /> : <><Plus className="h-4 w-4 mr-1.5" /> Add</>}
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-10">
-        {/* Section 1: Basics */}
-        <section className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex items-center gap-3 px-2">
-            <div className="h-8 w-8 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
-              <Sparkles className="h-4 w-4" />
+      {showAdd && (
+        <Card className="rounded-2xl border-none shadow-sm animate-in fade-in slide-in-from-top-2 duration-200">
+          <CardContent className="p-5 space-y-4">
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Event Name</Label>
+              <Input placeholder="e.g. Eid-ul-Fitr Gathering" className="h-12 rounded-xl bg-muted border-none font-bold"
+                value={title} onChange={e => setTitle(e.target.value)} autoFocus />
             </div>
-            <h2 className="text-xl font-black">Event Basics</h2>
-          </div>
-          
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
-            <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Event Title</Label>
-              <Input placeholder="e.g., Weekly Family Dinner" className="h-14 rounded-2xl bg-muted border-none font-black text-lg" />
-            </div>
-
-            <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Event Type</Label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                {EVENT_TYPES.map((type) => (
-                  <button
-                    key={type.id}
-                    onClick={() => setSelectedType(type.id)}
-                    className={React.useMemo(() => {
-                      return `flex flex-col items-center justify-center p-4 rounded-3xl transition-all border-4 ${
-                        selectedType === type.id 
-                          ? 'bg-emerald-50 border-emerald-500 text-emerald-600' 
-                          : 'bg-muted border-transparent text-muted-foreground hover:bg-muted'
-                      }`;
-                    }, [selectedType, type.id])}
-                  >
-                    <type.icon className="h-6 w-6 mb-2" />
-                    <span className="text-[10px] font-black uppercase tracking-tighter text-center leading-tight">{type.label}</span>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Type</Label>
+              <div className="flex gap-2 flex-wrap">
+                {EVENT_TYPES.map(t => (
+                  <button key={t} onClick={() => setEventType(t)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-black transition-colors ${eventType === t ? "bg-indigo-600 text-white" : "bg-muted text-muted-foreground"}`}>
+                    {t}
                   </button>
                 ))}
               </div>
             </div>
-          </Card>
-        </section>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Date</Label>
+                <Input type="date" className="h-11 rounded-xl bg-muted border-none font-medium"
+                  value={eventDate} onChange={e => setEventDate(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Location</Label>
+                <Input placeholder="e.g. Grandma's house" className="h-11 rounded-xl bg-muted border-none font-medium"
+                  value={location} onChange={e => setLocation(e.target.value)} />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Details (optional)</Label>
+              <Textarea placeholder="Any extra info…" className="rounded-xl bg-muted border-none resize-none min-h-[64px] font-medium"
+                value={description} onChange={e => setDescription(e.target.value)} />
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={handleAdd} disabled={saving || !title.trim()} className="rounded-xl h-10 px-6 font-black bg-indigo-600 hover:bg-indigo-700 text-white">
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save Event"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
-        {/* Section 2: Timing & Venue */}
-        <section className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-75">
-          <div className="flex items-center gap-3 px-2">
-            <div className="h-8 w-8 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
-              <Clock className="h-4 w-4" />
-            </div>
-            <h2 className="text-xl font-black">When & Where</h2>
-          </div>
-          
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Select Date</Label>
-                <div className="relative">
-                  <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input type="date" className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Select Time</Label>
-                <div className="relative">
-                  <Clock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input type="time" className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
-                </div>
-              </div>
-              <div className="md:col-span-2 space-y-2">
-                <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Location / Venue</Label>
-                <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search venue or enter address..." className="h-12 rounded-2xl bg-muted border-none font-bold pl-12" />
-                </div>
-                <div className="pt-2">
-                  <Link href="/family-tree/discovery" className="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline flex items-center gap-1.5">
-                    <Info className="h-3 w-3" /> Browse family-friendly directory suggestions
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </section>
-
-        {/* Section 3: Participation */}
-        <section className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150">
-          <div className="flex items-center gap-3 px-2">
-            <div className="h-8 w-8 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600">
-              <Users className="h-4 w-4" />
-            </div>
-            <h2 className="text-xl font-black">Who's Coming?</h2>
-          </div>
-          
-          <Card className="rounded-[2.5rem] border-none shadow-sm bg-card p-8 space-y-8">
-            <div className="space-y-4">
-              <Label className="font-bold text-xs uppercase tracking-widest text-muted-foreground">Invited Members</Label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {FAMILY_MEMBERS.map((member) => (
-                  <div key={member.id} className="flex items-center justify-between p-4 bg-muted rounded-2xl border-2 border-transparent hover:border-emerald-100 transition-all cursor-pointer group">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-card rounded-xl flex items-center justify-center font-black text-xs shadow-sm text-muted-foreground group-hover:text-emerald-600 transition-colors">
-                        {member.initials}
-                      </div>
-                      <span className="text-sm font-bold text-foreground">{member.name}</span>
-                    </div>
-                    <Checkbox className="rounded-full h-6 w-6 border-border data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600" />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between p-6 bg-emerald-50 rounded-[2rem] border-2 border-emerald-100">
-              <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-2xl bg-card flex items-center justify-center text-emerald-600 shadow-sm">
-                  <Bell className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm font-black text-emerald-900">Send Reminders</p>
-                  <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">30 mins before event</p>
-                </div>
-              </div>
-              <Checkbox 
-                checked={remindersEnabled} 
-                onCheckedChange={(checked) => setRemindersEnabled(!!checked)}
-                className="h-6 w-6 rounded-full border-emerald-300 data-[state=checked]:bg-emerald-600" 
-              />
-            </div>
-          </Card>
-        </section>
-
-        {/* Action Button */}
-        <div className="pt-10 flex flex-col items-center gap-4">
-          <Button className="w-full h-16 rounded-[1.5rem] bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xl shadow-2xl transition-transform active:scale-[0.98]">
-            Schedule Family Event
-          </Button>
-          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] text-center">
-            This will be posted to the shared Family Hub board instantly
-          </p>
+      {!groupId && (
+        <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
+          <Calendar className="h-10 w-10 text-muted-foreground/20" />
+          <p className="font-black">No family group yet</p>
+          <Button asChild className="rounded-xl font-bold"><Link href="/family-tree/setup">Set Up Family Hub</Link></Button>
         </div>
-      </div>
+      )}
+
+      {groupId && events.length === 0 && !showAdd && (
+        <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
+          <Calendar className="h-10 w-10 text-muted-foreground/20" />
+          <p className="font-black">No events yet</p>
+          <p className="text-sm text-muted-foreground">Add family milestones and upcoming gatherings.</p>
+        </div>
+      )}
+
+      {events.length > 0 && (
+        <div className="space-y-2">
+          {events.map(ev => (
+            <Card key={ev.id} className="rounded-2xl border-none shadow-sm group">
+              <CardContent className="p-4 flex items-start gap-3">
+                <div className="h-10 w-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600 shrink-0 mt-0.5">
+                  <Calendar className="h-5 w-5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-black text-sm">{ev.title}</p>
+                    <Badge className="bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 border-none text-[9px] font-black uppercase">{ev.event_type}</Badge>
+                  </div>
+                  {ev.event_date && <p className="text-[11px] text-muted-foreground font-medium mt-0.5">{fmtDate(ev.event_date)}</p>}
+                  {ev.location && (
+                    <p className="text-[11px] text-muted-foreground font-medium flex items-center gap-1 mt-0.5">
+                      <MapPin className="h-2.5 w-2.5" /> {ev.location}
+                    </p>
+                  )}
+                  {ev.description && <p className="text-xs text-muted-foreground font-medium mt-1 italic">"{ev.description}"</p>}
+                </div>
+                <button onClick={() => handleDelete(ev.id)}
+                  className="h-8 w-8 rounded-xl flex items-center justify-center text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors opacity-0 group-hover:opacity-100 shrink-0">
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
-  );
+  )
 }

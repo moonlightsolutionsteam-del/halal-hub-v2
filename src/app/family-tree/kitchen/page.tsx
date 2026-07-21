@@ -1,100 +1,247 @@
-
 "use client"
 
 import * as React from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { 
-  Utensils, Plus, Search, Filter,
-  Star, Clock, Users, ArrowLeft,
-  ChevronRight, Heart, Share2, Info,
-  BookOpen, Sparkles, ChefHat
-} from "lucide-react"
+import { ArrowLeft, Utensils, Plus, Trash2, Loader2, X, ChefHat, Clock } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import Link from "next/link"
-import Image from "next/image"
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
+import { useToast } from "@/hooks/use-toast"
+
+type Recipe = {
+  id: string
+  name: string
+  author_name: string | null
+  cook_time: string | null
+  difficulty: string
+  ingredients: string | null
+  steps: string | null
+  created_at: string
+}
+
+const DIFFICULTIES = ["Easy", "Medium", "Expert"]
 
 export default function HeritageKitchenPage() {
-  const recipes = [
-    { id: 1, name: "Grandma's Secret Biryani", time: "2h 30m", difficulty: "Expert", author: "Nani", rating: 5.0, img: "r1" },
-    { id: 2, name: "Authentic Lamb Kebab", time: "45m", difficulty: "Medium", author: "Ibrahim", rating: 4.8, img: "r2" },
-    { id: 3, name: "Friday Afternoon Kunafa", time: "1h", difficulty: "Hard", author: "Fatima", rating: 4.9, img: "r3" },
-    { id: 4, name: "Simple Lentil Soup", time: "20m", difficulty: "Easy", author: "Zaid", rating: 4.5, img: "r4" },
-  ];
+  const { user } = useAuth()
+  const { toast } = useToast()
+
+  const [groupId, setGroupId] = React.useState<string | null>(null)
+  const [recipes, setRecipes] = React.useState<Recipe[]>([])
+  const [loading, setLoading] = React.useState(true)
+  const [showAdd, setShowAdd] = React.useState(false)
+  const [saving, setSaving] = React.useState(false)
+  const [expanded, setExpanded] = React.useState<string | null>(null)
+
+  const [name, setName] = React.useState("")
+  const [author, setAuthor] = React.useState("")
+  const [cookTime, setCookTime] = React.useState("")
+  const [difficulty, setDifficulty] = React.useState("Medium")
+  const [ingredients, setIngredients] = React.useState("")
+  const [steps, setSteps] = React.useState("")
+
+  React.useEffect(() => {
+    if (!user?.uid) { setLoading(false); return }
+    const supabase = createClient()
+    async function load() {
+      const { data: myRow } = await (supabase as any)
+        .from("family_members").select("group_id").eq("user_id", user!.uid).maybeSingle()
+      if (!myRow) { setLoading(false); return }
+      setGroupId(myRow.group_id)
+      const { data } = await (supabase as any)
+        .from("family_recipes")
+        .select("id, name, author_name, cook_time, difficulty, ingredients, steps, created_at")
+        .eq("group_id", myRow.group_id)
+        .order("created_at", { ascending: false })
+      setRecipes(data ?? [])
+      setLoading(false)
+    }
+    load()
+  }, [user?.uid])
+
+  const handleAdd = async () => {
+    if (!name.trim() || !groupId) return
+    setSaving(true)
+    const supabase = createClient()
+    const { data, error } = await (supabase as any)
+      .from("family_recipes")
+      .insert({
+        group_id: groupId,
+        name: name.trim(),
+        author_name: author.trim() || user?.name || null,
+        cook_time: cookTime.trim() || null,
+        difficulty,
+        ingredients: ingredients.trim() || null,
+        steps: steps.trim() || null,
+        added_by: user?.uid,
+      })
+      .select("id, name, author_name, cook_time, difficulty, ingredients, steps, created_at")
+      .single()
+
+    if (error) {
+      toast({ title: "Failed to save", description: error.message, variant: "destructive" })
+    } else {
+      setRecipes(prev => [data, ...prev])
+      setName(""); setAuthor(""); setCookTime(""); setDifficulty("Medium"); setIngredients(""); setSteps("")
+      setShowAdd(false)
+      toast({ title: "Recipe added!" })
+    }
+    setSaving(false)
+  }
+
+  const handleDelete = async (id: string) => {
+    const supabase = createClient()
+    await (supabase as any).from("family_recipes").delete().eq("id", id)
+    setRecipes(prev => prev.filter(r => r.id !== id))
+    toast({ title: "Recipe removed" })
+  }
+
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+    </div>
+  )
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 space-y-6 sm:space-y-10 max-w-6xl pb-24">
-      <div className="flex flex-col gap-6">
-        <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors w-fit">
-          <ArrowLeft className="h-4 w-4" /> Back to Hub
-        </Link>
-        
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="space-y-3">
-            <div className="flex items-center gap-4">
-              <div className="h-14 w-14 rounded-2xl flex items-center justify-center bg-amber-100 text-amber-600 shadow-inner">
-                <Utensils className="h-8 w-8" />
-              </div>
-              <div className="space-y-1">
-                <h1 className="text-3xl sm:text-2xl sm:text-5xl font-black font-headline text-foreground tracking-tight">Heritage Kitchen</h1>
-                <p className="text-muted-foreground font-medium text-xl">The private repository of our family's culinary legacy.</p>
-              </div>
+    <div className="container mx-auto p-4 sm:p-6 max-w-2xl space-y-5 pb-24">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <Link href="/family-tree" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground mb-3 w-fit">
+            <ArrowLeft className="h-4 w-4" /> Back to Hub
+          </Link>
+          <div className="flex items-center gap-3">
+            <div className="h-11 w-11 rounded-2xl bg-orange-100 dark:bg-orange-950/40 flex items-center justify-center text-orange-600">
+              <Utensils className="h-5 w-5" />
             </div>
-          </div>
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            <div className="relative flex-1 md:w-80">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Search family recipes..." className="pl-12 h-14 rounded-2xl bg-card border-none shadow-sm font-medium text-lg" />
+            <div>
+              <h1 className="text-2xl font-black">Heritage Kitchen</h1>
+              <p className="text-xs text-muted-foreground font-bold">{recipes.length} recipe{recipes.length !== 1 ? "s" : ""}</p>
             </div>
-            <Button className="bg-amber-600 hover:bg-amber-700 text-white rounded-2xl h-14 px-10 font-black shadow-lg shadow-amber-200">
-              <Plus className="h-5 w-5 mr-2" /> Add Recipe
-            </Button>
           </div>
         </div>
+        <Button onClick={() => setShowAdd(v => !v)} className="rounded-full h-10 px-5 font-black bg-orange-500 hover:bg-orange-600 text-white shadow-lg mt-8">
+          {showAdd ? <X className="h-4 w-4" /> : <><Plus className="h-4 w-4 mr-1.5" /> Add</>}
+        </Button>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
-        {recipes.map((recipe) => (
-          <Card key={recipe.id} className="group rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-card hover:shadow-2xl transition-all duration-700 flex flex-col h-full border-2 border-transparent hover:border-amber-100">
-            <div className="relative aspect-square overflow-hidden">
-              <Image src={`https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=600&fit=crop&auto=format&q=80`} alt={recipe.name} fill className="object-cover group-hover:scale-110 transition-transform duration-1000" />
-              <div className="absolute top-4 left-4">
-                <Badge className="bg-card/90 backdrop-blur-md text-amber-600 font-black border-none shadow-xl px-3 py-1 rounded-full flex items-center gap-1.5 text-[10px]">
-                  <Star className="h-3 w-3 fill-amber-400 text-amber-400" /> {recipe.rating}
-                </Badge>
+      {showAdd && (
+        <Card className="rounded-2xl border-none shadow-sm animate-in fade-in slide-in-from-top-2 duration-200">
+          <CardContent className="p-5 space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5 col-span-2">
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Recipe Name</Label>
+                <Input placeholder="e.g. Grandma's Biryani" className="h-12 rounded-xl bg-muted border-none font-bold"
+                  value={name} onChange={e => setName(e.target.value)} autoFocus />
               </div>
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors opacity-0 group-hover:opacity-100 flex items-center justify-center">
-                <Button variant="secondary" className="rounded-full font-black text-[10px] uppercase tracking-widest px-6 h-10 shadow-2xl">View Steps</Button>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Author</Label>
+                <Input placeholder="e.g. Nani" className="h-11 rounded-xl bg-muted border-none font-medium"
+                  value={author} onChange={e => setAuthor(e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Cook Time</Label>
+                <Input placeholder="e.g. 2h 30m" className="h-11 rounded-xl bg-muted border-none font-medium"
+                  value={cookTime} onChange={e => setCookTime(e.target.value)} />
               </div>
             </div>
-            <CardHeader className="p-6 pb-4">
-              <div className="space-y-1">
-                <div className="flex justify-between items-start">
-                  <Badge variant="secondary" className="bg-amber-50 text-amber-600 border-none text-[9px] font-black uppercase tracking-tighter">{recipe.difficulty}</Badge>
-                  <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest flex items-center gap-1"><Clock className="h-3 w-3" /> {recipe.time}</span>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Difficulty</Label>
+              <div className="flex gap-2">
+                {DIFFICULTIES.map(d => (
+                  <button key={d} onClick={() => setDifficulty(d)}
+                    className={`px-4 py-1.5 rounded-xl text-xs font-black transition-colors ${difficulty === d ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground"}`}>
+                    {d}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Ingredients</Label>
+              <Textarea placeholder="List each ingredient on a new line…" className="rounded-xl bg-muted border-none resize-none min-h-[80px] font-medium"
+                value={ingredients} onChange={e => setIngredients(e.target.value)} />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Steps</Label>
+              <Textarea placeholder="Describe the cooking steps…" className="rounded-xl bg-muted border-none resize-none min-h-[80px] font-medium"
+                value={steps} onChange={e => setSteps(e.target.value)} />
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={handleAdd} disabled={saving || !name.trim()} className="rounded-xl h-10 px-6 font-black bg-orange-500 hover:bg-orange-600 text-white">
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save Recipe"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {!groupId && (
+        <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
+          <Utensils className="h-10 w-10 text-muted-foreground/20" />
+          <p className="font-black">No family group yet</p>
+          <Button asChild className="rounded-xl font-bold"><Link href="/family-tree/setup">Set Up Family Hub</Link></Button>
+        </div>
+      )}
+
+      {groupId && recipes.length === 0 && !showAdd && (
+        <div className="flex flex-col items-center justify-center py-16 gap-3 text-center">
+          <ChefHat className="h-10 w-10 text-muted-foreground/20" />
+          <p className="font-black">No recipes yet</p>
+          <p className="text-sm text-muted-foreground">Preserve your family's heritage recipes.</p>
+        </div>
+      )}
+
+      {recipes.length > 0 && (
+        <div className="space-y-3">
+          {recipes.map(r => (
+            <Card key={r.id} className="rounded-2xl border-none shadow-sm group cursor-pointer"
+              onClick={() => setExpanded(expanded === r.id ? null : r.id)}>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-orange-100 dark:bg-orange-950/40 flex items-center justify-center text-orange-600 shrink-0">
+                    <ChefHat className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-black text-sm">{r.name}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      {r.author_name && <span className="text-[11px] text-muted-foreground font-medium">{r.author_name}</span>}
+                      {r.cook_time && <span className="text-[11px] text-muted-foreground flex items-center gap-0.5"><Clock className="h-2.5 w-2.5" /> {r.cook_time}</span>}
+                    </div>
+                  </div>
+                  <Badge className={`text-[9px] font-black uppercase border-none shrink-0 ${
+                    r.difficulty === "Expert" ? "bg-red-100 text-red-600 dark:bg-red-950/40"
+                    : r.difficulty === "Medium" ? "bg-amber-100 text-amber-600 dark:bg-amber-950/40"
+                    : "bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40"
+                  }`}>{r.difficulty}</Badge>
+                  <button onClick={e => { e.stopPropagation(); handleDelete(r.id) }}
+                    className="h-8 w-8 rounded-xl flex items-center justify-center text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors opacity-0 group-hover:opacity-100">
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
                 </div>
-                <h3 className="text-xl font-black text-foreground line-clamp-1 group-hover:text-amber-600 transition-colors">{recipe.name}</h3>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-1.5"><ChefHat className="h-3 w-3 text-amber-500" /> From {recipe.author}'s Vault</p>
-              </div>
-            </CardHeader>
-          </Card>
-        ))}
-      </div>
-
-      {/* Culinary Preservation Info */}
-      <Card className="rounded-[3rem] border-none bg-amber-50 p-12 flex flex-col lg:flex-row items-center gap-12 border-2 border-amber-100">
-        <div className="h-24 w-24 rounded-[2rem] bg-card flex items-center justify-center text-amber-600 shadow-xl shrink-0">
-          <BookOpen className="h-12 w-12" />
+                {expanded === r.id && (r.ingredients || r.steps) && (
+                  <div className="mt-4 space-y-3 animate-in fade-in duration-200">
+                    {r.ingredients && (
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Ingredients</p>
+                        <p className="text-sm font-medium text-foreground whitespace-pre-line">{r.ingredients}</p>
+                      </div>
+                    )}
+                    {r.steps && (
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Steps</p>
+                        <p className="text-sm font-medium text-foreground whitespace-pre-line">{r.steps}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
         </div>
-        <div className="space-y-4 text-center lg:text-left flex-1">
-          <h2 className="text-3xl font-black tracking-tight text-amber-900">Preserve the Taste of Home</h2>
-          <p className="text-amber-800/70 font-medium text-lg leading-relaxed max-w-2xl">
-            Kitchen secrets are part of your family heritage. Save ingredients, traditional techniques, and voice notes from the elders so the legacy lives on forever.
-          </p>
-        </div>
-        <Button variant="outline" className="h-16 px-12 rounded-2xl border-2 border-amber-200 text-amber-700 font-black uppercase text-sm tracking-widest hover:bg-card shadow-sm">Record Oral History</Button>
-      </Card>
+      )}
     </div>
-  );
+  )
 }
