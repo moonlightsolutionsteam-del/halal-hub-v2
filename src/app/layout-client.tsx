@@ -32,6 +32,7 @@ import { PrayerSettingsProvider } from "@/lib/prayer-context";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { SavedBusinessesProvider } from "@/lib/saved-businesses-context";
 import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/cart-context";
 import { useAuth } from "@/hooks/use-auth";
 import { Home, Moon, User, LayoutGrid, Newspaper } from "lucide-react";
 import { HalalHubMark } from "@/components/brand";
@@ -154,6 +155,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
   return (
     <ThemeProvider>
     <AuthProvider>
+    <CartProvider>
     <LoginCoinsGrant />
     <PrayerSettingsProvider>
     <FavoritesProvider>
@@ -218,6 +220,7 @@ export default function RootLayoutClient({ children }: { children: React.ReactNo
     </SavedBusinessesProvider>
     </FavoritesProvider>
     </PrayerSettingsProvider>
+    </CartProvider>
     </AuthProvider>
     </ThemeProvider>
   );

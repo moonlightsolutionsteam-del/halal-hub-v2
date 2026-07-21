@@ -6,6 +6,7 @@ import {
   ChevronDown,
   Store,
   ShoppingBag,
+  ShoppingCart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +16,7 @@ import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { useCart } from '@/context/cart-context';
 
 const categoryTags = ['All', 'Food', 'Fashion', 'Meat', 'Books', 'Catering', 'Health', 'Services', 'Decor', 'Lifestyle'];
 
@@ -30,41 +32,44 @@ type CatalogItem = {
 }
 
 const ProductCard = ({ product }: { product: CatalogItem }) => (
-  <Card className="overflow-hidden w-full h-full">
-    <div className="block h-full flex flex-col">
-      <div className="relative">
-        {product.image_url ? (
-          <Image
-            src={product.image_url}
-            alt={product.title ?? "Product"}
-            width={600}
-            height={400}
-            className="object-cover w-full h-48"
-            unoptimized
-          />
-        ) : (
-          <div className="w-full h-48 bg-muted flex items-center justify-center">
-            <ShoppingBag className="h-12 w-12 text-muted-foreground/30" />
-          </div>
-        )}
-        <Badge variant="secondary" className="absolute top-2 left-2">{product.category || "General"}</Badge>
-      </div>
-      <CardContent className="p-4 flex flex-col flex-1">
-        <h3 className="text-lg font-bold font-headline flex-1">{product.title || "Product"}</h3>
-        <p className="font-semibold text-xl text-primary mt-2">
-          {product.price != null ? `₹${product.price.toLocaleString("en-IN")}` : "Price on request"}
-        </p>
-        <div className="text-sm text-muted-foreground mt-2 flex items-center gap-2">
-          <Store className="h-4 w-4" />
-          <span className="truncate">{product.business_name || "Halal Hub Seller"}</span>
+  <Link href={`/marketplace/${product.id}`}>
+    <Card className="overflow-hidden w-full h-full hover:shadow-md transition-shadow">
+      <div className="block h-full flex flex-col">
+        <div className="relative">
+          {product.image_url ? (
+            <Image
+              src={product.image_url}
+              alt={product.title ?? "Product"}
+              width={600}
+              height={400}
+              className="object-cover w-full h-48"
+              unoptimized
+            />
+          ) : (
+            <div className="w-full h-48 bg-muted flex items-center justify-center">
+              <ShoppingBag className="h-12 w-12 text-muted-foreground/30" />
+            </div>
+          )}
+          <Badge variant="secondary" className="absolute top-2 left-2">{product.category || "General"}</Badge>
         </div>
-      </CardContent>
-    </div>
-  </Card>
+        <CardContent className="p-4 flex flex-col flex-1">
+          <h3 className="text-lg font-bold font-headline flex-1">{product.title || "Product"}</h3>
+          <p className="font-semibold text-xl text-primary mt-2">
+            {product.price != null ? `₹${product.price.toLocaleString("en-IN")}` : "Price on request"}
+          </p>
+          <div className="text-sm text-muted-foreground mt-2 flex items-center gap-2">
+            <Store className="h-4 w-4" />
+            <span className="truncate">{product.business_name || "Halal Hub Seller"}</span>
+          </div>
+        </CardContent>
+      </div>
+    </Card>
+  </Link>
 );
 
 const HorizontalProductCard = ({ product }: { product: CatalogItem }) => (
-  <Card className="overflow-hidden w-[200px] h-full">
+  <Link href={`/marketplace/${product.id}`}>
+  <Card className="overflow-hidden w-[200px] h-full hover:shadow-md transition-shadow">
     <div className="block h-full">
       <div className="relative">
         {product.image_url ? (
@@ -91,12 +96,15 @@ const HorizontalProductCard = ({ product }: { product: CatalogItem }) => (
       </CardContent>
     </div>
   </Card>
+  </Link>
 );
 
 export default function MarketplacePage() {
   const [products, setProducts] = useState<CatalogItem[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTag, setActiveTag] = useState("All")
+  const [search, setSearch] = useState("")
+  const { count } = useCart()
 
   useEffect(() => {
     const supabase = createClient()
@@ -112,9 +120,11 @@ export default function MarketplacePage() {
       })
   }, [])
 
-  const filtered = activeTag === "All"
-    ? products
-    : products.filter(p => (p.category ?? "").toLowerCase().includes(activeTag.toLowerCase()))
+  const filtered = products.filter(p => {
+    const matchTag = activeTag === "All" || (p.category ?? "").toLowerCase().includes(activeTag.toLowerCase())
+    const matchSearch = !search || (p.title ?? "").toLowerCase().includes(search.toLowerCase()) || (p.business_name ?? "").toLowerCase().includes(search.toLowerCase())
+    return matchTag && matchSearch
+  })
 
   const featured = filtered.slice(0, 4)
   const rest = filtered.slice(4)
@@ -122,10 +132,22 @@ export default function MarketplacePage() {
   return (
     <div className="pb-24">
       <div className="p-4 text-center bg-secondary/20">
-        <div className="inline-block p-4 bg-primary/10 rounded-full mx-auto">
-          <Store className="h-10 w-10 text-primary" />
+        <div className="flex items-center justify-center gap-3 mb-3">
+          <div className="inline-block p-3 bg-primary/10 rounded-full">
+            <Store className="h-8 w-8 text-primary" />
+          </div>
+          <Link href="/cart" className="relative ml-auto">
+            <div className="p-2 rounded-full border bg-background shadow-sm">
+              <ShoppingCart className="h-5 w-5 text-foreground" />
+            </div>
+            {count > 0 && (
+              <span className="absolute -top-1 -right-1 h-5 w-5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                {count}
+              </span>
+            )}
+          </Link>
         </div>
-        <h1 className="text-2xl md:text-3xl font-headline font-bold text-foreground mt-4">
+        <h1 className="text-2xl md:text-3xl font-headline font-bold text-foreground">
           Halal Hub Marketplace
         </h1>
         <p className="text-muted-foreground text-md max-w-xl lg:max-w-6xl mx-auto mt-2">
@@ -139,12 +161,9 @@ export default function MarketplacePage() {
           <Input
             placeholder="Search products and services..."
             className="pl-10 h-11 text-base bg-secondary border-transparent rounded-lg"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
           />
-        </div>
-        <div className="mt-2 flex items-center gap-2 overflow-x-auto whitespace-nowrap no-scrollbar">
-          <Button variant="outline" size="sm" className="rounded-full">Sort <ChevronDown className="ml-1 h-4 w-4" /></Button>
-          <Button variant="outline" size="sm" className="rounded-full">Price</Button>
-          <Button variant="outline" size="sm" className="rounded-full">Location</Button>
         </div>
       </div>
 
