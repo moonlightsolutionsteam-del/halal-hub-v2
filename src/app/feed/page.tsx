@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -1436,6 +1437,7 @@ function FeedCard({ item, onOpenReel }: { item: { id: any; type: FeedItemType; [
 const VIEWED_STORIES_KEY = "hh_viewed_stories"
 
 export default function FeedPage() {
+  const router = useRouter()
   const { user: composerUser } = useAuth()
   const composerInitials = getInitials(composerUser?.name)
   const [activeMode, setActiveMode] = React.useState("for-you")
@@ -1456,16 +1458,9 @@ export default function FeedPage() {
   const [composerOpen, setComposerOpen] = React.useState(false)
   const [composerType, setComposerType] = React.useState<string | null>(null)
 
-  // Reel fullscreen viewer state
-  const [reelViewerOpen,  setReelViewerOpen]  = React.useState(false)
-  const [reelViewerStart, setReelViewerStart] = React.useState(0)
-
   const openReelViewer = React.useCallback((id: any) => {
-    const reels = livePosts.filter(p => p.type === "reel")
-    const idx   = reels.findIndex(r => r.id === id)
-    setReelViewerStart(idx >= 0 ? idx : 0)
-    setReelViewerOpen(true)
-  }, [livePosts])
+    router.push(`/feed/reels?id=${id}`)
+  }, [router])
 
   const openComposer = React.useCallback((type?: string) => {
     setComposerType(type ?? null)
@@ -1952,13 +1947,6 @@ export default function FeedPage() {
         </div>
       </div>
     </div>
-    {reelViewerOpen && (
-      <ReelFullscreenViewer
-        reels={livePosts.filter(p => p.type === "reel")}
-        startIndex={reelViewerStart}
-        onClose={() => setReelViewerOpen(false)}
-      />
-    )}
     <CreatePostModal
       open={composerOpen}
       initialType={composerType as any}
