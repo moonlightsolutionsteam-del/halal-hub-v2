@@ -40,7 +40,7 @@ export default function MyOrdersPage() {
     ;(supabase as any)
       .from("business_orders")
       .select("id, status, total_amount, delivery_type, created_at, business_id, business_order_items(item_name, quantity, unit_price)")
-      .eq("user_id", user.id)
+      .eq("user_id", user.uid)
       .order("created_at", { ascending: false })
       .then(({ data }: any) => {
         setLoading(false)

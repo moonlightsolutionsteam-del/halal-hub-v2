@@ -4,10 +4,13 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, ThumbsUp, Share2, Search, Plus, MessageCircleOff } from "lucide-react";
+import { MessageSquare, ThumbsUp, Share2, Search, Plus, MessageCircleOff, Send, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/hooks/use-toast";
 
 const CATEGORIES = ["All Topics", "Product Verification", "Restaurants", "Travel Guide", "Events", "Spiritual Support", "Discussion", "Question"];
 
@@ -45,6 +48,84 @@ function initials(name: string | null): string {
   return name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()
 }
 
+const POST_TYPES = ["discussion", "question", "community", "post"] as const
+type PostTypeKey = typeof POST_TYPES[number]
+const POST_TYPE_LABELS: Record<PostTypeKey, string> = {
+  discussion: "Discussion",
+  question: "Question",
+  community: "Community",
+  post: "General",
+}
+
+function ComposeCard({ onPosted }: { onPosted: () => void }) {
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [text, setText] = useState("")
+  const [type, setType] = useState<PostTypeKey>("discussion")
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handlePost() {
+    if (!text.trim()) return
+    if (!user) { toast({ title: "Sign in to post", variant: "destructive" }); return }
+    setSubmitting(true)
+    const supabase = createClient()
+    const { error } = await (supabase as any).from("feed_posts").insert({
+      description: text.trim(),
+      post_type: type,
+      owner_id: user.uid,
+      display_name: user.name ?? user.email ?? "Community Member",
+      status: "active",
+    })
+    setSubmitting(false)
+    if (error) {
+      toast({ title: "Failed to post", description: error.message, variant: "destructive" })
+    } else {
+      setText("")
+      toast({ title: "Posted to community!" })
+      onPosted()
+    }
+  }
+
+  return (
+    <Card className="rounded-[1.5rem] sm:rounded-[2rem] border-none shadow-sm bg-card">
+      <CardContent className="p-4 sm:p-5 space-y-3">
+        <Textarea
+          placeholder={user ? "Share something with the Ummah…" : "Sign in to start a discussion…"}
+          className="rounded-xl resize-none border-none bg-muted focus-visible:ring-1 text-sm min-h-[72px]"
+          value={text}
+          onChange={e => setText(e.target.value)}
+          disabled={!user || submitting}
+          rows={3}
+        />
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <div className="flex gap-1.5 flex-wrap">
+            {POST_TYPES.map(t => (
+              <button
+                key={t}
+                onClick={() => setType(t)}
+                className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
+                  type === t ? "bg-primary text-white" : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                }`}
+              >
+                {POST_TYPE_LABELS[t]}
+              </button>
+            ))}
+          </div>
+          <Button
+            size="sm"
+            className="rounded-xl h-9 px-4 font-bold gap-1.5 shrink-0"
+            disabled={!user || !text.trim() || submitting}
+            onClick={handlePost}
+          >
+            {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
+            Post
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 export default function CommunityPage() {
   const [activeCategory, setActiveCategory] = useState("All Topics");
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,10 +134,9 @@ export default function CommunityPage() {
   const [visibleCount, setVisibleCount] = useState(10)
   const [stats, setStats] = useState<{ members: number; dailyPosts: number } | null>(null)
 
-  useEffect(() => {
+  function fetchPosts() {
     const supabase = createClient()
-
-    ;supabase
+    supabase
       .from("feed_posts")
       .select("id, display_name, description, post_type, created_at")
       .in("post_type", ["discussion", "question", "community", "post"])
@@ -66,6 +146,11 @@ export default function CommunityPage() {
         setLoading(false)
         if (data) setPosts(data)
       })
+  }
+
+  useEffect(() => {
+    fetchPosts()
+    const supabase = createClient()
 
     const oneDayAgo = new Date(Date.now() - 86400000).toISOString()
     Promise.all([
@@ -164,6 +249,8 @@ export default function CommunityPage() {
               onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
+
+          <ComposeCard onPosted={() => { setLoading(true); fetchPosts() }} />
 
           <div className="space-y-3">
             {loading && [1, 2, 3].map(i => (

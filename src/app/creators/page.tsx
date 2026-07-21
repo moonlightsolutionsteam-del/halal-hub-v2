@@ -63,8 +63,10 @@ export default function CreatorsPage() {
             </div>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <Button variant="outline" className="h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm gap-2 font-bold px-4 sm:px-6 hover:bg-muted">
-              <PenLine className="h-5 w-5 text-orange-600" /> Apply to Be Listed
+            <Button variant="outline" className="h-10 sm:h-14 rounded-xl sm:rounded-2xl bg-card border-none shadow-sm gap-2 font-bold px-4 sm:px-6 hover:bg-muted" asChild>
+              <Link href="/account/capabilities/creator">
+                <PenLine className="h-5 w-5 text-orange-600" /> Apply to Be Listed
+              </Link>
             </Button>
             <div className="relative flex-1 md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
