@@ -1,192 +1,169 @@
+"use client"
 
-"use client";
+import * as React from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Textarea } from "@/components/ui/textarea"
+import { ArrowLeft, BookOpen, Send, Loader2, CheckCircle2, Clock, MessageCircle } from "lucide-react"
+import Link from "next/link"
+import { createClient } from "@/lib/supabase/client"
+import { useAuth } from "@/hooks/use-auth"
+import { useToast } from "@/hooks/use-toast"
 
-import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  Calendar,
-  MessageCircle,
-  Phone,
-  Send,
-  Users,
-  BookOpen,
-} from "lucide-react";
-import Link from "next/link";
+const QUICK_QUESTIONS = [
+  "How do I make up missed Fajr prayers?",
+  "Is it permissible to pray with shoes on?",
+  "What breaks the fast during Ramadan?",
+  "How do I perform Ghusl correctly?",
+  "Can I combine Dhuhr and Asr when travelling?",
+]
 
-const quickQuestions = [
-  "How do I perform Wudu correctly?",
-  "What are the times for today's prayers?",
-  "Can you help me understand a Quran verse?",
-  "I need advice about family matters",
-  "How do I calculate Zakat?",
-  "What should I do if I miss a prayer?",
-];
+type Question = {
+  id: string
+  question: string
+  status: string
+  reply: string | null
+  created_at: string
+}
 
-const resources = [
-  "Prayer Times & Qibla",
-  "Quran with Translation",
-  "Hadith Collection",
-  "Islamic Calendar",
-];
-
-interface Message {
-    text: string;
-    sender: 'user' | 'imam';
-    time: string;
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 60) return `${mins}m ago`
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return `${hrs}h ago`
+  return `${Math.floor(hrs / 24)}d ago`
 }
 
 export default function AskImamPage() {
-    const [messages, setMessages] = useState<Message[]>([
-        { text: "As-salamu alaykum. How can I assist you today?", sender: "imam", time: "10:30 AM" },
-        { text: "Wa alaikum assalam. I have a question about making up missed prayers from when I was traveling.", sender: "user", time: "10:35 AM" },
-        { text: "Excellent question! When traveling, if you shortened your prayers (Qasr), you do not need to make them up later. However, if you missed prayers entirely due to circumstances, you should make them up as soon as possible. Would you like me to explain the specific rulings for your situation?", sender: "imam", time: "10:38 AM" },
-    ]);
-    const [inputValue, setInputValue] = useState("");
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [question, setQuestion] = React.useState("")
+  const [submitting, setSubmitting] = React.useState(false)
+  const [questions, setQuestions] = React.useState<Question[]>([])
+  const [loading, setLoading] = React.useState(true)
 
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (inputValue.trim() === "") return;
+  React.useEffect(() => {
+    if (!user?.uid) { setLoading(false); return }
+    const supabase = createClient()
+    supabase
+      .from("imam_questions")
+      .select("id, question, status, reply, created_at")
+      .eq("user_id", user.uid)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        setQuestions((data as Question[] | null) ?? [])
+        setLoading(false)
+      })
+  }, [user?.uid])
 
-        const newMessage: Message = {
-            text: inputValue,
-            sender: 'user',
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
+  const handleSubmit = async (q?: string) => {
+    const text = (q ?? question).trim()
+    if (!text) return
+    if (!user?.uid) {
+      toast({ title: "Sign in to ask a question", variant: "destructive" })
+      return
+    }
+    setSubmitting(true)
+    const supabase = createClient()
+    const { data, error } = await supabase
+      .from("imam_questions")
+      .insert({ user_id: user.uid, question: text, status: "pending" })
+      .select("id, question, status, reply, created_at")
+      .single()
 
-        setMessages(prev => [...prev, newMessage]);
-        setInputValue("");
-
-        // Simulate Imam's reply
-        setTimeout(() => {
-            const replyMessage: Message = {
-                text: "Thank you for your question. I am reviewing it now and will get back to you shortly with a detailed answer, insha'Allah.",
-                sender: 'imam',
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            };
-            setMessages(prev => [...prev, replyMessage]);
-        }, 1500);
-    };
-
+    if (error) {
+      toast({ title: "Failed to submit", description: error.message, variant: "destructive" })
+    } else {
+      setQuestions(prev => [data as Question, ...prev])
+      setQuestion("")
+      toast({ title: "Question submitted!", description: "An Imam will respond shortly." })
+    }
+    setSubmitting(false)
+  }
 
   return (
-    <div className="bg-background min-h-full">
-      <div className="p-4 md:p-8">
-        <header className="text-center mb-8">
-          <Avatar className="h-20 w-20 mx-auto mb-4 border-4 border-primary">
-            <AvatarImage src="https://randomuser.me/api/portraits/men/50.jpg" alt="Imam Ahmad Rahman" />
-            <AvatarFallback>IR</AvatarFallback>
-          </Avatar>
-          <h1 className="text-3xl font-headline font-bold">Ask Your Imam</h1>
-          <p className="text-muted-foreground">
-            Get Islamic guidance and answers to your questions from qualified local imams
-          </p>
-        </header>
-
-        <div className="max-w-2xl lg:max-w-5xl mx-auto">
-            {/* Tabs */}
-            <div className="flex items-center justify-center space-x-2 mb-6 p-1 bg-secondary rounded-full">
-                <Button className="flex-1 rounded-full bg-background text-foreground hover:bg-background/90" size="sm" asChild>
-                    <Link href="/prayer/ask-imam">
-                        <MessageCircle className="mr-2 h-4 w-4" />
-                        Chat
-                    </Link>
-                </Button>
-                <Button className="flex-1 rounded-full" variant="ghost" size="sm" asChild>
-                    <Link href="/prayer/choose-imam">
-                        <Users className="mr-2 h-4 w-4" />
-                        Choose Imam
-                    </Link>
-                </Button>
-                <Button className="flex-1 rounded-full" variant="ghost" size="sm" asChild>
-                    <Link href="/prayer/appointments">
-                        <Calendar className="mr-2 h-4 w-4" />
-                        Appointments
-                    </Link>
-                </Button>
-            </div>
-
-            {/* Chat Section */}
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10">
-                             <AvatarImage src="https://randomuser.me/api/portraits/men/50.jpg" alt="Imam Ahmad Rahman" />
-                             <AvatarFallback>IR</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <p className="font-bold">Imam Ahmad Rahman</p>
-                            <div className="flex items-center gap-1.5 text-xs">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                <span className="text-green-500">Available</span>
-                                <span className="text-muted-foreground">• Usually responds within 1 hour</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Button variant="outline" size="icon"><Phone className="h-4 w-4"/></Button>
-                        <Button variant="outline" size="icon"><MessageCircle className="h-4 w-4"/></Button>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-4 h-96 overflow-y-auto p-4 bg-secondary/30 rounded-lg">
-                        {messages.map((msg, index) => (
-                            <div key={index} className={`flex flex-col gap-2 ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
-                                <div className={`rounded-lg p-3 max-w-sm ${msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}>
-                                    <p className="text-sm">{msg.text}</p>
-                                    <p className={`text-xs mt-1 text-right ${msg.sender === 'user' ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>{msg.time}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <form onSubmit={handleSendMessage} className="mt-4 relative">
-                        <Input 
-                            placeholder="Type your question..." 
-                            className="pr-12 h-12"
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                        />
-                        <Button type="submit" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9">
-                            <Send className="h-4 w-4" />
-                        </Button>
-                    </form>
-                </CardContent>
-            </Card>
-
-            {/* Quick Questions Section */}
-            <div className="mt-8">
-                <h2 className="font-bold font-headline text-xl mb-3">Quick Questions</h2>
-                <div className="space-y-2">
-                    {quickQuestions.map((q) => (
-                        <Button key={q} variant="outline" className="w-full justify-start text-left h-auto py-3" onClick={() => setInputValue(q)}>
-                            {q}
-                        </Button>
-                    ))}
-                </div>
-            </div>
-
-            {/* Resources Section */}
-            <div className="mt-8">
-                 <h2 className="font-bold font-headline text-xl mb-3 flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-primary" />
-                    Resources
-                </h2>
-                <div className="space-y-2">
-                    {resources.map((r) => (
-                         <Button key={r} variant="outline" className="w-full justify-start text-left h-auto py-3">
-                            {r}
-                        </Button>
-                    ))}
-                </div>
-            </div>
+    <div className="container mx-auto p-4 sm:p-6 max-w-2xl space-y-6 pb-24">
+      <div>
+        <Link href="/prayer-times" className="flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground mb-3 w-fit">
+          <ArrowLeft className="h-4 w-4" /> Back
+        </Link>
+        <div className="flex items-center gap-3">
+          <div className="h-11 w-11 rounded-2xl bg-emerald-100 dark:bg-emerald-950/40 flex items-center justify-center text-emerald-600">
+            <BookOpen className="h-5 w-5" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-black">Ask an Imam</h1>
+            <p className="text-xs text-muted-foreground font-bold">Submit your Islamic question for a scholarly response</p>
+          </div>
         </div>
       </div>
+
+      {/* Submit form */}
+      <Card className="rounded-[2rem] border-none shadow-sm">
+        <CardContent className="p-5 space-y-4">
+          <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Your Question</p>
+          <Textarea
+            placeholder="Type your question here… e.g. Is it permissible to pray while travelling by plane?"
+            className="rounded-2xl bg-muted border-none resize-none min-h-[100px] font-medium text-sm"
+            value={question}
+            onChange={e => setQuestion(e.target.value)}
+          />
+          <Button
+            onClick={() => handleSubmit()}
+            disabled={submitting || !question.trim()}
+            className="w-full h-12 rounded-2xl font-black bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg gap-2"
+          >
+            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Send className="h-4 w-4" /> Submit Question</>}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Quick questions */}
+      <div className="space-y-2">
+        <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Common Questions</p>
+        {QUICK_QUESTIONS.map((q, i) => (
+          <button key={i} onClick={() => handleSubmit(q)}
+            className="w-full text-left px-4 py-3 rounded-2xl bg-card hover:bg-muted transition-colors text-sm font-medium text-foreground shadow-sm flex items-center justify-between gap-3">
+            {q}
+            <Send className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+          </button>
+        ))}
+      </div>
+
+      {/* Previous questions */}
+      {!loading && questions.length > 0 && (
+        <div className="space-y-3">
+          <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Your Questions</p>
+          {questions.map(q => (
+            <Card key={q.id} className="rounded-2xl border-none shadow-sm">
+              <CardContent className="p-4 space-y-2">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="font-bold text-sm text-foreground flex-1">{q.question}</p>
+                  <Badge className={`text-[9px] font-black uppercase shrink-0 border-none gap-1 ${
+                    q.status === "answered"
+                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40"
+                      : "bg-amber-100 text-amber-700 dark:bg-amber-950/40"
+                  }`}>
+                    {q.status === "answered" ? <CheckCircle2 className="h-2.5 w-2.5" /> : <Clock className="h-2.5 w-2.5" />}
+                    {q.status}
+                  </Badge>
+                </div>
+                {q.reply && (
+                  <div className="bg-emerald-50 dark:bg-emerald-950/20 rounded-xl p-3 border-l-2 border-emerald-400">
+                    <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Imam's Response</p>
+                    <p className="text-sm font-medium text-foreground">{q.reply}</p>
+                  </div>
+                )}
+                <p className="text-[10px] text-muted-foreground font-bold flex items-center gap-1">
+                  <MessageCircle className="h-2.5 w-2.5" /> {timeAgo(q.created_at)}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
-  );
+  )
 }
