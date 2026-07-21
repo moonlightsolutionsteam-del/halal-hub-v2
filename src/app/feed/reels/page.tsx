@@ -191,38 +191,43 @@ function ReelsPageInner() {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const slideRefs = React.useRef<(HTMLDivElement | null)[]>([])
 
-  // Fetch reels from feed_posts
+  // Fetch reels — same approach as main feed: fetch all, filter client-side by video URL
   React.useEffect(() => {
     const supabase = createClient()
-    ;(supabase as any)
+    supabase
       .from("feed_posts")
       .select("id, display_name, description, media_url, firebase_media_url, post_type, created_at")
-      .or("post_type.eq.video,media_url.ilike.%.mp4,media_url.ilike.%.mov,media_url.ilike.%.webm,firebase_media_url.ilike.%.mp4,firebase_media_url.ilike.%.mov")
       .order("created_at", { ascending: false })
-      .limit(50)
+      .limit(200)
       .then(({ data }: { data: any[] | null }) => {
         setLoading(false)
         if (!data?.length) return
-        const mapped: Reel[] = data.map(r => {
-          const url: string = r.media_url || r.firebase_media_url || ""
-          return {
-            id: r.id,
-            videoUrl: url || null,
-            thumbnail: null,
-            caption: r.description || "",
-            audio: "Original Audio",
-            views: "0",
-            timeAgo: timeAgo(r.created_at),
-            likes: 0,
-            comments: 0,
-            shares: 0,
-            author: {
-              name: r.display_name || "Halal Hub Member",
-              avatar: null,
-              verified: false,
-            },
-          }
-        })
+        const VIDEO_RE = /\.(mp4|mov|webm|m3u8)/i
+        const mapped: Reel[] = data
+          .filter(r => {
+            const url: string = r.media_url || r.firebase_media_url || ""
+            return r.post_type === "video" || VIDEO_RE.test(url)
+          })
+          .map(r => {
+            const url: string = r.media_url || r.firebase_media_url || ""
+            return {
+              id: r.id,
+              videoUrl: url || null,
+              thumbnail: null,
+              caption: r.description || "",
+              audio: "Original Audio",
+              views: "0",
+              timeAgo: timeAgo(r.created_at),
+              likes: 0,
+              comments: 0,
+              shares: 0,
+              author: {
+                name: r.display_name || "Halal Hub Member",
+                avatar: null,
+                verified: false,
+              },
+            }
+          })
         setReels(mapped)
       })
   }, [])
