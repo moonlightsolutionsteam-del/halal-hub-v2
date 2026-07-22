@@ -390,21 +390,21 @@ export default function Home() {
         <div className="px-4 pt-4 flex flex-wrap gap-2">
           {hasCapability("creator") && (
             <Link href="/vendor/creative/dashboard">
-              <div className="flex items-center gap-1.5 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-blue-200 dark:border-blue-800">
+              <div className="flex items-center gap-1.5 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-blue-200 dark:border-blue-800 min-h-[44px]">
                 <Sparkles className="h-3 w-3" /> Creator Studio
               </div>
             </Link>
           )}
           {hasCapability("professional") && (
             <Link href="/vendor/professional/dashboard">
-              <div className="flex items-center gap-1.5 bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-violet-200 dark:border-violet-800">
+              <div className="flex items-center gap-1.5 bg-violet-50 dark:bg-violet-950/30 text-violet-700 dark:text-violet-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-violet-200 dark:border-violet-800 min-h-[44px]">
                 <Briefcase className="h-3 w-3" /> Professional
               </div>
             </Link>
           )}
           {hasCapability("business_owner") && (
             <Link href="/partner/portal">
-              <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+              <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 text-[10px] font-black px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-800 min-h-[44px]">
                 <Store className="h-3 w-3" /> My Business
               </div>
             </Link>
@@ -416,7 +416,7 @@ export default function Home() {
       <div className="mx-4 mt-4 bg-card rounded-2xl shadow-sm border border-border/50 overflow-hidden">
         <div className="flex items-center gap-3 px-4 pt-4 pb-3">
           <button onClick={() => openComposer()}>
-            <Avatar className="h-10 w-10 shrink-0 border-2 border-card shadow-sm ring-1 ring-primary/20">
+            <Avatar className="h-11 w-11 shrink-0 border-2 border-card shadow-sm ring-1 ring-primary/20">
               {user?.photoURL && <AvatarImage src={user.photoURL} />}
               <AvatarFallback className="bg-primary/10 text-primary font-black text-sm">
                 {getInitials(user?.name)}
@@ -437,7 +437,7 @@ export default function Home() {
                 key={label}
                 onClick={() => openComposer(type)}
                 className={cn(
-                  "flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-full whitespace-nowrap border border-transparent transition-all duration-150 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0",
+                  "flex items-center gap-1.5 text-xs font-bold px-3.5 py-2.5 rounded-full whitespace-nowrap border border-transparent transition-all duration-150 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0",
                   tint, iconColor
                 )}
               >
@@ -509,7 +509,7 @@ export default function Home() {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={cn(
-                "shrink-0 px-4 py-1.5 rounded-full text-xs font-black transition-all duration-200",
+                "shrink-0 px-4 py-2.5 rounded-full text-xs font-black transition-all duration-200",
                 activeCategory === cat
                   ? "bg-primary text-white shadow-sm"
                   : "bg-card border border-border text-muted-foreground hover:border-primary/30"
@@ -809,12 +809,12 @@ export default function Home() {
 
             <div className="grid grid-cols-2 gap-2">
               <Link href="/certification-bodies">
-                <div className="flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 transition-colors text-white text-xs font-black px-3 py-2.5 rounded-2xl">
+                <div className="flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 transition-colors text-white text-xs font-black px-3 py-3.5 rounded-2xl">
                   <BadgeCheck className="h-3.5 w-3.5" /> Browse Bodies
                 </div>
               </Link>
               <Link href="/vendor/verification">
-                <div className="flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/20 transition-colors text-white text-xs font-black px-3 py-2.5 rounded-2xl border border-white/15">
+                <div className="flex items-center justify-center gap-1.5 bg-white/10 hover:bg-white/20 transition-colors text-white text-xs font-black px-3 py-3.5 rounded-2xl border border-white/15">
                   <ShieldCheck className="h-3.5 w-3.5" /> Apply for Certification
                 </div>
               </Link>
@@ -843,7 +843,7 @@ export default function Home() {
                 <p className="text-white font-black text-base leading-tight">Halal places around you</p>
                 <p className="text-white/70 text-xs font-medium mt-0.5">Restaurants · Mosques · Meat shops & more</p>
               </div>
-              <div className="flex items-center gap-1.5 bg-white text-sky-700 font-black text-xs px-3 py-2 rounded-full shadow-lg">
+              <div className="flex items-center gap-1.5 bg-white text-sky-700 font-black text-xs px-3 py-3 rounded-full shadow-lg">
                 <MapPin className="h-3.5 w-3.5" /> Explore
               </div>
             </div>
