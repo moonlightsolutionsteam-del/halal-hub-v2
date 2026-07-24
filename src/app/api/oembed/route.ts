@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { rateLimit, getRequestIdentifier } from "@/lib/rate-limit"
 
 type Platform = "youtube" | "twitter" | "instagram" | "facebook" | "unknown"
 
@@ -47,6 +48,11 @@ async function fetchOembed(url: string, platform: Platform): Promise<Record<stri
 }
 
 export async function GET(req: NextRequest) {
+  const rl = rateLimit(getRequestIdentifier(req, 'oembed'), { limit: 60, windowSecs: 60 })
+  if (!rl.success) {
+    return NextResponse.json({ error: 'Too many requests.' }, { status: 429 })
+  }
+
   const url = req.nextUrl.searchParams.get("url")
   if (!url) return NextResponse.json({ error: "url is required" }, { status: 400 })
 

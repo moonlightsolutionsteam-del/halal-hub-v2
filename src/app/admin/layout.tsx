@@ -11,7 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { tier, loading: roleLoading } = useAdminRole()
   const router = useRouter()
 
-  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost"
+  const isDev = process.env.NEXT_PUBLIC_DEV_MODE === "true"
 
   useEffect(() => {
     if (isDev) return

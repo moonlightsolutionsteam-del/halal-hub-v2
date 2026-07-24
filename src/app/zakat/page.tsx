@@ -332,10 +332,10 @@ export default function ZakatPage() {
 
               <div className="space-y-2 text-sm">
                 {[
-                  { label: "Gross Wealth", value: `$${result.breakdown.gross_wealth.toLocaleString()}` },
-                  { label: "Liabilities", value: `-$${result.breakdown.liabilities.toLocaleString()}`, className: "text-destructive" },
-                  { label: "Net Zakatable", value: `$${result.breakdown.net_zakatable_wealth.toLocaleString()}` },
-                  { label: `Nisab (${nisabStandard})`, value: `$${result.nisab_value.toLocaleString()}` },
+                  { label: "Gross Wealth", value: `₹${result.breakdown.gross_wealth.toLocaleString()}` },
+                  { label: "Liabilities", value: `-₹${result.breakdown.liabilities.toLocaleString()}`, className: "text-destructive" },
+                  { label: "Net Zakatable", value: `₹${result.breakdown.net_zakatable_wealth.toLocaleString()}` },
+                  { label: `Nisab (${nisabStandard})`, value: `₹${result.nisab_value.toLocaleString()}` },
                   { label: "Rate", value: result.rate },
                 ].map(({ label, value, className }) => (
                   <div key={label} className="flex justify-between py-1.5 border-b border-border/50 font-bold">

@@ -13,14 +13,15 @@ const TIER_RANK: Record<AdminTier, number> = {
   super_admin: 4,
 }
 
+const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true"
+
 export function useAdminRole() {
   const { user } = useAuth()
-  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost"
-  const [tier, setTier] = useState<AdminTier | null>(isDev ? "super_admin" : null)
-  const [loading, setLoading] = useState(!isDev)
+  const [tier, setTier] = useState<AdminTier | null>(DEV_MODE ? "super_admin" : null)
+  const [loading, setLoading] = useState(!DEV_MODE)
 
   useEffect(() => {
-    if (isDev) return
+    if (DEV_MODE) return
     if (!user?.uid) { setLoading(false); return }
     const supabase = createClient()
     supabase

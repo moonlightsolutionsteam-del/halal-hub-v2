@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /employee/
 
-Sitemap: https://halalhub.app/sitemap.xml
+Sitemap: https://halalhub.in/sitemap.xml

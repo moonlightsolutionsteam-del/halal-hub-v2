@@ -1,0 +1,33 @@
+{
+  "name": "Halal Hub",
+  "short_name": "Halal Hub",
+  "description": "India's Halal Super-App — Directory, Prayer, Community, Marketplace & more",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#04A15A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["lifestyle", "food", "religion"],
+  "lang": "en-IN",
+  "dir": "ltr",
+  "scope": "/"
+}

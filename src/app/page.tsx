@@ -761,7 +761,7 @@ export default function Home() {
                       <p className="text-xs font-black text-foreground line-clamp-1">{item.name}</p>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-black text-primary">
-                          {item.price != null ? `$${item.price.toFixed(2)}` : "—"}
+                          {item.price != null ? `₹${item.price.toFixed(2)}` : "—"}
                         </span>
                       </div>
                       {item.business?.name && (

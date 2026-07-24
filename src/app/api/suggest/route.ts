@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { rateLimit, getRequestIdentifier } from '@/lib/rate-limit'
 
 export async function POST(request: Request) {
+  const rl = rateLimit(getRequestIdentifier(request, 'suggest'), { limit: 5, windowSecs: 60 * 60 })
+  if (!rl.success) {
+    return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
+  }
+
   try {
     const body = await request.json()
     const { category, placeName, address, reason, link } = body

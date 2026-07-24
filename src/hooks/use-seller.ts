@@ -50,15 +50,15 @@ const DEV_SELLER: SellerProfile = {
   pan: null,
 }
 
+const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true"
+
 export function useSeller() {
   const { user, loading: authLoading } = useAuth()
   const [seller, setSeller] = useState<SellerProfile | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost"
-
   useEffect(() => {
-    if (isDev) { setSeller(DEV_SELLER); setLoading(false); return }
+    if (DEV_MODE) { setSeller(DEV_SELLER); setLoading(false); return }
     if (authLoading) return
     if (!user?.uid) { setLoading(false); return }
 
@@ -75,7 +75,7 @@ export function useSeller() {
   }, [user, authLoading])
 
   function refresh() {
-    if (isDev) return
+    if (DEV_MODE) return
     if (!user?.uid) return
     setLoading(true)
     const supabase = createClient()

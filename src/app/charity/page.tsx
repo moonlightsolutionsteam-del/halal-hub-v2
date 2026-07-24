@@ -172,7 +172,7 @@ export default function CharityPage() {
                                     cursor={false} 
                                     content={
                                         <ChartTooltipContent 
-                                            formatter={(value) => `$${value}`}
+                                            formatter={(value) => `₹${value}`}
                                         />
                                     } 
                                 />

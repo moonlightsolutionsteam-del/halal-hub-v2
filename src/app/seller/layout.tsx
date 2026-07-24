@@ -24,8 +24,8 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
   // Allow apply flow through without any gate
   if (pathname.startsWith("/seller/apply")) return <>{children}</>
 
-  // Dev bypass — skip all gates on localhost
-  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost"
+  // Dev bypass — only active when NEXT_PUBLIC_DEV_MODE=true
+  const isDev = process.env.NEXT_PUBLIC_DEV_MODE === "true"
   if (isDev) {
     return (
       <div className="flex flex-col min-h-screen pb-20">

@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { sendOtpEmail } from "@/lib/email/send"
+import { rateLimit, getRequestIdentifier } from "@/lib/rate-limit"
 
 // Generates a Supabase email OTP and sends a branded email with the code.
 // Body: { email: string }
 export async function POST(req: Request) {
+  const rl = rateLimit(getRequestIdentifier(req, 'otp'), { limit: 5, windowSecs: 60 * 60 })
+  if (!rl.success) {
+    return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
+  }
+
   try {
     const body = await req.json()
     const email = (body.email ?? "").trim().toLowerCase()

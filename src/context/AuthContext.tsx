@@ -34,6 +34,8 @@ function toUserProfile(supabaseUser: any, profile: any): UserProfile {
   };
 }
 
+const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true";
+
 const DEV_USER: UserProfile = {
   uid: "dev-user-id",
   name: "Dev User",
@@ -49,14 +51,13 @@ const DEV_USER: UserProfile = {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost";
-  const [user, setUser] = useState<UserProfile | null>(isDev ? DEV_USER : null);
-  const [loading, setLoading] = useState(!isDev);
+  const [user, setUser] = useState<UserProfile | null>(DEV_MODE ? DEV_USER : null);
+  const [loading, setLoading] = useState(!DEV_MODE);
   const router = useRouter();
   const supabase = createClient();
 
   useEffect(() => {
-    if (isDev) return;
+    if (DEV_MODE) return;
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         const { data: profile } = await supabase
@@ -82,7 +83,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signInWithGoogle = async () => {
-    if (isDev) return;
+    if (DEV_MODE) return;
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -92,27 +93,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signInWithPhone = async (phone: string) => {
-    if (isDev) return;
+    if (DEV_MODE) return;
     const { error } = await supabase.auth.signInWithOtp({ phone });
     if (error) throw error;
   };
 
   const verifyOtp = async (phone: string, otp: string) => {
-    if (isDev) { router.push('/account/dashboard'); return; }
+    if (DEV_MODE) { router.push('/account/dashboard'); return; }
     const { error } = await supabase.auth.verifyOtp({ phone, token: otp, type: 'sms' });
     if (error) throw error;
     router.push('/account/dashboard');
   };
 
   const signInWithEmail = async (email: string, password: string) => {
-    if (isDev) { router.push('/admin/erp'); return; }
+    if (DEV_MODE) { router.push('/admin/erp'); return; }
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     router.push('/admin/erp');
   };
 
   const signOut = async () => {
-    if (isDev) return;
+    if (DEV_MODE) return;
     await supabase.auth.signOut();
     setUser(null);
     router.push('/login');
